@@ -1,0 +1,6 @@
+- האם צירוף ברכה הוא UC?
+- האם יש לכלול את העובדה ש"הזמנה יכולה להכיל יותר מפריט אחד" בתוך ה-UCD?
+- איך לקשר את store ו-chain ל-UCD?
+- איך לתאם את סוגי המשלוחים? האם דרושים ב-UCD?
+- האם צריך לחבר את כל ה-UC ל-Actor המבצע גם בתהליך?
+- האם לחבר בין pay for order לבין maintains payment method, customer account data and order price?
