@@ -4,5 +4,7 @@ public class Item {
 	private String cat_num;
 	private String type;
 	private int price;
-	private 
+	private String pic_name;		//Will be used by new ImageIcon(getClass().getResource(pic_name))
+	
+	
 }
