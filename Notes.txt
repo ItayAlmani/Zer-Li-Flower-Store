@@ -4,3 +4,5 @@
 - איך לתאם את סוגי המשלוחים? האם דרושים ב-UCD?
 - האם צריך לחבר את כל ה-UC ל-Actor המבצע גם בתהליך?
 - האם לחבר בין pay for order לבין maintains payment method, customer account data and order price?
+- האם לייצג את Create an order כדרישה, או לפרק לתת דרישות?
+- דרישה Greeting card, order date: מה לכתוב והאם צריך?
