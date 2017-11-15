@@ -1,7 +1,6 @@
 - האם יש לכלול את העובדה ש"הזמנה יכולה להכיל יותר מפריט אחד" בתוך ה-UCD?
 - האם לחבר בין pay for order לבין maintains payment method, customer account data and order price?
-- דרישה Greeting card, order date: מה לכתוב והאם צריך?
 - סתירה: בפסקה הזמנה רשום: "התשלום על הפריטים מתבצע עם ההזמנה." ובפסקה מידע משתמש רשום: "אופציונאלי – הלקוח יכול לבחור לשלם במזומן"
-- אצל ליאור: האם יש להכניס דרישות של האם המסד נתונים שמר בהצלחה או לא?
-- לאן נכנס המצב כאשר נבחר איסוף עצמי, אך המוצר נגמר במלאי?
-- האם SYSTEM היא ACTOR? ואם לא איך מתארים פעולות שהיא עושה?
+-Make a complaint: does create an order as PRE is right? PRE means that in the same time/prosiger you have to do A before B. complaint can be days after.
+-conduct customer survey??
+-Do we need "Clear the cart after confirmation" UC/Req
