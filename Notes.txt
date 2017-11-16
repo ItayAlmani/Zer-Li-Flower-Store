@@ -4,3 +4,5 @@
 -Make a complaint: does create an order as PRE is right? PRE means that in the same time/prosiger you have to do A before B. complaint can be days after.
 -conduct customer survey??
 -Do we need "Clear the cart after confirmation" UC/Req
+-"כאשר מזמינים מוצר מראש, מה הכוונה בהתרעת זמן מספיק גדולה? מספר ימים? שעות? מה המינימום?" : "3/5/7 - לא עקרוני. לבחירתכם. מספר ימים זה סביר."
+-"עובד יכול לפצות לקוח שהתלונן-האם עובד שירות הלקוחות עושה פעולה כלשהי במערכת לזיכוי? או שזה נעשה דרך המערכת אוטומטי?" : "זיכוי במערכת באמצעות העובד."
