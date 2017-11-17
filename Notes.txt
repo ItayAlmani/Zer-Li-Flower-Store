@@ -1,8 +1,8 @@
-- האם צירוף ברכה הוא UC?
 - האם יש לכלול את העובדה ש"הזמנה יכולה להכיל יותר מפריט אחד" בתוך ה-UCD?
-- איך לקשר את store ו-chain ל-UCD?
-- איך לתאם את סוגי המשלוחים? האם דרושים ב-UCD?
-- האם צריך לחבר את כל ה-UC ל-Actor המבצע גם בתהליך?
 - האם לחבר בין pay for order לבין maintains payment method, customer account data and order price?
-- האם לייצג את Create an order כדרישה, או לפרק לתת דרישות?
-- דרישה Greeting card, order date: מה לכתוב והאם צריך?
+- סתירה: בפסקה הזמנה רשום: "התשלום על הפריטים מתבצע עם ההזמנה." ובפסקה מידע משתמש רשום: "אופציונאלי – הלקוח יכול לבחור לשלם במזומן"
+-Make a complaint: does create an order as PRE is right? PRE means that in the same time/prosiger you have to do A before B. complaint can be days after.
+-conduct customer survey??
+-Do we need "Clear the cart after confirmation" UC/Req
+-"כאשר מזמינים מוצר מראש, מה הכוונה בהתרעת זמן מספיק גדולה? מספר ימים? שעות? מה המינימום?" : "3/5/7 - לא עקרוני. לבחירתכם. מספר ימים זה סביר."
+-"עובד יכול לפצות לקוח שהתלונן-האם עובד שירות הלקוחות עושה פעולה כלשהי במערכת לזיכוי? או שזה נעשה דרך המערכת אוטומטי?" : "זיכוי במערכת באמצעות העובד."
