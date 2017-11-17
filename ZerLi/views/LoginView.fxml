@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.GridPane?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label id="lblUName" fx:id="lblUName" layoutX="29.0" layoutY="110.0" text="User Name" />
+      <Label id="lblPass" fx:id="lblPass" layoutX="29.0" layoutY="178.0" text="Password" />
+      <Label id="lblLoginTitle" fx:id="lblLoginTitle" layoutX="313.0" layoutY="31.0" text="Login" />
+      <Button id="btnLogIn" fx:id="btnLogIn" layoutX="204.0" layoutY="250.0" mnemonicParsing="false" text="Log In" />
+      <Button id="btnReset" fx:id="btnReset" layoutX="459.0" layoutY="250.0" mnemonicParsing="false" text="Reset" />
+      <TextField id="txtUName" fx:id="txtUName" layoutX="199.0" layoutY="100.0" prefHeight="65.0" prefWidth="400.0" promptText="Enter your User Name here" />
+      <PasswordField id="txtPass" fx:id="txtPass" layoutX="199.0" layoutY="168.0" prefHeight="65.0" prefWidth="400.0" promptText="Enter your Password here" />
+   </children>
+</AnchorPane>
