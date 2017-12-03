@@ -1,0 +1,12 @@
+C:\Users\izhar\source\repos\Lab4\Lab4\bin\Debug\Microsoft.VisualStudio.TestPlatform.MSTest.TestAdapter.dll
+C:\Users\izhar\source\repos\Lab4\Lab4\bin\Debug\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.Interface.dll
+C:\Users\izhar\source\repos\Lab4\Lab4\bin\Debug\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.dll
+C:\Users\izhar\source\repos\Lab4\Lab4\bin\Debug\Lab4.dll
+C:\Users\izhar\source\repos\Lab4\Lab4\bin\Debug\Lab4.pdb
+C:\Users\izhar\source\repos\Lab4\Lab4\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.dll
+C:\Users\izhar\source\repos\Lab4\Lab4\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.dll
+C:\Users\izhar\source\repos\Lab4\Lab4\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.xml
+C:\Users\izhar\source\repos\Lab4\Lab4\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.xml
+C:\Users\izhar\source\repos\Lab4\Lab4\obj\Debug\Lab4.csproj.CoreCompileInputs.cache
+C:\Users\izhar\source\repos\Lab4\Lab4\obj\Debug\Lab4.dll
+C:\Users\izhar\source\repos\Lab4\Lab4\obj\Debug\Lab4.pdb
