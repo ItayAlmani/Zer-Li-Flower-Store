@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane prefHeight="300.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.MainMenuGUIController">
+   <children>
+      <Button id="btnItems" fx:id="btnItems" layoutX="75.0" layoutY="47.0" mnemonicParsing="false" onAction="#showProducts" text="Show items">
+         <font>
+            <Font size="25.0" />
+         </font>
+      </Button>
+      <Button fx:id="btnConn" layoutX="18.0" layoutY="160.0" mnemonicParsing="false" onAction="#showConnectionGUI" text="Configure connection">
+         <font>
+            <Font size="25.0" />
+         </font>
+      </Button>
+   </children>
+</AnchorPane>
