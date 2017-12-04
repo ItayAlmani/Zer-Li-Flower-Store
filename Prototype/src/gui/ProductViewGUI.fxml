@@ -6,7 +6,6 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
 <AnchorPane prefHeight="300.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.ProductViewGUIController">
    <children>
       <Label id="lblTitleID" layoutX="34.0" layoutY="61.0" text="ID">
@@ -24,20 +23,25 @@
             <Font size="20.0" />
          </font>
       </Label>
-      <Label id="lblTitleID" layoutX="181.0" layoutY="61.0" text="Label">
+      <Label id="lblShowID" fx:id="lblShowID" layoutX="181.0" layoutY="61.0" text="Label">
          <font>
-            <Font size="20.0" />
+            <Font size="15.0" />
          </font>
       </Label>
-      <Label id="lblShowType" layoutX="181.0" layoutY="201.0" text="Label">
+      <Label id="lblShowType" fx:id="lblShowType" layoutX="181.0" layoutY="201.0" text="Label">
          <font>
-            <Font size="20.0" />
+            <Font size="15.0" />
          </font>
       </Label>
-      <TextField id="lblTitleName" fx:id="txtShowName" layoutX="122.0" layoutY="128.0" prefHeight="38.0" prefWidth="164.0">
+      <TextField id="txtShowName" fx:id="txtShowName" layoutX="122.0" layoutY="128.0" prefHeight="38.0" prefWidth="164.0">
          <font>
-            <Font size="20.0" />
+            <Font size="15.0" />
          </font>
       </TextField>
+      <Button id="btnUpdate" fx:id="btnUpdate" layoutX="104.0" layoutY="242.0" mnemonicParsing="false" text="Update" onAction="#updateName">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>

@@ -23,7 +23,7 @@ import Entity.Product;
 public class ProductsFormGUIController implements Initializable {
 
 	@FXML
-	private ComboBox<String> cmbProducts;
+	private ComboBox cmbProducts;
 	
 	@FXML
 	private Button btnView;
@@ -51,8 +51,8 @@ public class ProductsFormGUIController implements Initializable {
 	
 	public void showProduct(ActionEvent event) throws Exception {
 		Stage primaryStage = new Stage();
-		FXMLLoader loader = new FXMLLoader();
-		Pane root = FXMLLoader.load(getClass().getResource("/gui/ProductViewGUI.fxml"));
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/ProductViewGUI.fxml"));
+		Pane root = loader.load();
 		
 		
 		Product prd = null;

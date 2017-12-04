@@ -55,12 +55,11 @@ public class DataBase {
 		return null;
 	}
 
-	private void saveUserToDB(Student s) {
+	private void updateProductToDB(Product p) {
 		Statement stmt;
 		try {
 			stmt = con.createStatement();
-			String query = String.format("INSERT INTO students VALUES('%s','%s','%s','%s');", s.getId(),
-					s.getUserName(), s.getDepartment(), s.getTel());
+			String query = String.format("UPDATE students SET productname=%s WHERE productid=%d", p.getId(),p.getName()); 
 			stmt.execute(query);
 		} catch (SQLException ex) {
 			ex.printStackTrace();
