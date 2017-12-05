@@ -73,14 +73,9 @@ public class ConnectionConfigGUIController extends TemplateGUI implements Initia
 			if(port==null||port.equals(Integer.parseInt(txtPort.getText()))==false)
 				port=Integer.parseInt(txtPort.getText());
 		if(port!=null&&host!=null) {
-			try {
-			MainClient.cc = new ClientConsole(host, port);
-			}
-			catch(IOException e) {	//Data is incorrect - throwed exception
-				lblServerMsg.setText("Failed to connect " + updatecnt[0]++);
-				return;
-			}
-			lblServerMsg.setText("Success " + updatecnt[0]++);
+			MainMenuGUIController.host=this.host;
+			MainMenuGUIController.port=this.port;
+			lblServerMsg.setText("Updated " + updatecnt[0]++);
 		}
 		else
 			lblServerMsg.setText("Enter data " + updatecnt[0]++);

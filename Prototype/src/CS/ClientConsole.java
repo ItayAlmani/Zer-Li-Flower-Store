@@ -13,17 +13,22 @@ import gui.MainMenuGUIController;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
+import ocsf.client.*;
+import common.*;
+import java.io.*;
+import java.util.ArrayList;
+
 /**
  * This class constructs the UI for a chat client. It implements the chat
  * interface in order to activate the display() method. Warning: Some of the
- * code here is cloned in ServerConsole
+ * code here is cloned in ServerConsol e
  *
  * @author Fran&ccedil;aois B&eacute;langer
  * @author Dr Timothy C. Lethbridge
  * @author Dr Robert Lagani&egrave;re
  * @version July 2000
  */
-public class ClientConsole{
+public class ClientConsole extends AbstractClient{
 	// Class variables *************************************************
 
 	/**
@@ -32,11 +37,6 @@ public class ClientConsole{
 	final public static int DEFAULT_PORT = 5555;
 
 	// Instance variables **********************************************
-
-	/**
-	 * The instance of the client that created this ConsoleChat.
-	 */
-	ChatClient client;
 
 	// Constructors ****************************************************
 
@@ -49,17 +49,28 @@ public class ClientConsole{
 	 *            The port to connect on.
 	 */
 	public ClientConsole(String host, int port) throws IOException {
-		client = new ChatClient(host, port);
-	}
-	
-	public String getHost() {
-		return this.client.getHost();
-	}
-	public int getPort() {
-		return this.client.getPort();
+		super(host, port); //Call the superclass constructor
+	    openConnection();
 	}
 
 	// Instance methods ************************************************
+	  /**
+	   * This method terminates the client.
+	   */
+	  public void quit()
+	  {
+	    try
+	    {
+	      closeConnection();
+	    }
+	    catch(IOException e) {}
+	    System.exit(0);
+	  }
+	  @Override
+	  protected void handleMessageFromServer(Object msg) {
+	  	// TODO Auto-generated method stub
+	  	
+	  }
 	// Class methods ***************************************************
 
 }
