@@ -7,12 +7,15 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import com.mysql.jdbc.ResultSetMetaData;
+
+import CS.EchoServer;
 import Entity.Product;
 import common.ProductType;
 
 public class DataBase {
 
-	private Connection con;
+	public Connection con;
 
 	public DataBase(String dbUrl, String dbName, String dbUserName, String dbPassword) {
 		this.con = connectToDB(dbUrl, dbName, dbUserName, dbPassword);
@@ -79,4 +82,22 @@ public class DataBase {
 		return p;
 	}
 
+	public ArrayList<Object> getQuery(String query) {
+		Statement stmt;
+		try {
+			stmt = EchoServer.db.con.createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			ArrayList<Object> objectArr = new ArrayList<>();
+			ResultSetMetaData rsmd = (ResultSetMetaData) rs.getMetaData();
+			while(rs.next()) {
+				for(int i=1;i<=rsmd.getColumnCount();i++)
+					objectArr.add(rs.getObject(i));
+			}
+			return objectArr;
+		}
+		catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
 }

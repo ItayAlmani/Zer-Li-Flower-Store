@@ -5,11 +5,17 @@ package CS;
 // license found at www.lloseng.com 
 
 import java.io.*;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
+import Entity.Product;
 import client.*;
 import common.*;
 import gui.MainMenuGUIController;
+import gui.ProductViewGUIController;
+import gui.ProductsFormGUIController;
+import gui.TemplateGUI;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
@@ -37,7 +43,9 @@ public class ClientConsole extends AbstractClient{
 	final public static int DEFAULT_PORT = 5555;
 
 	// Instance variables **********************************************
-
+	private ProductsFormGUIController gui;
+	private ClientController cc;
+	
 	// Constructors ****************************************************
 
 	/**
@@ -66,12 +74,24 @@ public class ClientConsole extends AbstractClient{
 	    catch(IOException e) {}
 	    System.exit(0);
 	  }
-	  @Override
-	  protected void handleMessageFromServer(Object msg) {
-	  	// TODO Auto-generated method stub
-	  	
-	  }
 	// Class methods ***************************************************
+
+	@Override
+	protected void handleMessageFromServer(Object msg) {
+		if(msg instanceof ArrayList<?>) {
+			ArrayList<Object> obj = (ArrayList<Object>)msg;
+			ArrayList<Product> prds = new ArrayList<>();
+			for(int i = 0; i<obj.size();i+=3)
+				prds.add(this.cc.parsingTheData((int)obj.get(i),(String)obj.get(i+1),(String)obj.get(i+2)));
+			this.cc.gui.updateCB(prds);
+		}
+	}
+	
+	public void handleMessageFromClientUI(String message, ClientController cc, ProductsFormGUIController gui) throws IOException {
+	    this.cc=cc;
+	    this.gui=gui;
+		sendToServer(message);
+	}
 
 }
 // End of ConsoleChat class

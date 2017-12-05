@@ -8,6 +8,7 @@ import java.io.*;
 import java.sql.*;
 import java.util.ArrayList;
 
+import Controllers.Factory;
 import Entity.Product;
 import jdbc.DataBase;
 import ocsf.server.*;
@@ -45,6 +46,7 @@ public class EchoServer extends AbstractServer {
 	 */
 	public EchoServer(int port) {
 		super(port);
+		Factory.db=db;
 		updateDB();
 	}
 
@@ -59,7 +61,13 @@ public class EchoServer extends AbstractServer {
 	 *            The connection from which the message originated.
 	 */
 	public void handleMessageFromClient(Object msg, ConnectionToClient client) {
-		
+		try {
+			 ArrayList<Object> obj=db.getQuery((String)msg);
+			client.sendToClient(obj);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -80,6 +88,7 @@ public class EchoServer extends AbstractServer {
 	
 	public static void updateDB() {
 		db = new DataBase(dbUrl, dbName,dbUserName,dbPassword);
+		Factory.setDataBase(db);
 	}
 
 	// Class methods ***************************************************

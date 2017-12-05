@@ -1,6 +1,8 @@
 package gui;
 
+import java.io.IOException;
 import java.net.URL;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.Map.Entry;
@@ -18,7 +20,10 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import CS.*;
+import Controllers.Factory;
+import Controllers.ProductController;
 import Entity.Product;
+import client.MainClient;
 
 public class ProductsFormGUIController extends TemplateGUI implements Initializable{
 
@@ -33,9 +38,19 @@ public class ProductsFormGUIController extends TemplateGUI implements Initializa
 	ObservableList<String> list;
 
 	// creating list of Students
-	void setProductsComboBox() {
+	private void setProductsComboBox() {
+		ClientController cc = new ClientController(this);
+		try {
+			cc.askProductsFromServer();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void updateCB(ArrayList<Product> prods) {
+		this.products=prods;
 		ArrayList<String> al = new ArrayList<>();
-		this.products = EchoServer.db.getAllProducts();
 		for (Product p : this.products) {
 			al.add(p.getName());
 		}
