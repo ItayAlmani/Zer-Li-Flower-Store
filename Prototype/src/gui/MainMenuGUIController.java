@@ -5,7 +5,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import CS.ClientConsole;
-import common.MainClient;
+import client.MainClient;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -57,7 +57,7 @@ public class MainMenuGUIController extends TemplateGUI implements Initializable{
 		primaryStage.setTitle("Prototype");
 		primaryStage.setScene(scene);
 		
-		primaryStage.show();	
+		primaryStage.show();
 	}
 
 	@Override

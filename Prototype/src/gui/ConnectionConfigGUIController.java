@@ -6,7 +6,7 @@ import java.util.ResourceBundle;
 
 import CS.ClientConsole;
 import CS.EchoServer;
-import common.MainClient;
+import client.MainClient;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
