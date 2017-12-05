@@ -12,18 +12,16 @@ import gui.ProductsFormGUIController;
 import gui.TemplateGUI;
 
 public class ClientController {
-	public ProductsFormGUIController gui;
+	public Object gui;
 	
 	
-	public ClientController(ProductsFormGUIController gui) {
+	public ClientController(TemplateGUI gui) {
 		super();
 		this.gui = gui;
 	}
 
 	public void askProductsFromServer() throws IOException {
 		MainClient.cc.handleMessageFromClientUI("SELECT * FROM product;", this, this.gui);
-		//ArrayList<Product> x = EchoServer.db.getAllProducts();
-		//System.out.println(x.get(0));
 	}
 	
 	public Product parsingTheData(int id, String name, String type) {

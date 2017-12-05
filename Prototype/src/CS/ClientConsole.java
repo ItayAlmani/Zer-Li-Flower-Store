@@ -43,7 +43,7 @@ public class ClientConsole extends AbstractClient{
 	final public static int DEFAULT_PORT = 5555;
 
 	// Instance variables **********************************************
-	private ProductsFormGUIController gui;
+	private Object gui;
 	private ClientController cc;
 	
 	// Constructors ****************************************************
@@ -78,16 +78,16 @@ public class ClientConsole extends AbstractClient{
 
 	@Override
 	protected void handleMessageFromServer(Object msg) {
-		if(msg instanceof ArrayList<?>) {
+		if(msg instanceof ArrayList<?> && this.gui instanceof ProductsFormGUIController) {
 			ArrayList<Object> obj = (ArrayList<Object>)msg;
 			ArrayList<Product> prds = new ArrayList<>();
 			for(int i = 0; i<obj.size();i+=3)
 				prds.add(this.cc.parsingTheData((int)obj.get(i),(String)obj.get(i+1),(String)obj.get(i+2)));
-			this.cc.gui.updateCB(prds);
+			((ProductsFormGUIController)this.cc.gui).updateCB(prds);
 		}
 	}
 	
-	public void handleMessageFromClientUI(String message, ClientController cc, ProductsFormGUIController gui) throws IOException {
+	public void handleMessageFromClientUI(String message, ClientController cc, Object gui) throws IOException {
 	    this.cc=cc;
 	    this.gui=gui;
 		sendToServer(message);
