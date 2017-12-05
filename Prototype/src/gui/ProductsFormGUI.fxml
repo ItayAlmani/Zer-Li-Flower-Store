@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
@@ -7,7 +8,18 @@
 
 <AnchorPane prefHeight="300.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.ProductsFormGUIController">
    <children>
-      <ComboBox id="cmbProducts" fx:id="cmbProducts" layoutX="67.0" layoutY="61.0" prefHeight="65.0" prefWidth="166.0" promptText="Select product" />
-      <Button id="btnView" fx:id="btnView" layoutX="98.0" layoutY="176.0" mnemonicParsing="false" onAction="#showProduct" text="View" />
+      <ComboBox id="cmbProducts" fx:id="cmbProducts" layoutX="5.0" layoutY="61.0" prefHeight="23.0" prefWidth="291.0" promptText="Select product" />
+      <Button id="btnView" fx:id="btnView" layoutX="15.0" layoutY="176.0" mnemonicParsing="false" onAction="#showProduct" text="View">
+         <font>
+            <Font size="10.0" />
+         </font></Button>
+      <Button id="btnExit" fx:id="btnExit" layoutX="225.0" layoutY="176.0" mnemonicParsing="false" onAction="#ExitProg" text="Exit">
+         <font>
+            <Font size="10.0" />
+         </font></Button>
+      <Button id="btnBack" fx:id="btnBack" layoutX="119.0" layoutY="176.0" mnemonicParsing="false" onAction="#backToAllProducts" text="Back">
+         <font>
+            <Font size="10.0" />
+         </font></Button>
    </children>
 </AnchorPane>

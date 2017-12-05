@@ -20,13 +20,13 @@ import javafx.stage.Stage;
 import CS.*;
 import Entity.Product;
 
-public class ProductsFormGUIController implements Initializable {
+public class ProductsFormGUIController extends TemplateGUI implements Initializable{
 
 	@FXML
 	private ComboBox cmbProducts;
 	
 	@FXML
-	private Button btnView;
+	private Button btnView, btnBack;
 	
 	private ArrayList<Product> products;
 	
@@ -47,6 +47,7 @@ public class ProductsFormGUIController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		setProductsComboBox();
+		cmbProducts.setStyle("-fx-font-size:10");
 	}
 	
 	public void showProduct(ActionEvent event) throws Exception {
@@ -73,5 +74,15 @@ public class ProductsFormGUIController implements Initializable {
 				primaryStage.show();
 			}
 		}
+	}
+	
+	public void backToAllProducts(ActionEvent event) throws Exception {
+		((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
+		Stage primaryStage = new Stage();
+		Pane root = FXMLLoader.load(getClass().getResource("/gui/MainMenuGUI.fxml"));
+		
+		Scene scene = new Scene(root);
+		primaryStage.setScene(scene);		
+		primaryStage.show();
 	}
 }

@@ -6,20 +6,13 @@ import CS.ClientConsole;
 import gui.*;
 
 public class MainClient extends Application {
-	private static ClientConsole cc;
+	public static ClientConsole cc;
 	
 	final public static int DEFAULT_PORT = 5555;
+	final public static String DEFAULT_HOST="localhost";
 
 	public static void main(String args[]) throws Exception {
-		String host = "";
-		int port = 0; // The port number
-
-		try {
-			host = args[0];
-		} catch (ArrayIndexOutOfBoundsException e) {
-			host = "localhost";
-		}
-		cc = new ClientConsole(host, DEFAULT_PORT);
+		cc = new ClientConsole(DEFAULT_HOST, DEFAULT_PORT);
 		launch(args);
 	} // end main
 

@@ -1,32 +1,36 @@
 package gui;
 
+import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
+
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import CS.EchoServer;
 import Entity.Product;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.event.ActionEvent;
 
-public class ProductViewGUIController implements Initializable{
+public class ProductViewGUIController extends TemplateGUI implements Initializable{
 	
 	private Product p;
 	
 	@FXML
-	private Label lblShowID;
-	
-	@FXML
-	private Label lblShowType;
+	private Label lblShowID, lblShowType,lblMsg;
 	
 	@FXML
 	private TextField txtShowName;
 	
 	@FXML
-	private Button btnUpdate;
+	private Button btnUpdate, btnBack;
 	
 	ObservableList<String> list;
 	
@@ -48,6 +52,25 @@ public class ProductViewGUIController implements Initializable{
 	}
 	
 	public void updateName(ActionEvent event) throws Exception {
-		
+		if(txtShowName.getText()!=null) {
+			if(txtShowName.getText().equals(p.getName())==false) {//Name changed
+				p.setName(txtShowName.getText());
+				if(EchoServer.db.updateProductToDB(p)==false)
+					lblMsg.setText("Error with DB");
+				else
+					lblMsg.setText("Product number "+p.getId()+" updated successfully");
+			}
+		}
 	}
+	
+	public void backToAllProducts(ActionEvent event) throws Exception {
+		((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
+		Stage primaryStage = new Stage();
+		Pane root = FXMLLoader.load(getClass().getResource("/gui/ProductsFormGUI.fxml"));
+		
+		Scene scene = new Scene(root);
+		primaryStage.setScene(scene);		
+		primaryStage.show();
+	}
+	
 }

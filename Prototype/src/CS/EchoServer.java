@@ -9,7 +9,6 @@ import java.sql.*;
 import java.util.ArrayList;
 
 import Entity.Product;
-import Entity.Student;
 import jdbc.DataBase;
 import ocsf.server.*;
 
@@ -31,11 +30,11 @@ public class EchoServer extends AbstractServer {
 	 */
 	final public static int DEFAULT_PORT = 5555;
 	
-	private final static String dbName="dbassignment2",
+	public static String dbUrl = "localhost",dbName="dbassignment2",
 			dbUserName = "root", 
 			dbPassword = "1234";
 	
-	public static DataBase db = new DataBase(dbName,dbUserName,dbPassword);
+	public static DataBase db = new DataBase(dbUrl, dbName,dbUserName,dbPassword);
 	// Constructors ****************************************************
 
 	/**
@@ -46,6 +45,7 @@ public class EchoServer extends AbstractServer {
 	 */
 	public EchoServer(int port) {
 		super(port);
+		updateDB();
 	}
 
 	// Instance methods ************************************************
@@ -76,6 +76,10 @@ public class EchoServer extends AbstractServer {
 	 */
 	protected void serverStopped() {
 		System.out.println("Server has stopped listening for connections.");
+	}
+	
+	public static void updateDB() {
+		db = new DataBase(dbUrl, dbName,dbUserName,dbPassword);
 	}
 
 	// Class methods ***************************************************

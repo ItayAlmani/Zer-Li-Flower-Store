@@ -8,18 +8,17 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 import Entity.Product;
-import Entity.Student;
 import common.ProductType;
 
 public class DataBase {
 
 	private Connection con;
 
-	public DataBase(String dbName, String dbUserName, String dbPassword) {
-		this.con = connectToDB(dbName, dbUserName, dbPassword);
+	public DataBase(String dbUrl, String dbName, String dbUserName, String dbPassword) {
+		this.con = connectToDB(dbUrl, dbName, dbUserName, dbPassword);
 	}
 
-	private Connection connectToDB(String dbName, String dbUserName, String dbPassword) {
+	private Connection connectToDB(String dbUrl, String dbName, String dbUserName, String dbPassword) {
 		Connection conn = null;
 
 		try {
@@ -28,7 +27,7 @@ public class DataBase {
 			/* handle the error */
 		}
 		try {
-			conn = DriverManager.getConnection("jdbc:mysql://localhost/" + dbName, dbUserName, dbPassword);
+			conn = DriverManager.getConnection("jdbc:mysql://"+dbUrl+"/" + dbName, dbUserName, dbPassword);
 		} catch (SQLException ex) {/* handle any errors */
 			System.out.println("SQLException: " + ex.getMessage());
 			System.out.println("SQLState: " + ex.getSQLState());
@@ -55,14 +54,15 @@ public class DataBase {
 		return null;
 	}
 
-	private void updateProductToDB(Product p) {
+	public boolean updateProductToDB(Product p) {
 		Statement stmt;
 		try {
 			stmt = con.createStatement();
-			String query = String.format("UPDATE students SET productname=%s WHERE productid=%d", p.getId(),p.getName()); 
+			String query = String.format("UPDATE product SET productname='%s' WHERE productid='%d'",p.getName(),p.getId()); 
 			stmt.execute(query);
+			return true;
 		} catch (SQLException ex) {
-			ex.printStackTrace();
+			return false;
 		}
 	}
 
@@ -78,4 +78,5 @@ public class DataBase {
 		}
 		return p;
 	}
+
 }

@@ -12,22 +12,17 @@ import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-public class MainMenuGUIController implements Initializable  {
-	
-
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {		
-	}
+public class MainMenuGUIController extends TemplateGUI{
 	
 	public void showProducts(ActionEvent event) throws Exception {
 		((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
 		Stage primaryStage = new Stage();
-		Pane root = FXMLLoader.load(getClass().getResource("/gui/ProductsFormGUI.fxml"));
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/ProductsFormGUI.fxml"));
+		Pane root = loader.load();
 		
 		Scene scene = new Scene(root);
 		primaryStage.setScene(scene);		
 		primaryStage.show();
-		
 	}
 	
 	public void showConnectionGUI(ActionEvent event) throws Exception{

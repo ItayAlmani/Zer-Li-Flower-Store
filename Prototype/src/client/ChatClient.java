@@ -39,8 +39,7 @@ public class ChatClient extends AbstractClient
    * @param clientUI The interface type variable.
    */
   
-  public ChatClient(String host, int port) 
-    throws IOException 
+  public ChatClient(String host, int port) throws IOException 
   {
     super(host, port); //Call the superclass constructor
     openConnection();

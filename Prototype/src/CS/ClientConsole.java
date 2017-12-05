@@ -23,7 +23,7 @@ import javafx.stage.Stage;
  * @author Dr Robert Lagani&egrave;re
  * @version July 2000
  */
-public class ClientConsole extends Application {
+public class ClientConsole{
 	// Class variables *************************************************
 
 	/**
@@ -48,42 +48,19 @@ public class ClientConsole extends Application {
 	 * @param port
 	 *            The port to connect on.
 	 */
-	public ClientConsole(String host, int port) {
-		try {
-			client = new ChatClient(host, port);
-		} catch (IOException exception) {
-			System.out.println("Error: Can't setup connection!" + " Terminating client.");
-			System.exit(1);
-		}
+	public ClientConsole(String host, int port) throws IOException {
+		client = new ChatClient(host, port);
+	}
+	
+	public String getHost() {
+		return this.client.getHost();
+	}
+	public int getPort() {
+		return this.client.getPort();
 	}
 
 	// Instance methods ************************************************
 	// Class methods ***************************************************
-
-	/**
-	 * This method is responsible for the creation of the Client UI.
-	 *
-	 * @param args[0]
-	 *            The host to connect to.
-	 */
-	public static void main(String[] args) throws Exception {
-		String host = "";
-		int port = 0; // The port number
-
-		try {
-			host = args[0];
-		} catch (ArrayIndexOutOfBoundsException e) {
-			host = "localhost";
-		}
-		ClientConsole chat = new ClientConsole(host, DEFAULT_PORT);
-		launch(args);
-	}
-
-	@Override
-	public void start(Stage arg0) throws Exception {
-		MainMenuGUIController main = new MainMenuGUIController();
-		main.start(arg0);
-	}
 
 }
 // End of ConsoleChat class
