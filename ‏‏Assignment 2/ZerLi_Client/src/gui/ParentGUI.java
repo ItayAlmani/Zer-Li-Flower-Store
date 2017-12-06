@@ -3,6 +3,7 @@ package gui;
 import java.io.IOException;
 import java.io.Serializable;
 
+import common.MainClient;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -14,7 +15,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-public abstract class TemplateGUI implements Serializable {
+public abstract class ParentGUI implements Serializable {
 
 	@FXML
 	protected Button btnExit;
@@ -27,7 +28,7 @@ public abstract class TemplateGUI implements Serializable {
 	public void ExitProg(ActionEvent event) throws Exception {
 		Stage stage = (Stage) btnExit.getScene().getWindow();
 		stage.close();
-		System.exit(0);
+		MainClient.cc.quit();
 	}
 
 	public void ShowErrorMsg() {

@@ -1,8 +1,5 @@
 package common;
-// This file contains material supporting section 3.7 of the textbook:
 
-// "Object Oriented Software Engineering" and is issued under the open-source
-// license found at www.lloseng.com 
 
 import java.io.*;
 import java.sql.ResultSet;
@@ -15,7 +12,7 @@ import entities.Product;
 import gui.MainMenuGUIController;
 import gui.ProductViewGUIController;
 import gui.ProductsFormGUIController;
-import gui.TemplateGUI;
+import gui.ParentGUI;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
@@ -23,43 +20,44 @@ import ocsf.client.*;
 import java.io.*;
 import java.util.ArrayList;
 
+/**
+ *The handler of the sending and receiving data to/from Server
+ *(LAB6).
+ */
 public class ClientConsole extends AbstractClient {
-	// ********** Class variables *************************************************
-
 	/** The default port to connect on. */
 	final public static int DEFAULT_PORT = 5555;
 
-	// ********** Instance variables **********************************************
+	/**
+	 * The connector between the GUI to the <code>ClientConsole</code>
+	 */
 	private ClientServerController csc;
 
-	// ********** Constructors ****************************************************
-
 	/**
-	 * Constructs an instance of the ClientConsole UI.
-	 * 
-	 * @param host
-	 *            - The host to connect to.
-	 * @param port
-	 *            - The port to connect on.
+	 * Constructs an instance of the <code>ClientConsole</code>.
+	 * @param host	-	The host to connect to.
+	 * @param port	-	The port to connect on.
 	 */
 	public ClientConsole(String host, int port) throws IOException {
 		super(host, port); // Call the superclass constructor
 		openConnection();
 	}
 
-	// ********** Instance methods ************************************************
 	/**
 	 * This method terminates the client.
 	 */
 	public void quit() {
 		try {
 			closeConnection();
-		} catch (IOException e) {
-		}
+		} catch (IOException e) {}
 		System.exit(0);
 	}
-	// ********** Class methods ***************************************************
 
+	
+	/**
+	 * Handles a message sent from the server to this client.
+	 * @param msg - the message sent. Usually instance of CS Message
+	 */
 	@Override
 	protected void handleMessageFromServer(Object msg) {
 		if (msg instanceof CSMessage) {
@@ -84,13 +82,18 @@ public class ClientConsole extends AbstractClient {
 				handleDBData(csMsg.getObjs());
 			}
 			
-			/*------------------exception caught------------------*/
+			/*--------------------exception caught----------------------*/
 			else if (msgType.equals(MessageType.Exception)) {
 				csc.sendResultToClient(false);
 			}
 		}
 	}
 
+	
+	/**
+	 * Parsing obj to ArrayList of <code>Product</code> and sending it to the client
+	 * @param obj - ArrayList of each cell in the table
+	 */
 	private void handleGetProducts(ArrayList<Object> obj) {
 		ArrayList<Product> prds = new ArrayList<>();
 		for (int i = 0; i < obj.size(); i += 3)
@@ -98,20 +101,24 @@ public class ClientConsole extends AbstractClient {
 		this.csc.sendProductsToClient(prds);
 	}
 
+	/**
+	 * Sending the data base details to the client,
+	 * after checking that the whole ArrayList has only String object.
+	 * @param objArr - the data base details: [0]-Url,[1]-Name,[2]-UserName,[3]-Password
+	 */
 	private void handleDBData(ArrayList<?> objArr) {
-		if (objArr.get(0) instanceof String)
-			this.csc.sendDBDataToClient((ArrayList<String>) objArr);
+		for (Object object : objArr) {
+			if(object instanceof String == false)
+				csc.sendResultToClient(false);
+		}
+		this.csc.sendDBDataToClient((ArrayList<String>) objArr);
+			
 	}
 
 	/**
 	 * Will handle the message from the GUI in client side
-	 * 
-	 * @param message
-	 *            - the query to send to the server: SELECT,UPDATE,INSERT...
-	 * @param cc
-	 *            - the controller which sended the messege (will be sent by *this*)
-	 * @param gui
-	 *            - the GUI to send response to
+	 * @param message	-	CSMessage object which includes the message to the server
+	 * @param csc		-	the controller which sent the message (will be sent by *this*)
 	 * @throws IOException
 	 */
 	public void handleMessageFromClientUI(CSMessage message, ClientServerController csc) throws IOException {

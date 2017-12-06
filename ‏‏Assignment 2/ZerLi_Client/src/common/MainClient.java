@@ -1,7 +1,9 @@
 package common;
 
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 import java.io.IOException;
 
@@ -23,6 +25,12 @@ public class MainClient extends Application {
 		MainMenuGUIController main = new MainMenuGUIController();
 		main.host=DEFAULT_HOST;
 		main.port=DEFAULT_PORT;
+		arg0.setOnCloseRequest(new EventHandler<WindowEvent>() {
+		    @Override public void handle(WindowEvent t) {
+		        if(cc!=null)
+		        	cc.quit();
+		    }
+		});
 		main.start(arg0);
 	}
 }

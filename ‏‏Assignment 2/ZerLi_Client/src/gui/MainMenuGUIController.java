@@ -18,7 +18,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-public class MainMenuGUIController extends TemplateGUI implements Initializable{
+public class MainMenuGUIController extends ParentGUI implements Initializable{
 	
 	@FXML
 	private Button btnProducts;

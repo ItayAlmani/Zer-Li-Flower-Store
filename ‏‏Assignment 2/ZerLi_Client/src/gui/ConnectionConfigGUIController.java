@@ -19,7 +19,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-public class ConnectionConfigGUIController extends TemplateGUI implements Initializable {
+public class ConnectionConfigGUIController extends ParentGUI implements Initializable {
 	
 	@FXML
 	private TextField txtHost,txtPort,txtName,txtUrl,txtUserName,txtPassword;

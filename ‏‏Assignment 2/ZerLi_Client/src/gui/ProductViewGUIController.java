@@ -21,7 +21,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.event.ActionEvent;
 
-public class ProductViewGUIController extends TemplateGUI implements Initializable{
+public class ProductViewGUIController extends ParentGUI implements Initializable{
 	
 	private Product p;
 	

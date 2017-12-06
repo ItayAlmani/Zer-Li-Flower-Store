@@ -24,7 +24,7 @@ import javafx.stage.Stage;
 import common.*;
 import entities.Product;
 
-public class ProductsFormGUIController extends TemplateGUI implements Initializable{
+public class ProductsFormGUIController extends ParentGUI implements Initializable{
 
 	@FXML
 	private ComboBox cmbProducts;

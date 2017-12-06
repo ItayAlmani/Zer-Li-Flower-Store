@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import entities.*;
 import gui.*;
 
+/**
+ * The connector between the GUI to the <code>ClientConsole</code>
+ */
 public class ClientServerController {
 	private Object gui;
 	private ArrayList<Object> myMsgArr;
@@ -45,8 +48,8 @@ public class ClientServerController {
 	}
 
 	public void sendResultToClient(boolean response) {
-		if(response==true)	((TemplateGUI)gui).ShowSuccessMsg();
-		else				((TemplateGUI)gui).ShowErrorMsg();
+		if(response==true)	((ParentGUI)gui).ShowSuccessMsg();
+		else				((ParentGUI)gui).ShowErrorMsg();
 
 	}
 	
