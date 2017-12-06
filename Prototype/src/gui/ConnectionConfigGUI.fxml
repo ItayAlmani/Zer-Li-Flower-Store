@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.GridPane?>
 
-<AnchorPane prefHeight="346.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.ConnectionConfigGUIController">
+<AnchorPane prefHeight="411.0" prefWidth="320.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.ConnectionConfigGUIController">
    <children>
       <Label layoutX="14.0" layoutY="14.0" prefHeight="45.0" prefWidth="273.0" text="Server" textAlignment="CENTER">
          <font>
@@ -24,26 +24,6 @@
             <Font size="10.0" />
          </font>
       </Label>
-      <TextField id="txtHost" fx:id="txtHost" layoutX="101.0" layoutY="58.0" prefHeight="8.0" prefWidth="181.0">
-         <font>
-            <Font size="10.0" />
-         </font>
-      </TextField>
-      <TextField id="txtPort" fx:id="txtPort" layoutX="103.0" layoutY="87.0" prefHeight="8.0" prefWidth="181.0">
-         <font>
-            <Font size="10.0" />
-         </font>
-      </TextField>
-      <TextField id="txtName" fx:id="txtName" layoutX="103.0" layoutY="213.0" prefHeight="8.0" prefWidth="181.0">
-         <font>
-            <Font size="10.0" />
-         </font>
-      </TextField>
-      <TextField id="txtUrl" fx:id="txtUrl" layoutX="102.0" layoutY="187.0" prefHeight="8.0" prefWidth="181.0">
-         <font>
-            <Font size="10.0" />
-         </font>
-      </TextField>
       <Label layoutX="17.0" layoutY="219.0" text="dbName:">
          <font>
             <Font size="10.0" />
@@ -64,47 +44,67 @@
             <Font size="10.0" />
          </font>
       </Label>
-      <TextField id="txtUserName" fx:id="txtUserName" layoutX="103.0" layoutY="246.0" prefHeight="8.0" prefWidth="181.0">
-         <font>
-            <Font size="10.0" />
-         </font>
-      </TextField>
       <Label layoutX="17.0" layoutY="284.0" text="Password:">
          <font>
             <Font size="10.0" />
          </font>
       </Label>
-      <TextField id="txtPassword" fx:id="txtPassword" layoutX="103.0" layoutY="278.0" prefHeight="8.0" prefWidth="181.0">
+      <TextField id="txtHost" fx:id="txtHost" alignment="CENTER" layoutX="103.0" layoutY="64.0" prefHeight="8.0" prefWidth="181.0" promptText="Enter Host">
          <font>
             <Font size="10.0" />
          </font>
       </TextField>
-      <Button id="btnUpdateDB" fx:id="btnUpdateDB" layoutX="16.0" layoutY="310.0" mnemonicParsing="false" onAction="#updateDB" text="Update DB">
+      <TextField id="txtPort" fx:id="txtPort" alignment="CENTER" layoutX="103.0" layoutY="93.0" prefHeight="8.0" prefWidth="181.0" promptText="Enter Port">
+         <font>
+            <Font size="10.0" />
+         </font>
+      </TextField>
+      <TextField id="txtUrl" fx:id="txtUrl" alignment="CENTER" layoutX="102.0" layoutY="187.0" prefHeight="8.0" prefWidth="181.0" promptText="Enter data base URL">
+         <font>
+            <Font size="10.0" />
+         </font>
+      </TextField>
+      <TextField id="txtName" fx:id="txtName" alignment="CENTER" layoutX="103.0" layoutY="213.0" prefHeight="8.0" prefWidth="181.0" promptText="Enter data base Name">
+         <font>
+            <Font size="10.0" />
+         </font>
+      </TextField>
+      <TextField id="txtUserName" fx:id="txtUserName" alignment="CENTER" layoutX="103.0" layoutY="246.0" prefHeight="8.0" prefWidth="181.0" promptText="Enter User Name">
+         <font>
+            <Font size="10.0" />
+         </font>
+      </TextField>
+      <TextField id="txtPassword" fx:id="txtPassword" alignment="CENTER" layoutX="103.0" layoutY="278.0" prefHeight="8.0" prefWidth="181.0" promptText="Enter Password">
+         <font>
+            <Font size="10.0" />
+         </font>
+      </TextField>
+      <Button id="btnUpdateDB" fx:id="btnUpdateDB" layoutX="172.0" layoutY="311.0" mnemonicParsing="false" onAction="#updateDB" text="Update DB">
          <font>
             <Font size="10.0" />
          </font>
       </Button>
-      <Button id="btnBack" fx:id="btnBack" layoutX="101.0" layoutY="310.0" mnemonicParsing="false" onAction="#back" text="Back">
+      <Button id="btnBack" fx:id="btnBack" layoutX="101.0" layoutY="374.0" mnemonicParsing="false" onAction="#back" text="Back">
          <font>
             <Font size="10.0" />
          </font>
       </Button>
-      <Button id="btnUpdateServer" fx:id="btnUpdateServer" layoutX="12.0" layoutY="125.0" mnemonicParsing="false" onAction="#updateServer" text="Update Server">
+      <Button id="btnUpdateServer" fx:id="btnUpdateServer" layoutX="164.0" layoutY="125.0" mnemonicParsing="false" onAction="#updateServer" text="Update Server">
          <font>
             <Font size="10.0" />
          </font>
       </Button>
-      <Button id="btnExit" fx:id="btnExit" layoutX="151.0" layoutY="310.0" mnemonicParsing="false" onAction="#ExitProg" text="Exit">
+      <Button id="btnExit" fx:id="btnExit" layoutX="247.0" layoutY="374.0" mnemonicParsing="false" onAction="#ExitProg" text="Exit">
          <font>
             <Font size="10.0" />
          </font>
       </Button>
-      <Label id="lblDBMsg" fx:id="lblDBMsg" layoutX="201.0" layoutY="314.0" prefHeight="15.0" prefWidth="85.0" textFill="RED">
+      <Label id="lblDBMsg" fx:id="lblDBMsg" contentDisplay="CENTER" layoutX="165.0" layoutY="162.0" prefHeight="23.0" prefWidth="143.0" textFill="RED">
          <font>
             <Font size="10.0" />
          </font>
       </Label>
-      <Label id="lblServerMsg" fx:id="lblServerMsg" layoutX="192.0" layoutY="129.0" prefHeight="15.0" prefWidth="85.0" textFill="RED">
+      <Label id="lblServerMsg" fx:id="lblServerMsg" layoutX="118.0" layoutY="21.0" prefHeight="23.0" prefWidth="190.0" textFill="RED">
          <font>
             <Font size="10.0" />
          </font>

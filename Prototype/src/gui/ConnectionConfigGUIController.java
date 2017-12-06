@@ -2,11 +2,15 @@ package gui;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-import CS.ClientConsole;
-import CS.EchoServer;
+import Server.DataBase;
+import Server.EchoServer;
+import client.ClientConsole;
+import client.ClientServerController;
 import client.MainClient;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -18,7 +22,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import jdbc.DataBase;
 
 public class ConnectionConfigGUIController extends TemplateGUI implements Initializable {
 	
@@ -37,17 +40,31 @@ public class ConnectionConfigGUIController extends TemplateGUI implements Initia
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		if(MainClient.cc !=null) {
+		ClientServerController csc = new ClientServerController(this);
+		
+		if(MainClient.cc !=null && MainClient.cc.isConnected()==true) {
 			this.host=MainClient.cc.getHost();
 			this.port=MainClient.cc.getPort();
 			this.txtHost.setText(this.host);
 			this.txtPort.setText(this.port.toString());
+			try {
+				csc.askDBDataFromServer();
+			} catch (IOException e) {
+				lblDBMsg.setText("Cant show data.\nServer disconnected");
+			}
 		}
-		if(EchoServer.db!=null) {
-			this.dbUrl=EchoServer.dbUrl;
-			this.dbName=EchoServer.dbName;
-			this.dbUserName=EchoServer.dbUserName;
-			this.dbPassword=EchoServer.dbPassword;
+		else {
+			lblServerMsg.setText("Connection failed!");
+			lblDBMsg.setText("Can't show data.");
+		}
+	}
+	
+	public void setDBDataInGUI(ArrayList<String> dbData) {
+		if(dbData!=null) {
+			this.dbUrl=dbData.get(0);
+			this.dbName=dbData.get(1);
+			this.dbUserName=dbData.get(2);
+			this.dbPassword=dbData.get(3);
 			this.txtUrl.setText(this.dbUrl);
 			this.txtName.setText(this.dbName);
 			this.txtUserName.setText(this.dbUserName);
@@ -89,6 +106,4 @@ public class ConnectionConfigGUIController extends TemplateGUI implements Initia
 		EchoServer.updateDB();
 		this.lblDBMsg.setText("Success "+ updatecnt[1]++);
 	}
-	
-	
 }

@@ -1,6 +1,6 @@
 package Controllers;
 
-import jdbc.DataBase;
+import Server.DataBase;
 
 public class Factory {
 	public static DataBase db;

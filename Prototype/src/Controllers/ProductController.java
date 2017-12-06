@@ -3,7 +3,7 @@ package Controllers;
 import java.util.ArrayList;
 
 import Entity.Product;
-import jdbc.DataBase;
+import Server.DataBase;
 
 public class ProductController {
 	private DataBase db;
@@ -11,9 +11,5 @@ public class ProductController {
 	public ProductController(DataBase db) {
 		super();
 		this.db = db;
-	}
-
-	public ArrayList<Product> getAllProductsFromDB(){
-		return db.getAllProducts();
 	}
 }

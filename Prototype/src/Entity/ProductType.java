@@ -1,4 +1,4 @@
-package common;
+package Entity;
 
 public enum ProductType {
 	Bouqute, Empty;

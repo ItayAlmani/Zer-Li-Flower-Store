@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.Map.Entry;
 
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -17,12 +18,13 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import CS.*;
 import Controllers.Factory;
 import Controllers.ProductController;
 import Entity.Product;
+import client.ClientServerController;
 import client.MainClient;
 
 public class ProductsFormGUIController extends TemplateGUI implements Initializable{
@@ -33,17 +35,17 @@ public class ProductsFormGUIController extends TemplateGUI implements Initializa
 	@FXML
 	private Button btnView, btnBack;
 	
+	
 	private ArrayList<Product> products;
 	
 	ObservableList<String> list;
 
 	// creating list of Students
 	private void setProductsComboBox() {
-		ClientController cc = new ClientController(this);
+		ClientServerController cc = new ClientServerController(this);
 		try {
 			cc.askProductsFromServer();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -58,14 +60,12 @@ public class ProductsFormGUIController extends TemplateGUI implements Initializa
 		list = FXCollections.observableArrayList(al);
 		cmbProducts.setItems(list);
 	}
-
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-		setProductsComboBox();
-		cmbProducts.setStyle("-fx-font-size:10");
-	}
 	
 	public void showProduct(ActionEvent event) throws Exception {
+		if(MainClient.cc.isConnected()==false) {
+			serverDown(event);
+			return;
+		}
 		Stage primaryStage = new Stage();
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/ProductViewGUI.fxml"));
 		Pane root = loader.load();
@@ -91,7 +91,7 @@ public class ProductsFormGUIController extends TemplateGUI implements Initializa
 		}
 	}
 	
-	public void backToAllProducts(ActionEvent event) throws Exception {
+	public void backToMainMenu(ActionEvent event) throws Exception {
 		((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
 		Stage primaryStage = new Stage();
 		Pane root = FXMLLoader.load(getClass().getResource("/gui/MainMenuGUI.fxml"));
@@ -99,5 +99,11 @@ public class ProductsFormGUIController extends TemplateGUI implements Initializa
 		Scene scene = new Scene(root);
 		primaryStage.setScene(scene);		
 		primaryStage.show();
+	}
+	
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		setProductsComboBox();
+		cmbProducts.setStyle("-fx-font-size:10");
 	}
 }

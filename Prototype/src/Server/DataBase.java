@@ -1,4 +1,4 @@
-package jdbc;
+package Server;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -7,11 +7,11 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import java.sql.PreparedStatement;
 import com.mysql.jdbc.ResultSetMetaData;
 
-import CS.EchoServer;
 import Entity.Product;
-import common.ProductType;
+import Entity.ProductType;
 
 public class DataBase {
 
@@ -19,6 +19,37 @@ public class DataBase {
 
 	public DataBase(String dbUrl, String dbName, String dbUserName, String dbPassword) {
 		this.con = connectToDB(dbUrl, dbName, dbUserName, dbPassword);
+	}
+	
+	public ArrayList<Object> getQuery(String query) {
+		Statement stmt;
+		try {
+			stmt = EchoServer.db.con.createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			ArrayList<Object> objectArr = new ArrayList<>();
+			ResultSetMetaData rsmd = (ResultSetMetaData) rs.getMetaData();
+			while(rs.next()) {
+				for(int i=1;i<=rsmd.getColumnCount();i++)
+					objectArr.add(rs.getObject(i));
+			}
+			return objectArr;
+		}
+		catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	public boolean setQuery(String query) {
+		Statement stmt;
+		try {
+			stmt = con.createStatement();
+			stmt.executeUpdate(query);
+			return true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 
 	private Connection connectToDB(String dbUrl, String dbName, String dbUserName, String dbPassword) {
@@ -39,24 +70,6 @@ public class DataBase {
 		return conn;
 	}
 
-	public ArrayList<Product> getAllProducts(){
-		Statement stmt;
-		try {
-			ArrayList<Product> prds = new ArrayList<>();
-			stmt = con.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT * FROM product");
-			int i = 1;
-			while (rs.next()) {
-				prds.add(parsingTheData(rs.getInt(i),rs.getString(i+1),rs.getString(i+2)));
-				i+=3;
-			}
-			return prds;
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-
 	public boolean updateProductToDB(Product p) {
 		Statement stmt;
 		try {
@@ -69,35 +82,4 @@ public class DataBase {
 		}
 	}
 
-	private Product parsingTheData(int id, String name, String type) {
-		Product p = new Product(id, name);
-		switch (type.toLowerCase()) {
-		case "bouqute":
-			p.setType(ProductType.Bouqute);
-			break;
-		default:
-			p.setType(ProductType.Empty);
-			break;
-		}
-		return p;
-	}
-
-	public ArrayList<Object> getQuery(String query) {
-		Statement stmt;
-		try {
-			stmt = EchoServer.db.con.createStatement();
-			ResultSet rs = stmt.executeQuery(query);
-			ArrayList<Object> objectArr = new ArrayList<>();
-			ResultSetMetaData rsmd = (ResultSetMetaData) rs.getMetaData();
-			while(rs.next()) {
-				for(int i=1;i<=rsmd.getColumnCount();i++)
-					objectArr.add(rs.getObject(i));
-			}
-			return objectArr;
-		}
-		catch (SQLException e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
 }

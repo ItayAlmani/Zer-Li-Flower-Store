@@ -5,7 +5,6 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-import CS.ClientConsole;
 import gui.*;
 
 public class MainClient extends Application {

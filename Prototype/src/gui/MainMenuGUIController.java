@@ -4,8 +4,9 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import CS.ClientConsole;
+import client.ClientConsole;
 import client.MainClient;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -23,21 +24,27 @@ public class MainMenuGUIController extends TemplateGUI implements Initializable{
 	@FXML
 	private Button btnProducts;
 	
-	@FXML
-	private Label lblMsg;
-	
 	public static String host; 
 	public static int port;
 	
-	public void showProducts(ActionEvent event) throws Exception {
-		((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
-		Stage primaryStage = new Stage();
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/ProductsFormGUI.fxml"));
-		Pane root = loader.load();
-		
-		Scene scene = new Scene(root);
-		primaryStage.setScene(scene);		
-		primaryStage.show();
+	public void showProducts(ActionEvent event){
+		if(MainClient.cc.isConnected()==false)
+			setServerUnavailable();
+		else {
+			Stage primaryStage = new Stage();
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/ProductsFormGUI.fxml"));
+			Pane root;
+			try {
+				root = loader.load();
+				((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
+				Scene scene = new Scene(root);
+				primaryStage.setScene(scene);		
+				primaryStage.show();
+			} catch (IOException e) {
+				lblMsg.setText("Loader failed");
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	public void showConnectionGUI(ActionEvent event) throws Exception{
@@ -62,15 +69,35 @@ public class MainMenuGUIController extends TemplateGUI implements Initializable{
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		try {
-			MainClient.cc = new ClientConsole(host,port);
-			this.btnProducts.setDisable(false);
-			lblMsg.setText("");
+		if(MainClient.cc==null || MainClient.cc.isConnected()==false) {
+			try {
+				MainClient.cc = new ClientConsole(host,port);
+			} catch (IOException e) {
+				setServerUnavailable();
+			}
 		}
-		catch(IOException e) {
-			this.btnProducts.setDisable(true);
-			lblMsg.setText("Connection failed");
-		}
+		if(MainClient.cc!=null && MainClient.cc.isConnected()==true)
+			setServerAvailable();
+	}
+	
+	public void setServerUnavailable() {
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				btnProducts.setDisable(true);
+				lblMsg.setText("Connection failed");
+			}
+		});
+	}
+	
+	public void setServerAvailable() {
 		
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				btnProducts.setDisable(false);
+				lblMsg.setText("");
+			}
+		});
 	}
 }
