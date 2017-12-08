@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="300.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.ProductsFormGUIController">
+<AnchorPane prefHeight="300.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controllers.ProductsFormGUIController">
    <children>
       <ComboBox id="cmbProducts" fx:id="cmbProducts" layoutX="5.0" layoutY="61.0" prefHeight="23.0" prefWidth="291.0" promptText="Select product" />
       <Button id="btnView" fx:id="btnView" layoutX="15.0" layoutY="176.0" mnemonicParsing="false" onAction="#showProduct" text="View">

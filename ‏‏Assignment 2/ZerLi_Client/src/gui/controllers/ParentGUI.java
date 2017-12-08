@@ -1,4 +1,4 @@
-package gui;
+package gui.controllers;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -22,6 +22,7 @@ public abstract class ParentGUI implements Serializable {
 
 	@FXML
 	protected Label lblMsg;
+	
 	
 	private boolean serverConnected = true;
 
@@ -64,7 +65,7 @@ public abstract class ParentGUI implements Serializable {
 				Stage primaryStage = new Stage();
 				Pane root;
 				try {
-					root = FXMLLoader.load(getClass().getResource("/gui/MainMenuGUI.fxml"));
+					root = FXMLLoader.load(getClass().getResource("/gui/fxmls/MainMenuGUI.fxml"));
 					((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
 					Scene scene = new Scene(root);
 					primaryStage.setScene(scene);		
@@ -74,5 +75,28 @@ public abstract class ParentGUI implements Serializable {
 				}
 			}
 		});
+	}
+
+	public void backToMainMenu(ActionEvent event) throws Exception {
+		((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
+		Stage primaryStage = new Stage();
+		Pane root = FXMLLoader.load(getClass().getResource("/gui/fxmls/MainMenuGUI.fxml"));
+		
+		Scene scene = new Scene(root);
+		primaryStage.setScene(scene);		
+		primaryStage.show();
+	}
+
+	protected void loadWindows(ActionEvent event, String name, boolean withCSS) throws Exception{
+		((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
+		Stage primaryStage = new Stage();
+		Pane root = FXMLLoader.load(getClass().getResource("/gui/fxmls/"+name+".fxml"));
+		
+		Scene scene = new Scene(root);
+		
+		if(withCSS==true)
+			scene.getStylesheets().add(getClass().getResource("/gui/css/"+name+".css").toExternalForm());
+		primaryStage.setScene(scene);		
+		primaryStage.show();
 	}
 }

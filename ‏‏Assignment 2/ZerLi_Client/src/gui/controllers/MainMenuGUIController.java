@@ -1,4 +1,4 @@
-package gui;
+package gui.controllers;
 
 import java.io.IOException;
 import java.net.URL;
@@ -30,16 +30,17 @@ public class MainMenuGUIController extends ParentGUI implements Initializable{
 		if(MainClient.cc.isConnected()==false)
 			setServerUnavailable();
 		else {
-			Stage primaryStage = new Stage();
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/ProductsFormGUI.fxml"));
-			Pane root;
+			/*Stage primaryStage = new Stage();
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/fxmls/ProductsFormGUI.fxml"));
+			Pane root;*/
 			try {
-				root = loader.load();
+				/*root = loader.load();
 				((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
 				Scene scene = new Scene(root);
 				primaryStage.setScene(scene);		
-				primaryStage.show();
-			} catch (IOException e) {
+				primaryStage.show();*/
+				loadWindows(event, "ProductsFormGUI", false);
+			} catch (Exception e) {
 				lblMsg.setText("Loader failed");
 				e.printStackTrace();
 			}
@@ -49,7 +50,7 @@ public class MainMenuGUIController extends ParentGUI implements Initializable{
 	public void showConnectionGUI(ActionEvent event) throws Exception{
 		((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
 		Stage primaryStage = new Stage();
-		Pane root = FXMLLoader.load(getClass().getResource("/gui/ConnectionConfigGUI.fxml"));
+		Pane root = FXMLLoader.load(getClass().getResource("/gui/fxmls/ConnectionConfigGUI.fxml"));
 		
 		Scene scene = new Scene(root);
 		primaryStage.setScene(scene);		
@@ -57,7 +58,7 @@ public class MainMenuGUIController extends ParentGUI implements Initializable{
 	}
 	
 	public void start(Stage primaryStage) throws Exception {	
-		Parent root = FXMLLoader.load(getClass().getResource("/gui/MainMenuGUI.fxml"));
+		Parent root = FXMLLoader.load(getClass().getResource("/gui/fxmls/MainMenuGUI.fxml"));
 				
 		Scene scene = new Scene(root);
 		primaryStage.setTitle("Prototype");

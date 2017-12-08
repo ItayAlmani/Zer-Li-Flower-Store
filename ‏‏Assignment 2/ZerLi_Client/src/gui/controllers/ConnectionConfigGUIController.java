@@ -1,4 +1,4 @@
-package gui;
+package gui.controllers;
 
 import java.io.IOException;
 import java.net.URL;
@@ -71,7 +71,7 @@ public class ConnectionConfigGUIController extends ParentGUI implements Initiali
 	public void back(ActionEvent event) throws Exception {
 		((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
 		Stage primaryStage = new Stage();
-		Pane root = FXMLLoader.load(getClass().getResource("/gui/MainMenuGUI.fxml"));
+		Pane root = FXMLLoader.load(getClass().getResource("/gui/fxmls/MainMenuGUI.fxml"));
 		
 		Scene scene = new Scene(root);
 		primaryStage.setScene(scene);		

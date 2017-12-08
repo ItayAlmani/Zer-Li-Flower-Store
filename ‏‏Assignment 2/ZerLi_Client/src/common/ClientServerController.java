@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import entities.*;
-import gui.*;
+import gui.controllers.*;
 
 /**
  * The connector between the GUI to the <code>ClientConsole</code>

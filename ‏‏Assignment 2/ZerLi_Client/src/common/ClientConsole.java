@@ -2,23 +2,14 @@ package common;
 
 
 import java.io.*;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 import entities.CSMessage;
 import entities.MessageType;
 import entities.Product;
-import gui.MainMenuGUIController;
-import gui.ProductViewGUIController;
-import gui.ProductsFormGUIController;
-import gui.ParentGUI;
-import javafx.application.Application;
-import javafx.stage.Stage;
+import gui.controllers.ProductsFormGUIController;
 
 import ocsf.client.*;
-import java.io.*;
-import java.util.ArrayList;
 
 /**
  *The handler of the sending and receiving data to/from Server

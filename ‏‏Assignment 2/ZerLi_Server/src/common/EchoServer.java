@@ -1,13 +1,11 @@
 package common;
 
 import java.io.*;
-import java.sql.*;
 import java.util.ArrayList;
 
 import controllers.Factory;
 import entities.CSMessage;
 import entities.MessageType;
-import entities.Product;
 import ocsf.server.*;
 
 public class EchoServer extends AbstractServer {
@@ -57,6 +55,7 @@ public class EchoServer extends AbstractServer {
 		}
 	}
 	
+	@SuppressWarnings("unused")
 	private CSMessage setMessageToClient(CSMessage csMsg) {
 		MessageType msgType = csMsg.getType();
 		ArrayList<Object> objArr = csMsg.getObjs();

@@ -1,4 +1,4 @@
-package gui;
+package gui.controllers;
 
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -8,13 +8,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 import common.*;
 import entities.Product;
-import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -23,6 +21,11 @@ import javafx.event.ActionEvent;
 
 public class ProductViewGUIController extends ParentGUI implements Initializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private Product p;
 	
 	@FXML
@@ -67,10 +70,20 @@ public class ProductViewGUIController extends ParentGUI implements Initializable
 	public void backToAllProducts(ActionEvent event) throws Exception {
 		((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
 		Stage primaryStage = new Stage();
-		Pane root = FXMLLoader.load(getClass().getResource("/gui/ProductsFormGUI.fxml"));
+		Pane root = FXMLLoader.load(getClass().getResource("/gui/fxmls/ProductsFormGUI.fxml"));
 		
 		Scene scene = new Scene(root);
 		primaryStage.setScene(scene);		
 		primaryStage.show();
 	}
+	public void backToMainMenu(ActionEvent event) throws Exception {
+		((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
+		Stage primaryStage = new Stage();
+		Pane root = FXMLLoader.load(getClass().getResource("/gui/fxmls/MainMenuGUI.fxml"));
+		
+		Scene scene = new Scene(root);
+		primaryStage.setScene(scene);		
+		primaryStage.show();
+	}
+	
 }

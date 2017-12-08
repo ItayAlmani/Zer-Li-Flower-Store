@@ -7,7 +7,7 @@ import javafx.stage.WindowEvent;
 
 import java.io.IOException;
 
-import gui.*;
+import gui.controllers.*;
 
 public class MainClient extends Application {
 	public static ClientConsole cc;

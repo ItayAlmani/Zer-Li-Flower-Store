@@ -1,4 +1,4 @@
-package gui;
+package gui.controllers;
 
 import java.io.IOException;
 import java.net.URL;
@@ -63,7 +63,7 @@ public class ProductsFormGUIController extends ParentGUI implements Initializabl
 			return;
 		}
 		Stage primaryStage = new Stage();
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/ProductViewGUI.fxml"));
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/fxmls/ProductViewGUI.fxml"));
 		Pane root = loader.load();
 		
 		
@@ -79,22 +79,13 @@ public class ProductsFormGUIController extends ParentGUI implements Initializabl
 			if(prd!=null) {
 				((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
 				productViewGUIController.loadProduct(prd);
-				Scene scene = new Scene(root);			
+				Scene scene = new Scene(root);	
+				scene.getStylesheets().add(getClass().getResource("/gui/css/ProductViewGUI.css").toExternalForm());
 				
 				primaryStage.setScene(scene);		
 				primaryStage.show();
 			}
 		}
-	}
-	
-	public void backToMainMenu(ActionEvent event) throws Exception {
-		((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
-		Stage primaryStage = new Stage();
-		Pane root = FXMLLoader.load(getClass().getResource("/gui/MainMenuGUI.fxml"));
-		
-		Scene scene = new Scene(root);
-		primaryStage.setScene(scene);		
-		primaryStage.show();
 	}
 	
 	@Override
