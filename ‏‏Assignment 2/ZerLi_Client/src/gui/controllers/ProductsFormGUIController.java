@@ -38,10 +38,11 @@ public class ProductsFormGUIController extends ParentGUI implements Initializabl
 	ObservableList<String> list;
 
 	private void setProductsComboBox() {
-		ClientServerController cc = new ClientServerController(this);
+		ClientServerController csc = new ClientServerController(this);
 		try {
-			cc.askProductsFromServer();
+			csc.askProductsFromServer();
 		} catch (IOException e) {
+			System.err.println("ProdForm\n");
 			e.printStackTrace();
 		}
 	}

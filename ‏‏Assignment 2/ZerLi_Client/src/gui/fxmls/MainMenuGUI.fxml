@@ -1,29 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.text.*?>
-<?import java.lang.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="300.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controllers.MainMenuGUIController">
+<AnchorPane prefHeight="300.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controllers.MainMenuGUIController">
    <children>
-      <Button fx:id="btnProducts" layoutX="75.0" layoutY="64.0" mnemonicParsing="false" onAction="#showProducts" text="Show items">
+      <Button fx:id="btnProducts" layoutX="78.0" layoutY="59.0" mnemonicParsing="false" onAction="#showProducts" text="Show items">
          <font><Font size="25.0" /></font>
       </Button>
-      <Button layoutX="19.0" layoutY="130.0" mnemonicParsing="false" onAction="#showConnectionGUI" text="Configure connection">
+      <Button layoutX="22.0" layoutY="125.0" mnemonicParsing="false" onAction="#showConnectionGUI" text="Configure connection">
          <font>
             <Font size="25.0" />
          </font>
       </Button>
-      <Button id="btnExit" fx:id="btnExit" layoutX="114.0" layoutY="222.0" mnemonicParsing="false" onAction="#ExitProg" text="Exit">
+      <Button id="btnExit" fx:id="btnExit" layoutX="117.0" layoutY="188.0" mnemonicParsing="false" onAction="#ExitProg" text="Exit">
          <font>
             <Font size="25.0" />
          </font>
       </Button>
-      <Label fx:id="lblMsg" layoutX="30.0" layoutY="14.0" prefHeight="45.0" prefWidth="238.0" textFill="RED">
+      <Label fx:id="lblMsg" alignment="CENTER" contentDisplay="BOTTOM" layoutX="153.0" layoutY="270.0" textFill="RED">
          <font>
             <Font size="10.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutX="68.0" layoutY="14.0" text="Main Menu">
+         <font>
+            <Font name="System Bold" size="30.0" />
          </font>
       </Label>
    </children>

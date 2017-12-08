@@ -40,7 +40,7 @@ public class ClientConsole extends AbstractClient {
 	public void quit() {
 		try {
 			closeConnection();
-		} catch (IOException e) {}
+		} catch (IOException e) {System.err.println("Can't quit Client!!\n");}
 		System.exit(0);
 	}
 
@@ -77,6 +77,11 @@ public class ClientConsole extends AbstractClient {
 			else if (msgType.equals(MessageType.Exception)) {
 				csc.sendResultToClient(false);
 			}
+			
+			else if(msgType.equals(MessageType.SetDB)) {
+				if (csMsg.getObjs().get(0) instanceof Boolean)
+					csc.sendResultToClient((boolean) csMsg.getObjs().get(0));
+			}
 		}
 	}
 
@@ -103,7 +108,6 @@ public class ClientConsole extends AbstractClient {
 				csc.sendResultToClient(false);
 		}
 		this.csc.sendDBDataToClient((ArrayList<String>) objArr);
-			
 	}
 
 	/**

@@ -7,24 +7,22 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import java.sql.PreparedStatement;
 import com.mysql.jdbc.ResultSetMetaData;
 
+import controllers.Factory;
 import entities.Product;
-import entities.ProductType;
 
-public class DataBase {
-
+public class DataBase{
 	public Connection con;
 
-	public DataBase(String dbUrl, String dbName, String dbUserName, String dbPassword) {
+	public DataBase(String dbUrl, String dbName, String dbUserName, String dbPassword) throws SQLException {
 		this.con = connectToDB(dbUrl, dbName, dbUserName, dbPassword);
 	}
 	
 	public ArrayList<Object> getQuery(String query) {
 		Statement stmt;
 		try {
-			stmt = EchoServer.db.con.createStatement();
+			stmt = Factory.db.con.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			ArrayList<Object> objectArr = new ArrayList<>();
 			ResultSetMetaData rsmd = (ResultSetMetaData) rs.getMetaData();
@@ -52,7 +50,7 @@ public class DataBase {
 		}
 	}
 
-	private Connection connectToDB(String dbUrl, String dbName, String dbUserName, String dbPassword) {
+	private Connection connectToDB(String dbUrl, String dbName, String dbUserName, String dbPassword) throws SQLException {
 		Connection conn = null;
 
 		try {
@@ -60,13 +58,7 @@ public class DataBase {
 		} catch (Exception ex) {
 			/* handle the error */
 		}
-		try {
-			conn = DriverManager.getConnection("jdbc:mysql://"+dbUrl+"/" + dbName, dbUserName, dbPassword);
-		} catch (SQLException ex) {/* handle any errors */
-			System.out.println("SQLException: " + ex.getMessage());
-			System.out.println("SQLState: " + ex.getSQLState());
-			System.out.println("VendorError: " + ex.getErrorCode());
-		}
+		conn = DriverManager.getConnection("jdbc:mysql://"+dbUrl+"/" + dbName, dbUserName, dbPassword);
 		return conn;
 	}
 

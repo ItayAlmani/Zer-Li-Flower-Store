@@ -1,7 +1,9 @@
 package common;
 
 import java.io.*;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 import controllers.Factory;
 import entities.CSMessage;
@@ -14,11 +16,13 @@ public class EchoServer extends AbstractServer {
 	/**The default port to listen on.*/
 	final public static int DEFAULT_PORT = 5555;
 	
-	public static String dbUrl = "localhost",dbName="dbassignment2",
-			dbUserName = "root", 
-			dbPassword = "1234";
+	private String dbUrl_default = "localhost",
+			dbName_default="dbassignment2",
+			dbUserName_default = "root", 
+			dbPassword_default = "1234";
 	
-	public static DataBase db;
+	private final String projectPath="C:\\Users\\izhar\\eclipse-github\\Zer-Li-Flower-Store\\þþAssignment 2\\ZerLi_Server\\src\\" ,
+			dbTxtPath="common\\DataBaseAddress.txt";
 	
 	// Constructors ****************************************************
 
@@ -28,8 +32,7 @@ public class EchoServer extends AbstractServer {
 	 */
 	public EchoServer(int port) {
 		super(port);
-		Factory.db=db;
-		updateDB();
+		connectToDB();
 	}
 
 	// Instance methods ************************************************
@@ -43,8 +46,9 @@ public class EchoServer extends AbstractServer {
 	@Override
 	public void handleMessageFromClient(Object msg, ConnectionToClient client) throws IOException {
 		try {
-			if(msg instanceof CSMessage)
+			if(msg instanceof CSMessage) {
 				client.sendToClient(setMessageToClient((CSMessage)msg));
+			}
 		} catch (IOException e) {
 			if(msg instanceof CSMessage) {
 				CSMessage csMsg = (CSMessage)msg;
@@ -55,7 +59,6 @@ public class EchoServer extends AbstractServer {
 		}
 	}
 	
-	@SuppressWarnings("unused")
 	private CSMessage setMessageToClient(CSMessage csMsg) {
 		MessageType msgType = csMsg.getType();
 		ArrayList<Object> objArr = csMsg.getObjs();
@@ -66,13 +69,13 @@ public class EchoServer extends AbstractServer {
 				
 				/*-------SELECT queries from DB-------*/
 				if(msgType.equals(MessageType.SELECT))
-					csMsg.setObjs(db.getQuery(query));
+					csMsg.setObjs(Factory.db.getQuery(query));
 				
 				/*-------UPDATE queries from DB-------*/
 				else {
 					if(objArr!=null)	objArr.clear();
 					else				objArr = new ArrayList<>();
-					objArr.add(db.setQuery(query));
+					objArr.add(Factory.db.setQuery(query));
 					csMsg.setObjs(objArr);
 				}
 			}
@@ -80,13 +83,60 @@ public class EchoServer extends AbstractServer {
 		else if(msgType.equals(MessageType.DBData)) {
 			if(objArr!=null)	objArr.clear();
 			else				objArr = new ArrayList<>();
-			objArr.add(dbUrl);
-			objArr.add(dbName);
-			objArr.add(dbUserName);
-			objArr.add(dbPassword);
+			objArr.add(dbUrl_default);
+			objArr.add(dbName_default);
+			objArr.add(dbUserName_default);
+			objArr.add(dbPassword_default);
 			csMsg.setObjs(objArr);
 		}
+		else if(msgType.equals(MessageType.SetDB)) {
+			String[] dbData = new String[4];
+			int i = 0;
+			for (Object object : objArr) {
+				if(object instanceof String == false) {
+					System.err.println("One of dbData isn't String!\n");
+					objArr.clear();
+					objArr.add(false);
+					return csMsg;
+				}
+				else
+					dbData[i++]=(String)object;
+			}
+			try {
+				updateDB(dbData);
+			} catch (SQLException e) {
+				System.err.println("Incorrect data of message from client!\n");
+				objArr.clear();
+				objArr.add(false);
+				return csMsg;
+			}
+			objArr.clear();
+			objArr.add(true);
+			csMsg.setObjs(objArr);
+			dbUrl_default=dbData[0];
+			dbName_default=dbData[1];
+			dbUserName_default=dbData[2];
+			dbPassword_default=dbData[3];
+			try {
+				writeNewDBDataIntoTxt();
+			} catch (IOException e) {
+				System.err.println("Can't write to txt file new data\n");
+			}
+		}
 		return csMsg;
+	}
+	
+	private void writeNewDBDataIntoTxt() throws IOException {
+		File f = new File(projectPath+dbTxtPath);
+		if (f.exists() == false) //Create a new file if doesn't exists yet
+			f.createNewFile();
+		PrintStream output = new PrintStream(projectPath+dbTxtPath);
+		output.flush();//flush whole txt file
+		output.println("Url: "+dbUrl_default);
+		output.println("Name: "+dbName_default);
+		output.println("UserName: "+dbUserName_default);
+		output.println("Password: "+dbPassword_default);
+		output.close();
 	}
 
 	/**
@@ -105,11 +155,46 @@ public class EchoServer extends AbstractServer {
 		System.out.println("Server has stopped listening for connections.");
 	}
 	
-	public static void updateDB() {
-		db = new DataBase(dbUrl, dbName,dbUserName,dbPassword);
-		Factory.setDataBase(db);
+	private void updateDB(String url, String name, String userName, String password) throws SQLException {
+		Factory.setDataBase(new DataBase(url, name,userName,password));
+	}
+	
+	private void updateDB(String[] args) throws SQLException {
+		String url = args[0], name=args[1],userName=args[2],password=args[3];
+		Factory.setDataBase(new DataBase(url, name,userName,password));
 	}
 
+	private void connectToDB() {
+		int dbSuccessFlag = 0;		//will be 1 if updateDB(args) succeeded
+		try {
+			Scanner scnr = null;
+			scnr = new Scanner(new File(projectPath+dbTxtPath));
+			scnr.useDelimiter("\\w");
+			String[] args = new String[4];
+			for(int i = 0;i<4 && scnr.hasNextLine();i++) {
+				String[] tempSplit = scnr.nextLine().split("url|\\W+");
+				args[i]= tempSplit[tempSplit.length-1];
+			}
+			scnr.close();
+			updateDB(args);
+			dbSuccessFlag = 1;
+		} catch (SQLException e) {
+			System.err.println("\nDataBaseAddress.txt data is corrupted, or the process is.\nGo to EchoServer for the process\n");
+		} catch (FileNotFoundException e) {
+			Factory.db=null;
+			System.err.println("Can't find txt file at "+dbTxtPath+"\n");
+		}
+		
+		if(dbSuccessFlag==0) {	//db data corrupted 
+			try {
+				updateDB(dbUrl_default, dbName_default,dbUserName_default,dbPassword_default);
+			} catch (SQLException e) {
+				Factory.db=null;
+				System.err.println("\nDefault Data Base data is wrong!\nGo to EchoServer to fix it!\n");
+			}
+		}
+	}
+	
 	// Class methods ***************************************************
 
 	/**

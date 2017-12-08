@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import common.*;
+import entities.DataBase;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -32,7 +33,6 @@ public class ConnectionConfigGUIController extends ParentGUI implements Initiali
 	
 	private String host,dbUrl, dbName, dbUserName, dbPassword;
 	private Integer port;
-	private int[] updatecnt = new int[] {1,1};
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -88,18 +88,37 @@ public class ConnectionConfigGUIController extends ParentGUI implements Initiali
 		if(port!=null&&host!=null) {
 			MainMenuGUIController.host=this.host;
 			MainMenuGUIController.port=this.port;
-			lblServerMsg.setText("Updated " + updatecnt[0]++);
+			lblServerMsg.setText("Updated");
 		}
 		else
-			lblServerMsg.setText("Enter data " + updatecnt[0]++);
+			lblServerMsg.setText("Enter data");
 	}
 	
-	public void updateDB(ActionEvent event) throws Exception {
-		this.dbUrl=this.txtUrl.getText();
-		this.dbName=this.txtName.getText();
-		this.dbUserName=this.txtUserName.getText();
-		this.dbPassword=this.txtPassword.getText();
-		//EchoServer.updateDB();
-		this.lblDBMsg.setText("Success "+ updatecnt[1]++);
+	public void updateDB(ActionEvent event) {
+		if(txtUrl.getText().equals("")==false)		//if the field is empty
+			dbUrl=txtUrl.getText();
+		
+		if(txtName.getText().equals("")==false)
+			dbName=txtName.getText();
+		
+		if(txtUserName.getText().equals("")==false)
+			dbUserName=txtUserName.getText();
+		
+		if(txtPassword.getText().equals("")==false)
+			dbPassword=txtPassword.getText();
+		
+		if(dbUrl!=null && dbName!=null && dbUserName!=null&&dbPassword!=null) {
+			ClientServerController csc = new ClientServerController(this);
+			try {
+				csc.askSetDBData(new DataBase(dbUrl, dbName, dbUserName, dbPassword));
+			} catch (IOException e) {
+				lblDBMsg.setText("Error");
+				System.err.println("Error in ConnConfigGUIController, on askSetDBData() in updateDB.\n");
+				e.printStackTrace();
+			}
+			lblDBMsg.setText("Updated");
+		}
+		else
+			lblDBMsg.setText("Enter data");
 	}
 }

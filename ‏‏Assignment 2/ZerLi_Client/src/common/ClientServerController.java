@@ -37,6 +37,14 @@ public class ClientServerController {
 		MainClient.cc.handleMessageFromClientUI(new CSMessage(MessageType.DBData,null), this);
 	}
 	
+	public void askSetDBData(DataBase db) throws IOException {
+		myMsgArr.add(db.getDbUrl());
+		myMsgArr.add(db.getDbName());
+		myMsgArr.add(db.getDbUserName());
+		myMsgArr.add(db.getDbPassword());
+		MainClient.cc.handleMessageFromClientUI(new CSMessage(MessageType.SetDB,myMsgArr), this);
+	}
+	
 	public void sendDBDataToClient(ArrayList<String> dbData) {
 		if(gui instanceof ConnectionConfigGUIController) {
 			((ConnectionConfigGUIController)gui).setDBDataInGUI(dbData);

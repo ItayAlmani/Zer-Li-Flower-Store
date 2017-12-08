@@ -1,5 +1,5 @@
 package entities;
 
 public enum MessageType {
-	UPDATE,SELECT,DBData,Exception;
+	UPDATE,SELECT,DBData,Exception,SetDB;
 }

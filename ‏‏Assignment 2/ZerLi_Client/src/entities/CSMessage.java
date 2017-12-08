@@ -44,5 +44,10 @@ public class CSMessage implements Serializable{
 
 	public void setCSController(Object cSController) {
 		CSController = cSController;
+	}
+
+	@Override
+	public String toString() {
+		return "CSMessage [type=" + type + ", objs=" + objs + ", CSController=" + CSController + "]";
 	}	
 }
