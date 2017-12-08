@@ -1,8 +1,10 @@
-package common;
+package controllers;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
+import common.Context;
+import common.MainClient;
 import entities.*;
 import gui.controllers.*;
 
@@ -10,19 +12,17 @@ import gui.controllers.*;
  * The connector between the GUI to the <code>ClientConsole</code>
  */
 public class ClientServerController {
-	private Object gui;
 	private ArrayList<Object> myMsgArr;
 
 	public ClientServerController(Object gui) {
 		super();
-		this.gui = gui;
 		myMsgArr = new ArrayList<>();
 	}
 
 	public void askProductsFromServer() throws IOException {
 		myMsgArr.clear();
 		myMsgArr.add("SELECT * FROM product;");
-		MainClient.cc.handleMessageFromClientUI(new CSMessage(MessageType.SELECT,myMsgArr), this);
+		Context.cc.handleMessageFromClientUI(new CSMessage(MessageType.SELECT,myMsgArr), this);
 	}
 	
 	public void askUpdateProductFromServer(Product p) throws IOException {
@@ -30,11 +30,11 @@ public class ClientServerController {
 		myMsgArr.add(String.format(
 				"UPDATE product SET productID = '%d',productName='%s',productType='%s'"
 				+ "WHERE productID=%d;",p.getId(),p.getName(),p.getType(),p.getId()));
-		MainClient.cc.handleMessageFromClientUI(new CSMessage(MessageType.UPDATE,myMsgArr), this);
+		Context.cc.handleMessageFromClientUI(new CSMessage(MessageType.UPDATE,myMsgArr), this);
 	}
 	
 	public void askDBDataFromServer() throws IOException {
-		MainClient.cc.handleMessageFromClientUI(new CSMessage(MessageType.DBData,null), this);
+		Context.cc.handleMessageFromClientUI(new CSMessage(MessageType.DBData,null), this);
 	}
 	
 	public void askSetDBData(DataBase db) throws IOException {
@@ -42,23 +42,23 @@ public class ClientServerController {
 		myMsgArr.add(db.getDbName());
 		myMsgArr.add(db.getDbUserName());
 		myMsgArr.add(db.getDbPassword());
-		MainClient.cc.handleMessageFromClientUI(new CSMessage(MessageType.SetDB,myMsgArr), this);
+		Context.cc.handleMessageFromClientUI(new CSMessage(MessageType.SetDB,myMsgArr), this);
 	}
 	
 	public void sendDBDataToClient(ArrayList<String> dbData) {
-		if(gui instanceof ConnectionConfigGUIController) {
-			((ConnectionConfigGUIController)gui).setDBDataInGUI(dbData);
+		if(Context.CurrentGUI instanceof ConnectionConfigGUIController) {
+			((ConnectionConfigGUIController)Context.CurrentGUI).setDBDataInGUI(dbData);
 		}
 	}
 	
 	public void sendProductsToClient(ArrayList<Product> prds) {
-		((ProductsFormGUIController)gui).updateCB(prds);
+		if(Context.CurrentGUI instanceof ProductsFormGUIController)
+			((ProductsFormGUIController)Context.CurrentGUI).updateCB(prds);
 	}
 
 	public void sendResultToClient(boolean response) {
-		if(response==true)	((ParentGUI)gui).ShowSuccessMsg();
-		else				((ParentGUI)gui).ShowErrorMsg();
-
+		if(response==true)	((ParentGUIController)Context.CurrentGUI).ShowSuccessMsg();
+		else				((ParentGUIController)Context.CurrentGUI).ShowErrorMsg();
 	}
 	
 	public Product parsingTheData(int id, String name, String type) {
@@ -73,13 +73,4 @@ public class ClientServerController {
 		}
 		return p;
 	}
-	
-	public Object getGui() {
-		return gui;
-	}
-
-	public void setGui(Object gui) {
-		this.gui = gui;
-	}
-
 }

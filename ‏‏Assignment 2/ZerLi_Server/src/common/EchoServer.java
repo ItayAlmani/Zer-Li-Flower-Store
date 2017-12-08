@@ -172,7 +172,7 @@ public class EchoServer extends AbstractServer {
 			scnr.useDelimiter("\\w");
 			String[] args = new String[4];
 			for(int i = 0;i<4 && scnr.hasNextLine();i++) {
-				String[] tempSplit = scnr.nextLine().split("url|\\W+");
+				String[] tempSplit = scnr.nextLine().split("\\W+");
 				args[i]= tempSplit[tempSplit.length-1];
 			}
 			scnr.close();

@@ -3,6 +3,7 @@ package gui.controllers;
 import java.io.IOException;
 import java.io.Serializable;
 
+import common.Context;
 import common.MainClient;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -15,7 +16,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-public abstract class ParentGUI implements Serializable {
+public abstract class ParentGUIController implements Serializable {
 
 	@FXML
 	protected Button btnExit;
@@ -29,14 +30,15 @@ public abstract class ParentGUI implements Serializable {
 	public void ExitProg(ActionEvent event) throws Exception {
 		Stage stage = (Stage) btnExit.getScene().getWindow();
 		stage.close();
-		MainClient.cc.quit();
+		Context.cc.quit();
 	}
 
+	
 	public void ShowErrorMsg() {
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
-				lblMsg.setText("Error with DB");
+				lblMsg.setText("Error");
 			}
 		});
 	}

@@ -4,6 +4,7 @@ package common;
 import java.io.*;
 import java.util.ArrayList;
 
+import controllers.ClientServerController;
 import entities.CSMessage;
 import entities.MessageType;
 import entities.Product;
@@ -16,8 +17,7 @@ import ocsf.client.*;
  *(LAB6).
  */
 public class ClientConsole extends AbstractClient {
-	/** The default port to connect on. */
-	final public static int DEFAULT_PORT = 5555;
+	
 
 	/**
 	 * The connector between the GUI to the <code>ClientConsole</code>
@@ -43,7 +43,6 @@ public class ClientConsole extends AbstractClient {
 		} catch (IOException e) {System.err.println("Can't quit Client!!\n");}
 		System.exit(0);
 	}
-
 	
 	/**
 	 * Handles a message sent from the server to this client.
@@ -57,7 +56,7 @@ public class ClientConsole extends AbstractClient {
 
 			/*------------------SELECT queries from DB------------------*/
 			if (msgType.equals(MessageType.SELECT)) {
-				if (csc.getGui() instanceof ProductsFormGUIController) {
+				if (Context.CurrentGUI instanceof ProductsFormGUIController) {
 					handleGetProducts(csMsg.getObjs());
 				}
 			}

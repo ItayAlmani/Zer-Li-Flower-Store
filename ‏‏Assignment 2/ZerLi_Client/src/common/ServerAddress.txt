@@ -1,2 +1,2 @@
-host: localhost
-port: 5555
+Host: localhost
+Port: 5555

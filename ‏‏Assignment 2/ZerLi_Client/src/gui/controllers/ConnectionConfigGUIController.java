@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import common.*;
+import controllers.ClientServerController;
 import entities.DataBase;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -20,7 +21,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-public class ConnectionConfigGUIController extends ParentGUI implements Initializable {
+public class ConnectionConfigGUIController extends ParentGUIController implements Initializable {
 	
 	@FXML
 	private TextField txtHost,txtPort,txtName,txtUrl,txtUserName,txtPassword;
@@ -36,11 +37,12 @@ public class ConnectionConfigGUIController extends ParentGUI implements Initiali
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		Context.CurrentGUI = this;
 		ClientServerController csc = new ClientServerController(this);
 		
-		if(MainClient.cc !=null && MainClient.cc.isConnected()==true) {
-			this.host=MainClient.cc.getHost();
-			this.port=MainClient.cc.getPort();
+		if(Context.cc !=null && Context.cc.isConnected()==true) {
+			this.host=Context.cc.getHost();
+			this.port=Context.cc.getPort();
 			this.txtHost.setText(this.host);
 			this.txtPort.setText(this.port.toString());
 			try {
@@ -78,17 +80,18 @@ public class ConnectionConfigGUIController extends ParentGUI implements Initiali
 		primaryStage.show();
 	}
 	
-	public void updateServer(ActionEvent event) throws Exception {
+	public void updateServer(ActionEvent event) {
 		if(txtHost.getText().equals("")==false)
-			if(host==null||host.equals(txtHost.getText())==false)
-				host=txtHost.getText();
+			host=txtHost.getText();
 		if(txtPort.getText().equals("")==false)
-			if(port==null||port.equals(Integer.parseInt(txtPort.getText()))==false)
-				port=Integer.parseInt(txtPort.getText());
+			port=Integer.parseInt(txtPort.getText());
 		if(port!=null&&host!=null) {
-			MainMenuGUIController.host=this.host;
-			MainMenuGUIController.port=this.port;
-			lblServerMsg.setText("Updated");
+			try {
+				Context.connectToServer(host, port);
+				lblServerMsg.setText("Connected successfully");
+			} catch (IOException e) {
+				lblServerMsg.setText("Failed to connect!");
+			}
 		}
 		else
 			lblServerMsg.setText("Enter data");
@@ -120,5 +123,25 @@ public class ConnectionConfigGUIController extends ParentGUI implements Initiali
 		}
 		else
 			lblDBMsg.setText("Enter data");
+	}
+
+	@Override
+	public void ShowErrorMsg() {
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				lblDBMsg.setText("Error");
+			}
+		});
+	}
+	
+	@Override
+	public void ShowSuccessMsg() {
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				lblDBMsg.setText("Success");
+			}
+		});
 	}
 }

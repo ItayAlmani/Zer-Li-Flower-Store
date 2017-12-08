@@ -18,16 +18,13 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-public class MainMenuGUIController extends ParentGUI implements Initializable{
+public class MainMenuGUIController extends ParentGUIController implements Initializable{
 	
 	@FXML
 	private Button btnProducts;
-	
-	public static String host; 
-	public static int port;
-	
+		
 	public void showProducts(ActionEvent event){
-		if(MainClient.cc.isConnected()==false)
+		if(Context.cc.isConnected()==false)
 			setServerUnavailable();
 		else {
 			/*Stage primaryStage = new Stage();
@@ -69,14 +66,16 @@ public class MainMenuGUIController extends ParentGUI implements Initializable{
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		if(MainClient.cc==null || MainClient.cc.isConnected()==false) {
+		Context.CurrentGUI = this;
+		if(Context.cc==null || Context.cc.isConnected()==false) {
 			try {
-				MainClient.cc = new ClientConsole(host,port);
+				
+				Context.connectToServer();
 			} catch (IOException e) {
 				setServerUnavailable();
 			}
 		}
-		if(MainClient.cc!=null && MainClient.cc.isConnected()==true)
+		if(Context.cc!=null && Context.cc.isConnected()==true)
 			setServerAvailable();
 	}
 	
@@ -97,6 +96,24 @@ public class MainMenuGUIController extends ParentGUI implements Initializable{
 			public void run() {
 				btnProducts.setDisable(false);
 				lblMsg.setText("");
+			}
+		});
+	}
+	
+	public void ShowErrorMsg() {
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				lblMsg.setText("Error");
+			}
+		});
+	}
+
+	public void ShowSuccessMsg() {
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				lblMsg.setText("Success");
 			}
 		});
 	}

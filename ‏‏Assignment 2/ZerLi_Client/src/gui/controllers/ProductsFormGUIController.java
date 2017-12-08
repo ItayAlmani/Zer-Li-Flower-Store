@@ -22,9 +22,10 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import common.*;
+import controllers.ClientServerController;
 import entities.Product;
 
-public class ProductsFormGUIController extends ParentGUI implements Initializable{
+public class ProductsFormGUIController extends ParentGUIController implements Initializable{
 
 	@FXML
 	private ComboBox cmbProducts;
@@ -59,7 +60,7 @@ public class ProductsFormGUIController extends ParentGUI implements Initializabl
 	}
 	
 	public void showProduct(ActionEvent event) throws Exception {
-		if(MainClient.cc.isConnected()==false) {
+		if(Context.cc.isConnected()==false) {
 			serverDown(event);
 			return;
 		}
@@ -91,6 +92,8 @@ public class ProductsFormGUIController extends ParentGUI implements Initializabl
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		Context.CurrentGUI = this;
+		
 		setProductsComboBox();
 		cmbProducts.setStyle("-fx-font-size:10");
 	}

@@ -12,19 +12,16 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import common.*;
+import controllers.ClientServerController;
 import entities.Product;
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.event.ActionEvent;
 
-public class ProductViewGUIController extends ParentGUI implements Initializable{
-	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+public class ProductViewGUIController extends ParentGUIController implements Initializable{
 
 	private Product p;
 	
@@ -53,10 +50,11 @@ public class ProductViewGUIController extends ParentGUI implements Initializable
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		Context.CurrentGUI = this;
 	}
 	
 	public void updateName(ActionEvent event) throws Exception {
-		if(MainClient.cc.isConnected()==false)
+		if(Context.cc.isConnected()==false)
 			serverDown(event);
 		if(txtShowName.getText()!=null) {
 			if(txtShowName.getText().equals(p.getName())==false) {//Name changed
@@ -85,5 +83,6 @@ public class ProductViewGUIController extends ParentGUI implements Initializable
 		primaryStage.setScene(scene);		
 		primaryStage.show();
 	}
+
 	
 }
