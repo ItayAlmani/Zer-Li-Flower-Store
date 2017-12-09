@@ -11,22 +11,22 @@
 <AnchorPane id="anocherProductView" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controllers.ProductViewGUIController">
 	<children>
 		<Label id="lblStageTitle" alignment="CENTER" layoutX="98.0" layoutY="5.0" text="Product Name Editor" />
-		<GridPane alignment="TOP_CENTER" layoutX="-1.0" layoutY="25.0" nodeOrientation="LEFT_TO_RIGHT">
+		<GridPane id="gpProductView" alignment="TOP_CENTER" layoutX="-1.0" layoutY="25.0" nodeOrientation="LEFT_TO_RIGHT">
 			<columnConstraints>
 				<ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="146" minWidth="10.0" prefWidth="62.4" />
 				<ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="256.0" minWidth="10.0" prefWidth="217.6" />
 				<ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" maxWidth="245.8" minWidth="10.0" prefWidth="36.8" />
 			</columnConstraints>
 			<rowConstraints>
-				<RowConstraints maxHeight="25.2" minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" fx:id="x" />
-				<RowConstraints maxHeight="25.199981689453125" minHeight="10.0" prefHeight="24.200013160705566" valignment="CENTER" vgrow="SOMETIMES" />
-				<RowConstraints maxHeight="42.000003814697266" minHeight="6.599986839294434" prefHeight="30.199993896484376" vgrow="SOMETIMES" />
-				<RowConstraints maxHeight="47.99998779296875" minHeight="10.0" prefHeight="25.600006103515625" vgrow="SOMETIMES" />
-				<RowConstraints maxHeight="53.80000610351563" minHeight="10.0" prefHeight="30.400012207031253" vgrow="SOMETIMES" />
-				<RowConstraints maxHeight="46.0" minHeight="10.0" prefHeight="33.199981689453125" vgrow="SOMETIMES" />
+				<RowConstraints maxHeight="25.2" minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
+				<RowConstraints maxHeight="25.2" minHeight="10.0" prefHeight="24.2" valignment="CENTER" vgrow="SOMETIMES" />
+				<RowConstraints maxHeight="42.0" minHeight="6.6" prefHeight="30.2" vgrow="SOMETIMES" />
+				<RowConstraints maxHeight="48.0" minHeight="10.0" prefHeight="25.6" vgrow="SOMETIMES" />
+				<RowConstraints maxHeight="53.8" minHeight="10.0" prefHeight="30.4" vgrow="SOMETIMES" />
+				<RowConstraints maxHeight="46.0" minHeight="10.0" prefHeight="33.2" vgrow="SOMETIMES" />
 			</rowConstraints>
 			<children>
-				<Label id="lblTitleID" alignment="CENTER" contentDisplay="CENTER" text="ID:" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+				<Label id="lblTitleID" contentDisplay="CENTER" text="ID:" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
 				<Label id="lblShowID" fx:id="lblShowID" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 				<Label id="lblTitleName" text="Name:" GridPane.rowIndex="2" />
 				<TextField id="txtShowName" fx:id="txtShowName" alignment="CENTER" promptText="Enter Product Name" GridPane.columnIndex="1" GridPane.rowIndex="2" />

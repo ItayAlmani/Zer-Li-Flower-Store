@@ -98,16 +98,6 @@
             <Font size="10.0" />
          </font>
       </Button>
-      <Label id="lblDBMsg" fx:id="lblDBMsg" contentDisplay="CENTER" layoutX="165.0" layoutY="162.0" prefHeight="23.0" prefWidth="143.0" textFill="RED">
-         <font>
-            <Font size="10.0" />
-         </font>
-      </Label>
-      <Label id="lblServerMsg" fx:id="lblServerMsg" layoutX="118.0" layoutY="21.0" prefHeight="23.0" prefWidth="190.0" textFill="RED">
-         <font>
-            <Font size="10.0" />
-         </font>
-      </Label>
-      <Label id="lblMsg" alignment="CENTER" layoutX="23.0" layoutY="377.0" textFill="RED" />
+      <Label id="lblMsg" fx:id="lblMsg" alignment="CENTER" layoutX="23.0" layoutY="377.0" textFill="RED" />
    </children>
 </AnchorPane>

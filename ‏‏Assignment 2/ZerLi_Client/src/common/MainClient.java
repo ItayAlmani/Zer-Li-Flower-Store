@@ -2,6 +2,9 @@ package common;
 
 import javafx.application.Application;
 import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
@@ -24,7 +27,8 @@ public class MainClient extends Application {
 		        if(Context.cc!=null)
 		        	Context.cc.quit();
 		    }
-		});
+		});		
+		Context.addGUI(main.getClass(), arg0);
 		main.start(arg0);
 	}
 }

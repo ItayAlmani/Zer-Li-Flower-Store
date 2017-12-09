@@ -18,7 +18,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-public class MainMenuGUIController extends ParentGUIController implements Initializable{
+public class MainMenuGUIController extends ParentGUIController{
 	
 	@FXML
 	private Button btnProducts;
@@ -27,16 +27,8 @@ public class MainMenuGUIController extends ParentGUIController implements Initia
 		if(Context.cc.isConnected()==false)
 			setServerUnavailable();
 		else {
-			/*Stage primaryStage = new Stage();
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/fxmls/ProductsFormGUI.fxml"));
-			Pane root;*/
 			try {
-				/*root = loader.load();
-				((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
-				Scene scene = new Scene(root);
-				primaryStage.setScene(scene);		
-				primaryStage.show();*/
-				loadWindows(event, "ProductsFormGUI", false);
+				loadGUI(event, "ProductsFormGUI", false, new ProductsFormGUIController().getClass());
 			} catch (Exception e) {
 				lblMsg.setText("Loader failed");
 				e.printStackTrace();
@@ -45,38 +37,12 @@ public class MainMenuGUIController extends ParentGUIController implements Initia
 	}
 	
 	public void showConnectionGUI(ActionEvent event) throws Exception{
-		((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
-		Stage primaryStage = new Stage();
-		Pane root = FXMLLoader.load(getClass().getResource("/gui/fxmls/ConnectionConfigGUI.fxml"));
-		
-		Scene scene = new Scene(root);
-		primaryStage.setScene(scene);		
-		primaryStage.show();
-	}
-	
-	public void start(Stage primaryStage) throws Exception {	
-		Parent root = FXMLLoader.load(getClass().getResource("/gui/fxmls/MainMenuGUI.fxml"));
-				
-		Scene scene = new Scene(root);
-		primaryStage.setTitle("Prototype");
-		primaryStage.setScene(scene);
-		
-		primaryStage.show();
-	}
-
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-		Context.CurrentGUI = this;
-		if(Context.cc==null || Context.cc.isConnected()==false) {
-			try {
-				
-				Context.connectToServer();
-			} catch (IOException e) {
-				setServerUnavailable();
-			}
+		try {
+			loadGUI(event, "ConnectionConfigGUI", false, new ConnectionConfigGUIController().getClass());
+		} catch (Exception e) {
+			lblMsg.setText("Loader failed");
+			e.printStackTrace();
 		}
-		if(Context.cc!=null && Context.cc.isConnected()==true)
-			setServerAvailable();
 	}
 	
 	public void setServerUnavailable() {
@@ -99,22 +65,28 @@ public class MainMenuGUIController extends ParentGUIController implements Initia
 			}
 		});
 	}
-	
-	public void ShowErrorMsg() {
-		Platform.runLater(new Runnable() {
-			@Override
-			public void run() {
-				lblMsg.setText("Error");
-			}
-		});
+		
+	public void start(Stage stage) throws IOException {
+		Parent root = FXMLLoader.load(getClass().getResource("/gui/fxmls/MainMenuGUI.fxml"));
+		Scene scene = new Scene(root);
+		stage.setTitle("Main Menu");
+		stage.setScene(scene);
+		stage.show();
 	}
-
-	public void ShowSuccessMsg() {
-		Platform.runLater(new Runnable() {
-			@Override
-			public void run() {
-				lblMsg.setText("Success");
+	
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		super.initialize(location, resources);
+		Context.CurrentGUI = this;
+		if(Context.cc==null || Context.cc.isConnected()==false) {
+			try {
+				
+				Context.connectToServer();
+			} catch (IOException e) {
+				setServerUnavailable();
 			}
-		});
+		}
+		if(Context.cc!=null && Context.cc.isConnected()==true)
+			setServerAvailable();
 	}
 }

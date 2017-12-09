@@ -40,7 +40,7 @@ public class ClientConsole extends AbstractClient {
 	public void quit() {
 		try {
 			closeConnection();
-		} catch (IOException e) {System.err.println("Can't quit Client!!\n");}
+		} catch (IOException e) {System.err.println("Can't close Client connection!!\n");}
 		System.exit(0);
 	}
 	

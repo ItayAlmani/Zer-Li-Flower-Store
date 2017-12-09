@@ -3,7 +3,13 @@ package common;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Scanner;
+import java.util.Map.Entry;
+
+import gui.controllers.MainMenuGUIController;
+import javafx.stage.Stage;
 
 public class Context {
 	public static int DEFAULT_PORT = 5555;
@@ -14,6 +20,7 @@ public class Context {
 	
 	public static ClientConsole cc = null;
 	public static Object CurrentGUI = null;
+	private static HashMap<Class<? extends Object>,Stage> AllGUIs = new HashMap();
 	
 	public static void connectToServer() throws IOException{
 		int serSuccessFlag = 0;		//will be 1 if updateDB(args) succeeded
@@ -79,5 +86,22 @@ public class Context {
 		output.println("Host: "+DEFAULT_HOST);
 		output.println("Port: "+DEFAULT_PORT);
 		output.close();
+	}
+
+	public static void addGUI(Class<? extends Object> clss, Stage s) {
+		AllGUIs.put(clss, s);
+	}
+	
+	public static Stage getStageByGUIController(Class<? extends Object> clss) {
+		for (Entry<Class<? extends Object>, Stage> entry : AllGUIs.entrySet())
+			if(entry.getKey()==clss)
+				return entry.getValue();
+		return null;
+	}
+	
+	public static void quitAllGUIs() {
+		for (Entry<Class<? extends Object>, Stage> entry : AllGUIs.entrySet()) {
+			entry.getValue().close();
+		}
 	}
 }

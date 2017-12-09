@@ -3,6 +3,7 @@ package gui.controllers;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Map.Entry;
 import java.util.ResourceBundle;
 
 import common.*;
@@ -21,7 +22,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-public class ConnectionConfigGUIController extends ParentGUIController implements Initializable {
+public class ConnectionConfigGUIController extends ParentGUIController{
 	
 	@FXML
 	private TextField txtHost,txtPort,txtName,txtUrl,txtUserName,txtPassword;
@@ -29,33 +30,8 @@ public class ConnectionConfigGUIController extends ParentGUIController implement
 	@FXML
 	private Button btnUpdateServer, btnUpdateDB,btnBack;
 	
-	@FXML
-	private Label lblDBMsg,lblServerMsg;
-	
 	private String host,dbUrl, dbName, dbUserName, dbPassword;
 	private Integer port;
-
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-		Context.CurrentGUI = this;
-		ClientServerController csc = new ClientServerController(this);
-		
-		if(Context.cc !=null && Context.cc.isConnected()==true) {
-			this.host=Context.cc.getHost();
-			this.port=Context.cc.getPort();
-			this.txtHost.setText(this.host);
-			this.txtPort.setText(this.port.toString());
-			try {
-				csc.askDBDataFromServer();
-			} catch (IOException e) {
-				lblDBMsg.setText("Cant show data.\nServer disconnected");
-			}
-		}
-		else {
-			lblServerMsg.setText("Connection failed!");
-			lblDBMsg.setText("Can't show data.");
-		}
-	}
 	
 	public void setDBDataInGUI(ArrayList<String> dbData) {
 		if(dbData!=null) {
@@ -71,13 +47,7 @@ public class ConnectionConfigGUIController extends ParentGUIController implement
 	}
 	
 	public void back(ActionEvent event) throws Exception {
-		((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
-		Stage primaryStage = new Stage();
-		Pane root = FXMLLoader.load(getClass().getResource("/gui/fxmls/MainMenuGUI.fxml"));
-		
-		Scene scene = new Scene(root);
-		primaryStage.setScene(scene);		
-		primaryStage.show();
+		loadMainMenu(event);
 	}
 	
 	public void updateServer(ActionEvent event) {
@@ -88,13 +58,13 @@ public class ConnectionConfigGUIController extends ParentGUIController implement
 		if(port!=null&&host!=null) {
 			try {
 				Context.connectToServer(host, port);
-				lblServerMsg.setText("Connected successfully");
+				ShowSuccessMsg();
 			} catch (IOException e) {
-				lblServerMsg.setText("Failed to connect!");
+				ShowErrorMsg();
 			}
 		}
 		else
-			lblServerMsg.setText("Enter data");
+			ShowErrorMsg();
 	}
 	
 	public void updateDB(ActionEvent event) {
@@ -115,33 +85,33 @@ public class ConnectionConfigGUIController extends ParentGUIController implement
 			try {
 				csc.askSetDBData(new DataBase(dbUrl, dbName, dbUserName, dbPassword));
 			} catch (IOException e) {
-				lblDBMsg.setText("Error");
+				ShowErrorMsg();
 				System.err.println("Error in ConnConfigGUIController, on askSetDBData() in updateDB.\n");
 				e.printStackTrace();
 			}
-			lblDBMsg.setText("Updated");
 		}
 		else
-			lblDBMsg.setText("Enter data");
-	}
-
+			ShowErrorMsg();
+	}	
 	@Override
-	public void ShowErrorMsg() {
-		Platform.runLater(new Runnable() {
-			@Override
-			public void run() {
-				lblDBMsg.setText("Error");
+	public void initialize(URL location, ResourceBundle resources) {
+		super.initialize(location, resources);
+		Context.CurrentGUI = this;
+		ClientServerController csc = new ClientServerController(this);
+		
+		if(Context.cc !=null && Context.cc.isConnected()==true) {
+			this.host=Context.cc.getHost();
+			this.port=Context.cc.getPort();
+			this.txtHost.setText(this.host);
+			this.txtPort.setText(this.port.toString());
+			try {
+				csc.askDBDataFromServer();
+			} catch (IOException e) {
+				ShowErrorMsg();
 			}
-		});
-	}
-	
-	@Override
-	public void ShowSuccessMsg() {
-		Platform.runLater(new Runnable() {
-			@Override
-			public void run() {
-				lblDBMsg.setText("Success");
-			}
-		});
+		}
+		else {
+			ShowErrorMsg();
+		}
 	}
 }

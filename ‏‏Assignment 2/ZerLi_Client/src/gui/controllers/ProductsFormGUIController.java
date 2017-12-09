@@ -25,7 +25,7 @@ import common.*;
 import controllers.ClientServerController;
 import entities.Product;
 
-public class ProductsFormGUIController extends ParentGUIController implements Initializable{
+public class ProductsFormGUIController extends ParentGUIController{
 
 	@FXML
 	private ComboBox cmbProducts;
@@ -64,11 +64,10 @@ public class ProductsFormGUIController extends ParentGUIController implements In
 			serverDown(event);
 			return;
 		}
+		FXMLLoader loader = null;
 		Stage primaryStage = new Stage();
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/fxmls/ProductViewGUI.fxml"));
+		loader = new FXMLLoader(getClass().getResource("/gui/fxmls/ProductViewGUI.fxml"));
 		Pane root = loader.load();
-		
-		
 		Product prd = null;
 		ProductViewGUIController productViewGUIController = loader.getController();
 		if(cmbProducts.getValue()!=null) {
@@ -84,14 +83,15 @@ public class ProductsFormGUIController extends ParentGUIController implements In
 				Scene scene = new Scene(root);	
 				scene.getStylesheets().add(getClass().getResource("/gui/css/ProductViewGUI.css").toExternalForm());
 				
-				primaryStage.setScene(scene);		
-				primaryStage.show();
+				primaryStage.setScene(scene);
 			}
 		}
+		primaryStage.show();
 	}
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		super.initialize(location, resources);
 		Context.CurrentGUI = this;
 		
 		setProductsComboBox();

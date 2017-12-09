@@ -21,7 +21,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.event.ActionEvent;
 
-public class ProductViewGUIController extends ParentGUIController implements Initializable{
+public class ProductViewGUIController extends ParentGUIController{
 
 	private Product p;
 	
@@ -47,11 +47,6 @@ public class ProductViewGUIController extends ParentGUIController implements Ini
 		this.lblShowType.setText(p.getType().toString());
 		this.txtShowName.setText(p.getName());
 	}
-
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-		Context.CurrentGUI = this;
-	}
 	
 	public void updateName(ActionEvent event) throws Exception {
 		if(Context.cc.isConnected()==false)
@@ -66,23 +61,16 @@ public class ProductViewGUIController extends ParentGUIController implements Ini
 	}
 	
 	public void backToAllProducts(ActionEvent event) throws Exception {
-		((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
-		Stage primaryStage = new Stage();
-		Pane root = FXMLLoader.load(getClass().getResource("/gui/fxmls/ProductsFormGUI.fxml"));
-		
-		Scene scene = new Scene(root);
-		primaryStage.setScene(scene);		
-		primaryStage.show();
+		loadGUI(event, "ProductsFormGUI", false, new ProductsFormGUIController().getClass());
 	}
+	
 	public void backToMainMenu(ActionEvent event) throws Exception {
-		((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
-		Stage primaryStage = new Stage();
-		Pane root = FXMLLoader.load(getClass().getResource("/gui/fxmls/MainMenuGUI.fxml"));
-		
-		Scene scene = new Scene(root);
-		primaryStage.setScene(scene);		
-		primaryStage.show();
+		loadMainMenu(event);
 	}
 
-	
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		super.initialize(location, resources);
+		Context.CurrentGUI = this;
+	}
 }
