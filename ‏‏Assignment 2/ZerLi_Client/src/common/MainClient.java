@@ -28,7 +28,7 @@ public class MainClient extends Application {
 		        	Context.cc.quit();
 		    }
 		});		
-		Context.addGUI(main.getClass(), arg0);
+		//Context.addGUI(main.getClass(), arg0);
 		main.start(arg0);
 	}
 }

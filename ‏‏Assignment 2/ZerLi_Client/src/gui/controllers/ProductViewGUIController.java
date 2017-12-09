@@ -61,7 +61,7 @@ public class ProductViewGUIController extends ParentGUIController{
 	}
 	
 	public void backToAllProducts(ActionEvent event) throws Exception {
-		loadGUI(event, "ProductsFormGUI", false, new ProductsFormGUIController().getClass());
+		loadGUI(event, "ProductsFormGUI", false);
 	}
 	
 	public void backToMainMenu(ActionEvent event) throws Exception {

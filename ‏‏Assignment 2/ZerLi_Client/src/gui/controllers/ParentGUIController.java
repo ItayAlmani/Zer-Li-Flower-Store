@@ -1,18 +1,12 @@
 package gui.controllers;
 
-import java.awt.event.ActionListener;
-import java.io.IOException;
-import java.io.Serializable;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 import common.Context;
-import common.MainClient;
-import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -22,7 +16,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 
 public abstract class ParentGUIController implements Initializable {
 
@@ -39,8 +32,10 @@ public abstract class ParentGUIController implements Initializable {
 	private boolean serverConnected = true;
 
 	public void ExitProg() {
-		Context.quitAllGUIs();
-		Context.cc.quit();
+		if(Context.cc!=null)
+			Context.cc.quit();
+		else
+			System.exit(0);
 	}
 	
 	public void ShowErrorMsg() {
@@ -48,7 +43,7 @@ public abstract class ParentGUIController implements Initializable {
 		changed=true;
 	}
 
-	public synchronized void ShowSuccessMsg() {
+	public void ShowSuccessMsg() {
 		lblMsgState=true;
 		changed=true;
 	}
@@ -71,7 +66,7 @@ public abstract class ParentGUIController implements Initializable {
 			@Override
 			public void run() {
 				try {
-					loadGUI(event, "MainMenuGUI", false, new MainMenuGUIController().getClass());
+					loadGUI(event, "MainMenuGUI", false);
 				} catch (Exception e) {
 					lblMsg.setText("Loader failed");
 					e.printStackTrace();
@@ -90,35 +85,24 @@ public abstract class ParentGUIController implements Initializable {
 		primaryStage.show();
 	}
 
-	protected void loadGUI(ActionEvent event, String name, 
-			boolean withCSS, Class<? extends Object> clss) throws Exception{
+	protected void loadGUI(ActionEvent event, String name, boolean withCSS) throws Exception{
 		if(event!=null)
 			((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
 		
 		Stage primaryStage = null;
 		FXMLLoader loader = null;
-		primaryStage = Context.getStageByGUIController(clss);
+		primaryStage = new Stage();
+		loader = new FXMLLoader(getClass().getResource("/gui/fxmls/"+name+".fxml"));
+		Pane root = loader.load();
 		
-		if(primaryStage!=null)		{//if null, this is the first call for %name%.fxml
-			loader = (FXMLLoader) primaryStage.getScene().getUserData();
-			primaryStage.show();
-		}
-		else {
-			primaryStage = new Stage();
-			loader = new FXMLLoader(getClass().getResource("/gui/fxmls/"+name+".fxml"));
-			Pane root = loader.load();
-			loader.setRoot(root);
-			
-			Scene scene = new Scene(root);
-			
-			if(withCSS==true)
-				scene.getStylesheets().add(getClass().getResource("/gui/css/"+name+".css").toExternalForm());
-			scene.setUserData(loader);
-			
-			primaryStage.setScene(scene);
-			primaryStage.setTitle(name.split("GUI")[0].trim());
-			Context.addGUI(clss, primaryStage);
-		}
+		Scene scene = new Scene(root);
+		
+		if(withCSS==true)
+			scene.getStylesheets().add(getClass().getResource("/gui/css/"+name+".css").toExternalForm());
+		scene.setUserData(loader);
+		
+		primaryStage.setScene(scene);
+		primaryStage.setTitle(name.split("GUI")[0].trim());
 		if(lblMsgState!=null) {
 			changed=true;
 			lblMsgState=null;
@@ -128,7 +112,7 @@ public abstract class ParentGUIController implements Initializable {
 	
 	protected void loadMainMenu(ActionEvent event) {
 		try {
-			loadGUI(event, "MainMenuuGUI", false, new MainMenuGUIController().getClass());
+			loadGUI(event, "MainMenuGUI", false);
 		} catch (Exception e) {
 			System.err.println("Loader failed");
 			e.printStackTrace();
@@ -145,10 +129,14 @@ public abstract class ParentGUIController implements Initializable {
 			        public void run() {
 			        	/*will change when Server sends answer*/
 			        	if(changed==true && lblMsgState!=null && lblMsg!=null) {
-			        		if(lblMsgState==true)
+			        		if(lblMsgState==true) {
 								lblMsg.setText("Success");
-							else if(lblMsgState==true)
+								lblMsg.setTextFill(javafx.scene.paint.Color.color(Math.random(), Math.random(), Math.random()));
+			        		}
+							else if(lblMsgState==false) {
 								lblMsg.setText("Error");
+								lblMsg.setTextFill(javafx.scene.paint.Color.color(Math.random(), Math.random(), Math.random()));
+							}
 							changed=false;
 			        	}
 			        }

@@ -20,7 +20,7 @@ public class Context {
 	
 	public static ClientConsole cc = null;
 	public static Object CurrentGUI = null;
-	private static HashMap<Class<? extends Object>,Stage> AllGUIs = new HashMap();
+	/*private static HashMap<Class<? extends Object>,Stage> AllGUIs = new HashMap();*/
 	
 	public static void connectToServer() throws IOException{
 		int serSuccessFlag = 0;		//will be 1 if updateDB(args) succeeded
@@ -70,6 +70,7 @@ public class Context {
 		if(serSuccessFlag==0) {	//db data corrupted 
 			try {
 				cc = new ClientConsole(DEFAULT_HOST,DEFAULT_PORT);
+				throw new IOException();
 			} catch (IOException e) {
 				System.err.println("\nDefault Server data is wrong!\nGo to Context to fix it!\n");
 				throw e;
@@ -88,7 +89,7 @@ public class Context {
 		output.close();
 	}
 
-	public static void addGUI(Class<? extends Object> clss, Stage s) {
+	/*public static void addGUI(Class<? extends Object> clss, Stage s) {
 		AllGUIs.put(clss, s);
 	}
 	
@@ -103,5 +104,5 @@ public class Context {
 		for (Entry<Class<? extends Object>, Stage> entry : AllGUIs.entrySet()) {
 			entry.getValue().close();
 		}
-	}
+	}*/
 }
