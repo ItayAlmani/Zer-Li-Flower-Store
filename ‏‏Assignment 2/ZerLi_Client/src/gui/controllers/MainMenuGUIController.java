@@ -67,8 +67,8 @@ public class MainMenuGUIController extends ParentGUIController{
 	}
 		
 	public void start(Stage stage) throws IOException {
-		Parent root = FXMLLoader.load(getClass().getResource("/gui/fxmls/MainMenuGUI.fxml"));
-		Scene scene = new Scene(root);
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/fxmls/MainMenuGUI.fxml"));
+		Scene scene = new Scene(loader.load());
 		stage.setTitle("Main Menu");
 		stage.setScene(scene);
 		stage.show();

@@ -5,6 +5,7 @@ import java.util.ResourceBundle;
 
 import common.Context;
 import javafx.application.Platform;
+import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -14,21 +15,18 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public abstract class ParentGUIController implements Initializable {
 
-	@FXML
-	protected Button btnExit;
-
-	@FXML
-	protected Label lblMsg;
+	protected @FXML Button btnExit;
+	protected @FXML Label lblMsg;
 	
 	protected Boolean lblMsgState = null, changed = false;
-	
 	private Thread th = null;
-	
 	private boolean serverConnected = true;
 
 	public void ExitProg() {
@@ -75,31 +73,14 @@ public abstract class ParentGUIController implements Initializable {
 		});
 	}
 
-	public void backToMainMenu(ActionEvent event) throws Exception {
-		((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
-		Stage primaryStage = new Stage();
-		Pane root = FXMLLoader.load(getClass().getResource("/gui/fxmls/MainMenuGUI.fxml"));
-		
-		Scene scene = new Scene(root);
-		primaryStage.setScene(scene);		
-		primaryStage.show();
-	}
-
-	protected void loadGUI(ActionEvent event, String name, boolean withCSS) throws Exception{
-		if(event!=null)
-			((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
-		
-		Stage primaryStage = null;
-		FXMLLoader loader = null;
-		primaryStage = new Stage();
-		loader = new FXMLLoader(getClass().getResource("/gui/fxmls/"+name+".fxml"));
+	protected void loadGUI(ActionEvent event, String name, boolean withCSS) throws Exception{		
+		Stage primaryStage = Context.stage;
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/fxmls/"+name+".fxml"));
 		Pane root = loader.load();
-		
 		Scene scene = new Scene(root);
 		
 		if(withCSS==true)
 			scene.getStylesheets().add(getClass().getResource("/gui/css/"+name+".css").toExternalForm());
-		scene.setUserData(loader);
 		
 		primaryStage.setScene(scene);
 		primaryStage.setTitle(name.split("GUI")[0].trim());
@@ -110,7 +91,7 @@ public abstract class ParentGUIController implements Initializable {
 		primaryStage.show();
 	}
 	
-	protected void loadMainMenu(ActionEvent event) {
+	public void loadMainMenu(ActionEvent event) {
 		try {
 			loadGUI(event, "MainMenuGUI", false);
 		} catch (Exception e) {

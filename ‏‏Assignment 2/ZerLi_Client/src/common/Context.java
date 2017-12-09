@@ -20,7 +20,7 @@ public class Context {
 	
 	public static ClientConsole cc = null;
 	public static Object CurrentGUI = null;
-	/*private static HashMap<Class<? extends Object>,Stage> AllGUIs = new HashMap();*/
+	public static Stage stage = null;
 	
 	public static void connectToServer() throws IOException{
 		int serSuccessFlag = 0;		//will be 1 if updateDB(args) succeeded

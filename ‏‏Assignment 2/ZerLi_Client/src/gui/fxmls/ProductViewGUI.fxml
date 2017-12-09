@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<AnchorPane id="anocherProductView" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controllers.ProductViewGUIController">
+<AnchorPane id="anocherProductView" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controllers.ProductViewGUIController">
 	<children>
 		<Label id="lblStageTitle" alignment="CENTER" layoutX="98.0" layoutY="5.0" text="Product Name Editor" />
 		<GridPane id="gpProductView" alignment="TOP_CENTER" layoutX="-1.0" layoutY="25.0" nodeOrientation="LEFT_TO_RIGHT">

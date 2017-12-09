@@ -64,9 +64,8 @@ public class ProductsFormGUIController extends ParentGUIController{
 			serverDown(event);
 			return;
 		}
-		FXMLLoader loader = null;
-		Stage primaryStage = new Stage();
-		loader = new FXMLLoader(getClass().getResource("/gui/fxmls/ProductViewGUI.fxml"));
+		Stage primaryStage = Context.stage;
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/fxmls/ProductViewGUI.fxml"));
 		Pane root = loader.load();
 		Product prd = null;
 		ProductViewGUIController productViewGUIController = loader.getController();
@@ -78,7 +77,6 @@ public class ProductsFormGUIController extends ParentGUIController{
 				}
 			}
 			if(prd!=null) {
-				((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
 				productViewGUIController.loadProduct(prd);
 				Scene scene = new Scene(root);	
 				scene.getStylesheets().add(getClass().getResource("/gui/css/ProductViewGUI.css").toExternalForm());
