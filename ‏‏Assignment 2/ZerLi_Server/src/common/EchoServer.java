@@ -49,7 +49,7 @@ public class EchoServer extends AbstractServer {
 			if(msg instanceof CSMessage) {
 				client.sendToClient(setMessageToClient((CSMessage)msg));
 			}
-		} catch (IOException e) {
+		} catch (Exception e) {
 			if(msg instanceof CSMessage) {
 				CSMessage csMsg = (CSMessage)msg;
 				csMsg.setObjs(new ArrayList<>());
@@ -59,13 +59,14 @@ public class EchoServer extends AbstractServer {
 		}
 	}
 	
-	private CSMessage setMessageToClient(CSMessage csMsg) {
+	private CSMessage setMessageToClient(CSMessage csMsg) throws Exception{
 		MessageType msgType = csMsg.getType();
 		ArrayList<Object> objArr = csMsg.getObjs();
 		
 		if(msgType.equals(MessageType.SELECT) || msgType.equals(MessageType.UPDATE)) {
-			if(csMsg.getObjs().size() == 1 && objArr.get(0) instanceof String) {
+			if(objArr.size() == 1 && objArr.get(0) instanceof String) {
 				String query = (String) objArr.get(0);
+				objArr.clear();
 				
 				/*-------SELECT queries from DB-------*/
 				if(msgType.equals(MessageType.SELECT))
@@ -73,11 +74,13 @@ public class EchoServer extends AbstractServer {
 				
 				/*-------UPDATE queries from DB-------*/
 				else {
-					if(objArr!=null)	objArr.clear();
-					else				objArr = new ArrayList<>();
 					objArr.add(Factory.db.setQuery(query));
 					csMsg.setObjs(objArr);
 				}
+			}
+			else {
+				System.err.println("Not query");
+				throw new Exception();
 			}
 		}
 		else if(msgType.equals(MessageType.DBData)) {

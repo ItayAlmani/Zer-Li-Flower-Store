@@ -12,65 +12,70 @@ import gui.controllers.*;
  * The connector between the GUI to the <code>ClientConsole</code>
  */
 public class ClientServerController {
-	private ArrayList<Object> myMsgArr;
+	private static ArrayList<Object> myMsgArr = new ArrayList<>();
+	
+	public static void parseMessage(CSMessage csMsg) {
+		MessageType msgType = csMsg.getType();
 
-	public ClientServerController(Object gui) {
-		super();
-		myMsgArr = new ArrayList<>();
-	}
+		/*------------------SELECT queries from DB------------------*/
+		if (msgType.equals(MessageType.SELECT)) {
+			if (Context.CurrentGUI instanceof ProductsFormGUIController) {
+				if(csMsg.getClasz().equals(Product.class)) {
+					ProductController.handleGetProducts(csMsg.getObjs());
+				}
+			}
+		}
 
-	public void askProductsFromServer() throws IOException {
-		myMsgArr.clear();
-		myMsgArr.add("SELECT * FROM product;");
-		Context.cc.handleMessageFromClientUI(new CSMessage(MessageType.SELECT,myMsgArr), this);
+		/*------------------UPDATE queries from DB------------------*/
+		else if (msgType.equals(MessageType.UPDATE)) {
+			if (csMsg.getObjs().get(0) instanceof Boolean)
+				ParentController.sendResultToClient((boolean) csMsg.getObjs().get(0));
+		}
+
+		/*------------------get DB data from Server------------------*/
+		else if (msgType.equals(MessageType.DBData)) {
+			handleDBData(csMsg.getObjs());
+		}
+		
+		/*--------------------exception caught----------------------*/
+		else if (msgType.equals(MessageType.Exception)) {
+			ParentController.sendResultToClient(false);
+		}
+		
+		else if(msgType.equals(MessageType.SetDB)) {
+			if (csMsg.getObjs().get(0) instanceof Boolean)
+				ParentController.sendResultToClient((boolean) csMsg.getObjs().get(0));
+		}
 	}
 	
-	public void askUpdateProductFromServer(Product p) throws IOException {
-		myMsgArr.clear();
-		myMsgArr.add(String.format(
-				"UPDATE product SET productID = '%d',productName='%s',productType='%s'"
-				+ "WHERE productID=%d;",p.getId(),p.getName(),p.getType(),p.getId()));
-		Context.cc.handleMessageFromClientUI(new CSMessage(MessageType.UPDATE,myMsgArr), this);
+	public static void askDBDataFromServer() throws IOException {
+		Context.cc.handleMessageFromClientUI(new CSMessage(MessageType.DBData,null));
 	}
 	
-	public void askDBDataFromServer() throws IOException {
-		Context.cc.handleMessageFromClientUI(new CSMessage(MessageType.DBData,null), this);
-	}
-	
-	public void askSetDBData(DataBase db) throws IOException {
+	public static void askSetDBData(DataBase db) throws IOException {
 		myMsgArr.add(db.getDbUrl());
 		myMsgArr.add(db.getDbName());
 		myMsgArr.add(db.getDbUserName());
 		myMsgArr.add(db.getDbPassword());
-		Context.cc.handleMessageFromClientUI(new CSMessage(MessageType.SetDB,myMsgArr), this);
+		Context.cc.handleMessageFromClientUI(new CSMessage(MessageType.SetDB,myMsgArr));
 	}
 	
-	public void sendDBDataToClient(ArrayList<String> dbData) {
+	public static void sendDBDataToClient(ArrayList<String> dbData) {
 		if(Context.CurrentGUI instanceof ConnectionConfigGUIController) {
 			((ConnectionConfigGUIController)Context.CurrentGUI).setDBDataInGUI(dbData);
 		}
 	}
-	
-	public void sendProductsToClient(ArrayList<Product> prds) {
-		if(Context.CurrentGUI instanceof ProductsFormGUIController)
-			((ProductsFormGUIController)Context.CurrentGUI).updateCB(prds);
-	}
 
-	public void sendResultToClient(boolean response) {
-		if(response==true)	((ParentGUIController)Context.CurrentGUI).ShowSuccessMsg();
-		else				((ParentGUIController)Context.CurrentGUI).ShowErrorMsg();
-	}
-	
-	public Product parsingTheData(int id, String name, String type) {
-		Product p = new Product(id, name);
-		switch (type.toLowerCase()) {
-		case "bouqute":
-			p.setType(ProductType.Bouqute);
-			break;
-		default:
-			p.setType(ProductType.Empty);
-			break;
+	/**
+	 * Sending the data base details to the client,
+	 * after checking that the whole ArrayList has only String object.
+	 * @param objArr - the data base details: [0]-Url,[1]-Name,[2]-UserName,[3]-Password
+	 */
+	private static void handleDBData(ArrayList<?> objArr) {
+		for (Object object : objArr) {
+			if(object instanceof String == false)
+				ParentController.sendResultToClient(false);
 		}
-		return p;
+		sendDBDataToClient((ArrayList<String>) objArr);
 	}
 }

@@ -64,7 +64,7 @@ public abstract class ParentGUIController implements Initializable {
 			@Override
 			public void run() {
 				try {
-					loadGUI(event, "MainMenuGUI", false);
+					loadGUI("MainMenuGUI", false);
 				} catch (Exception e) {
 					lblMsg.setText("Loader failed");
 					e.printStackTrace();
@@ -73,7 +73,7 @@ public abstract class ParentGUIController implements Initializable {
 		});
 	}
 
-	protected void loadGUI(ActionEvent event, String name, boolean withCSS) throws Exception{		
+	protected void loadGUI(String name, boolean withCSS) throws Exception{		
 		Stage primaryStage = Context.stage;
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/fxmls/"+name+".fxml"));
 		Pane root = loader.load();
@@ -93,7 +93,7 @@ public abstract class ParentGUIController implements Initializable {
 	
 	public void loadMainMenu(ActionEvent event) {
 		try {
-			loadGUI(event, "MainMenuGUI", false);
+			loadGUI("MainMenuGUI", false);
 		} catch (Exception e) {
 			System.err.println("Loader failed");
 			e.printStackTrace();

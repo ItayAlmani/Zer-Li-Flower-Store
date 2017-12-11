@@ -81,9 +81,8 @@ public class ConnectionConfigGUIController extends ParentGUIController{
 			dbPassword=txtPassword.getText();
 		
 		if(dbUrl!=null && dbName!=null && dbUserName!=null&&dbPassword!=null) {
-			ClientServerController csc = new ClientServerController(this);
 			try {
-				csc.askSetDBData(new DataBase(dbUrl, dbName, dbUserName, dbPassword));
+				ClientServerController.askSetDBData(new DataBase(dbUrl, dbName, dbUserName, dbPassword));
 			} catch (IOException e) {
 				ShowErrorMsg();
 				System.err.println("Error in ConnConfigGUIController, on askSetDBData() in updateDB.\n");
@@ -96,16 +95,14 @@ public class ConnectionConfigGUIController extends ParentGUIController{
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		super.initialize(location, resources);
-		Context.CurrentGUI = this;
-		ClientServerController csc = new ClientServerController(this);
-		
+		Context.CurrentGUI = this;		
 		if(Context.cc !=null && Context.cc.isConnected()==true) {
 			this.host=Context.cc.getHost();
 			this.port=Context.cc.getPort();
 			this.txtHost.setText(this.host);
 			this.txtPort.setText(this.port.toString());
 			try {
-				csc.askDBDataFromServer();
+				ClientServerController.askDBDataFromServer();
 			} catch (IOException e) {
 				ShowErrorMsg();
 			}

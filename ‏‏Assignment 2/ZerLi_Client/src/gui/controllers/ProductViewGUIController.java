@@ -13,6 +13,7 @@ import java.util.ResourceBundle;
 
 import common.*;
 import controllers.ClientServerController;
+import controllers.ProductController;
 import entities.Product;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
@@ -54,14 +55,13 @@ public class ProductViewGUIController extends ParentGUIController{
 		if(txtShowName.getText()!=null) {
 			if(txtShowName.getText().equals(p.getName())==false) {//Name changed
 				p.setName(txtShowName.getText());
-				ClientServerController csc = new ClientServerController(this);
-				csc.askUpdateProductFromServer(p);
+				ProductController.askUpdateProductFromServer(p);
 			}
 		}
 	}
 	
 	public void backToAllProducts(ActionEvent event) throws Exception {
-		loadGUI(event, "ProductsFormGUI", false);
+		loadGUI("ProductsFormGUI", false);
 	}
 	
 	public void backToMainMenu(ActionEvent event) throws Exception {

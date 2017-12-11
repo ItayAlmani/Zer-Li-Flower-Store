@@ -19,7 +19,7 @@ public class DataBase{
 		this.con = connectToDB(dbUrl, dbName, dbUserName, dbPassword);
 	}
 	
-	public ArrayList<Object> getQuery(String query) {
+	public ArrayList<Object> getQuery(String query) throws Exception {
 		Statement stmt;
 		try {
 			stmt = Factory.db.con.createStatement();

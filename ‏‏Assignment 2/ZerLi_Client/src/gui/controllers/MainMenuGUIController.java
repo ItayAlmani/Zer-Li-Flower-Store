@@ -28,7 +28,7 @@ public class MainMenuGUIController extends ParentGUIController{
 			setServerUnavailable();
 		else {
 			try {
-				loadGUI(event, "ProductsFormGUI", false);
+				loadGUI("ProductsFormGUI", false);
 			} catch (Exception e) {
 				lblMsg.setText("Loader failed");
 				e.printStackTrace();
@@ -38,7 +38,7 @@ public class MainMenuGUIController extends ParentGUIController{
 	
 	public void showConnectionGUI(ActionEvent event) throws Exception{
 		try {
-			loadGUI(event, "ConnectionConfigGUI", false);
+			loadGUI("ConnectionConfigGUI", false);
 		} catch (Exception e) {
 			lblMsg.setText("Loader failed");
 			e.printStackTrace();

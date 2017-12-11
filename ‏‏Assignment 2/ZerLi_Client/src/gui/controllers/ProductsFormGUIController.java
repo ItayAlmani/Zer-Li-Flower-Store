@@ -23,6 +23,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import common.*;
 import controllers.ClientServerController;
+import controllers.ProductController;
 import entities.Product;
 
 public class ProductsFormGUIController extends ParentGUIController{
@@ -39,9 +40,8 @@ public class ProductsFormGUIController extends ParentGUIController{
 	ObservableList<String> list;
 
 	private void setProductsComboBox() {
-		ClientServerController csc = new ClientServerController(this);
 		try {
-			csc.askProductsFromServer();
+			ProductController.askProductsFromServer();
 		} catch (IOException e) {
 			System.err.println("ProdForm\n");
 			e.printStackTrace();
