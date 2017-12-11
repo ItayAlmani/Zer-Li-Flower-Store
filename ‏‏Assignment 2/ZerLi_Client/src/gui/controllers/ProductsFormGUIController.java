@@ -22,7 +22,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import common.*;
-import controllers.ClientServerController;
+import controllers.ClientController;
 import controllers.ProductController;
 import entities.Product;
 

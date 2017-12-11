@@ -12,7 +12,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import common.*;
-import controllers.ClientServerController;
+import controllers.ClientController;
 import controllers.ProductController;
 import entities.Product;
 import javafx.application.Platform;

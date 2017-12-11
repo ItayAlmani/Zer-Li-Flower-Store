@@ -4,7 +4,7 @@ package common;
 import java.io.*;
 import java.util.ArrayList;
 
-import controllers.ClientServerController;
+import controllers.ClientController;
 import controllers.ParentController;
 import entities.CSMessage;
 import entities.MessageType;
@@ -45,9 +45,8 @@ public class ClientConsole extends AbstractClient {
 	@Override
 	protected void handleMessageFromServer(Object msg) {
 		if (msg instanceof CSMessage)
-			ClientServerController.parseMessage((CSMessage) msg);
+			ClientController.parseMessage((CSMessage) msg);
 	}
-
 
 	/**
 	 * Will handle the message from the GUI in client side

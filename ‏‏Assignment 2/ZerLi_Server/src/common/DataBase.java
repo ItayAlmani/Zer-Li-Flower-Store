@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 import com.mysql.jdbc.ResultSetMetaData;
 
-import controllers.Factory;
+import controllers.ServerController;
 import entities.Product;
 
 public class DataBase{
@@ -22,7 +22,7 @@ public class DataBase{
 	public ArrayList<Object> getQuery(String query) throws Exception {
 		Statement stmt;
 		try {
-			stmt = Factory.db.con.createStatement();
+			stmt = ServerController.db.con.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			ArrayList<Object> objectArr = new ArrayList<>();
 			ResultSetMetaData rsmd = (ResultSetMetaData) rs.getMetaData();

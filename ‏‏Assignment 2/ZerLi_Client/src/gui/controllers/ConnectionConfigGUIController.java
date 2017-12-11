@@ -7,7 +7,7 @@ import java.util.Map.Entry;
 import java.util.ResourceBundle;
 
 import common.*;
-import controllers.ClientServerController;
+import controllers.ClientController;
 import entities.DataBase;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -82,7 +82,7 @@ public class ConnectionConfigGUIController extends ParentGUIController{
 		
 		if(dbUrl!=null && dbName!=null && dbUserName!=null&&dbPassword!=null) {
 			try {
-				ClientServerController.askSetDBData(new DataBase(dbUrl, dbName, dbUserName, dbPassword));
+				ClientController.askSetDBData(new DataBase(dbUrl, dbName, dbUserName, dbPassword));
 			} catch (IOException e) {
 				ShowErrorMsg();
 				System.err.println("Error in ConnConfigGUIController, on askSetDBData() in updateDB.\n");
@@ -102,7 +102,7 @@ public class ConnectionConfigGUIController extends ParentGUIController{
 			this.txtHost.setText(this.host);
 			this.txtPort.setText(this.port.toString());
 			try {
-				ClientServerController.askDBDataFromServer();
+				ClientController.askDBDataFromServer();
 			} catch (IOException e) {
 				ShowErrorMsg();
 			}

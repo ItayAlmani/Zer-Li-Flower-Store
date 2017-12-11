@@ -11,7 +11,7 @@ import gui.controllers.*;
 /**
  * The connector between the GUI to the <code>ClientConsole</code>
  */
-public class ClientServerController {
+public class ClientController {
 	private static ArrayList<Object> myMsgArr = new ArrayList<>();
 	
 	public static void parseMessage(CSMessage csMsg) {
