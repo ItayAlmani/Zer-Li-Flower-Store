@@ -66,6 +66,7 @@ public class ClientController {
 	 * @throws IOException - thrown when sending to Server failed.
 	 */
 	public static void askSetDBData(DataBase db) throws IOException {
+		myMsgArr.clear();
 		myMsgArr.add(db.getDbUrl());
 		myMsgArr.add(db.getDbName());
 		myMsgArr.add(db.getDbUserName());

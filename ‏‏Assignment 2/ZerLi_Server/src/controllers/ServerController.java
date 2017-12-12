@@ -19,8 +19,8 @@ public class ServerController {
 			dbUserName_default = "root", 
 			dbPassword_default = "1234";
 	
-	private static final String projectPath="C:\\Users\\izhar\\eclipse-github\\Zer-Li-Flower-Store\\þþAssignment 2\\ZerLi_Server\\src\\" ,
-			dbTxtPath="common\\DataBaseAddress.txt";
+	private static final String projectPath=System.getProperty("user.dir"),
+			dbTxtPath="\\src\\common\\DataBaseAddress.txt";
 	
 	public static CSMessage setMessageToClient(CSMessage csMsg) throws Exception{
 		MessageType msgType = csMsg.getType();

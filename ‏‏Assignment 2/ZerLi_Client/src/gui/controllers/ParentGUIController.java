@@ -73,8 +73,8 @@ public abstract class ParentGUIController implements Initializable {
 		
 		if(withCSS==true)
 			scene.getStylesheets().add(getClass().getResource("/gui/css/"+name+".css").toExternalForm());
-		else
-			scene.getStylesheets().add(getClass().getResource("/gui/css/ParentCSS.css").toExternalForm());
+		/*else
+			scene.getStylesheets().add(getClass().getResource("/gui/css/ParentCSS.css").toExternalForm());*/
 		
 		primaryStage.setScene(scene);
 		primaryStage.setTitle(name.split("GUI")[0].trim());

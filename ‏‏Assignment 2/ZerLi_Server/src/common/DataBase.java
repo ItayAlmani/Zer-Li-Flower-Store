@@ -21,7 +21,7 @@ public class DataBase{
 	public ArrayList<Object> getQuery(String query) throws Exception {
 		Statement stmt;
 		try {
-			stmt = ServerController.db.con.createStatement();
+			stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			ArrayList<Object> objectArr = new ArrayList<>();
 			ResultSetMetaData rsmd = (ResultSetMetaData) rs.getMetaData();
@@ -55,7 +55,7 @@ public class DataBase{
 		try {
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
 		} catch (Exception ex) {
-			/* handle the error */
+			ex.printStackTrace();
 		}
 		conn = DriverManager.getConnection("jdbc:mysql://"+dbUrl+"/" + dbName, dbUserName, dbPassword);
 		return conn;

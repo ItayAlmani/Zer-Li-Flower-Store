@@ -24,23 +24,25 @@ import javafx.stage.Stage;
 
 public class ConnectionConfigGUIController extends ParentGUIController{
 	
-	private @FXML TextField txtHost,txtPort,txtName,txtUrl,txtUserName,txtPassword;
-	private @FXML Button btnUpdateServer, btnUpdateDB,btnBack;
+	@FXML
+	private TextField txtHost,txtPort,txtName,txtUrl,txtUserName,txtPassword;
 	
-	private @FXML TextField[] txtArr = new TextField[4];
-	private String[] serverDB = new String[4];
+	@FXML
+	private Button btnUpdateServer, btnUpdateDB,btnBack;
 	
-	private String dbUrl, dbName, dbUserName, dbPassword;
-	
-	private String host;
+	private String host,dbUrl, dbName, dbUserName, dbPassword;
 	private Integer port;
 	
 	public void setDBDataInGUI(ArrayList<String> dbData) {
 		if(dbData!=null) {
-			for (int i = 0; i < serverDB.length; i++) {
-				this.serverDB[i] = dbData.get(i);
-				this.txtArr[i].setText(this.serverDB[i]);
-			}
+			this.dbUrl=dbData.get(0);
+			this.dbName=dbData.get(1);
+			this.dbUserName=dbData.get(2);
+			this.dbPassword=dbData.get(3);
+			this.txtUrl.setText(this.dbUrl);
+			this.txtName.setText(this.dbName);
+			this.txtUserName.setText(this.dbUserName);
+			this.txtPassword.setText(this.dbPassword);
 		}
 	}
 	
@@ -66,9 +68,17 @@ public class ConnectionConfigGUIController extends ParentGUIController{
 	}
 	
 	public void updateDB(ActionEvent event) {
-		for (int i = 0; i < txtArr.length; i++)
-			if(txtArr[i].getText().equals("")==false)
-				serverDB[i]=txtArr[i].getText();
+		if(txtUrl.getText().equals("")==false)		//if the field is empty
+			dbUrl=txtUrl.getText();
+		
+		if(txtName.getText().equals("")==false)
+			dbName=txtName.getText();
+		
+		if(txtUserName.getText().equals("")==false)
+			dbUserName=txtUserName.getText();
+		
+		if(txtPassword.getText().equals("")==false)
+			dbPassword=txtPassword.getText();
 		
 		if(dbUrl!=null && dbName!=null && dbUserName!=null&&dbPassword!=null) {
 			try {
@@ -81,16 +91,12 @@ public class ConnectionConfigGUIController extends ParentGUIController{
 		}
 		else
 			ShowErrorMsg();
-	}	
+	}
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		super.initialize(location, resources);
 		Context.currentGUI = this;		
-		txtArr[0]=txtName;
-		txtArr[1]=txtUrl;
-		txtArr[2]=txtUserName;
-		txtArr[3]=txtPassword;
-		
+	
 		if(Context.clientConsole !=null && Context.clientConsole.isConnected()==true) {
 			this.host=Context.clientConsole.getHost();
 			this.port=Context.clientConsole.getPort();

@@ -20,7 +20,7 @@ public class Context {
 	/** The default port of the server */
 	public static int DEFAULT_PORT = 5555;
 	/** The default host of the server */
-	public static String DEFAULT_HOST="localhost1";
+	public static String DEFAULT_HOST="localhost";
 	
 	/** The path of the project: "C:.../ZerLi_Client" */
 	private final static String projectPath=System.getProperty("user.dir");
