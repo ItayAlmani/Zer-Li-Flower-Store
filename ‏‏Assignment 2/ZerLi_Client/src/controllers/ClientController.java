@@ -25,10 +25,8 @@ public class ClientController {
 
 		/*------------------SELECT queries from DB------------------*/
 		if (msgType.equals(MessageType.SELECT)) {
-			if (Context.currentGUI instanceof ProductsFormGUIController) {
-				if(csMsg.getClasz().equals(Product.class)) {
-					ProductController.handleGetProducts(csMsg.getObjs());
-				}
+			if(csMsg.getClasz().equals(Product.class)) {
+				ProductController.handleGetProducts(csMsg.getObjs());
 			}
 		}
 

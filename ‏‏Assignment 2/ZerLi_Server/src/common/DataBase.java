@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import com.mysql.jdbc.ResultSetMetaData;
 
 import controllers.ServerController;
-import entities.Product;
 
 public class DataBase{
 	public Connection con;
@@ -60,18 +59,6 @@ public class DataBase{
 		}
 		conn = DriverManager.getConnection("jdbc:mysql://"+dbUrl+"/" + dbName, dbUserName, dbPassword);
 		return conn;
-	}
-
-	public boolean updateProductToDB(Product p) {
-		Statement stmt;
-		try {
-			stmt = con.createStatement();
-			String query = String.format("UPDATE product SET productname='%s' WHERE productid='%d'",p.getName(),p.getId()); 
-			stmt.execute(query);
-			return true;
-		} catch (SQLException ex) {
-			return false;
-		}
 	}
 
 }

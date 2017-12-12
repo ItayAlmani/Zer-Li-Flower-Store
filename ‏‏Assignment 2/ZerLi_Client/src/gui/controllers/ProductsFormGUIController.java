@@ -46,7 +46,7 @@ public class ProductsFormGUIController extends ParentGUIController{
 		try {
 			ProductController.askProductsFromServer();
 		} catch (IOException e) {
-			System.err.println("ProdForm\n");
+			System.err.println("ProdForm");
 			e.printStackTrace();
 		}
 	}
@@ -81,14 +81,8 @@ public class ProductsFormGUIController extends ParentGUIController{
 					break;
 				}
 			}
-			if(prd!=null) {
-				this.p=prd;
-				Integer id = p.getId();
-				paneItem.setVisible(true);
-				this.lblShowID.setText(id.toString());
-				this.lblShowType.setText(p.getType().toString());
-				this.txtShowName.setText(p.getName());
-			}
+			if(prd!=null)
+				loadProduct(prd);
 		}
 	}
 	
@@ -98,6 +92,7 @@ public class ProductsFormGUIController extends ParentGUIController{
 		this.lblShowID.setText(id.toString());
 		this.lblShowType.setText(p.getType().toString());
 		this.txtShowName.setText(p.getName());
+		paneItem.setVisible(true);
 	}
 	
 	public void updateName(ActionEvent event) throws Exception {

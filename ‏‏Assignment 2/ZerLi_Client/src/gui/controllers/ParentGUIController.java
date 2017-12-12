@@ -22,19 +22,11 @@ import javafx.stage.Stage;
 
 public abstract class ParentGUIController implements Initializable {
 
-	protected @FXML Button btnExit;
 	protected @FXML Label lblMsg;
 	
 	protected Boolean lblMsgState = null, changed = false;
 	private Thread th = null;
 	private boolean serverConnected = true;
-
-	public void ExitProg() {
-		if(Context.clientConsole!=null)
-			Context.clientConsole.quit();
-		else
-			System.exit(0);
-	}
 	
 	public void ShowErrorMsg() {
 		lblMsgState=false;
@@ -81,6 +73,8 @@ public abstract class ParentGUIController implements Initializable {
 		
 		if(withCSS==true)
 			scene.getStylesheets().add(getClass().getResource("/gui/css/"+name+".css").toExternalForm());
+		else
+			scene.getStylesheets().add(getClass().getResource("/gui/css/ParentCSS.css").toExternalForm());
 		
 		primaryStage.setScene(scene);
 		primaryStage.setTitle(name.split("GUI")[0].trim());

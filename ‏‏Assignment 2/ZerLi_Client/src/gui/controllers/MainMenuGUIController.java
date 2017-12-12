@@ -20,8 +20,7 @@ import javafx.stage.Stage;
 
 public class MainMenuGUIController extends ParentGUIController{
 	
-	@FXML
-	private Button btnProducts;
+	private @FXML Button btnProducts;
 		
 	public void showProducts(ActionEvent event){
 		if(Context.clientConsole.isConnected()==false)
@@ -56,7 +55,6 @@ public class MainMenuGUIController extends ParentGUIController{
 	}
 	
 	public void setServerAvailable() {
-		
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
@@ -80,7 +78,6 @@ public class MainMenuGUIController extends ParentGUIController{
 		Context.currentGUI = this;
 		if(Context.clientConsole==null || Context.clientConsole.isConnected()==false) {
 			try {
-				
 				Context.connectToServer();
 			} catch (IOException e) {
 				setServerUnavailable();

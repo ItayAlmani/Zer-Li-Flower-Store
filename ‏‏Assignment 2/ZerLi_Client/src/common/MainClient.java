@@ -20,7 +20,6 @@ public class MainClient extends Application {
 
 	@Override
 	public void start(Stage arg0) throws Exception {
-
 		MainMenuGUIController main = new MainMenuGUIController();
 		arg0.setOnCloseRequest(new EventHandler<WindowEvent>() {
 		    @Override public void handle(WindowEvent t) {

@@ -93,11 +93,6 @@
             <Font size="10.0" />
          </font>
       </Button>
-      <Button id="btnExit" fx:id="btnExit" layoutX="269.0" layoutY="374.0" mnemonicParsing="false" onAction="#ExitProg" text="Exit">
-         <font>
-            <Font size="10.0" />
-         </font>
-      </Button>
       <Label id="lblMsg" fx:id="lblMsg" alignment="CENTER" layoutX="23.0" layoutY="377.0" textFill="RED" />
    </children>
 </AnchorPane>

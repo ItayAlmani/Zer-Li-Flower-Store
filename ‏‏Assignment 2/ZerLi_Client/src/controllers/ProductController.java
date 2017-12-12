@@ -51,8 +51,7 @@ public class ProductController extends ParentController {
 	public static void askUpdateProductFromServer(Product p) throws IOException {
 		myMsgArr.clear();
 		myMsgArr.add(String.format(
-				"UPDATE product SET productID = '%d',productName='%s',productType='%s'"
-				+ "WHERE productID=%d;",p.getId(),p.getName(),p.getType(),p.getId()));
+				"UPDATE product SET productName='%s' WHERE productID=%d;",p.getName(),p.getId()));
 		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.UPDATE,myMsgArr));
 	}
 }

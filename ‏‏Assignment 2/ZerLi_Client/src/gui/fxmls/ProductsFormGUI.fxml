@@ -14,7 +14,6 @@
 	<children>
 		<ComboBox id="cmbProducts" fx:id="cmbProducts" layoutX="10.0" layoutY="14.0" onAction="#showProduct" prefHeight="23.0" prefWidth="291.0" promptText="Select product" />
 		<Button id="btnBack" fx:id="btnBack" layoutX="108.0" layoutY="255.0" mnemonicParsing="false" onAction="#loadMainMenu" text="Back" />
-				<Button id="btnExit" fx:id="btnExit" layoutX="207.0" layoutY="254.0" mnemonicParsing="false" onAction="#ExitProg" text="Exit" />
       <Label id="lblMsg" fx:id="lblMsg" layoutX="51.0" layoutY="259.0" textFill="RED" />
       <Pane fx:id="paneItem" layoutX="15.0" layoutY="104.0" visible="false">
          <children>
