@@ -30,8 +30,8 @@ public abstract class ParentGUIController implements Initializable {
 	private boolean serverConnected = true;
 
 	public void ExitProg() {
-		if(Context.cc!=null)
-			Context.cc.quit();
+		if(Context.clientConsole!=null)
+			Context.clientConsole.quit();
 		else
 			System.exit(0);
 	}

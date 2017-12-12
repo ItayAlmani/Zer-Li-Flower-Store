@@ -24,8 +24,8 @@ public class MainClient extends Application {
 		MainMenuGUIController main = new MainMenuGUIController();
 		arg0.setOnCloseRequest(new EventHandler<WindowEvent>() {
 		    @Override public void handle(WindowEvent t) {
-		        if(Context.cc!=null)
-		        	Context.cc.quit();
+		        if(Context.clientConsole!=null)
+		        	Context.clientConsole.quit();
 		    }
 		});		
 		Context.stage=arg0;

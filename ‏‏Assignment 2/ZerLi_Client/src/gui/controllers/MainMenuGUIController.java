@@ -24,7 +24,7 @@ public class MainMenuGUIController extends ParentGUIController{
 	private Button btnProducts;
 		
 	public void showProducts(ActionEvent event){
-		if(Context.cc.isConnected()==false)
+		if(Context.clientConsole.isConnected()==false)
 			setServerUnavailable();
 		else {
 			try {
@@ -77,8 +77,8 @@ public class MainMenuGUIController extends ParentGUIController{
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		super.initialize(location, resources);
-		Context.CurrentGUI = this;
-		if(Context.cc==null || Context.cc.isConnected()==false) {
+		Context.currentGUI = this;
+		if(Context.clientConsole==null || Context.clientConsole.isConnected()==false) {
 			try {
 				
 				Context.connectToServer();
@@ -86,7 +86,7 @@ public class MainMenuGUIController extends ParentGUIController{
 				setServerUnavailable();
 			}
 		}
-		if(Context.cc!=null && Context.cc.isConnected()==true)
+		if(Context.clientConsole!=null && Context.clientConsole.isConnected()==true)
 			setServerAvailable();
 	}
 }

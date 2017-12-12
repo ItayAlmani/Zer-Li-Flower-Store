@@ -19,7 +19,11 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import common.*;
 import controllers.ClientController;
@@ -28,15 +32,14 @@ import entities.Product;
 
 public class ProductsFormGUIController extends ParentGUIController{
 
-	@FXML
-	private ComboBox cmbProducts;
+	private @FXML ComboBox cmbProducts;
+	private @FXML Button btnBack, btnUpdate;
+	private @FXML Label lblShowID, lblShowType;
+	private @FXML TextField txtShowName;
+	private @FXML Pane paneItem;
 	
-	@FXML
-	private Button btnView, btnBack;
-	
-	
+	private Product p;
 	private ArrayList<Product> products;
-	
 	ObservableList<String> list;
 
 	private void setProductsComboBox() {
@@ -56,19 +59,21 @@ public class ProductsFormGUIController extends ParentGUIController{
 		}
 
 		list = FXCollections.observableArrayList(al);
-		cmbProducts.setItems(list);
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				cmbProducts.setItems(list);
+				paneItem.setVisible(false);
+			}
+		});
 	}
 	
 	public void showProduct(ActionEvent event) throws Exception {
-		if(Context.cc.isConnected()==false) {
+		if(Context.clientConsole.isConnected()==false) {
 			serverDown(event);
 			return;
 		}
-		Stage primaryStage = Context.stage;
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/fxmls/ProductViewGUI.fxml"));
-		Pane root = loader.load();
 		Product prd = null;
-		ProductViewGUIController productViewGUIController = loader.getController();
 		if(cmbProducts.getValue()!=null) {
 			for (Product p : this.products) {
 				if(p.getName().equals(cmbProducts.getValue())) {
@@ -77,20 +82,45 @@ public class ProductsFormGUIController extends ParentGUIController{
 				}
 			}
 			if(prd!=null) {
-				productViewGUIController.loadProduct(prd);
-				Scene scene = new Scene(root);	
-				scene.getStylesheets().add(getClass().getResource("/gui/css/ProductViewGUI.css").toExternalForm());
-				
-				primaryStage.setScene(scene);
+				this.p=prd;
+				Integer id = p.getId();
+				paneItem.setVisible(true);
+				this.lblShowID.setText(id.toString());
+				this.lblShowType.setText(p.getType().toString());
+				this.txtShowName.setText(p.getName());
 			}
 		}
-		primaryStage.show();
+	}
+	
+	public void loadProduct(Product p) {
+		this.p=p;
+		Integer id = p.getId();
+		this.lblShowID.setText(id.toString());
+		this.lblShowType.setText(p.getType().toString());
+		this.txtShowName.setText(p.getName());
+	}
+	
+	public void updateName(ActionEvent event) throws Exception {
+		if(Context.clientConsole.isConnected()==false)
+			serverDown(event);
+		if(txtShowName.getText()!=null) {
+			if(txtShowName.getText().equals(p.getName())==false) {//Name changed
+				p.setName(txtShowName.getText());
+				ProductController.askUpdateProductFromServer(p);
+			}
+		}
+	}
+	
+	@Override
+	public void ShowSuccessMsg() {
+		super.ShowSuccessMsg();
+		setProductsComboBox();
 	}
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		super.initialize(location, resources);
-		Context.CurrentGUI = this;
+		Context.currentGUI = this;
 		
 		setProductsComboBox();
 		cmbProducts.setStyle("-fx-font-size:10");

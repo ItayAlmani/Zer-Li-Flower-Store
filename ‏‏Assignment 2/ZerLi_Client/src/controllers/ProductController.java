@@ -5,9 +5,9 @@ import java.util.ArrayList;
 
 import common.Context;
 import entities.CSMessage;
-import entities.MessageType;
+import entities.CSMessage.MessageType;
 import entities.Product;
-import entities.ProductType;
+import entities.Product.ProductType;
 import gui.controllers.ProductsFormGUIController;
 
 public class ProductController extends ParentController {
@@ -16,7 +16,7 @@ public class ProductController extends ParentController {
 	public static void askProductsFromServer() throws IOException {
 		myMsgArr.clear();
 		myMsgArr.add("SELECT * FROM product;");
-		Context.cc.handleMessageFromClientUI(new CSMessage(MessageType.SELECT,myMsgArr,Product.class));
+		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.SELECT,myMsgArr,Product.class));
 	}
 	
 	/**
@@ -44,8 +44,8 @@ public class ProductController extends ParentController {
 	}
 	
 	private static void sendProductsToClient(ArrayList<Product> prds) {
-		if(Context.CurrentGUI instanceof ProductsFormGUIController)
-			((ProductsFormGUIController)Context.CurrentGUI).updateCB(prds);
+		if(Context.currentGUI instanceof ProductsFormGUIController)
+			((ProductsFormGUIController)Context.currentGUI).updateCB(prds);
 	}
 	
 	public static void askUpdateProductFromServer(Product p) throws IOException {
@@ -53,6 +53,6 @@ public class ProductController extends ParentController {
 		myMsgArr.add(String.format(
 				"UPDATE product SET productID = '%d',productName='%s',productType='%s'"
 				+ "WHERE productID=%d;",p.getId(),p.getName(),p.getType(),p.getId()));
-		Context.cc.handleMessageFromClientUI(new CSMessage(MessageType.UPDATE,myMsgArr));
+		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.UPDATE,myMsgArr));
 	}
 }

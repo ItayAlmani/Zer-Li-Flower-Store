@@ -10,7 +10,7 @@ import java.util.Scanner;
 
 import common.DataBase;
 import entities.CSMessage;
-import entities.MessageType;
+import entities.CSMessage.MessageType;
 
 public class ServerController {
 	public static DataBase db;

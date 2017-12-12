@@ -5,6 +5,10 @@ public class Product{
 	private String name;
 	private ProductType type;
 	
+	public enum ProductType {
+		Bouqute, Empty;
+	}
+	
 	public Product(int id, String name) {
 		super();
 		this.id = id;

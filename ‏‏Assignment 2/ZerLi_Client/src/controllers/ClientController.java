@@ -4,22 +4,28 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import common.Context;
-import common.MainClient;
 import entities.*;
+import entities.CSMessage.MessageType;
 import gui.controllers.*;
 
-/**
- * The connector between the GUI to the <code>ClientConsole</code>
+/** Will parse/decode the <code>CSMessage</code> which present the answer of the GUI request,
+ * and will send the answer to the correct GUI.
+ * Also, will be controller of the System data: DataBase information, Server information etc.
  */
 public class ClientController {
 	private static ArrayList<Object> myMsgArr = new ArrayList<>();
 	
+	/**
+	 * Analyzes the <code>csMsg</code> and calling to the suitable function which parse
+	 * and send the respond to the correct GUI
+	 * @param csMsg - the respond of the Server to the Client's request
+	 */
 	public static void parseMessage(CSMessage csMsg) {
 		MessageType msgType = csMsg.getType();
 
 		/*------------------SELECT queries from DB------------------*/
 		if (msgType.equals(MessageType.SELECT)) {
-			if (Context.CurrentGUI instanceof ProductsFormGUIController) {
+			if (Context.currentGUI instanceof ProductsFormGUIController) {
 				if(csMsg.getClasz().equals(Product.class)) {
 					ProductController.handleGetProducts(csMsg.getObjs());
 				}
@@ -48,24 +54,27 @@ public class ClientController {
 		}
 	}
 	
+	/**
+	 * Requests from the Server the <code>DataBase</code> information.
+	 * @throws IOException - thrown when sending to Server failed.
+	 */
 	public static void askDBDataFromServer() throws IOException {
-		Context.cc.handleMessageFromClientUI(new CSMessage(MessageType.DBData,null));
+		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.DBData,null));
 	}
 	
+	/**
+	 * Requests from the Server to connect to a <code>DataBase</code> by the <code>db</code> information.
+	 * @param db - the information of the new <code>DataBase</code>.
+	 * @throws IOException - thrown when sending to Server failed.
+	 */
 	public static void askSetDBData(DataBase db) throws IOException {
 		myMsgArr.add(db.getDbUrl());
 		myMsgArr.add(db.getDbName());
 		myMsgArr.add(db.getDbUserName());
 		myMsgArr.add(db.getDbPassword());
-		Context.cc.handleMessageFromClientUI(new CSMessage(MessageType.SetDB,myMsgArr));
+		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.SetDB,myMsgArr));
 	}
 	
-	public static void sendDBDataToClient(ArrayList<String> dbData) {
-		if(Context.CurrentGUI instanceof ConnectionConfigGUIController) {
-			((ConnectionConfigGUIController)Context.CurrentGUI).setDBDataInGUI(dbData);
-		}
-	}
-
 	/**
 	 * Sending the data base details to the client,
 	 * after checking that the whole ArrayList has only String object.
@@ -78,4 +87,16 @@ public class ClientController {
 		}
 		sendDBDataToClient((ArrayList<String>) objArr);
 	}
+	
+	/**
+	 * Sending the <code>DataBase</code> data (which is in ArrayList) to the correct GUI.
+	 * @param db - the information of the new <code>DataBase</code>.
+	 * @throws IOException - thrown when sending to Server failed.
+	 */
+	public static void sendDBDataToClient(ArrayList<String> dbData) {
+		if(Context.currentGUI instanceof ConnectionConfigGUIController) {
+			((ConnectionConfigGUIController)Context.currentGUI).setDBDataInGUI(dbData);
+		}
+	}
+
 }

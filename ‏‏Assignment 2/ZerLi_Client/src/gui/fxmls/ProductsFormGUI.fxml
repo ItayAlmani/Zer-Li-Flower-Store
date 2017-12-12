@@ -1,25 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.text.*?>
-<?import javafx.scene.control.*?>
-<?import java.lang.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
 
 <AnchorPane prefHeight="300.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controllers.ProductsFormGUIController">
-   <children>
-      <ComboBox id="cmbProducts" fx:id="cmbProducts" layoutX="5.0" layoutY="61.0" prefHeight="23.0" prefWidth="291.0" promptText="Select product" />
-      <Button id="btnView" fx:id="btnView" layoutX="15.0" layoutY="176.0" mnemonicParsing="false" onAction="#showProduct" text="View">
-         <font>
-            <Font size="10.0" />
-         </font></Button>
-      <Button id="btnExit" fx:id="btnExit" layoutX="225.0" layoutY="176.0" mnemonicParsing="false" onAction="#ExitProg" text="Exit">
-         <font>
-            <Font size="10.0" />
-         </font></Button>
-      <Button id="btnBack" fx:id="btnBack" layoutX="119.0" layoutY="176.0" mnemonicParsing="false" onAction="#loadMainMenu" text="Back">
-         <font>
-            <Font size="10.0" />
-         </font></Button>
-   </children>
+	<children>
+		<ComboBox id="cmbProducts" fx:id="cmbProducts" layoutX="10.0" layoutY="14.0" onAction="#showProduct" prefHeight="23.0" prefWidth="291.0" promptText="Select product" />
+		<Button id="btnBack" fx:id="btnBack" layoutX="108.0" layoutY="255.0" mnemonicParsing="false" onAction="#loadMainMenu" text="Back" />
+				<Button id="btnExit" fx:id="btnExit" layoutX="207.0" layoutY="254.0" mnemonicParsing="false" onAction="#ExitProg" text="Exit" />
+      <Label id="lblMsg" fx:id="lblMsg" layoutX="51.0" layoutY="259.0" textFill="RED" />
+      <Pane fx:id="paneItem" layoutX="15.0" layoutY="104.0" visible="false">
+         <children>
+            <GridPane layoutX="5.0" layoutY="7.0">
+              <columnConstraints>
+                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="107.0" minWidth="10.0" prefWidth="58.2000244140625" />
+                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="218.7999755859375" minWidth="10.0" prefWidth="218.7999755859375" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Label id="lblTitleID" contentDisplay="CENTER" text="ID:" />
+                  <Label id="lblTitleName" text="Name:" GridPane.rowIndex="1" />
+                  <Label id="lblTitleType" text="Type:" GridPane.rowIndex="2" />
+                  <TextField id="txtShowName" fx:id="txtShowName" alignment="CENTER" promptText="Enter Product Name" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <Label id="lblShowID" fx:id="lblShowID" GridPane.columnIndex="1" />
+                  <Label id="lblShowType" fx:id="lblShowType" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <Button id="btnUpdate" fx:id="btnUpdate" mnemonicParsing="false" onAction="#updateName" text="Update" GridPane.rowIndex="3" />
+               </children>
+            </GridPane>
+         </children>
+      </Pane>
+	</children>
 </AnchorPane>

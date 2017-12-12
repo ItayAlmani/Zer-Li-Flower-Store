@@ -3,12 +3,32 @@ package entities;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+/**
+ * Object that will use to communicate between the Client and the Server.
+ * Implements <code>Serializable</code> so could be sent by Socket
+ */
 public class CSMessage implements Serializable{
-	private MessageType type;
-	private ArrayList<Object> objs;
-	private Object CSController;
 	
-	/**To know what casting to do - the class of the sended object*/
+	/** Type of the request/respond of Client/Server */
+	public enum MessageType {
+		UPDATE,SELECT,DBData,Exception,SetDB;
+	}
+	
+	/** Will categorize the type of the message by <code>MessageType</code> enum */
+	private MessageType type;
+	
+	/**
+	 * <p><b>As request:</b> Can be null (for example when requesting SetDB), 
+	 * and can include query (for example when requesting SELECT), 
+	 * and may be another things (in future).</p>
+	 * 
+	 * <p><b>As respond:</b> Can include one parameter (for example boolean for SetDB respond), 
+	 * and can include many Objects (for example respond to SELECT query), 
+	 * and may be another things (in future).</p>
+	 */
+	private ArrayList<Object> objs;
+	
+	/**To know what casting to do - the class of the responded object(s)*/
 	private Class<?> clasz;
 	
 	public CSMessage(MessageType type, ArrayList<Object> objs) {
@@ -40,21 +60,7 @@ public class CSMessage implements Serializable{
 	public void setObjs(ArrayList<Object> objs) {
 		this.objs = objs;
 	}
-
 	
-	public Object getCSController() {
-		return CSController;
-	}
-
-	public void setCSController(Object cSController) {
-		CSController = cSController;
-	}
-
-	@Override
-	public String toString() {
-		return "CSMessage [type=" + type + ", objs=" + objs + ", CSController=" + CSController + "]";
-	}
-
 	public Class<?> getClasz() {
 		return clasz;
 	}

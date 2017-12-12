@@ -6,7 +6,9 @@ import gui.controllers.ParentGUIController;
 public class ParentController {
 
 	public static void sendResultToClient(boolean response) {
-		if(response==true)	((ParentGUIController)Context.CurrentGUI).ShowSuccessMsg();
-		else				((ParentGUIController)Context.CurrentGUI).ShowErrorMsg();
+		if(response==true)
+			((ParentGUIController)Context.currentGUI).ShowSuccessMsg();
+		else
+			((ParentGUIController)Context.currentGUI).ShowErrorMsg();
 	}
 }

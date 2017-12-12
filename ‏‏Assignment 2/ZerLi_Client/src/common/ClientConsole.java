@@ -2,14 +2,8 @@ package common;
 
 
 import java.io.*;
-import java.util.ArrayList;
-
 import controllers.ClientController;
-import controllers.ParentController;
 import entities.CSMessage;
-import entities.MessageType;
-import entities.Product;
-import gui.controllers.ProductsFormGUIController;
 
 import ocsf.client.*;
 
@@ -18,8 +12,10 @@ import ocsf.client.*;
  *(LAB6).
  */
 public class ClientConsole extends AbstractClient {
+	
 	/**
-	 * Constructs an instance of the <code>ClientConsole</code>.
+	 * By constructing new instance of the <code>ClientConsole</code>,
+	 * the connection to the Server will be created.
 	 * @param host	-	The host to connect to.
 	 * @param port	-	The port to connect on.
 	 */
@@ -28,9 +24,7 @@ public class ClientConsole extends AbstractClient {
 		openConnection();
 	}
 
-	/**
-	 * This method terminates the client.
-	 */
+	/** This method terminates the client. */
 	public void quit() {
 		try {
 			closeConnection();
@@ -40,7 +34,7 @@ public class ClientConsole extends AbstractClient {
 	
 	/**
 	 * Handles a message sent from the server to this client.
-	 * @param msg - the message sent. Usually instance of CS Message
+	 * @param msg - the message sent. <b>Should</b> be instance of <code>CSMessage</code>
 	 */
 	@Override
 	protected void handleMessageFromServer(Object msg) {
@@ -49,9 +43,8 @@ public class ClientConsole extends AbstractClient {
 	}
 
 	/**
-	 * Will handle the message from the GUI in client side
+	 * Will send the message from the GUI to the server
 	 * @param message	-	CSMessage object which includes the message to the server
-	 * @param csc		-	the controller which sent the message (will be sent by *this*)
 	 * @throws IOException
 	 */
 	public void handleMessageFromClientUI(CSMessage message) throws IOException {

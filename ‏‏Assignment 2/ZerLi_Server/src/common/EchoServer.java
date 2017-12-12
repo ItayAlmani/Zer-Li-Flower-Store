@@ -1,13 +1,11 @@
 package common;
 
 import java.io.*;
-import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 import controllers.ServerController;
 import entities.CSMessage;
-import entities.MessageType;
+import entities.CSMessage.MessageType;
 import ocsf.server.*;
 
 public class EchoServer extends AbstractServer {
