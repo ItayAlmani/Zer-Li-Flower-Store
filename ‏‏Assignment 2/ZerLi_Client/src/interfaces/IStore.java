@@ -1,7 +1,9 @@
 package interfaces;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
+import entities.Item;
 import entities.Order;
 import entities.Stock;
 import entities.Store;
@@ -35,9 +37,9 @@ public interface IStore {
 	 * 
 	 * @param storeid
 	 */
-	ArrayList<Stock> getStockByStore(String storeid);
+	HashMap<Item,Integer> getStockByStore(String storeid);
 
-	ArrayList<Stock> getAllPhysicalStores();
+	ArrayList<Store> getAllPhysicalStores();
 
 	Store getAOrderOnlyStore();
 

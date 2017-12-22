@@ -1,9 +1,10 @@
 package izhar;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
+import entities.Item;
 import entities.Order;
-import entities.Stock;
 import entities.Store;
 import interfaces.IStore;
 
@@ -21,10 +22,10 @@ public class StoreController implements IStore {
 	public void updateStoreInDB(Order order) {
 	}
 
-	public ArrayList<Stock> getStockByStore(String storeid) {
+	public HashMap<Item,Integer> getStockByStore(String storeid) {
 	}
 
-	public ArrayList<Stock> getAllPhysicalStores() {
+	public ArrayList<Store> getAllPhysicalStores() {
 	}
 
 	public Store getAOrderOnlyStore() {

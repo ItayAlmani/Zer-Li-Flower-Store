@@ -1,5 +1,9 @@
 package interfaces;
 
+import java.util.Date;
+
+import entities.SatisfactionReport;
+
 public interface ISatisfactionReportController {
 
 	/**
@@ -7,6 +11,6 @@ public interface ISatisfactionReportController {
 	 * @param Reqdate
 	 * @param storeID
 	 */
-	SatisfactionReport ProduceSatisfactionReport(DateTime Reqdate, string storeID);
+	SatisfactionReport ProduceSatisfactionReport(Date Reqdate, String storeID);
 
 }

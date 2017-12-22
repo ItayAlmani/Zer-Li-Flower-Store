@@ -2,13 +2,15 @@ package izhar;
 
 import java.util.ArrayList;
 
+import controllers.ParentController;
 import entities.*;
 import enums.Refund;
 import interfaces.IOrder;
 
-public class OrderController implements IOrder {
+public class OrderController extends ParentController implements IOrder {
 
 	public Order getOrder(String orderID) {
+		
 	}
 
 	public void noOrderIDErrMsg() {

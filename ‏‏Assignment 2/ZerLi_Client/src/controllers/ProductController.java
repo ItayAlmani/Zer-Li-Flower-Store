@@ -12,9 +12,7 @@ import entities.Product;
 import entities.Product.ProductType;
 import gui.controllers.ProductsFormGUIController;
 
-public class ProductController extends ParentController {
-	private static ArrayList<Object> myMsgArr = new ArrayList<>();
-	
+public class ProductController extends ParentController {	
 	public static void askProductsFromServer() throws IOException {
 		myMsgArr.clear();
 		myMsgArr.add("SELECT * FROM product;");

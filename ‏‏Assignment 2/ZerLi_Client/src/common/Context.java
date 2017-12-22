@@ -8,6 +8,10 @@ import java.util.HashMap;
 import java.util.Scanner;
 import java.util.Map.Entry;
 
+import entities.Customer;
+import entities.ShoppingCart;
+import entities.StoreManager;
+import entities.User;
 import gui.controllers.MainMenuGUIController;
 import javafx.stage.Stage;
 
@@ -34,6 +38,9 @@ public class Context {
 	public static Object currentGUI = null;
 	/** The current JavaFX stage <=> the window of the GUI */
 	public static Stage stage = null;
+	
+	private User user;
+	private ShoppingCart cart;
 	
 	/**
 	 * Looking for the .txt file at <code>projectPath</code>+<code>serTxtPath</code> path,
@@ -121,5 +128,33 @@ public class Context {
 		output.println("Host: "+DEFAULT_HOST);
 		output.println("Port: "+DEFAULT_PORT);
 		output.close();
+	}
+
+	public User getUser() {
+		return this.user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public ShoppingCart getCart() {
+		return this.cart;
+	}
+
+	public void setCart(ShoppingCart cart) {
+		this.cart = cart;
+	}
+
+	public Customer getUserAsCustomer() {
+		if(user instanceof Customer)
+			return (Customer)user;
+		return null;
+	}
+
+	public StoreManager getUserAsStoreManager() {
+		if(user instanceof StoreManager)
+			return (StoreManager)user;
+		return null;
 	}
 }
