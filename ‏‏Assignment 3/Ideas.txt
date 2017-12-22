@@ -1,0 +1,1 @@
+* File chooser for adding pictures: https://docs.oracle.com/javafx/2/ui_controls/file-chooser.htm
