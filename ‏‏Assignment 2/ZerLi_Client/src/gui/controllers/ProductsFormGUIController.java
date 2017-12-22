@@ -51,7 +51,7 @@ public class ProductsFormGUIController extends ParentGUIController{
 		}
 	}
 	
-	public void updateCB(ArrayList<Product> prods) {
+	public void productsToComboBox(ArrayList<Product> prods) {
 		this.products=prods;
 		ArrayList<String> al = new ArrayList<>();
 		for (Product p : this.products) {

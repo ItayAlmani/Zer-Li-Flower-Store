@@ -1,6 +1,8 @@
 package controllers;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 
 import common.Context;
@@ -17,6 +19,13 @@ public class ProductController extends ParentController {
 		myMsgArr.clear();
 		myMsgArr.add("SELECT * FROM product;");
 		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.SELECT,myMsgArr,Product.class));
+	}
+	
+	public static void askUpdateProductFromServer(Product p) throws IOException {
+		myMsgArr.clear();
+		myMsgArr.add(String.format(
+				"UPDATE product SET productName='%s' WHERE productID=%d;",p.getName(),p.getId()));
+		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.UPDATE,myMsgArr));
 	}
 	
 	/**
@@ -44,14 +53,16 @@ public class ProductController extends ParentController {
 	}
 	
 	private static void sendProductsToClient(ArrayList<Product> prds) {
-		if(Context.currentGUI instanceof ProductsFormGUIController)
-			((ProductsFormGUIController)Context.currentGUI).updateCB(prds);
-	}
-	
-	public static void askUpdateProductFromServer(Product p) throws IOException {
-		myMsgArr.clear();
-		myMsgArr.add(String.format(
-				"UPDATE product SET productName='%s' WHERE productID=%d;",p.getName(),p.getId()));
-		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.UPDATE,myMsgArr));
+		Method m = null;
+		try {
+			m = Context.currentGUI.getClass().getMethod("productsToComboBox",ArrayList.class);
+			m.invoke(Context.currentGUI, prds);
+		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e1) {
+			System.err.println("Couldn't invoke method 'productsToComboBox'");
+			e1.printStackTrace();
+		} catch (NoSuchMethodException | SecurityException e2) {
+			System.err.println("No method called 'productsToComboBox'");
+			e2.printStackTrace();
+		}
 	}
 }

@@ -7,7 +7,7 @@ import entities.Item;
 public interface IBrowsingProcess {
 
 	/**
-	 * 
+	 * z
 	 * @param cartID
 	 */
 	ArrayList<Item> getItemsInCart(String cartID);
