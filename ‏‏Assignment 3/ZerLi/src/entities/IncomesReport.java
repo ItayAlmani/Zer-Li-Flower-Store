@@ -1,7 +1,4 @@
-package lior;
-
-import entities.Order;
-import entities.QuarterlyReport;
+package entities;
 
 public class IncomesReport extends QuarterlyReport {
 

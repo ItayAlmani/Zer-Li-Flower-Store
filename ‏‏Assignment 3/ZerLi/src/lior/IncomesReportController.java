@@ -2,13 +2,15 @@ package lior;
 
 import java.util.Date;
 
-public class IncomesReportController {
+import entities.IncomesReport;
+import interfaces.IIncomesReportController;
 
-	/**
-	 * 
-	 * @param Reqdate
-	 * @param storeID
+public class IncomesReportController implements IIncomesReportController {
+
+	/* (non-Javadoc)
+	 * @see lior.IIncomesReportController#ProduceIncomesReport(java.util.Date, java.lang.String)
 	 */
+	@Override
 	public IncomesReport ProduceIncomesReport(Date Reqdate, String storeID) {
 		// TODO - implement IncomesReportController.ProduceIncomesReport
 		throw new UnsupportedOperationException();
