@@ -1,0 +1,1 @@
+* File chooser for adding pictures: https://docs.oracle.com/javase/tutorial/uiswing/components/filechooser.html
