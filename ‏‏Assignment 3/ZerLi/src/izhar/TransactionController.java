@@ -1,24 +1,15 @@
 package izhar;
-public class TransactionController {
 
-	/**
-	 * 
-	 * @param customerID
-	 * @param paymentMethod
-	 * @param orderID
-	 */
-	public void createNewTransaction(string customerID, PayMethod paymentMethod, string orderID) {
-		// TODO - implement TransactionController.createNewTransaction
-		throw new UnsupportedOperationException();
+import entities.PayMethod;
+import entities.Transaction;
+import interfaces.ITransaction;
+
+public class TransactionController implements ITransaction {
+
+	public void createNewTransaction(String customerID, PayMethod paymentMethod, String orderID) {
 	}
 
-	/**
-	 * 
-	 * @param transaction
-	 */
 	public void addTransactionToDB(Transaction transaction) {
-		// TODO - implement TransactionController.addTransactionToDB
-		throw new UnsupportedOperationException();
 	}
 
 }

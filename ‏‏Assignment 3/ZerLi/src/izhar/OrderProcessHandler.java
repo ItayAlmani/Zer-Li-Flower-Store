@@ -1,24 +1,17 @@
 package izhar;
-public class OrderProcessHandler {
+
+import entities.Order;
+import interfaces.IOrderProcess;
+import izhar.OrderController;
+
+public class OrderProcessHandler implements IOrderProcess {
 
 	private OrderController orderController;
 
-	/**
-	 * 
-	 * @param order
-	 */
-	public string updateAfterCancellation(Order order) {
-		// TODO - implement OrderProcessHandler.updateAfterCancellation
-		throw new UnsupportedOperationException();
+	public String updateAfterCancellation(Order order) {
 	}
-
-	/**
-	 * 
-	 * @param order
-	 */
+	
 	public void updateFinilizeOrder(Order order) {
-		// TODO - implement OrderProcessHandler.updateFinilizeOrder
-		throw new UnsupportedOperationException();
 	}
 
 }

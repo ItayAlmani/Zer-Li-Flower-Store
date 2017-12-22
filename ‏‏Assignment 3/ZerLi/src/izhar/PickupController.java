@@ -1,16 +1,12 @@
 package izhar;
 
+import entities.DeliveryDetails;
+import interfaces.IPickup;
 import kfir.UserController;
 
-public class PickupController extends UserController {
+public class PickupController extends UserController implements IPickup {
 
-	/**
-	 * 
-	 * @param deliveryDetails
-	 */
 	public void insertPickupToDB(DeliveryDetails deliveryDetails) {
-		// TODO - implement PickupController.insertPickupToDB
-		throw new UnsupportedOperationException();
 	}
 
 }

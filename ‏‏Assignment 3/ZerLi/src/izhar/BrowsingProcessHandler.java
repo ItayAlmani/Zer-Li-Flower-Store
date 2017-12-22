@@ -3,22 +3,15 @@ package izhar;
 import java.util.ArrayList;
 
 import entities.Item;
+import interfaces.IBrowsingProcess;
 
-public class BrowsingProcessHandler {
+public class BrowsingProcessHandler implements IBrowsingProcess{
 
-	/**
-	 * 
-	 * @param cartID
-	 */
 	public ArrayList<Item> getItemsInCart(String cartID) {
 		// TODO - implement BrowsingProcessHandler.getItemsInCart
 		throw new UnsupportedOperationException();
 	}
 
-	/**
-	 * 
-	 * @param itemID
-	 */
 	public Item getItemDetails(String itemID) {
 		// TODO - implement BrowsingProcessHandler.getItemDetails
 		throw new UnsupportedOperationException();
@@ -29,10 +22,6 @@ public class BrowsingProcessHandler {
 		throw new UnsupportedOperationException();
 	}
 
-	/**
-	 * 
-	 * @param item
-	 */
 	public boolean addItemToCart(Item item) {
 		// TODO - implement BrowsingProcessHandler.addItemToCart
 		throw new UnsupportedOperationException();
