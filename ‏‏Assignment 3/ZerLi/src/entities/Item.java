@@ -1,11 +1,21 @@
 package entities;
+
+import enums.Color;
+import enums.ItemType;
+
 public class Item {
 
-	private string itemID;
+	private String itemID;
 	private ItemType type;
 	private float price;
 	private Color dominantColor;
 	private boolean inCatalog;
+	
+	private static Integer idCounter = 1;
+	public Item() {
+		this.itemID = idCounter.toString();
+		idCounter++;
+	}
 
 	public ItemType getType() {
 		return this.type;

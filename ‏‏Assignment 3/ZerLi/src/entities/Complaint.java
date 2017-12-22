@@ -1,42 +1,45 @@
 package entities;
+
+import java.util.Date;
+
 public class Complaint {
 
-	private string complaintID;
-	private string complaintReason;
-	private string customerID;
-	/**
-	 * Today's date
-	 */
-	private DateTime date;
-	/**
-	 * initial value = false
-	 */
+	private String complaintID;
+	private String complaintReason;
+	private String customerID;
+	private Date date;
 	private boolean isTreated = false;
 	private boolean isRefunded = false;
-	private string Status;
-	private string storeID;
+	private String Status;
+	private String storeID;
+	
+	private static Integer idCounter = 1;
+	public Complaint() {
+		this.complaintID = idCounter.toString();
+		idCounter++;
+	}
 
-	public string getComplaintReason() {
+	public String getComplaintReason() {
 		return this.complaintReason;
 	}
 
-	public void setComplaintReason(string complaintReason) {
+	public void setComplaintReason(String complaintReason) {
 		this.complaintReason = complaintReason;
 	}
 
-	public string getCustomerID() {
+	public String getCustomerID() {
 		return this.customerID;
 	}
 
-	public void setCustomerID(string customerID) {
+	public void setCustomerID(String customerID) {
 		this.customerID = customerID;
 	}
 
-	public DateTime getDate() {
+	public Date getDate() {
 		return this.date;
 	}
 
-	public void setDate(DateTime date) {
+	public void setDate(Date date) {
 		this.date = date;
 	}
 

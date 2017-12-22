@@ -1,4 +1,5 @@
 package entities;
+
 /**
  * Class of static arguments.
  * Customer will be assigned after login
@@ -25,13 +26,15 @@ public class Context {
 	}
 
 	public Customer getUserAsCustomer() {
-		// TODO - implement Context.getUserAsCustomer
-		throw new UnsupportedOperationException();
+		if(user instanceof Customer)
+			return (Customer)user;
+		return null;
 	}
 
 	public StoreManager getUserAsStoreManager() {
-		// TODO - implement Context.getUserAsStoreManager
-		throw new UnsupportedOperationException();
+		if(user instanceof StoreManager)
+			return (StoreManager)user;
+		return null;
 	}
 
 }

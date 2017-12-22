@@ -3,7 +3,7 @@ package interfaces;
 import java.util.ArrayList;
 
 import entities.Item;
-import entities.PaymentAccountType;
+import enums.PaymentAccountType;
 
 public interface IShoppingCart {
 

@@ -1,29 +1,29 @@
 package entities;
 public class ShipmentDetails extends DeliveryDetails {
 
-	private string street;
-	private string city;
-	private string postCode;
-	private string customerName;
-	private string phoneNumber;
+	private String street;
+	private String city;
+	private String postCode;
+	private String customerName;
+	private String phoneNumber;
 
-	public void setStreet(string street) {
+	public void setStreet(String street) {
 		this.street = street;
 	}
 
-	public void setCity(string city) {
+	public void setCity(String city) {
 		this.city = city;
 	}
 
-	public void setPostCode(string postCode) {
+	public void setPostCode(String postCode) {
 		this.postCode = postCode;
 	}
 
-	public void setCustomerName(string customerName) {
+	public void setCustomerName(String customerName) {
 		this.customerName = customerName;
 	}
 
-	public void setPhoneNumber(string phoneNumber) {
+	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
 	}
 
@@ -33,9 +33,8 @@ public class ShipmentDetails extends DeliveryDetails {
 	 * @param cusName
 	 * @param pNum
 	 */
-	public ShipmentDetails(string[] address, string cusName, string pNum) {
-		// TODO - implement ShipmentDetails.ShipmentDetails
-		throw new UnsupportedOperationException();
+	public ShipmentDetails(String[] address, String cusName, String pNum) {
+		super();
 	}
 
 }

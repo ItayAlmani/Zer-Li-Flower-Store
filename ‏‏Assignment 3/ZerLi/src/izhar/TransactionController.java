@@ -1,7 +1,7 @@
 package izhar;
 
-import entities.PayMethod;
 import entities.Transaction;
+import enums.PayMethod;
 import interfaces.ITransaction;
 
 public class TransactionController implements ITransaction {

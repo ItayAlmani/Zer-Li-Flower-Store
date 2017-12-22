@@ -1,17 +1,28 @@
 package entities;
+
+import enums.DeliveryType;
+import enums.OrderStatus;
+import enums.OrderType;
+
 public class Order {
 
-	private string orderID;
+	private String orderID;
 	private Customer customer;
 	private ShoppingCart cart;
 	private DeliveryDetails delivery;
 	private OrderType type;
 	private Transaction transaction;
-	private string greeting;
+	private String greeting;
 	private DeliveryType deliveryType;
 	private OrderStatus orderStatus = OrderStatus.InProcess;
+	
+	private static Integer idCounter = 1;
+	public Order() {
+		this.orderID = idCounter.toString();
+		idCounter++;
+	}
 
-	public string getOrderID() {
+	public String getOrderID() {
 		return this.orderID;
 	}
 
@@ -39,11 +50,11 @@ public class Order {
 		this.transaction = transaction;
 	}
 
-	public string getGreeting() {
+	public String getGreeting() {
 		return this.greeting;
 	}
 
-	public void setGreeting(string greeting) {
+	public void setGreeting(String greeting) {
 		this.greeting = greeting;
 	}
 
@@ -69,8 +80,8 @@ public class Order {
 	 * @param cart
 	 */
 	public Order(Customer customer, ShoppingCart cart) {
-		// TODO - implement Order.Order
-		throw new UnsupportedOperationException();
+		this();
+		
 	}
 
 }

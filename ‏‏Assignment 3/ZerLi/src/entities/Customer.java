@@ -1,11 +1,11 @@
 package entities;
 public class Customer extends User {
 
-	private string customerID;
+	private String customerID;
 	private PaymentAccount paymentAccount;
 	private boolean IsConnecting;
 
-	public string getCustomerID() {
+	public String getCustomerID() {
 		return this.customerID;
 	}
 

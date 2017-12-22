@@ -1,11 +1,17 @@
 package entities;
 public class PaymentAccount {
 
-	private string paID;
-	private string customerID;
+	private String paID;
+	private String customerID;
 	private float refundAmount = 0;
 	private CreditCard creditCard;
 	private Subscription sub;
+	
+	private static Integer idCounter = 1;
+	public PaymentAccount() {
+		this.paID = idCounter.toString();
+		idCounter++;
+	}
 
 	public float getRefundAmount() {
 		return this.refundAmount;

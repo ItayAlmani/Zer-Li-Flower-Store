@@ -9,4 +9,9 @@ public class CreditCard {
 	private Date ccValidity;
 	private String ccCCV;
 
+	private static Integer idCounter = 1;
+	public CreditCard() {
+		this.ccID = idCounter.toString();
+		idCounter++;
+	}
 }

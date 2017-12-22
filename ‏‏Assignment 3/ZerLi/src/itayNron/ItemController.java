@@ -1,7 +1,7 @@
 package itayNron;
 
-import entities.Color;
 import entities.Item;
+import enums.Color;
 
 public class ItemController {
 

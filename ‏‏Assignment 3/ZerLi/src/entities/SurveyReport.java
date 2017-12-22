@@ -1,11 +1,20 @@
 package entities;
+
+import java.util.Date;
+
 public class SurveyReport {
 
-	private string surveyReportID;
+	private String surveyReportID;
 	private Survey surveyAnalyzes;
-	private string verbalReport;
-	private DateTime date;
-	private string storeID;
+	private String verbalReport;
+	private Date date;
+	private String storeID;
+	
+	private static Integer idCounter = 1;
+	public SurveyReport() {
+		this.surveyReportID = idCounter.toString();
+		idCounter++;
+	}
 
 	public Survey getSurveyAnalyzes() {
 		return this.surveyAnalyzes;
@@ -15,19 +24,19 @@ public class SurveyReport {
 		this.surveyAnalyzes = surveyAnalyzes;
 	}
 
-	public string getVerbalReport() {
+	public String getVerbalReport() {
 		return this.verbalReport;
 	}
 
-	public void setVerbalReport(string verbalReport) {
+	public void setVerbalReport(String verbalReport) {
 		this.verbalReport = verbalReport;
 	}
 
-	public DateTime getDate() {
+	public Date getDate() {
 		return this.date;
 	}
 
-	public void setDate(DateTime date) {
+	public void setDate(Date date) {
 		this.date = date;
 	}
 

@@ -1,6 +1,8 @@
 package kfir;
 
 import entities.*;
+import enums.Refund;
+import enums.SubscriptionType;
 
 public class CustomerController extends UserController {
 

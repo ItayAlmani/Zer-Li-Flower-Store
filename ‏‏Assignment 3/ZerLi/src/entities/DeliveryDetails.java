@@ -1,21 +1,30 @@
 package entities;
+
+import java.util.Date;
+
 public class DeliveryDetails {
 
-	private string deliveryID;
-	private string orderID;
-	protected DateTime date;
+	private String deliveryID;
+	private String orderID;
+	protected Date date;
 	private boolean isImmediate = true;
 	private Store store;
+	
+	private static Integer idCounter = 1;
+	public DeliveryDetails() {
+		this.deliveryID = idCounter.toString();
+		idCounter++;
+	}
 
-	public void setOrderID(string orderID) {
+	public void setOrderID(String orderID) {
 		this.orderID = orderID;
 	}
 
-	public DateTime getDate() {
+	public Date getDate() {
 		return this.date;
 	}
 
-	public void setDate(DateTime date) {
+	public void setDate(Date date) {
 		this.date = date;
 	}
 

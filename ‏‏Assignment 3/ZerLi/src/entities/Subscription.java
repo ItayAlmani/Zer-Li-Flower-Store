@@ -1,18 +1,29 @@
 package entities;
+
+import java.util.Date;
+
+import enums.SubscriptionType;
+
 public class Subscription {
 
-	private string subID;
+	private String subID;
 	private SubscriptionType subType;
-	private DateTime subDate;
-	private string paID;
+	private Date subDate;
+	private String paID;
+	
+	private static Integer idCounter = 1;
+	
+	public Subscription() {
+		this.subID = idCounter.toString();
+		idCounter++;
+	}
 
 	/**
 	 * 
 	 * @param subType
 	 */
-	public void CreateSubscription(SubscriptionType subType) {
-		// TODO - implement Subscription.CreateSubscription
-		throw new UnsupportedOperationException();
+	public Subscription(SubscriptionType subType) {
+		this();
 	}
 
 }

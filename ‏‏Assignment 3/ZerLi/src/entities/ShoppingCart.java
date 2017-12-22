@@ -1,10 +1,18 @@
 package entities;
+
+import java.util.ArrayList;
+
 public class ShoppingCart {
 
-	private string cartID;
-	private string orderID;
+	private String cartID;
+	private String orderID;
 	private float finalPrice;
-	private Item[] items;
+	private ArrayList<Item> items;
 	private Customer customer;
-
+	
+	private static Integer idCounter = 1;
+	public ShoppingCart() {
+		this.cartID = idCounter.toString();
+		idCounter++;
+	}
 }

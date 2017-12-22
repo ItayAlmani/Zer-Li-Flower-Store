@@ -1,10 +1,19 @@
 package entities;
+
+import java.util.Date;
+
 public class Survey {
 
-	private string surveyID;
+	private String surveyID;
 	private int[] surveyAnswerers;
-	private DateTime date;
+	private Date date;
 	private Store store;
+	
+	private static Integer idCounter = 1;
+	public Survey() {
+		this.surveyID = idCounter.toString();
+		idCounter++;
+	}
 
 	public int[] getSurveyAnswerers() {
 		return this.surveyAnswerers;
@@ -14,11 +23,11 @@ public class Survey {
 		this.surveyAnswerers = surveyAnswerers;
 	}
 
-	public DateTime getDate() {
+	public Date getDate() {
 		return this.date;
 	}
 
-	public void setDate(DateTime date) {
+	public void setDate(Date date) {
 		this.date = date;
 	}
 

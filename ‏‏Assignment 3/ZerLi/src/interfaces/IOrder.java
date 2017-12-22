@@ -5,16 +5,17 @@ import java.util.ArrayList;
 import entities.Complaint;
 import entities.DeliveryDetails;
 import entities.Order;
-import entities.Refund;
+import enums.Refund;
 
 public interface IOrder {
 
 	/**
-	 * 
-	 * @param orderID
+	 * Returns Order by <code>orderID</code>
+	 * @param orderID - the id of the Order
 	 */
 	Order getOrder(String orderID);
 
+	/**  */
 	void noOrderIDErrMsg();
 
 	/**

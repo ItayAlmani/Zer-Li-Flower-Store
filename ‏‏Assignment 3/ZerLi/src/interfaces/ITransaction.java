@@ -1,7 +1,7 @@
 package interfaces;
 
-import entities.PayMethod;
 import entities.Transaction;
+import enums.PayMethod;
 
 public interface ITransaction {
 

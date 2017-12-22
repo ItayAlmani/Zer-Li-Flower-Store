@@ -1,6 +1,11 @@
 package entities;
 public class Admin extends User {
 
-	private Object AdminID;
+	public Admin() {
+		super();
+	}
 
+	private Object AdminID;
+	
+	
 }
