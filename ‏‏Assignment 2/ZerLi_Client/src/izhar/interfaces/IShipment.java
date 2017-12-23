@@ -6,5 +6,5 @@ import interfaces.IParent;
 
 public interface IShipment extends IParent  {
 
-	void insertShipmentToDB(ShipmentDetails shipmentDetails);
+	void addShipment(ShipmentDetails shipmentDetails);
 }

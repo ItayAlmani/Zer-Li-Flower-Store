@@ -1,18 +1,24 @@
 package lior;
 
+import java.util.ArrayList;
+import java.util.Date;
+
+import entities.SatisfactionReport;
 import lior.interfaces.ISatisfactionReportController;
 
 public class SatisfactionReportController implements ISatisfactionReportController {
 
-	/**
-	 * 
-	 * @param Reqdate
-	 * @param storeID
-	 */
 	@Override
-	public SatisfactionReport ProduceSatisfactionReport(DateTime Reqdate, string storeID) {
-		// TODO - implement SatisfactionReportController.ProduceSatisfactionReport
-		throw new UnsupportedOperationException();
+	public void handleGet(ArrayList<Object> obj) {
+		// TODO Auto-generated method stub
+		
 	}
+
+	@Override
+	public SatisfactionReport ProduceSatisfactionReport(Date Reqdate, int storeID) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 }

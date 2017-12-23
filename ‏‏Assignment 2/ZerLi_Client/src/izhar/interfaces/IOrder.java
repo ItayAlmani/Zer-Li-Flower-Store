@@ -2,10 +2,14 @@ package izhar.interfaces;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 
 import entities.Complaint;
 import entities.DeliveryDetails;
 import entities.Order;
+import entities.Transaction;
+import enums.DeliveryType;
+import enums.OrderType;
 import enums.Refund;
 import interfaces.IParent;
 
@@ -65,5 +69,21 @@ public interface IOrder extends IParent  {
 	 */
 	void updatePriceWithShipment(Order order) throws IOException;
 	
-	
+	/**
+	 * 
+	 * @param orderID
+	 * @param customerID
+	 * @param cartID
+	 * @param deliveryID
+	 * @param type
+	 * @param transaction
+	 * @param greeting
+	 * @param deliveryType
+	 * @param orderStatus
+	 * @param date
+	 * @return
+	 */
+	Order parse(int orderID, int customerID, int cartID, int deliveryID, String type,
+			Transaction transaction, String greeting, String deliveryType,
+			String orderStatus, Date date);
 }

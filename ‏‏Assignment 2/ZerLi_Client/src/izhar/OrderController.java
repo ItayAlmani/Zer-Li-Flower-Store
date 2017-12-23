@@ -2,6 +2,7 @@ package izhar;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 
 import common.Context;
 import controllers.ParentController;
@@ -37,10 +38,10 @@ public class OrderController extends ParentController implements IOrder {
 
 	@Override
 	public void addOrder(Order order) throws IOException {
-		/*myMsgArr.clear();
+		myMsgArr.clear();
 		myMsgArr.add(String.format(
 				"UPDATE product SET productName='%s' WHERE productID=%d;",p.getName(),p.getId()));
-		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.UPDATE,myMsgArr));*/
+		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.UPDATE,myMsgArr));
 	}
 
 	@Override
@@ -85,9 +86,10 @@ public class OrderController extends ParentController implements IOrder {
 	}
 
 	@Override
-	public void parse(ArrayList<Object> obj) {
+	public Order parse(int orderID, int customerID, int cartID, int deliveryID, String type, Transaction transaction,
+			String greeting, String deliveryType, String orderStatus, Date date) {
 		// TODO Auto-generated method stub
-		
+		return null;
 	}
 	
 }

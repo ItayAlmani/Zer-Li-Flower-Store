@@ -1,5 +1,6 @@
 package lior;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 import entities.OrderReport;
@@ -7,13 +8,18 @@ import lior.interfaces.IOrderReportController;
 
 public class OrderReportController implements IOrderReportController {
 
-	/* (non-Javadoc)
-	 * @see lior.IOrderReportController#ProduceOrderReport(java.util.Date, java.lang.String)
-	 */
 	@Override
-	public OrderReport ProduceOrderReport(Date Reqdate, String storeID) {
-		// TODO - implement OrderReportController.ProduceOrderReport
-		throw new UnsupportedOperationException();
+	public void handleGet(ArrayList<Object> obj) {
+		// TODO Auto-generated method stub
+		
 	}
+
+	@Override
+	public OrderReport ProduceOrderReport(Date Reqdate, int storeID) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
 
 }

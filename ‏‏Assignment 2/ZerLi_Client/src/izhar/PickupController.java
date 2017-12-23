@@ -18,10 +18,4 @@ public class PickupController extends UserController implements IPickup {
 		
 	}
 
-	@Override
-	public void parse(ArrayList<Object> obj) {
-		// TODO Auto-generated method stub
-		
-	}
-
 }

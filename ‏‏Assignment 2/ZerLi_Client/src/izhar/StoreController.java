@@ -3,32 +3,71 @@ package izhar;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import entities.Item;
 import entities.Order;
+import entities.Product;
 import entities.Store;
 import izhar.interfaces.IStore;
 
 public class StoreController implements IStore {
 
-	public ArrayList<Store> getAllStores() {
+	@Override
+	public void handleGet(ArrayList<Object> obj) {
+		// TODO Auto-generated method stub
+		
 	}
 
-	public boolean checkStockByOrder(Order order) {
+	@Override
+	public void getAllStores() {
+		// TODO Auto-generated method stub
+		
 	}
 
+	@Override
+	public void sendStores(ArrayList<Store> stores) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void checkStockByOrder(Order order) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
 	public void updateStock(Order order) {
+		// TODO Auto-generated method stub
+		
 	}
 
-	public void updateStoreInDB(Order order) {
+	@Override
+	public void updateStore(Order order) {
+		// TODO Auto-generated method stub
+		
 	}
 
-	public HashMap<Item,Integer> getStockByStore(String storeid) {
+	@Override
+	public void getStockByStore(int storeid) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
+	public void sendStock(HashMap<Product,Integer> stock) {
+		// TODO Auto-generated method stub
+		
 	}
 
-	public ArrayList<Store> getAllPhysicalStores() {
+	@Override
+	public void getAllPhysicalStores() {
+		// TODO Auto-generated method stub
+		
 	}
 
-	public Store getOrderOnlyStore() {
+	@Override
+	public void getStoreByOrder(Order order) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

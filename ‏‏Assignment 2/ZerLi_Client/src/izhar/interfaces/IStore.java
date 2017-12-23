@@ -13,13 +13,15 @@ public interface IStore extends IParent {
 	/**
 	 * Static method
 	 */
-	ArrayList<Store> getAllStores();
+	void getAllStores();
+	
+	void sendStores(ArrayList<Store> stores);
 
 	/**
 	 * 
 	 * @param order
 	 */
-	boolean checkStockByOrder(Order order);
+	void checkStockByOrder(Order order);
 
 	/**
 	 * 
@@ -31,15 +33,17 @@ public interface IStore extends IParent {
 	 * 
 	 * @param order
 	 */
-	void updateStoreInDB(Order order);
+	void updateStore(Order order);
 
 	/**
 	 * 
 	 * @param storeid
 	 */
-	HashMap<Product,Integer> getStockByStore(int storeid);
+	void getStockByStore(int storeid);
+	
+	void sendStock(HashMap<Product,Integer> stock);
 
-	ArrayList<Store> getAllPhysicalStores();
+	void getAllPhysicalStores();
 
-	Store getOrderOnlyStore();
+	void getStoreByOrder(Order order);
 }

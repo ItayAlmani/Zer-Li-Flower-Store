@@ -12,11 +12,13 @@ public interface IShoppingCart extends IParent {
 
 	void showCartEmptyErrMsg();
 
-	ArrayList<Product> getProductsInCart(int cartID);
+	void getProductsInCart(int cartID);
+	
+	void sendProductsInCart(ArrayList<Product> products);
 
 	void addProductToCart(Product product);
 
 	void updateFinalPriceByPAT(PaymentAccountType pat);
 
-	boolean updateTBProductsInCartInDB(Product product);
+	void updateProductsInDB(ArrayList<Product> products);
 }
