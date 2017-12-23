@@ -40,5 +40,16 @@ public class ShoppingCart {
 		this.customer = customer;
 	}
 	
-	
+	public ShoppingCart(int cartID) {
+		super();
+		this.cartID = cartID;
+	}
+	public ShoppingCart(int cartID, int orderID, float finalPrice, ArrayList<Product> products, Customer customer) {
+		super();
+		this.cartID = cartID;
+		this.orderID = orderID;
+		this.finalPrice = finalPrice;
+		this.products = products;
+		this.customer = customer;
+	}
 }

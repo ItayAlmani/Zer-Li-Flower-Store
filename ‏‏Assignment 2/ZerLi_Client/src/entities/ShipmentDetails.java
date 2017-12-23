@@ -6,6 +6,8 @@ public class ShipmentDetails extends DeliveryDetails {
 	private String postCode;
 	private String customerName;
 	private String phoneNumber;
+	
+	public final static float shipmentPrice = 20.0f; 
 
 	public void setStreet(String street) {
 		this.street = street;
@@ -34,7 +36,7 @@ public class ShipmentDetails extends DeliveryDetails {
 	 * @param pNum
 	 */
 	public ShipmentDetails(String[] address, String cusName, String pNum) {
-		super();
+		
 	}
 
 }

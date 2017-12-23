@@ -10,6 +10,11 @@ public class DeliveryDetails {
 	private boolean isImmediate = true;
 	private Store store;
 
+	public DeliveryDetails(int deliveryID) {
+		super();
+		this.deliveryID = deliveryID;
+	}
+
 	public void setOrderID(String orderID) {
 		this.orderID = orderID;
 	}
@@ -29,5 +34,31 @@ public class DeliveryDetails {
 	public void setStore(Store store) {
 		this.store = store;
 	}
+
+	public int getDeliveryID() {
+		return deliveryID;
+	}
+
+	public void setDeliveryID(int deliveryID) {
+		this.deliveryID = deliveryID;
+	}
+
+	public boolean isImmediate() {
+		return isImmediate;
+	}
+
+	public void setImmediate(boolean isImmediate) {
+		this.isImmediate = isImmediate;
+	}
+
+	public String getOrderID() {
+		return orderID;
+	}
+
+	public Store getStore() {
+		return store;
+	}
+	
+	
 
 }

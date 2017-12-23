@@ -8,6 +8,11 @@ public class Transaction {
 	private PayMethod paymentMethod;
 	private Order order;
 
+	public Transaction(int tansID) {
+		super();
+		this.tansID = tansID;
+	}
+
 	public PayMethod getPaymentMethod() {
 		return this.paymentMethod;
 	}
@@ -24,4 +29,13 @@ public class Transaction {
 		this.order = order;
 	}
 
+	public int getTansID() {
+		return tansID;
+	}
+
+	public void setTansID(int tansID) {
+		this.tansID = tansID;
+	}
+	
+	
 }

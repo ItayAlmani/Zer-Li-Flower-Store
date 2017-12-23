@@ -38,8 +38,9 @@ public interface IOrder extends IParent  {
 	void addOrder(Order order) throws IOException;
 
 	/**
-	 * 
-	 * @param order
+	 * asks the server to update the <code>Order</code>'s <code>status</code> attribute
+	 * to be <b>canceled</b>
+	 * @param order - the object with the <code>orderID</code>
 	 */
 	void cancelOrder(Order order) throws IOException;
 
@@ -50,40 +51,46 @@ public interface IOrder extends IParent  {
 	Refund differenceDeliveryTimeAndCurrent(DeliveryDetails delivery);
 
 	/**
-	 * 
-	 * @param order
+	 * asks the server to update the <code>Order</code> with <code>orderID</code>
+	 * by the data in <code>order</code>
+	 * @param order - the object with the new data and the <code>orderID</code>
 	 */
 	void updateOrder(Order order) throws IOException;
 
 	/**
-	 * 
-	 * @param storeid
+	 * asks the server for all the <code>Order</code>s by <code>storeID</code>
+	 * @param storeID - the parameter to find the <code>Order</code>s
 	 */
-	public void getAllOrders(int storeid) throws IOException;
+	public void getAllOrdersByStoreID(int storeID) throws IOException;
 	
+	/**
+	 * send the response from server to the correct GUI which asked the Orders
+	 * @param orders - collection of orders
+	 */
 	public void sendOrders(ArrayList<Order> orders);
 
 	/**
-	 * 
-	 * @param order
+	 * adds the shipment's price to the final price of the order 
+	 * (in cart there is the final price)
+	 * @param order - the order which price needs to be updated
 	 */
 	void updatePriceWithShipment(Order order) throws IOException;
 	
 	/**
-	 * 
-	 * @param orderID
-	 * @param customerID
-	 * @param cartID
-	 * @param deliveryID
-	 * @param type
-	 * @param transaction
-	 * @param greeting
-	 * @param deliveryType
-	 * @param orderStatus
-	 * @param date
-	 * @return
+	 * parsing the data into new Order object
+	 * @param orderID		-	the order's ID
+	 * @param customerID	-	the customer who made the order's ID
+	 * @param cartID		-	the cart which contains all the products in order ID
+	 * @param deliveryID	-	the delivery's details's ID
+	 * @param type			-	the type of order by the ENUM
+	 * @param transactionID	-	the transaction of the whole order's ID
+	 * @param greeting		-	the greeting which can be attached to the order
+	 * @param deliveryType	-	the delivery type by the ENUM
+	 * @param orderStatus	-	the order's status by the ENUm
+	 * @param date			-	the order's date
+	 * @return new object created by the data above
 	 */
 	Order parse(int orderID, int customerID, int cartID, int deliveryID, String type,
-			Transaction transaction, String greeting, String deliveryType,
+			int transactionID, String greeting, String deliveryType, 
 			String orderStatus, Date date);
 }
