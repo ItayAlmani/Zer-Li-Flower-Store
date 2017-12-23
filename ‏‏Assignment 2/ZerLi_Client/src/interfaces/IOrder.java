@@ -15,7 +15,7 @@ public interface IOrder {
 	 * @param orderID - the id of the Order
 	 * @throws IOException
 	 */
-	void getOrderFromServer(String orderID) throws IOException;
+	void getOrderWithProducts(String orderID) throws IOException;
 
 	/**  */
 	void noOrderIDErrMsg();

@@ -13,11 +13,17 @@ import interfaces.IOrder;
 public class OrderController extends ParentController implements IOrder {
 
 	@Override
-	public void getOrderFromServer(String orderID) throws IOException {
+	public void getOrderWithProducts(String orderID) throws IOException {
 		myMsgArr.clear();
-		myMsgArr.add("SELECT * FROM order WHERE orderID='"+orderID+"';");
+		myMsgArr.add("SELECT prd.*, ord.*" + 
+				"FROM orders ord, productincart pic, product prd, shoppingcart sc" + 
+				"join orders ON sc.orderID=orders.orderID" + 
+				"join productincart ON sc.cartID=productincart.cartID" + 
+				"where pic.productID = prd.productID and ord.orderID = '"+orderID+"';");
 		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.SELECT,myMsgArr,Order.class));
 	}
+	
+	public
 
 	@Override
 	public void noOrderIDErrMsg() {
@@ -47,13 +53,13 @@ public class OrderController extends ParentController implements IOrder {
 	}
 
 	@Override
-	public String cancelOrderFromServer(Order order) throws IOException {
+	public String cancelOrder(Order order) throws IOException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public DeliveryDetails getDeliveryFromServer(String deliveryID) throws IOException {
+	public DeliveryDetails getDelivery(String deliveryID) throws IOException {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -65,21 +71,21 @@ public class OrderController extends ParentController implements IOrder {
 	}
 
 	@Override
-	public void updateOrderFromServer(Order order) throws IOException {
+	public void updateOrder(Order order) throws IOException {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public ArrayList<Order> getAllOrdersFromServer(String storeid) throws IOException {
+	public ArrayList<Order> getAllOrders(String storeid) throws IOException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void updatePriceWithShipmentFromServer(Order order) throws IOException {
+	public void updatePriceWithShipment(Order order) throws IOException {
 		// TODO Auto-generated method stub
 		
 	}
-
+	
 }

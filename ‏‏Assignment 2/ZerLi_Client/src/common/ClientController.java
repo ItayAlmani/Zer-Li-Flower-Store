@@ -1,9 +1,10 @@
-package controllers;
+package common;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
-import common.Context;
+import controllers.ParentController;
+import controllers.ProductController;
 import entities.*;
 import entities.CSMessage.MessageType;
 import gui.controllers.*;

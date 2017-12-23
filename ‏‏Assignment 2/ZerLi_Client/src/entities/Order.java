@@ -1,5 +1,6 @@
 package entities;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 import enums.DeliveryType;
@@ -69,6 +70,10 @@ public class Order {
 
 	public void setOrderStatus(OrderStatus orderStatus) {
 		this.orderStatus = orderStatus;
+	}
+	
+	public ArrayList<Item> getAllItems(){
+		return cart.getItems();
 	}
 
 	/**

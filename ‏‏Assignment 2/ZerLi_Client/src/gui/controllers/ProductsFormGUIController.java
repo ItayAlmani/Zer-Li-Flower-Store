@@ -26,7 +26,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import common.*;
-import controllers.ClientController;
 import controllers.ProductController;
 import entities.Product;
 
