@@ -1,12 +1,8 @@
 package entities;
 public class Customer extends User {
 
-	private String customerID;
+	private int customerID;
 	private PaymentAccount paymentAccount;
-	private boolean IsConnecting;
-
-	public String getCustomerID() {
-		return this.customerID;
-	}
+	private boolean isConnecting;
 
 }

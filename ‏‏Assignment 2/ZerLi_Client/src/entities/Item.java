@@ -5,17 +5,11 @@ import enums.ItemType;
 
 public class Item {
 
-	private String itemID;
+	private int itemID;
 	private ItemType type;
 	private float price;
 	private Color dominantColor;
 	private boolean inCatalog;
-	
-	private static Integer idCounter = 1;
-	public Item() {
-		this.itemID = idCounter.toString();
-		idCounter++;
-	}
 
 	public ItemType getType() {
 		return this.type;

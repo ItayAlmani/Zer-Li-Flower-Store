@@ -4,17 +4,11 @@ import java.util.Date;
 
 public class DeliveryDetails {
 
-	private String deliveryID;
+	private int deliveryID;
 	private String orderID;
 	protected Date date;
 	private boolean isImmediate = true;
 	private Store store;
-	
-	private static Integer idCounter = 1;
-	public DeliveryDetails() {
-		this.deliveryID = idCounter.toString();
-		idCounter++;
-	}
 
 	public void setOrderID(String orderID) {
 		this.orderID = orderID;

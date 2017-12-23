@@ -10,14 +10,7 @@ public class User {
 	private String password;
 	private UserType permissions;
 	
-	private static Integer idCounter = 1;
-	public User() {
-		this.privateID=idCounter.toString();
-		idCounter++;
-	}
-	
 	public User(String firstName, String lastName, String userName, String password, UserType permissions) {
-		this();
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.userName = userName;

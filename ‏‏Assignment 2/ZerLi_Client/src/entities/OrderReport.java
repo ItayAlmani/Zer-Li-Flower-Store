@@ -1,14 +1,17 @@
 package entities;
+
+import java.util.ArrayList;
+
 public class OrderReport extends QuarterlyReport {
 
-	private Order[] order;
-	private int[] counterPerType;
+	private ArrayList<Order> order;
+	private ArrayList<Integer> counterPerType;
 
-	public Order[] getOrder() {
+	public ArrayList<Order> getOrder() {
 		return this.order;
 	}
 
-	public void setCounterPerType(int[] counterPerType) {
+	public void setCounterPerType(ArrayList<Integer> counterPerType) {
 		this.counterPerType = counterPerType;
 	}
 

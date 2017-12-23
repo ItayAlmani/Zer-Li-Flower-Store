@@ -1,7 +1,7 @@
 package entities;
 
 public class Product{ 
-	private int id;
+	private int prdID;
 	private String name;
 	private ProductType type;
 	
@@ -9,21 +9,21 @@ public class Product{
 		Bouqute, Empty;
 	}
 	
-	public Product(int id, String name) {
+	public Product(int prdID, String name) {
 		super();
-		this.id = id;
+		this.prdID = prdID;
 		this.name = name;
 	}
 	
-	public Product(int id, String name, ProductType type) {
+	public Product(int prdID, String name, ProductType type) {
 		super();
-		this.id = id;
+		this.prdID = prdID;
 		this.name = name;
 		this.type = type;
 	}
 
-	public int getId() {
-		return id;
+	public int getPrdId() {
+		return prdID;
 	}
 
 	public String getName() {
