@@ -2,7 +2,7 @@ package lior;
 
 import java.util.Date;
 
-import interfaces.IHistogramOfCustomerComplaintsReportController;
+import lior.interfaces.IHistogramOfCustomerComplaintsReportController;
 
 public class HistogramOfCustomerComplaintsReportController implements IHistogramOfCustomerComplaintsReportController {
 

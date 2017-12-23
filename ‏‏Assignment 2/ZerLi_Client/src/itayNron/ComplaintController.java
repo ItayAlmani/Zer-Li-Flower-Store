@@ -11,8 +11,6 @@ public class ComplaintController {
 	 * @param complaint
 	 */
 	public void createNewComplaint(Complaint complaint) {
-		// TODO - implement ComplaintController.createNewComplaint
-		throw new UnsupportedOperationException();
 	}
 
 	/**
@@ -20,8 +18,6 @@ public class ComplaintController {
 	 * @param storeid
 	 */
 	public ArrayList<Complaint> getComplaintsByStore(String storeid) {
-		// TODO - implement ComplaintController.getComplaintsByStore
-		throw new UnsupportedOperationException();
 	}
 
 	/**

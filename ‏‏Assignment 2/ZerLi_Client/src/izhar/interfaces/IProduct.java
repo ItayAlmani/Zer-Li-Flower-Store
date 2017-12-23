@@ -1,4 +1,4 @@
-package interfaces;
+package izhar.interfaces;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -14,24 +14,18 @@ public interface IProduct {
 	void updateProduct(Product p) throws IOException;
 
 	/**
-	 * Parsing obj to ArrayList of <code>Product</code> and sending it to the client
-	 * @param obj - ArrayList of each cell in the table
-	 */
-	void handleGet(ArrayList<Object> obj);
-
-	/**
 	 * 
 	 * @param type
-	 * @param priceStart
-	 * @param priceEnd
+	 * @param priceStart	-	the minimum price of the wanted product
+	 * @param priceEnd		-	the maximum price of the wanted product
 	 */
 	void createNewProduct(ProductType type, float priceStart, float priceEnd);
 
 	/**
 	 * 
 	 * @param type
-	 * @param priceStart
-	 * @param priceEnd
+	 * @param priceStart	-	the minimum price of the wanted product
+	 * @param priceEnd		-	the maximum price of the wanted product
 	 * @param color
 	 */
 	void createNewProduct(ProductType type, float priceStart, float priceEnd, Color color);

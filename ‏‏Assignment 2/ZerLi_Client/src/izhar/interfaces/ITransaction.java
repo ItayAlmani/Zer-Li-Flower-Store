@@ -1,11 +1,11 @@
-package interfaces;
+package izhar.interfaces;
 
-import java.util.ArrayList;
 
 import entities.Transaction;
 import enums.PayMethod;
+import interfaces.IParent;
 
-public interface ITransaction {
+public interface ITransaction extends IParent {
 
 	/**
 	 * 

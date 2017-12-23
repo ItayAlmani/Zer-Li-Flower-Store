@@ -1,10 +1,10 @@
-package interfaces;
+package izhar.interfaces;
 
-import java.util.ArrayList;
 
 import entities.ShipmentDetails;
+import interfaces.IParent;
 
-public interface IShipment {
+public interface IShipment extends IParent  {
 
 	void insertShipmentToDB(ShipmentDetails shipmentDetails);
 }

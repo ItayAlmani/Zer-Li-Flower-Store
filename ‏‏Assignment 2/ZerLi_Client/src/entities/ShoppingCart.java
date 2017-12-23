@@ -7,7 +7,7 @@ public class ShoppingCart {
 	private int cartID;
 	private int orderID;
 	private float finalPrice;
-	private ArrayList<Item> items;
+	private ArrayList<Product> products;
 	private Customer customer;
 	public int getCartID() {
 		return cartID;
@@ -27,11 +27,11 @@ public class ShoppingCart {
 	public void setFinalPrice(float finalPrice) {
 		this.finalPrice = finalPrice;
 	}
-	public ArrayList<Item> getItems() {
-		return items;
+	public ArrayList<Product> getProducts() {
+		return products;
 	}
-	public void setItems(ArrayList<Item> items) {
-		this.items = items;
+	public void setItems(ArrayList<Product> products) {
+		this.products = products;
 	}
 	public Customer getCustomer() {
 		return customer;

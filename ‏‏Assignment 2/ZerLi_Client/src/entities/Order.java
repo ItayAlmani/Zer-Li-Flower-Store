@@ -72,8 +72,8 @@ public class Order {
 		this.orderStatus = orderStatus;
 	}
 	
-	public ArrayList<Item> getAllItems(){
-		return cart.getItems();
+	public ArrayList<Product> getAllItems(){
+		return cart.getProducts();
 	}
 
 	/**

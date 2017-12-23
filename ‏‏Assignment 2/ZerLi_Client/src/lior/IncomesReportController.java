@@ -3,7 +3,7 @@ package lior;
 import java.util.Date;
 
 import entities.IncomesReport;
-import interfaces.IIncomesReportController;
+import lior.interfaces.IIncomesReportController;
 
 public class IncomesReportController implements IIncomesReportController {
 

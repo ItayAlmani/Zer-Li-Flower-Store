@@ -1,4 +1,4 @@
-package itayNron;
+package izhar;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -12,7 +12,7 @@ import entities.CSMessage.MessageType;
 import entities.Product;
 import entities.Product.Color;
 import entities.Product.ProductType;
-import interfaces.IProduct;
+import izhar.interfaces.IProduct;
 
 public class ProductController extends ParentController implements IProduct {	
 	public void getProduct() throws IOException {

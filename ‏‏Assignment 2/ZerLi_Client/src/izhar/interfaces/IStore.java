@@ -1,13 +1,14 @@
-package interfaces;
+package izhar.interfaces;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import entities.Item;
+import entities.Product;
 import entities.Order;
 import entities.Store;
+import interfaces.IParent;
 
-public interface IStore {
+public interface IStore extends IParent {
 
 	/**
 	 * Static method
@@ -36,9 +37,9 @@ public interface IStore {
 	 * 
 	 * @param storeid
 	 */
-	HashMap<Item,Integer> getStockByStore(int storeid);
+	HashMap<Product,Integer> getStockByStore(int storeid);
 
 	ArrayList<Store> getAllPhysicalStores();
 
-	Store getAOrderOnlyStore();
+	Store getOrderOnlyStore();
 }

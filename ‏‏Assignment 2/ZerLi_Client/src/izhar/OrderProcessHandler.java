@@ -1,8 +1,8 @@
 package izhar;
 
 import entities.Order;
-import interfaces.IOrderProcess;
 import izhar.OrderController;
+import izhar.interfaces.IOrderProcess;
 
 public class OrderProcessHandler implements IOrderProcess {
 

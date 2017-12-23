@@ -8,7 +8,7 @@ import controllers.ParentController;
 import entities.*;
 import entities.CSMessage.MessageType;
 import enums.Refund;
-import interfaces.IOrder;
+import izhar.interfaces.IOrder;
 
 public class OrderController extends ParentController implements IOrder {
 

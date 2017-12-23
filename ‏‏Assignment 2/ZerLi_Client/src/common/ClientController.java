@@ -42,7 +42,6 @@ public class ClientController {
 				m = c.getMethod("handleGet",ArrayList.class);
 				m.invoke(c.newInstance(), csMsg.getObjs());
 			} catch (NoSuchMethodException | SecurityException |IllegalAccessException | IllegalArgumentException | InvocationTargetException | InstantiationException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

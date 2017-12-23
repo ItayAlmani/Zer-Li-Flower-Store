@@ -6,7 +6,7 @@ import java.util.HashMap;
 import entities.Item;
 import entities.Order;
 import entities.Store;
-import interfaces.IStore;
+import izhar.interfaces.IStore;
 
 public class StoreController implements IStore {
 
@@ -28,7 +28,7 @@ public class StoreController implements IStore {
 	public ArrayList<Store> getAllPhysicalStores() {
 	}
 
-	public Store getAOrderOnlyStore() {
+	public Store getOrderOnlyStore() {
 	}
 
 }

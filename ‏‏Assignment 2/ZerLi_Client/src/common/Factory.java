@@ -1,7 +1,7 @@
 package common;
-import interfaces.IProduct;
 import itayNron.*;
 import izhar.*;
+import izhar.interfaces.IProduct;
 import lior.*;
 import kfir.*;
 

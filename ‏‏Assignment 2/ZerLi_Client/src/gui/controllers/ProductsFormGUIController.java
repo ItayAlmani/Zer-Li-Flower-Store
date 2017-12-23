@@ -27,7 +27,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import common.*;
 import entities.Product;
-import itayNron.ProductController;
+import izhar.ProductController;
 
 public class ProductsFormGUIController extends ParentGUIController{
 

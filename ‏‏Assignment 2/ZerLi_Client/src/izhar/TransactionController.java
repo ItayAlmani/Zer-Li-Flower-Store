@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import entities.Transaction;
 import enums.PayMethod;
-import interfaces.ITransaction;
+import izhar.interfaces.ITransaction;
 
 public class TransactionController implements ITransaction {
 
