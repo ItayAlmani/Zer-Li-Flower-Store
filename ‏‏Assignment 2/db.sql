@@ -36,7 +36,7 @@ CREATE TABLE `product` (
 
 LOCK TABLES `product` WRITE;
 /*!40000 ALTER TABLE `product` DISABLE KEYS */;
-INSERT INTO `product` VALUES (1,'Kalanits Bouqute','Bouqute'),(2,'Lillies Bouqute','Bouqute'),(3,'Sunflower Bouqute','Bouqute');
+INSERT INTO `product` VALUES (1,'Kalanits Bouqute','Bouqute'),(2,'Lillies Bouqute','Bouqute'),(3,'Sunflower Bouqute','Bouqute'),(4,'Sunflower Bouqute','Bouqute');
 /*!40000 ALTER TABLE `product` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
