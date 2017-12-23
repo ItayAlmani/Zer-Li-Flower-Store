@@ -10,13 +10,15 @@ public interface IBrowsingProcess {
 	 * 
 	 * @param cartID
 	 */
-	ArrayList<Product> getProductsInCart(int cartID);
+	void getProductsInCart(int cartID);
+	
+	void sendProductsInCart(ArrayList<Product> products);
 
 	/**
 	 * 
 	 * @param productID
 	 */
-	Product getItemDetails(int productID);
+	Product getProductDetails(int productID);
 
 	void updateFinalPrice();
 

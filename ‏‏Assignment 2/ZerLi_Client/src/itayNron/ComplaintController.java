@@ -3,69 +3,37 @@ package itayNron;
 import java.util.ArrayList;
 
 import entities.Complaint;
+import itayNron.interfaces.IComplaint;
 
-public class ComplaintController {
+public class ComplaintController implements IComplaint {
 
-	/**
-	 * 
-	 * @param complaint
-	 */
-	public void createNewComplaint(Complaint complaint) {
+	@Override
+	public void addComplaint(Complaint complaint) {
 	}
-
-	/**
-	 * 
-	 * @param storeid
-	 */
-	public ArrayList<Complaint> getComplaintsByStore(String storeid) {
-	}
-
-	/**
-	 * 
-	 * @param complaint
-	 */
-	public String getComplaintStatus(Complaint complaint) {
-		// TODO - implement ComplaintController.getComplaintStatus
-		throw new UnsupportedOperationException();
-	}
-
-	/**
-	 * 
-	 * @param complaint
-	 */
-	public void insertComplaintToDB(Complaint complaint) {
-		// TODO - implement ComplaintController.insertComplaintToDB
-		throw new UnsupportedOperationException();
-	}
-
-	public Complaint[] getNotTreatedComplaints() {
-		// TODO - implement ComplaintController.getNotTreatedComplaints
-		throw new UnsupportedOperationException();
-	}
-
-	public Complaint[] getAllComplaints() {
-		// TODO - implement ComplaintController.getAllComplaints
-		throw new UnsupportedOperationException();
-	}
-
-	/**
-	 * 
-	 * @param complaint
-	 */
+	
+	@Override
 	public void updateComplaint(Complaint complaint) {
-		// TODO - implement ComplaintController.updateComplaint
-		throw new UnsupportedOperationException();
+	}	
+
+	@Override
+	public void getComplaintsByStore(int storeid) {
+	}
+	
+	@Override
+	public void sendComplaints(ArrayList<Complaint> complaints) {
 	}
 
-	
-	/**
-	 * Parsing obj to ArrayList of <code>Product</code> and sending it to the client
-	 * @param obj - ArrayList of each cell in the table
-	 * For example, go to controllers.ProductController
-	 */
-	public static void handleGet(ArrayList<Object> obj) {
-		// TODO - implement handleGet
+	@Override
+	public void getNotTreatedComplaints() {
 	}
-	
-	
+
+	@Override
+	public void getAllComplaints() {
+	}
+
+	@Override
+	public void handleGet(ArrayList<Object> obj) {
+		// TODO Auto-generated method stub
+		
+	}
 }

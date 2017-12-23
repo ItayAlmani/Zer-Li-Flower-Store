@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import entities.Order;
 import interfaces.IParent;
 
-public interface IOrderProcess extends IParent  {
+public interface IOrderProcess {
 
 	/**
 	 * 

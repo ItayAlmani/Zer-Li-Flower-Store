@@ -13,7 +13,7 @@ import izhar.interfaces.IOrder;
 public class OrderController extends ParentController implements IOrder {
 
 	@Override
-	public void getOrderWithProducts(String orderID) throws IOException {
+	public void getOrderWithProducts(int orderID) throws IOException {
 		myMsgArr.clear();
 		myMsgArr.add("SELECT prd.*, ord.*" + 
 				"FROM orders ord, productincart pic, product prd, shoppingcart sc" + 
@@ -22,19 +22,11 @@ public class OrderController extends ParentController implements IOrder {
 				"where pic.productID = prd.productID and ord.orderID = '"+orderID+"';");
 		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.SELECT,myMsgArr,Order.class));
 	}
-	
-	public
 
 	@Override
 	public void noOrderIDErrMsg() {
 		// TODO Auto-generated method stub
 		
-	}
-
-	@Override
-	public Refund checkOrderRefund(Order order) {
-		
-		return null;
 	}
 
 	@Override
@@ -44,24 +36,22 @@ public class OrderController extends ParentController implements IOrder {
 	}
 
 	@Override
-	public void addNewOrder(Order order) throws IOException {
-		myMsgArr.clear();
+	public void addOrder(Order order) throws IOException {
+		/*myMsgArr.clear();
 		myMsgArr.add(String.format(
 				"UPDATE product SET productName='%s' WHERE productID=%d;",p.getName(),p.getId()));
-		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.UPDATE,myMsgArr));
+		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.UPDATE,myMsgArr));*/
+	}
+
+	@Override
+	public void handleGet(ArrayList<Object> obj) {
+		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public String cancelOrder(Order order) throws IOException {
+	public void cancelOrder(Order order) throws IOException {
 		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public DeliveryDetails getDelivery(String deliveryID) throws IOException {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override
@@ -77,9 +67,15 @@ public class OrderController extends ParentController implements IOrder {
 	}
 
 	@Override
-	public ArrayList<Order> getAllOrders(String storeid) throws IOException {
+	public void getAllOrders(int storeid) throws IOException {
 		// TODO Auto-generated method stub
-		return null;
+		
+	}
+
+	@Override
+	public void sendOrders(ArrayList<Order> orders) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	@Override
@@ -87,14 +83,11 @@ public class OrderController extends ParentController implements IOrder {
 		// TODO Auto-generated method stub
 		
 	}
-	
-	/**
-	 * Parsing obj to ArrayList of <code>Product</code> and sending it to the client
-	 * @param obj - ArrayList of each cell in the table
-	 * For example, go to controllers.ProductController
-	 */
-	public static void handleGet(ArrayList<Object> obj) {
-		// TODO - implement handleGet
+
+	@Override
+	public void parse(ArrayList<Object> obj) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }

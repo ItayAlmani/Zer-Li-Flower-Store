@@ -6,29 +6,15 @@ import java.util.ArrayList;
 import entities.Product;
 import entities.Product.Color;
 import entities.Product.ProductType;
+import interfaces.IParent;
 
-public interface IProduct {
+public interface IProduct extends IParent {
 
-	void getProduct() throws IOException;
+	public void getProduct() throws IOException;
 
 	void updateProduct(Product p) throws IOException;
-
-	/**
-	 * 
-	 * @param type
-	 * @param priceStart	-	the minimum price of the wanted product
-	 * @param priceEnd		-	the maximum price of the wanted product
-	 */
-	void createNewProduct(ProductType type, float priceStart, float priceEnd);
-
-	/**
-	 * 
-	 * @param type
-	 * @param priceStart	-	the minimum price of the wanted product
-	 * @param priceEnd		-	the maximum price of the wanted product
-	 * @param color
-	 */
-	void createNewProduct(ProductType type, float priceStart, float priceEnd, Color color);
+	
+	void sendProducts(ArrayList<Product> prds);
 
 	/**
 	 * 
@@ -37,6 +23,7 @@ public interface IProduct {
 	 * @param priceEnd
 	 * @param color
 	 */
-	String[] assembleItemFromDB(ProductType type, float priceStart, float priceEnd, Color color);
+	void assembleItemFromDB(ProductType type, float priceStart, float priceEnd, Color color);
 
+	Product parse(int prdID, String name, String type, float price, String color, boolean inCatalog);
 }

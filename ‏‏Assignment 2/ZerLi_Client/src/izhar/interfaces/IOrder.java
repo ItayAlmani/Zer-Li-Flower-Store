@@ -23,12 +23,6 @@ public interface IOrder extends IParent  {
 
 	/**
 	 * 
-	 * @param order
-	 */
-	Refund checkOrderRefund(Order order);
-
-	/**
-	 * 
 	 * @param complaint
 	 */
 	boolean updateCustomerComplaintRefund(Complaint complaint);
@@ -37,23 +31,17 @@ public interface IOrder extends IParent  {
 	 * sending new order to server and asks to insert it to DataBase
 	 * @param order - the Order which will be add
 	 */
-	void addNewOrder(Order order) throws IOException;
+	void addOrder(Order order) throws IOException;
 
 	/**
 	 * 
 	 * @param order
 	 */
-	String cancelOrder(Order order) throws IOException;
+	void cancelOrder(Order order) throws IOException;
 
 	/**
-	 * 
-	 * @param deliveryID
-	 */
-	DeliveryDetails getDelivery(int deliveryID) throws IOException;
-
-	/**
-	 * 
-	 * @param delivery
+	 * Calculate refund by difference of current time and delivery time
+	 * @param delivery - the delivery object which it's time will be checked
 	 */
 	Refund differenceDeliveryTimeAndCurrent(DeliveryDetails delivery);
 
@@ -67,11 +55,15 @@ public interface IOrder extends IParent  {
 	 * 
 	 * @param storeid
 	 */
-	public ArrayList<Order> getAllOrders(int storeid) throws IOException;
+	public void getAllOrders(int storeid) throws IOException;
+	
+	public void sendOrders(ArrayList<Order> orders);
 
 	/**
 	 * 
 	 * @param order
 	 */
 	void updatePriceWithShipment(Order order) throws IOException;
+	
+	
 }

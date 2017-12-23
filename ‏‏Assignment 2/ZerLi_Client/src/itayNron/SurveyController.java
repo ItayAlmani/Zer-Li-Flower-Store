@@ -5,44 +5,29 @@ import java.util.Date;
 
 import entities.Store;
 import entities.Survey;
+import itayNron.interfaces.ISurvey;
 
-public class SurveyController {
+public class SurveyController implements ISurvey {
 
-	/**
-	 * 
-	 * @param survey
-	 */
-	public String createNewSurveyToDB(Survey survey) {
-		// TODO - implement SurveyController.createNewSurveyToDB
-		throw new UnsupportedOperationException();
+	@Override
+	public void addSurvey(Survey survey) {
 	}
 
-	/**
-	 * 
-	 * @param store
-	 */
-	public Survey[] getSurveyByStore(Store store) {
-		// TODO - implement SurveyController.getSurveyByStore
-		throw new UnsupportedOperationException();
-	}
-
-	/**
-	 * 
-	 * @param startDate
-	 * @param endDate
-	 */
-	public Survey analyzeReportByDates(Date startDate, Date endDate) {
-		// TODO - implement SurveyController.analyzeReportByDates
-		throw new UnsupportedOperationException();
+	@Override
+	public void getSurveyByStore(Store store) {
 	}
 	
-	/**
-	 * Parsing obj to ArrayList of <code>Product</code> and sending it to the client
-	 * @param obj - ArrayList of each cell in the table
-	 * For example, go to controllers.ProductController
-	 */
-	public static void handleGet(ArrayList<Object> obj) {
-		// TODO - implement handleGet
+	@Override
+	public void sendSurvys(ArrayList<Survey> survys) {
 	}
 
+	@Override
+	public void getSurveyByDates(Date startDate, Date endDate) {
+	}
+
+	@Override
+	public void handleGet(ArrayList<Object> obj) {
+		// TODO Auto-generated method stub
+		
+	}
 }

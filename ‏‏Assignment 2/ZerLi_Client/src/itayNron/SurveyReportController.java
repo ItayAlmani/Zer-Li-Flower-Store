@@ -3,33 +3,27 @@ package itayNron;
 import java.util.ArrayList;
 
 import entities.SurveyReport;
+import itayNron.interfaces.ISurveyReport;
 
-public class SurveyReportController {
+public class SurveyReportController implements ISurveyReport {
 
-	/**
-	 * 
-	 * @param surveyReport
-	 */
-	public SurveyReport insertNewSurveyReportToDB(SurveyReport surveyReport) {
-		// TODO - implement SurveyReportController.insertNewSurveyReportToDB
-		throw new UnsupportedOperationException();
+	@Override
+	public void addSurveyReport(SurveyReport surveyReport) {
 	}
 
-	/**
-	 * 
-	 * @param storeid
-	 */
-	public SurveyReport[] getSurveyReportByStore(int storeid) {
-		// TODO - implement SurveyReportController.getSurveyReportByStore
-		throw new UnsupportedOperationException();
+	@Override
+	public void getSurveyReportsByStore(int storeid) {
+		
+	}
+	
+	@Override
+	public void sendSurveyReports(ArrayList<SurveyReport> surveyReports) {
+		
 	}
 
-	/**
-	 * Parsing obj to ArrayList of <code>Product</code> and sending it to the client
-	 * @param obj - ArrayList of each cell in the table
-	 * For example, go to controllers.ProductController
-	 */
-	public static void handleGet(ArrayList<Object> obj) {
-		// TODO - implement handleGet
+	@Override
+	public void handleGet(ArrayList<Object> obj) {
+		// TODO Auto-generated method stub
+		
 	}
 }

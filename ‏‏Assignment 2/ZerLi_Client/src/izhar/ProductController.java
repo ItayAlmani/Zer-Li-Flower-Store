@@ -15,12 +15,14 @@ import entities.Product.ProductType;
 import izhar.interfaces.IProduct;
 
 public class ProductController extends ParentController implements IProduct {	
+	@Override
 	public void getProduct() throws IOException {
 		myMsgArr.clear();
 		myMsgArr.add("SELECT * FROM product;");
 		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.SELECT,myMsgArr,Product.class));
 	}
 	
+	@Override
 	public void updateProduct(Product p) throws IOException {
 		myMsgArr.clear();
 		myMsgArr.add(String.format(
@@ -28,24 +30,27 @@ public class ProductController extends ParentController implements IProduct {
 		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.UPDATE,myMsgArr));
 	}
 	
+	@Override
 	public void handleGet(ArrayList<Object> obj) {
 		ArrayList<Product> prds = new ArrayList<>();
 		for (int i = 0; i < obj.size(); i += 6)
-			prds.add(parsingToProduct(
+			prds.add(parse(
 					(int) obj.get(i), 
 					(String) obj.get(i + 1), 
 					(String) obj.get(i + 2),
 					(float) obj.get(i + 3),
 					(String) obj.get(i + 4),
 					((int)obj.get(i + 5))!= 0));
-		sendProductsToClient(prds);
+		sendProducts(prds);
 	}
 	
-	private Product parsingToProduct(int prdID, String name, String type, float price, String color, boolean inCatalog) {
+	@Override
+	public Product parse(int prdID, String name, String type, float price, String color, boolean inCatalog) {
 		return new Product(prdID, name, type);
 	}
 	
-	private void sendProductsToClient(ArrayList<Product> prds) {
+	@Override
+	public void sendProducts(ArrayList<Product> prds) {
 		Method m = null;
 		try {
 			m = Context.currentGUI.getClass().getMethod("productsToComboBox",ArrayList.class);
@@ -59,18 +64,8 @@ public class ProductController extends ParentController implements IProduct {
 		}
 	}	
 
-	public void createNewProduct(ProductType type, float priceStart, float priceEnd) {
-		// TODO - implement ItemController.createNewItem
-		throw new UnsupportedOperationException();
-	}
-
-	public void createNewProduct(ProductType type, float priceStart, float priceEnd, Color color) {
-		// TODO - implement ItemController.createNewItem
-		throw new UnsupportedOperationException();
-	}
-
-	public String[] assembleItemFromDB(ProductType type, float priceStart, float priceEnd, Color color) {
-		// TODO - implement ItemController.assembleItemFromDB
-		throw new UnsupportedOperationException();
+	@Override
+	public void assembleItemFromDB(ProductType type, float priceStart, float priceEnd, Color color) {
+		
 	}
 }
