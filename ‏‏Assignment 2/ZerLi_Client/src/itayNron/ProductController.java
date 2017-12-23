@@ -1,4 +1,4 @@
-package controllers;
+package itayNron;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -6,28 +6,28 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 
 import common.Context;
+import controllers.ParentController;
 import entities.CSMessage;
 import entities.CSMessage.MessageType;
 import entities.Product;
+import entities.Product.Color;
+import entities.Product.ProductType;
+import interfaces.IProduct;
 
-public class ProductController extends ParentController {	
-	public void askProductsFromServer() throws IOException {
+public class ProductController extends ParentController implements IProduct {	
+	public void getProduct() throws IOException {
 		myMsgArr.clear();
 		myMsgArr.add("SELECT * FROM product;");
 		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.SELECT,myMsgArr,Product.class));
 	}
 	
-	public void askUpdateProductFromServer(Product p) throws IOException {
+	public void updateProduct(Product p) throws IOException {
 		myMsgArr.clear();
 		myMsgArr.add(String.format(
 				"UPDATE product SET productName='%s' WHERE productID=%d;",p.getName(),p.getPrdId()));
 		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.UPDATE,myMsgArr));
 	}
 	
-	/**
-	 * Parsing obj to ArrayList of <code>Product</code> and sending it to the client
-	 * @param obj - ArrayList of each cell in the table
-	 */
 	public void handleGet(ArrayList<Object> obj) {
 		ArrayList<Product> prds = new ArrayList<>();
 		for (int i = 0; i < obj.size(); i += 6)
@@ -58,4 +58,19 @@ public class ProductController extends ParentController {
 			e2.printStackTrace();
 		}
 	}	
+
+	public void createNewProduct(ProductType type, float priceStart, float priceEnd) {
+		// TODO - implement ItemController.createNewItem
+		throw new UnsupportedOperationException();
+	}
+
+	public void createNewProduct(ProductType type, float priceStart, float priceEnd, Color color) {
+		// TODO - implement ItemController.createNewItem
+		throw new UnsupportedOperationException();
+	}
+
+	public String[] assembleItemFromDB(ProductType type, float priceStart, float priceEnd, Color color) {
+		// TODO - implement ItemController.assembleItemFromDB
+		throw new UnsupportedOperationException();
+	}
 }

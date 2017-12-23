@@ -26,8 +26,8 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import common.*;
-import controllers.ProductController;
 import entities.Product;
+import itayNron.ProductController;
 
 public class ProductsFormGUIController extends ParentGUIController{
 
@@ -43,7 +43,7 @@ public class ProductsFormGUIController extends ParentGUIController{
 
 	private void setProductsComboBox() {
 		try {
-			Context.fac.product.askProductsFromServer();
+			Context.fac.product.getProduct();
 		} catch (IOException e) {
 			System.err.println("ProdForm");
 			e.printStackTrace();
@@ -100,7 +100,7 @@ public class ProductsFormGUIController extends ParentGUIController{
 		if(txtShowName.getText()!=null) {
 			if(txtShowName.getText().equals(p.getName())==false) {//Name changed
 				p.setName(txtShowName.getText());
-				Context.fac.product.askUpdateProductFromServer(p);
+				Context.fac.product.updateProduct(p);
 			}
 		}
 	}

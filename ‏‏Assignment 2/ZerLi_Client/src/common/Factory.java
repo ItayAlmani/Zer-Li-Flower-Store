@@ -1,5 +1,5 @@
 package common;
-import controllers.ProductController;
+import interfaces.IProduct;
 import itayNron.*;
 import izhar.*;
 import lior.*;
@@ -38,5 +38,5 @@ public class Factory {
 	public OrderReportController orderReport = new OrderReportController();
 	public SatisfactionReportController satisfactionReport = new SatisfactionReportController();*/
 	
-	public ProductController product = new ProductController();
+	public IProduct product = new ProductController();
 }
