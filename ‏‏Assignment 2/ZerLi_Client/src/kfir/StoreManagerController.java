@@ -1,5 +1,8 @@
 package kfir;
-public class StoreManagerController extends StoreWorkerController {
+
+import entities.PaymentAccount;
+
+public class StoreManagerController{
 
 	/**
 	 * 

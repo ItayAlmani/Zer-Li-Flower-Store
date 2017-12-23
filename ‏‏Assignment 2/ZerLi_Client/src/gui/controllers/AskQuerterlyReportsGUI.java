@@ -1,9 +1,17 @@
 package gui.controllers;
+
+import java.util.ArrayList;
+
+import entities.Store;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.TextField;
+
 public class AskQuerterlyReportsGUI {
 
 	private ComboBox QRStoreSelect;
-	private TextBox QRDateSelect;
-	private Button btnSelect = Select;
+	private TextField QRDateSelect;
+	private Button btnSelect;
 	private ComboBox QRRepTypeSelect;
 
 	public void loadGUI() {
@@ -20,7 +28,7 @@ public class AskQuerterlyReportsGUI {
 	 * 
 	 * @param stores
 	 */
-	public void LoadAllStoresIntoComboBox(Store[] stores) {
+	public void LoadAllStoresIntoComboBox(ArrayList<Store> stores) {
 		// TODO - implement AskQuerterlyReportsGUI.LoadAllStoresIntoComboBox
 		throw new UnsupportedOperationException();
 	}

@@ -7,16 +7,15 @@ import enums.PaymentAccountType;
 
 public interface IShoppingCart {
 
-	boolean isCartEmpty(String cartID);
+	boolean isCartEmpty(int cartID);
 
 	void showCartEmptyErrMsg();
 
-	ArrayList<Item> getItemsInCart(String cartID);
+	ArrayList<Item> getItemsInCart(int cartID);
 
 	void addItemToCart(Item item);
 
 	void updateFinalPriceByPAT(PaymentAccountType pat);
 
 	boolean updateTBItemsInCartInDB(Item item);
-
 }

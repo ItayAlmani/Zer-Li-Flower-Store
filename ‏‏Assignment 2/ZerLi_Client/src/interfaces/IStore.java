@@ -5,7 +5,6 @@ import java.util.HashMap;
 
 import entities.Item;
 import entities.Order;
-import entities.Stock;
 import entities.Store;
 
 public interface IStore {
@@ -37,10 +36,9 @@ public interface IStore {
 	 * 
 	 * @param storeid
 	 */
-	HashMap<Item,Integer> getStockByStore(String storeid);
+	HashMap<Item,Integer> getStockByStore(int storeid);
 
 	ArrayList<Store> getAllPhysicalStores();
 
 	Store getAOrderOnlyStore();
-
 }

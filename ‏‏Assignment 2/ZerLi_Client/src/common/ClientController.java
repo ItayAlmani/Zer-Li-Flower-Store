@@ -2,9 +2,10 @@ package common;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 import controllers.ParentController;
-import controllers.ProductController;
 import entities.*;
 import entities.CSMessage.MessageType;
 import gui.controllers.*;
@@ -26,8 +27,16 @@ public class ClientController {
 
 		/*------------------SELECT queries from DB------------------*/
 		if (msgType.equals(MessageType.SELECT)) {
-			if(csMsg.getClasz().equals(Product.class)) {
-				ProductController.handleGetProducts(csMsg.getObjs());
+			try {
+				String className = csMsg.getClasz().getName();
+				Class c = Class.forName("controllers"+
+						className.substring(className.lastIndexOf("."))+
+						"Controller");
+				Method m = c.getMethod("handleGet",ArrayList.class);
+				m.invoke(c.newInstance(), csMsg.getObjs());
+			} catch (NoSuchMethodException | SecurityException | ClassNotFoundException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | InstantiationException e) {
+				System.err.println("Reflection in ClientController didn't work");
+				e.printStackTrace();
 			}
 		}
 

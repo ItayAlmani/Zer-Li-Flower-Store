@@ -39,6 +39,8 @@ public class Context {
 	/** The current JavaFX stage <=> the window of the GUI */
 	public static Stage stage = null;
 	
+	public static Factory fac = new Factory();
+	
 	private User user;
 	private ShoppingCart cart;
 	

@@ -43,7 +43,7 @@ public class ProductsFormGUIController extends ParentGUIController{
 
 	private void setProductsComboBox() {
 		try {
-			ProductController.askProductsFromServer();
+			Context.fac.product.askProductsFromServer();
 		} catch (IOException e) {
 			System.err.println("ProdForm");
 			e.printStackTrace();
@@ -87,7 +87,7 @@ public class ProductsFormGUIController extends ParentGUIController{
 	
 	public void loadProduct(Product p) {
 		this.p=p;
-		Integer id = p.getId();
+		Integer id = p.getPrdId();
 		this.lblShowID.setText(id.toString());
 		this.lblShowType.setText(p.getType().toString());
 		this.txtShowName.setText(p.getName());
@@ -100,7 +100,7 @@ public class ProductsFormGUIController extends ParentGUIController{
 		if(txtShowName.getText()!=null) {
 			if(txtShowName.getText().equals(p.getName())==false) {//Name changed
 				p.setName(txtShowName.getText());
-				ProductController.askUpdateProductFromServer(p);
+				Context.fac.product.askUpdateProductFromServer(p);
 			}
 		}
 	}
