@@ -12,9 +12,8 @@ import kfir.*;
  *
  */
 public class Factory {
-	/*public CatalogController catalog = new CatalogController();
+	public CatalogController catalog = new CatalogController();
 	public ComplaintController complaint = new ComplaintController();
-	public ItemController item = new ItemController();
 	public SurveyController survey = new SurveyController();
 	public SurveyReportController surveyReport = new SurveyReportController();
 	
@@ -25,8 +24,9 @@ public class Factory {
 	public ShoppingCartController cart = new ShoppingCartController();
 	public StoreController store = new StoreController();
 	public TransactionController transaction = new TransactionController();
+	public ProductController product = new ProductController();
 	
-	public AdminController admin = new AdminController();
+	/*public AdminController admin = new AdminController();
 	public CustomerController customer = new CustomerController();
 	public PaymantAccountController paymentAccount = new PaymantAccountController();
 	public ServiceExpertController serviceExpert = new ServiceExpertController();
@@ -37,6 +37,4 @@ public class Factory {
 	public IncomesReportController incomesReport = new IncomesReportController();
 	public OrderReportController orderReport = new OrderReportController();
 	public SatisfactionReportController satisfactionReport = new SatisfactionReportController();*/
-	
-	public IProduct product = new ProductController();
 }

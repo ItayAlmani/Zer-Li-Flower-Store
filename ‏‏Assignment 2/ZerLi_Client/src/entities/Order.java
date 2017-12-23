@@ -10,7 +10,7 @@ import enums.OrderType;
 public class Order {
 
 	private int orderID;
-	private Customer customer;
+	private int customerID;
 	private ShoppingCart cart;
 	private DeliveryDetails delivery;
 	private OrderType type;
@@ -24,8 +24,8 @@ public class Order {
 		return this.orderID;
 	}
 
-	public Customer getCustomer() {
-		return this.customer;
+	public int getCustomerID() {
+		return this.customerID;
 	}
 
 	public ShoppingCart getCart() {
@@ -75,6 +75,7 @@ public class Order {
 	public ArrayList<Product> getAllItems(){
 		return cart.getProducts();
 	}
+	
 
 	/**
 	 * 
@@ -85,4 +86,49 @@ public class Order {
 		
 	}
 
+	public OrderType getType() {
+		return type;
+	}
+
+	public void setType(OrderType type) {
+		this.type = type;
+	}
+
+	public Date getDate() {
+		return date;
+	}
+
+	public void setDate(Date date) {
+		this.date = date;
+	}
+
+	public void setOrderID(int orderID) {
+		this.orderID = orderID;
+	}
+
+
+	public void setCart(ShoppingCart cart) {
+		this.cart = cart;
+	}
+
+	public Order(int orderID, int customerID, ShoppingCart cart, DeliveryDetails delivery, OrderType type,
+			Transaction transaction, String greeting, DeliveryType deliveryType, OrderStatus orderStatus, Date date) {
+		super();
+		this.orderID = orderID;
+		this.customerID = customerID;
+		this.cart = cart;
+		this.delivery = delivery;
+		this.type = type;
+		this.transaction = transaction;
+		this.greeting = greeting;
+		this.deliveryType = deliveryType;
+		this.orderStatus = orderStatus;
+		this.date = date;
+	}
+
+	public void setCustomerID(int customerID) {
+		this.customerID = customerID;
+	}
+	
+	
 }
