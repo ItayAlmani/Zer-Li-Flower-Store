@@ -7,6 +7,7 @@ import gui.controllers.ParentGUIController;
 
 public class ParentController {
 	protected static ArrayList<Object> myMsgArr = new ArrayList<>();
+	
 	public static void sendResultToClient(boolean response) {
 		if(response==true)
 			((ParentGUIController)Context.currentGUI).ShowSuccessMsg();

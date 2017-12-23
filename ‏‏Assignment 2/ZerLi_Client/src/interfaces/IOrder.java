@@ -1,5 +1,6 @@
 package interfaces;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import entities.Complaint;
@@ -10,10 +11,11 @@ import enums.Refund;
 public interface IOrder {
 
 	/**
-	 * Returns Order by <code>orderID</code>
+	 * asks from server an Order with orderid=<code>orderID</code>
 	 * @param orderID - the id of the Order
+	 * @throws IOException
 	 */
-	Order getOrder(String orderID);
+	void getOrderFromServer(String orderID) throws IOException;
 
 	/**  */
 	void noOrderIDErrMsg();
@@ -31,22 +33,22 @@ public interface IOrder {
 	boolean updateCustomerComplaintRefund(Complaint complaint);
 
 	/**
-	 * 
-	 * @param order
+	 * sending new order to server and asks to insert it to DataBase
+	 * @param order - the Order which will be add
 	 */
-	void insertOrderToDB(Order order);
+	void addNewOrder(Order order) throws IOException;
 
 	/**
 	 * 
 	 * @param order
 	 */
-	String cancelOrder(Order order);
+	String cancelOrder(Order order) throws IOException;
 
 	/**
 	 * 
 	 * @param deliveryID
 	 */
-	DeliveryDetails getDeliveryByID(String deliveryID);
+	DeliveryDetails getDelivery(String deliveryID) throws IOException;
 
 	/**
 	 * 
@@ -58,18 +60,18 @@ public interface IOrder {
 	 * 
 	 * @param order
 	 */
-	void updateOrderInDB(Order order);
+	void updateOrder(Order order) throws IOException;
 
 	/**
 	 * 
 	 * @param storeid
 	 */
-	public ArrayList<Order> getOrdersByStore(String storeid);
+	public ArrayList<Order> getAllOrders(String storeid) throws IOException;
 
 	/**
 	 * 
 	 * @param order
 	 */
-	void updatePriceWithShipment(Order order);
+	void updatePriceWithShipment(Order order) throws IOException;
 
 }
