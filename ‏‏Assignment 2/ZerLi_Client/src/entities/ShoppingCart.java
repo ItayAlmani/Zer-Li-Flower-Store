@@ -4,15 +4,41 @@ import java.util.ArrayList;
 
 public class ShoppingCart {
 
-	private String cartID;
-	private String orderID;
+	private int cartID;
+	private int orderID;
 	private float finalPrice;
-	private ArrayList<Item> items;
+	private ArrayList<Product> products;
 	private Customer customer;
-	
-	private static Integer idCounter = 1;
-	public ShoppingCart() {
-		this.cartID = idCounter.toString();
-		idCounter++;
+	public int getCartID() {
+		return cartID;
 	}
+	public void setCartID(int cartID) {
+		this.cartID = cartID;
+	}
+	public int getOrderID() {
+		return orderID;
+	}
+	public void setOrderID(int orderID) {
+		this.orderID = orderID;
+	}
+	public float getFinalPrice() {
+		return finalPrice;
+	}
+	public void setFinalPrice(float finalPrice) {
+		this.finalPrice = finalPrice;
+	}
+	public ArrayList<Product> getProducts() {
+		return products;
+	}
+	public void setItems(ArrayList<Product> products) {
+		this.products = products;
+	}
+	public Customer getCustomer() {
+		return customer;
+	}
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
+	}
+	
+	
 }

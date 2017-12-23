@@ -1,9 +1,11 @@
-package interfaces;
+package izhar.interfaces;
+
 
 import entities.Transaction;
 import enums.PayMethod;
+import interfaces.IParent;
 
-public interface ITransaction {
+public interface ITransaction extends IParent {
 
 	/**
 	 * 
@@ -11,12 +13,11 @@ public interface ITransaction {
 	 * @param paymentMethod
 	 * @param orderID
 	 */
-	void createNewTransaction(String customerID, PayMethod paymentMethod, String orderID);
+	void createNewTransaction(int customerID, PayMethod paymentMethod, int orderID);
 
 	/**
 	 * 
 	 * @param transaction
 	 */
 	void addTransactionToDB(Transaction transaction);
-
 }

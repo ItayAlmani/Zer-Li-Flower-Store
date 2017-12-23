@@ -4,17 +4,11 @@ import java.util.Date;
 
 public class SurveyReport {
 
-	private String surveyReportID;
+	private int surveyReportID;
+	private int storeID;
 	private Survey surveyAnalyzes;
 	private String verbalReport;
 	private Date date;
-	private String storeID;
-	
-	private static Integer idCounter = 1;
-	public SurveyReport() {
-		this.surveyReportID = idCounter.toString();
-		idCounter++;
-	}
 
 	public Survey getSurveyAnalyzes() {
 		return this.surveyAnalyzes;

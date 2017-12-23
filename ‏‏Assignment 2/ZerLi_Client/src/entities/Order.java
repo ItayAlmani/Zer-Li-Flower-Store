@@ -1,12 +1,15 @@
 package entities;
 
+import java.util.ArrayList;
+import java.util.Date;
+
 import enums.DeliveryType;
 import enums.OrderStatus;
 import enums.OrderType;
 
 public class Order {
 
-	private String orderID;
+	private int orderID;
 	private Customer customer;
 	private ShoppingCart cart;
 	private DeliveryDetails delivery;
@@ -15,14 +18,9 @@ public class Order {
 	private String greeting;
 	private DeliveryType deliveryType;
 	private OrderStatus orderStatus = OrderStatus.InProcess;
-	
-	private static Integer idCounter = 1;
-	public Order() {
-		this.orderID = idCounter.toString();
-		idCounter++;
-	}
+	private Date date;
 
-	public String getOrderID() {
+	public int getOrderID() {
 		return this.orderID;
 	}
 
@@ -73,6 +71,10 @@ public class Order {
 	public void setOrderStatus(OrderStatus orderStatus) {
 		this.orderStatus = orderStatus;
 	}
+	
+	public ArrayList<Product> getAllItems(){
+		return cart.getProducts();
+	}
 
 	/**
 	 * 
@@ -80,7 +82,6 @@ public class Order {
 	 * @param cart
 	 */
 	public Order(Customer customer, ShoppingCart cart) {
-		this();
 		
 	}
 

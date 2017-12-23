@@ -5,7 +5,7 @@ public class HistogramOfCustomerComplaintsGUI {
 	 * 
 	 * @param Histogram
 	 */
-	public void loadGUI(HistogramReport Histogram) {
+	public void loadGUI(/*HistogramReport*/Object Histogram) {
 		// TODO - implement HistogramOfCustomerComplaintsGUI.loadGUI
 		throw new UnsupportedOperationException();
 	}

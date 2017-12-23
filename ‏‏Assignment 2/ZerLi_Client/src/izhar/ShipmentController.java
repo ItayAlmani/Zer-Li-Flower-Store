@@ -1,7 +1,7 @@
 package izhar;
 
 import entities.ShipmentDetails;
-import interfaces.IShipment;
+import izhar.interfaces.IShipment;
 
 public class ShipmentController implements IShipment {
 

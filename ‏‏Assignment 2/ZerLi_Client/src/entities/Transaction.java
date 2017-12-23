@@ -4,15 +4,9 @@ import enums.PayMethod;
 
 public class Transaction {
 
-	private String tansID;
+	private int tansID;
 	private PayMethod paymentMethod;
 	private Order order;
-	
-	private static Integer idCounter = 1;
-	public Transaction() {
-		this.tansID = idCounter.toString();
-		idCounter++;
-	}
 
 	public PayMethod getPaymentMethod() {
 		return this.paymentMethod;

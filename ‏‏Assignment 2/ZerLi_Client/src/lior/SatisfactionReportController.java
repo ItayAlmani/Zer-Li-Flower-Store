@@ -1,6 +1,6 @@
 package lior;
 
-import interfaces.ISatisfactionReportController;
+import lior.interfaces.ISatisfactionReportController;
 
 public class SatisfactionReportController implements ISatisfactionReportController {
 

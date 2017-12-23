@@ -1,9 +1,11 @@
-package controllers;
+package common;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
-import common.Context;
+import controllers.ParentController;
 import entities.*;
 import entities.CSMessage.MessageType;
 import gui.controllers.*;
@@ -25,8 +27,22 @@ public class ClientController {
 
 		/*------------------SELECT queries from DB------------------*/
 		if (msgType.equals(MessageType.SELECT)) {
-			if(csMsg.getClasz().equals(Product.class)) {
-				ProductController.handleGetProducts(csMsg.getObjs());
+			String className = csMsg.getClasz().getName();
+			className=className.substring(className.lastIndexOf("."));
+			Class c = null;
+			Method m;
+			if((c=findHandleGetFunc(className, "controllers"))==null) {
+				if((c=findHandleGetFunc(className, "itayNron"))==null)
+					if((c=findHandleGetFunc(className, "izhar"))==null)
+						if((c=findHandleGetFunc(className, "lior"))==null)
+							if((c=findHandleGetFunc(className, "kfir"))==null)
+								return;
+			}
+			try {
+				m = c.getMethod("handleGet",ArrayList.class);
+				m.invoke(c.newInstance(), csMsg.getObjs());
+			} catch (NoSuchMethodException | SecurityException |IllegalAccessException | IllegalArgumentException | InvocationTargetException | InstantiationException e) {
+				e.printStackTrace();
 			}
 		}
 
@@ -97,5 +113,14 @@ public class ClientController {
 			((ConnectionConfigGUIController)Context.currentGUI).setDBDataInGUI(dbData);
 		}
 	}
-
+	private static Class findHandleGetFunc(String className, String classPath) {
+		try {
+			Class c =	Class.forName(classPath+className+"Controller");
+			System.err.println("Class found in "+classPath+className);
+			return c;
+		} catch (ClassNotFoundException | SecurityException | IllegalArgumentException e) {
+			System.err.println("No class found in "+classPath+className);
+		}
+		return null;
+	}
 }

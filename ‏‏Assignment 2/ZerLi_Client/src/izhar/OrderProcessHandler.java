@@ -1,14 +1,16 @@
 package izhar;
 
+import java.util.ArrayList;
+
+import controllers.ParentController;
 import entities.Order;
-import interfaces.IOrderProcess;
 import izhar.OrderController;
+import izhar.interfaces.IOrderProcess;
 
-public class OrderProcessHandler implements IOrderProcess {
-
-	private OrderController orderController;
+public class OrderProcessHandler extends ParentController implements IOrderProcess {
 
 	public String updateAfterCancellation(Order order) {
+		return null;
 	}
 	
 	public void updateFinilizeOrder(Order order) {

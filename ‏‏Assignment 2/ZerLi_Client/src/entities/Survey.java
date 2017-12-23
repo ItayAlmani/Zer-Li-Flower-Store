@@ -4,16 +4,10 @@ import java.util.Date;
 
 public class Survey {
 
-	private String surveyID;
+	private int surveyID;
 	private int[] surveyAnswerers;
 	private Date date;
 	private Store store;
-	
-	private static Integer idCounter = 1;
-	public Survey() {
-		this.surveyID = idCounter.toString();
-		idCounter++;
-	}
 
 	public int[] getSurveyAnswerers() {
 		return this.surveyAnswerers;

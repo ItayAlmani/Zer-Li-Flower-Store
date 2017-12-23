@@ -1,6 +1,9 @@
-package interfaces;
+package izhar.interfaces;
+
+import java.util.ArrayList;
 
 import entities.Order;
+import interfaces.IParent;
 
 public interface IOrderProcess {
 
@@ -15,5 +18,4 @@ public interface IOrderProcess {
 	 * @param order
 	 */
 	void updateFinilizeOrder(Order order);
-
 }

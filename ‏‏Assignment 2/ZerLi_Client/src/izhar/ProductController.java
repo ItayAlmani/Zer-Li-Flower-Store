@@ -1,4 +1,4 @@
-package controllers;
+package izhar;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -6,51 +6,51 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 
 import common.Context;
+import controllers.ParentController;
 import entities.CSMessage;
 import entities.CSMessage.MessageType;
 import entities.Product;
+import entities.Product.Color;
 import entities.Product.ProductType;
-import gui.controllers.ProductsFormGUIController;
+import izhar.interfaces.IProduct;
 
-public class ProductController extends ParentController {	
-	public static void askProductsFromServer() throws IOException {
+public class ProductController extends ParentController implements IProduct {	
+	@Override
+	public void getProduct() throws IOException {
 		myMsgArr.clear();
 		myMsgArr.add("SELECT * FROM product;");
 		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.SELECT,myMsgArr,Product.class));
 	}
 	
-	public static void askUpdateProductFromServer(Product p) throws IOException {
+	@Override
+	public void updateProduct(Product p) throws IOException {
 		myMsgArr.clear();
 		myMsgArr.add(String.format(
-				"UPDATE product SET productName='%s' WHERE productID=%d;",p.getName(),p.getId()));
+				"UPDATE product SET productName='%s' WHERE productID=%d;",p.getName(),p.getPrdId()));
 		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.UPDATE,myMsgArr));
 	}
 	
-	/**
-	 * Parsing obj to ArrayList of <code>Product</code> and sending it to the client
-	 * @param obj - ArrayList of each cell in the table
-	 */
-	public static void handleGetProducts(ArrayList<Object> obj) {
+	@Override
+	public void handleGet(ArrayList<Object> obj) {
 		ArrayList<Product> prds = new ArrayList<>();
-		for (int i = 0; i < obj.size(); i += 3)
-			prds.add(parsingToProduct((int) obj.get(i), (String) obj.get(i + 1), (String) obj.get(i + 2)));
-		sendProductsToClient(prds);
+		for (int i = 0; i < obj.size(); i += 6)
+			prds.add(parse(
+					(int) obj.get(i), 
+					(String) obj.get(i + 1), 
+					(String) obj.get(i + 2),
+					(float) obj.get(i + 3),
+					(String) obj.get(i + 4),
+					((int)obj.get(i + 5))!= 0));
+		sendProducts(prds);
 	}
 	
-	private static Product parsingToProduct(int id, String name, String type) {
-		Product p = new Product(id, name);
-		switch (type.toLowerCase()) {
-		case "bouqute":
-			p.setType(ProductType.Bouqute);
-			break;
-		default:
-			p.setType(ProductType.Empty);
-			break;
-		}
-		return p;
+	@Override
+	public Product parse(int prdID, String name, String type, float price, String color, boolean inCatalog) {
+		return new Product(prdID, name, type);
 	}
 	
-	private static void sendProductsToClient(ArrayList<Product> prds) {
+	@Override
+	public void sendProducts(ArrayList<Product> prds) {
 		Method m = null;
 		try {
 			m = Context.currentGUI.getClass().getMethod("productsToComboBox",ArrayList.class);
@@ -62,5 +62,10 @@ public class ProductController extends ParentController {
 			System.err.println("No method called 'productsToComboBox'");
 			e2.printStackTrace();
 		}
+	}	
+
+	@Override
+	public void assembleItemFromDB(ProductType type, float priceStart, float priceEnd, Color color) {
+		
 	}
 }

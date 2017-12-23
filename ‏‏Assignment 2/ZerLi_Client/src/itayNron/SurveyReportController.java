@@ -1,22 +1,29 @@
 package itayNron;
-public class SurveyReportController {
 
-	/**
-	 * 
-	 * @param surveyReport
-	 */
-	public SurveyReport insertNewSurveyReportToDB(SurveyReport surveyReport) {
-		// TODO - implement SurveyReportController.insertNewSurveyReportToDB
-		throw new UnsupportedOperationException();
+import java.util.ArrayList;
+
+import entities.SurveyReport;
+import itayNron.interfaces.ISurveyReport;
+
+public class SurveyReportController implements ISurveyReport {
+
+	@Override
+	public void addSurveyReport(SurveyReport surveyReport) {
 	}
 
-	/**
-	 * 
-	 * @param storeid
-	 */
-	public SurveyReport[] getSurveyReportByStore(string storeid) {
-		// TODO - implement SurveyReportController.getSurveyReportByStore
-		throw new UnsupportedOperationException();
+	@Override
+	public void getSurveyReportsByStore(int storeid) {
+		
+	}
+	
+	@Override
+	public void sendSurveyReports(ArrayList<SurveyReport> surveyReports) {
+		
 	}
 
+	@Override
+	public void handleGet(ArrayList<Object> obj) {
+		// TODO Auto-generated method stub
+		
+	}
 }

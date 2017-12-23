@@ -1,7 +1,9 @@
 package entities;
 
+import java.util.ArrayList;
+
 public class IncomesReport extends QuarterlyReport {
 
-	private Order[] order;
+	private ArrayList<Order> orders;
 
 }

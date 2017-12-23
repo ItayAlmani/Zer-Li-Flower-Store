@@ -1,32 +1,33 @@
 package itayNron;
-public class SurveyController {
 
-	/**
-	 * 
-	 * @param survey
-	 */
-	public string createNewSurveyToDB(Survey survey) {
-		// TODO - implement SurveyController.createNewSurveyToDB
-		throw new UnsupportedOperationException();
+import java.util.ArrayList;
+import java.util.Date;
+
+import entities.Store;
+import entities.Survey;
+import itayNron.interfaces.ISurvey;
+
+public class SurveyController implements ISurvey {
+
+	@Override
+	public void addSurvey(Survey survey) {
 	}
 
-	/**
-	 * 
-	 * @param store
-	 */
-	public Survey[] getSurveyByStore(Store store) {
-		// TODO - implement SurveyController.getSurveyByStore
-		throw new UnsupportedOperationException();
+	@Override
+	public void getSurveyByStore(Store store) {
+	}
+	
+	@Override
+	public void sendSurvys(ArrayList<Survey> survys) {
 	}
 
-	/**
-	 * 
-	 * @param startDate
-	 * @param endDate
-	 */
-	public Survey analyzeReportByDates(DatePicker startDate, DatePicker endDate) {
-		// TODO - implement SurveyController.analyzeReportByDates
-		throw new UnsupportedOperationException();
+	@Override
+	public void getSurveyByDates(Date startDate, Date endDate) {
 	}
 
+	@Override
+	public void handleGet(ArrayList<Object> obj) {
+		// TODO Auto-generated method stub
+		
+	}
 }

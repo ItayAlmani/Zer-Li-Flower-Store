@@ -1,12 +1,14 @@
 package entities;
+
+import enums.UserType;
+
 public class Customer extends User {
-
-	private String customerID;
+	private int customerID;
 	private PaymentAccount paymentAccount;
-	private boolean IsConnecting;
+	private boolean isConnecting;
 
-	public String getCustomerID() {
-		return this.customerID;
+	public Customer(String firstName, String lastName, String userName, String password, UserType permissions) {
+		super(firstName, lastName, userName, password, permissions);
+		// TODO Auto-generated constructor stub
 	}
-
 }

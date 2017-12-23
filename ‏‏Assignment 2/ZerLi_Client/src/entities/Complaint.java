@@ -4,20 +4,14 @@ import java.util.Date;
 
 public class Complaint {
 
-	private String complaintID;
+	private int complaintID;
 	private String complaintReason;
 	private String customerID;
 	private Date date;
 	private boolean isTreated = false;
 	private boolean isRefunded = false;
-	private String Status;
+	private String status;
 	private String storeID;
-	
-	private static Integer idCounter = 1;
-	public Complaint() {
-		this.complaintID = idCounter.toString();
-		idCounter++;
-	}
 
 	public String getComplaintReason() {
 		return this.complaintReason;

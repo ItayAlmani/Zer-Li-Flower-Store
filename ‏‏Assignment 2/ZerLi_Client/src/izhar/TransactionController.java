@@ -1,15 +1,23 @@
 package izhar;
 
+import java.util.ArrayList;
+
 import entities.Transaction;
 import enums.PayMethod;
-import interfaces.ITransaction;
+import izhar.interfaces.ITransaction;
 
 public class TransactionController implements ITransaction {
 
-	public void createNewTransaction(String customerID, PayMethod paymentMethod, String orderID) {
+	@Override
+	public void createNewTransaction(int customerID, PayMethod paymentMethod, int orderID) {
+		// TODO Auto-generated method stub
+		
 	}
 
+	@Override
 	public void addTransactionToDB(Transaction transaction) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

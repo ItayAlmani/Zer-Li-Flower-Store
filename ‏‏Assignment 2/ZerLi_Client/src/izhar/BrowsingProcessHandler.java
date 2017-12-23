@@ -2,21 +2,38 @@ package izhar;
 
 import java.util.ArrayList;
 
-import entities.Item;
-import interfaces.IBrowsingProcess;
+import entities.Product;
+import izhar.interfaces.IBrowsingProcess;
 
 public class BrowsingProcessHandler implements IBrowsingProcess{
 
-	public ArrayList<Item> getItemsInCart(String cartID) {
+	@Override
+	public void getProductsInCart(int cartID) {
+		// TODO Auto-generated method stub
+		
 	}
 
-	public Item getItemDetails(String itemID) {
+	@Override
+	public void sendProductsInCart(ArrayList<Product> products) {
+		// TODO Auto-generated method stub
+		
 	}
 
+	@Override
+	public Product getProductDetails(int productID) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
 	public void updateFinalPrice() {
+		// TODO Auto-generated method stub
+		
 	}
 
-	public boolean addItemToCart(Item item) {
+	@Override
+	public boolean addProductToCart(Product product) {
+		// TODO Auto-generated method stub
+		return false;
 	}
-
 }

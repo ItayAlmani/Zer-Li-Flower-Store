@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import entities.Item;
 import enums.PaymentAccountType;
-import interfaces.IShoppingCart;
+import izhar.interfaces.IShoppingCart;
 
 public class ShoppingCartController implements IShoppingCart {
 

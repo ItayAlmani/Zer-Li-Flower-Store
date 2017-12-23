@@ -2,13 +2,21 @@ package itayNron;
 
 import java.util.ArrayList;
 
-import entities.Item;
+import entities.Product;
+import itayNron.interfaces.ICatalog;
 
-public class CatalogController {
+public class CatalogController implements ICatalog {
 
-	public ArrayList<Item> getItemsInCatalog() {
-		// TODO - implement CatalogController.getItemsInCatalog
-		throw new UnsupportedOperationException();
+	@Override
+	public void getProductsInCatalog() {
+	}
+	
+	@Override
+	public void sendProductsInCatalog(ArrayList<Product> products) {
 	}
 
+	@Override
+	public void handleGet(ArrayList<Object> obj) {
+		
+	}
 }

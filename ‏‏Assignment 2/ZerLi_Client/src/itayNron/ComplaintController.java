@@ -3,62 +3,37 @@ package itayNron;
 import java.util.ArrayList;
 
 import entities.Complaint;
+import itayNron.interfaces.IComplaint;
 
-public class ComplaintController {
+public class ComplaintController implements IComplaint {
 
-	/**
-	 * 
-	 * @param complaint
-	 */
-	public void createNewComplaint(Complaint complaint) {
-		// TODO - implement ComplaintController.createNewComplaint
-		throw new UnsupportedOperationException();
+	@Override
+	public void addComplaint(Complaint complaint) {
 	}
-
-	/**
-	 * 
-	 * @param storeid
-	 */
-	public ArrayList<Complaint> getComplaintsByStore(String storeid) {
-		// TODO - implement ComplaintController.getComplaintsByStore
-		throw new UnsupportedOperationException();
-	}
-
-	/**
-	 * 
-	 * @param complaint
-	 */
-	public String getComplaintStatus(Complaint complaint) {
-		// TODO - implement ComplaintController.getComplaintStatus
-		throw new UnsupportedOperationException();
-	}
-
-	/**
-	 * 
-	 * @param complaint
-	 */
-	public void insertComplaintToDB(Complaint complaint) {
-		// TODO - implement ComplaintController.insertComplaintToDB
-		throw new UnsupportedOperationException();
-	}
-
-	public Complaint[] getNotTreatedComplaints() {
-		// TODO - implement ComplaintController.getNotTreatedComplaints
-		throw new UnsupportedOperationException();
-	}
-
-	public Complaint[] getAllComplaints() {
-		// TODO - implement ComplaintController.getAllComplaints
-		throw new UnsupportedOperationException();
-	}
-
-	/**
-	 * 
-	 * @param complaint
-	 */
+	
+	@Override
 	public void updateComplaint(Complaint complaint) {
-		// TODO - implement ComplaintController.updateComplaint
-		throw new UnsupportedOperationException();
+	}	
+
+	@Override
+	public void getComplaintsByStore(int storeid) {
+	}
+	
+	@Override
+	public void sendComplaints(ArrayList<Complaint> complaints) {
 	}
 
+	@Override
+	public void getNotTreatedComplaints() {
+	}
+
+	@Override
+	public void getAllComplaints() {
+	}
+
+	@Override
+	public void handleGet(ArrayList<Object> obj) {
+		// TODO Auto-generated method stub
+		
+	}
 }

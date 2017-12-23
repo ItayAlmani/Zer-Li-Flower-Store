@@ -8,7 +8,7 @@ public abstract class QuarterlyReport {
 
 	private ReportType Type;
 	private Date ProductionDate;
-	private String ID;
+	private int qReportID;
 	
 	/** The date of the last month - will take the range of this date to 3 months back */
 	private Date ReportDate;
