@@ -68,21 +68,26 @@ public class ViewCatalogGUIController extends ViewItemsGUIController {
     public void productsToGUI(ArrayList<Product> prds) {	
     	components.clear();
     	products = prds;
-		/* The GridPanes which include the all data of each product */
+		/* The GridPanes which include the all data of all products */
 		grids = new GridPane[prds.size()];
 		
-		/* The labels which include each data of each product */
+		/* The labels which include each data of all products */
 		Label[] lblShowID, lblShowType, lblShowColor, lblShowPrice, lblShowName;
 		lblShowID = lblShowName = lblShowType = lblShowColor = lblShowPrice = new Label[prds.size()];
 		
+		/* The labels which indicates the title of each data of all products */
 		Label[] lblTitleID, lblTitleType, lblTitleColor, lblTitlePrice, lblTitleName;
 		lblTitleID = lblTitleName = lblTitleType = lblTitleColor = lblTitlePrice = new Label[prds.size()];
 		
+		/* The images of all products */
 		ImageView[] imgImage= new ImageView[prds.size()];
+		
+		/* The order buttons of all products */
 		btnViewProduct = new Button[prds.size()];
 		
 		int i = 0;
 		for (Product p : prds) {
+			
 			grids[i] = new GridPane();
 			grids[i].setBorder(new Border(new BorderStroke(Color.BLACK, 
 		            BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
@@ -137,6 +142,13 @@ public class ViewCatalogGUIController extends ViewItemsGUIController {
 		});
 	}
     
+    /**
+     * adding cmp to it's GridPane and to the list of components
+     * @param cmp	-	the Label/Button which need to be 
+     * @param col	-	the column in the GridPane to add to
+     * @param row	-	the row in the GridPane to add to
+     * @param i		-	the index of the GridPane in grids
+     */
     private void setComponent(Node cmp, int col, int row, int i) {
     	grids[i].setConstraints(cmp, col, row);
 		components.add(cmp);
@@ -155,14 +167,5 @@ public class ViewCatalogGUIController extends ViewItemsGUIController {
 			});
 		}
     }
-    
-	/**
-	 * 
-	 * @param btn
-	 */
-	public void clickedViewProduct(Button btn) {
-		// TODO - implement ViewCatalogGUI.clickedViewItem
-		throw new UnsupportedOperationException();
-	}
 	
 }
