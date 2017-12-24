@@ -14,7 +14,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 
-public abstract class ViewItemsGUIController extends ParentGUIController{
+public abstract class ProductsGUIController extends ParentGUIController{
 
 	private @FXML ImageView[] imgImages;
 	private @FXML Label[] lblNames;

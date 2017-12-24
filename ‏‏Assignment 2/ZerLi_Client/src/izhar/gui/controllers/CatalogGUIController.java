@@ -8,8 +8,6 @@ import java.util.ResourceBundle;
 import common.Context;
 import entities.Product;
 import javafx.application.Platform;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -17,13 +15,8 @@ import javafx.geometry.HPos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.ScrollBar;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderStroke;
 import javafx.scene.layout.BorderStrokeStyle;
@@ -36,13 +29,15 @@ import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
-public class ViewCatalogGUIController extends ViewItemsGUIController {
+public class CatalogGUIController extends ProductsGUIController {
 
 	private @FXML ScrollPane scroll;
 	private @FXML FlowPane flow;
 	private @FXML GridPane[] grids;
 	
 	private @FXML Button[] btnViewProduct;
+	
+	private Button btnBack;
 	
 	private ArrayList<Node> components = new ArrayList<>();
 	
@@ -136,7 +131,11 @@ public class ViewCatalogGUIController extends ViewItemsGUIController {
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
+				//Context.stage.setMaximized(true);
+				btnBack = new Button("Back");
+				btnBack.setOnAction(actionEvent -> loadMainMenu(actionEvent));
 				flow.getChildren().addAll(grids);
+				flow.getChildren().add(btnBack);
 				scroll.setContent(flow);
 			}
 		});

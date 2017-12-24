@@ -2,6 +2,7 @@ package gui.controllers;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import common.*;
@@ -15,12 +16,14 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuButton;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public class MainMenuGUIController extends ParentGUIController{
 	
-	private @FXML Button btnProducts;
+	private @FXML MenuButton menuProducts;
+	private @FXML Button btnConfig;
 		
 	public void showProducts(ActionEvent event){
 		if(Context.clientConsole.isConnected()==false)
@@ -46,7 +49,7 @@ public class MainMenuGUIController extends ParentGUIController{
 	
 	public void showCatalog(ActionEvent event) throws Exception{
 		try {
-			loadGUI("ViewCatalogGUI", false);
+			loadGUI("CatalogGUI", false);
 		} catch (Exception e) {
 			lblMsg.setText("Loader failed");
 			e.printStackTrace();
@@ -57,7 +60,8 @@ public class MainMenuGUIController extends ParentGUIController{
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
-				btnProducts.setDisable(true);
+				menuProducts.setDisable(true);
+				btnConfig.setVisible(true);
 				lblMsg.setText("Connection failed");
 			}
 		});
@@ -67,7 +71,8 @@ public class MainMenuGUIController extends ParentGUIController{
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
-				btnProducts.setDisable(false);
+				menuProducts.setDisable(false);
+				btnConfig.setVisible(false);
 				lblMsg.setText("");
 			}
 		});

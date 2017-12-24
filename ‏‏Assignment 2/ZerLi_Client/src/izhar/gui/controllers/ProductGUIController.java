@@ -1,5 +1,5 @@
 package izhar.gui.controllers;
-public class ViewItemGUIController {
+public class ProductGUIController {
 
 	protected Label lblName;
 	protected ImageView imgImage;

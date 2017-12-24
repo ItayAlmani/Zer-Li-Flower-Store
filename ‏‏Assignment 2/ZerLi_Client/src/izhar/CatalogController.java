@@ -1,4 +1,4 @@
-package izhar.gui.controllers;
+package izhar;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
