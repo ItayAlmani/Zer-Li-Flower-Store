@@ -79,7 +79,7 @@ public class ProductController extends ParentController implements IProduct {
 			System.err.println("Couldn't invoke method '"+productsToGUI_MethodName+"'");
 			e1.printStackTrace();
 		} catch (NoSuchMethodException | SecurityException e2) {
-			System.err.println("No method called 'productsToComboBox'");
+			System.err.println("No method called '"+productsToGUI_MethodName+"'");
 			e2.printStackTrace();
 		}
 	}	
