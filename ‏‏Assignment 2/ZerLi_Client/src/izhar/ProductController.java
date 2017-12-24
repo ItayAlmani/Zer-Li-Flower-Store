@@ -26,9 +26,9 @@ import izhar.interfaces.IProduct;
 
 public class ProductController extends ParentController implements IProduct {	
 	@Override
-	public void getProduct() throws IOException {
+	public void getProductByID(int prdID) throws IOException {
 		myMsgArr.clear();
-		myMsgArr.add("SELECT * FROM product;");
+		myMsgArr.add("SELECT * FROM product WHERE productID = '"+prdID+"';");
 		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.SELECT,myMsgArr,Product.class));
 	}
 	
@@ -36,7 +36,7 @@ public class ProductController extends ParentController implements IProduct {
 	public void updateProduct(Product p) throws IOException {
 		myMsgArr.clear();
 		myMsgArr.add(String.format(
-				"UPDATE product SET productName='%s' WHERE productID=%d;",p.getName(),p.getPrdId()));
+				"UPDATE product SET productName='%s' WHERE productID=%d;",p.getName(),p.getPrdID()));
 		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.UPDATE,myMsgArr));
 	}
 	
@@ -56,7 +56,7 @@ public class ProductController extends ParentController implements IProduct {
 	
 	@Override
 	public Product parse(int prdID, String name, String type, float price, String color, boolean inCatalog) {
-		return new Product(prdID, name, type);
+		return new Product(prdID, name, type,price,color,inCatalog);
 	}
 	
 	@Override
@@ -75,7 +75,34 @@ public class ProductController extends ParentController implements IProduct {
 	}	
 
 	@Override
-	public void assembleItemFromDB(ProductType type, float priceStart, float priceEnd, Color color) {
-		
+	public void assembleItemFromDB(ProductType type, float priceStart, float priceEnd, Color color) throws IOException {
+		myMsgArr.clear();
+		myMsgArr.add(
+				"SELECT *" + 
+				"FROM product" + 
+				"WHERE inCatalog=0 AND"
+				+ " productType='"+type.toString()+"' AND"
+				+ " price>="+priceStart+" AND"
+				+ " price<="+priceEnd+" AND"
+				+ " color='"+color.toString()+"'");
+		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.SELECT,myMsgArr));
+	}
+
+	
+	@Override
+	public void addProduct(Product p) throws IOException {
+		myMsgArr.clear();
+		String res = "0";
+		if(p.isInCatalog())
+			res="1";
+		myMsgArr.add(
+				"INSERT INTO orders (productName, productType, price, color, inCatalog)"
+						+ "VALUES ('" + p.getName() + "', '" 
+						+ p.getType().toString() + "', '"
+						+ p.getPrice() + "', '"
+						+ p.getColor().toString() + "', '"
+						+ res + "');"
+								);
+		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.UPDATE, myMsgArr));
 	}
 }

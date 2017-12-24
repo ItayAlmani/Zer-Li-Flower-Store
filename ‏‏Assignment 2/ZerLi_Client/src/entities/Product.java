@@ -11,7 +11,7 @@ public class Product{
 	private boolean inCatalog;
 	
 	public enum ProductType {
-		Bouqute, Empty;
+		Bouqute, Single, Empty;
 	}
 	
 	public enum Color {
@@ -58,7 +58,7 @@ public class Product{
 		this.inCatalog = inCatalog;
 	}
 
-	public int getPrdId() {
+	public int getPrdID() {
 		return prdID;
 	}
 
@@ -100,5 +100,25 @@ public class Product{
 		} catch (IllegalArgumentException e) {
 			System.err.println("No enum constant of color as "+color);
 		}
+	}
+
+	public void setPrdID(int prdID) {
+		this.prdID = prdID;
+	}
+
+	public float getPrice() {
+		return price;
+	}
+
+	public void setPrice(float price) {
+		this.price = price;
+	}
+
+	public boolean isInCatalog() {
+		return inCatalog;
+	}
+
+	public void setInCatalog(boolean inCatalog) {
+		this.inCatalog = inCatalog;
 	}
 }

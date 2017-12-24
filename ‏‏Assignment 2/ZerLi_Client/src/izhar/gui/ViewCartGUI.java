@@ -1,4 +1,4 @@
-package gui.controllers;
+package izhar.gui;
 public class ViewCartGUI extends ViewItemsGUI {
 
 	private Label[] lblQuantities;

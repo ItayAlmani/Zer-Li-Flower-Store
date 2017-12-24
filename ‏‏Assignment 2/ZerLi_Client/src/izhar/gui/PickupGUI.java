@@ -1,4 +1,4 @@
-package gui.controllers;
+package izhar.gui;
 /**
  * Depends on PickupDetails
  */

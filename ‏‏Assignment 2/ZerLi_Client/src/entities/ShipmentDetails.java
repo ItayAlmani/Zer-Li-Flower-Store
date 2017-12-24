@@ -1,4 +1,7 @@
 package entities;
+
+import java.util.Date;
+
 public class ShipmentDetails extends DeliveryDetails {
 
 	private String street;
@@ -29,14 +32,33 @@ public class ShipmentDetails extends DeliveryDetails {
 		this.phoneNumber = phoneNumber;
 	}
 
-	/**
-	 * 
-	 * @param address
-	 * @param cusName
-	 * @param pNum
-	 */
-	public ShipmentDetails(String[] address, String cusName, String pNum) {
-		
+	public ShipmentDetails(int deliveryID, int orderID, Date date, boolean isImmediate, Store store, 
+			String[] address, String customerName, String phoneNumber) {
+		super(deliveryID, orderID, date, isImmediate, store);
+		this.street = address[0];
+		this.city = address[1];
+		this.postCode = address[2];
+		this.customerName = customerName;
+		this.phoneNumber = phoneNumber;
 	}
 
+	public String getStreet() {
+		return street;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public String getPostCode() {
+		return postCode;
+	}
+
+	public String getCustomerName() {
+		return customerName;
+	}
+
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
 }

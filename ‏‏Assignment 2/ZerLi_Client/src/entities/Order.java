@@ -20,6 +20,11 @@ public class Order {
 	private OrderStatus orderStatus = OrderStatus.InProcess;
 	private Date date;
 
+	public Order(int orderID) {
+		super();
+		this.orderID = orderID;
+	}
+
 	public int getOrderID() {
 		return this.orderID;
 	}

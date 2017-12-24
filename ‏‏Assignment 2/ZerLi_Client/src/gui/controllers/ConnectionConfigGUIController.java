@@ -23,11 +23,8 @@ import javafx.stage.Stage;
 
 public class ConnectionConfigGUIController extends ParentGUIController{
 	
-	@FXML
-	private TextField txtHost,txtPort,txtName,txtUrl,txtUserName,txtPassword;
-	
-	@FXML
-	private Button btnUpdateServer, btnUpdateDB,btnBack;
+	private @FXML TextField txtHost,txtPort,txtName,txtUrl,txtUserName,txtPassword;
+	private @FXML Button btnUpdateServer, btnUpdateDB,btnBack;
 	
 	private String host,dbUrl, dbName, dbUserName, dbPassword;
 	private Integer port;

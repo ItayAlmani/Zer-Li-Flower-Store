@@ -1,4 +1,4 @@
-package gui.controllers;
+package izhar.gui;
 /**
  * The GUI page where Customer will choose if he/she wants to attach greeting or not
  * Depends on Customer and ShoppingCart.

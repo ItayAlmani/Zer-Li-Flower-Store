@@ -1,4 +1,4 @@
-package izhar.interfaces;
+package itayNron.interfaces;
 
 import java.util.ArrayList;
 import java.util.HashMap;

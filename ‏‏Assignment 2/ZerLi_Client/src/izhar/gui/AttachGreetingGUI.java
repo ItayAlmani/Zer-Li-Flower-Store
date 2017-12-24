@@ -1,4 +1,4 @@
-package gui.controllers;
+package izhar.gui;
 public class AttachGreetingGUI {
 
 	private TextField txtGreeting;

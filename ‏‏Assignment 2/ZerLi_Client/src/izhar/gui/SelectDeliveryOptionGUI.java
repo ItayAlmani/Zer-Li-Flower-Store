@@ -1,4 +1,4 @@
-package gui.controllers;
+package izhar.gui;
 public class SelectDeliveryOptionGUI {
 
 	private RadioButton rbOption = {Shipment,Pickup};

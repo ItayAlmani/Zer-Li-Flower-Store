@@ -40,7 +40,7 @@ public class ShoppingCartController implements IShoppingCart {
 
 	@Override
 	public void addProductToCart(Product product) {
-		// TODO Auto-generated method stub
+		
 		
 	}
 

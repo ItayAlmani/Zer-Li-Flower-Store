@@ -1,4 +1,4 @@
-package gui.controllers;
+package izhar.gui;
 /**
  * The Customer will choose between Immediate delivery or Pre-order. If pre-order has been chosen, the GUI will reveal the datepickers
  */

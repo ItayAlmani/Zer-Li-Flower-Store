@@ -1,4 +1,4 @@
-package izhar;
+package itayNron;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -6,7 +6,7 @@ import java.util.HashMap;
 import entities.Order;
 import entities.Product;
 import entities.Store;
-import izhar.interfaces.IStore;
+import itayNron.interfaces.IStore;
 
 public class StoreController implements IStore {
 

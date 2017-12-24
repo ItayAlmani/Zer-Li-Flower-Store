@@ -1,4 +1,4 @@
-package gui.controllers;
+package izhar.gui;
 public abstract class ViewItemsGUI {
 
 	private ImageView[] imgImages;

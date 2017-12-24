@@ -87,7 +87,7 @@ public class ProductsFormGUIController extends ParentGUIController{
 	
 	public void loadProduct(Product p) {
 		this.p=p;
-		Integer id = p.getPrdId();
+		Integer id = p.getPrdID();
 		this.lblShowID.setText(id.toString());
 		this.lblShowType.setText(p.getType().toString());
 		this.txtShowName.setText(p.getName());

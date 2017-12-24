@@ -26,7 +26,8 @@ public class OrderController extends ParentController implements IOrder {
 	public void getOrderWithProducts(int orderID) throws IOException {
 		myMsgArr.clear();
 		myMsgArr.add("SELECT prd.*, ord.*" + "FROM orders ord, productincart pic, product prd, shoppingcart sc"
-				+ "join orders ON sc.orderID=orders.orderID" + "join productincart ON sc.cartID=productincart.cartID"
+				+ "join orders ON sc.orderID=orders.orderID" +
+				"join productincart ON sc.cartID=productincart.cartID"
 				+ "where pic.productID = prd.productID and ord.orderID = '" + orderID + "';");
 		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.SELECT, myMsgArr, Order.class));
 	}
@@ -48,11 +49,15 @@ public class OrderController extends ParentController implements IOrder {
 		myMsgArr.clear();
 		myMsgArr.add(
 				"INSERT INTO orders (customerID, cartID, deliveryID, type, transactionID, greeting, deliveryType, status, date)"
-						+ "VALUES ('" + order.getCustomerID() + "'" + ", '" + order.getOrderID() + "'" + ", '"
-						+ order.getDelivery().getDeliveryID() + "'" + ", '" + order.getType().toString() + "'" + ", '"
-						+ order.getTransaction().getTansID() + "'" + ", '" + order.getGreeting() + "'" + ", '"
-						+ order.getDeliveryType().toString() + "'" + ", '" + order.getOrderStatus().toString() + "'"
-						+ ", '" + new Date(order.getDate().getTime()) + "');");
+						+ "VALUES ('" + order.getCustomerID() + "', '" 
+						+ order.getOrderID() + "', '"
+						+ order.getDelivery().getDeliveryID() + "', '"
+						+ order.getType().toString() + "', '"
+						+ order.getTransaction().getTansID() + "', '" 
+						+ order.getGreeting() + "', '"
+						+ order.getDeliveryType().toString() + "', '" 
+						+ order.getOrderStatus().toString() + "', '"
+						+ new Date(order.getDate().getTime()) + "');");
 		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.UPDATE, myMsgArr));
 	}
 
@@ -100,26 +105,32 @@ public class OrderController extends ParentController implements IOrder {
 	@Override
 	public void getAllOrdersByStoreID(int storeID) throws IOException {
 		myMsgArr.clear();
-		myMsgArr.add("SELECT ord.*" + 
-				"FROM orders ord ,deliverydetails del" + 
-				"JOIN orders ON orders.orderID=del.orderID" + 
-				"WHERE del.storeID='"+storeID+"';");
+		myMsgArr.add(
+				"SELECT * FROM(" +  
+				"	SELECT ordStr.* FROM(" + 
+				"		SELECT ord.*" + 
+				"        FROM orders AS ord" + 
+				"        JOIN deliverydetails ON ord.orderID=deliverydetails.orderID" + 
+				"        WHERE deliverydetails.storeID='"+storeID+"') AS ordStr" + 
+				"    JOIN shoppingcart ON ordStr.orderID=shoppingcart.orderID) AS ordStrCart" + 
+				"JOIN productincart ON ordStrCart.cartID=productincart.cartID"
+				);
 		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.SELECT, myMsgArr, Order.class));
 	}
 
 	@Override
 	public void sendOrders(ArrayList<Order> orders) {
-		/*Method m = null;
+		Method m = null;
 		try {
-			m = Context.currentGUI.getClass().getMethod("productsToComboBox",ArrayList.class);
-			m.invoke(Context.currentGUI, prds);
+			m = Context.currentGUI.getClass().getMethod("ordersToComboBox",ArrayList.class);
+			m.invoke(Context.currentGUI, orders);
 		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e1) {
 			System.err.println("Couldn't invoke method 'productsToComboBox'");
 			e1.printStackTrace();
 		} catch (NoSuchMethodException | SecurityException e2) {
 			System.err.println("No method called 'productsToComboBox'");
 			e2.printStackTrace();
-		}*/
+		}
 
 	}
 

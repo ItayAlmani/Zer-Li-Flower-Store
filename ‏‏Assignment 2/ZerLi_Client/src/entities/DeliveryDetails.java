@@ -5,7 +5,7 @@ import java.util.Date;
 public class DeliveryDetails {
 
 	private int deliveryID;
-	private String orderID;
+	private int orderID;
 	protected Date date;
 	private boolean isImmediate = true;
 	private Store store;
@@ -15,7 +15,26 @@ public class DeliveryDetails {
 		this.deliveryID = deliveryID;
 	}
 
-	public void setOrderID(String orderID) {
+	public DeliveryDetails(int orderID, Date date, boolean isImmediate, Store store) {
+		super();
+		this.orderID = orderID;
+		this.date = date;
+		this.isImmediate = isImmediate;
+		this.store = store;
+	}
+	
+	public DeliveryDetails(int deliveryID, int orderID, Date date, boolean isImmediate, Store store) {
+		super();
+		this.deliveryID = deliveryID;
+		this.orderID = orderID;
+		this.date = date;
+		this.isImmediate = isImmediate;
+		this.store = store;
+	}
+
+
+
+	public void setOrderID(int orderID) {
 		this.orderID = orderID;
 	}
 
@@ -51,7 +70,7 @@ public class DeliveryDetails {
 		this.isImmediate = isImmediate;
 	}
 
-	public String getOrderID() {
+	public int getOrderID() {
 		return orderID;
 	}
 

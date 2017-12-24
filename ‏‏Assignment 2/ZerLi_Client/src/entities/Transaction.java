@@ -1,17 +1,31 @@
 package entities;
 
-import enums.PayMethod;
-
 public class Transaction {
 
 	private int tansID;
 	private PayMethod paymentMethod;
 	private Order order;
+	
+	public enum PayMethod {
+		CreditCard,
+		Cash,
+		Refund,
+		RefundAndCreditCard
+	}
 
 	public Transaction(int tansID) {
 		super();
 		this.tansID = tansID;
 	}
+
+	public Transaction(int tansID, PayMethod paymentMethod, Order order) {
+		super();
+		this.tansID = tansID;
+		this.paymentMethod = paymentMethod;
+		this.order = order;
+	}
+
+
 
 	public PayMethod getPaymentMethod() {
 		return this.paymentMethod;

@@ -1,10 +1,10 @@
 package izhar.interfaces;
 
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import entities.Transaction;
-import enums.PayMethod;
 import interfaces.IParent;
 
 public interface ITransaction extends IParent {
@@ -12,11 +12,11 @@ public interface ITransaction extends IParent {
 	 * 
 	 * @param transaction
 	 */
-	void addTransaction(Transaction transaction);
+	void addTransaction(Transaction transaction) throws IOException;
 	
-	void getTransactionByOrder(int orderID);
+	void getTransactionByOrder(int orderID) throws IOException;
 	
 	void sendTransactions(ArrayList<Transaction> transactions);
 	
-	void parse(int customerID, String paymentMethod, int orderID);
+	Transaction parse(int tansID, String paymentMethod, int orderID);
 }
