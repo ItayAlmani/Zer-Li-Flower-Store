@@ -1,9 +1,9 @@
-package izhar.gui;
+package izhar.gui.controllers;
 /**
  * The GUI page where Customer will choose if he/she wants to attach greeting or not
  * Depends on Customer and ShoppingCart.
  */
-public class SelectToAttachOptionGUI {
+public class SelectToAttachOptionGUIController {
 
 	private RadioButton rbOption = {Yes,No};
 	private Button btnSelect = Select;

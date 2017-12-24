@@ -5,16 +5,10 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="300.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" 
-	fx:controller="gui.controllers.MainMenuGUIController">
+<AnchorPane prefHeight="300.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controllers.MainMenuGUIController">
    <children>
       <Button fx:id="btnProducts" layoutX="78.0" layoutY="59.0" mnemonicParsing="false" onAction="#showProducts" text="Show items">
          <font><Font size="25.0" /></font>
-      </Button>
-      <Button layoutX="22.0" layoutY="125.0" mnemonicParsing="false" onAction="#showConnectionGUI" text="Configure connection">
-         <font>
-            <Font size="25.0" />
-         </font>
       </Button>
       <Label fx:id="lblMsg" alignment="CENTER" contentDisplay="BOTTOM" layoutX="153.0" layoutY="270.0" textFill="RED">
          <font>
@@ -26,5 +20,15 @@
             <Font name="System Bold" size="30.0" />
          </font>
       </Label>
+      <Button layoutX="69.0" layoutY="123.0" mnemonicParsing="false" onAction="#showCatalog" text="View Catalog">
+         <font>
+            <Font size="25.0" />
+         </font>
+      </Button>
+      <Button layoutX="22.0" layoutY="192.0" mnemonicParsing="false" onAction="#showConnectionGUI" text="Configure connection">
+         <font>
+            <Font size="25.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>

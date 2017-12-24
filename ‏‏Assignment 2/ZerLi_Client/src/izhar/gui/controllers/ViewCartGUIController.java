@@ -1,5 +1,5 @@
-package izhar.gui;
-public class ViewCartGUI extends ViewItemsGUI {
+package izhar.gui.controllers;
+public class ViewCartGUIController extends ViewItemsGUI {
 
 	private Label[] lblQuantities;
 	private Button[] btnDeletes;

@@ -1,8 +1,8 @@
-package izhar.gui;
+package izhar.gui.controllers;
 /**
  * The Customer will choose between Immediate delivery or Pre-order. If pre-order has been chosen, the GUI will reveal the datepickers
  */
-public class SelectDeliveryTimeGUI {
+public class SelectDeliveryTimeGUIController {
 
 	private RadioButton rbOption = {Immediate,Pre-Order};
 	private Button btnSelect = Select;

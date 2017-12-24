@@ -1,6 +1,10 @@
 package entities;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+
 import entities.Product.ProductType;
+import javafx.scene.image.Image;
 
 public class Product{ 
 	private int prdID;
@@ -9,9 +13,10 @@ public class Product{
 	private float price;
 	private Color color;
 	private boolean inCatalog;
-	
+	private Image image;
+
 	public enum ProductType {
-		Bouqute, Single, Empty;
+		Bouquet, Single, Empty;
 	}
 	
 	public enum Color {
@@ -56,6 +61,17 @@ public class Product{
 		this.price = price;
 		this.setColor(color);
 		this.inCatalog = inCatalog;
+	}
+	
+	public Product(int prdID, String name, String type, float price, String color, boolean inCatalog, String image) throws FileNotFoundException {
+		super();
+		this.prdID = prdID;
+		this.name = name;
+		this.setType(type);
+		this.price = price;
+		this.setColor(color);
+		this.inCatalog = inCatalog;
+		this.image = new Image(new FileInputStream(image));
 	}
 
 	public int getPrdID() {
@@ -120,5 +136,13 @@ public class Product{
 
 	public void setInCatalog(boolean inCatalog) {
 		this.inCatalog = inCatalog;
+	}
+
+	public Image getImage() {
+		return image;
+	}
+
+	public void setImage(Image image) {
+		this.image = image;
 	}
 }

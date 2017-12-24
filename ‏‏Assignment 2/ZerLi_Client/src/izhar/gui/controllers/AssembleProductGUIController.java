@@ -1,5 +1,5 @@
-package izhar.gui;
-public class AssembleItemGUI {
+package izhar.gui.controllers;
+public class AssembleProductGUIController {
 
 	private ComboBox cbType;
 	private TextField txtStartPrice;

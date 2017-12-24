@@ -1,5 +1,5 @@
-package izhar.gui;
-public class ConfirmItemGUI extends ViewItemGUI {
+package izhar.gui.controllers;
+public class ConfirmProductGUIController extends ViewItemGUIController {
 
 	private Button btnApprove;
 	private Button btnDecline;

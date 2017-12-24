@@ -1,5 +1,5 @@
-package izhar.gui;
-public class AttachGreetingGUI {
+package izhar.gui.controllers;
+public class AttachGreetingGUIController {
 
 	private TextField txtGreeting;
 	private Button btnAttach = Attach;

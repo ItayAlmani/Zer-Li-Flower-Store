@@ -1,5 +1,5 @@
-package izhar.gui;
-public class ShipmentGUI {
+package izhar.gui.controllers;
+public class ShipmentGUIController {
 
 	private TextField txtStreet;
 	private TextField txtCity;

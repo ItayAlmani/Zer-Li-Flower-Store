@@ -27,7 +27,7 @@ public class Context {
 	public static String DEFAULT_HOST="localhost";
 	
 	/** The path of the project: "C:.../ZerLi_Client" */
-	private final static String projectPath=System.getProperty("user.dir");
+	public final static String projectPath=System.getProperty("user.dir");
 	/** The path of the ServerAddress.txt file - the file
 	 * that contains the server's details: host and port */
 	private final static String serTxtPath="\\src\\common\\ServerAddress.txt";

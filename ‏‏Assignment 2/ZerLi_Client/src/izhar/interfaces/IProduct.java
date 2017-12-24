@@ -1,5 +1,6 @@
 package izhar.interfaces;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -12,7 +13,9 @@ public interface IProduct extends IParent {
 	
 	void addProduct(Product p) throws IOException;
 
-	public void getProductByID(int prdID) throws IOException;
+	void getProductByID(int prdID) throws IOException;
+	
+	void getAllProducts() throws IOException;
 
 	void updateProduct(Product p) throws IOException;
 	
@@ -26,6 +29,8 @@ public interface IProduct extends IParent {
 	 * @param color
 	 */
 	void assembleItemFromDB(ProductType type, float priceStart, float priceEnd, Color color) throws IOException;
+	
+	public void getProductsInCatalog() throws IOException;
 
-	Product parse(int prdID, String name, String type, float price, String color, boolean inCatalog);
+	Product parse(int prdID, String name, String type, float price, String color, boolean inCatalog, String imageURL) throws FileNotFoundException;
 }

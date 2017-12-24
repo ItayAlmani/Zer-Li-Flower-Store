@@ -1,6 +1,7 @@
 package common;
 import itayNron.*;
 import izhar.*;
+import izhar.gui.controllers.CatalogController;
 import izhar.interfaces.IProduct;
 import lior.*;
 import kfir.*;

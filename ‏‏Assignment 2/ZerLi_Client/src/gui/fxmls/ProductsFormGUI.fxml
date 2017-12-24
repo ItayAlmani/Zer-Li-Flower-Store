@@ -4,28 +4,35 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<AnchorPane prefHeight="300.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controllers.ProductsFormGUIController">
+<!-- CHANGE CONTROLLER path -->
+
+<AnchorPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="izhar.gui.controllers.ProductsFormGUIController">
 	<children>
 		<ComboBox id="cmbProducts" fx:id="cmbProducts" layoutX="10.0" layoutY="1.0" onAction="#showProduct" prefHeight="23.0" prefWidth="291.0" promptText="Select product" />
-		<Button id="btnBack" fx:id="btnBack" layoutX="108.0" layoutY="255.0" mnemonicParsing="false" onAction="#loadMainMenu" text="Back" />
+		<Button id="btnBack" fx:id="btnBack" layoutX="157.0" layoutY="341.0" mnemonicParsing="false" onAction="#loadMainMenu" text="Back" />
       <Label id="lblMsg" fx:id="lblMsg" layoutX="51.0" layoutY="259.0" textFill="RED" />
-      <Pane fx:id="paneItem" layoutX="15.0" layoutY="104.0" visible="false">
+      <Pane fx:id="paneItem" layoutX="5.0" layoutY="41.0" prefHeight="297.0" prefWidth="344.0" visible="false">
          <children>
-            <GridPane layoutX="5.0" layoutY="7.0">
+            <ImageView id="imgImage" fx:id="imgImage" fitHeight="150.0" fitWidth="200.0" layoutX="97.0" pickOnBounds="true" preserveRatio="true" />
+            <GridPane layoutX="5.0" layoutY="164.0" prefHeight="129.0" prefWidth="334.0">
               <columnConstraints>
-                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="107.0" minWidth="10.0" prefWidth="58.2000244140625" />
-                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="218.7999755859375" minWidth="10.0" prefWidth="218.7999755859375" />
+                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="107.0" minWidth="10.0" prefWidth="49.99998779296875" />
+                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="280.8" minWidth="10.0" prefWidth="276.00001220703126" />
               </columnConstraints>
               <rowConstraints>
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
@@ -35,7 +42,11 @@
                   <TextField id="txtShowName" fx:id="txtShowName" alignment="CENTER" promptText="Enter Product Name" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                   <Label id="lblShowID" fx:id="lblShowID" GridPane.columnIndex="1" />
                   <Label id="lblShowType" fx:id="lblShowType" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                  <Button id="btnUpdate" fx:id="btnUpdate" mnemonicParsing="false" onAction="#updateName" text="Update" GridPane.rowIndex="3" />
+                  <Label id="lblTitleColor" contentDisplay="CENTER" text="Color:" GridPane.rowIndex="3" />
+                  <Label id="lblShowColor" fx:id="lblShowColor" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                  <Label id="lblTitlePrice" contentDisplay="CENTER" text="Price:" GridPane.rowIndex="4" />
+                  <Label id="lblShowPrice" fx:id="lblShowPrice" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                  <Button id="btnUpdate" fx:id="btnUpdate" mnemonicParsing="false" onAction="#updateName" text="Update" GridPane.columnIndex="1" GridPane.rowIndex="5" />
                </children>
             </GridPane>
          </children>

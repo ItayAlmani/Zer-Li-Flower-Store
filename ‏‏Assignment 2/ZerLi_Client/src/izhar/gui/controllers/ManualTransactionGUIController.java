@@ -1,5 +1,5 @@
-package izhar.gui;
-public class ManualTransactionGUI {
+package izhar.gui.controllers;
+public class ManualTransactionGUIController {
 
 	private TextField[] txtItemsIDs;
 	private Button btnSend;

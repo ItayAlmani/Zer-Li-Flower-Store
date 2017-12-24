@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.FlowPane?>
+
+<ScrollPane fx:id="scroll" prefHeight="300.0" prefWidth="300.0" vbarPolicy="ALWAYS" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="izhar.gui.controllers.ViewCatalogGUIController">
+   <content>
+      <FlowPane fx:id="flow" alignment="CENTER" orientation="VERTICAL" />
+   </content>
+</ScrollPane>

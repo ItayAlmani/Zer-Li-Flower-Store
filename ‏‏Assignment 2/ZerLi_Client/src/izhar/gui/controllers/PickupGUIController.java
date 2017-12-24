@@ -1,8 +1,8 @@
-package izhar.gui;
+package izhar.gui.controllers;
 /**
  * Depends on PickupDetails
  */
-public class PickupGUI {
+public class PickupGUIController {
 
 	private ComboBox cbStoreOption;
 	private Button btnSelect = Select;

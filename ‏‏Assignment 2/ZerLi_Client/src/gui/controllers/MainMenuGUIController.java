@@ -44,6 +44,15 @@ public class MainMenuGUIController extends ParentGUIController{
 		}
 	}
 	
+	public void showCatalog(ActionEvent event) throws Exception{
+		try {
+			loadGUI("ViewCatalogGUI", false);
+		} catch (Exception e) {
+			lblMsg.setText("Loader failed");
+			e.printStackTrace();
+		}
+	}
+	
 	public void setServerUnavailable() {
 		Platform.runLater(new Runnable() {
 			@Override

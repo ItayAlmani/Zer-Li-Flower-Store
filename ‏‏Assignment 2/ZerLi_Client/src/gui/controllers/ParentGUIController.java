@@ -1,5 +1,6 @@
 package gui.controllers;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -11,6 +12,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.fxml.LoadException;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -65,16 +67,16 @@ public abstract class ParentGUIController implements Initializable {
 		});
 	}
 
-	protected void loadGUI(String name, boolean withCSS) throws Exception{		
+	protected void loadGUI(String name, boolean withCSS) throws IOException{		
 		Stage primaryStage = Context.stage;
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/fxmls/"+name+".fxml"));
-		Pane root = loader.load();
-		Scene scene = new Scene(root);
+		Scene scene = new Scene(
+				new FXMLLoader(getClass().getResource("/gui/fxmls/"+name+".fxml")).load()
+				);
 		
 		if(withCSS==true)
 			scene.getStylesheets().add(getClass().getResource("/gui/css/"+name+".css").toExternalForm());
-		/*else
-			scene.getStylesheets().add(getClass().getResource("/gui/css/ParentCSS.css").toExternalForm());*/
+		else
+			scene.getStylesheets().add(getClass().getResource("/gui/css/ParentCSS.css").toExternalForm());
 		
 		primaryStage.setScene(scene);
 		primaryStage.setTitle(name.split("GUI")[0].trim());

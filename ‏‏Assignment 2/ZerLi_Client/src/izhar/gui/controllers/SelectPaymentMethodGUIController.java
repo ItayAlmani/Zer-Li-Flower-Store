@@ -1,5 +1,5 @@
-package izhar.gui;
-public class SelectPaymentMethodGUI {
+package izhar.gui.controllers;
+public class SelectPaymentMethodGUIController {
 
 	private RadioButton rbOption = {Credit Card,Cash};
 	private Button btnSelect = Select;

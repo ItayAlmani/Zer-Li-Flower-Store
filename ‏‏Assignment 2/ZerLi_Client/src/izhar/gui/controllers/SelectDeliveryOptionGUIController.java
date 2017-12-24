@@ -1,5 +1,5 @@
-package izhar.gui;
-public class SelectDeliveryOptionGUI {
+package izhar.gui.controllers;
+public class SelectDeliveryOptionGUIController {
 
 	private RadioButton rbOption = {Shipment,Pickup};
 	private Button btnSelect = Select;

@@ -1,5 +1,5 @@
-package izhar.gui;
-public class SelectBrowseOrAssembleGUI {
+package izhar.gui.controllers;
+public class SelectBrowseOrAssembleGUIController {
 
 	private Button btnBrowse;
 	private Button btnAssemble;

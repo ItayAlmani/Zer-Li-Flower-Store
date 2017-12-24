@@ -1,5 +1,6 @@
 package izhar;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -43,30 +44,39 @@ public class ProductController extends ParentController implements IProduct {
 	@Override
 	public void handleGet(ArrayList<Object> obj) {
 		ArrayList<Product> prds = new ArrayList<>();
-		for (int i = 0; i < obj.size(); i += 6)
-			prds.add(parse(
-					(int) obj.get(i), 
-					(String) obj.get(i + 1), 
-					(String) obj.get(i + 2),
-					(float) obj.get(i + 3),
-					(String) obj.get(i + 4),
-					((int)obj.get(i + 5))!= 0));
+		for (int i = 0; i < obj.size(); i += 7)
+			try {
+				prds.add(parse(
+						(int) obj.get(i), 
+						(String) obj.get(i + 1), 
+						(String) obj.get(i + 2),
+						(float) obj.get(i + 3),
+						(String) obj.get(i + 4),
+						((int)obj.get(i + 5))!= 0,
+						(String)obj.get(i+6))
+						);
+			} catch (FileNotFoundException e) {
+				System.err.println("Couldn't find Image named "+ (String)obj.get(i+6) +".");
+				e.printStackTrace();
+			}
 		sendProducts(prds);
 	}
 	
 	@Override
-	public Product parse(int prdID, String name, String type, float price, String color, boolean inCatalog) {
-		return new Product(prdID, name, type,price,color,inCatalog);
+	public Product parse(int prdID, String name, String type, float price, String color, boolean inCatalog, String imageURL) throws FileNotFoundException {
+		return new Product(prdID, name, type,price,color,inCatalog,
+				Context.projectPath+"\\src\\images\\"+imageURL);
 	}
 	
 	@Override
 	public void sendProducts(ArrayList<Product> prds) {
+		String productsToGUI_MethodName = "productsToGUI";
 		Method m = null;
 		try {
-			m = Context.currentGUI.getClass().getMethod("productsToComboBox",ArrayList.class);
+			m = Context.currentGUI.getClass().getMethod(productsToGUI_MethodName,ArrayList.class);
 			m.invoke(Context.currentGUI, prds);
 		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e1) {
-			System.err.println("Couldn't invoke method 'productsToComboBox'");
+			System.err.println("Couldn't invoke method '"+productsToGUI_MethodName+"'");
 			e1.printStackTrace();
 		} catch (NoSuchMethodException | SecurityException e2) {
 			System.err.println("No method called 'productsToComboBox'");
@@ -88,7 +98,6 @@ public class ProductController extends ParentController implements IProduct {
 		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.SELECT,myMsgArr));
 	}
 
-	
 	@Override
 	public void addProduct(Product p) throws IOException {
 		myMsgArr.clear();
@@ -104,5 +113,19 @@ public class ProductController extends ParentController implements IProduct {
 						+ res + "');"
 								);
 		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.UPDATE, myMsgArr));
+	}
+
+	@Override
+	public void getAllProducts() throws IOException {
+		myMsgArr.clear();
+		myMsgArr.add("SELECT * FROM product;");
+		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.SELECT,myMsgArr,Product.class));
+	}
+
+	@Override
+	public void getProductsInCatalog() throws IOException {
+		myMsgArr.clear();
+		myMsgArr.add("SELECT * FROM product WHERE inCatalog='1';");
+		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.SELECT,myMsgArr,Product.class));
 	}
 }
