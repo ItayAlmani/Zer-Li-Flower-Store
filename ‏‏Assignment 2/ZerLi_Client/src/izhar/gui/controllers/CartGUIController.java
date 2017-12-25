@@ -55,11 +55,15 @@ public class CartGUIController extends ParentGUIController {
 	}
 	 
 	 private void getProducts() {
-		try {
-			Context.fac.prodInOrder.getPIOsByOrder(Context.order.getOrderID());
-		} catch (IOException e) {
-			System.err.println("View Catalog");
-			e.printStackTrace();
+		if(Context.order != null && Context.order.getProducts()!=null)
+			productsInOrderToGUI(Context.order.getProducts());
+		else {
+			 try {
+				Context.fac.prodInOrder.getPIOsByOrder(Context.order.getOrderID());
+			} catch (IOException e) {
+				System.err.println("View Catalog");
+				e.printStackTrace();
+			}
 		}
 	}
 
@@ -69,6 +73,7 @@ public class CartGUIController extends ParentGUIController {
 	}
 	
 	public void productsInOrderToGUI(ArrayList<ProductInOrder> prds) {	
+		Context.order.setProducts(prds);
 		initGrids(prds);
     	int i = 0;
 		for (ProductInOrder p : prds) {

@@ -20,7 +20,7 @@ public class Order implements Serializable {
 	private OrderStatus orderStatus = OrderStatus.InProcess;
 	private Date date;
 	private float finalPrice;
-	private ArrayList<Product> products;
+	private ArrayList<ProductInOrder> products;
 	
 	private Order() {
 		finalPrice=0;
@@ -130,10 +130,10 @@ public class Order implements Serializable {
 	public void setFinalPrice(float finalPrice) {
 		this.finalPrice = finalPrice;
 	}
-	public ArrayList<Product> getProducts() {
+	public ArrayList<ProductInOrder> getProducts() {
 		return products;
 	}
-	public void setItems(ArrayList<Product> products) {
+	public void setProducts(ArrayList<ProductInOrder> products) {
 		this.products = products;
 	}
 }

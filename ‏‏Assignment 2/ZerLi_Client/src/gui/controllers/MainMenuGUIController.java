@@ -19,6 +19,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
@@ -104,6 +105,8 @@ public class MainMenuGUIController extends ParentGUIController{
 		}
 		if(Context.clientConsole!=null && Context.clientConsole.isConnected()==true)
 			setServerAvailable();
+		
+		Tooltip.install(imgCart, new Tooltip("Show my cart"));
 		
 		/* JUST FOR TEST!! */
 		Context.setUser(new Customer("Izhar","Ananiev","izharAn","1234",UserType.Customer,1));

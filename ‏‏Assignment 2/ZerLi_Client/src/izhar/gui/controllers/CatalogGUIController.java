@@ -32,6 +32,8 @@ import javafx.scene.paint.Color;
 public class CatalogGUIController extends ProductsGUIController {
 	
 	private Button btnBack;
+	
+	private ArrayList<Product> productsInCatalog = new ArrayList<>();
     
     @Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -42,16 +44,21 @@ public class CatalogGUIController extends ProductsGUIController {
 	}
 
     private void getProducts() {
-		try {
-			Context.fac.product.getProductsInCatalog();
-		} catch (IOException e) {
-			System.err.println("View Catalog");
-			e.printStackTrace();
-		}
+    	if(productsInCatalog.size()!=0)
+    		productsToGUI(productsInCatalog);
+    	else {
+			try {
+				Context.fac.product.getProductsInCatalog();
+			} catch (IOException e) {
+				System.err.println("View Catalog");
+				e.printStackTrace();
+			}
+    	}
 	}
 
     public void productsToGUI(ArrayList<Product> prds) {	
     	super.productsToGUI(prds);
+    	productsInCatalog = prds;
     	int i = 0;
 		for (Product p : prds) {
 			setGridPane(i, p);
