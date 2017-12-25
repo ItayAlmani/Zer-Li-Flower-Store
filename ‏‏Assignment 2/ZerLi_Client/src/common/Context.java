@@ -10,7 +10,6 @@ import java.util.Map.Entry;
 
 import entities.Customer;
 import entities.Order;
-import entities.ShoppingCart;
 import entities.StoreManager;
 import entities.User;
 import gui.controllers.MainMenuGUIController;

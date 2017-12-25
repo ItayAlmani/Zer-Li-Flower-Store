@@ -10,5 +10,5 @@ public interface IPickup extends IParent {
 
 	void addPickup(DeliveryDetails deliveryDetails) throws IOException;
 	
-	DeliveryDetails parse(int deliveryID, int orderID, java.util.Date date, boolean isImmediate, Store store);
+	DeliveryDetails parse(int deliveryID, int orderID, Store store, java.util.Date date, boolean isImmediate);
 }

@@ -1,9 +1,8 @@
 package entities;
 
-import java.io.Serializable;
 import java.util.Date;
 
-public class DeliveryDetails implements Serializable {
+public class DeliveryDetails {
 
 	private int deliveryID;
 	private int orderID;

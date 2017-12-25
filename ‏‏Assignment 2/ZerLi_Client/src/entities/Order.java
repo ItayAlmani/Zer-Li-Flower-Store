@@ -12,7 +12,6 @@ public class Order implements Serializable {
 
 	private int orderID;
 	private int customerID;
-	private ShoppingCart cart;
 	private DeliveryDetails delivery;
 	private OrderType type;
 	private Transaction transaction;
@@ -20,13 +19,21 @@ public class Order implements Serializable {
 	private DeliveryType deliveryType;
 	private OrderStatus orderStatus = OrderStatus.InProcess;
 	private Date date;
+	private float finalPrice;
+	private ArrayList<Product> products;
+	
+	private Order() {
+		finalPrice=0;
+		products = new ArrayList<>();
+	}
 	
 	public Order(Integer customerID) {
+		this();
 		this.customerID=customerID;
 	}
 
 	public Order(int orderID) {
-		super();
+		this();
 		this.orderID = orderID;
 	}
 
@@ -36,10 +43,6 @@ public class Order implements Serializable {
 
 	public int getCustomerID() {
 		return this.customerID;
-	}
-
-	public ShoppingCart getCart() {
-		return this.cart;
 	}
 
 	public DeliveryDetails getDelivery() {
@@ -81,20 +84,6 @@ public class Order implements Serializable {
 	public void setOrderStatus(OrderStatus orderStatus) {
 		this.orderStatus = orderStatus;
 	}
-	
-	public ArrayList<Product> getAllProducts(){
-		return cart.getProducts();
-	}
-	
-
-	/**
-	 * 
-	 * @param customer
-	 * @param cart
-	 */
-	public Order(Customer customer, ShoppingCart cart) {
-		
-	}
 
 	public OrderType getType() {
 		return type;
@@ -117,16 +106,11 @@ public class Order implements Serializable {
 	}
 
 
-	public void setCart(ShoppingCart cart) {
-		this.cart = cart;
-	}
-
-	public Order(int orderID, int customerID, ShoppingCart cart, DeliveryDetails delivery, OrderType type,
+	public Order(int orderID, int customerID, DeliveryDetails delivery, OrderType type,
 			Transaction transaction, String greeting, DeliveryType deliveryType, OrderStatus orderStatus, Date date) {
 		super();
 		this.orderID = orderID;
 		this.customerID = customerID;
-		this.cart = cart;
 		this.delivery = delivery;
 		this.type = type;
 		this.transaction = transaction;
@@ -140,5 +124,16 @@ public class Order implements Serializable {
 		this.customerID = customerID;
 	}
 	
-	
+	public float getFinalPrice() {
+		return finalPrice;
+	}
+	public void setFinalPrice(float finalPrice) {
+		this.finalPrice = finalPrice;
+	}
+	public ArrayList<Product> getProducts() {
+		return products;
+	}
+	public void setItems(ArrayList<Product> products) {
+		this.products = products;
+	}
 }

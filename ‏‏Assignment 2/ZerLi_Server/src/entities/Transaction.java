@@ -1,8 +1,6 @@
 package entities;
 
-import java.io.Serializable;
-
-public class Transaction implements Serializable{
+public class Transaction {
 
 	private int tansID;
 	private PayMethod paymentMethod;

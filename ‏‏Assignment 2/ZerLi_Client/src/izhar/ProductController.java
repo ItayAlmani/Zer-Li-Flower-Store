@@ -9,20 +9,10 @@ import java.util.Date;
 
 import common.Context;
 import controllers.ParentController;
-import entities.CSMessage;
-import entities.Customer;
-import entities.DeliveryDetails;
-import entities.Order;
+import entities.*;
 import entities.CSMessage.MessageType;
-import entities.Product;
-import entities.ShoppingCart;
-import entities.Transaction;
 import entities.Product.Color;
 import entities.Product.ProductType;
-import enums.DeliveryType;
-import enums.OrderStatus;
-import enums.OrderType;
-import enums.UserType;
 import izhar.interfaces.IProduct;
 
 public class ProductController extends ParentController implements IProduct {	
@@ -127,14 +117,5 @@ public class ProductController extends ParentController implements IProduct {
 		myMsgArr.clear();
 		myMsgArr.add("SELECT * FROM product WHERE inCatalog='1';");
 		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.SELECT,myMsgArr,Product.class));
-	}
-
-	@Override
-	public void getProductsByOrder(int orderID) throws IOException {
-		myMsgArr.clear();
-		myMsgArr.add("SELECT prd.* FROM orders ord, productincart pic, product prd, shoppingcart sc"
-				+ " join orders ON sc.orderID=orders.orderID"
-				+ " where pic.productID = prd.productID and ord.orderID = '"+orderID+"'");
-		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.SELECT, myMsgArr, Product.class));
 	}
 }

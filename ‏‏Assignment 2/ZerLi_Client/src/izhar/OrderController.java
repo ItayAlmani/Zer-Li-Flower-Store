@@ -109,14 +109,10 @@ public class OrderController extends ParentController implements IOrder {
 	public void getAllOrdersByStoreID(int storeID) throws IOException {
 		myMsgArr.clear();
 		myMsgArr.add(
-				"SELECT * FROM(" +  
-				"	SELECT ordStr.* FROM(" + 
-				"		SELECT ord.*" + 
-				"        FROM orders AS ord" + 
-				"        JOIN deliverydetails ON ord.orderID=deliverydetails.orderID" + 
-				"        WHERE deliverydetails.storeID='"+storeID+"') AS ordStr" + 
-				"    JOIN shoppingcart ON ordStr.orderID=shoppingcart.orderID) AS ordStrCart" + 
-				"JOIN productincart ON ordStrCart.cartID=productincart.cartID"
+				"SELECT ord.*" + 
+				"FROM orders AS ord" + 
+				"JOIN deliverydetails ON ord.orderID=deliverydetails.orderID" + 
+				"WHERE deliverydetails.storeID='"+storeID+"'"
 				);
 		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.SELECT, myMsgArr, Order.class));
 	}
@@ -147,7 +143,7 @@ public class OrderController extends ParentController implements IOrder {
 
 	@Override
 	public void updatePriceWithShipment(Order order) throws IOException {
-		order.getCart().setFinalPrice(order.getCart().getFinalPrice()+ShipmentDetails.shipmentPrice);
+		order.setFinalPrice(order.getFinalPrice()+ShipmentDetails.shipmentPrice);
 		updateOrder(order);
 	}
 
@@ -156,7 +152,6 @@ public class OrderController extends ParentController implements IOrder {
 			String greeting, String deliveryType, String orderStatus, java.util.Date date) {
 		return new Order(orderID,
 				customerID,
-				new ShoppingCart(cartID), 
 				new DeliveryDetails(deliveryID),
 				OrderType.valueOf(type),
 				new Transaction(transactionID), 
@@ -168,18 +163,24 @@ public class OrderController extends ParentController implements IOrder {
 
 	@Override
 	public void getProductsInOrder(int orderID) throws IOException {
-		myMsgArr.add("SELECT prd.*" + "FROM orders ord, productincart pic, product prd, shoppingcart sc"
-				+ "join orders ON sc.orderID=orders.orderID" +
-				"join productincart ON sc.cartID=productincart.cartID"
-				+ "where pic.productID = prd.productID and ord.orderID = '" + orderID + "';");
+		myMsgArr.add("SELECT productID, quantity, totalprice FROM" + 
+				"(" + 
+				"	SELECT ordCart.* FROM" + 
+				"	(" + 
+				"		SELECT crt.*" + 
+				"		FROM cart AS crt" + 
+				"		JOIN orders ON crt.orderID=orders.orderID" + 
+				"		where crt.orderID = '"+orderID+"'" + 
+				"	) AS ordCart" + 
+				"	JOIN product ON ordCart.productID=product.productID" + 
+				") AS prodInOrd");
 		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.SELECT, myMsgArr, Product.class));
 		
 	}
 
 	@Override
-	public void addProductToOrder(Product product) {
+	public void addProductInOrderToOrder(ProductInOrder product) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -193,5 +194,10 @@ public class OrderController extends ParentController implements IOrder {
 		myMsgArr.clear();
 		myMsgArr.add("SELECT * FROM orders WHERE customerID='"+	customerID+"' AND status='InProcess';");
 		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.SELECT, myMsgArr, Order.class));
+	}
+
+	public void addProductToOrder(Product product) {
+		// TODO Auto-generated method stub
+		
 	}
 }

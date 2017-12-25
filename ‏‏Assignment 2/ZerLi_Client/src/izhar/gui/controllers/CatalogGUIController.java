@@ -86,7 +86,7 @@ public class CatalogGUIController extends ProductsGUIController {
 						if(event.getSource() instanceof Button) {
 							Button btn = (Button)event.getSource();
 							//System.out.println((int) btn.getUserData());
-							Context.fac.cart.addProductToCart(products.get((int) btn.getUserData()));			
+							Context.fac.order.addProductToOrder(products.get((int) btn.getUserData()));			
 						}
 				}
 			});

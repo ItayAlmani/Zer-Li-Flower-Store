@@ -23,6 +23,8 @@ public class Product{
 		White, Yellow, Red, Gray, Purple, Blue, Green, Black, Orange, Brown;
 	}
 	
+	public Product() {}
+	
 	public Product(int prdID, String name) {
 		super();
 		this.prdID = prdID;

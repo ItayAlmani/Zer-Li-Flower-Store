@@ -8,6 +8,7 @@ import entities.Complaint;
 import entities.DeliveryDetails;
 import entities.Order;
 import entities.Product;
+import entities.ProductInOrder;
 import entities.Transaction;
 import enums.DeliveryType;
 import enums.OrderType;
@@ -89,9 +90,15 @@ public interface IOrder extends IParent  {
 			int transactionID, String greeting, String deliveryType, 
 			String orderStatus, Date date);
 	
+	/**
+	 * asks from server an Order with orderid=<code>orderID</code>
+	 * @param orderID - the id of the Order
+	 * @throws IOException
+	 */
 	void getProductsInOrder(int orderID) throws IOException;
 	
-	void addProductToOrder(Product product);
+	void addProductInOrderToOrder(ProductInOrder product);
+	
 	
 	void updateFinalPriceByPAT(PaymentAccountType pat);
 	
