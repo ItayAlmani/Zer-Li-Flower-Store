@@ -31,6 +31,13 @@ public interface IProduct extends IParent {
 	void assembleItemFromDB(ProductType type, float priceStart, float priceEnd, Color color) throws IOException;
 	
 	public void getProductsInCatalog() throws IOException;
+	
+	/**
+	 * asks from server an Order with orderid=<code>orderID</code>
+	 * @param orderID - the id of the Order
+	 * @throws IOException
+	 */
+	void getProductsByOrder(int orderID) throws IOException;
 
 	Product parse(int prdID, String name, String type, float price, String color, boolean inCatalog, String imageURL) throws FileNotFoundException;
 }

@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import common.*;
+import entities.Customer;
+import enums.UserType;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -17,6 +19,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
@@ -24,6 +28,7 @@ public class MainMenuGUIController extends ParentGUIController{
 	
 	private @FXML MenuButton menuProducts;
 	private @FXML Button btnConfig;
+	private @FXML ImageView imgCart;
 		
 	public void showProducts(ActionEvent event){
 		if(Context.clientConsole.isConnected()==false)
@@ -99,5 +104,18 @@ public class MainMenuGUIController extends ParentGUIController{
 		}
 		if(Context.clientConsole!=null && Context.clientConsole.isConnected()==true)
 			setServerAvailable();
+		
+		/* JUST FOR TEST!! */
+		Context.setUser(new Customer("Izhar","Ananiev","izharAn","1234",UserType.Customer,1));
+		Context.askOrder();
+	}
+	
+	public void showCart(MouseEvent event) throws Exception{
+		try {
+			loadGUI("CartGUI", false);
+		} catch (Exception e) {
+			lblMsg.setText("Loader failed");
+			e.printStackTrace();
+		}
 	}
 }

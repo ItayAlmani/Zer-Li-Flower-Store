@@ -9,6 +9,7 @@ import java.util.Scanner;
 import java.util.Map.Entry;
 
 import entities.Customer;
+import entities.Order;
 import entities.ShoppingCart;
 import entities.StoreManager;
 import entities.User;
@@ -39,10 +40,12 @@ public class Context {
 	/** The current JavaFX stage <=> the window of the GUI */
 	public static Stage stage = null;
 	
+	public static Object askingCtrl = null;
+	
 	public static Factory fac = new Factory();
 	
-	private User user;
-	private ShoppingCart cart;
+	private static User user;
+	public static Order order;
 	
 	/**
 	 * Looking for the .txt file at <code>projectPath</code>+<code>serTxtPath</code> path,
@@ -132,31 +135,52 @@ public class Context {
 		output.close();
 	}
 
-	public User getUser() {
-		return this.user;
+	public static User getUser() {
+		return user;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	public static void setUser(User newuser) {
+		user = newuser;
+//		askOrder();
 	}
 
-	public ShoppingCart getCart() {
-		return this.cart;
-	}
-
-	public void setCart(ShoppingCart cart) {
-		this.cart = cart;
-	}
-
-	public Customer getUserAsCustomer() {
+	public static Customer getUserAsCustomer() {
 		if(user instanceof Customer)
 			return (Customer)user;
 		return null;
 	}
 
-	public StoreManager getUserAsStoreManager() {
+	public static StoreManager getUserAsStoreManager() {
 		if(user instanceof StoreManager)
 			return (StoreManager)user;
 		return null;
+	}
+	
+	public static void askOrder() {
+		try {
+			askingCtrl = Context.class.newInstance();
+		} catch (InstantiationException | IllegalAccessException e) {
+			e.printStackTrace();
+		}
+		if(user instanceof Customer) {
+			try {
+				fac.order.getOrderInProcess(((Customer)user).getCustomerID());
+			} catch (IOException e) {
+				//System.err.println("getOrderInProcess() not working in Context\n");
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	public static void setOrders(ArrayList<Order> orders) {
+		if(orders.size()!=0)
+			order = orders.get(0);
+		else
+		{
+			if(user instanceof Customer) {
+				order=new Order(((Customer)user).getCustomerID());
+				//HAVE TO GET ORDERID AFTER FIRST INSERT
+			}
+		}
 	}
 }

@@ -47,7 +47,7 @@ public class PickupController extends ParentController implements IPickup {
 					(int) obj.get(i), 
 					(int) obj.get(i + 1), 
 					(int) obj.get(i + 3),
-					((Date) obj.get(i + 2)).getTime(),
+					new java.util.Date(((Date) obj.get(i + 2)).getTime()),
 					((int) obj.get(i + 4)!= 0);
 		sendProducts(prds);
 	}

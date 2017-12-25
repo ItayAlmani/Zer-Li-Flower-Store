@@ -116,10 +116,10 @@ public class ClientController {
 	private static Class findHandleGetFunc(String className, String classPath) {
 		try {
 			Class c =	Class.forName(classPath+className+"Controller");
-			System.err.println("Class found in "+classPath+className);
+			//System.err.println("Class found in "+classPath+className);
 			return c;
 		} catch (ClassNotFoundException | SecurityException | IllegalArgumentException e) {
-			System.err.println("No class found in "+classPath+className);
+			//SSystem.err.println("No class found in "+classPath+className);
 		}
 		return null;
 	}

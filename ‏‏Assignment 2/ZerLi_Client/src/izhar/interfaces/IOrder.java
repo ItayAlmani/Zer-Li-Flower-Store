@@ -7,20 +7,15 @@ import java.util.Date;
 import entities.Complaint;
 import entities.DeliveryDetails;
 import entities.Order;
+import entities.Product;
 import entities.Transaction;
 import enums.DeliveryType;
 import enums.OrderType;
+import enums.PaymentAccountType;
 import enums.Refund;
 import interfaces.IParent;
 
 public interface IOrder extends IParent  {
-
-	/**
-	 * asks from server an Order with orderid=<code>orderID</code>
-	 * @param orderID - the id of the Order
-	 * @throws IOException
-	 */
-	void getOrderWithProducts(int orderID) throws IOException;
 
 	/**  */
 	void noOrderIDErrMsg();
@@ -93,4 +88,12 @@ public interface IOrder extends IParent  {
 	Order parse(int orderID, int customerID, int cartID, int deliveryID, String type,
 			int transactionID, String greeting, String deliveryType, 
 			String orderStatus, Date date);
+	
+	void getProductsInOrder(int orderID) throws IOException;
+	
+	void addProductToOrder(Product product);
+	
+	void updateFinalPriceByPAT(PaymentAccountType pat);
+	
+	void getOrderInProcess(int customerID) throws IOException;
 }

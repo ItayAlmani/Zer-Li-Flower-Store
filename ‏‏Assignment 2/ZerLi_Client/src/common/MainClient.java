@@ -10,6 +10,8 @@ import javafx.stage.WindowEvent;
 
 import java.io.IOException;
 
+import entities.Customer;
+import enums.UserType;
 import gui.controllers.*;
 
 public class MainClient extends Application {	
@@ -28,6 +30,7 @@ public class MainClient extends Application {
 		    }
 		});		
 		Context.stage=arg0;
+		
 		main.start(arg0);
 	}
 }

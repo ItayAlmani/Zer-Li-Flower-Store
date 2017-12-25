@@ -27,7 +27,12 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import common.*;
+import entities.CSMessage;
+import entities.Customer;
+import entities.Order;
 import entities.Product;
+import entities.CSMessage.MessageType;
+import enums.UserType;
 import gui.controllers.ParentGUIController;
 
 public class ProductsFormGUIController extends ParentGUIController{
@@ -120,7 +125,6 @@ public class ProductsFormGUIController extends ParentGUIController{
 	public void initialize(URL location, ResourceBundle resources) {
 		super.initialize(location, resources);
 		Context.currentGUI = this;
-		
 		getProductsComboBox();
 		cmbProducts.setStyle("-fx-font-size:10");
 	}

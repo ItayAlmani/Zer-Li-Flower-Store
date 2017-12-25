@@ -16,21 +16,12 @@ import entities.CSMessage.MessageType;
 import enums.DeliveryType;
 import enums.OrderStatus;
 import enums.OrderType;
+import enums.PaymentAccountType;
 import enums.Refund;
 import enums.UserType;
 import izhar.interfaces.IOrder;
 
 public class OrderController extends ParentController implements IOrder {
-
-	@Override
-	public void getOrderWithProducts(int orderID) throws IOException {
-		myMsgArr.clear();
-		myMsgArr.add("SELECT prd.*, ord.*" + "FROM orders ord, productincart pic, product prd, shoppingcart sc"
-				+ "join orders ON sc.orderID=orders.orderID" +
-				"join productincart ON sc.cartID=productincart.cartID"
-				+ "where pic.productID = prd.productID and ord.orderID = '" + orderID + "';");
-		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.SELECT, myMsgArr, Order.class));
-	}
 
 	@Override
 	public void noOrderIDErrMsg() {
@@ -64,10 +55,22 @@ public class OrderController extends ParentController implements IOrder {
 	@Override
 	public void handleGet(ArrayList<Object> obj) {
 		ArrayList<Order> ords = new ArrayList<>();
-		for (int i = 0; i < obj.size(); i += 6)
-			prds.add(parse((int) obj.get(i), (String) obj.get(i + 1), (String) obj.get(i + 2), (float) obj.get(i + 3),
-					(String) obj.get(i + 4), ((int) obj.get(i + 5)) != 0));
-		sendProducts(prds);
+		for (int i = 0; i < obj.size(); i += 10) {
+			java.util.Date date = (java.util.Date)obj.get(i + 9);
+			ords.add(parse(
+					(int) obj.get(i), 
+					(int) obj.get(i + 1), 
+					(int) obj.get(i + 2), 
+					(int) obj.get(i + 3),
+					(String) obj.get(i + 4), 
+					(int) obj.get(i + 5),
+					(String) obj.get(i + 6),
+					(String) obj.get(i + 7),
+					(String) obj.get(i + 8),
+					date
+					));
+		}
+		sendOrders(ords);
 	}
 
 	@Override
@@ -122,8 +125,16 @@ public class OrderController extends ParentController implements IOrder {
 	public void sendOrders(ArrayList<Order> orders) {
 		Method m = null;
 		try {
-			m = Context.currentGUI.getClass().getMethod("ordersToComboBox",ArrayList.class);
-			m.invoke(Context.currentGUI, orders);
+			//a controller asked data, not GUI
+			if(Context.askingCtrl!=null) {
+				m = Context.askingCtrl.getClass().getMethod("setOrders",ArrayList.class);
+				m.invoke(Context.askingCtrl, orders);
+				Context.askingCtrl=null;
+			}
+			else {
+				m = Context.currentGUI.getClass().getMethod("setOrders",ArrayList.class);
+				m.invoke(Context.currentGUI, orders);
+			}
 		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e1) {
 			System.err.println("Couldn't invoke method 'productsToComboBox'");
 			e1.printStackTrace();
@@ -155,4 +166,32 @@ public class OrderController extends ParentController implements IOrder {
 				date);
 	}
 
+	@Override
+	public void getProductsInOrder(int orderID) throws IOException {
+		myMsgArr.add("SELECT prd.*" + "FROM orders ord, productincart pic, product prd, shoppingcart sc"
+				+ "join orders ON sc.orderID=orders.orderID" +
+				"join productincart ON sc.cartID=productincart.cartID"
+				+ "where pic.productID = prd.productID and ord.orderID = '" + orderID + "';");
+		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.SELECT, myMsgArr, Product.class));
+		
+	}
+
+	@Override
+	public void addProductToOrder(Product product) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateFinalPriceByPAT(PaymentAccountType pat) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
+	public void getOrderInProcess(int customerID) throws IOException {
+		myMsgArr.clear();
+		myMsgArr.add("SELECT * FROM orders WHERE customerID='"+	customerID+"' AND status='InProcess';");
+		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.SELECT, myMsgArr, Order.class));
+	}
 }
