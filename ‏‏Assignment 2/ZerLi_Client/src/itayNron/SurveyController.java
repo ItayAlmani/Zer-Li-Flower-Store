@@ -17,11 +17,12 @@ public class SurveyController extends ParentController implements ISurvey {
 	@Override
 	public void addSurvey(Survey survey) {
 		myMsgArr.clear();
-		String query = "INSERT INTO survey(storeID, answer1, answer2, answer3, answer4, answer5, answer6, date) " + 
+		String query = "INSERT INTO survey(storeID, answer1, answer2, answer3, answer4, answer5, answer6, date, type) " + 
 				" VALUES ('" + survey.getStore().getStoreID()+"',";
 		for (Integer ans : survey.getSurveyAnswerers())
 			query+="'"+ans+"', ";
-		query+="'"+java.sql.Date.valueOf(survey.getDate())+"')";
+		query+="'"+java.sql.Date.valueOf(survey.getDate())+"','"+
+			survey.getType().toString()+"')";
 		myMsgArr.add(query);
 		try {
 			Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.UPDATE, myMsgArr));

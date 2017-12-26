@@ -10,6 +10,7 @@ import common.Context;
 import entities.Store;
 import entities.StoreWorker;
 import entities.Survey;
+import entities.Survey.SurveyType;
 import gui.controllers.ParentGUIController;
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
@@ -43,7 +44,7 @@ public class SurveyGUIController extends ParentGUIController {
 			i++;
 		}
 		//Date date = Date.from(dpDate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
-		Survey sur = new Survey(ans, dpDate.getValue(), new Store(1));
+		Survey sur = new Survey(ans, dpDate.getValue(), new Store(1),SurveyType.Answer);
 		
 		Context.fac.survey.addSurvey(sur);
 		
