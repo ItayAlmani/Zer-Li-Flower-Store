@@ -106,38 +106,38 @@ public class CartGUIController extends ParentGUIController {
 			btn.setOnAction(new EventHandler<ActionEvent>() {
 				@Override
 				public void handle(ActionEvent event) {
-						if(event.getSource() instanceof Button) {
-							Button btn = (Button)event.getSource();
-							int gridInx = (int) btn.getUserData();
-							Integer quantity = null;
+					if(event.getSource() instanceof Button) {
+						Button btn = (Button)event.getSource();
+						int gridInx = (int) btn.getUserData();
+						Integer quantity = null;
+						
+						try {
+							quantity = Integer.parseInt(txtShowQuantity[gridInx].getText());
+						}catch (NumberFormatException e) {
+							lblMsg.setText("Quantity not number");
+							return;
 							
-							try {
-								quantity = Integer.parseInt(txtShowQuantity[gridInx].getText());
-							}catch (NumberFormatException e) {
-								lblMsg.setText("Quantity not number");
-								return;
-								
-							}
-							if(quantity==0) {
-								products.remove(gridInx);
-								Platform.runLater(new Runnable() {
-									@Override
-									public void run() {
-										flow.getChildren().remove(grids[gridInx]);
-										grids[gridInx] = new GridPane();
-									}
-								});
-							}
-							try {
-								products.get(gridInx).setQuantity(quantity);
-								products.get(gridInx).setFinalPrice();
-								Context.fac.prodInOrder.updatePriceOfPIO(products.get(gridInx));
-								lblShowPrice[gridInx].setText(((Float)products.get(gridInx).getFinalPrice()).toString() + "¤");
-							} catch (IOException e) {
-								System.err.println("prodInOrder.updatePriceOfPIO query failed");
-								e.printStackTrace();
-							}		
 						}
+						products.get(gridInx).setQuantity(quantity);
+						products.get(gridInx).setFinalPrice();
+						try {
+							Context.fac.prodInOrder.updatePriceOfPIO(products.get(gridInx));
+							lblShowPrice[gridInx].setText(((Float)products.get(gridInx).getFinalPrice()).toString() + "¤");
+						} catch (IOException e) {
+							System.err.println("prodInOrder.updatePriceOfPIO query failed");
+							e.printStackTrace();
+						}
+						if(quantity==0) {
+							products.remove(gridInx);
+							Platform.runLater(new Runnable() {
+								@Override
+								public void run() {
+									flow.getChildren().remove(grids[gridInx]);
+									grids[gridInx] = new GridPane();
+								}
+							});
+						}
+					}
 				}
 			});
 		}

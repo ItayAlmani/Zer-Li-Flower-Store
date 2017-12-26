@@ -16,9 +16,12 @@ import javafx.fxml.FXML;
 import javafx.geometry.HPos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
+import javafx.scene.control.Pagination;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderStroke;
 import javafx.scene.layout.BorderStrokeStyle;
@@ -30,16 +33,19 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.util.Callback;
 
 public class CatalogGUIController extends ParentGUIController {
 	
 	private @FXML ScrollPane scroll;
-	private @FXML FlowPane flow;
+	private @FXML Pagination pagination ;
 	private @FXML GridPane[] grids;
 	private @FXML Button[] btnViewProduct;
 	private @FXML ImageView[] imgImages;
 	private @FXML Label[] lblShowID, lblShowType, lblShowColor, lblShowPrice, lblShowName,
 			lblTitleID, lblTitleType, lblTitleColor, lblTitlePrice, lblTitleName;
+	private @FXML Label lblMsg;
+	private @FXML VBox vbox;
 	
 	private ArrayList<Node> components = new ArrayList<>();
 	
@@ -51,7 +57,7 @@ public class CatalogGUIController extends ParentGUIController {
 	public void initialize(URL location, ResourceBundle resources) {
 		super.initialize(location, resources);
 		Context.currentGUI = this;
-		
+
 		getProducts();
 	}
 
@@ -86,25 +92,30 @@ public class CatalogGUIController extends ParentGUIController {
 		/* The order buttons of all products */
 		btnViewProduct = new Button[prds.size()];
 		
-		Platform.runLater(new Runnable() {
-			@Override
-			public void run() {
-				flow.getChildren().addAll(grids);
-				scroll.setContent(flow);
-			}
-		});
     	productsInCatalog = prds;
+    	
+    	
+    	pagination  = new Pagination(productsInCatalog.size(), 0);
     	int i = 0;
 		for (Product p : prds) {
 			setGridPane(i, p);
+			pagination .setPageFactory(new Callback<Integer, Node>() {
+	            @Override
+	            public Node call(Integer pageIndex) {
+	            	 return grids[pageIndex];
+	            }
+			});
 			i++;
 		}
+		
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
 				btnBack = new Button("Back");
 				btnBack.setOnAction(actionEvent -> loadMainMenu());
-				flow.getChildren().add(btnBack);
+				lblMsg = new Label();
+				
+				vbox.getChildren().addAll(pagination ,btnBack,lblMsg);
 			}
 		});
 	}	
@@ -135,7 +146,7 @@ public class CatalogGUIController extends ParentGUIController {
 						Product prd = productsInCatalog.get((int) btn.getUserData());
 						ProductInOrder pio = Context.order.containsProduct(prd);
 						if(pio==null) {
-							pio = new ProductInOrder(prd, Context.order.getOrderID(), 1);
+							pio = new ProductInOrder(prd, 1, Context.order.getOrderID());
 							try {
 								Context.fac.prodInOrder.addPIO(pio);
 							} catch (IOException e) {
@@ -145,6 +156,7 @@ public class CatalogGUIController extends ParentGUIController {
 						}
 						else {
 							pio.addOneToQuantity();
+							pio.setFinalPrice();
 							try {
 								Context.fac.prodInOrder.updatePIO(pio);
 							} catch (IOException e) {
@@ -152,15 +164,24 @@ public class CatalogGUIController extends ParentGUIController {
 								e.printStackTrace();
 							}
 						}
+						Platform.runLater(new Runnable() {
+							@Override
+							public void run() {
+								lblMsg.setText("Added");
+							}
+						});
+						
 					}
 			}
 		};
     }
 
-    private void setGridPane(int i, Product p) {
+    
+    
+    private GridPane setGridPane(int i, Product p) {
     	grids[i] = new GridPane();
-		grids[i].setBorder(new Border(new BorderStroke(Color.BLACK, 
-	            BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+		/*grids[i].setBorder(new Border(new BorderStroke(Color.BLACK, 
+	            BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));*/
 		
 		imgImages[i] = new ImageView(p.getImage());
 		grids[i].setConstraints(imgImages[i], 1, i);
@@ -200,5 +221,6 @@ public class CatalogGUIController extends ParentGUIController {
 			grids[i].setHalignment(node, HPos.CENTER);
 		
 		components.clear();
+		return grids[i];
     }
 }

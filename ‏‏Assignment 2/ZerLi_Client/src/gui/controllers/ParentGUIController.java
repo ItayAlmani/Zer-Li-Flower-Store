@@ -1,5 +1,6 @@
 package gui.controllers;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -20,6 +21,8 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 
 public abstract class ParentGUIController implements Initializable {
@@ -85,6 +88,11 @@ public abstract class ParentGUIController implements Initializable {
 			lblMsgState=null;
 		}
 		primaryStage.show();
+		
+		String musicFile = Context.projectPath+"\\src\\sound\\Bana_Cut.mp3";
+		Media sound = new Media(new File(musicFile).toURI().toString());
+		MediaPlayer mediaPlayer = new MediaPlayer(sound);
+		mediaPlayer.play();
 	}
 	
 	public void loadMainMenu() {

@@ -121,23 +121,24 @@ public class OrderController extends ParentController implements IOrder {
 
 	@Override
 	public void sendOrders(ArrayList<Order> orders) {
+		String methodName = "setOrders";
 		Method m = null;
 		try {
 			//a controller asked data, not GUI
-			if(Context.askingCtrl!=null) {
-				m = Context.askingCtrl.getClass().getMethod("setOrders",ArrayList.class);
+			if(Context.askingCtrl!=null && Context.askingCtrl.size()!=0) {
+				m = Context.askingCtrl.get(0).getClass().getMethod(methodName,ArrayList.class);
 				m.invoke(Context.askingCtrl, orders);
-				Context.askingCtrl=null;
+				Context.askingCtrl.remove(0);
 			}
 			else {
-				m = Context.currentGUI.getClass().getMethod("setOrders",ArrayList.class);
+				m = Context.currentGUI.getClass().getMethod(methodName,ArrayList.class);
 				m.invoke(Context.currentGUI, orders);
 			}
 		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e1) {
-			System.err.println("Couldn't invoke method 'productsToComboBox'");
+			System.err.println("Couldn't invoke method '"+methodName+"'");
 			e1.printStackTrace();
 		} catch (NoSuchMethodException | SecurityException e2) {
-			System.err.println("No method called 'productsToComboBox'");
+			System.err.println("No method called '"+methodName+"'");
 			e2.printStackTrace();
 		}
 

@@ -1,5 +1,6 @@
 package gui.controllers;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -25,6 +26,8 @@ import javafx.scene.control.Tooltip;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 
 public class MainMenuGUIController extends ParentGUIController{
@@ -34,7 +37,7 @@ public class MainMenuGUIController extends ParentGUIController{
 	private @FXML ImageView imgCart;
 	private @FXML MenuItem miCatalog;
 		
-	public void showProducts(ActionEvent event){
+	public void showProducts(ActionEvent event){		
 		if(Context.clientConsole.isConnected()==false)
 			setServerUnavailable();
 		else {

@@ -60,16 +60,24 @@ public class ProductController extends ParentController implements IProduct {
 	
 	@Override
 	public void sendProducts(ArrayList<Product> prds) {
-		String productsToGUI_MethodName = "productsToGUI";
+		String methodName = "productsToGUI";
 		Method m = null;
 		try {
-			m = Context.currentGUI.getClass().getMethod(productsToGUI_MethodName,ArrayList.class);
-			m.invoke(Context.currentGUI, prds);
+			//a controller asked data, not GUI
+			if(Context.askingCtrl!=null && Context.askingCtrl.size()!=0) {
+				m = Context.askingCtrl.get(0).getClass().getMethod(methodName,ArrayList.class);
+				m.invoke(Context.askingCtrl, prds);
+				Context.askingCtrl.remove(0);
+			}
+			else {
+				m = Context.currentGUI.getClass().getMethod(methodName,ArrayList.class);
+				m.invoke(Context.currentGUI, prds);
+			}
 		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e1) {
-			System.err.println("Couldn't invoke method '"+productsToGUI_MethodName+"'");
+			System.err.println("Couldn't invoke method '"+methodName+"'");
 			e1.printStackTrace();
 		} catch (NoSuchMethodException | SecurityException e2) {
-			System.err.println("No method called '"+productsToGUI_MethodName+"'");
+			System.err.println("No method called '"+methodName+"'");
 			e2.printStackTrace();
 		}
 	}	

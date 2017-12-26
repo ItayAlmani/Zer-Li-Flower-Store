@@ -10,6 +10,7 @@ import java.util.Map.Entry;
 
 import entities.Customer;
 import entities.Order;
+import entities.ProductInOrder;
 import entities.StoreWorker;
 import entities.User;
 import entities.User.UserType;
@@ -40,7 +41,7 @@ public class Context {
 	/** The current JavaFX stage <=> the window of the GUI */
 	public static Stage stage = null;
 	
-	public static Object askingCtrl = null;
+	public static ArrayList<Object> askingCtrl = new ArrayList<>();
 	
 	public static Factory fac = new Factory();
 	
@@ -143,7 +144,7 @@ public class Context {
 		user = newuser;
 		if(user.getPermissions().equals(UserType.Customer)) {
 			try {
-				askingCtrl=Context.class.newInstance();
+				askingCtrl.add(Context.class.newInstance());
 				fac.customer.getCustomerByUser(user.getUserID());
 			} catch (InstantiationException | IllegalAccessException e) {
 				// TODO Auto-generated catch block
@@ -152,13 +153,7 @@ public class Context {
 		}
 	}
 	
-	public static void setCustomers(ArrayList<Customer> customers) {
-		if(customers.size()!=0) {
-			Customer cust = customers.get(0);
-			cust.setUser(user);
-			user=cust;
-		}
-	}
+	
 	
 
 	public static Customer getUserAsCustomer() {
@@ -175,7 +170,7 @@ public class Context {
 	
 	public static void askOrder() {
 		try {
-			askingCtrl = Context.class.newInstance();
+			askingCtrl.add(Context.class.newInstance());
 		} catch (InstantiationException | IllegalAccessException e) {
 			e.printStackTrace();
 		}
@@ -189,9 +184,25 @@ public class Context {
 		}
 	}
 	
+	public static void setCustomers(ArrayList<Customer> customers) {
+		if(customers.size()!=0) {
+			Customer cust = customers.get(0);
+			cust.setUser(user);
+			user=cust;
+		}
+	}
+	
 	public static void setOrders(ArrayList<Order> orders) {
-		if(orders.size()!=0)
+		if(orders.size()!=0) {
 			order = orders.get(0);
+			try {
+				askingCtrl.add(Context.class.newInstance());
+				fac.prodInOrder.getPIOsByOrder(Context.order.getOrderID());
+			} catch (IOException | InstantiationException | IllegalAccessException e) {
+				System.err.println("View Catalog");
+				e.printStackTrace();
+			}
+		}
 		else
 		{
 			if(user instanceof Customer) {
@@ -204,6 +215,12 @@ public class Context {
 					e.printStackTrace();
 				}
 			}
+		}
+	}
+	
+	public static void setPIOs(ArrayList<ProductInOrder> prds) {
+		if(order!=null) {
+			order.setProducts(prds);
 		}
 	}
 }

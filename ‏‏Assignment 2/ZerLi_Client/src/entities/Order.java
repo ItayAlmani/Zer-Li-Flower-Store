@@ -140,7 +140,7 @@ public class Order implements Serializable {
 	
 	public ProductInOrder containsProduct(Product p) {
 		for (ProductInOrder productInOrder : products) {
-			if(productInOrder.getProduct().equals(p)==true)
+			if(productInOrder.getProduct().getPrdID()==p.getPrdID())
 				return productInOrder;
 		}
 		return null;

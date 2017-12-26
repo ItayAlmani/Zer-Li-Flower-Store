@@ -1,14 +1,12 @@
 package itayNron.gui.controllers;
 
 import java.net.URL;
-import java.time.ZoneId;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.ResourceBundle;
 
 import common.Context;
 import entities.Store;
-import entities.StoreWorker;
 import entities.Survey;
 import entities.Survey.SurveyType;
 import gui.controllers.ParentGUIController;
@@ -72,5 +70,6 @@ public class SurveyGUIController extends ParentGUIController {
 			cbs[i].setItems(list);
 			cbs[i].getSelectionModel().selectFirst();
 		}
+		dpDate.setValue(LocalDate.now());
 	}
 }

@@ -20,29 +20,32 @@ import entities.ProductInOrder;
 public class ProductInOrderController extends ParentController implements IProductInOrder {	
 	@Override
 	public void updatePIO(ProductInOrder p) throws IOException {
-		/*myMsgArr.clear();
+		myMsgArr.clear();
 		myMsgArr.add(String.format(
-				"UPDATE product SET productName='%s' WHERE productID=%d;",p.getName(),p.getPrdID()));
-		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.UPDATE,myMsgArr));*/
+				"UPDATE cart " + 
+				" SET orderID=%d, productID=%d,quantity=%d,totalprice=%f" + 
+				" WHERE productInOrderID=%d",
+				p.getOrderID(),p.getProduct().getPrdID(),p.getQuantity(),p.getFinalPrice(),p.getId()));
+		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.UPDATE,myMsgArr));
 	}
 	
 	@Override
 	public void handleGet(ArrayList<Object> obj) {
 		if(obj==null) return;
 		ArrayList<ProductInOrder> prds = new ArrayList<>();
-		for (int i = 0; i < obj.size(); i += 10) {
+		for (int i = 0; i < obj.size(); i += 11) {
 			try {
-				prds.add(parse(
-						(Context.fac.product.parse((int) obj.get(i), 
-						(String) obj.get(i + 1), 
-						(String) obj.get(i + 2),
-						(float) obj.get(i + 3),
-						(String) obj.get(i + 4),
-						((int)obj.get(i + 5))!= 0,
-						(String)obj.get(i+6))
-						),BigInteger.valueOf(Long.valueOf((int)obj.get(i+7)))
-						,(int)obj.get(i+8),
-						(float)obj.get(i+9)
+				prds.add(parse((int)obj.get(i),
+						(Context.fac.product.parse((int) obj.get(i+1), 
+						(String) obj.get(i + 2), 
+						(String) obj.get(i + 3),
+						(float) obj.get(i + 4),
+						(String) obj.get(i + 5),
+						((int)obj.get(i + 6))!= 0,
+						(String)obj.get(i+7))
+						),BigInteger.valueOf(Long.valueOf((int)obj.get(i+8)))
+						,(int)obj.get(i+9),
+						(float)obj.get(i+10)
 						));
 			} catch (FileNotFoundException e) {
 				System.err.println("Couldn't find Image named "+ (String)obj.get(i+6) +".");
@@ -53,22 +56,30 @@ public class ProductInOrderController extends ParentController implements IProdu
 	}
 	
 	@Override
-	public ProductInOrder parse(Product prod, BigInteger orderID, int quantity, float finalPrice) {
-		return new ProductInOrder(prod,orderID,quantity,finalPrice);
+	public ProductInOrder parse(int id, Product prod, BigInteger orderID, int quantity, float finalPrice) {
+		return new ProductInOrder(id, prod,orderID,quantity,finalPrice);
 	}
 	
 	@Override
 	public void sendPIOs(ArrayList<ProductInOrder> prds) {
-		String productsToGUI_MethodName = "productsInOrderToGUI";
+		String methodName = "setPIOs";
 		Method m = null;
 		try {
-			m = Context.currentGUI.getClass().getMethod(productsToGUI_MethodName,ArrayList.class);
-			m.invoke(Context.currentGUI, prds);
+			//a controller asked data, not GUI
+			if(Context.askingCtrl!=null && Context.askingCtrl.size()!=0) {
+				m = Context.askingCtrl.get(0).getClass().getMethod(methodName,ArrayList.class);
+				m.invoke(Context.askingCtrl, prds);
+				Context.askingCtrl.remove(0);
+			}
+			else {
+				m = Context.currentGUI.getClass().getMethod(methodName,ArrayList.class);
+				m.invoke(Context.currentGUI, prds);
+			}
 		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e1) {
-			System.err.println("Couldn't invoke method '"+productsToGUI_MethodName+"'");
+			System.err.println("Couldn't invoke method '"+methodName+"'");
 			e1.printStackTrace();
 		} catch (NoSuchMethodException | SecurityException e2) {
-			System.err.println("No method called '"+productsToGUI_MethodName+"'");
+			System.err.println("No method called '"+methodName+"'");
 			e2.printStackTrace();
 		}
 	}
@@ -76,16 +87,13 @@ public class ProductInOrderController extends ParentController implements IProdu
 	@Override
 	public void addPIO(ProductInOrder p) throws IOException {
 		myMsgArr.clear();
-		String res = "0";
-		if(p.isInCatalog())
-			res="1";
 		myMsgArr.add(
-				"INSERT INTO orders (productName, productType, price, color, inCatalog)"
-						+ "VALUES ('" + p.getName() + "', '" 
-						+ p.getType().toString() + "', '"
-						+ p.getPrice() + "', '"
-						+ p.getColor().toString() + "', '"
-						+ res + "');"
+				"INSERT INTO cart (orderID, productID, quantity, totalprice) " + 
+				" VALUES ('" 
+						+ p.getOrderID()+ "', '"
+						+ p.getProduct().getPrdID() + "', '"
+						+ p.getQuantity() + "', '"
+						+ p.getFinalPrice() + "');"
 								);
 		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.UPDATE, myMsgArr));
 	}
@@ -93,7 +101,7 @@ public class ProductInOrderController extends ParentController implements IProdu
 	@Override
 	public void getPIOsByOrder(BigInteger orderID) throws IOException {
 		myMsgArr.clear();
-		myMsgArr.add("SELECT prd.*,orderID, quantity, totalprice FROM" + 
+		myMsgArr.add("SELECT productInOrderID, prd.*,orderID, quantity, totalprice FROM" + 
 				"(" + 
 				"	SELECT ordCart.* FROM" + 
 				"	(" + 
