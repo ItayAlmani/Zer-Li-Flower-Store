@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.math.BigInteger;
 import java.util.ArrayList;
 
 import common.Context;
@@ -18,7 +19,7 @@ import entities.ProductInOrder;
 
 public class ProductInOrderController extends ParentController implements IProductInOrder {	
 	@Override
-	public void updatePIO(Product p) throws IOException {
+	public void updatePIO(ProductInOrder p) throws IOException {
 		/*myMsgArr.clear();
 		myMsgArr.add(String.format(
 				"UPDATE product SET productName='%s' WHERE productID=%d;",p.getName(),p.getPrdID()));
@@ -29,7 +30,7 @@ public class ProductInOrderController extends ParentController implements IProdu
 	public void handleGet(ArrayList<Object> obj) {
 		if(obj==null) return;
 		ArrayList<ProductInOrder> prds = new ArrayList<>();
-		for (int i = 0; i < obj.size(); i += 10)
+		for (int i = 0; i < obj.size(); i += 10) {
 			try {
 				prds.add(parse(
 						(Context.fac.product.parse((int) obj.get(i), 
@@ -39,7 +40,7 @@ public class ProductInOrderController extends ParentController implements IProdu
 						(String) obj.get(i + 4),
 						((int)obj.get(i + 5))!= 0,
 						(String)obj.get(i+6))
-						),(int)obj.get(i+7)
+						),BigInteger.valueOf(Long.valueOf((int)obj.get(i+7)))
 						,(int)obj.get(i+8),
 						(float)obj.get(i+9)
 						));
@@ -47,11 +48,12 @@ public class ProductInOrderController extends ParentController implements IProdu
 				System.err.println("Couldn't find Image named "+ (String)obj.get(i+6) +".");
 				e.printStackTrace();
 			}
+		}
 		sendPIOs(prds);
 	}
 	
 	@Override
-	public ProductInOrder parse(Product prod, int orderID, int quantity, float finalPrice) {
+	public ProductInOrder parse(Product prod, BigInteger orderID, int quantity, float finalPrice) {
 		return new ProductInOrder(prod,orderID,quantity,finalPrice);
 	}
 	
@@ -89,7 +91,7 @@ public class ProductInOrderController extends ParentController implements IProdu
 	}
 
 	@Override
-	public void getPIOsByOrder(int orderID) throws IOException {
+	public void getPIOsByOrder(BigInteger orderID) throws IOException {
 		myMsgArr.clear();
 		myMsgArr.add("SELECT prd.*,orderID, quantity, totalprice FROM" + 
 				"(" + 

@@ -1,0 +1,80 @@
+package kfir.gui.controllers;
+
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+
+import java.io.IOException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.ResourceBundle;
+
+import common.Context;
+import entities.User;
+import entities.User.UserType;
+import gui.controllers.ParentGUIController;
+import javafx.application.Platform;
+import javafx.event.ActionEvent;
+import javafx.scene.Scene;
+import javafx.scene.control.TextField;
+import javafx.stage.Stage;
+public class LogInGUIController extends ParentGUIController{
+	
+	private @FXML TextField txtUserName;
+	private @FXML TextField txtPassword;
+
+	public void logIn(ActionEvent event) {
+		/*String uName = this.txtUserName.getText(),
+				pass = this.txtPassword.getText();*/
+		String uName ="izharAn", pass="1234";
+		System.err.println("Go to LogInGUIController to enable data in login");
+		if(uName!=null && pass !=null) {
+			try {
+				Context.fac.user.getUser(new User(uName, pass));
+			} catch (IOException e) {
+				ShowErrorMsg();
+				System.err.println("LogInGUI getUser failed");
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	public void setUsers(ArrayList<User> users) {
+		if(users.size()==0)
+			ShowErrorMsg();
+		else {
+			User user = users.get(0);
+			Context.setUser(user);
+			users.get(0).setConnected(true);
+			Context.fac.user.updateUser(user);
+			
+			Platform.runLater(new Runnable() {
+		        @Override
+		        public void run() {
+		        	loadMainMenu();
+		        }
+			});
+			
+		}
+	}
+	
+	public void start(Stage stage) throws IOException {
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/fxmls/LogInGUI.fxml"));
+		Scene scene = new Scene(loader.load());
+		stage.setTitle("Login");
+		stage.setScene(scene);
+		stage.show();
+	}
+	
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		super.initialize(location, resources);
+		Context.currentGUI = this;
+		if(Context.clientConsole==null || Context.clientConsole.isConnected()==false) {
+			try {
+				Context.connectToServer();
+			} catch (IOException e) {
+				//setServerUnavailable();
+			}
+		}
+	}
+}

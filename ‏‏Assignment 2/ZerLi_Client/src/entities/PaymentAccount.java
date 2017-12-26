@@ -6,6 +6,13 @@ public class PaymentAccount {
 	private float refundAmount = 0;
 	private CreditCard creditCard;
 	private Subscription sub;
+	
+	
+
+	public PaymentAccount(int paID) {
+		super();
+		this.paID = paID;
+	}
 
 	public float getRefundAmount() {
 		return this.refundAmount;

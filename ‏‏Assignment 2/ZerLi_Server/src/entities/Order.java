@@ -1,6 +1,7 @@
 package entities;
 
 import java.io.Serializable;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -10,7 +11,7 @@ import enums.OrderType;
 
 public class Order implements Serializable {
 
-	private int orderID;
+	private BigInteger orderID;
 	private int customerID;
 	private DeliveryDetails delivery;
 	private OrderType type;
@@ -32,12 +33,12 @@ public class Order implements Serializable {
 		this.customerID=customerID;
 	}
 
-	public Order(int orderID) {
+	public Order(BigInteger orderID) {
 		this();
 		this.orderID = orderID;
 	}
 
-	public int getOrderID() {
+	public BigInteger getOrderID() {
 		return this.orderID;
 	}
 
@@ -101,12 +102,12 @@ public class Order implements Serializable {
 		this.date = date;
 	}
 
-	public void setOrderID(int orderID) {
+	public void setOrderID(BigInteger orderID) {
 		this.orderID = orderID;
 	}
 
 
-	public Order(int orderID, int customerID, DeliveryDetails delivery, OrderType type,
+	public Order(BigInteger orderID, int customerID, DeliveryDetails delivery, OrderType type,
 			Transaction transaction, String greeting, DeliveryType deliveryType, OrderStatus orderStatus, Date date) {
 		super();
 		this.orderID = orderID;
@@ -135,5 +136,13 @@ public class Order implements Serializable {
 	}
 	public void setProducts(ArrayList<ProductInOrder> products) {
 		this.products = products;
+	}
+	
+	public ProductInOrder containsProduct(Product p) {
+		for (ProductInOrder productInOrder : products) {
+			if(productInOrder.getProduct().equals(p)==true)
+				return productInOrder;
+		}
+		return null;
 	}
 }

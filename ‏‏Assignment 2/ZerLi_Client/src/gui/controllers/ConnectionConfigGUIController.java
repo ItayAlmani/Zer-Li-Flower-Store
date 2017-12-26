@@ -43,7 +43,7 @@ public class ConnectionConfigGUIController extends ParentGUIController{
 	}
 	
 	public void back(ActionEvent event) throws Exception {
-		loadMainMenu(event);
+		loadMainMenu();
 	}
 	
 	public void updateServer(ActionEvent event) {

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="300.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="itayNron.gui.controllers.SurveyGUIController">
+   <children>
+      <GridPane layoutX="66.0" layoutY="21.0" prefHeight="269.0" prefWidth="160.0">
+        <columnConstraints>
+          <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="82.79999237060547" minWidth="44.000004577636716" prefWidth="53.60001220703125" />
+          <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="186.79999542236328" minWidth="10.0" prefWidth="107.39998779296874" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Label text="Number" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <Label text="1" GridPane.rowIndex="1" />
+            <Label text="2" GridPane.rowIndex="2" />
+            <Label text="3" GridPane.rowIndex="3" />
+            <Label text="4" GridPane.rowIndex="4" />
+            <Label text="5" GridPane.rowIndex="5" />
+            <Label text="6" GridPane.rowIndex="6" />
+            <Label text="Answer" GridPane.columnIndex="1">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <ChoiceBox fx:id="cb1" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <ChoiceBox fx:id="cb2" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <ChoiceBox fx:id="cb3" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <ChoiceBox fx:id="cb4" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <ChoiceBox fx:id="cb5" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <ChoiceBox fx:id="cb6" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+            <Button mnemonicParsing="false" onAction="#sendSurvey" text="Send" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+            <DatePicker fx:id="dpDate" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="7" GridPane.valignment="CENTER" />
+            <Label text="Date" GridPane.rowIndex="7" />
+         </children>
+      </GridPane>
+      <Label fx:id="lblMsg" layoutX="14.0" layoutY="267.0" textFill="RED" />
+   </children>
+</AnchorPane>

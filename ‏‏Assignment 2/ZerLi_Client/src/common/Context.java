@@ -10,8 +10,9 @@ import java.util.Map.Entry;
 
 import entities.Customer;
 import entities.Order;
-import entities.StoreManager;
+import entities.StoreWorker;
 import entities.User;
+import entities.User.UserType;
 import gui.controllers.MainMenuGUIController;
 import javafx.stage.Stage;
 
@@ -140,8 +141,25 @@ public class Context {
 
 	public static void setUser(User newuser) {
 		user = newuser;
-//		askOrder();
+		if(user.getPermissions().equals(UserType.Customer)) {
+			try {
+				askingCtrl=Context.class.newInstance();
+				fac.customer.getCustomerByUser(user.getUserID());
+			} catch (InstantiationException | IllegalAccessException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
+	
+	public static void setCustomers(ArrayList<Customer> customers) {
+		if(customers.size()!=0) {
+			Customer cust = customers.get(0);
+			cust.setUser(user);
+			user=cust;
+		}
+	}
+	
 
 	public static Customer getUserAsCustomer() {
 		if(user instanceof Customer)
@@ -149,9 +167,9 @@ public class Context {
 		return null;
 	}
 
-	public static StoreManager getUserAsStoreManager() {
-		if(user instanceof StoreManager)
-			return (StoreManager)user;
+	public static StoreWorker getUserAsStoreWorker() {
+		if(user instanceof StoreWorker)
+			return (StoreWorker)user;
 		return null;
 	}
 	
@@ -177,8 +195,14 @@ public class Context {
 		else
 		{
 			if(user instanceof Customer) {
-				order=new Order(((Customer)user).getCustomerID());
+				//order=new Order(((Customer)user).getCustomerID());
 				//HAVE TO GET ORDERID AFTER FIRST INSERT
+				try {
+					fac.order.getLastAutoIncrenment();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		}
 	}

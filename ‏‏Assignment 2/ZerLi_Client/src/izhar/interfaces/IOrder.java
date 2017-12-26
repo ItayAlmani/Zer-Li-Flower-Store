@@ -1,6 +1,7 @@
 package izhar.interfaces;
 
 import java.io.IOException;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -22,7 +23,7 @@ public interface IOrder extends IParent  {
 	void noOrderIDErrMsg();
 
 	/**
-	 * 
+	 * update status to canceled
 	 * @param complaint
 	 */
 	boolean updateCustomerComplaintRefund(Complaint complaint);
@@ -86,7 +87,7 @@ public interface IOrder extends IParent  {
 	 * @param date			-	the order's date
 	 * @return new object created by the data above
 	 */
-	Order parse(int orderID, int customerID, int cartID, int deliveryID, String type,
+	Order parse(BigInteger orderID, int customerID, int cartID, int deliveryID, String type,
 			int transactionID, String greeting, String deliveryType, 
 			String orderStatus, Date date);
 	
@@ -95,7 +96,7 @@ public interface IOrder extends IParent  {
 	 * @param orderID - the id of the Order
 	 * @throws IOException
 	 */
-	void getProductsInOrder(int orderID) throws IOException;
+	void getProductsInOrder(BigInteger orderID) throws IOException;
 	
 	void addProductInOrderToOrder(ProductInOrder product);
 	
@@ -103,4 +104,6 @@ public interface IOrder extends IParent  {
 	void updateFinalPriceByPAT(PaymentAccountType pat);
 	
 	void getOrderInProcess(int customerID) throws IOException;
+
+	void getLastAutoIncrenment() throws IOException;
 }

@@ -7,7 +7,8 @@ import java.util.ResourceBundle;
 
 import common.*;
 import entities.Customer;
-import enums.UserType;
+import entities.User;
+import entities.User.UserType;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -19,6 +20,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -30,6 +32,7 @@ public class MainMenuGUIController extends ParentGUIController{
 	private @FXML MenuButton menuProducts;
 	private @FXML Button btnConfig;
 	private @FXML ImageView imgCart;
+	private @FXML MenuItem miCatalog;
 		
 	public void showProducts(ActionEvent event){
 		if(Context.clientConsole.isConnected()==false)
@@ -37,6 +40,19 @@ public class MainMenuGUIController extends ParentGUIController{
 		else {
 			try {
 				loadGUI("ProductsFormGUI", false);
+			} catch (Exception e) {
+				lblMsg.setText("Loader failed");
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	public void showSurvey(ActionEvent event){
+		if(Context.clientConsole.isConnected()==false)
+			setServerUnavailable();
+		else {
+			try {
+				loadGUI("SurveyGUI", false);
 			} catch (Exception e) {
 				lblMsg.setText("Loader failed");
 				e.printStackTrace();
@@ -97,20 +113,19 @@ public class MainMenuGUIController extends ParentGUIController{
 		super.initialize(location, resources);
 		Context.currentGUI = this;
 		if(Context.clientConsole==null || Context.clientConsole.isConnected()==false) {
-			try {
-				Context.connectToServer();
-			} catch (IOException e) {
-				setServerUnavailable();
-			}
+			setServerUnavailable();
 		}
 		if(Context.clientConsole!=null && Context.clientConsole.isConnected()==true)
 			setServerAvailable();
 		
 		Tooltip.install(imgCart, new Tooltip("Show my cart"));
 		
-		/* JUST FOR TEST!! */
-		Context.setUser(new Customer("Izhar","Ananiev","izharAn","1234",UserType.Customer,1));
 		Context.askOrder();
+		
+		if(Context.getUser() != null) {
+			if(Context.getUser().getPermissions().equals(UserType.Customer) ==false)
+				miCatalog.setVisible(false);
+		}
 	}
 	
 	public void showCart(MouseEvent event) throws Exception{

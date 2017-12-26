@@ -32,7 +32,7 @@ import entities.Customer;
 import entities.Order;
 import entities.Product;
 import entities.CSMessage.MessageType;
-import enums.UserType;
+import entities.User.UserType;
 import gui.controllers.ParentGUIController;
 
 public class ProductsFormGUIController extends ParentGUIController{

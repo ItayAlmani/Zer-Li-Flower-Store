@@ -4,6 +4,7 @@ import izhar.*;
 import izhar.interfaces.IProduct;
 import lior.*;
 import kfir.*;
+import kfir.interfaces.ICustomer;
 
 /**
  * Will have all the controllers.
@@ -25,12 +26,12 @@ public class Factory {
 	public ProductController product = new ProductController();
 	public ProductInOrderController prodInOrder = new ProductInOrderController();
 	
-	/*public AdminController admin = new AdminController();
+	public UserController user = new UserController();
 	public CustomerController customer = new CustomerController();
+	/*public AdminController admin = new AdminController();
 	public PaymantAccountController paymentAccount = new PaymantAccountController();
 	public ServiceExpertController serviceExpert = new ServiceExpertController();
 	public StoreManagerController storeManager = new StoreManagerController();
-	public UserController user = new UserController();
 	
 	public HistogramOfCustomerComplaintsReportController histogramReport = new HistogramOfCustomerComplaintsReportController();
 	public IncomesReportController incomesReport = new IncomesReportController();

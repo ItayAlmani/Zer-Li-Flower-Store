@@ -26,7 +26,7 @@ public class ClientController {
 		MessageType msgType = csMsg.getType();
 
 		/*------------------SELECT queries from DB------------------*/
-		if (msgType.equals(MessageType.SELECT)) {
+		if (msgType.equals(MessageType.SELECT) || msgType.equals(MessageType.GetAI)) {
 			String className = csMsg.getClasz().getName();
 			className=className.substring(className.lastIndexOf("."));
 			Class c = null;
@@ -39,7 +39,10 @@ public class ClientController {
 								return;
 			}
 			try {
-				m = c.getMethod("handleGet",ArrayList.class);
+				if(msgType.equals(MessageType.SELECT)) 
+					m = c.getMethod("handleGet",ArrayList.class);
+				else
+					m = c.getMethod("setLastAutoIncrenment",ArrayList.class);
 				m.invoke(c.newInstance(), csMsg.getObjs());
 			} catch (NoSuchMethodException | SecurityException |IllegalAccessException | IllegalArgumentException | InvocationTargetException | InstantiationException e) {
 				e.printStackTrace();

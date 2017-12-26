@@ -26,17 +26,18 @@ public class ServerController {
 		MessageType msgType = csMsg.getType();
 		ArrayList<Object> objArr = csMsg.getObjs();
 		
-		if(msgType.equals(MessageType.SELECT) || msgType.equals(MessageType.UPDATE)) {
+		if(msgType.equals(MessageType.SELECT) || msgType.equals(MessageType.UPDATE)
+				|| msgType.equals(MessageType.GetAI)) {
 			if(objArr.size() == 1 && objArr.get(0) instanceof String) {
 				String query = (String) objArr.get(0);
 				objArr.clear();
 				
 				/*-------SELECT queries from DB-------*/
-				if(msgType.equals(MessageType.SELECT))
+				if(msgType.equals(MessageType.SELECT) || msgType.equals(MessageType.GetAI))
 					csMsg.setObjs(ServerController.db.getQuery(query));
 				
 				/*-------UPDATE queries from DB-------*/
-				else {
+				else if(msgType.equals(MessageType.UPDATE)){
 					objArr.add(ServerController.db.setQuery(query));
 					csMsg.setObjs(objArr);
 				}

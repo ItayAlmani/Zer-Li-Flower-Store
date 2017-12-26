@@ -9,10 +9,18 @@ public class Store {
 	private int storeID;
 	private ArrayList<Product> stock;
 	private StoreType type;
-	private StoreManager manager;
+	private StoreWorker manager;
 	public int getStoreID() {
 		return storeID;
 	}
+	
+	
+	public Store(int storeID) {
+		super();
+		this.storeID = storeID;
+	}
+
+
 	public void setStoreID(int storeID) {
 		this.storeID = storeID;
 	}
@@ -28,10 +36,10 @@ public class Store {
 	public void setType(StoreType type) {
 		this.type = type;
 	}
-	public StoreManager getManager() {
+	public StoreWorker getManager() {
 		return manager;
 	}
-	public void setManager(StoreManager manager) {
+	public void setManager(StoreWorker manager) {
 		this.manager = manager;
 	}
 	

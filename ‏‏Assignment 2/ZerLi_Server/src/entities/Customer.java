@@ -1,11 +1,13 @@
 package entities;
 
-import enums.UserType;
-
 public class Customer extends User {
 	private int customerID;
 	private PaymentAccount paymentAccount;
-	private boolean isConnecting;
+	
+	public Customer(User user, int customerID, PaymentAccount paymentAccount) {
+		super(user);
+		this.customerID = customerID;
+	}
 	
 	public Customer(String firstName, String lastName, String userName, String password, UserType permissions,
 			int customerID) {
@@ -16,6 +18,15 @@ public class Customer extends User {
 	public Customer(String firstName, String lastName, String userName, String password, UserType permissions) {
 		super(firstName, lastName, userName, password, permissions);
 		// TODO Auto-generated constructor stub
+	}
+	
+	public void setUser(User user) {
+		setUserID(user.getUserID());
+		setFirstName(user.getFirstName());
+		setLastName(user.getLastName());
+		setUserName(user.getUserName());
+		setPassword(user.getPassword());
+		setPermissions(user.getPermissions());
 	}
 
 	public int getCustomerID() {
@@ -33,14 +44,5 @@ public class Customer extends User {
 	public void setPaymentAccount(PaymentAccount paymentAccount) {
 		this.paymentAccount = paymentAccount;
 	}
-
-	public boolean isConnecting() {
-		return isConnecting;
-	}
-
-	public void setConnecting(boolean isConnecting) {
-		this.isConnecting = isConnecting;
-	}
-	
 	
 }

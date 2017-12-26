@@ -7,6 +7,8 @@ import java.util.ResourceBundle;
 
 import common.Context;
 import entities.Product;
+import entities.ProductInOrder;
+import gui.controllers.ParentGUIController;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -29,7 +31,17 @@ import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
-public class CatalogGUIController extends ProductsGUIController {
+public class CatalogGUIController extends ParentGUIController {
+	
+	private @FXML ScrollPane scroll;
+	private @FXML FlowPane flow;
+	private @FXML GridPane[] grids;
+	private @FXML Button[] btnViewProduct;
+	private @FXML ImageView[] imgImages;
+	private @FXML Label[] lblShowID, lblShowType, lblShowColor, lblShowPrice, lblShowName,
+			lblTitleID, lblTitleType, lblTitleColor, lblTitlePrice, lblTitleName;
+	
+	private ArrayList<Node> components = new ArrayList<>();
 	
 	private Button btnBack;
 	
@@ -57,7 +69,30 @@ public class CatalogGUIController extends ProductsGUIController {
 	}
 
     public void productsToGUI(ArrayList<Product> prds) {	
-    	super.productsToGUI(prds);
+    	components.clear();
+    	productsInCatalog = prds;
+		/* The GridPanes which include the all data of all products */
+		grids = new GridPane[prds.size()];
+		
+		/* The labels which include each data of all products */
+		lblShowID = lblShowName = lblShowType = lblShowColor = lblShowPrice = new Label[prds.size()];
+		
+		/* The labels which indicates the title of each data of all products */
+		lblTitleID = lblTitleName = lblTitleType = lblTitleColor = lblTitlePrice = new Label[prds.size()];
+		
+		/* The images of all products */
+		imgImages= new ImageView[prds.size()];
+		
+		/* The order buttons of all products */
+		btnViewProduct = new Button[prds.size()];
+		
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				flow.getChildren().addAll(grids);
+				scroll.setContent(flow);
+			}
+		});
     	productsInCatalog = prds;
     	int i = 0;
 		for (Product p : prds) {
@@ -68,7 +103,7 @@ public class CatalogGUIController extends ProductsGUIController {
 			@Override
 			public void run() {
 				btnBack = new Button("Back");
-				btnBack.setOnAction(actionEvent -> loadMainMenu(actionEvent));
+				btnBack.setOnAction(actionEvent -> loadMainMenu());
 				flow.getChildren().add(btnBack);
 			}
 		});
@@ -87,17 +122,39 @@ public class CatalogGUIController extends ProductsGUIController {
 		if(cmp instanceof Button)
 		{
 			Button btn = (Button)cmp;
-			btn.setOnAction(new EventHandler<ActionEvent>() {
-				@Override
-				public void handle(ActionEvent event) {
-						if(event.getSource() instanceof Button) {
-							Button btn = (Button)event.getSource();
-							//System.out.println((int) btn.getUserData());
-							Context.fac.order.addProductToOrder(products.get((int) btn.getUserData()));			
-						}
-				}
-			});
+			btn.setOnAction(addToCart());
 		}
+    }
+    
+    private EventHandler<ActionEvent> addToCart(){
+    	return new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+					if(event.getSource() instanceof Button) {
+						Button btn = (Button)event.getSource();
+						Product prd = productsInCatalog.get((int) btn.getUserData());
+						ProductInOrder pio = Context.order.containsProduct(prd);
+						if(pio==null) {
+							pio = new ProductInOrder(prd, Context.order.getOrderID(), 1);
+							try {
+								Context.fac.prodInOrder.addPIO(pio);
+							} catch (IOException e) {
+								System.err.println("Can't add PIO in Catalog\n");
+								e.printStackTrace();
+							}
+						}
+						else {
+							pio.addOneToQuantity();
+							try {
+								Context.fac.prodInOrder.updatePIO(pio);
+							} catch (IOException e) {
+								System.err.println("Can't update PIO in Catalog\n");
+								e.printStackTrace();
+							}
+						}
+					}
+			}
+		};
     }
 
     private void setGridPane(int i, Product p) {

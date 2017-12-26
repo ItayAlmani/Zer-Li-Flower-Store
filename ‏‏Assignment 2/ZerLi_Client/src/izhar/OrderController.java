@@ -3,6 +3,7 @@ package izhar;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.sql.Date;
 import java.time.Duration;
@@ -18,7 +19,7 @@ import enums.OrderStatus;
 import enums.OrderType;
 import enums.PaymentAccountType;
 import enums.Refund;
-import enums.UserType;
+import entities.User.UserType;
 import izhar.interfaces.IOrder;
 
 public class OrderController extends ParentController implements IOrder {
@@ -32,6 +33,7 @@ public class OrderController extends ParentController implements IOrder {
 	@Override
 	public boolean updateCustomerComplaintRefund(Complaint complaint) {
 		// TODO Auto-generated method stub
+		
 		return false;
 	}
 
@@ -58,7 +60,7 @@ public class OrderController extends ParentController implements IOrder {
 		for (int i = 0; i < obj.size(); i += 10) {
 			java.util.Date date = (java.util.Date)obj.get(i + 9);
 			ords.add(parse(
-					(int) obj.get(i), 
+					BigInteger.valueOf(Long.valueOf((int)obj.get(i))) , 
 					(int) obj.get(i + 1), 
 					(int) obj.get(i + 2), 
 					(int) obj.get(i + 3),
@@ -148,7 +150,7 @@ public class OrderController extends ParentController implements IOrder {
 	}
 
 	@Override
-	public Order parse(int orderID, int customerID, int cartID, int deliveryID, String type, int transactionID,
+	public Order parse(BigInteger orderID, int customerID, int cartID, int deliveryID, String type, int transactionID,
 			String greeting, String deliveryType, String orderStatus, java.util.Date date) {
 		return new Order(orderID,
 				customerID,
@@ -162,7 +164,7 @@ public class OrderController extends ParentController implements IOrder {
 	}
 
 	@Override
-	public void getProductsInOrder(int orderID) throws IOException {
+	public void getProductsInOrder(BigInteger orderID) throws IOException {
 		myMsgArr.add("SELECT productID, quantity, totalprice FROM" + 
 				"(" + 
 				"	SELECT ordCart.* FROM" + 
@@ -195,9 +197,15 @@ public class OrderController extends ParentController implements IOrder {
 		myMsgArr.add("SELECT * FROM orders WHERE customerID='"+	customerID+"' AND status='InProcess';");
 		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.SELECT, myMsgArr, Order.class));
 	}
-
-	public void addProductToOrder(Product product) {
-		// TODO Auto-generated method stub
-		
+	
+	@Override
+	public void getLastAutoIncrenment() throws IOException {
+		myMsgArr.clear();
+		myMsgArr.add("SHOW TABLE STATUS WHERE `Name` = 'orders'");
+		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.GetAI, myMsgArr, Order.class));
+	}
+	
+	public void setLastAutoIncrenment(ArrayList<Object> obj) throws IOException {
+		Context.order = new Order((BigInteger)obj.get(10));		
 	}
 }

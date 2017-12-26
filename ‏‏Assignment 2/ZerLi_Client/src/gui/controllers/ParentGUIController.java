@@ -87,7 +87,7 @@ public abstract class ParentGUIController implements Initializable {
 		primaryStage.show();
 	}
 	
-	public void loadMainMenu(ActionEvent event) {
+	public void loadMainMenu() {
 		try {
 			loadGUI("MainMenuGUI", false);
 		} catch (Exception e) {

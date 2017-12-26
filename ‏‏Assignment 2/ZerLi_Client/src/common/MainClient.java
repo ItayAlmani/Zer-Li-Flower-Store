@@ -2,16 +2,11 @@ package common;
 
 import javafx.application.Application;
 import javafx.event.EventHandler;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import kfir.gui.controllers.LogInGUIController;
 
 import java.io.IOException;
-
-import entities.Customer;
-import enums.UserType;
 import gui.controllers.*;
 
 public class MainClient extends Application {	
@@ -22,7 +17,7 @@ public class MainClient extends Application {
 
 	@Override
 	public void start(Stage arg0) throws Exception {
-		MainMenuGUIController main = new MainMenuGUIController();
+		LogInGUIController main = new LogInGUIController();
 		arg0.setOnCloseRequest(new EventHandler<WindowEvent>() {
 		    @Override public void handle(WindowEvent t) {
 		        if(Context.clientConsole!=null)

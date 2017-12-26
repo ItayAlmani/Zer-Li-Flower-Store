@@ -84,7 +84,7 @@ public class CartGUIController extends ParentGUIController {
 			@Override
 			public void run() {
 				btnBack = new Button("Back");
-				btnBack.setOnAction(actionEvent -> loadMainMenu(actionEvent));
+				btnBack.setOnAction(actionEvent -> loadMainMenu());
 				flow.getChildren().add(btnBack);
 			}
 		});
