@@ -60,7 +60,7 @@ public class ProductController extends ParentController implements IProduct {
 	
 	@Override
 	public void sendProducts(ArrayList<Product> prds) {
-		String methodName = "productsToGUI";
+		String methodName = "setProducts";
 		Method m = null;
 		try {
 			//a controller asked data, not GUI

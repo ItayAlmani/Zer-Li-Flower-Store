@@ -127,4 +127,11 @@ public class ProductInOrderController extends ParentController implements IProdu
 	public float calcFinalPrice(ProductInOrder p) {
 		return p.getQuantity()*p.getProduct().getPrice();
 	}
+	
+	public boolean isAllPIOsFromSameOrder(ArrayList<ProductInOrder> products) {
+		//int ordID = productss
+		for (ProductInOrder productInOrder : products) {
+			
+		}
+	}
 }

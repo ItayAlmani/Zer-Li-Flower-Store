@@ -57,7 +57,7 @@ public class ProductsFormGUIController extends ParentGUIController{
 		}
 	}
 	
-	public void productsToGUI(ArrayList<Product> prods) {
+	public void setProducts(ArrayList<Product> prods) {
 		this.products=prods;
 		ArrayList<String> al = new ArrayList<>();
 		for (Product p : this.products) {
