@@ -58,7 +58,6 @@ public class OrderController extends ParentController implements IOrder {
 	public void handleGet(ArrayList<Object> obj) {
 		ArrayList<Order> ords = new ArrayList<>();
 		for (int i = 0; i < obj.size(); i += 10) {
-			java.util.Date date = (java.util.Date)obj.get(i + 9);
 			ords.add(parse(
 					BigInteger.valueOf(Long.valueOf((int)obj.get(i))) , 
 					(int) obj.get(i + 1), 
@@ -69,7 +68,7 @@ public class OrderController extends ParentController implements IOrder {
 					(String) obj.get(i + 6),
 					(String) obj.get(i + 7),
 					(String) obj.get(i + 8),
-					date
+					(java.util.Date)obj.get(i + 9)
 					));
 		}
 		sendOrders(ords);

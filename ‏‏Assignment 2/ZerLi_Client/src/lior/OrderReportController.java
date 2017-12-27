@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import common.Context;
 import entities.Order;
 import entities.OrderReport;
 import entities.Product;
@@ -57,7 +58,11 @@ public class OrderReportController implements IOrderReportController {
 		}
 		else str+=Year.format(Reqdate);
 		startdate=myFormat.parse(str);
-		orders=OrderController.getAllOrdersByStoreID(storeID);
+		Context.askingCtrl.add(OrderReportController.class.newInstance());
+		Context.fac.order.getAllOrdersByStoreID(storeID);
+	}
+
+	public void setOrders(ArrayList<Order> orders) {
 		for(int i=1;i<=orders.size();i++)
 		{
 			if(orders.get(i).getDate().getTime()<Reqdate.getTime()&&
@@ -96,9 +101,6 @@ public class OrderReportController implements IOrderReportController {
 		}
 		temp.setCounterPerType(counterPerType);
 		temp.setSumPerType(sumPerType);
-		return null;
 	}
-
-
 
 }
