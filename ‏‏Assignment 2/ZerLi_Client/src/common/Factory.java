@@ -28,6 +28,8 @@ public class Factory {
 	
 	public UserController user = new UserController();
 	public CustomerController customer = new CustomerController();
+	
+	public OrderReportController orderReport = new OrderReportController();
 	/*public AdminController admin = new AdminController();
 	public PaymantAccountController paymentAccount = new PaymantAccountController();
 	public ServiceExpertController serviceExpert = new ServiceExpertController();
@@ -35,6 +37,6 @@ public class Factory {
 	
 	public HistogramOfCustomerComplaintsReportController histogramReport = new HistogramOfCustomerComplaintsReportController();
 	public IncomesReportController incomesReport = new IncomesReportController();
-	public OrderReportController orderReport = new OrderReportController();
+	
 	public SatisfactionReportController satisfactionReport = new SatisfactionReportController();*/
 }

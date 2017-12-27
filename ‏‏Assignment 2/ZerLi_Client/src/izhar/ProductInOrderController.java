@@ -68,7 +68,7 @@ public class ProductInOrderController extends ParentController implements IProdu
 			//a controller asked data, not GUI
 			if(Context.askingCtrl!=null && Context.askingCtrl.size()!=0) {
 				m = Context.askingCtrl.get(0).getClass().getMethod(methodName,ArrayList.class);
-				m.invoke(Context.askingCtrl, prds);
+				m.invoke(Context.askingCtrl.get(0), prds);
 				Context.askingCtrl.remove(0);
 			}
 			else {
@@ -129,9 +129,11 @@ public class ProductInOrderController extends ParentController implements IProdu
 	}
 	
 	public boolean isAllPIOsFromSameOrder(ArrayList<ProductInOrder> products) {
-		//int ordID = productss
-		for (ProductInOrder productInOrder : products) {
-			
+		BigInteger ordID = products.get(0).getOrderID();
+		for (ProductInOrder pio : products) {
+			if(pio.getOrderID().equals(ordID)==false)
+				return false;
 		}
+		return true;
 	}
 }

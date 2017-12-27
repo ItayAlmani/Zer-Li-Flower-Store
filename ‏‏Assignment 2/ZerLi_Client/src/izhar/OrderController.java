@@ -111,9 +111,9 @@ public class OrderController extends ParentController implements IOrder {
 		myMsgArr.clear();
 		myMsgArr.add(
 				"SELECT ord.*" + 
-				"FROM orders AS ord" + 
-				"JOIN deliverydetails ON ord.orderID=deliverydetails.orderID" + 
-				"WHERE deliverydetails.storeID='"+storeID+"'"
+				" FROM orders AS ord" + 
+				" JOIN deliverydetails ON ord.orderID=deliverydetails.orderID" + 
+				" WHERE deliverydetails.storeID='"+storeID+"'"
 				);
 		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.SELECT, myMsgArr, Order.class));
 	}
@@ -126,7 +126,7 @@ public class OrderController extends ParentController implements IOrder {
 			//a controller asked data, not GUI
 			if(Context.askingCtrl!=null && Context.askingCtrl.size()!=0) {
 				m = Context.askingCtrl.get(0).getClass().getMethod(methodName,ArrayList.class);
-				m.invoke(Context.askingCtrl, orders);
+				m.invoke(Context.askingCtrl.get(0), orders);
 				Context.askingCtrl.remove(0);
 			}
 			else {

@@ -1,11 +1,14 @@
 package lior;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 
 import common.Context;
@@ -14,6 +17,7 @@ import entities.OrderReport;
 import entities.Product;
 import entities.Product.ProductType;
 import entities.ProductInOrder;
+import enums.OrderStatus;
 import enums.OrderType;
 import izhar.OrderController;
 import lior.interfaces.IOrderReportController;
@@ -24,47 +28,51 @@ public class OrderReportController implements IOrderReportController {
 
 	@Override
 	public void handleGet(ArrayList<Object> obj) {
-		// TODO Auto-generated method stub
 		
+		
+	}
+	
+	
+	public void sendOrderReports(ArrayList<OrderReport> oReports) {
+		String methodName = "setOrderReports";
+		Method m = null;
+		try {
+			//a controller asked data, not GUI
+			/*if(Context.askingCtrl!=null && Context.askingCtrl.size()!=0) {
+				m = Context.askingCtrl.get(0).getClass().getMethod(methodName,ArrayList.class);
+				m.invoke(Context.askingCtrl, orders);
+				Context.askingCtrl.remove(0);
+			}
+			else {*/
+				m = Context.currentGUI.getClass().getMethod(methodName,ArrayList.class);
+				m.invoke(Context.currentGUI, oReports);
+			//}
+		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e1) {
+			System.err.println("Couldn't invoke method '"+methodName+"'");
+			e1.printStackTrace();
+		} catch (NoSuchMethodException | SecurityException e2) {
+			System.err.println("No method called '"+methodName+"'");
+			e2.printStackTrace();
+		}
+
 	}
 
 	@Override
-	public void ProduceOrderReport(Date reqDate, int storeID) throws ParseException {
-		for (int i = 0; i < OrderType.values().length; i++) {
+	public void produceOrderReport(Date reqDate, int storeID) throws ParseException {
+		for (int i = 0; i < 4/*OrderType.values().length*/; i++) {
 			oReport.addToCounterPerType(0);
 			oReport.addToSumPerType(0f);
 		}
-		int flag=0;
-		int type1cnt=0,type2cnt=0,type3cnt=0,type4cnt=0;
-		float type1sum=0,type2sum=0,type3sum=0,type4sum=0;
+		rDate=reqDate;
 		startDate=new Date();
-		SimpleDateFormat myFormat = new SimpleDateFormat("dd/MM/yyyy");
-		DateFormat day = new SimpleDateFormat("dd");
-		DateFormat Month = new SimpleDateFormat("MM");
-		DateFormat Year = new SimpleDateFormat("yyyy");
-		String str="",str1="";
-		str=day.format(reqDate)+"/";
-		str1=Month.format(reqDate);
-		int month=(Integer.parseInt(str1));
-		if(month<=3) flag=1;
-		month=(month-3+12)%12;
-		str1=Integer.toString(month);
-		str=str1+"/";
-		str1=Year.format(reqDate);
-		if(flag==1)
-		{
-			int year=Integer.parseInt(str1)-1;
-			str1=Integer.toString(year);
-			str+=str1;
-		}
-		else str+=Year.format(reqDate);
-		startDate=myFormat.parse(str);
+		Calendar c = Calendar.getInstance(); 
+		c.setTime(reqDate); 
+		c.add(Calendar.MONTH, -3);
+		startDate = c.getTime();
 		try {
-			Context.askingCtrl.add(OrderReportController.class.newInstance());
+			Context.askingCtrl.add(this);
+			
 			Context.fac.order.getAllOrdersByStoreID(storeID);
-		} catch (InstantiationException | IllegalAccessException e1) {
-			System.err.println("OrderReportController\n");
-			e1.printStackTrace();
 		} catch (IOException e) {
 			System.err.println("OrderReportController\n");
 			e.printStackTrace();
@@ -73,12 +81,17 @@ public class OrderReportController implements IOrderReportController {
 
 	public void setOrders(ArrayList<Order> orders) {
 		this.oReport.setOrders(orders);
+		rDate.setHours(23);
+		rDate.setMinutes(59);
+		rDate.setSeconds(59);
 		for(int i=0;i<orders.size();i++)
 		{
-			if(orders.get(i).getDate().getTime()<rDate.getTime()&&
-					orders.get(i).getDate().getTime()>startDate.getTime())
+			if(orders.get(i).getDate().after(rDate)==false&&
+					orders.get(i).getDate().after(startDate)
+					/*&& orders.get(i).getOrderStatus().equals(OrderStatus.Paid)*/
+					)
 			{
-				ArrayList<ProductInOrder> products=new ArrayList<>();
+				Context.askingCtrl.add(this);
 				try {
 					Context.fac.prodInOrder.getPIOsByOrder(orders.get(i).getOrderID());
 				} catch (IOException e) {
@@ -94,10 +107,12 @@ public class OrderReportController implements IOrderReportController {
 		ArrayList<Integer> cntType = oReport.getCounterPerType();
 		ArrayList<Float> sumType = oReport.getSumPerType();
 		
+		if(Context.fac.prodInOrder.isAllPIOsFromSameOrder(products)==false)
+			return;
 		
 		Order myOrder = null;
 		for (Order ord : orders) {
-			if(ord.getOrderID()==products.get(j).getOrderID()) {
+			if(ord.getOrderID()==products.get(0).getOrderID()) {
 				myOrder = ord;
 				break;
 			}
@@ -119,5 +134,8 @@ public class OrderReportController implements IOrderReportController {
 			cntType.set(ind, cntType.get(ind)+1);
 			sumType.set(ind, sumType.get(ind)+products.get(j).getFinalPrice());
 		}
+		ArrayList<OrderReport> ar = new ArrayList<>();
+		ar.add(oReport);
+		sendOrderReports(ar);
 	}
 }

@@ -6,15 +6,21 @@ public class ProductInOrder extends Stock {
 	
 	private BigInteger orderID;
 	private float finalPrice;
-
-	public ProductInOrder(Product product, BigInteger orderID, int quantity) {
+	
+	public ProductInOrder(Product product, int quantity, BigInteger orderID) {
 		super(product, quantity);
+		this.orderID = orderID;
+		setFinalPrice();
+	}
+
+	public ProductInOrder(int id,Product product, BigInteger orderID, int quantity) {
+		super(id,product, quantity);
 		this.orderID=orderID;
 		setFinalPrice();
 	}
 	
-	public ProductInOrder(Product product, BigInteger orderID, int quantity, float finalPrice) {
-		super(product, quantity);
+	public ProductInOrder(int id,Product product, BigInteger orderID, int quantity, float finalPrice) {
+		super(id, product, quantity);
 		this.finalPrice = finalPrice;
 		this.orderID=orderID;
 	}

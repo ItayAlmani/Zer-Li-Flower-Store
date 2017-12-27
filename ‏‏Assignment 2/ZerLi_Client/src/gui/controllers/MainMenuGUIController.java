@@ -139,4 +139,13 @@ public class MainMenuGUIController extends ParentGUIController{
 			e.printStackTrace();
 		}
 	}
+
+	public void showReportSelector(ActionEvent event) {
+		try {
+			loadGUI("ReportSelectorGUI", false);
+		} catch (Exception e) {
+			lblMsg.setText("Loader failed");
+			e.printStackTrace();
+		}
+	}
 }

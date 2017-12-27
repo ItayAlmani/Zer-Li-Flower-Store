@@ -15,5 +15,5 @@ public interface IOrderReportController extends IParent  {
 	 * @param storeID
 	 * @throws ParseException 
 	 */
-	void ProduceOrderReport(Date reqDate, int storeID) throws ParseException;
+	void produceOrderReport(Date reqDate, int storeID) throws ParseException;
 }

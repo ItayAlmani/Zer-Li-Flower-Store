@@ -63,7 +63,7 @@ public class CatalogGUIController extends ParentGUIController {
 
     private void getProducts() {
     	if(productsInCatalog.size()!=0)
-    		productsToGUI(productsInCatalog);
+    		setProducts(productsInCatalog);
     	else {
 			try {
 				Context.fac.product.getProductsInCatalog();
@@ -74,7 +74,7 @@ public class CatalogGUIController extends ParentGUIController {
     	}
 	}
 
-    public void productsToGUI(ArrayList<Product> prds) {	
+    public void setProducts(ArrayList<Product> prds) {	
     	components.clear();
     	productsInCatalog = prds;
 		/* The GridPanes which include the all data of all products */
