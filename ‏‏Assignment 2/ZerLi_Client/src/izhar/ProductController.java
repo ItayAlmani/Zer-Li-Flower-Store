@@ -60,13 +60,13 @@ public class ProductController extends ParentController implements IProduct {
 	
 	@Override
 	public void sendProducts(ArrayList<Product> prds) {
-		String methodName = "productsToGUI";
+		String methodName = "setProducts";
 		Method m = null;
 		try {
 			//a controller asked data, not GUI
 			if(Context.askingCtrl!=null && Context.askingCtrl.size()!=0) {
 				m = Context.askingCtrl.get(0).getClass().getMethod(methodName,ArrayList.class);
-				m.invoke(Context.askingCtrl, prds);
+				m.invoke(Context.askingCtrl.get(0), prds);
 				Context.askingCtrl.remove(0);
 			}
 			else {

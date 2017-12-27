@@ -1,104 +1,141 @@
 package lior;
 
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 
+import common.Context;
 import entities.Order;
 import entities.OrderReport;
 import entities.Product;
+import entities.Product.ProductType;
+import entities.ProductInOrder;
+import enums.OrderStatus;
+import enums.OrderType;
 import izhar.OrderController;
 import lior.interfaces.IOrderReportController;
 
 public class OrderReportController implements IOrderReportController {
+	private OrderReport oReport = new OrderReport();
+	private Date rDate, startDate;
 
 	@Override
 	public void handleGet(ArrayList<Object> obj) {
-		// TODO Auto-generated method stub
 		
+		
+	}
+	
+	
+	public void sendOrderReports(ArrayList<OrderReport> oReports) {
+		String methodName = "setOrderReports";
+		Method m = null;
+		try {
+			//a controller asked data, not GUI
+			/*if(Context.askingCtrl!=null && Context.askingCtrl.size()!=0) {
+				m = Context.askingCtrl.get(0).getClass().getMethod(methodName,ArrayList.class);
+				m.invoke(Context.askingCtrl, orders);
+				Context.askingCtrl.remove(0);
+			}
+			else {*/
+				m = Context.currentGUI.getClass().getMethod(methodName,ArrayList.class);
+				m.invoke(Context.currentGUI, oReports);
+			//}
+		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e1) {
+			System.err.println("Couldn't invoke method '"+methodName+"'");
+			e1.printStackTrace();
+		} catch (NoSuchMethodException | SecurityException e2) {
+			System.err.println("No method called '"+methodName+"'");
+			e2.printStackTrace();
+		}
+
 	}
 
 	@Override
-	public OrderReport ProduceOrderReport(Date Reqdate, int storeID) throws ParseException {
-		OrderReport temp=new OrderReport();
-		ArrayList<Order> orders=new ArrayList<>();
-		ArrayList<Integer> counterPerType=new ArrayList<>();
-		counterPerType.add(0);
-		counterPerType.add(0);
-		counterPerType.add(0);
-		ArrayList<Float> sumPerType=new ArrayList<>();
-		sumPerType.add(0f);
-		sumPerType.add(0f);
-		sumPerType.add(0f);
-		int flag=0;
-		int type1cnt=0,type2cnt=0,type3cnt=0,type4cnt=0;
-		float type1sum=0,type2sum=0,type3sum=0,type4sum=0;
-		Date startdate=new Date();
-		SimpleDateFormat myFormat = new SimpleDateFormat("dd/MM/yyyy");
-		DateFormat day = new SimpleDateFormat("dd");
-		DateFormat Month = new SimpleDateFormat("MM");
-		DateFormat Year = new SimpleDateFormat("yyyy");
-		String str="",str1="";
-		str=day.format(Reqdate)+"/";
-		str1=Month.format(Reqdate);
-		int month=(Integer.parseInt(str1));
-		if(month<=3) flag=1;
-		month=(month-3+12)%12;
-		str1=Integer.toString(month);
-		str=str1+"/";
-		str1=Year.format(Reqdate);
-		if(flag==1)
-		{
-			int year=Integer.parseInt(str1)-1;
-			str1=Integer.toString(year);
-			str+=str1;
+	public void produceOrderReport(Date reqDate, int storeID) throws ParseException {
+		for (int i = 0; i < 4/*OrderType.values().length*/; i++) {
+			oReport.addToCounterPerType(0);
+			oReport.addToSumPerType(0f);
 		}
-		else str+=Year.format(Reqdate);
-		startdate=myFormat.parse(str);
-		orders=OrderController.getAllOrdersByStoreID(storeID);
-		for(int i=1;i<=orders.size();i++)
+		rDate=reqDate;
+		startDate=new Date();
+		Calendar c = Calendar.getInstance(); 
+		c.setTime(reqDate); 
+		c.add(Calendar.MONTH, -3);
+		startDate = c.getTime();
+		try {
+			Context.askingCtrl.add(this);
+			
+			Context.fac.order.getAllOrdersByStoreID(storeID);
+		} catch (IOException e) {
+			System.err.println("OrderReportController\n");
+			e.printStackTrace();
+		}
+	}
+
+	public void setOrders(ArrayList<Order> orders) {
+		this.oReport.setOrders(orders);
+		rDate.setHours(23);
+		rDate.setMinutes(59);
+		rDate.setSeconds(59);
+		for(int i=0;i<orders.size();i++)
 		{
-			if(orders.get(i).getDate().getTime()<Reqdate.getTime()&&
-					orders.get(i).getDate().getTime()>startdate.getTime())
+			if(orders.get(i).getDate().after(rDate)==false&&
+					orders.get(i).getDate().after(startDate)
+					/*&& orders.get(i).getOrderStatus().equals(OrderStatus.Paid)*/
+					)
 			{
-				ArrayList<Product> products=new ArrayList<>();
-				products=orders.get(i).getAllProducts();
-				for(int j=1;j<=products.size();j++)
-				{
-					if(products.get(j).getType().equals(Product.ProductType.Bouquet))
-					{
-						int num=counterPerType.get(1);
-						num++;
-						counterPerType.set(1, num);
-						float num1=sumPerType.get(1);
-						sumPerType.set(1, num1+products.get(j).getPrice());
-					}
-					else if(products.get(j).getType().equals(Product.ProductType.Single))
-					{
-						int num=counterPerType.get(2);
-						num++;
-						counterPerType.set(2, num);
-						float num1=sumPerType.get(2);
-						sumPerType.set(2, num1+products.get(j).getPrice());
-					}
-					else if(products.get(j).getType().equals(Product.ProductType.Empty))
-					{
-						int num=counterPerType.get(3);
-						num++;
-						counterPerType.set(3, num);
-						float num1=sumPerType.get(3);
-						sumPerType.set(3, num1+products.get(j).getPrice());
-					}
+				Context.askingCtrl.add(this);
+				try {
+					Context.fac.prodInOrder.getPIOsByOrder(orders.get(i).getOrderID());
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
 			}
 		}
-		temp.setCounterPerType(counterPerType);
-		temp.setSumPerType(sumPerType);
-		return null;
 	}
 
-
-
+	public void setPIOs(ArrayList<ProductInOrder> products) {
+		ArrayList<Order> orders = oReport.getOrders();
+		ArrayList<Integer> cntType = oReport.getCounterPerType();
+		ArrayList<Float> sumType = oReport.getSumPerType();
+		
+		if(Context.fac.prodInOrder.isAllPIOsFromSameOrder(products)==false)
+			return;
+		
+		Order myOrder = null;
+		for (Order ord : orders) {
+			if(ord.getOrderID()==products.get(0).getOrderID()) {
+				myOrder = ord;
+				break;
+			}
+		}
+		if(myOrder==null)
+			return;
+		myOrder.setProducts(products);
+		
+		for(int j=0;j<products.size();j++)
+		{
+			ProductType pt = products.get(j).getProduct().getType();
+			int ind = -1;
+			if(pt.equals(Product.ProductType.Bouquet))
+				ind = 0;
+			else if(pt.equals(Product.ProductType.Single))
+				ind = 1;
+			else if(pt.equals(Product.ProductType.Empty))
+				ind = 2;
+			cntType.set(ind, cntType.get(ind)+1);
+			sumType.set(ind, sumType.get(ind)+products.get(j).getFinalPrice());
+		}
+		ArrayList<OrderReport> ar = new ArrayList<>();
+		ar.add(oReport);
+		sendOrderReports(ar);
+	}
 }

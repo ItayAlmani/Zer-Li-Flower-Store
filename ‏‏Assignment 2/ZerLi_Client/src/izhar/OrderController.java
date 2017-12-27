@@ -58,7 +58,6 @@ public class OrderController extends ParentController implements IOrder {
 	public void handleGet(ArrayList<Object> obj) {
 		ArrayList<Order> ords = new ArrayList<>();
 		for (int i = 0; i < obj.size(); i += 10) {
-			java.util.Date date = (java.util.Date)obj.get(i + 9);
 			ords.add(parse(
 					BigInteger.valueOf(Long.valueOf((int)obj.get(i))) , 
 					(int) obj.get(i + 1), 
@@ -69,7 +68,7 @@ public class OrderController extends ParentController implements IOrder {
 					(String) obj.get(i + 6),
 					(String) obj.get(i + 7),
 					(String) obj.get(i + 8),
-					date
+					(java.util.Date)obj.get(i + 9)
 					));
 		}
 		sendOrders(ords);
@@ -112,9 +111,9 @@ public class OrderController extends ParentController implements IOrder {
 		myMsgArr.clear();
 		myMsgArr.add(
 				"SELECT ord.*" + 
-				"FROM orders AS ord" + 
-				"JOIN deliverydetails ON ord.orderID=deliverydetails.orderID" + 
-				"WHERE deliverydetails.storeID='"+storeID+"'"
+				" FROM orders AS ord" + 
+				" JOIN deliverydetails ON ord.orderID=deliverydetails.orderID" + 
+				" WHERE deliverydetails.storeID='"+storeID+"'"
 				);
 		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.SELECT, myMsgArr, Order.class));
 	}
@@ -127,7 +126,7 @@ public class OrderController extends ParentController implements IOrder {
 			//a controller asked data, not GUI
 			if(Context.askingCtrl!=null && Context.askingCtrl.size()!=0) {
 				m = Context.askingCtrl.get(0).getClass().getMethod(methodName,ArrayList.class);
-				m.invoke(Context.askingCtrl, orders);
+				m.invoke(Context.askingCtrl.get(0), orders);
 				Context.askingCtrl.remove(0);
 			}
 			else {

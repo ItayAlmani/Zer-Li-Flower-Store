@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="300.0" prefWidth="356.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lior.gui.controllers.ReportSelectorGUIController">
+   <children>
+      <Label layoutX="79.0" layoutY="14.0" text="Reports">
+         <font>
+            <Font name="David Bold" size="39.0" />
+         </font>
+      </Label>
+      <Label layoutX="7.0" layoutY="75.0" text="Store">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="4.0" layoutY="119.0" text="Type of report">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="3.0" layoutY="168.0" text="End of quarter date">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Button id="askforreport" fx:id="askforreport" layoutX="70.0" layoutY="246.0" mnemonicParsing="false" text="Confirm" onAction="#askforreportHandler" />
+      <Button id="backbutton" fx:id="backbutton" layoutX="194.0" layoutY="246.0" mnemonicParsing="false" text="Back" />
+      <ComboBox fx:id="StoreCB" layoutX="63.0" layoutY="73.0" prefWidth="150.0" promptText="Store" />
+      <ComboBox fx:id="TypeCB" layoutX="109.0" layoutY="118.0" prefWidth="150.0" promptText="Type" />
+      <ComboBox fx:id="DayCB" layoutX="125.0" layoutY="167.0" prefHeight="25.0" prefWidth="59.0" />
+      <ComboBox fx:id="MonthCB" layoutX="190.0" layoutY="167.0" prefHeight="25.0" prefWidth="59.0" />
+      <ComboBox fx:id="YearCB" layoutX="256.0" layoutY="167.0" prefHeight="25.0" prefWidth="95.0" />
+   </children>
+</AnchorPane>
