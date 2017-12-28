@@ -6,10 +6,20 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import enums.DeliveryType;
-import enums.OrderStatus;
-import enums.OrderType;
 
-public class Order implements Serializable {
+public class Order {
+	
+	public enum OrderStatus {
+		InProcess,
+		Delivered,
+		Canceled,
+		Paid
+	}
+	
+	public enum OrderType {
+		InfoSystem,
+		Manual
+	}
 
 	private BigInteger orderID;
 	private int customerID;
@@ -18,7 +28,7 @@ public class Order implements Serializable {
 	private Transaction transaction;
 	private String greeting;
 	private DeliveryType deliveryType;
-	private OrderStatus orderStatus = OrderStatus.InProcess;
+	private OrderStatus orderStatus;
 	private Date date;
 	private float finalPrice;
 	private ArrayList<ProductInOrder> products;
@@ -28,6 +38,16 @@ public class Order implements Serializable {
 		products = new ArrayList<>();
 	}
 	
+	public Order(int customerID, ArrayList<ProductInOrder> products) {
+		super();
+		this.customerID = customerID;
+		this.type = OrderType.InfoSystem;
+		this.orderStatus = OrderStatus.InProcess;
+		this.products = products;
+	}
+
+
+
 	public Order(Integer customerID) {
 		this();
 		this.customerID=customerID;

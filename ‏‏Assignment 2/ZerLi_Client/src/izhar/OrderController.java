@@ -15,15 +15,21 @@ import controllers.ParentController;
 import entities.*;
 import entities.CSMessage.MessageType;
 import enums.DeliveryType;
-import enums.OrderStatus;
-import enums.OrderType;
+import entities.Order.OrderStatus;
+import entities.Order.OrderType;
 import enums.PaymentAccountType;
 import enums.Refund;
-import entities.User.UserType;
 import izhar.interfaces.IOrder;
 
 public class OrderController extends ParentController implements IOrder {
 
+	public boolean isCartEmpty(ArrayList<ProductInOrder> products) {
+		for (ProductInOrder pio : products)
+			if(pio.getQuantity()!=0)
+				return false;
+		return true;
+	}
+	
 	@Override
 	public void noOrderIDErrMsg() {
 		// TODO Auto-generated method stub
