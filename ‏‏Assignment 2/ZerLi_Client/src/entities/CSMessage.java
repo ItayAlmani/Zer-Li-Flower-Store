@@ -11,7 +11,7 @@ public class CSMessage implements Serializable{
 	
 	/** Type of the request/respond of Client/Server */
 	public enum MessageType {
-		UPDATE,SELECT,DBData,Exception,SetDB,GetAI;
+		UPDATE,SELECT,DBData,Exception,SetDB,GetAI, DBStatus;
 	}
 	
 	/** Will categorize the type of the message by <code>MessageType</code> enum */

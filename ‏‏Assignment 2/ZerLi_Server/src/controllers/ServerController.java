@@ -47,6 +47,12 @@ public class ServerController {
 				throw new Exception();
 			}
 		}
+		else if(msgType.equals(MessageType.DBStatus)) {
+			if(objArr!=null)	objArr.clear();
+			else				objArr = new ArrayList<>();
+			objArr.add(db!=null);
+			csMsg.setObjs(objArr);
+		}
 		else if(msgType.equals(MessageType.DBData)) {
 			if(objArr!=null)	objArr.clear();
 			else				objArr = new ArrayList<>();
@@ -130,7 +136,7 @@ public class ServerController {
 			updateDB(args);
 			dbSuccessFlag = 1;
 		} catch (SQLException e) {
-			System.err.println("\nDataBaseAddress.txt data is corrupted, or the process is.\nGo to EchoServer for the process\n");
+			System.err.println("DataBaseAddress.txt data is corrupted, or the process is.\nGo to EchoServer for the process\n");
 		} catch (FileNotFoundException e) {
 			db=null;
 			System.err.println("Can't find txt file at "+dbTxtPath+"\n");
@@ -141,7 +147,8 @@ public class ServerController {
 				updateDB(dbUrl_default, dbName_default,dbUserName_default,dbPassword_default);
 			} catch (SQLException e) {
 				db=null;
-				System.err.println("\nDefault Data Base data is wrong!\nGo to EchoServer to fix it!\n");
+				System.err.println("Default Data Base data is wrong!\nGo to EchoServer to fix it!\n");
+				System.err.println("No DataBase connection!!\n");
 			}
 		}
 	}

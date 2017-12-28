@@ -25,19 +25,25 @@ public class Context {
 	
 	/** The default port of the server */
 	public static int DEFAULT_PORT = 5555;
+	
 	/** The default host of the server */
 	public static String DEFAULT_HOST="localhost";
 	
+	public static boolean dbConnected = false;
+	
 	/** The path of the project: "C:.../ZerLi_Client" */
 	public final static String projectPath=System.getProperty("user.dir");
+	
 	/** The path of the ServerAddress.txt file - the file
 	 * that contains the server's details: host and port */
 	private final static String serTxtPath="\\src\\common\\ServerAddress.txt";
 	
 	/** Each client has <b>one</b> <code>ClientConsole</code> */
 	public static ClientConsole clientConsole = null;
+	
 	/** The current GUI. Used to deliver the answer from the <code>EchoServer</code>. */
-	public static Object currentGUI = null;
+	public static Object currentGUI = null, prevGUI = null;
+	
 	/** The current JavaFX stage <=> the window of the GUI */
 	public static Stage stage = null;
 	
@@ -153,9 +159,6 @@ public class Context {
 		}
 	}
 	
-	
-	
-
 	public static Customer getUserAsCustomer() {
 		if(user instanceof Customer)
 			return (Customer)user;

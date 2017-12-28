@@ -65,6 +65,7 @@ public class MainMenuGUIController extends ParentGUIController{
 	
 	public void showConnectionGUI(ActionEvent event) throws Exception{
 		try {
+			Context.prevGUI=this;
 			loadGUI("ConnectionConfigGUI", false);
 		} catch (Exception e) {
 			lblMsg.setText("Loader failed");
