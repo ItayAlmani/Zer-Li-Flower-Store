@@ -292,14 +292,16 @@ DROP TABLE IF EXISTS `stock`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `stock` (
+  `stockID` int(11) NOT NULL AUTO_INCREMENT,
   `productID` int(11) NOT NULL,
   `storeID` int(11) NOT NULL,
   `quantity` int(11) NOT NULL,
+  PRIMARY KEY (`stockID`),
   KEY `storeID_idx` (`storeID`),
   KEY `prodStock_idx` (`productID`),
   CONSTRAINT `prodStock` FOREIGN KEY (`productID`) REFERENCES `product` (`productID`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `storeID` FOREIGN KEY (`storeID`) REFERENCES `store` (`storeID`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -308,7 +310,7 @@ CREATE TABLE `stock` (
 
 LOCK TABLES `stock` WRITE;
 /*!40000 ALTER TABLE `stock` DISABLE KEYS */;
-INSERT INTO `stock` VALUES (1,1,5);
+INSERT INTO `stock` VALUES (1,1,1,5);
 /*!40000 ALTER TABLE `stock` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -522,4 +524,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-12-28 14:42:30
+-- Dump completed on 2017-12-28 15:26:12
