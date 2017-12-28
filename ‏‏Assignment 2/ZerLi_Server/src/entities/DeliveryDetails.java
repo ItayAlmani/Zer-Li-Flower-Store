@@ -1,11 +1,11 @@
 package entities;
 
+import java.math.BigInteger;
 import java.util.Date;
 
-public class DeliveryDetails {
-
+public class DeliveryDetails {	
 	private int deliveryID;
-	private int orderID;
+	private BigInteger orderID;
 	protected Date date;
 	private boolean isImmediate = true;
 	private Store store;
@@ -14,8 +14,22 @@ public class DeliveryDetails {
 		super();
 		this.deliveryID = deliveryID;
 	}
+	
+	public DeliveryDetails(DeliveryDetails delivery) {
+		this.deliveryID = delivery.deliveryID;
+		this.orderID = delivery.orderID;
+		this.date=delivery.date;
+		this.isImmediate=delivery.isImmediate;
+		this.store=delivery.store;
+	}
+	
+	public DeliveryDetails(BigInteger orderID, Store store) {
+		super();
+		this.orderID = orderID;
+		this.store = store;
+	}
 
-	public DeliveryDetails(int orderID, Date date, boolean isImmediate, Store store) {
+	public DeliveryDetails(BigInteger orderID, Date date, boolean isImmediate, Store store) {
 		super();
 		this.orderID = orderID;
 		this.date = date;
@@ -23,7 +37,7 @@ public class DeliveryDetails {
 		this.store = store;
 	}
 	
-	public DeliveryDetails(int deliveryID, int orderID, Date date, boolean isImmediate, Store store) {
+	public DeliveryDetails(int deliveryID, BigInteger orderID, Date date, boolean isImmediate, Store store) {
 		super();
 		this.deliveryID = deliveryID;
 		this.orderID = orderID;
@@ -34,7 +48,7 @@ public class DeliveryDetails {
 
 
 
-	public void setOrderID(int orderID) {
+	public void setOrderID(BigInteger orderID) {
 		this.orderID = orderID;
 	}
 
@@ -70,7 +84,7 @@ public class DeliveryDetails {
 		this.isImmediate = isImmediate;
 	}
 
-	public int getOrderID() {
+	public BigInteger getOrderID() {
 		return orderID;
 	}
 

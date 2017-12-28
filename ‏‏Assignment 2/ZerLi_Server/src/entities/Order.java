@@ -1,26 +1,10 @@
 package entities;
 
-import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Date;
 
-import enums.DeliveryType;
-
 public class Order {
-	
-	public enum OrderStatus {
-		InProcess,
-		Delivered,
-		Canceled,
-		Paid
-	}
-	
-	public enum OrderType {
-		InfoSystem,
-		Manual
-	}
-
 	private BigInteger orderID;
 	private int customerID;
 	private DeliveryDetails delivery;
@@ -45,8 +29,6 @@ public class Order {
 		this.orderStatus = OrderStatus.InProcess;
 		this.products = products;
 	}
-
-
 
 	public Order(Integer customerID) {
 		this();
@@ -164,5 +146,28 @@ public class Order {
 				return productInOrder;
 		}
 		return null;
+	}
+	
+	public enum OrderStatus {
+		InProcess,
+		Delivered,
+		Canceled,
+		Paid
+	}
+	
+	public enum OrderType {
+		InfoSystem,
+		Manual
+	}
+	
+	public enum DeliveryType {
+		Shipment,
+		Pickup
+	}
+	
+	public enum Refund {
+		Full,
+		Partial,
+		No
 	}
 }

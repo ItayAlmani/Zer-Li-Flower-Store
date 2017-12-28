@@ -2,10 +2,11 @@ package entities;
 
 import java.util.Date;
 
-import enums.ReportType;
-
 public abstract class QuarterlyReport {
-
+	public enum ReportType {
+		Order, Satisfaction, Quantity, Incomes, CustomerComplaints;
+	}
+	
 	private ReportType Type;
 	private Date ProductionDate;
 	private int qReportID;

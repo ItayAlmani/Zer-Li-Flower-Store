@@ -2,25 +2,30 @@ package entities;
 
 import java.math.BigInteger;
 
-public class ProductInOrder extends Stock {
-	
+public class ProductInOrder {
+	private int id;
+	private Product product;
+	private int quantity;
 	private BigInteger orderID;
 	private float finalPrice;
 	
 	public ProductInOrder(Product product, int quantity, BigInteger orderID) {
-		super(product, quantity);
+		this.product = product;
+		this.quantity = quantity;
 		this.orderID = orderID;
 		setFinalPrice();
 	}
 
 	public ProductInOrder(int id,Product product, BigInteger orderID, int quantity) {
-		super(id,product, quantity);
+		this.product = product;
+		this.quantity = quantity;
 		this.orderID=orderID;
 		setFinalPrice();
 	}
 	
 	public ProductInOrder(int id,Product product, BigInteger orderID, int quantity, float finalPrice) {
-		super(id, product, quantity);
+		this.product = product;
+		this.quantity = quantity;
 		this.finalPrice = finalPrice;
 		this.orderID=orderID;
 	}
@@ -33,7 +38,7 @@ public class ProductInOrder extends Stock {
 	 * set finalPrice by quantity and Product price
 	 */
 	public void setFinalPrice() {
-		this.finalPrice =  getQuantity()*getProduct().getPrice();
+		this.finalPrice =  quantity*product.getPrice();
 	}
 
 	public void setFinalPrice(float finalPrice) {
@@ -49,6 +54,30 @@ public class ProductInOrder extends Stock {
 	}
 	
 	public void addOneToQuantity() {
-		setQuantity(getQuantity()+1);
+		this.quantity++;
+	}
+
+	public Product getProduct() {
+		return product;
+	}
+
+	public void setProduct(Product product) {
+		this.product = product;
+	}
+
+	public int getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 }

@@ -8,8 +8,8 @@ import entities.Order;
 import entities.PaymentAccount;
 import entities.Subscription;
 import entities.User;
-import enums.Refund;
-import enums.SubscriptionType;
+import entities.Order.Refund;
+import entities.Subscription.SubscriptionType;
 import interfaces.IParent;
 
 public interface ICustomer extends IParent {

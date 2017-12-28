@@ -1,28 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="300.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controllers.MainMenuGUIController">
+<VBox alignment="TOP_CENTER" spacing="10.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controllers.MainMenuGUIController">
    <children>
-      <ImageView fx:id="imgCart" fitHeight="45.0" fitWidth="46.0" layoutX="355.0" onMouseClicked="#showCart" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@/images/Shopping_Cart.png" />
-         </image>
-      </ImageView>
-      <FlowPane alignment="CENTER" columnHalignment="CENTER" hgap="10.0" layoutY="45.0" vgap="10.0">
+      <HBox alignment="CENTER" spacing="10.0">
+         <children>
+            <Label text="Main Menu" textAlignment="CENTER" textFill="#ff9393">
+               <font>
+                  <Font name="Bauhaus 93" size="37.0" />
+               </font>
+            </Label>
+                        <ImageView fx:id="imgCart" fitHeight="45.0" fitWidth="46.0" onMouseClicked="#showCart" pickOnBounds="true" preserveRatio="true">
+      			         <image>
+      			            <Image url="@../../../bin/images/Shopping_Cart.png" />
+      			         </image>
+      			      </ImageView>
+         </children>
+      </HBox>
+      <FlowPane alignment="CENTER" columnHalignment="CENTER" hgap="10.0" vgap="10.0">
          <children>
             <MenuButton fx:id="menuProducts" mnemonicParsing="false" text="Products">
               <items>
@@ -36,15 +41,10 @@
             <Button fx:id="btnConfig" mnemonicParsing="false" onAction="#showConnectionGUI" text="Configure connection" textOverrun="WORD_ELLIPSIS" />
          </children>
       </FlowPane>
-      <Label fx:id="lblMsg" alignment="CENTER" contentDisplay="BOTTOM" layoutX="199.0" layoutY="270.0" textFill="RED">
+      <Label fx:id="lblMsg" alignment="CENTER" contentDisplay="BOTTOM" textFill="RED">
          <font>
             <Font size="10.0" />
          </font>
       </Label>
-      <Label alignment="CENTER" layoutX="119.0" layoutY="-1.0" text="Main Menu">
-         <font>
-            <Font name="System Bold" size="30.0" />
-         </font>
-      </Label>
    </children>
-</AnchorPane>
+</VBox>

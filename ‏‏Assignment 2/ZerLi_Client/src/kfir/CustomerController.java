@@ -8,8 +8,8 @@ import java.util.ArrayList;
 import common.Context;
 import entities.*;
 import entities.CSMessage.MessageType;
-import enums.Refund;
-import enums.SubscriptionType;
+import entities.Order.Refund;
+import entities.Subscription.SubscriptionType;
 import kfir.interfaces.ICustomer;
 
 public class CustomerController extends UserController implements ICustomer {

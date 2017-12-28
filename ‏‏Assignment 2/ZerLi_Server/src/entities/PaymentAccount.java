@@ -7,7 +7,10 @@ public class PaymentAccount {
 	private CreditCard creditCard;
 	private Subscription sub;
 	
-	
+	/*public enum PaymentAccountType {
+		Subscribed,
+		NonSubscribed
+	}*/
 
 	public PaymentAccount(int paID) {
 		super();

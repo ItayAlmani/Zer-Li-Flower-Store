@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox alignment="CENTER" spacing="10.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="izhar.gui.controllers.OrderTimeGUIController">
+   <children>
+      <HBox fx:id="hbox" spacing="20.0">
+         <children>
+            <Label text="Choose Delivery Time:" />
+            <VBox spacing="5.0">
+               <children>
+                  <RadioButton fx:id="rbImmediate" mnemonicParsing="false" onAction="#selectedImmediate" text="Immediate" />
+                  <RadioButton fx:id="rbPreOrder" mnemonicParsing="false" onAction="#selectedPreOrder" text="Pre Order" />
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+      <VBox fx:id="vboxForm" alignment="CENTER" spacing="10.0">
+         <children>
+            <GridPane fx:id="gpDate" prefHeight="62.0" prefWidth="296.0">
+               <columnConstraints>
+                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="159.80003662109374" minWidth="-Infinity" />
+                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="213.6" minWidth="10.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints maxHeight="49.39998168945313" minHeight="0.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="84.0" minHeight="10.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <children>
+                  <Label text="Select Date:" textAlignment="CENTER" wrapText="true">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <Label text="Select Time:" textAlignment="CENTER" wrapText="true" GridPane.rowIndex="1">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <DatePicker GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <Spinner GridPane.columnIndex="1" />
+               </children>
+            </GridPane>
+            <Button contentDisplay="CENTER" mnemonicParsing="false" onAction="#addTime" text="Send" />
+         </children>
+      </VBox>
+      <Button mnemonicParsing="false" onAction="#back" text="Back" />
+      <Label fx:id="lblMsg" />
+   </children>
+</VBox>

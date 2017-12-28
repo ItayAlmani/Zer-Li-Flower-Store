@@ -18,10 +18,12 @@ public interface IStore extends IParent {
 	void sendStores(ArrayList<Store> stores);
 
 	/**
-	 * 
+	 * checks if all products in order can be bought at the specific store
 	 * @param order
+	 * @param store
+	 * @return the product which out of store if exists, else null
 	 */
-	void checkStockByOrder(Order order);
+	Product checkStockByOrder(Order order, Store store);
 
 	/**
 	 * 

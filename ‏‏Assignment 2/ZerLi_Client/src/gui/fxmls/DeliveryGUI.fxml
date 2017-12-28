@@ -5,34 +5,27 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="300.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="izhar.gui.controllers.DeliveryGUIController">
+<VBox alignment="CENTER" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="izhar.gui.controllers.DeliveryGUIController">
    <children>
-      <Pane layoutX="34.0" layoutY="22.0">
+      <HBox spacing="20.0">
          <children>
-            <HBox spacing="20.0">
+            <Label text="Choose Delivery Option:" />
+            <VBox spacing="5.0">
                <children>
-                  <Label text="Choose Delivery Option:" />
-                  <VBox spacing="5.0">
-                     <children>
-                        <RadioButton fx:id="rbPickup" mnemonicParsing="false" onAction="#showPickup" text="Pickup" />
-                        <RadioButton fx:id="rbShipment" mnemonicParsing="false" onAction="#showShipment" text="Shipment" />
-                     </children>
-                  </VBox>
+                  <RadioButton fx:id="rbPickup" mnemonicParsing="false" onAction="#showPickup" text="Pickup" />
+                  <RadioButton fx:id="rbShipment" mnemonicParsing="false" onAction="#showShipment" text="Shipment" />
                </children>
-            </HBox>
+            </VBox>
          </children>
-      </Pane>
-      <Label fx:id="lblMsg" layoutX="148.0" layoutY="277.0" />
-      <VBox fx:id="vboxForm" alignment="CENTER" layoutX="7.0" layoutY="77.0" spacing="10.0" visible="false">
+      </HBox>
+      <VBox fx:id="vboxForm" alignment="CENTER" spacing="10.0" visible="false">
          <children>
             <GridPane fx:id="gpPickup" prefHeight="24.0" prefWidth="289.0">
                <columnConstraints>
@@ -48,10 +41,10 @@
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <ComboBox fx:id="cbStores" promptText="Select Store" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                  <ComboBox fx:id="cbStores" onAction="#checkStockInStore" promptText="Select Store" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
                </children>
             </GridPane>
-            <GridPane fx:id="gdShipment" prefHeight="122.0" prefWidth="296.0" visible="false">
+            <GridPane fx:id="gpShipment" prefHeight="122.0" prefWidth="296.0" visible="false">
                <columnConstraints>
                   <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="159.80003662109374" minWidth="-Infinity" />
                   <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="213.6" minWidth="10.0" />
@@ -95,15 +88,17 @@
                   <TextField fx:id="txtName" alignment="CENTER" promptText="Name of shipment reciver" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
                   <HBox GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER">
                      <children>
-                        <TextField fx:id="txtPhoneAreaCode" alignment="CENTER" maxWidth="90.0" promptText="area code" />
+                        <TextField fx:id="txtPhoneAreaCode" alignment="CENTER" maxWidth="90.0" promptText="Area code" />
                         <Label prefHeight="26.0" text="-" />
                         <TextField fx:id="txtPhonePost" alignment="CENTER" maxWidth="160.0" prefWidth="150.0" promptText="Phone number" />
                      </children>
                   </HBox>
                </children>
             </GridPane>
-            <Button contentDisplay="CENTER" mnemonicParsing="false" onAction="#addDelivery" text="Select" />
+            <Button fx:id="btnSend" contentDisplay="CENTER" mnemonicParsing="false" onAction="#addDelivery" text="Send" />
          </children>
       </VBox>
+      <Button mnemonicParsing="false" onAction="#back" text="Back" />
+      <Label fx:id="lblMsg" alignment="CENTER" contentDisplay="CENTER" minHeight="35.0" textAlignment="CENTER" textFill="RED" wrapText="true" />
    </children>
-</AnchorPane>
+</VBox>

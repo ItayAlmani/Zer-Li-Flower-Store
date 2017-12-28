@@ -14,11 +14,10 @@ import common.Context;
 import controllers.ParentController;
 import entities.*;
 import entities.CSMessage.MessageType;
-import enums.DeliveryType;
+import entities.Order.DeliveryType;
 import entities.Order.OrderStatus;
 import entities.Order.OrderType;
-import enums.PaymentAccountType;
-import enums.Refund;
+import entities.Order.Refund;
 import izhar.interfaces.IOrder;
 
 public class OrderController extends ParentController implements IOrder {
@@ -152,7 +151,7 @@ public class OrderController extends ParentController implements IOrder {
 	@Override
 	public void updatePriceWithShipment(Order order) throws IOException {
 		order.setFinalPrice(order.getFinalPrice()+ShipmentDetails.shipmentPrice);
-		updateOrder(order);
+		//updateOrder(order);
 	}
 
 	@Override
@@ -192,7 +191,7 @@ public class OrderController extends ParentController implements IOrder {
 	}
 
 	@Override
-	public void updateFinalPriceByPAT(PaymentAccountType pat) {
+	public void updateFinalPriceByPAT(PaymentAccount pa) {
 		// TODO Auto-generated method stub
 		
 	}

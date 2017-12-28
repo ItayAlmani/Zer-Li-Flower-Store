@@ -2,13 +2,16 @@ package entities;
 
 import java.util.ArrayList;
 
-import enums.StoreType;
-
 public class Store {
-
+	
+	public enum StoreType {
+		Physical,
+		OrdersOnly
+	}
+	
 	private int storeID;
 	private String name;
-	private ArrayList<Product> stock;
+	private ArrayList<Stock> stock;
 	private StoreType type;
 	private StoreWorker manager;
 	public int getStoreID() {
@@ -22,13 +25,22 @@ public class Store {
 	}
 
 
+	public Store(int storeID, String name, StoreType type, StoreWorker manager) {
+		super();
+		this.storeID = storeID;
+		this.name = name;
+		this.type = type;
+		this.manager = manager;
+	}
+
+
 	public void setStoreID(int storeID) {
 		this.storeID = storeID;
 	}
-	public ArrayList<Product> getStock() {
+	public ArrayList<Stock> getStock() {
 		return stock;
 	}
-	public void setStock(ArrayList<Product> stock) {
+	public void setStock(ArrayList<Stock> stock) {
 		this.stock = stock;
 	}
 	public StoreType getType() {
@@ -54,5 +66,11 @@ public class Store {
 		this.name = name;
 	}
 	
-	
+	public Stock getProductFromStock(Product prod) {
+		for (Stock prodInStock : stock) {
+			if(prodInStock.getProduct().getPrdID() == prod.getPrdID())
+				return prodInStock;
+		}
+		return null;
+	}
 }

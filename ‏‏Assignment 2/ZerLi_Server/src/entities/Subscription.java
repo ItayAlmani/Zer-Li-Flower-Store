@@ -2,10 +2,12 @@ package entities;
 
 import java.util.Date;
 
-import enums.SubscriptionType;
-
 public class Subscription {
-
+	
+	public enum SubscriptionType {
+		Monthly, Yearly
+	}
+	
 	private int subID;
 	private int paID;
 	private SubscriptionType subType;

@@ -5,16 +5,8 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Date;
 
-import entities.Complaint;
-import entities.DeliveryDetails;
-import entities.Order;
-import entities.Product;
-import entities.ProductInOrder;
-import entities.Transaction;
-import enums.DeliveryType;
-import enums.OrderType;
-import enums.PaymentAccountType;
-import enums.Refund;
+import entities.*;
+import entities.Order.*;
 import interfaces.IParent;
 
 public interface IOrder extends IParent  {
@@ -101,7 +93,7 @@ public interface IOrder extends IParent  {
 	void addProductInOrderToOrder(ProductInOrder product);
 	
 	
-	void updateFinalPriceByPAT(PaymentAccountType pat);
+	void updateFinalPriceByPAT(PaymentAccount pa);
 	
 	void getOrderInProcess(int customerID) throws IOException;
 

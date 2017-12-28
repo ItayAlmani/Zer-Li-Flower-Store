@@ -1,5 +1,6 @@
 package entities;
 
+import java.math.BigInteger;
 import java.util.Date;
 
 public class ShipmentDetails extends DeliveryDetails {
@@ -10,6 +11,17 @@ public class ShipmentDetails extends DeliveryDetails {
 	private String customerName;
 	private String phoneNumber;
 	
+	public ShipmentDetails(DeliveryDetails del,
+			String street, String city, String postCode, String customerName,
+			String phoneNumber) {
+		super(del);
+		this.street = street;
+		this.city = city;
+		this.postCode = postCode;
+		this.customerName = customerName;
+		this.phoneNumber = phoneNumber;
+	}
+
 	public final static float shipmentPrice = 20.0f; 
 
 	public void setStreet(String street) {
@@ -32,7 +44,7 @@ public class ShipmentDetails extends DeliveryDetails {
 		this.phoneNumber = phoneNumber;
 	}
 
-	public ShipmentDetails(int deliveryID, int orderID, Date date, boolean isImmediate, Store store, 
+	public ShipmentDetails(int deliveryID, BigInteger orderID, Date date, boolean isImmediate, Store store, 
 			String[] address, String customerName, String phoneNumber) {
 		super(deliveryID, orderID, date, isImmediate, store);
 		this.street = address[0];
