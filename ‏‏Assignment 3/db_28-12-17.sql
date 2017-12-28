@@ -321,12 +321,12 @@ DROP TABLE IF EXISTS `store`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `store` (
   `storeID` int(11) NOT NULL AUTO_INCREMENT,
-  `type` varchar(45) NOT NULL,
   `managerID` int(11) NOT NULL,
+  `type` varchar(45) NOT NULL,
   `name` varchar(45) NOT NULL,
   PRIMARY KEY (`storeID`),
   KEY `manSTR_idx` (`managerID`),
-  CONSTRAINT `manSTR` FOREIGN KEY (`managerID`) REFERENCES `user` (`userID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `manSTR` FOREIGN KEY (`managerID`) REFERENCES `storeworker` (`storeWorkerID`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -336,7 +336,7 @@ CREATE TABLE `store` (
 
 LOCK TABLES `store` WRITE;
 /*!40000 ALTER TABLE `store` DISABLE KEYS */;
-INSERT INTO `store` VALUES (1,'Physical',3,'Karmiel');
+INSERT INTO `store` VALUES (1,1,'Physical','Karmiel');
 /*!40000 ALTER TABLE `store` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -522,4 +522,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-12-28 14:39:39
+-- Dump completed on 2017-12-28 14:42:30
