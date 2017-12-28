@@ -1,4 +1,5 @@
 package common;
+import controllers.DataBaseController;
 import itayNron.*;
 import izhar.*;
 import izhar.interfaces.IProduct;
@@ -12,7 +13,9 @@ import kfir.interfaces.ICustomer;
  * @author izhar
  *
  */
-public class Factory {
+public class Factory {	
+	public DataBaseController dataBase = new DataBaseController();
+	
 	public ComplaintController complaint = new ComplaintController();
 	public SurveyController survey = new SurveyController();
 	public SurveyReportController surveyReport = new SurveyReportController();

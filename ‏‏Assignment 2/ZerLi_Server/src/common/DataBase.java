@@ -57,7 +57,8 @@ public class DataBase{
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
-		conn = DriverManager.getConnection("jdbc:mysql://"+dbUrl+"/" + dbName, dbUserName, dbPassword);
+		conn = DriverManager.getConnection("jdbc:mysql://"+dbUrl+"/" + dbName +"?autoReconnect=true&useSSL=false"
+				, dbUserName, dbPassword);
 		return conn;
 	}
 

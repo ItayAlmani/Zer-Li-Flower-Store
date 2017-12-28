@@ -17,11 +17,12 @@ import javafx.event.ActionEvent;
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import javafx.scene.control.Button;
 public class LogInGUIController extends ParentGUIController{
 	
-	private @FXML TextField txtUserName;
-	private @FXML TextField txtPassword;
-
+	private @FXML TextField txtUserName, txtPassword;
+	private @FXML Button btnConfig, btnLogIn;
+	
 	public void logIn(ActionEvent event) {
 		/*String uName = this.txtUserName.getText(),
 				pass = this.txtPassword.getText();*/
@@ -73,8 +74,45 @@ public class LogInGUIController extends ParentGUIController{
 			try {
 				Context.connectToServer();
 			} catch (IOException e) {
-				//setServerUnavailable();
+				setServerUnavailable();
 			}
 		}
+		if(Context.clientConsole!=null && Context.clientConsole.isConnected()==true &&
+				Context.dbConnected == true)
+			setServerAvailable();
+		if(Context.dbConnected == false)
+			setServerUnavailable();
+	}
+
+	public void showConnectionGUI(ActionEvent event){
+		try {
+			Context.prevGUI=this;
+			loadGUI("ConnectionConfigGUI", false);
+		} catch (Exception e) {
+			lblMsg.setText("Loader failed");
+			e.printStackTrace();
+		}
+	}
+	
+	public void setServerUnavailable() {
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				btnLogIn.setDisable(true);
+				btnConfig.setVisible(true);
+				lblMsg.setText("Connection failed");
+			}
+		});
+	}
+	
+	public void setServerAvailable() {
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				btnLogIn.setDisable(false);
+				btnConfig.setVisible(false);
+				lblMsg.setText("");
+			}
+		});
 	}
 }

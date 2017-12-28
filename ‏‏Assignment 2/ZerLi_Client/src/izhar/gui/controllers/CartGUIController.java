@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import common.Context;
-import entities.Product;
+import entities.Order;
 import entities.ProductInOrder;
 import gui.controllers.ParentGUIController;
 import javafx.application.Platform;
@@ -17,6 +17,7 @@ import javafx.geometry.HPos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Pagination;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
@@ -25,14 +26,14 @@ import javafx.scene.layout.BorderStroke;
 import javafx.scene.layout.BorderStrokeStyle;
 import javafx.scene.layout.BorderWidths;
 import javafx.scene.layout.CornerRadii;
-import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.util.Callback;
 
 public class CartGUIController extends ParentGUIController {
 	
 	protected @FXML ScrollPane scroll;
-	protected @FXML FlowPane flow;
 	protected @FXML GridPane[] grids;
 	protected @FXML Button[] btnViewProduct;
 	protected @FXML ImageView[] imgImages;
@@ -44,7 +45,9 @@ public class CartGUIController extends ParentGUIController {
 	
 	protected ArrayList<ProductInOrder> products;
 	
-	private Button btnBack;
+	private @FXML VBox vbox;
+	
+	private @FXML Pagination pagination;
 	
 	 @Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -56,7 +59,7 @@ public class CartGUIController extends ParentGUIController {
 	 
 	 private void getProducts() {
 		if(Context.order != null && Context.order.getProducts()!=null)
-			productsInOrderToGUI(Context.order.getProducts());
+			setPIOs(Context.order.getProducts());
 		else {
 			 try {
 				Context.fac.prodInOrder.getPIOsByOrder(Context.order.getOrderID());
@@ -72,20 +75,25 @@ public class CartGUIController extends ParentGUIController {
 		throw new UnsupportedOperationException();
 	}
 	
-	public void productsInOrderToGUI(ArrayList<ProductInOrder> prds) {	
+	public void setPIOs(ArrayList<ProductInOrder> prds) {	
 		Context.order.setProducts(prds);
 		initGrids(prds);
     	int i = 0;
+    	pagination  = new Pagination(prds.size(), 0);
 		for (ProductInOrder p : prds) {
 			setGridPane(i, p);
+			pagination.setPageFactory(new Callback<Integer, Node>() {
+	            @Override
+	            public Node call(Integer pageIndex) {
+	            	 return grids[pageIndex];
+	            }
+			});
 			i++;
 		}
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
-				btnBack = new Button("Back");
-				btnBack.setOnAction(actionEvent -> loadMainMenu());
-				flow.getChildren().add(btnBack);
+				vbox.getChildren().add(0,pagination);
 			}
 		});
 	}	
@@ -129,13 +137,7 @@ public class CartGUIController extends ParentGUIController {
 						}
 						if(quantity==0) {
 							products.remove(gridInx);
-							Platform.runLater(new Runnable() {
-								@Override
-								public void run() {
-									flow.getChildren().remove(grids[gridInx]);
-									grids[gridInx] = new GridPane();
-								}
-							});
+							setPIOs(products);
 						}
 					}
 				}
@@ -217,13 +219,27 @@ public class CartGUIController extends ParentGUIController {
 		
 		/* The order buttons of all products */
 		btnViewProduct = new Button[prds.size()];
-		
-		Platform.runLater(new Runnable() {
-			@Override
-			public void run() {
-				flow.getChildren().addAll(grids);
-				scroll.setContent(flow);
+	}
+
+	public void createOrder(ActionEvent event) {
+		if(Context.fac.order.isCartEmpty(products)==false) {
+			Order ord = new Order(Context.getUserAsCustomer().getCustomerID(), products);
+			Context.order=ord;
+			
+			try {
+				loadGUI("DeliveryGUI", false);
+			} catch (Exception e) {
+				lblMsg.setText("Loader failed");
+				e.printStackTrace();
 			}
-		});
+		}
+		else {
+			Platform.runLater(new Runnable() {
+				@Override
+				public void run() {
+					lblMsg.setText("Cart is empty!");
+				}
+			});
+		}
 	}
 }

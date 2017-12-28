@@ -7,6 +7,7 @@ import enums.StoreType;
 public class Store {
 
 	private int storeID;
+	private String name;
 	private ArrayList<Product> stock;
 	private StoreType type;
 	private StoreWorker manager;
@@ -41,6 +42,16 @@ public class Store {
 	}
 	public void setManager(StoreWorker manager) {
 		this.manager = manager;
+	}
+
+
+	public String getName() {
+		return name;
+	}
+
+
+	public void setName(String name) {
+		this.name = name;
 	}
 	
 	

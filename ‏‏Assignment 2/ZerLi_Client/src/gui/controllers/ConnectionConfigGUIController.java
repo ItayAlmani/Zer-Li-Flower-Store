@@ -25,11 +25,16 @@ public class ConnectionConfigGUIController extends ParentGUIController{
 	
 	private @FXML TextField txtHost,txtPort,txtName,txtUrl,txtUserName,txtPassword;
 	private @FXML Button btnUpdateServer, btnUpdateDB,btnBack;
+	private String prevGUI = null;
 	
 	private String host,dbUrl, dbName, dbUserName, dbPassword;
 	private Integer port;
 	
-	public void setDBDataInGUI(ArrayList<String> dbData) {
+	public void getPrevGUI(String prevGUI) {
+		this.prevGUI=prevGUI;
+	}
+	
+	public void setDBData(ArrayList<String> dbData) {
 		if(dbData!=null) {
 			this.dbUrl=dbData.get(0);
 			this.dbName=dbData.get(1);
@@ -43,7 +48,15 @@ public class ConnectionConfigGUIController extends ParentGUIController{
 	}
 	
 	public void back(ActionEvent event) throws Exception {
-		loadMainMenu();
+		try {
+			String name = Context.prevGUI.getClass().getName();
+			Context.prevGUI=this;
+			loadGUI(name.substring(name.lastIndexOf(".")+1,name.lastIndexOf("Controller"))
+					, false);
+		} catch (Exception e) {
+			lblMsg.setText("Loader failed");
+			e.printStackTrace();
+		}
 	}
 	
 	public void updateServer(ActionEvent event) {
@@ -78,7 +91,8 @@ public class ConnectionConfigGUIController extends ParentGUIController{
 		
 		if(dbUrl!=null && dbName!=null && dbUserName!=null&&dbPassword!=null) {
 			try {
-				ClientController.askSetDBData(new DataBase(dbUrl, dbName, dbUserName, dbPassword));
+				Context.fac.dataBase.setDB(new DataBase(dbUrl, dbName, dbUserName, dbPassword));
+				Context.fac.dataBase.getDBStatus();
 			} catch (IOException e) {
 				ShowErrorMsg();
 				System.err.println("Error in ConnConfigGUIController, on askSetDBData() in updateDB.\n");
@@ -99,7 +113,7 @@ public class ConnectionConfigGUIController extends ParentGUIController{
 			this.txtHost.setText(this.host);
 			this.txtPort.setText(this.port.toString());
 			try {
-				ClientController.askDBDataFromServer();
+				Context.fac.dataBase.getDB();
 			} catch (IOException e) {
 				ShowErrorMsg();
 			}

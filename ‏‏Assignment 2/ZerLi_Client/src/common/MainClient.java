@@ -7,12 +7,31 @@ import javafx.stage.WindowEvent;
 import kfir.gui.controllers.LogInGUIController;
 
 import java.io.IOException;
+import java.util.ArrayList;
+
 import gui.controllers.*;
 
-public class MainClient extends Application {	
-	
+public class MainClient extends Application {	 
+	private static String sargs[];
 	public static void main(String args[]) throws IOException {
-		launch(args);
+		sargs=args;
+		
+		/*try {
+			Context.askingCtrl.add(MainClient.class.newInstance());
+		} catch (InstantiationException | IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}*/
+		
+		try {
+			Context.connectToServer();
+		} catch (IOException e) {
+			
+		}
+		
+		Context.fac.dataBase.getDBStatus();
+		launch(sargs);
+		
 	} // end main
 
 	@Override
@@ -25,7 +44,6 @@ public class MainClient extends Application {
 		    }
 		});		
 		Context.stage=arg0;
-		
 		main.start(arg0);
 	}
 }

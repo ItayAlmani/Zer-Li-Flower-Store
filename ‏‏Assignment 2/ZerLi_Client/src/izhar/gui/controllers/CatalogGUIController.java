@@ -38,7 +38,7 @@ import javafx.util.Callback;
 public class CatalogGUIController extends ParentGUIController {
 	
 	private @FXML ScrollPane scroll;
-	private @FXML Pagination pagination ;
+	private @FXML Pagination pagination;
 	private @FXML GridPane[] grids;
 	private @FXML Button[] btnViewProduct;
 	private @FXML ImageView[] imgImages;

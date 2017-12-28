@@ -8,7 +8,6 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-
 <AnchorPane prefHeight="300.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kfir.gui.controllers.LogInGUIController">
    <children>
       <GridPane layoutX="50.0" layoutY="69.0">
@@ -26,9 +25,10 @@
             <Label text="Password:" GridPane.rowIndex="1" />
             <TextField fx:id="txtUserName" promptText="Enter user name" GridPane.columnIndex="1" />
             <TextField fx:id="txtPassword" promptText="Enter password" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <Button mnemonicParsing="false" onAction="#logIn" text="Log In" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Button fx:id="btnLogIn" mnemonicParsing="false" onAction="#logIn" text="Log In" GridPane.columnIndex="1" GridPane.rowIndex="2" />
          </children>
       </GridPane>
-      <Label fx:id="lblMsg" layoutX="117.0" layoutY="258.0" textFill="RED" />
+      <Label fx:id="lblMsg" layoutX="149.0" layoutY="259.0" textFill="RED" />
+      <Button fx:id="btnConfig" layoutX="85.0" layoutY="202.0" mnemonicParsing="false" onAction="#showConnectionGUI" text="Configure connection" textOverrun="WORD_ELLIPSIS" visible="false" />
    </children>
 </AnchorPane>
