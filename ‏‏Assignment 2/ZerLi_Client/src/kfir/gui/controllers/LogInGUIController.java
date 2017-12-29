@@ -78,8 +78,15 @@ public class LogInGUIController extends ParentGUIController{
 			}
 		}
 		if(Context.clientConsole!=null && Context.clientConsole.isConnected()==true &&
-				Context.dbConnected == true)
+				Context.dbConnected == true) {
+			try {
+				Context.fac.dataBase.getDBStatus();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			setServerAvailable();
+		}
 		if(Context.dbConnected == false)
 			setServerUnavailable();
 	}

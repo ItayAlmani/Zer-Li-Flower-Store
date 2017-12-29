@@ -18,10 +18,13 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.util.converter.LocalDateStringConverter;
+import javafx.util.converter.LocalTimeStringConverter;
 import javafx.scene.layout.GridPane;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DateCell;
@@ -41,12 +44,21 @@ public class OrderTimeGUIController extends ParentGUIController {
 
 	@FXML public void addTime() {
 		LocalDateTime date = null;
-		if(tGroup.getSelectedToggle().getUserData().equals("PreOrder")) {
+		Object select =null;
+		Toggle toggle = tGroup.getSelectedToggle();
+		if(toggle == null || 
+				toggle.getUserData().equals("PreOrder")==false && toggle.getUserData().equals("Immediate")==false) {
+			lblMsg.setText("Must choose one option");
+			return;
+		}
+		select = toggle.getUserData();
+		
+		if(select.equals("PreOrder")) {
 			date = dpDate.getValue().atStartOfDay();
 			date.plusHours(cbHours.getValue());
 			date.plusMinutes(cbMinutes.getValue());
 		}
-		else {
+		else if(select.equals("Immediate")) {
 			Context.order.getDelivery().setImmediate(true);
 			date = LocalDateTime.now();
 			date.plusHours(3);
@@ -71,10 +83,12 @@ public class OrderTimeGUIController extends ParentGUIController {
 	}
 
 	public void selectedImmediate() {
+		btnSend.setDisable(false);
 		gpDate.setVisible(false);
 	}
 
 	public void selectedPreOrder() {
+		btnSend.setDisable(false);
 		gpDate.setVisible(true);
 	}
 
@@ -125,7 +139,7 @@ public class OrderTimeGUIController extends ParentGUIController {
 		//The order is for today
 		if(now_date.compareTo(reqDate)==0) {
 			if(now_time.compareTo(LocalTime.of(21, 00))<=0) { //delivery until 22:00
-				for (int i = now_time.getHour()+3+1; i <= 22; i++)
+				for (int i = now_time.getHour()+3; i <= 22; i++)
 					al.add(i);
 			}
 		}
@@ -142,9 +156,8 @@ public class OrderTimeGUIController extends ParentGUIController {
 		LocalTime now_time = LocalTime.now();
 		
 		ArrayList<Integer> al = new ArrayList<>();
-		
 		//if now hours+3 chosen
-		if(now_time.getHour()+1+3==cbHours.getValue()) {
+		if(now_time.getHour()+3==cbHours.getValue()) {
 			for (int i = now_time.getMinute()+1; i <= 59; i++)
 				al.add(i);
 		}
@@ -156,5 +169,4 @@ public class OrderTimeGUIController extends ParentGUIController {
 		cbMinutes.setItems(FXCollections.observableArrayList(al));
 		cbMinutes.setVisible(true);
 	}
-
 }

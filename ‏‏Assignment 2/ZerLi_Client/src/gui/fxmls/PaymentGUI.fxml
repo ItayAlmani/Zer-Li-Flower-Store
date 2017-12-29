@@ -44,6 +44,16 @@
             <TextArea fx:id="txtGreeting" prefHeight="100.0" prefWidth="151.0" promptText="Enter greeting here" wrapText="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
          </children>
       </GridPane>
+      <Label text="Final Price (With delivery method):" textAlignment="CENTER" textFill="#008cff">
+         <font>
+            <Font name="System Bold Italic" size="12.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblFinalPrice" minWidth="50.0" textAlignment="CENTER" textFill="#ffb5b5">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
       <Button fx:id="btnPay" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#pay" text="Pay" textAlignment="CENTER" visible="false" />
       <Button mnemonicParsing="false" onAction="#back" text="Back" />
       <Label fx:id="lblMsg" alignment="CENTER" contentDisplay="CENTER" textAlignment="CENTER" textFill="RED" />

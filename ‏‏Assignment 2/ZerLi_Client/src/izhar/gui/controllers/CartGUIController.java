@@ -14,6 +14,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.HPos;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -33,21 +34,22 @@ import javafx.util.Callback;
 
 public class CartGUIController extends ParentGUIController {
 	
-	protected @FXML ScrollPane scroll;
-	protected @FXML GridPane[] grids;
-	protected @FXML Button[] btnViewProduct;
-	protected @FXML ImageView[] imgImages;
-	protected @FXML TextField[] txtShowQuantity;
-	protected @FXML Label[] lblShowID, lblShowType, lblShowColor, lblShowPrice, lblShowName,
+	private @FXML ScrollPane scroll;
+	private @FXML GridPane[] grids;
+	private @FXML Button[] btnViewProduct;
+	private @FXML ImageView[] imgImages;
+	private @FXML TextField[] txtShowQuantity;
+	private @FXML Label[] lblShowID, lblShowType, lblShowColor, lblShowPrice, lblShowName,
 			lblTitleID, lblTitleType, lblTitleColor, lblTitlePrice, lblTitleName, lblTitleQuantity;
 	
-	protected ArrayList<Node> components = new ArrayList<>();
-	
-	protected ArrayList<ProductInOrder> products;
-	
 	private @FXML VBox vbox;
-	
 	private @FXML Pagination pagination;
+	private @FXML Label lblFinalPrice;
+	
+	private ArrayList<Node> components = new ArrayList<>();
+	private ArrayList<ProductInOrder> products;
+	
+	public static Float ordPrice = 0f;
 	
 	 @Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -81,6 +83,7 @@ public class CartGUIController extends ParentGUIController {
     	int i = 0;
     	pagination  = new Pagination(prds.size(), 0);
 		for (ProductInOrder p : prds) {
+			ordPrice+=p.getFinalPrice();
 			setGridPane(i, p);
 			pagination.setPageFactory(new Callback<Integer, Node>() {
 	            @Override
@@ -90,10 +93,12 @@ public class CartGUIController extends ParentGUIController {
 			});
 			i++;
 		}
+		
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
 				vbox.getChildren().add(0,pagination);
+				setLblFinalPrice();
 			}
 		});
 	}	
@@ -124,10 +129,12 @@ public class CartGUIController extends ParentGUIController {
 						}catch (NumberFormatException e) {
 							lblMsg.setText("Quantity not number");
 							return;
-							
 						}
+						float oldFinalPrice = products.get(gridInx).getFinalPrice();
 						products.get(gridInx).setQuantity(quantity);
 						products.get(gridInx).setFinalPrice();
+						ordPrice=ordPrice-oldFinalPrice+products.get(gridInx).getFinalPrice();
+						setLblFinalPrice();
 						try {
 							Context.fac.prodInOrder.updatePriceOfPIO(products.get(gridInx));
 							lblShowPrice[gridInx].setText(((Float)products.get(gridInx).getFinalPrice()).toString() + "¤");
@@ -143,6 +150,13 @@ public class CartGUIController extends ParentGUIController {
 				}
 			});
 		}
+    }
+    
+    private void setLblFinalPrice() {
+    	if(ordPrice == Math.round(ordPrice))
+			lblFinalPrice.setText(((Integer)Math.round(ordPrice)).toString()+ "¤");
+		else
+			lblFinalPrice.setText(ordPrice.toString()+ "¤");
     }
 
     private void setGridPane(int i, ProductInOrder p) {
@@ -177,6 +191,7 @@ public class CartGUIController extends ParentGUIController {
 		lblTitleQuantity[i]=new Label("Quantity: ");
 		setComponent(lblTitleQuantity[i] ,0, i+5, i);
 		txtShowQuantity[i] = new TextField(((Integer)p.getQuantity()).toString());
+		txtShowQuantity[i].setAlignment(Pos.CENTER);
 		setComponent(txtShowQuantity[i],1, i+5, i);
 		
 		lblTitlePrice[i]=new Label("Price: ");

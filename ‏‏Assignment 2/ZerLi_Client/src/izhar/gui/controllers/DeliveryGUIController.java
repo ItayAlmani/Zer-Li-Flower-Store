@@ -62,8 +62,6 @@ public class DeliveryGUIController extends ParentGUIController {
 		//FOR TEST!!!! TAKE DOWN!
 		autoAddForTest();
 		
-		/*tGroup.selectedToggleProperty().addListener(
-				(observable, oldVal, newVal) -> vboxForm.setVisible(true));*/
 		tGroup.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
 
 			@Override
@@ -111,12 +109,23 @@ public class DeliveryGUIController extends ParentGUIController {
 
 	public void addDelivery(ActionEvent event) {
 		Object userData = tGroup.getSelectedToggle().getUserData();
-		if(userData.equals("Pickup")==false && userData.equals("Shipment")==false)
+		if(userData.equals("Pickup")==false && userData.equals("Shipment")==false) {
+			lblMsg.setText("Must choose at least one option");
 			return;
+		}
+		if(selectedStore==null) {
+			if(userData.equals("Pickup"))
+				lblMsg.setText("Must choose store for pickup");
+			else if(userData.equals("Shipment"))
+				lblMsg.setText("Error");
+			return;
+		}
 		
 		DeliveryDetails del = new DeliveryDetails(Context.order.getOrderID(),selectedStore);
 		if(userData.equals("Pickup")) {
 			Context.order.setDelivery(del);
+			if(Context.order.getDeliveryType().equals(DeliveryType.Shipment))
+				Context.order.addToFinalPrice(-1*ShipmentDetails.shipmentPrice);
 			Context.order.setDeliveryType(DeliveryType.Pickup);
 		}
 		else{	//Shipment
@@ -159,7 +168,7 @@ public class DeliveryGUIController extends ParentGUIController {
 			Platform.runLater(new Runnable() {
 				@Override
 				public void run() {
-					lblMsg.setText("In Stock at store "+selectedStore.getName());
+					//lblMsg.setText("In Stock at store "+selectedStore.getName());
 					btnSend.setDisable(false);
 				}
 			});

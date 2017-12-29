@@ -143,6 +143,10 @@ public class Order {
 		this.products = products;
 	}
 	
+	public void addToFinalPrice(float amount) {
+		this.finalPrice+=amount;
+	}
+	
 	public ProductInOrder containsProduct(Product p) {
 		for (ProductInOrder productInOrder : products) {
 			if(productInOrder.getProduct().getPrdID()==p.getPrdID())

@@ -24,11 +24,18 @@ import javafx.scene.text.Text;
 public class PaymentGUIController extends ParentGUIController {
 
 	private @FXML RadioButton rbCredit, rbCash;
-	private @FXML Label lblPayMsg;
+	private @FXML Label lblPayMsg, lblFinalPrice;
 	private @FXML Button btnPay;
 	private @FXML ProgressIndicator piBill;
 	private @FXML ToggleGroup tGroup;
 	private @FXML TextArea txtGreeting;
+	
+	private void setLblFinalPrice(Float ordPrice) {
+    	if(ordPrice == Math.round(ordPrice))
+			lblFinalPrice.setText(((Integer)Math.round(ordPrice)).toString()+ "¤");
+		else
+			lblFinalPrice.setText(ordPrice.toString()+ "¤");
+    }
 
 	public void selectedCreditCard() {
 		btnPay.setVisible(true);
@@ -122,7 +129,7 @@ public class PaymentGUIController extends ParentGUIController {
 		rbCredit.setToggleGroup(tGroup);
 		rbCash.setUserData("Cash");
 		rbCash.setToggleGroup(tGroup);
-		
+		setLblFinalPrice(Context.order.getFinalPrice());
 	}
 
 }

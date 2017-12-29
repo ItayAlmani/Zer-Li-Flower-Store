@@ -55,7 +55,7 @@
             </HBox>
          </children>
       </GridPane>
-      <Button contentDisplay="CENTER" mnemonicParsing="false" onAction="#addTime" text="Send" />
+      <Button fx:id="btnSend" alignment="CENTER" contentDisplay="CENTER" disable="true" mnemonicParsing="false" onAction="#addTime" text="Send" textAlignment="CENTER" />
       <Button mnemonicParsing="false" onAction="#back" text="Back" />
       <Label fx:id="lblMsg" alignment="CENTER" contentDisplay="CENTER" textAlignment="CENTER" textFill="RED" />
    </children>

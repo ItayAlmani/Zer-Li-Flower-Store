@@ -21,7 +21,20 @@ public class MainClient extends Application {
 			
 		}
 		
-		Context.fac.dataBase.getDBStatus();
+		if(Context.clientConsole==null || Context.clientConsole.isConnected()==false) {
+			try {
+				Context.connectToServer();
+			} catch (IOException e) {
+			}
+		}
+		if(Context.clientConsole!=null && Context.clientConsole.isConnected()==true) {
+			try {
+				Context.fac.dataBase.getDBStatus();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
 		launch(args);
 		
 	} // end main
@@ -36,7 +49,6 @@ public class MainClient extends Application {
 		    }
 		});		
 		Context.stage=arg0;
-		InputStream x =getClass().getResourceAsStream("/images/logos/logo1.png");
 		for (int i = 0; i <= 5; i++)
 			arg0.getIcons().add(new Image(getClass().getResourceAsStream("/images/logos/img/logo3-"+i+".png")));
 		main.start(arg0);
