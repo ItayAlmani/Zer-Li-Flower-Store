@@ -53,6 +53,7 @@ public class Context {
 	
 	private static User user;
 	public static Order order;
+	public static boolean existingOrder;
 	
 	/**
 	 * Looking for the .txt file at <code>projectPath</code>+<code>serTxtPath</code> path,
@@ -198,6 +199,7 @@ public class Context {
 	public static void setOrders(ArrayList<Order> orders) {
 		if(orders.size()!=0) {
 			order = orders.get(0);
+			existingOrder=true;
 			try {
 				askingCtrl.add(Context.class.newInstance());
 				fac.prodInOrder.getPIOsByOrder(Context.order.getOrderID());
@@ -208,9 +210,9 @@ public class Context {
 		}
 		else
 		{
+			existingOrder=false;
 			if(user instanceof Customer) {
 				//order=new Order(((Customer)user).getCustomerID());
-				//HAVE TO GET ORDERID AFTER FIRST INSERT
 				try {
 					fac.order.getLastAutoIncrenment();
 				} catch (IOException e) {

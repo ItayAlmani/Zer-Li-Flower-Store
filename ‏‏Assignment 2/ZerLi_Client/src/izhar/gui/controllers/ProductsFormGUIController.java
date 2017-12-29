@@ -1,6 +1,7 @@
 package izhar.gui.controllers;
 
 import java.io.IOException;
+import java.math.BigInteger;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -94,7 +95,7 @@ public class ProductsFormGUIController extends ParentGUIController{
 	
 	public void loadProduct(Product p) {
 		this.p=p;
-		Integer id = p.getPrdID();
+		BigInteger id = p.getPrdID();
 		this.lblShowID.setText(id.toString());
 		this.lblShowType.setText(p.getType().toString());
 		this.txtShowName.setText(p.getName());

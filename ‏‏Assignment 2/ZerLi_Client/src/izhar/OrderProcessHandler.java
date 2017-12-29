@@ -25,9 +25,11 @@ public class OrderProcessHandler extends ParentController implements IOrderProce
 			else if(order.getDeliveryType().equals(DeliveryType.Shipment))
 				f.shipment.addShipment((ShipmentDetails) order.getDelivery());
 			f.transaction.addTransaction(order.getTransaction());
-			for (ProductInOrder p : order.getProducts())
-				f.prodInOrder.addPIO(p);
-			f.order.addOrder(order);
+			if (Context.existingOrder==false)
+				f.order.addOrder(order);
+			else
+				f.order.updateOrder(order);
+			Context.askOrder();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

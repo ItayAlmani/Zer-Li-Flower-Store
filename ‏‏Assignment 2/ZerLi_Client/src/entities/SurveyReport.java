@@ -1,11 +1,12 @@
 package entities;
 
+import java.math.BigInteger;
 import java.util.Date;
 
 public class SurveyReport {
 
-	private int surveyReportID;
-	private int storeID;
+	private BigInteger surveyReportID;
+	private BigInteger storeID;
 	private Survey surveyAnalyzes;
 	private String verbalReport;
 	private Date date;

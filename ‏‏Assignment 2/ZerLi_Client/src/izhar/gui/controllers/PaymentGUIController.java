@@ -66,7 +66,8 @@ public class PaymentGUIController extends ParentGUIController {
 						e.printStackTrace();
 					}
 				}
-				boolean billResponse = Context.fac.customer.billCreditCardOfCustomer(Context.getUserAsCustomer(), Context.order.getFinalPrice());
+				boolean billResponse = true;
+						/*Context.fac.customer.billCreditCardOfCustomer(Context.getUserAsCustomer(), Context.order.getFinalPrice())*/;
 				((Text)piBill.lookup(".percentage")).setText(billResponse==true?"Confirmed":"Denied");
 				Platform.runLater(new Runnable() {
 					@Override
@@ -107,6 +108,8 @@ public class PaymentGUIController extends ParentGUIController {
 			ord.setOrderStatus(OrderStatus.WaitingForCashPayment);
 		if(txtGreeting.getText().isEmpty()==false)
 			ord.setGreeting(txtGreeting.getText());
+		else
+			ord.setGreeting("");
 		Context.fac.orderProcess.updateFinilizeOrder(ord);
 	}
 

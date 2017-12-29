@@ -1,11 +1,11 @@
 package entities;
 
+import java.math.BigInteger;
 import java.time.LocalDate;
-import java.util.Date;
 
 public class Survey {
 
-	private int surveyID;
+	private BigInteger surveyID;
 	private int[] surveyAnswerers;
 	private LocalDate date;
 	private Store store;
@@ -54,11 +54,11 @@ public class Survey {
 		this.store = store;
 	}
 
-	public int getSurveyID() {
+	public BigInteger getSurveyID() {
 		return surveyID;
 	}
 
-	public void setSurveyID(int surveyID) {
+	public void setSurveyID(BigInteger surveyID) {
 		this.surveyID = surveyID;
 	}
 

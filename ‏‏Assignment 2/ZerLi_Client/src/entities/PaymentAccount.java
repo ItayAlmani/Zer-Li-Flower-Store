@@ -1,8 +1,11 @@
 package entities;
+
+import java.math.BigInteger;
+
 public class PaymentAccount {
 
-	private int paID;
-	private int customerID;
+	private BigInteger paID;
+	private BigInteger customerID;
 	private float refundAmount = 0;
 	private CreditCard creditCard;
 	private Subscription sub;
@@ -12,7 +15,7 @@ public class PaymentAccount {
 		NonSubscribed
 	}*/
 
-	public PaymentAccount(int paID) {
+	public PaymentAccount(BigInteger paID) {
 		super();
 		this.paID = paID;
 	}

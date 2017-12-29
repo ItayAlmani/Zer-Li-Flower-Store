@@ -1,24 +1,22 @@
 package entities;
 
+import java.math.BigInteger;
+
 public class Customer extends User {
-	private int customerID;
+	private BigInteger customerID;
 	private PaymentAccount paymentAccount;
 	
-	public Customer(User user, int customerID, PaymentAccount paymentAccount) {
+	public Customer(User user, BigInteger customerID, PaymentAccount paymentAccount) {
 		super(user);
 		this.customerID = customerID;
 	}
 	
-	public Customer(String firstName, String lastName, String userName, String password, UserType permissions,
-			int customerID) {
-		super(firstName, lastName, userName, password, permissions);
+	public Customer(String privateID, String firstName, String lastName, String userName, String password, UserType permissions,
+			BigInteger customerID) {
+		super(privateID, firstName, lastName, userName, password, permissions);
 		this.customerID = customerID;
 	}
-
-	public Customer(String firstName, String lastName, String userName, String password, UserType permissions) {
-		super(firstName, lastName, userName, password, permissions);
-		// TODO Auto-generated constructor stub
-	}
+	
 	
 	public void setUser(User user) {
 		setUserID(user.getUserID());
@@ -29,11 +27,17 @@ public class Customer extends User {
 		setPermissions(user.getPermissions());
 	}
 
-	public int getCustomerID() {
+	public Customer(BigInteger customerID, String privateID, String firstName, String lastName, String userName, String password,
+			UserType permissions) {
+		super(privateID, firstName, lastName, userName, password, permissions);
+		this.customerID=customerID;
+	}
+
+	public BigInteger getCustomerID() {
 		return customerID;
 	}
 
-	public void setCustomerID(int customerID) {
+	public void setCustomerID(BigInteger customerID) {
 		this.customerID = customerID;
 	}
 

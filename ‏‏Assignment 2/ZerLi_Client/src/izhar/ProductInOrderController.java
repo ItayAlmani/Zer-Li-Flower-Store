@@ -35,8 +35,8 @@ public class ProductInOrderController extends ParentController implements IProdu
 		ArrayList<ProductInOrder> prds = new ArrayList<>();
 		for (int i = 0; i < obj.size(); i += 11) {
 			try {
-				prds.add(parse((int)obj.get(i),
-						(Context.fac.product.parse((int) obj.get(i+1), 
+				prds.add(parse(BigInteger.valueOf(Long.valueOf((int)obj.get(i))),
+						(Context.fac.product.parse(BigInteger.valueOf(Long.valueOf((int) obj.get(i+1))), 
 						(String) obj.get(i + 2), 
 						(String) obj.get(i + 3),
 						(float) obj.get(i + 4),
@@ -56,7 +56,7 @@ public class ProductInOrderController extends ParentController implements IProdu
 	}
 	
 	@Override
-	public ProductInOrder parse(int id, Product prod, BigInteger orderID, int quantity, float finalPrice) {
+	public ProductInOrder parse(BigInteger id, Product prod, BigInteger orderID, int quantity, float finalPrice) {
 		return new ProductInOrder(id, prod,orderID,quantity,finalPrice);
 	}
 	

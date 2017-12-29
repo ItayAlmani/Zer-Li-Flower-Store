@@ -3,14 +3,21 @@ package kfir;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Random;
 
 import common.Context;
-import entities.*;
+import entities.CSMessage;
 import entities.CSMessage.MessageType;
+import entities.CreditCard;
+import entities.Customer;
+import entities.Order;
 import entities.Order.Refund;
+import entities.PaymentAccount;
+import entities.Subscription;
 import entities.Subscription.SubscriptionType;
+import entities.User;
 import kfir.interfaces.ICustomer;
 
 public class CustomerController extends UserController implements ICustomer {
@@ -36,11 +43,11 @@ public class CustomerController extends UserController implements ICustomer {
 	}
 
 
-	public void getCustomer(int customerID) {
+	public void getCustomer(BigInteger customerID) {
 		
 	}
 	
-	public void getCustomerByUser(int userID) {
+	public void getCustomerByUser(BigInteger userID) {
 		myMsgArr.clear();
 		myMsgArr.add("SELECT *" + 
 				" FROM customer" + 
@@ -92,15 +99,15 @@ public class CustomerController extends UserController implements ICustomer {
 		ArrayList<Customer> customers = new ArrayList<>();
 		for (int i = 0; i < obj.size(); i += 3)
 			customers.add(parse(
-					(int) obj.get(i), 
-					new User((int) obj.get(i+1)),
-					new PaymentAccount((int) obj.get(i+2))
+					BigInteger.valueOf(Long.valueOf((int) obj.get(i))), 
+					new User(BigInteger.valueOf(Long.valueOf((int) obj.get(i+1)))),
+					new PaymentAccount(BigInteger.valueOf(Long.valueOf((int) obj.get(i+2))))
 					));
 		sendCustomers(customers);
 	}
 
 	@Override
-	public Customer parse(int customerID, User user, PaymentAccount pa) {
+	public Customer parse(BigInteger customerID, User user, PaymentAccount pa) {
 		return new Customer(user, customerID, pa);
 	}
 
@@ -133,4 +140,6 @@ public class CustomerController extends UserController implements ICustomer {
 		// TODO Auto-generated method stub
 		
 	}
+
+
 }

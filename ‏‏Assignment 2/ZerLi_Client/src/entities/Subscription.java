@@ -1,5 +1,6 @@
 package entities;
 
+import java.math.BigInteger;
 import java.util.Date;
 
 public class Subscription {
@@ -8,8 +9,8 @@ public class Subscription {
 		Monthly, Yearly
 	}
 	
-	private int subID;
-	private int paID;
+	private BigInteger subID;
+	private BigInteger paID;
 	private SubscriptionType subType;
 	private Date subDate;
 

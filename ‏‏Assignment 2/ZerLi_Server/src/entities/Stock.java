@@ -1,12 +1,14 @@
 package entities;
 
+import java.math.BigInteger;
+
 public class Stock {
-	private int id;
+	private BigInteger id;
 	private Product product;
 	private int quantity;
 	private int storeID;
 	
-	public Stock(int id, Product product, int quantity, int storeID) {
+	public Stock(BigInteger id, Product product, int quantity, int storeID) {
 		super();
 		this.id=id;
 		this.product = product;
@@ -37,11 +39,11 @@ public class Stock {
 		this.quantity = quantity;
 	}
 
-	public int getId() {
+	public BigInteger getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(BigInteger id) {
 		this.id = id;
 	}
 

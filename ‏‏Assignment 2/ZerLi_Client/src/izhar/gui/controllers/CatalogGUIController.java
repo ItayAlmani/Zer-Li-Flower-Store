@@ -1,6 +1,7 @@
 package izhar.gui.controllers;
 
 import java.io.IOException;
+import java.math.BigInteger;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -176,8 +177,6 @@ public class CatalogGUIController extends ParentGUIController {
 		};
     }
 
-    
-    
     private GridPane setGridPane(int i, Product p) {
     	grids[i] = new GridPane();
 		/*grids[i].setBorder(new Border(new BorderStroke(Color.BLACK, 
@@ -189,7 +188,7 @@ public class CatalogGUIController extends ParentGUIController {
 		
 		lblTitleID[i]=new Label("ID: "); 
 		setComponent(lblTitleID[i] ,0, i+1, i);
-		lblShowID[i] = new Label(((Integer)p.getPrdID()).toString());
+		lblShowID[i] = new Label(p.getPrdID().toString());
 		setComponent(lblShowID[i],1, i+1, i);
 		
 		lblTitleName[i]=new Label("Name: ");

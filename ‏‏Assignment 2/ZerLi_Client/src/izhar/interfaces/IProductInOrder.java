@@ -12,7 +12,7 @@ public interface IProductInOrder {
 	
 	void updatePIO(ProductInOrder p) throws IOException;
 	void handleGet(ArrayList<Object> obj);
-	ProductInOrder parse(int id, Product prod, BigInteger orderID, int quantity, float finalPrice);
+	ProductInOrder parse(BigInteger id, Product prod, BigInteger orderID, int quantity, float finalPrice);
 	void sendPIOs(ArrayList<ProductInOrder> prds);
 	void addPIO(ProductInOrder p) throws IOException;
 	void getPIOsByOrder(BigInteger orderID) throws IOException;

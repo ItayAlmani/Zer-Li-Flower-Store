@@ -44,7 +44,7 @@ public class ShipmentDetails extends DeliveryDetails {
 		this.phoneNumber = phoneNumber;
 	}
 
-	public ShipmentDetails(int deliveryID, BigInteger orderID, Date date, boolean isImmediate, Store store, 
+	public ShipmentDetails(BigInteger deliveryID, BigInteger orderID, Date date, boolean isImmediate, Store store, 
 			String[] address, String customerName, String phoneNumber) {
 		super(deliveryID, orderID, date, isImmediate, store);
 		this.street = address[0];

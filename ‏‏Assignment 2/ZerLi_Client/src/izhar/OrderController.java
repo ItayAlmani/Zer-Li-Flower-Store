@@ -51,7 +51,7 @@ public class OrderController extends ParentController implements IOrder {
 						+ order.getOrderID() + "', '"
 						+ order.getDelivery().getDeliveryID() + "', '"
 						+ order.getType().toString() + "', '"
-						+ order.getTransaction().getTansID() + "', '" 
+						+ order.getTransaction().getTransID() + "', '" 
 						+ order.getGreeting() + "', '"
 						+ order.getDeliveryType().toString() + "', '" 
 						+ order.getOrderStatus().toString() + "', '"
@@ -65,11 +65,11 @@ public class OrderController extends ParentController implements IOrder {
 		for (int i = 0; i < obj.size(); i += 10) {
 			ords.add(parse(
 					BigInteger.valueOf(Long.valueOf((int)obj.get(i))) , 
-					(int) obj.get(i + 1), 
-					(int) obj.get(i + 2), 
-					(int) obj.get(i + 3),
+					BigInteger.valueOf(Long.valueOf((int) obj.get(i + 1))), 
+					BigInteger.valueOf(Long.valueOf((int)obj.get(i + 2))), 
+					BigInteger.valueOf(Long.valueOf((int) obj.get(i + 3))),
 					(String) obj.get(i + 4), 
-					(int) obj.get(i + 5),
+					BigInteger.valueOf(Long.valueOf((int) obj.get(i + 5))),
 					(String) obj.get(i + 6),
 					(String) obj.get(i + 7),
 					(String) obj.get(i + 8),
@@ -104,7 +104,7 @@ public class OrderController extends ParentController implements IOrder {
 		myMsgArr.clear();
 		myMsgArr.add("UPDATE orders " + "SET " + "customerID = '" + order.getCustomerID() + "',cartID = '"
 				+ order.getOrderID() + "',deliveryID = '" + order.getDelivery().getDeliveryID() + "',type = '"
-				+ order.getType().toString() + "',transactionID = '" + order.getTransaction().getTansID() + "',greeting = '"
+				+ order.getType().toString() + "',transactionID = '" + order.getTransaction().getTransID() + "',greeting = '"
 				+ order.getGreeting() + "',deliveryType = '" + order.getDeliveryType().toString() + "',status='"
 				+ order.getOrderStatus().toString() + "',date = '" + new Date(order.getDate().getTime())
 				+ "' WHERE orderID='" + order.getOrderID() + "'");
@@ -162,7 +162,7 @@ public class OrderController extends ParentController implements IOrder {
 	}
 
 	@Override
-	public Order parse(BigInteger orderID, int customerID, int cartID, int deliveryID, String type, int transactionID,
+	public Order parse(BigInteger orderID, BigInteger customerID, BigInteger cartID, BigInteger deliveryID, String type, BigInteger transactionID,
 			String greeting, String deliveryType, String orderStatus, java.util.Date date) {
 		return new Order(orderID,
 				customerID,
@@ -204,7 +204,7 @@ public class OrderController extends ParentController implements IOrder {
 	}
 	
 	@Override
-	public void getOrderInProcess(int customerID) throws IOException {
+	public void getOrderInProcess(BigInteger customerID) throws IOException {
 		myMsgArr.clear();
 		myMsgArr.add("SELECT * FROM orders WHERE customerID='"+	customerID+"' AND status='InProcess';");
 		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.SELECT, myMsgArr, Order.class));
@@ -222,14 +222,14 @@ public class OrderController extends ParentController implements IOrder {
 	}
 
 	@Override
-	public void getOrdersWaitingForPaymentByCustomerID(int customerID) throws IOException {
+	public void getOrdersWaitingForPaymentByCustomerID(BigInteger customerID) throws IOException {
 		myMsgArr.clear();
 		myMsgArr.add("SELECT * FROM orders WHERE customerID='"+	customerID+"' AND status='WaitingForCashPayment'");
 		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.SELECT, myMsgArr, Order.class));
 	}
 	
 	@Override
-	public void getOrdersByCustomerID(int customerID) throws IOException {
+	public void getOrdersByCustomerID(BigInteger customerID) throws IOException {
 		myMsgArr.clear();
 		myMsgArr.add("SELECT * FROM orders WHERE customerID='"+	customerID+"'");
 		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.SELECT, myMsgArr, Order.class));

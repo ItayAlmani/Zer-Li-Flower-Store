@@ -2,6 +2,7 @@ package izhar.interfaces;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.math.BigInteger;
 import java.util.ArrayList;
 
 import entities.Product;
@@ -32,5 +33,5 @@ public interface IProduct extends IParent {
 	
 	public void getProductsInCatalog() throws IOException;
 	
-	Product parse(int prdID, String name, String type, float price, String color, boolean inCatalog, String imageURL) throws FileNotFoundException;
+	Product parse(BigInteger prdID, String name, String type, float price, String color, boolean inCatalog, String imageURL) throws FileNotFoundException;
 }

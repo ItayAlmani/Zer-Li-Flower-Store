@@ -50,7 +50,7 @@ public class UpdateOrderStatusGUIController extends ParentGUIController {
 		}*/
 		
 		//TEST -TAKE DOWN
-		Customer cust = new Customer(1,"314785270", 
+		Customer cust = new Customer(BigInteger.ONE,"314785270", 
 				"Izhar", "Ananiev", "izharAn", "1234", UserType.Customer);
 		ArrayList<Customer> customers = new ArrayList<>();
 		customers.add(cust);

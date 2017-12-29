@@ -3,7 +3,7 @@ package entities;
 import java.math.BigInteger;
 
 public class ProductInOrder {
-	private int id;
+	private BigInteger id;
 	private Product product;
 	private int quantity;
 	private BigInteger orderID;
@@ -16,14 +16,14 @@ public class ProductInOrder {
 		setFinalPrice();
 	}
 
-	public ProductInOrder(int id,Product product, BigInteger orderID, int quantity) {
+	public ProductInOrder(BigInteger id,Product product, BigInteger orderID, int quantity) {
 		this.product = product;
 		this.quantity = quantity;
 		this.orderID=orderID;
 		setFinalPrice();
 	}
 	
-	public ProductInOrder(int id,Product product, BigInteger orderID, int quantity, float finalPrice) {
+	public ProductInOrder(BigInteger id,Product product, BigInteger orderID, int quantity, float finalPrice) {
 		this.product = product;
 		this.quantity = quantity;
 		this.finalPrice = finalPrice;
@@ -73,11 +73,11 @@ public class ProductInOrder {
 		this.quantity = quantity;
 	}
 
-	public int getId() {
+	public BigInteger getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(BigInteger id) {
 		this.id = id;
 	}
 }

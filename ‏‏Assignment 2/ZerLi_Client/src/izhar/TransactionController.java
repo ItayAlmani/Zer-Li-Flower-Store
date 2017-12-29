@@ -1,6 +1,7 @@
 package izhar;
 
 import java.io.IOException;
+import java.math.BigInteger;
 import java.util.ArrayList;
 
 import common.Context;
@@ -47,7 +48,7 @@ public class TransactionController extends ParentController implements ITransact
 	}
 
 	@Override
-	public Transaction parse(int tansID, String paymentMethod, int orderID) {
+	public Transaction parse(BigInteger tansID, String paymentMethod, BigInteger orderID) {
 		return new Transaction(tansID, PayMethod.valueOf(paymentMethod), new Order(orderID));
 		
 	}

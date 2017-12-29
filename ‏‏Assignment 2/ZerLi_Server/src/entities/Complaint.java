@@ -1,10 +1,11 @@
 package entities;
 
+import java.math.BigInteger;
 import java.util.Date;
 
 public class Complaint {
 
-	private int complaintID;
+	private BigInteger complaintID;
 	private String complaintReason;
 	private String customerID;
 	private Date date;

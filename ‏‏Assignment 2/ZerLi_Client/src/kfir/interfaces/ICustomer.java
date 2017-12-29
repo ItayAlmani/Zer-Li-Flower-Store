@@ -1,6 +1,7 @@
 package kfir.interfaces;
 
 import java.io.IOException;
+import java.math.BigInteger;
 import java.util.ArrayList;
 
 import entities.CreditCard;
@@ -12,7 +13,6 @@ import entities.User;
 import entities.Order.Refund;
 import entities.Subscription.SubscriptionType;
 import interfaces.IParent;
-import kfir.IO;
 
 public interface ICustomer extends IParent {
 
@@ -45,9 +45,9 @@ public interface ICustomer extends IParent {
 	 * 
 	 * @param customerID
 	 */
-	void getCustomer(int customerID);
+	void getCustomer(BigInteger customerID);
 
-	void getCustomerByUser(int userID);
+	void getCustomerByUser(BigInteger userID);
 	
 	void getCustomerByPrivateID(String privateID) throws IOException;
 
@@ -90,7 +90,7 @@ public interface ICustomer extends IParent {
 	 */
 	void updateRefundAccount(String customerID, String refundAmount);
 
-	Customer parse(int customerID, User user, PaymentAccount pa);
+	Customer parse(BigInteger customerID, User user, PaymentAccount pa);
 	
 	void sendCustomers(ArrayList<Customer> customers);
 }

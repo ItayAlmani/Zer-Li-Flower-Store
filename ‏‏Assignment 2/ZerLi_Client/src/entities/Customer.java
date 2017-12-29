@@ -1,16 +1,18 @@
 package entities;
 
+import java.math.BigInteger;
+
 public class Customer extends User {
-	private int customerID;
+	private BigInteger customerID;
 	private PaymentAccount paymentAccount;
 	
-	public Customer(User user, int customerID, PaymentAccount paymentAccount) {
+	public Customer(User user, BigInteger customerID, PaymentAccount paymentAccount) {
 		super(user);
 		this.customerID = customerID;
 	}
 	
 	public Customer(String privateID, String firstName, String lastName, String userName, String password, UserType permissions,
-			int customerID) {
+			BigInteger customerID) {
 		super(privateID, firstName, lastName, userName, password, permissions);
 		this.customerID = customerID;
 	}
@@ -25,17 +27,17 @@ public class Customer extends User {
 		setPermissions(user.getPermissions());
 	}
 
-	public Customer(int customerID, String privateID, String firstName, String lastName, String userName, String password,
+	public Customer(BigInteger customerID, String privateID, String firstName, String lastName, String userName, String password,
 			UserType permissions) {
 		super(privateID, firstName, lastName, userName, password, permissions);
 		this.customerID=customerID;
 	}
 
-	public int getCustomerID() {
+	public BigInteger getCustomerID() {
 		return customerID;
 	}
 
-	public void setCustomerID(int customerID) {
+	public void setCustomerID(BigInteger customerID) {
 		this.customerID = customerID;
 	}
 

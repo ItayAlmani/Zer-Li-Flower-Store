@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -37,7 +38,7 @@ public class ProductController extends ParentController implements IProduct {
 		for (int i = 0; i < obj.size(); i += 7)
 			try {
 				prds.add(parse(
-						(int) obj.get(i), 
+						BigInteger.valueOf(Long.valueOf((int) obj.get(i))), 
 						(String) obj.get(i + 1), 
 						(String) obj.get(i + 2),
 						(float) obj.get(i + 3),
@@ -53,7 +54,7 @@ public class ProductController extends ParentController implements IProduct {
 	}
 	
 	@Override
-	public Product parse(int prdID, String name, String type, float price, String color, boolean inCatalog, String imageURL) throws FileNotFoundException {
+	public Product parse(BigInteger prdID, String name, String type, float price, String color, boolean inCatalog, String imageURL) throws FileNotFoundException {
 		return new Product(prdID, name, type,price,color,inCatalog,
 				Context.projectPath+"\\src\\images\\"+imageURL);
 	}

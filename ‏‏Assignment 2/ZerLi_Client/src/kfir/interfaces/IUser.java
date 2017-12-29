@@ -1,6 +1,7 @@
 package kfir.interfaces;
 
 import java.io.IOException;
+import java.math.BigInteger;
 import java.util.ArrayList;
 
 import entities.User;
@@ -36,7 +37,7 @@ public interface IUser extends IParent{
 	 */
 	boolean CheckMemberPermission(User UserDet);
 	
-	User parse(int userID, String privateID, String firstName,
+	User parse(BigInteger userID, String privateID, String firstName,
 			String lastName, String userName, String password, 
 			String permissions, boolean isConnected);
 

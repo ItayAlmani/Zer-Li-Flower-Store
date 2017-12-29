@@ -58,7 +58,7 @@ public interface IOrder extends IParent  {
 	 */
 	public void sendOrders(ArrayList<Order> orders);
 
-	public void getOrdersWaitingForPaymentByCustomerID(int customerID) throws IOException;
+	public void getOrdersWaitingForPaymentByCustomerID(BigInteger customerID) throws IOException;
 	
 	
 	/**
@@ -82,9 +82,8 @@ public interface IOrder extends IParent  {
 	 * @param date			-	the order's date
 	 * @return new object created by the data above
 	 */
-	Order parse(BigInteger orderID, int customerID, int cartID, int deliveryID, String type,
-			int transactionID, String greeting, String deliveryType, 
-			String orderStatus, Date date);
+	Order parse(BigInteger orderID, BigInteger customerID, BigInteger cartID, BigInteger deliveryID, String type, BigInteger transactionID,
+			String greeting, String deliveryType, String orderStatus, Date date);
 	
 	/**
 	 * asks from server an Order with orderid=<code>orderID</code>
@@ -98,9 +97,9 @@ public interface IOrder extends IParent  {
 	
 	void updateFinalPriceByPAT(PaymentAccount pa);
 	
-	void getOrderInProcess(int customerID) throws IOException;
+	void getOrderInProcess(BigInteger customerID) throws IOException;
 
 	void getLastAutoIncrenment() throws IOException;
 
-	void getOrdersByCustomerID(int customerID) throws IOException;
+	void getOrdersByCustomerID(BigInteger customerID) throws IOException;
 }

@@ -1,20 +1,22 @@
 package entities;
 
+import java.math.BigInteger;
+
 public class StoreWorker extends User {
-	private int storeWorkerID;
+	private BigInteger storeWorkerID;
 	private Store store;
 	
-	public StoreWorker(String firstName, String lastName, String userName, String password, UserType permissions) {
-		super(firstName, lastName, userName, password, permissions);
+	public StoreWorker(String privateID, String firstName, String lastName, String userName, String password, UserType permissions) {
+		super(privateID,firstName, lastName, userName, password, permissions);
 		// TODO Auto-generated constructor stub
 	}
 	
-	public StoreWorker(int userID,int storeWorkerID) {
+	public StoreWorker(int userID,BigInteger storeWorkerID) {
 		super(userID);
 		this.storeWorkerID=storeWorkerID;
 	}
 	
-	public StoreWorker(int userID,int storeWorkerID, Store store) {
+	public StoreWorker(int userID,BigInteger storeWorkerID, Store store) {
 		super(userID);
 		this.storeWorkerID=storeWorkerID;
 		this.store=store;
@@ -28,11 +30,11 @@ public class StoreWorker extends User {
 		this.store = store;
 	}
 
-	public int getStoreWorkerID() {
+	public BigInteger getStoreWorkerID() {
 		return storeWorkerID;
 	}
 
-	public void setStoreWorkerID(int storeWorkerID) {
+	public void setStoreWorkerID(BigInteger storeWorkerID) {
 		this.storeWorkerID = storeWorkerID;
 	}
 

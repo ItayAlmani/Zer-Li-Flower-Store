@@ -2,6 +2,7 @@ package izhar.interfaces;
 
 
 import java.io.IOException;
+import java.math.BigInteger;
 import java.util.ArrayList;
 
 import entities.Transaction;
@@ -18,5 +19,5 @@ public interface ITransaction extends IParent {
 	
 	void sendTransactions(ArrayList<Transaction> transactions);
 	
-	Transaction parse(int tansID, String paymentMethod, int orderID);
+	Transaction parse(BigInteger tansID, String paymentMethod, BigInteger orderID);
 }

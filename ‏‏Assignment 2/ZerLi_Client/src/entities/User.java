@@ -1,5 +1,7 @@
 package entities;
 
+import java.math.BigInteger;
+
 public class User {
 	
 	public enum UserType {
@@ -18,7 +20,7 @@ public class User {
 		LoggedOut
 	}
 	
-	private int userID;
+	private BigInteger userID;
 	private String privateID;
 	private String firstName;
 	private String lastName;
@@ -29,7 +31,7 @@ public class User {
 	
 	
 	
-	public User(int userID) {
+	public User(BigInteger userID) {
 		super();
 		this.userID = userID;
 	}
@@ -51,7 +53,7 @@ public class User {
 		this.permissions = permissions;
 	}
 
-	public User(int userID, String privateID, String firstName, String lastName, String userName, String password,
+	public User(BigInteger userID, String privateID, String firstName, String lastName, String userName, String password,
 			UserType permissions, boolean isConnected) {
 		super();
 		this.userID = userID;
@@ -116,11 +118,11 @@ public class User {
 		return privateID;
 	}
 
-	public int getUserID() {
+	public BigInteger getUserID() {
 		return userID;
 	}
 
-	public void setUserID(int userID) {
+	public void setUserID(BigInteger userID) {
 		this.userID = userID;
 	}
 

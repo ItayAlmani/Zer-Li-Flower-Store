@@ -1,5 +1,6 @@
 package entities;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 
 public class Store {
@@ -9,23 +10,24 @@ public class Store {
 		OrdersOnly
 	}
 	
-	private int storeID;
+	private BigInteger storeID;
 	private String name;
 	private ArrayList<Stock> stock;
 	private StoreType type;
 	private StoreWorker manager;
-	public int getStoreID() {
+	
+	public BigInteger getStoreID() {
 		return storeID;
 	}
 	
 	
-	public Store(int storeID) {
+	public Store(BigInteger storeID) {
 		super();
 		this.storeID = storeID;
 	}
 
 
-	public Store(int storeID, String name, StoreType type, StoreWorker manager) {
+	public Store(BigInteger storeID, String name, StoreType type, StoreWorker manager) {
 		super();
 		this.storeID = storeID;
 		this.name = name;
@@ -34,7 +36,7 @@ public class Store {
 	}
 
 
-	public void setStoreID(int storeID) {
+	public void setStoreID(BigInteger storeID) {
 		this.storeID = storeID;
 	}
 	public ArrayList<Stock> getStock() {

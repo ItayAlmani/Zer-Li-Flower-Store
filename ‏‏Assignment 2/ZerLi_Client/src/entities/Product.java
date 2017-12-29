@@ -2,12 +2,12 @@ package entities;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.math.BigInteger;
 
-import entities.Product.ProductType;
 import javafx.scene.image.Image;
 
 public class Product{ 
-	private int prdID;
+	private BigInteger prdID;
 	private String name;
 	private ProductType type;
 	private float price;
@@ -25,20 +25,20 @@ public class Product{
 	
 	public Product() {}
 	
-	public Product(int prdID, String name) {
+	public Product(BigInteger prdID, String name) {
 		super();
 		this.prdID = prdID;
 		this.name = name;
 	}
 	
-	public Product(int prdID, String name, ProductType type) {
+	public Product(BigInteger prdID, String name, ProductType type) {
 		super();
 		this.prdID = prdID;
 		this.name = name;
 		this.type = type;
 	}
 
-	public Product(int prdID, String name, ProductType type, float price, Color color, boolean inCatalog) {
+	public Product(BigInteger prdID, String name, ProductType type, float price, Color color, boolean inCatalog) {
 		super();
 		this.prdID = prdID;
 		this.name = name;
@@ -48,14 +48,14 @@ public class Product{
 		this.inCatalog = inCatalog;
 	}
 	
-	public Product(int prdID, String name, String type) {
+	public Product(BigInteger prdID, String name, String type) {
 		super();
 		this.prdID = prdID;
 		this.name = name;
 		this.setType(type);
 	}
 
-	public Product(int prdID, String name, String type, float price, String color, boolean inCatalog) {
+	public Product(BigInteger prdID, String name, String type, float price, String color, boolean inCatalog) {
 		super();
 		this.prdID = prdID;
 		this.name = name;
@@ -65,7 +65,7 @@ public class Product{
 		this.inCatalog = inCatalog;
 	}
 	
-	public Product(int prdID, String name, String type, float price, String color, boolean inCatalog, String image) throws FileNotFoundException {
+	public Product(BigInteger prdID, String name, String type, float price, String color, boolean inCatalog, String image) throws FileNotFoundException {
 		super();
 		this.prdID = prdID;
 		this.name = name;
@@ -76,7 +76,7 @@ public class Product{
 		this.image = new Image(new FileInputStream(image));
 	}
 
-	public int getPrdID() {
+	public BigInteger getPrdID() {
 		return prdID;
 	}
 
@@ -120,7 +120,7 @@ public class Product{
 		}
 	}
 
-	public void setPrdID(int prdID) {
+	public void setPrdID(BigInteger prdID) {
 		this.prdID = prdID;
 	}
 

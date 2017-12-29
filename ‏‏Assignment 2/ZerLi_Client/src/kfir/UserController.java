@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.math.BigInteger;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -26,7 +27,7 @@ public class UserController extends ParentController implements IUser {
 		ArrayList<User> users = new ArrayList<>();
 		for (int i = 0; i < obj.size(); i += 8)
 			users.add(parse(
-					(int) obj.get(i), 
+					BigInteger.valueOf((int) obj.get(i)), 
 					(String) obj.get(i + 1), 
 					(String) obj.get(i + 2),
 					(String) obj.get(i + 3),
@@ -73,7 +74,7 @@ public class UserController extends ParentController implements IUser {
 	}
 
 	@Override
-	public User parse(int userID, String privateID, String firstName,
+	public User parse(BigInteger userID, String privateID, String firstName,
 			String lastName, String userName, String password, 
 			String permissions, boolean isConnected) {
 		return new User(userID, privateID, 

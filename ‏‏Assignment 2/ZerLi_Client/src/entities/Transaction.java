@@ -1,8 +1,10 @@
 package entities;
 
+import java.math.BigInteger;
+
 public class Transaction {
 
-	private int tansID;
+	private BigInteger transID;
 	private PayMethod paymentMethod;
 	private Order order;
 	
@@ -13,9 +15,9 @@ public class Transaction {
 		RefundAndCreditCard
 	}
 
-	public Transaction(int tansID) {
+	public Transaction(BigInteger transID) {
 		super();
-		this.tansID = tansID;
+		this.transID = transID;
 	}
 
 	public Transaction(PayMethod paymentMethod, Order order) {
@@ -23,9 +25,9 @@ public class Transaction {
 		this.order = order;
 	}
 	
-	public Transaction(int tansID, PayMethod paymentMethod, Order order) {
+	public Transaction(BigInteger transID, PayMethod paymentMethod, Order order) {
 		super();
-		this.tansID = tansID;
+		this.transID = transID;
 		this.paymentMethod = paymentMethod;
 		this.order = order;
 	}
@@ -48,12 +50,12 @@ public class Transaction {
 		this.order = order;
 	}
 
-	public int getTansID() {
-		return tansID;
+	public BigInteger getTransID() {
+		return transID;
 	}
 
-	public void setTansID(int tansID) {
-		this.tansID = tansID;
+	public void setTansID(BigInteger transID) {
+		this.transID = transID;
 	}
 	
 	

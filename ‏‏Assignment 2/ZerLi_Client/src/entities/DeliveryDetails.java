@@ -4,13 +4,13 @@ import java.math.BigInteger;
 import java.util.Date;
 
 public class DeliveryDetails {	
-	private int deliveryID;
+	private BigInteger deliveryID;
 	private BigInteger orderID;
 	protected Date date;
 	private boolean isImmediate = true;
 	private Store store;
 
-	public DeliveryDetails(int deliveryID) {
+	public DeliveryDetails(BigInteger deliveryID) {
 		super();
 		this.deliveryID = deliveryID;
 	}
@@ -37,7 +37,7 @@ public class DeliveryDetails {
 		this.store = store;
 	}
 	
-	public DeliveryDetails(int deliveryID, BigInteger orderID, Date date, boolean isImmediate, Store store) {
+	public DeliveryDetails(BigInteger deliveryID, BigInteger orderID, Date date, boolean isImmediate, Store store) {
 		super();
 		this.deliveryID = deliveryID;
 		this.orderID = orderID;
@@ -68,11 +68,11 @@ public class DeliveryDetails {
 		this.store = store;
 	}
 
-	public int getDeliveryID() {
+	public BigInteger getDeliveryID() {
 		return deliveryID;
 	}
 
-	public void setDeliveryID(int deliveryID) {
+	public void setDeliveryID(BigInteger deliveryID) {
 		this.deliveryID = deliveryID;
 	}
 

@@ -8,7 +8,7 @@ import java.util.Date;
 
 public class Order {
 	private BigInteger orderID;
-	private int customerID;
+	private BigInteger customerID;
 	private DeliveryDetails delivery;
 	private OrderType type;
 	private Transaction transaction;
@@ -25,7 +25,7 @@ public class Order {
 		date = Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant());
 	}
 	
-	public Order(int customerID, ArrayList<ProductInOrder> products) {
+	public Order(BigInteger customerID, ArrayList<ProductInOrder> products) {
 		super();
 		this.customerID = customerID;
 		this.type = OrderType.InfoSystem;
@@ -35,7 +35,7 @@ public class Order {
 
 	public Order(Integer customerID) {
 		this();
-		this.customerID=customerID;
+		this.customerID=BigInteger.valueOf(customerID);
 	}
 
 	public Order(BigInteger orderID) {
@@ -47,7 +47,7 @@ public class Order {
 		return this.orderID;
 	}
 
-	public int getCustomerID() {
+	public BigInteger getCustomerID() {
 		return this.customerID;
 	}
 
@@ -112,7 +112,7 @@ public class Order {
 	}
 
 
-	public Order(BigInteger orderID, int customerID, DeliveryDetails delivery, OrderType type,
+	public Order(BigInteger orderID, BigInteger customerID, DeliveryDetails delivery, OrderType type,
 			Transaction transaction, String greeting, DeliveryType deliveryType, OrderStatus orderStatus, Date date) {
 		super();
 		this.orderID = orderID;
@@ -126,7 +126,7 @@ public class Order {
 		this.date = date;
 	}
 
-	public void setCustomerID(int customerID) {
+	public void setCustomerID(BigInteger customerID) {
 		this.customerID = customerID;
 	}
 	

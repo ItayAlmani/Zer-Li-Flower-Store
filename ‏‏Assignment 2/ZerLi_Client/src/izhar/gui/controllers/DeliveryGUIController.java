@@ -1,6 +1,7 @@
 package izhar.gui.controllers;
 
 import java.io.IOException;
+import java.math.BigInteger;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -204,33 +205,43 @@ public class DeliveryGUIController extends ParentGUIController {
 		stores = new ArrayList<>();
 		Store[] stArr = new Store[4];
 		
-		StoreWorker sw = new StoreWorker(1,3);
+		StoreWorker sw = new StoreWorker(1,BigInteger.valueOf(3));
 		ArrayList<Stock> stock = new ArrayList<>();
-		stock.add(new Stock(1,new Product(1, "Red Anemone Bouquet"),5,1));
-		stArr[0] = addNewStore(1,"Karmiel",StoreType.Physical,sw,stock);
+		stock.add(new Stock(BigInteger.ONE,new Product(BigInteger.ONE,
+				"Red Anemone Bouquet"),5,1));
+		stArr[0] = addNewStore(BigInteger.valueOf(1),"Karmiel",StoreType.Physical,sw,stock);
 		
 		stock = new ArrayList<>();
-		stock.add(new Stock(1,new Product(1, "Red Anemone Bouquet"),5,2));
-		stock.add(new Stock(2,new Product(2, "Lilies Bouquet"),5,2));
-		stock.add(new Stock(3,new Product(3, "Sunflower Bouqute"),5,2));
-		stArr[1] = addNewStore(2,"Migdal HaEmek",StoreType.Physical,sw,stock);
+		stock.add(new Stock(BigInteger.valueOf(1),
+				new Product(BigInteger.valueOf(1), "Red Anemone Bouquet"),5,2));
+		stock.add(new Stock(BigInteger.valueOf(2),
+				new Product(BigInteger.valueOf(2), "Lilies Bouquet"),5,2));
+		stock.add(new Stock(BigInteger.valueOf(3),
+				new Product(BigInteger.valueOf(3), "Sunflower Bouqute"),5,2));
+		stArr[1] = addNewStore(BigInteger.valueOf(2),"Migdal HaEmek",StoreType.Physical,sw,stock);
 		
 		stock = new ArrayList<>();
-		stock.add(new Stock(5,new Product(1, "Red Anemone Bouquet"),5,2));
-		stock.add(new Stock(6,new Product(2, "Lilies Bouquet"),5,2));
-		stock.add(new Stock(7,new Product(3, "Sunflower Bouqute"),1,2));
-		stArr[2] = addNewStore(3,"Orders1",StoreType.OrdersOnly,sw,stock);
+		stock.add(new Stock(BigInteger.valueOf(1),
+				new Product(BigInteger.valueOf(1), "Red Anemone Bouquet"),5,2));
+		stock.add(new Stock(BigInteger.valueOf(2),
+				new Product(BigInteger.valueOf(2), "Lilies Bouquet"),5,2));
+		stock.add(new Stock(BigInteger.valueOf(3),
+				new Product(BigInteger.valueOf(3), "Sunflower Bouqute"),1,2));
+		stArr[2] = addNewStore(BigInteger.valueOf(3),"Orders1",StoreType.OrdersOnly,sw,stock);
 		
 		stock = new ArrayList<>();
-		stock.add(new Stock(5,new Product(1, "Red Anemone Bouquet"),2,2));
-		stock.add(new Stock(6,new Product(2, "Lilies Bouquet"),3,2));
-		stock.add(new Stock(7,new Product(3, "Sunflower Bouqute"),3,2));
-		stArr[3] = addNewStore(4,"Orders2",StoreType.OrdersOnly,sw,stock);
+		stock.add(new Stock(BigInteger.valueOf(1),
+				new Product(BigInteger.valueOf(1), "Red Anemone Bouquet"),2,2));
+		stock.add(new Stock(BigInteger.valueOf(2),
+				new Product(BigInteger.valueOf(2), "Lilies Bouquet"),3,2));
+		stock.add(new Stock(BigInteger.valueOf(3),
+				new Product(BigInteger.valueOf(3), "Sunflower Bouqute"),3,2));
+		stArr[3] = addNewStore(BigInteger.valueOf(4),"Orders2",StoreType.OrdersOnly,sw,stock);
 		
 		setStores(stores);
 	}
 	
-	private Store addNewStore(int id, String name, StoreType type, StoreWorker sw,
+	private Store addNewStore(BigInteger id, String name, StoreType type, StoreWorker sw,
 			ArrayList<Stock> stocks) {
 		Store store = new Store(id,name,type,sw);
 		sw.setStore(store);
