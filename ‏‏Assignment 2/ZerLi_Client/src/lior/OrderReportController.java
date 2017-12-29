@@ -12,17 +12,16 @@ import java.util.Calendar;
 import java.util.Date;
 
 import common.Context;
+import controllers.ParentController;
 import entities.Order;
 import entities.OrderReport;
 import entities.Product;
 import entities.Product.ProductType;
 import entities.ProductInOrder;
-import enums.OrderStatus;
-import enums.OrderType;
 import izhar.OrderController;
 import lior.interfaces.IOrderReportController;
 
-public class OrderReportController implements IOrderReportController {
+public class OrderReportController extends ParentController implements IOrderReportController {
 	private OrderReport oReport = new OrderReport();
 	private Date rDate, startDate;
 

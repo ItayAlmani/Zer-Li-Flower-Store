@@ -3,20 +3,19 @@ package lior.gui.controllers;
 import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.ResourceBundle;
 
 import common.Context;
+import entities.IncomesReport;
 import gui.controllers.ParentGUIController;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
-import javafx.scene.control.Label;
-import javafx.stage.Stage;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 
 public class IncomesReportFormGUIController extends ParentGUIController {
 
@@ -36,13 +35,30 @@ public class IncomesReportFormGUIController extends ParentGUIController {
 	public void initialize(URL location, ResourceBundle resources) {
 		super.initialize(location, resources);
 		Context.currentGUI = this;
-		Date date=new Date();
+		/*Date date=new Date();
 		DateFormat ReqDate = new SimpleDateFormat("dd/MM/yyyy");
-		this.lblEndDate.setText(ReqDate.format(date));
+		//this.lblEndDate.setText("-1");
 		Calendar c = Calendar.getInstance(); 
 		c.setTime(date); 
 		c.add(Calendar.MONTH, -3);
-		lblStartDate.setText(ReqDate.format(c.getTime()));
+		//lblStartDate.setText(ReqDate.format(c.getTime()));
+		this.lblTotIncomeSum.setText(ReqDate.format(c.getTime()));
+		lblTotIncome.setText("sadaad");*/
+	}
+	
+	public void setIncomeReports(ArrayList<IncomesReport> iReports) {
+		if(iReports==null)return;
+		IncomesReport rep = iReports.get(0);
+		DateFormat ReqDate = new SimpleDateFormat("dd/MM/yyyy");
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+			String s=String.valueOf(rep.getTotIncomes());
+			lblEndDate.setText(ReqDate.format(rep.getEnddate()));
+			lblStartDate.setText(ReqDate.format(rep.getStartdate()));
+				//lblTotIncomeSum.setText(s);
+			}
+		});
 	}
 	
 	public void Backtomainmenuhandler (ActionEvent event) throws Exception
