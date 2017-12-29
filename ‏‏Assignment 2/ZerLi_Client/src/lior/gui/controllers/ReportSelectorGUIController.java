@@ -88,7 +88,7 @@ public class ReportSelectorGUIController extends ParentGUIController {
 				//lblMsg.setText("Loader failed");
 				e.printStackTrace();
 			}
-			//Context.fac.orderReport.produceOrderReport(date, 1);
+			Context.fac.incomesReport.ProduceIncomesReport(date, 1);
 		}
 		
 		if(TypeCB.getValue().equals("Client complaimnts histogram"))

@@ -34,13 +34,14 @@ public class Factory {
 	public CustomerController customer = new CustomerController();
 	
 	public OrderReportController orderReport = new OrderReportController();
+	public IncomesReportController incomesReport = new IncomesReportController();
 	/*public AdminController admin = new AdminController();
 	public PaymantAccountController paymentAccount = new PaymantAccountController();
 	public ServiceExpertController serviceExpert = new ServiceExpertController();
 	public StoreManagerController storeManager = new StoreManagerController();
 	
 	public HistogramOfCustomerComplaintsReportController histogramReport = new HistogramOfCustomerComplaintsReportController();
-	public IncomesReportController incomesReport = new IncomesReportController();
+	
 	
 	public SatisfactionReportController satisfactionReport = new SatisfactionReportController();*/
 }
