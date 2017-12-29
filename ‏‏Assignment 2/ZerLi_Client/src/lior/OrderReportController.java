@@ -84,6 +84,8 @@ public class OrderReportController implements IOrderReportController {
 		rDate.setHours(23);
 		rDate.setMinutes(59);
 		rDate.setSeconds(59);
+		this.oReport.setStartdate(this.startDate);
+		this.oReport.setEnddate(this.rDate);
 		for(int i=0;i<orders.size();i++)
 		{
 			if(orders.get(i).getDate().after(rDate)==false&&

@@ -1,12 +1,15 @@
 package entities;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public class OrderReport extends QuarterlyReport {
 
 	private ArrayList<Order> orders = new ArrayList<>();
 	private ArrayList<Integer> counterPerType = new ArrayList<>();
 	private ArrayList<Float> sumPerType = new ArrayList<>();
+	private Date Startdate=new Date();
+	private Date Enddate=new Date();
 
 	public ArrayList<Order> getOrders() {
 		return this.orders;
@@ -42,6 +45,22 @@ public class OrderReport extends QuarterlyReport {
 
 	public void addToSumPerType(Float sum) {
 		this.sumPerType.add(sum);
+	}
+	
+	public Date getStartdate() {
+		return Startdate;
+	}
+
+	public void setStartdate(Date startdate) {
+		Startdate = startdate;
+	}
+
+	public Date getEnddate() {
+		return Enddate;
+	}
+
+	public void setEnddate(Date enddate) {
+		Enddate = enddate;
 	}
 
 }

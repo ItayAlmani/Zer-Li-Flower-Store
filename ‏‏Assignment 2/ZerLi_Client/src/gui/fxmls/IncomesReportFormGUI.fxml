@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="400.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lior.gui.controllers.IncomesReportFormGUIController">
+   <children>
+      <Label fx:id="lbltitle" layoutX="100.0" layoutY="29.0" text="Total Incomes Report" AnchorPane.topAnchor="29.0">
+         <font>
+            <Font name="David Bold" size="24.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblFrom" layoutX="72.0" layoutY="82.0" text="From" />
+      <Label fx:id="lblStartDate" layoutX="121.0" layoutY="82.0" text="lblStartDate" />
+      <Label fx:id="lblTo" layoutX="200.0" layoutY="82.0" text="To" />
+      <Label fx:id="lblEndDate" layoutX="259.0" layoutY="82.0" text="lblEndDate" />
+      <Label fx:id="lblStore" layoutX="72.0" layoutY="139.0" text="Store" />
+      <Label fx:id="lblStoreName" layoutX="156.0" layoutY="139.0" text="lblStoreName" />
+      <Label fx:id="lblTotIncome" layoutX="72.0" layoutY="192.0" text="Total Incomes" />
+      <Label fx:id="lblTotIncomeSum" layoutX="193.0" layoutY="192.0" text="lblTotIncomeSum" />
+      <Label fx:id="lblMsg" blendMode="SCREEN" layoutX="72.0" layoutY="363.0" text="lblMsg" />
+      <Button fx:id="btBackToMainMenu" layoutX="297.0" layoutY="276.0" mnemonicParsing="false" onAction="#Backtomainmenuhandler" text="Back" />
+   </children>
+</AnchorPane>
