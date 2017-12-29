@@ -35,15 +35,16 @@ public class IncomesReportFormGUIController extends ParentGUIController {
 	public void initialize(URL location, ResourceBundle resources) {
 		super.initialize(location, resources);
 		Context.currentGUI = this;
-		/*Date date=new Date();
+		Date date=new Date();
 		DateFormat ReqDate = new SimpleDateFormat("dd/MM/yyyy");
-		//this.lblEndDate.setText("-1");
+		lblEndDate.setText("-1");
 		Calendar c = Calendar.getInstance(); 
 		c.setTime(date); 
 		c.add(Calendar.MONTH, -3);
-		//lblStartDate.setText(ReqDate.format(c.getTime()));
-		this.lblTotIncomeSum.setText(ReqDate.format(c.getTime()));
-		lblTotIncome.setText("sadaad");*/
+		lblStartDate=new Label("-1"/*ReqDate.format(c.getTime())*/);
+		//lblStartDate.setText();
+		lblTotIncomeSum.setText(ReqDate.format(c.getTime()));
+		lblTotIncome.setText("sadaad");
 	}
 	
 	public void setIncomeReports(ArrayList<IncomesReport> iReports) {
@@ -56,7 +57,7 @@ public class IncomesReportFormGUIController extends ParentGUIController {
 			String s=String.valueOf(rep.getTotIncomes());
 			lblEndDate.setText(ReqDate.format(rep.getEnddate()));
 			lblStartDate.setText(ReqDate.format(rep.getStartdate()));
-				//lblTotIncomeSum.setText(s);
+			lblTotIncomeSum.setText(s);
 			}
 		});
 	}

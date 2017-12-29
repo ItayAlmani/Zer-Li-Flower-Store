@@ -14,7 +14,7 @@
          </font>
       </Label>
       <Label fx:id="lblFrom" layoutX="72.0" layoutY="82.0" text="From" />
-      <Label fx:id="lblStartDate" layoutX="121.0" layoutY="82.0" text="lblStartDate" />
+      <Label fx:id="lblStartDate" layoutX="121.0" layoutY="82.0" text="123" />
       <Label fx:id="lblTo" layoutX="200.0" layoutY="82.0" text="To" />
       <Label fx:id="lblEndDate" layoutX="259.0" layoutY="82.0" text="lblEndDate" />
       <Label fx:id="lblStore" layoutX="72.0" layoutY="139.0" text="Store" />

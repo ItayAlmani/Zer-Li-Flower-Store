@@ -27,14 +27,6 @@ public class ReportSelectorGUIController extends ParentGUIController {
 	private @FXML ComboBox<Integer> DayCB;
 	private @FXML ComboBox<Integer> MonthCB;
 	public @FXML ComboBox<Integer> YearCB;
-	
-	public void start(Stage stage) throws IOException {
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("/ReportsMain.fxml"));
-		Scene scene = new Scene(loader.load());
-		stage.setTitle("Reports Main");
-		stage.setScene(scene);
-		stage.show();
-	}
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
