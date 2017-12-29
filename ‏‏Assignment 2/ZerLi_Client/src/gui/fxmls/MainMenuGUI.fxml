@@ -32,11 +32,11 @@
             <MenuButton fx:id="menuProducts" mnemonicParsing="false" text="Products">
               <items>
                 <MenuItem fx:id="miCatalog" mnemonicParsing="false" onAction="#showCatalog" text="View Catalog" />
-                  <MenuItem mnemonicParsing="false" onAction="#showProducts" text="Show Product" />
-                  <MenuItem mnemonicParsing="false" onAction="#showSurvey" text="Add Survey" />
-                  <MenuItem mnemonicParsing="false" onAction="#showReportSelector" text="Select Report" />
-                <MenuItem mnemonicParsing="false" text="Assemble Product" />
-                  <MenuItem mnemonicParsing="false" onAction="#loadUpdateOrder" text="Update Order Status" />
+                  <MenuItem fx:id="miShowProduct" mnemonicParsing="false" onAction="#showProducts" text="Show Product" />
+                  <MenuItem fx:id="miAddSurvey" mnemonicParsing="false" onAction="#showSurvey" text="Add Survey" />
+                  <MenuItem fx:id="miReportSelector" mnemonicParsing="false" onAction="#showReportSelector" text="Select Report" />
+                <MenuItem fx:id="miAssembleItem" mnemonicParsing="false" text="Assemble Product" />
+                  <MenuItem fx:id="miUpdateOrderStatus" mnemonicParsing="false" onAction="#loadUpdateOrder" text="Update Order Status" />
               </items>
             </MenuButton>
             <Button fx:id="btnConfig" mnemonicParsing="false" onAction="#showConnectionGUI" text="Configure connection" textOverrun="WORD_ELLIPSIS" />

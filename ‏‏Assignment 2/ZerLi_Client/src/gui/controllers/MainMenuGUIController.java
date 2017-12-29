@@ -5,6 +5,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import common.Context;
+import entities.User;
 import entities.User.UserType;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -24,7 +25,8 @@ public class MainMenuGUIController extends ParentGUIController{
 	private @FXML MenuButton menuProducts;
 	private @FXML Button btnConfig;
 	private @FXML ImageView imgCart;
-	private @FXML MenuItem miCatalog;
+	private @FXML MenuItem	miCatalog, miShowProduct, miAddSurvey,
+							miReportSelector, miAssembleItem, miUpdateOrderStatus;
 		
 	public void showProducts(ActionEvent event){		
 		if(Context.clientConsole.isConnected()==false)
@@ -114,11 +116,20 @@ public class MainMenuGUIController extends ParentGUIController{
 		Tooltip.install(imgCart, new Tooltip("Show my cart"));
 		
 		Context.askOrder();
-		
-		if(Context.getUser() != null) {
-			if(Context.getUser().getPermissions().equals(UserType.Customer) ==false)
+		User user = Context.getUser();
+		if(user != null) {
+			UserType perm = user.getPermissions();
+			/*if(perm.equals(UserType.Customer) ==false) {
 				miCatalog.setVisible(false);
+			}
+			if(perm.equals(UserType.Customer)==true) {
+				miReportSelector.setVisible(false);
+				miUpdateOrderStatus.setVisible(false);
+				miAddSurvey.setVisible(false);
+			}*/
+				
 		}
+		
 	}
 	
 	public void showCart(MouseEvent event) throws Exception{
@@ -133,6 +144,15 @@ public class MainMenuGUIController extends ParentGUIController{
 	public void showReportSelector(ActionEvent event) {
 		try {
 			loadGUI("ReportSelectorGUI", false);
+		} catch (Exception e) {
+			lblMsg.setText("Loader failed");
+			e.printStackTrace();
+		}
+	}
+
+	@FXML public void loadUpdateOrder() {
+		try {
+			loadGUI("UpdateOrderStatusGUI", false);
 		} catch (Exception e) {
 			lblMsg.setText("Loader failed");
 			e.printStackTrace();
