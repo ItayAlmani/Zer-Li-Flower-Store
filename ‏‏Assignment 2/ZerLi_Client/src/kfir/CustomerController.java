@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Random;
 
 import common.Context;
 import entities.*;
@@ -72,11 +73,15 @@ public class CustomerController extends UserController implements ICustomer {
 		throw new UnsupportedOperationException();
 	}
 
-	public boolean billCreditCardOfCustomer(Customer customer) {
-		// TODO - implement CustomerController.billCreditCardOfCustomer
-		throw new UnsupportedOperationException();
+	public boolean billCreditCardOfCustomer(Customer customer, float amount) {
+		//return billCard(customer.getPaymentAccount().getCreditCard(), amount);
+		return new Random().nextBoolean();
 	}
 
+	//Suppose to be external function - the billing is external
+	public boolean billCard(CreditCard cc, float amount) {
+		return new Random().nextBoolean();
+	}
 	public void updateRefundAccount(String customerID, String refundAmount) {
 		// TODO - implement CustomerController.updateRefundAccount
 		throw new UnsupportedOperationException();

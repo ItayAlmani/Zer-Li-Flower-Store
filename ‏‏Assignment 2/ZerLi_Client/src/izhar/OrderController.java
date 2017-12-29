@@ -122,6 +122,13 @@ public class OrderController extends ParentController implements IOrder {
 				);
 		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.SELECT, myMsgArr, Order.class));
 	}
+	
+	public void calcFinalPriceOfOrder(Order order) {
+		float price = 0f;
+		for (ProductInOrder p : order.getProducts())
+			price+=p.getFinalPrice();
+		order.setFinalPrice(price);
+	}
 
 	@Override
 	public void sendOrders(ArrayList<Order> orders) {

@@ -225,6 +225,7 @@ public class CartGUIController extends ParentGUIController {
 		if(Context.fac.order.isCartEmpty(products)==false) {
 			Order ord = new Order(Context.getUserAsCustomer().getCustomerID(), products);
 			Context.order=ord;
+			Context.fac.order.calcFinalPriceOfOrder(ord);
 			
 			try {
 				loadGUI("DeliveryGUI", false);

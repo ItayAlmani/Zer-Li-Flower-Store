@@ -18,6 +18,11 @@ public class Transaction {
 		this.tansID = tansID;
 	}
 
+	public Transaction(PayMethod paymentMethod, Order order) {
+		this.paymentMethod = paymentMethod;
+		this.order = order;
+	}
+	
 	public Transaction(int tansID, PayMethod paymentMethod, Order order) {
 		super();
 		this.tansID = tansID;

@@ -77,7 +77,7 @@ public interface ICustomer extends IParent {
 	 * 
 	 * @param customer
 	 */
-	boolean billCreditCardOfCustomer(Customer customer);
+	boolean billCreditCardOfCustomer(Customer customer, float amount);
 
 	/**
 	 * 

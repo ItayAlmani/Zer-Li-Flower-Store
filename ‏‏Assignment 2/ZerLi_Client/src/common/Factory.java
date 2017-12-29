@@ -28,6 +28,7 @@ public class Factory {
 	public TransactionController transaction = new TransactionController();
 	public ProductController product = new ProductController();
 	public ProductInOrderController prodInOrder = new ProductInOrderController();
+	public ShipmentController shipment = new ShipmentController();
 	
 	public UserController user = new UserController();
 	public CustomerController customer = new CustomerController();

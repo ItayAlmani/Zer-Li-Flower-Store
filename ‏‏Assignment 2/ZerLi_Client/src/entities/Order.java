@@ -1,6 +1,8 @@
 package entities;
 
 import java.math.BigInteger;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -20,6 +22,7 @@ public class Order {
 	private Order() {
 		finalPrice=0;
 		products = new ArrayList<>();
+		date = Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant());
 	}
 	
 	public Order(int customerID, ArrayList<ProductInOrder> products) {
@@ -152,7 +155,8 @@ public class Order {
 		InProcess,
 		Delivered,
 		Canceled,
-		Paid
+		Paid,
+		WaitingForCashPayment
 	}
 	
 	public enum OrderType {

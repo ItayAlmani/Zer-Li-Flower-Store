@@ -1,5 +1,6 @@
 package kfir;
 
+import entities.CreditCard;
 import entities.PaymentAccount;
 
 public class PaymantAccountController {
@@ -17,5 +18,4 @@ public class PaymantAccountController {
 		// TODO - implement PaymantAccountController.getCreditcard
 		throw new UnsupportedOperationException();
 	}
-
 }

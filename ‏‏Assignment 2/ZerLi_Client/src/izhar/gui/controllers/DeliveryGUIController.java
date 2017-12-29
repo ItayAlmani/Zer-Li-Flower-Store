@@ -3,14 +3,11 @@ package izhar.gui.controllers;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
 import java.util.ResourceBundle;
 
 import common.Context;
 import entities.DeliveryDetails;
+import entities.Order.DeliveryType;
 import entities.Product;
 import entities.ShipmentDetails;
 import entities.Stock;
@@ -19,17 +16,13 @@ import entities.Store.StoreType;
 import entities.StoreWorker;
 import gui.controllers.ParentGUIController;
 import javafx.application.Platform;
-import javafx.beans.InvalidationListener;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Toggle;
@@ -122,14 +115,17 @@ public class DeliveryGUIController extends ParentGUIController {
 			return;
 		
 		DeliveryDetails del = new DeliveryDetails(Context.order.getOrderID(),selectedStore);
-		if(userData.equals("Pickup")) 
+		if(userData.equals("Pickup")) {
 			Context.order.setDelivery(del);
+			Context.order.setDeliveryType(DeliveryType.Pickup);
+		}
 		else{	//Shipment
 			ShipmentDetails ship = new ShipmentDetails(del, 
 					txtStreet.getText(), txtCity.getText(),
 					txtPostCode.getText(), txtName.getText(),
 					txtPhoneAreaCode.getText()+"-"+txtPhonePost.getText());
 			Context.order.setDelivery(ship);
+			Context.order.setDeliveryType(DeliveryType.Shipment);
 			try {
 				Context.fac.order.updatePriceWithShipment(Context.order);
 			} catch (IOException e) {
