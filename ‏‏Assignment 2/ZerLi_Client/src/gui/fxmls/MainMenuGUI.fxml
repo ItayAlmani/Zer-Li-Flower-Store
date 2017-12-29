@@ -36,6 +36,7 @@
                   <MenuItem mnemonicParsing="false" onAction="#showSurvey" text="Add Survey" />
                   <MenuItem mnemonicParsing="false" onAction="#showReportSelector" text="Select Report" />
                 <MenuItem mnemonicParsing="false" text="Assemble Product" />
+                  <MenuItem mnemonicParsing="false" onAction="#loadUpdateOrder" text="Update Order Status" />
               </items>
             </MenuButton>
             <Button fx:id="btnConfig" mnemonicParsing="false" onAction="#showConnectionGUI" text="Configure connection" textOverrun="WORD_ELLIPSIS" />
