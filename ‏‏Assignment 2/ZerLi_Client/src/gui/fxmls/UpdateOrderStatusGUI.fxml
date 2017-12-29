@@ -16,9 +16,13 @@
             <Button contentDisplay="CENTER" mnemonicParsing="false" onAction="#searchCustomer" text="Search" textAlignment="CENTER" />
          </children>
       </HBox>
-      <ComboBox fx:id="cbOrderIDs" onAction="#loadOrderStatus" promptText="Select Order ID" />
-      <ComboBox fx:id="cbOrderStatus" />
-      <Button mnemonicParsing="false" onAction="#updateOrderStatus" text="Update" />
+      <VBox fx:id="vboxComboBox" alignment="CENTER" spacing="5.0" visible="false">
+         <children>
+            <ComboBox fx:id="cbOrderIDs" onAction="#loadOrderStatus" promptText="Select Order ID" />
+            <ComboBox fx:id="cbOrderStatus" visible="false" />
+            <Button mnemonicParsing="false" onAction="#updateOrderStatus" text="Update" />
+         </children>
+      </VBox>
       <Button mnemonicParsing="false" onAction="#back" text="Back" />
       <Label fx:id="lblMsg" textAlignment="CENTER" textFill="RED" wrapText="true" />
    </children>

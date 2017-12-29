@@ -1,5 +1,6 @@
 package kfir.interfaces;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import entities.CreditCard;
@@ -11,6 +12,7 @@ import entities.User;
 import entities.Order.Refund;
 import entities.Subscription.SubscriptionType;
 import interfaces.IParent;
+import kfir.IO;
 
 public interface ICustomer extends IParent {
 
@@ -46,6 +48,8 @@ public interface ICustomer extends IParent {
 	void getCustomer(int customerID);
 
 	void getCustomerByUser(int userID);
+	
+	void getCustomerByPrivateID(String privateID) throws IOException;
 
 	/**
 	 * 

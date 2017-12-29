@@ -127,4 +127,10 @@ public class CustomerController extends UserController implements ICustomer {
 			e2.printStackTrace();
 		}
 	}
+
+	@Override
+	public void getCustomerByPrivateID(String privateID) throws IOException {
+		// TODO Auto-generated method stub
+		
+	}
 }

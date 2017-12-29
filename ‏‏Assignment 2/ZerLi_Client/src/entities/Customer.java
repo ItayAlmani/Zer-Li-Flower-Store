@@ -9,16 +9,12 @@ public class Customer extends User {
 		this.customerID = customerID;
 	}
 	
-	public Customer(String firstName, String lastName, String userName, String password, UserType permissions,
+	public Customer(String privateID, String firstName, String lastName, String userName, String password, UserType permissions,
 			int customerID) {
-		super(firstName, lastName, userName, password, permissions);
+		super(privateID, firstName, lastName, userName, password, permissions);
 		this.customerID = customerID;
 	}
-
-	public Customer(String firstName, String lastName, String userName, String password, UserType permissions) {
-		super(firstName, lastName, userName, password, permissions);
-		// TODO Auto-generated constructor stub
-	}
+	
 	
 	public void setUser(User user) {
 		setUserID(user.getUserID());
@@ -27,6 +23,12 @@ public class Customer extends User {
 		setUserName(user.getUserName());
 		setPassword(user.getPassword());
 		setPermissions(user.getPermissions());
+	}
+
+	public Customer(int customerID, String privateID, String firstName, String lastName, String userName, String password,
+			UserType permissions) {
+		super(privateID, firstName, lastName, userName, password, permissions);
+		this.customerID=customerID;
 	}
 
 	public int getCustomerID() {

@@ -102,11 +102,11 @@ public class OrderController extends ParentController implements IOrder {
 	@Override
 	public void updateOrder(Order order) throws IOException {
 		myMsgArr.clear();
-		myMsgArr.add("UPDATE orders " + "SET " + "customerID = " + order.getCustomerID() + ",cartID = "
-				+ order.getOrderID() + ",deliveryID = " + order.getDelivery().getDeliveryID() + ",type = "
-				+ order.getType().toString() + ",transactionID = " + order.getTransaction().getTansID() + ",greeting = "
-				+ order.getGreeting() + ",deliveryType = " + order.getDeliveryType().toString() + ",status='"
-				+ order.getOrderStatus().toString() + ",date = " + new Date(order.getDate().getTime())
+		myMsgArr.add("UPDATE orders " + "SET " + "customerID = '" + order.getCustomerID() + "',cartID = '"
+				+ order.getOrderID() + "',deliveryID = '" + order.getDelivery().getDeliveryID() + "',type = '"
+				+ order.getType().toString() + "',transactionID = '" + order.getTransaction().getTansID() + "',greeting = '"
+				+ order.getGreeting() + "',deliveryType = '" + order.getDeliveryType().toString() + "',status='"
+				+ order.getOrderStatus().toString() + "',date = '" + new Date(order.getDate().getTime())
 				+ "' WHERE orderID='" + order.getOrderID() + "'");
 		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.UPDATE, myMsgArr));
 	}
@@ -219,5 +219,19 @@ public class OrderController extends ParentController implements IOrder {
 	
 	public void setLastAutoIncrenment(ArrayList<Object> obj) throws IOException {
 		Context.order = new Order((BigInteger)obj.get(10));		
+	}
+
+	@Override
+	public void getOrdersWaitingForPaymentByCustomerID(int customerID) throws IOException {
+		myMsgArr.clear();
+		myMsgArr.add("SELECT * FROM orders WHERE customerID='"+	customerID+"' AND status='WaitingForCashPayment'");
+		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.SELECT, myMsgArr, Order.class));
+	}
+	
+	@Override
+	public void getOrdersByCustomerID(int customerID) throws IOException {
+		myMsgArr.clear();
+		myMsgArr.add("SELECT * FROM orders WHERE customerID='"+	customerID+"'");
+		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.SELECT, myMsgArr, Order.class));
 	}
 }

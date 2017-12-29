@@ -92,7 +92,7 @@ public abstract class ParentGUIController implements Initializable {
 		String musicFile = Context.projectPath+"\\src\\sound\\Bana_Cut.mp3";
 		Media sound = new Media(new File(musicFile).toURI().toString());
 		MediaPlayer mediaPlayer = new MediaPlayer(sound);
-		mediaPlayer.play();
+		//mediaPlayer.play();
 	}
 	
 	public void loadMainMenu() {

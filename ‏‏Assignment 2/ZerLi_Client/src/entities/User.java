@@ -42,7 +42,8 @@ public class User {
 		this.permissions = user.permissions;
 	}
 	
-	public User(String firstName, String lastName, String userName, String password, UserType permissions) {
+	public User(String privateID, String firstName, String lastName, String userName, String password, UserType permissions) {
+		this.privateID = privateID;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.userName = userName;

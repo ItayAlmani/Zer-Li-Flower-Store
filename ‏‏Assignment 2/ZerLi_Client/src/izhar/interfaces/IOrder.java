@@ -58,6 +58,9 @@ public interface IOrder extends IParent  {
 	 */
 	public void sendOrders(ArrayList<Order> orders);
 
+	public void getOrdersWaitingForPaymentByCustomerID(int customerID) throws IOException;
+	
+	
 	/**
 	 * adds the shipment's price to the final price of the order 
 	 * (in cart there is the final price)
@@ -98,4 +101,6 @@ public interface IOrder extends IParent  {
 	void getOrderInProcess(int customerID) throws IOException;
 
 	void getLastAutoIncrenment() throws IOException;
+
+	void getOrdersByCustomerID(int customerID) throws IOException;
 }
