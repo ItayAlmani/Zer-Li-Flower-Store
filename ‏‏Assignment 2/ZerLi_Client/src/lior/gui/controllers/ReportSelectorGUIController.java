@@ -79,6 +79,28 @@ public class ReportSelectorGUIController extends ParentGUIController {
 			}
 			Context.fac.orderReport.produceOrderReport(date, 1);
 		}
+		
+		if(TypeCB.getValue().equals("Incomes Report"))
+		{
+			try {
+				loadGUI("IncomesReportFormGUI", false);
+			} catch (Exception e) {
+				//lblMsg.setText("Loader failed");
+				e.printStackTrace();
+			}
+			//Context.fac.orderReport.produceOrderReport(date, 1);
+		}
+		
+		if(TypeCB.getValue().equals("Client complaimnts histogram"))
+		{
+			try {
+				loadGUI("HistogramOfCustomerComplaintsFormGUI", false);
+			} catch (Exception e) {
+				//lblMsg.setText("Loader failed");
+				e.printStackTrace();
+			}
+			//Context.fac.orderReport.produceOrderReport(date, 1);
+		}
 			
 		/*DateFormat day = new SimpleDateFormat("dd");
 		DateFormat Month = new SimpleDateFormat("MM");
