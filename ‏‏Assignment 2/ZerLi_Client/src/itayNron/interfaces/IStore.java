@@ -1,9 +1,13 @@
 package itayNron.interfaces;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import entities.Product;
+import entities.Stock;
 import entities.Order;
 import entities.Store;
 import interfaces.IParent;
@@ -13,15 +17,16 @@ public interface IStore extends IParent {
 	/**
 	 * Static method
 	 */
-	void getAllStores();
+	void getAllStores() throws IOException;
 	
 	void sendStores(ArrayList<Store> stores);
+	
+	Store parse(BigInteger storeID, String type, BigInteger managerID, String name) ;
+	
 
 	/**
-	 * checks if all products in order can be bought at the specific store
+	 * 
 	 * @param order
-	 * @param store
-	 * @return the product which out of store if exists, else null
 	 */
 	Product checkStockByOrder(Order order, Store store);
 
@@ -29,23 +34,21 @@ public interface IStore extends IParent {
 	 * 
 	 * @param order
 	 */
-	void updateStock(Order order);
+	void updateStock(Order order) throws IOException;
 
 	/**
 	 * 
 	 * @param order
 	 */
-	void updateStore(Order order);
+	void updateStore(Store store) throws IOException;
 
 	/**
 	 * 
 	 * @param storeid
 	 */
-	void getStockByStore(int storeid);
+	void getStockByStore(int storeID) throws IOException;
 	
-	void sendStock(HashMap<Product,Integer> stock);
+	void sendStock(Stock stock) throws IOException;
 
-	void getAllPhysicalStores();
-
-	void getStoreByOrder(Order order);
+	void getAllPhysicalStores() throws IOException;
 }

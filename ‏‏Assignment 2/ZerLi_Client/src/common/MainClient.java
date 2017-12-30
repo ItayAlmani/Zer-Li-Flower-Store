@@ -25,6 +25,7 @@ public class MainClient extends Application {
 			try {
 				Context.connectToServer();
 			} catch (IOException e) {
+				e.printStackTrace();
 			}
 		}
 		if(Context.clientConsole!=null && Context.clientConsole.isConnected()==true) {

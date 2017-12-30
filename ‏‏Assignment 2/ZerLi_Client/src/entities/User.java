@@ -4,6 +4,10 @@ import java.math.BigInteger;
 
 public class User {
 	
+	public User() {
+		super();
+	}
+
 	private static BigInteger idInc = null;
 	
 	public enum UserType {
@@ -30,6 +34,7 @@ public class User {
 	private String password;
 	private UserType permissions;
 	private boolean isConnected;
+	
 	
 	
 	
