@@ -6,6 +6,8 @@ public class StoreWorker extends User {
 	private BigInteger storeWorkerID;
 	private Store store;
 	
+	private static BigInteger idInc = null;
+	
 	public StoreWorker(String privateID, String firstName, String lastName, String userName, String password, UserType permissions) {
 		super(privateID,firstName, lastName, userName, password, permissions);
 		// TODO Auto-generated constructor stub
@@ -36,6 +38,14 @@ public class StoreWorker extends User {
 
 	public void setStoreWorkerID(BigInteger storeWorkerID) {
 		this.storeWorkerID = storeWorkerID;
+	}
+
+	public static BigInteger getIdInc() {
+		return idInc;
+	}
+
+	public static void setIdInc(BigInteger idInc) {
+		StoreWorker.idInc = idInc;
 	}
 
 }

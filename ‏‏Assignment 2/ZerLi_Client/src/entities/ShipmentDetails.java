@@ -11,6 +11,8 @@ public class ShipmentDetails extends DeliveryDetails {
 	private String customerName;
 	private String phoneNumber;
 	
+	private static BigInteger idInc = null;
+	
 	public ShipmentDetails(DeliveryDetails del,
 			String street, String city, String postCode, String customerName,
 			String phoneNumber) {
@@ -72,5 +74,17 @@ public class ShipmentDetails extends DeliveryDetails {
 
 	public String getPhoneNumber() {
 		return phoneNumber;
+	}
+
+	public static BigInteger getIdInc() {
+		return idInc;
+	}
+
+	public static void setIdInc(BigInteger idInc) {
+		ShipmentDetails.idInc = idInc;
+	}
+
+	public static float getShipmentprice() {
+		return shipmentPrice;
 	}
 }

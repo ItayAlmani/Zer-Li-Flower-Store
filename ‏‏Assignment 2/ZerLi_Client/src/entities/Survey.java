@@ -11,6 +11,8 @@ public class Survey {
 	private Store store;
 	private SurveyType type;
 	
+	private static BigInteger idInc = null;
+	
 	public Survey(int[] surveyAnswerers, LocalDate date, Store store, SurveyType type) {
 		super();
 		this.surveyAnswerers = surveyAnswerers;
@@ -68,6 +70,14 @@ public class Survey {
 
 	public void setType(SurveyType type) {
 		this.type = type;
+	}
+
+	public static BigInteger getIdInc() {
+		return idInc;
+	}
+
+	public static void setIdInc(BigInteger idInc) {
+		Survey.idInc = idInc;
 	}
 
 }

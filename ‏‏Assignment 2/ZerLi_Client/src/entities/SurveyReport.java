@@ -10,6 +10,8 @@ public class SurveyReport {
 	private Survey surveyAnalyzes;
 	private String verbalReport;
 	private Date date;
+	
+	private static BigInteger idInc = null;
 
 	public Survey getSurveyAnalyzes() {
 		return this.surveyAnalyzes;
@@ -33,6 +35,30 @@ public class SurveyReport {
 
 	public void setDate(Date date) {
 		this.date = date;
+	}
+
+	public BigInteger getSurveyReportID() {
+		return surveyReportID;
+	}
+
+	public void setSurveyReportID(BigInteger surveyReportID) {
+		this.surveyReportID = surveyReportID;
+	}
+
+	public BigInteger getStoreID() {
+		return storeID;
+	}
+
+	public void setStoreID(BigInteger storeID) {
+		this.storeID = storeID;
+	}
+
+	public static BigInteger getIdInc() {
+		return idInc;
+	}
+
+	public static void setIdInc(BigInteger idInc) {
+		SurveyReport.idInc = idInc;
 	}
 
 }

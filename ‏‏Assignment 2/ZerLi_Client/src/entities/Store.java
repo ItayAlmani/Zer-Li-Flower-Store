@@ -16,6 +16,8 @@ public class Store {
 	private StoreType type;
 	private StoreWorker manager;
 	
+	private static BigInteger idInc = null;
+	
 	public BigInteger getStoreID() {
 		return storeID;
 	}
@@ -74,5 +76,15 @@ public class Store {
 				return prodInStock;
 		}
 		return null;
+	}
+
+
+	public static BigInteger getIdInc() {
+		return idInc;
+	}
+
+
+	public static void setIdInc(BigInteger idInc) {
+		Store.idInc = idInc;
 	}
 }

@@ -13,6 +13,8 @@ public class Complaint {
 	private boolean isRefunded = false;
 	private String status;
 	private String storeID;
+	
+	private static BigInteger idInc = null;
 
 	public String getComplaintReason() {
 		return this.complaintReason;

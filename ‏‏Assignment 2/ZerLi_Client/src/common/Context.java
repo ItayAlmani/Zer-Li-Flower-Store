@@ -214,7 +214,7 @@ public class Context {
 			if(user instanceof Customer) {
 				//order=new Order(((Customer)user).getCustomerID());
 				try {
-					fac.order.getLastAutoIncrenment();
+					ClientController.getLastAutoIncrenment(Order.class);
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

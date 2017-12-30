@@ -21,6 +21,9 @@ import entities.Order.Refund;
 import izhar.interfaces.IOrder;
 
 public class OrderController extends ParentController implements IOrder {
+	
+	
+	
 
 	public boolean isCartEmpty(ArrayList<ProductInOrder> products) {
 		for (ProductInOrder pio : products)
@@ -208,17 +211,6 @@ public class OrderController extends ParentController implements IOrder {
 		myMsgArr.clear();
 		myMsgArr.add("SELECT * FROM orders WHERE customerID='"+	customerID+"' AND status='InProcess';");
 		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.SELECT, myMsgArr, Order.class));
-	}
-	
-	@Override
-	public void getLastAutoIncrenment() throws IOException {
-		myMsgArr.clear();
-		myMsgArr.add("SHOW TABLE STATUS WHERE `Name` = 'orders'");
-		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.GetAI, myMsgArr, Order.class));
-	}
-	
-	public void setLastAutoIncrenment(ArrayList<Object> obj) throws IOException {
-		Context.order = new Order((BigInteger)obj.get(10));		
 	}
 
 	@Override

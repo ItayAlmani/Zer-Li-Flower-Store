@@ -9,6 +9,8 @@ public class DeliveryDetails {
 	protected Date date;
 	private boolean isImmediate = true;
 	private Store store;
+	
+	private static BigInteger idInc = null;
 
 	public DeliveryDetails(BigInteger deliveryID) {
 		super();
@@ -90,6 +92,14 @@ public class DeliveryDetails {
 
 	public Store getStore() {
 		return store;
+	}
+
+	public static BigInteger getIdInc() {
+		return idInc;
+	}
+
+	public static void setIdInc(BigInteger idInc) {
+		DeliveryDetails.idInc = idInc;
 	}
 	
 	
