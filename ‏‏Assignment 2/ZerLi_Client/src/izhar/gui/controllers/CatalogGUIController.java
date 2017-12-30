@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import common.Context;
+import entities.Order;
 import entities.Product;
 import entities.ProductInOrder;
 import gui.controllers.ParentGUIController;
@@ -149,6 +150,7 @@ public class CatalogGUIController extends ParentGUIController {
 						if(pio==null) {
 							pio = new ProductInOrder(prd, 1, Context.order.getOrderID());
 							try {
+								Context.fac.order.addOrder(new Order);
 								Context.fac.prodInOrder.addPIO(pio);
 							} catch (IOException e) {
 								System.err.println("Can't add PIO in Catalog\n");

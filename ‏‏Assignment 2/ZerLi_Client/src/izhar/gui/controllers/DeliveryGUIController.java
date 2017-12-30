@@ -60,6 +60,7 @@ public class DeliveryGUIController extends ParentGUIController {
 		rbShipment.setUserData("Shipment");
 		rbShipment.setToggleGroup(tGroup);
 		
+		
 		//FOR TEST!!!! TAKE DOWN!
 		try {
 			Context.fac.store.getAllStores();

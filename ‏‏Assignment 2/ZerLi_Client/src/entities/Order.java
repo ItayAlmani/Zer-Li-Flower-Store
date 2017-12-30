@@ -9,18 +9,32 @@ import java.util.Date;
 public class Order {
 	private BigInteger orderID;
 	private BigInteger customerID;
-	private DeliveryDetails delivery;
+	private DeliveryDetails delivery = null;
 	private OrderType type;
-	private Transaction transaction;
-	private String greeting;
-	private DeliveryType deliveryType;
+	private Transaction transaction = null;
+	private String greeting = null;
+	private DeliveryType deliveryType = null;
 	private OrderStatus orderStatus;
-	private Date date;
+	private Date date = new Date();
 	private float finalPrice;
 	private ArrayList<ProductInOrder> products;
 	
 	private static BigInteger idInc = null;
 	
+	
+	public Order(BigInteger customerID, OrderType type, OrderStatus orderStatus) {
+		super();
+		this.customerID = customerID;
+		this.type = type;
+		this.orderStatus = orderStatus;
+	}
+
+	public Order(BigInteger customerID, OrderType type) {
+		super();
+		this.customerID = customerID;
+		this.type = type;
+	}
+
 	private Order() {
 		finalPrice=0;
 		products = new ArrayList<>();
@@ -35,6 +49,20 @@ public class Order {
 		this.products = products;
 	}
 
+	public Order(BigInteger orderID, BigInteger customerID, DeliveryDetails delivery, OrderType type,
+			Transaction transaction, String greeting, DeliveryType deliveryType, OrderStatus orderStatus, Date date) {
+		super();
+		this.orderID = orderID;
+		this.customerID = customerID;
+		this.delivery = delivery;
+		this.type = type;
+		this.transaction = transaction;
+		this.greeting = greeting;
+		this.deliveryType = deliveryType;
+		this.orderStatus = orderStatus;
+		this.date = date;
+	}
+	
 	public Order(Integer customerID) {
 		this();
 		this.customerID=BigInteger.valueOf(customerID);
@@ -111,21 +139,6 @@ public class Order {
 
 	public void setOrderID(BigInteger orderID) {
 		this.orderID = orderID;
-	}
-
-
-	public Order(BigInteger orderID, BigInteger customerID, DeliveryDetails delivery, OrderType type,
-			Transaction transaction, String greeting, DeliveryType deliveryType, OrderStatus orderStatus, Date date) {
-		super();
-		this.orderID = orderID;
-		this.customerID = customerID;
-		this.delivery = delivery;
-		this.type = type;
-		this.transaction = transaction;
-		this.greeting = greeting;
-		this.deliveryType = deliveryType;
-		this.orderStatus = orderStatus;
-		this.date = date;
 	}
 
 	public void setCustomerID(BigInteger customerID) {

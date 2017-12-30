@@ -1,6 +1,7 @@
 package izhar.interfaces;
 
 import java.io.IOException;
+import java.math.BigInteger;
 
 import entities.DeliveryDetails;
 import entities.Store;
@@ -10,5 +11,5 @@ public interface IPickup extends IParent {
 
 	void addPickup(DeliveryDetails deliveryDetails) throws IOException;
 	
-	DeliveryDetails parse(int deliveryID, int orderID, Store store, java.util.Date date, boolean isImmediate);
+	DeliveryDetails parse(BigInteger deliveryID, BigInteger orderID, Store store, java.util.Date date, boolean isImmediate);
 }

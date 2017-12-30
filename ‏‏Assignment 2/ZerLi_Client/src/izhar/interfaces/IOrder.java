@@ -72,17 +72,17 @@ public interface IOrder extends IParent  {
 	 * parsing the data into new Order object
 	 * @param orderID		-	the order's ID
 	 * @param customerID	-	the customer who made the order's ID
-	 * @param cartID		-	the cart which contains all the products in order ID
 	 * @param deliveryID	-	the delivery's details's ID
-	 * @param type			-	the type of order by the ENUM
 	 * @param transactionID	-	the transaction of the whole order's ID
+	 * @param type			-	the type of order by the ENUM
 	 * @param greeting		-	the greeting which can be attached to the order
 	 * @param deliveryType	-	the delivery type by the ENUM
 	 * @param orderStatus	-	the order's status by the ENUm
 	 * @param date			-	the order's date
+	 * @param cartID		-	the cart which contains all the products in order ID
 	 * @return new object created by the data above
 	 */
-	Order parse(BigInteger orderID, BigInteger customerID, BigInteger cartID, BigInteger deliveryID, String type, BigInteger transactionID,
+	Order parse(BigInteger orderID, BigInteger customerID, BigInteger deliveryID, BigInteger transactionID, BigInteger shipmentID, String type,
 			String greeting, String deliveryType, String orderStatus, Date date);
 	
 	/**

@@ -173,16 +173,12 @@ public class Context {
 	}
 	
 	public static void askOrder() {
-		try {
-			askingCtrl.add(Context.class.newInstance());
-		} catch (InstantiationException | IllegalAccessException e) {
-			e.printStackTrace();
-		}
 		if(user instanceof Customer) {
 			try {
+				askingCtrl.add(Context.class.newInstance());
 				fac.order.getOrderInProcess(((Customer)user).getCustomerID());
-			} catch (IOException e) {
-				//System.err.println("getOrderInProcess() not working in Context\n");
+			} catch (IOException | InstantiationException | IllegalAccessException e) {
+				System.err.println("getOrderInProcess() not working in Context\n");
 				e.printStackTrace();
 			}
 		}
@@ -197,14 +193,18 @@ public class Context {
 	}
 	
 	public static void setOrders(ArrayList<Order> orders) {
-		if(orders.size()!=0) {
+		if(orders !=null && orders.size()!=0 && orders.get(0)!=null) {
 			order = orders.get(0);
 			existingOrder=true;
 			try {
 				askingCtrl.add(Context.class.newInstance());
-				fac.prodInOrder.getPIOsByOrder(Context.order.getOrderID());
+				if(order != null)
+					fac.prodInOrder.getPIOsByOrder(order.getOrderID());
+				else throw new Exception("order==null");
 			} catch (IOException | InstantiationException | IllegalAccessException e) {
 				System.err.println("View Catalog");
+				e.printStackTrace();
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
