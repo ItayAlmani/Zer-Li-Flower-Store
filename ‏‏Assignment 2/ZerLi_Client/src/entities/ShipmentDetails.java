@@ -12,6 +12,11 @@ public class ShipmentDetails extends DeliveryDetails {
 	private String customerName;
 	private String phoneNumber;
 	
+	public ShipmentDetails(BigInteger shipmentID) {
+		super();
+		this.shipmentID=shipmentID;
+	}
+	
 	public ShipmentDetails(BigInteger deliveryID, BigInteger shipmentID) {
 		super(deliveryID);
 		this.shipmentID=shipmentID;

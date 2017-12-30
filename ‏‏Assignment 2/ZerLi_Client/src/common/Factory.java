@@ -1,6 +1,7 @@
 package common;
 import controllers.DataBaseController;
 import itayNron.*;
+import itayNron.interfaces.IStock;
 import izhar.*;
 import izhar.interfaces.IProduct;
 import lior.*;
@@ -19,6 +20,7 @@ public class Factory {
 	public ComplaintController complaint = new ComplaintController();
 	public SurveyController survey = new SurveyController();
 	public SurveyReportController surveyReport = new SurveyReportController();
+	public IStock stock = new StockController();
 	
 	public BrowsingProcessHandler browsingProcess = new BrowsingProcessHandler();
 	public OrderController order = new OrderController();

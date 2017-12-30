@@ -6,6 +6,9 @@ import javafx.fxml.FXMLLoader;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import common.Context;
@@ -14,8 +17,12 @@ import entities.User.UserType;
 import gui.controllers.ParentGUIController;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import javafx.scene.control.Button;
 public class LogInGUIController extends ParentGUIController{
@@ -23,7 +30,7 @@ public class LogInGUIController extends ParentGUIController{
 	private @FXML TextField txtUserName, txtPassword;
 	private @FXML Button btnConfig, btnLogIn;
 	
-	public void logIn(ActionEvent event) {
+	public void logIn() {
 		/*String uName = this.txtUserName.getText(),
 				pass = this.txtPassword.getText();*/
 		String uName ="izharAn", pass="1234";
@@ -89,6 +96,20 @@ public class LogInGUIController extends ParentGUIController{
 		}
 		if(Context.dbConnected == false)
 			setServerUnavailable();
+		setComponentSendOnEnter(Arrays.asList(new Node[] {txtUserName,txtPassword}));
+	}
+	
+	private void setComponentSendOnEnter(List<Node> comp) {
+		for (Node node : comp) {
+			node.setOnKeyPressed(new EventHandler<KeyEvent>() {
+			    @Override
+			    public void handle(KeyEvent keyEvent) {
+			        if (keyEvent.getCode() == KeyCode.ENTER)  {
+			           logIn();
+			        }
+			    }
+			});
+		}
 	}
 
 	public void showConnectionGUI(ActionEvent event){

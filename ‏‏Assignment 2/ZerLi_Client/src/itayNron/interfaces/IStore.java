@@ -28,27 +28,7 @@ public interface IStore extends IParent {
 	 * 
 	 * @param order
 	 */
-	Product checkStockByOrder(Order order, Store store);
-
-	/**
-	 * 
-	 * @param order
-	 */
-	void updateStock(Order order) throws IOException;
-
-	/**
-	 * 
-	 * @param order
-	 */
 	void updateStore(Store store) throws IOException;
-
-	/**
-	 * 
-	 * @param storeid
-	 */
-	void getStockByStore(int storeID) throws IOException;
-	
-	void sendStock(Stock stock) throws IOException;
 
 	void getAllPhysicalStores() throws IOException;
 }

@@ -8,6 +8,8 @@ import java.util.ResourceBundle;
 
 import common.Context;
 import entities.Order;
+import entities.Order.OrderStatus;
+import entities.Order.OrderType;
 import entities.Product;
 import entities.ProductInOrder;
 import gui.controllers.ParentGUIController;
@@ -150,7 +152,11 @@ public class CatalogGUIController extends ParentGUIController {
 						if(pio==null) {
 							pio = new ProductInOrder(prd, 1, Context.order.getOrderID());
 							try {
-								Context.fac.order.addOrder(new Order);
+								Context.fac.order.addOrder(
+										new Order(Context.getUserAsCustomer().getCustomerID(),
+										OrderType.InfoSystem,
+										OrderStatus.InProcess));
+								Context.order.getProducts().add(pio);
 								Context.fac.prodInOrder.addPIO(pio);
 							} catch (IOException e) {
 								System.err.println("Can't add PIO in Catalog\n");
@@ -159,7 +165,7 @@ public class CatalogGUIController extends ParentGUIController {
 						}
 						else {
 							pio.addOneToQuantity();
-							pio.setFinalPrice();
+							Context.fac.prodInOrder.updatePriceWithSubscription(pio, Context.getUserAsCustomer());
 							try {
 								Context.fac.prodInOrder.updatePIO(pio);
 							} catch (IOException e) {

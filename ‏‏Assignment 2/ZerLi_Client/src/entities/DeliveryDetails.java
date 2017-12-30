@@ -12,6 +12,10 @@ public class DeliveryDetails {
 	
 	private static BigInteger idInc = null;
 
+	public DeliveryDetails() {
+		
+	}
+	
 	public DeliveryDetails(BigInteger deliveryID) {
 		super();
 		this.deliveryID = deliveryID;

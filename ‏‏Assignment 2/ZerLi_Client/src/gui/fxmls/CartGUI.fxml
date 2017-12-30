@@ -12,7 +12,7 @@
          <children>
             <HBox alignment="CENTER">
                <children>
-                  <Label text="Final Price:" />
+                  <Label fx:id="lblTitleFPrice" text="Final Price:" />
                   <Label fx:id="lblFinalPrice" minWidth="50.0" />
                </children>
             </HBox>

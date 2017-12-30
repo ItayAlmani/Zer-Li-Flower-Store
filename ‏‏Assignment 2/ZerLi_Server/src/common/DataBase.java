@@ -41,11 +41,15 @@ public class DataBase{
 		Statement stmt;
 		try {
 			stmt = con.createStatement();
-			String[] querys = query.split(";");
-			stmt.executeUpdate(querys[0]);
-			ResultSet rs = stmt.executeQuery(querys[1]);
-			if(rs.next())
-				return rs.getInt(1);
+			if(query.contains(";")) {
+				String[] querys = query.split(";");
+				stmt.executeUpdate(querys[0]);
+				ResultSet rs = stmt.executeQuery(querys[1]);
+				if(rs.next())
+					return rs.getInt(1);
+			}
+			else
+				stmt.executeUpdate(query);
 			return null;
 		} catch (SQLException e) {
 			e.printStackTrace();

@@ -22,8 +22,7 @@ import entities.CSMessage.MessageType;
 import itayNron.interfaces.IStore;
 
 public class StoreController extends ParentController implements IStore {
-	private Order order = null; 
-
+	
 	@Override
 	public void handleGet(ArrayList<Object> obj) {
 		ArrayList<Store> stores = new ArrayList<>();
@@ -31,13 +30,11 @@ public class StoreController extends ParentController implements IStore {
 				stores.add(parse
 						(
 						BigInteger.valueOf(Long.valueOf((int) obj.get(i))), 
-						
 						(String) obj.get(i + 2), 
 						BigInteger.valueOf((int)obj.get(i+1)),
 						(String) obj.get(i + 3)));
 			 
 		sendStores(stores);
-		
 	}
 	
 
@@ -47,7 +44,7 @@ public class StoreController extends ParentController implements IStore {
 		myMsgArr.add("SELECT * FROM store;");
 		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.SELECT,myMsgArr,Store.class));
 	}
-
+	
 	@Override
 	public void sendStores(ArrayList<Store> stores) 
 	{
@@ -74,48 +71,12 @@ public class StoreController extends ParentController implements IStore {
 		
 	}
 
-	@Override
-	public Product checkStockByOrder(Order order, Store store) {
-		ArrayList<Stock> stock = (ArrayList<Stock>) store.getStock().clone();
-		for (ProductInOrder ordProd : order.getProducts()) {
-			Product prod = ordProd.getProduct();
-			Stock stk = store.getProductFromStock(prod);
-			if(	stk==null //not in stock
-					|| stk.getQuantity()-ordProd.getQuantity()<0 //Not enough products in stock
-					)	
-				return prod;
-		}
-		return null;
-	}
-	
 	public ArrayList<Store> getOrdersOnlyStoresFromArrayList(ArrayList<Store> allStores){
 		ArrayList<Store> ordersOnly = new ArrayList<>();
 		for (Store store : allStores)
 			if(store.getType().equals(StoreType.OrdersOnly))
 				ordersOnly.add(store);
 		return ordersOnly;
-	}
-
-	@Override
-	public void updateStock(Order order) throws IOException {
-		this.order=order;
-		Context.askingCtrl.add(this);
-		Context.fac.prodInOrder.getPIOsByOrder(order.getOrderID());
-		
-	}
-	
-	public void setPIOs(ArrayList<ProductInOrder> prds) throws IOException  {
-		myMsgArr.clear();
-		for(ProductInOrder productInOrder : prds) 
-		{
-			myMsgArr.add(String.format(
-					"update stock" + 
-					"set quantity=quantity - '%d'" + 
-					"where storeID=(select storeID from deliverydetails where orderID='%d');",prds.get(3).getQuantity(),order.getOrderID()));
-			Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.UPDATE,myMsgArr));
-			
-		}
-		
 	}
 
 	@Override
@@ -127,27 +88,14 @@ public class StoreController extends ParentController implements IStore {
 				" WHERE storeID=%d",
 				store.getStoreID(),store.getManager().getUserID(),store.getType().toString(),store.getName()));
 		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.UPDATE,myMsgArr));
-		
 	}
 
 	@Override
-	public void getStockByStore(int storeID) throws IOException {
-		myMsgArr.clear();
-		myMsgArr.add(
-				"SELECT sto.quantity,product.*" + 
-				" FROM stock AS sto" + 
-				" JOIN product ON sto.orderID=product.orderID" + 
-				" WHERE sto.storeID='"+storeID+"'"
-				);
-		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.SELECT, myMsgArr, Store.class));
+	public Store parse(BigInteger storeID, String type, BigInteger managerID, String name)  {
+		return new Store(storeID, name, StoreType.valueOf(type), new StoreWorker(managerID));
 		
 	}
-	
-	@Override
-	public void sendStock(Stock stock) {
-		// TODO Auto-generated method stub
-		
-	}
+
 
 	@Override
 	public void getAllPhysicalStores() throws IOException {
@@ -155,12 +103,6 @@ public class StoreController extends ParentController implements IStore {
 		myMsgArr.add(
 				"SELECT store.*" + "FROM store" + "WHERE store.type='Physical'");
 		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.SELECT, myMsgArr, Store.class));
-		
-	}
-
-	@Override
-	public Store parse(BigInteger storeID, String type, BigInteger managerID, String name)  {
-		return new Store(storeID, name, StoreType.valueOf(type), new StoreWorker(managerID));
 		
 	}
 

@@ -16,7 +16,7 @@ public class Order {
 	private DeliveryType deliveryType = null;
 	private OrderStatus orderStatus;
 	private Date date = new Date();
-	private float finalPrice;
+	private float finalPrice = 0f;
 	private ArrayList<ProductInOrder> products;
 	
 	private static BigInteger idInc = null;
@@ -50,7 +50,8 @@ public class Order {
 	}
 
 	public Order(BigInteger orderID, BigInteger customerID, DeliveryDetails delivery, OrderType type,
-			Transaction transaction, String greeting, DeliveryType deliveryType, OrderStatus orderStatus, Date date) {
+			Transaction transaction, String greeting, DeliveryType deliveryType, OrderStatus orderStatus, Date date,
+			float finalPrice) {
 		super();
 		this.orderID = orderID;
 		this.customerID = customerID;
@@ -61,6 +62,7 @@ public class Order {
 		this.deliveryType = deliveryType;
 		this.orderStatus = orderStatus;
 		this.date = date;
+		this.finalPrice=finalPrice;
 	}
 	
 	public Order(Integer customerID) {
@@ -71,6 +73,30 @@ public class Order {
 	public Order(BigInteger orderID) {
 		this();
 		this.orderID = orderID;
+	}
+
+	public Order(BigInteger orderID, BigInteger customerID, OrderType type, Transaction trans, String greeting, 
+			OrderStatus orderStatus, Date date, float finalPrice) {
+		super();
+		this.orderID = orderID;
+		this.customerID = customerID;
+		this.type = type;
+		this.transaction=trans;
+		this.greeting = greeting;
+		this.orderStatus = orderStatus;
+		this.date = date;
+		this.finalPrice=finalPrice;
+	}
+
+	public Order(BigInteger orderID, BigInteger customerID, OrderType type, String greeting, OrderStatus orderStatus,
+			Date date) {
+		super();
+		this.orderID = orderID;
+		this.customerID = customerID;
+		this.type = type;
+		this.greeting = greeting;
+		this.orderStatus = orderStatus;
+		this.date = date;
 	}
 
 	public BigInteger getOrderID() {
@@ -151,11 +177,21 @@ public class Order {
 	public void setFinalPrice(float finalPrice) {
 		this.finalPrice = finalPrice;
 	}
+	
+	private void setFinalPrice() {
+		if(products==null) return;
+		for (ProductInOrder productInOrder : products)
+			finalPrice+=productInOrder.getFinalPrice();
+	}
+	
 	public ArrayList<ProductInOrder> getProducts() {
 		return products;
 	}
+	
 	public void setProducts(ArrayList<ProductInOrder> products) {
 		this.products = products;
+		this.finalPrice=0f;
+		setFinalPrice();
 	}
 	
 	public void addToFinalPrice(float amount) {

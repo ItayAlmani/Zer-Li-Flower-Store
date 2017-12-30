@@ -5,20 +5,40 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.math.BigInteger;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 import common.Context;
 import controllers.ParentController;
 import entities.CSMessage;
+import entities.Customer;
+import entities.Order;
 import entities.Product;
 import entities.CSMessage.MessageType;
 import entities.Product.Color;
 import entities.Product.ProductType;
+import entities.Subscription.SubscriptionType;
 import izhar.interfaces.IProductInOrder;
 import entities.ProductInOrder;
+import entities.Subscription;
 import entities.Transaction;
 
 public class ProductInOrderController extends ParentController implements IProductInOrder {	
+	
+	public void updatePriceWithSubscription(ProductInOrder pio, Customer customer) {
+		if(customer.getPaymentAccount()!= null && customer.getPaymentAccount().getSub() != null) {
+			LocalDate date = customer.getPaymentAccount().getSub().getSubDate();
+			SubscriptionType type = customer.getPaymentAccount().getSub().getSubType();
+			if(type.equals(SubscriptionType.Monthly)) {
+				if(date.plusMonths(1).isBefore(LocalDate.now()))
+					pio.setFinalPrice(pio.getFinalPrice()*Subscription.getDiscountInPercent());
+			}
+			else if(type.equals(SubscriptionType.Yearly)) {
+				if(date.plusYears(1).isBefore(LocalDate.now()))
+					pio.setFinalPrice(pio.getFinalPrice()*Subscription.getDiscountInPercent());
+			}
+		}
+	}
 	
 	public void setLastAutoIncrenment(ArrayList<Object> obj) throws IOException {
 		Transaction.setIdInc((BigInteger)obj.get(10));

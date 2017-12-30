@@ -60,15 +60,12 @@ public class DeliveryGUIController extends ParentGUIController {
 		rbShipment.setUserData("Shipment");
 		rbShipment.setToggleGroup(tGroup);
 		
-		
-		//FOR TEST!!!! TAKE DOWN!
 		try {
 			Context.fac.store.getAllStores();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	//	autoAddForTest();
 		
 		tGroup.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
 
@@ -77,22 +74,42 @@ public class DeliveryGUIController extends ParentGUIController {
 				vboxForm.setVisible(true);
 			}
 		});
-		
-		//Context.fac.store.getAllStores();
+	}
+	
+	public void setStocks(ArrayList<Stock> stocks) throws IOException {
+		Store str = null;
+		if(stocks == null || stocks.size()==0) 
+			return;
+		for (Store store : stores) {
+			if(store.getStoreID().equals(stocks.get(0).getStoreID())) {
+				str=store;
+				break;
+			}
+		}
+		if(str != null)
+			str.setStock(stocks);
 	}
 
 	public void showPickup(ActionEvent event) {
+		lblMsg.setText("");
+		btnSend.setDisable(false);
 		this.gpShipment.setVisible(false);
 		this.gpPickup.setVisible(true);
 	}
 	
 	public void showShipment(ActionEvent event) {
+		lblMsg.setText("");
+		btnSend.setDisable(false);
 		this.gpPickup.setVisible(false);
 		this.gpShipment.setVisible(true);
 		this.cbStores.getSelectionModel().clearSelection();
 		
 		ArrayList<Store> ordOnly = Context.fac.store.getOrdersOnlyStoresFromArrayList(stores);
-		if(ordOnly==null || ordOnly.size()<=0) return;
+		if(ordOnly==null || ordOnly.size()<=0) {
+			lblMsg.setText("Shipment not available right now!");
+			btnSend.setDisable(true);
+			return;
+		}
 		Product outOfStockProd = null;
 		do {
 			selectedStore=ordOnly.get(0);
@@ -132,7 +149,8 @@ public class DeliveryGUIController extends ParentGUIController {
 		DeliveryDetails del = new DeliveryDetails(Context.order.getOrderID(),selectedStore);
 		if(userData.equals("Pickup")) {
 			Context.order.setDelivery(del);
-			if(Context.order.getDeliveryType().equals(DeliveryType.Shipment))
+			if(Context.order.getDeliveryType() != null &&
+					Context.order.getDeliveryType().equals(DeliveryType.Shipment))
 				Context.order.addToFinalPrice(-1*ShipmentDetails.shipmentPrice);
 			Context.order.setDeliveryType(DeliveryType.Pickup);
 		}
@@ -171,12 +189,12 @@ public class DeliveryGUIController extends ParentGUIController {
 		}
 		if(selectedStore == null)	return null;
 		
-		Product outOfStockProd = Context.fac.store.checkStockByOrder(Context.order, selectedStore);
+		Product outOfStockProd = Context.fac.stock.checkStockByOrder(Context.order, selectedStore);
 		if(outOfStockProd==null) {
 			Platform.runLater(new Runnable() {
 				@Override
 				public void run() {
-					//lblMsg.setText("In Stock at store "+selectedStore.getName());
+					lblMsg.setText("");
 					btnSend.setDisable(false);
 				}
 			});
@@ -201,7 +219,7 @@ public class DeliveryGUIController extends ParentGUIController {
 	}
 	
 	
-	private void autoAddForTest() {
+	/*private void autoAddForTest() {
 		txtStreet.setText("Dafna 5");
 		txtCity.setText("Migdal HaEmek");
 		txtPostCode.setText("23508");
@@ -246,7 +264,7 @@ public class DeliveryGUIController extends ParentGUIController {
 		stArr[3] = addNewStore(BigInteger.valueOf(4),"Orders2",StoreType.OrdersOnly,sw,stock);
 		
 		setStores(stores);
-	}
+	}*/
 	
 	private Store addNewStore(BigInteger id, String name, StoreType type, StoreWorker sw,
 			ArrayList<Stock> stocks) {
@@ -266,6 +284,16 @@ public class DeliveryGUIController extends ParentGUIController {
 				ar.add(store.getName());
 		}
 		cbStores.setItems(FXCollections.observableArrayList(ar));
+		this.stores = stores;
+		for (Store store : stores) {
+			Context.askingCtrl.add(this);
+			try {
+				Context.fac.stock.getStockByStore(store.getStoreID());
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	
