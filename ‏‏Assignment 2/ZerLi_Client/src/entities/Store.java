@@ -16,6 +16,7 @@ public class Store {
 	private StoreType type;
 	private StoreWorker manager;
 	
+	
 	private static BigInteger idInc = null;
 	
 	public BigInteger getStoreID() {
@@ -27,8 +28,10 @@ public class Store {
 		super();
 		this.storeID = storeID;
 	}
-
-
+	
+	
+	
+	
 	public Store(BigInteger storeID, String name, StoreType type, StoreWorker manager) {
 		super();
 		this.storeID = storeID;
@@ -38,6 +41,7 @@ public class Store {
 	}
 
 
+	
 	public void setStoreID(BigInteger storeID) {
 		this.storeID = storeID;
 	}

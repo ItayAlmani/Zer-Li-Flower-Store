@@ -3,6 +3,12 @@ package entities;
 import java.math.BigInteger;
 
 public class StoreWorker extends User {
+	
+	public StoreWorker(BigInteger storeWorkerID) {
+		super();
+		this.storeWorkerID = storeWorkerID;
+	}
+
 	private BigInteger storeWorkerID;
 	private Store store;
 	

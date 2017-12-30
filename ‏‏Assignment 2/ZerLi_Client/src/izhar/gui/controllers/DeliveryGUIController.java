@@ -61,7 +61,13 @@ public class DeliveryGUIController extends ParentGUIController {
 		rbShipment.setToggleGroup(tGroup);
 		
 		//FOR TEST!!!! TAKE DOWN!
-		autoAddForTest();
+		try {
+			Context.fac.store.getAllStores();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	//	autoAddForTest();
 		
 		tGroup.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
 

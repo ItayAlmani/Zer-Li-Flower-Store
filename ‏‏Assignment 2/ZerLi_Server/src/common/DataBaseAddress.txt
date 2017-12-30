@@ -1,4 +1,4 @@
 Url: localhost
-Name: sys
+Name: schema
 UserName: root
-Password: 111228
+Password: 1234
