@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.ResourceBundle;
 
+import ReportsPack.ReportsMainController;
 import common.Context;
 import controllers.ParentController;
 import gui.controllers.ParentGUIController;
@@ -27,6 +28,14 @@ public class ReportSelectorGUIController extends ParentGUIController {
 	private @FXML ComboBox<Integer> DayCB;
 	private @FXML ComboBox<Integer> MonthCB;
 	public @FXML ComboBox<Integer> YearCB;
+	
+	public void start(Stage stage) throws IOException {
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/fxmls/ReportSelectorGUI.fxml"));
+		Scene scene = new Scene(loader.load());
+		stage.setTitle("Report Menu");
+		stage.setScene(scene);
+		stage.show();
+	}
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -59,9 +68,10 @@ public class ReportSelectorGUIController extends ParentGUIController {
 	
 	public void askforreportHandler (ActionEvent event) throws Exception
 	{
+		@SuppressWarnings("deprecation")
 		Date date = new Date(YearCB.getValue()-1900, MonthCB.getValue()-1, DayCB.getValue());
 		
-		if(TypeCB.getValue().equals("Orders Report"))
+		if(this.TypeCB.getValue().equals("Orders Report"))
 		{
 			try {
 				loadGUI("OrderReportFormGUI", false);
@@ -72,7 +82,7 @@ public class ReportSelectorGUIController extends ParentGUIController {
 			Context.fac.orderReport.produceOrderReport(date, 1);
 		}
 		
-		if(TypeCB.getValue().equals("Incomes Report"))
+		else if(TypeCB.getValue().equals("Incomes Report"))
 		{
 			try {
 				loadGUI("IncomesReportFormGUI", false);
@@ -83,7 +93,7 @@ public class ReportSelectorGUIController extends ParentGUIController {
 			Context.fac.incomesReport.ProduceIncomesReport(date, 1);
 		}
 		
-		if(TypeCB.getValue().equals("Client complaimnts histogram"))
+		else if(TypeCB.getValue().equals("Client complaimnts histogram"))
 		{
 			try {
 				loadGUI("HistogramOfCustomerComplaintsFormGUI", false);

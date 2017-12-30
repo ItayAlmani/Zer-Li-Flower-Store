@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import controllers.ParentController;
-import lior.interfaces.HistogramOfCustomerComplaintsReport;
+import entities.CustomerComplaintsReport;
 import lior.interfaces.IHistogramOfCustomerComplaintsReportController;
 
 public class HistogramOfCustomerComplaintsReportController extends ParentController implements IHistogramOfCustomerComplaintsReportController {
@@ -16,8 +16,8 @@ public class HistogramOfCustomerComplaintsReportController extends ParentControl
 	}
 
 	@Override
-	public HistogramOfCustomerComplaintsReport ProduceHistogramOfCustomerComplaintsReport(Date Reqdate, int storeID) {
-		// TODO Auto-generated method stub
+	public CustomerComplaintsReport ProduceHistogramOfCustomerComplaintsReport(Date Reqdate, int storeID) {
+		/*
 		return null;
 	}
 
