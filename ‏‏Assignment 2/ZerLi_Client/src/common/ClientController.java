@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.math.BigInteger;
 
 import controllers.ParentController;
 import entities.*;
@@ -70,14 +71,28 @@ public class ClientController {
 		}
 	}
 	
-	private static Class findHandleGetFunc(String className, String classPath) {
+	private static Class<?> findHandleGetFunc(String className, String classPath) {
 		try {
-			Class c =	Class.forName(classPath+className+"Controller");
 			//System.err.println("Class found in "+classPath+className);
-			return c;
+			return Class.forName(classPath+className+"Controller");
 		} catch (ClassNotFoundException | SecurityException | IllegalArgumentException e) {
 			//System.err.println("No class found in "+classPath+className);
 		}
 		return null;
+	}
+
+	public static void getLastAutoIncrenment(Class<?> clasz) throws IOException {
+		myMsgArr.clear();
+		String tbName = null;
+		if(clasz.equals(Order.class))
+			tbName="orders";
+		else
+			tbName=clasz.getName().toLowerCase().substring(clasz.getName().lastIndexOf("."+1));
+		myMsgArr.add("SHOW TABLE STATUS WHERE `Name` = '"+tbName+"'");
+		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.GetAI, myMsgArr, clasz));
+	}
+	
+	public void setLastAutoIncrenment(ArrayList<Object> obj) throws IOException {
+		Context.order = new Order((BigInteger)obj.get(10));	
 	}
 }

@@ -8,6 +8,8 @@ public class Stock {
 	private int quantity;
 	private int storeID;
 	
+	private static BigInteger idInc = null;
+	
 	public Stock(BigInteger id, Product product, int quantity, int storeID) {
 		super();
 		this.id=id;
@@ -53,5 +55,13 @@ public class Stock {
 
 	public void setStoreID(int storeID) {
 		this.storeID = storeID;
+	}
+
+	public static BigInteger getIdInc() {
+		return idInc;
+	}
+
+	public static void setIdInc(BigInteger idInc) {
+		Stock.idInc = idInc;
 	}
 }

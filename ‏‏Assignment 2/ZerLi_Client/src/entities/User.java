@@ -4,6 +4,8 @@ import java.math.BigInteger;
 
 public class User {
 	
+	private static BigInteger idInc = null;
+	
 	public enum UserType {
 		Customer,
 		StoreManager,

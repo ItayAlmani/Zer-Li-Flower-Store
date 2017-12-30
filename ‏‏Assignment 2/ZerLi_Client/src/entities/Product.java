@@ -14,6 +14,8 @@ public class Product{
 	private Color color;
 	private boolean inCatalog;
 	private Image image;
+	
+	private static BigInteger idInc = null;
 
 	public enum ProductType {
 		Bouquet, Single, Empty;
@@ -146,5 +148,13 @@ public class Product{
 
 	public void setImage(Image image) {
 		this.image = image;
+	}
+
+	public static BigInteger getIdInc() {
+		return idInc;
+	}
+
+	public static void setIdInc(BigInteger idInc) {
+		Product.idInc = idInc;
 	}
 }

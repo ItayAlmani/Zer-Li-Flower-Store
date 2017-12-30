@@ -10,6 +10,8 @@ public class PaymentAccount {
 	private CreditCard creditCard;
 	private Subscription sub;
 	
+	private static BigInteger idInc = null;
+	
 	/*public enum PaymentAccountType {
 		Subscribed,
 		NonSubscribed
@@ -42,6 +44,30 @@ public class PaymentAccount {
 
 	public void setSub(Subscription sub) {
 		this.sub = sub;
+	}
+
+	public BigInteger getPaID() {
+		return paID;
+	}
+
+	public void setPaID(BigInteger paID) {
+		this.paID = paID;
+	}
+
+	public BigInteger getCustomerID() {
+		return customerID;
+	}
+
+	public void setCustomerID(BigInteger customerID) {
+		this.customerID = customerID;
+	}
+
+	public static BigInteger getIdInc() {
+		return idInc;
+	}
+
+	public static void setIdInc(BigInteger idInc) {
+		PaymentAccount.idInc = idInc;
 	}
 
 }

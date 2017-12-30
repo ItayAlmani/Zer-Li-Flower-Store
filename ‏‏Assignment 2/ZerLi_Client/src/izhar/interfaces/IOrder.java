@@ -99,7 +99,5 @@ public interface IOrder extends IParent  {
 	
 	void getOrderInProcess(BigInteger customerID) throws IOException;
 
-	void getLastAutoIncrenment() throws IOException;
-
 	void getOrdersByCustomerID(BigInteger customerID) throws IOException;
 }
