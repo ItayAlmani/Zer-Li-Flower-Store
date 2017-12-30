@@ -5,14 +5,18 @@ import java.util.Date;
 
 public class ShipmentDetails extends DeliveryDetails {
 
+	private BigInteger shipmentID;
 	private String street;
 	private String city;
 	private String postCode;
 	private String customerName;
 	private String phoneNumber;
 	
-	private static BigInteger idInc = null;
-	
+	public ShipmentDetails(BigInteger deliveryID, BigInteger shipmentID) {
+		super(deliveryID);
+		this.shipmentID=shipmentID;
+	}
+
 	public ShipmentDetails(DeliveryDetails del,
 			String street, String city, String postCode, String customerName,
 			String phoneNumber) {
@@ -76,15 +80,15 @@ public class ShipmentDetails extends DeliveryDetails {
 		return phoneNumber;
 	}
 
-	public static BigInteger getIdInc() {
-		return idInc;
-	}
-
-	public static void setIdInc(BigInteger idInc) {
-		ShipmentDetails.idInc = idInc;
-	}
-
 	public static float getShipmentprice() {
 		return shipmentPrice;
+	}
+
+	public BigInteger getShipmentID() {
+		return shipmentID;
+	}
+
+	public void setShipmentID(BigInteger shipmentID) {
+		this.shipmentID = shipmentID;
 	}
 }

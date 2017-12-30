@@ -56,9 +56,15 @@ public class Transaction {
 		return transID;
 	}
 
-	public void setTansID(BigInteger transID) {
+	public static BigInteger getIdInc() {
+		return idInc;
+	}
+
+	public static void setIdInc(BigInteger idInc) {
+		Transaction.idInc = idInc;
+	}
+
+	public void setTransID(BigInteger transID) {
 		this.transID = transID;
 	}
-	
-	
 }

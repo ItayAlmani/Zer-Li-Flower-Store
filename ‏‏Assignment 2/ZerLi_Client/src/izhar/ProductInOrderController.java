@@ -16,8 +16,14 @@ import entities.Product.Color;
 import entities.Product.ProductType;
 import izhar.interfaces.IProductInOrder;
 import entities.ProductInOrder;
+import entities.Transaction;
 
 public class ProductInOrderController extends ParentController implements IProductInOrder {	
+	
+	public void setLastAutoIncrenment(ArrayList<Object> obj) throws IOException {
+		Transaction.setIdInc((BigInteger)obj.get(10));
+	}
+	
 	@Override
 	public void updatePIO(ProductInOrder p) throws IOException {
 		myMsgArr.clear();
@@ -87,15 +93,15 @@ public class ProductInOrderController extends ParentController implements IProdu
 	@Override
 	public void addPIO(ProductInOrder p) throws IOException {
 		myMsgArr.clear();
-		myMsgArr.add(
-				"INSERT INTO cart (orderID, productID, quantity, totalprice) " + 
+		String query = "INSERT INTO cart (orderID, productID, quantity, totalprice) " + 
 				" VALUES ('" 
-						+ p.getOrderID()+ "', '"
-						+ p.getProduct().getPrdID() + "', '"
-						+ p.getQuantity() + "', '"
-						+ p.getFinalPrice() + "');"
-								);
-		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.UPDATE, myMsgArr));
+				+ p.getOrderID()+ "', '"
+				+ p.getProduct().getPrdID() + "', '"
+				+ p.getQuantity() + "', '"
+				+ p.getFinalPrice() + "');";
+		query += "SELECT Max(productInOrderID) from cart;";
+		myMsgArr.add(query);
+		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.UPDATE, myMsgArr,ProductInOrder.class));
 	}
 
 	@Override

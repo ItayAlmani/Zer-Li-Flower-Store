@@ -103,15 +103,15 @@ public class ProductController extends ParentController implements IProduct {
 		String res = "0";
 		if(p.isInCatalog())
 			res="1";
-		myMsgArr.add(
-				"INSERT INTO orders (productName, productType, price, color, inCatalog)"
-						+ "VALUES ('" + p.getName() + "', '" 
-						+ p.getType().toString() + "', '"
-						+ p.getPrice() + "', '"
-						+ p.getColor().toString() + "', '"
-						+ res + "');"
-								);
-		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.UPDATE, myMsgArr));
+		String query = "INSERT INTO orders (productName, productType, price, color, inCatalog)"
+				+ "VALUES ('" + p.getName() + "', '" 
+				+ p.getType().toString() + "', '"
+				+ p.getPrice() + "', '"
+				+ p.getColor().toString() + "', '"
+				+ res + "');";
+		query += "SELECT Max(productID) from product;";
+		myMsgArr.add(query);
+		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.UPDATE, myMsgArr,Product.class));
 	}
 
 	@Override

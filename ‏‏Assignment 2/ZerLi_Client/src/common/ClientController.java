@@ -30,8 +30,8 @@ public class ClientController {
 		if (msgType.equals(MessageType.SELECT) || msgType.equals(MessageType.GetAI)) {
 			String className = csMsg.getClasz().getName();
 			className=className.substring(className.lastIndexOf("."));
-			Class c = null;
-			Method m;
+			Class<?> c = null;
+			Method m = null;
 			if((c=findHandleGetFunc(className, "controllers"))==null) {
 				if((c=findHandleGetFunc(className, "itayNron"))==null)
 					if((c=findHandleGetFunc(className, "izhar"))==null)
@@ -40,22 +40,27 @@ public class ClientController {
 								return;
 			}
 			try {
-				if(msgType.equals(MessageType.SELECT)) 
+				if(msgType.equals(MessageType.SELECT)) {
 					m = c.getMethod("handleGet",ArrayList.class);
-				else
+					m.invoke(c.newInstance(), csMsg.getObjs());
+				}
+				else if(msgType.equals(MessageType.GetAI)) {
 					m = c.getMethod("setLastAutoIncrenment",ArrayList.class);
-				m.invoke(c.newInstance(), csMsg.getObjs());
+					m.invoke(c.newInstance(), csMsg.getObjs());
+				}
 			} catch (NoSuchMethodException | SecurityException |IllegalAccessException | IllegalArgumentException | InvocationTargetException | InstantiationException e) {
 				e.printStackTrace();
 			}
 		}
-
-		/*------------------UPDATE queries from DB------------------*/
 		else if (msgType.equals(MessageType.UPDATE)) {
-			if (csMsg.getObjs().get(0) instanceof Boolean)
-				ParentController.sendResultToClient((boolean) csMsg.getObjs().get(0));
+			if (csMsg.getObjs().get(0)!= null &&
+					csMsg.getObjs().get(0) instanceof Integer &&
+					csMsg.getClasz() !=null)
+				sendNewID((Integer)csMsg.getObjs().get(0),csMsg.getClasz());
+			else
+				ParentController.sendResultToClient(false);
 		}
-
+		
 		/*------------------get DB data from Server------------------*/
 		else if (msgType.equals(MessageType.DBData) || msgType.equals(MessageType.DBStatus)) {
 			Context.fac.dataBase.handleGet(csMsg.getObjs());
@@ -68,6 +73,27 @@ public class ClientController {
 		else if(msgType.equals(MessageType.SetDB)) {
 			if (csMsg.getObjs().get(0) instanceof Boolean)
 				ParentController.sendResultToClient((boolean) csMsg.getObjs().get(0));
+		}
+	}
+	
+	private static void sendNewID(Integer id, Class<?> clasz) {
+		String methodName = "setUpdateRespond";
+		Method m = null;
+		try {
+			//a controller asked data, not GUI
+			if(Context.askingCtrl!=null && Context.askingCtrl.size()!=0) {
+				m = Context.askingCtrl.get(0).getClass().getMethod(methodName,Integer.class, Class.class);
+				m.invoke(Context.askingCtrl.get(0), id, clasz);
+				Context.askingCtrl.remove(0);
+			}
+			//Send success message
+			ParentController.sendResultToClient(true);
+		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e1) {
+			System.err.println("Couldn't invoke method '"+methodName+"'");
+			e1.printStackTrace();
+		} catch (NoSuchMethodException | SecurityException e2) {
+			System.err.println("No method called '"+methodName+"'");
+			e2.printStackTrace();
 		}
 	}
 	
@@ -91,8 +117,5 @@ public class ClientController {
 		myMsgArr.add("SHOW TABLE STATUS WHERE `Name` = '"+tbName+"'");
 		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.GetAI, myMsgArr, clasz));
 	}
-	
-	public void setLastAutoIncrenment(ArrayList<Object> obj) throws IOException {
-		Context.order = new Order((BigInteger)obj.get(10));	
-	}
+
 }

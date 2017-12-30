@@ -29,7 +29,7 @@ public class CSMessage implements Serializable{
 	private ArrayList<Object> objs;
 	
 	/**To know what casting to do - the class of the responded object(s)*/
-	private Class<?> clasz;
+	private Class<?> clasz = null;
 	
 	public CSMessage(MessageType type, ArrayList<Object> objs) {
 		super();

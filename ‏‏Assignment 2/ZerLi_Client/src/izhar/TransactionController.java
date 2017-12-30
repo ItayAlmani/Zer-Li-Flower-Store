@@ -15,6 +15,10 @@ import izhar.interfaces.ITransaction;
 
 public class TransactionController extends ParentController implements ITransaction {
 
+	public void setLastAutoIncrenment(ArrayList<Object> obj) throws IOException {
+		Transaction.setIdInc((BigInteger)obj.get(10));
+	}
+	
 	@Override
 	public void handleGet(ArrayList<Object> obj) {
 		// TODO Auto-generated method stub
@@ -24,12 +28,12 @@ public class TransactionController extends ParentController implements ITransact
 	@Override
 	public void addTransaction(Transaction transaction) throws IOException {
 		myMsgArr.clear();
-		myMsgArr.add(
-				"INSERT INTO orders (paymentMethod, orderID)"
-						+ "VALUES ('" + transaction.getPaymentMethod() + "', '" 
-						+ transaction.getOrder().getOrderID() + "');"
-								);
-		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.UPDATE, myMsgArr));
+		String query = "INSERT INTO transaction (paymentMethod, orderID)"
+				+ "VALUES ('" + transaction.getPaymentMethod().toString() + "', '" 
+				+ transaction.getOrder().getOrderID().toString() + "');";
+		query += "SELECT Max(transactionID) from transaction;";
+		myMsgArr.add(query);
+		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.UPDATE, myMsgArr,Transaction.class));
 		
 	}
 

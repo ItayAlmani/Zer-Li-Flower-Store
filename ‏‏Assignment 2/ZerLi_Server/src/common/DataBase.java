@@ -37,15 +37,19 @@ public class DataBase{
 		}
 	}
 	
-	public boolean setQuery(String query) {
+	public Integer setQuery(String query) {
 		Statement stmt;
 		try {
 			stmt = con.createStatement();
-			stmt.executeUpdate(query);
-			return true;
+			String[] querys = query.split(";");
+			stmt.executeUpdate(querys[0]);
+			ResultSet rs = stmt.executeQuery(querys[1]);
+			if(rs.next())
+				return rs.getInt(1);
+			return null;
 		} catch (SQLException e) {
 			e.printStackTrace();
-			return false;
+			return null;
 		}
 	}
 
