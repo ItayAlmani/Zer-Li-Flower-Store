@@ -25,8 +25,7 @@ public class IncomesReportController extends ParentController implements IIncome
 	
 	@Override
 	public void handleGet(ArrayList<Object> obj) {
-		// TODO Auto-generated method stub
-		
+		// TODO Auto-generated method stub	
 	}
 	
 	public void sendIncomeReports(ArrayList<IncomesReport> iReports) {
