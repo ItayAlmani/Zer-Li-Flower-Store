@@ -12,6 +12,7 @@ import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.chart.XYChart.Series;
+import javafx.scene.control.Label;
 
 public class HistogramOfCustomerComplaintsFormGUIController extends ParentGUIController {
 	
@@ -19,6 +20,10 @@ public class HistogramOfCustomerComplaintsFormGUIController extends ParentGUICon
 	@FXML BarChart HistogramChart;
 	@FXML NumberAxis yax;
 	@FXML CategoryAxis xax;
+	@FXML Label lblFrom;
+	@FXML Label lblStartDate;
+	@FXML Label lblTo;
+	@FXML Label lblEndDate;
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -35,7 +40,8 @@ public class HistogramOfCustomerComplaintsFormGUIController extends ParentGUICon
 		data2.setName("Complaints treated");
 		data1.getData().add(new XYChart.Data("Open complaints",15));
 		data2.getData().add(new XYChart.Data("Complaints treated",20));
-		
+		this.lblStartDate.setText("1");
+		this.lblEndDate.setText("2");
 		data.addAll(data1,data2);
 		this.HistogramChart.getData().addAll(data);
 			

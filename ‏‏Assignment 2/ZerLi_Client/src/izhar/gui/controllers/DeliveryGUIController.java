@@ -205,7 +205,7 @@ public class DeliveryGUIController extends ParentGUIController {
 		stores = new ArrayList<>();
 		Store[] stArr = new Store[4];
 		
-		StoreWorker sw = new StoreWorker(1,BigInteger.valueOf(3));
+		StoreWorker sw = new StoreWorker(BigInteger.ONE,BigInteger.valueOf(3));
 		ArrayList<Stock> stock = new ArrayList<>();
 		stock.add(new Stock(BigInteger.ONE,new Product(BigInteger.ONE,
 				"Red Anemone Bouquet"),5,1));

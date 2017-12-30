@@ -19,6 +19,8 @@ public class Order {
 	private float finalPrice;
 	private ArrayList<ProductInOrder> products;
 	
+	private static BigInteger idInc = null;
+	
 	private Order() {
 		finalPrice=0;
 		products = new ArrayList<>();
@@ -177,5 +179,13 @@ public class Order {
 		Full,
 		Partial,
 		No
+	}
+
+	public static BigInteger getIdInc() {
+		return idInc;
+	}
+
+	public static void setIdInc(BigInteger idInc) {
+		Order.idInc = idInc;
 	}
 }

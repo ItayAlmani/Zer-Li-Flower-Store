@@ -38,7 +38,19 @@ public class PaymentGUIController extends ParentGUIController {
     }
 
 	public void selectedCreditCard() {
+		btnPay.setText("Pay Now!");
 		btnPay.setVisible(true);
+	}
+
+	public void selectedCash() {
+		lblPayMsg.setText("Order won't be complete until payment");
+		btnPay.setText("Next");
+		piBill.setVisible(false);
+		btnPay.setDisable(false);
+		btnPay.setVisible(true);
+	}
+
+	public void pay() {
 		piBill.setVisible(true);
 		lblPayMsg.setText("Billing - waiting for confiramtion");
 		piBill.progressProperty().addListener((ov, oldValue, newValue) -> {
@@ -79,6 +91,7 @@ public class PaymentGUIController extends ParentGUIController {
 						else {
 							btnPay.setDisable(false);
 							lblPayMsg.setText("");
+							payWithCC();
 						}
 						
 					}
@@ -88,16 +101,8 @@ public class PaymentGUIController extends ParentGUIController {
 		th.setDaemon(true);
 		th.start();		
 	}
-
-	public void selectedCash() {
-		lblPayMsg.setText("Order won't be complete until payment");
-		btnPay.setText("Next");
-		piBill.setVisible(false);
-		btnPay.setDisable(false);
-		btnPay.setVisible(true);
-	}
-
-	public void pay() {
+	
+	private void payWithCC() {
 		Order ord = Context.order;
 		if(tGroup.getSelectedToggle().getUserData().equals("CreditCard")) {
 			ord.setOrderStatus(OrderStatus.Paid);

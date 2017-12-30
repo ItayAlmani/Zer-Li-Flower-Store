@@ -13,6 +13,8 @@ public class Complaint {
 	private boolean isRefunded = false;
 	private String status;
 	private String storeID;
+	
+	private static BigInteger idInc = null;
 
 	public String getComplaintReason() {
 		return this.complaintReason;
@@ -54,4 +56,11 @@ public class Complaint {
 		this.isRefunded = isRefunded;
 	}
 
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
 }

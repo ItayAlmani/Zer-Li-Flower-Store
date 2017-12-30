@@ -8,6 +8,8 @@ public class Transaction {
 	private PayMethod paymentMethod;
 	private Order order;
 	
+	private static BigInteger idInc = null;
+	
 	public enum PayMethod {
 		CreditCard,
 		Cash,

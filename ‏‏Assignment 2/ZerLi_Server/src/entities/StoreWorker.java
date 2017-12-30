@@ -11,12 +11,12 @@ public class StoreWorker extends User {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public StoreWorker(int userID,BigInteger storeWorkerID) {
+	public StoreWorker(BigInteger userID,BigInteger storeWorkerID) {
 		super(userID);
 		this.storeWorkerID=storeWorkerID;
 	}
 	
-	public StoreWorker(int userID,BigInteger storeWorkerID, Store store) {
+	public StoreWorker(BigInteger userID,BigInteger storeWorkerID, Store store) {
 		super(userID);
 		this.storeWorkerID=storeWorkerID;
 		this.store=store;
