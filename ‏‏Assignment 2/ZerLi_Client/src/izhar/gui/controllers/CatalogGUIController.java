@@ -165,6 +165,7 @@ public class CatalogGUIController extends ParentGUIController {
 						}
 						else {
 							pio.addOneToQuantity();
+							
 							Context.fac.prodInOrder.updatePriceWithSubscription(pio, Context.getUserAsCustomer());
 							try {
 								Context.fac.prodInOrder.updatePIO(pio);
