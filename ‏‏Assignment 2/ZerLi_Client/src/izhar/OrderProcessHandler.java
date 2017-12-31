@@ -12,6 +12,9 @@ import entities.ProductInOrder;
 import entities.Order.DeliveryType;
 import entities.ShipmentDetails;
 import entities.Transaction;
+import gui.controllers.ParentGUIController;
+import izhar.gui.controllers.OrderGUIController;
+import izhar.gui.controllers.PaymentGUIController;
 import izhar.interfaces.IOrderProcess;
 
 public class OrderProcessHandler extends ParentController implements IOrderProcess {
@@ -52,11 +55,19 @@ public class OrderProcessHandler extends ParentController implements IOrderProce
 				f.transaction.addTransaction(order.getTransaction());
 			} else if (clasz.equals(Transaction.class)) {
 				order.getTransaction().setTransID(biID);
-				if (Context.existingOrder == false)
+				if (Context.existingOrder == false) {
+					Context.askingCtrl.add(this);
 					f.order.addOrder(order);
-				else
+				}
+				else {
 					f.order.updateOrder(order);
-				Context.askOrder();
+					if(Context.currentGUI instanceof PaymentGUIController)
+						((PaymentGUIController)Context.currentGUI).loadNextWindow();
+				}
+			} else if(clasz.equals(Order.class)) {
+				order.setOrderID(biID);
+				if(Context.currentGUI instanceof PaymentGUIController)
+					((PaymentGUIController)Context.currentGUI).loadNextWindow();
 			}
 		} catch (IOException e) {
 			e.printStackTrace();

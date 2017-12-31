@@ -1,5 +1,6 @@
 package izhar.gui.controllers;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.Random;
 import java.util.ResourceBundle;
@@ -29,6 +30,8 @@ public class PaymentGUIController extends ParentGUIController {
 	private @FXML ProgressIndicator piBill;
 	private @FXML ToggleGroup tGroup;
 	private @FXML TextArea txtGreeting;
+	
+	public static boolean orderAdded = false;
 	
 	private void setLblFinalPrice(Float ordPrice) {
     	if(ordPrice == Math.round(ordPrice))
@@ -93,7 +96,6 @@ public class PaymentGUIController extends ParentGUIController {
 							lblPayMsg.setText("");
 							payWithCC();
 						}
-						
 					}
 				});
 			}
@@ -116,6 +118,21 @@ public class PaymentGUIController extends ParentGUIController {
 		else
 			ord.setGreeting("");
 		Context.fac.orderProcess.updateFinilizeOrder(ord);
+	}
+	
+	public void loadNextWindow() {
+		Platform.runLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				try {
+					loadGUI("OrderGUI", false);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
 	}
 
 	public void back() {
