@@ -15,6 +15,7 @@ import entities.Transaction;
 import gui.controllers.ParentGUIController;
 import izhar.gui.controllers.OrderGUIController;
 import izhar.gui.controllers.PaymentGUIController;
+import izhar.gui.controllers.UpdateOrderStatusGUIController;
 import izhar.interfaces.IOrderProcess;
 
 public class OrderProcessHandler extends ParentController implements IOrderProcess {

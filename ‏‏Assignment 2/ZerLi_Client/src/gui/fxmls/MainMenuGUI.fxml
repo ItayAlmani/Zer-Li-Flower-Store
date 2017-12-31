@@ -37,6 +37,7 @@
                   <MenuItem fx:id="miReportSelector" mnemonicParsing="false" onAction="#showReportSelector" text="Select Report" />
                 <MenuItem fx:id="miAssembleItem" mnemonicParsing="false" text="Assemble Product" />
                   <MenuItem fx:id="miUpdateOrderStatus" mnemonicParsing="false" onAction="#loadUpdateOrder" text="Update Order Status" />
+                  <MenuItem fx:id="miManualTransaction" mnemonicParsing="false" onAction="#loadManualTransaction" text="Manual Transaction" />
               </items>
             </MenuButton>
             <Button fx:id="btnConfig" mnemonicParsing="false" onAction="#showConnectionGUI" text="Configure connection" textOverrun="WORD_ELLIPSIS" />

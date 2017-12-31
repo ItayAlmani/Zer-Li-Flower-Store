@@ -21,7 +21,12 @@ public class Order {
 	
 	private static BigInteger idInc = null;
 	
-	
+	public Order(OrderType type, OrderStatus orderStatus) {
+		super();
+		this.type = type;
+		this.orderStatus = orderStatus;
+	}
+
 	public Order(BigInteger customerID, OrderType type, OrderStatus orderStatus) {
 		super();
 		this.customerID = customerID;

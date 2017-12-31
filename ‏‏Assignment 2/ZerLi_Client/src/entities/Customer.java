@@ -59,4 +59,7 @@ public class Customer extends User {
 		Customer.idInc = idInc;
 	}
 	
+	public String getFullName() {
+		return getFirstName()+" "+getLastName();
+	}
 }
