@@ -6,7 +6,7 @@ import java.math.BigInteger;
 
 import javafx.scene.image.Image;
 
-public class Product {
+public class Product implements Comparable<Product> {
 	private BigInteger prdID;
 	private String name;
 	private ProductType type;
@@ -163,5 +163,10 @@ public class Product {
 	@Override
 	public String toString() {
 		return getName();
+	}
+
+	@Override
+	public int compareTo(Product o) {
+		return getPrdID().compareTo(o.getPrdID());
 	}
 }

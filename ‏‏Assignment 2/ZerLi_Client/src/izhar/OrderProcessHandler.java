@@ -71,6 +71,7 @@ public class OrderProcessHandler extends ParentController implements IOrderProce
 					if(Context.currentGUI instanceof PaymentGUIController)
 						((PaymentGUIController)Context.currentGUI).loadNextWindow();
 				}
+				f.stock.updateStock(order);
 			} else if(clasz.equals(Order.class) && order != null ) {
 				order.setOrderID(biID);
 				if(Context.currentGUI instanceof PaymentGUIController)

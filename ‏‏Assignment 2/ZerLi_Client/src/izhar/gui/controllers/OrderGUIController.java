@@ -26,6 +26,7 @@ public class OrderGUIController extends ParentGUIController {
 	}
 	
 	public void toMainMenu() {
+		Context.askOrder();
 		loadMainMenu();
 	}
 }
