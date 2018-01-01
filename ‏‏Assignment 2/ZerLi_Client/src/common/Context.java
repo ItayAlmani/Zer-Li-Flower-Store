@@ -3,6 +3,7 @@ package common;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
@@ -13,6 +14,8 @@ import entities.Order;
 import entities.ProductInOrder;
 import entities.StoreWorker;
 import entities.User;
+import entities.Order.OrderStatus;
+import entities.Order.OrderType;
 import entities.User.UserType;
 import gui.controllers.MainMenuGUIController;
 import javafx.stage.Stage;
@@ -53,7 +56,6 @@ public class Context {
 	
 	private static User user;
 	public static Order order;
-	public static boolean existingOrder;
 	
 	/**
 	 * Looking for the .txt file at <code>projectPath</code>+<code>serTxtPath</code> path,
@@ -193,9 +195,8 @@ public class Context {
 	}
 	
 	public static void setOrders(ArrayList<Order> orders) {
-		if(orders !=null && orders.size()!=0 && orders.get(0)!=null) {
+		if(orders!=null && orders.size()!=0 && orders.get(0)!=null) {
 			order = orders.get(0);
-			existingOrder=true;
 			try {
 				askingCtrl.add(Context.class.newInstance());
 				if(order != null)
@@ -210,8 +211,19 @@ public class Context {
 		}
 		else
 		{
-			existingOrder=false;
 			if(user instanceof Customer) {
+				try {
+					order = new Order(Context.getUserAsCustomer().getCustomerID(),
+							OrderType.InfoSystem,
+							OrderStatus.InProcess);
+					askingCtrl.add(Context.class.newInstance());
+					fac.order.addOrder(order);
+				} catch (IOException | InstantiationException | IllegalAccessException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			/*if(user instanceof Customer) {
 				//order=new Order(((Customer)user).getCustomerID());
 				try {
 					ClientController.getLastAutoIncrenment(Order.class);
@@ -219,7 +231,15 @@ public class Context {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-			}
+			}*/
+		}
+	}
+	
+	public void setUpdateRespond(Integer id, Class<?> clasz) {
+		Factory f = Context.fac;
+		BigInteger biID = BigInteger.valueOf(id);
+		if(clasz.equals(Order.class)) {
+			order.setOrderID(biID);
 		}
 	}
 	

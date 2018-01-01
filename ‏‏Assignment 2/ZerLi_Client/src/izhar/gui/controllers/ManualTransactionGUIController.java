@@ -4,9 +4,7 @@ import java.io.IOException;
 import java.math.BigInteger;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Observable;
 import java.util.ResourceBundle;
-import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -29,7 +27,6 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.collections.ObservableSet;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -37,7 +34,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Control;
 import javafx.scene.control.Spinner;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
@@ -58,7 +54,11 @@ public class ManualTransactionGUIController extends ParentGUIController {
 	public void sendNewOrder() {
 		Context.order.setType(OrderType.Manual);
 		Context.order.setOrderStatus(OrderStatus.Paid);
-		Context.fac.orderProcess.updateFinilizeOrder(Context.order);
+		try {
+			Context.fac.orderProcess.updateFinilizeOrder(Context.order);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	private void setUP() {
@@ -202,8 +202,15 @@ public class ManualTransactionGUIController extends ParentGUIController {
 					ProductInOrder pio = Context.fac.prodInOrder.getPIOFromArr(
 							Context.order.getProducts(), observable.getValue());
 					if(pio!=null) {
-						if(picb.s.getValue().equals(0))
+						if(picb.s.getValue().equals(0)) {
 							Context.order.getProducts().remove(pio);
+							/*try {
+								Context.fac.prodInOrder.deletePIO(pio);
+							} catch (IOException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}*/
+						}
 						else
 							pio.setQuantity(picb.s.getValue());
 					}
@@ -211,6 +218,12 @@ public class ManualTransactionGUIController extends ParentGUIController {
 						pio = new ProductInOrder(observable.getValue(),
 								picb.s.getValue(), Context.order.getOrderID());
 						Context.order.getProducts().add(pio);
+						/*try {
+							Context.fac.prodInOrder.addPIO(pio);
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}*/
 					}
 				}
 			}    

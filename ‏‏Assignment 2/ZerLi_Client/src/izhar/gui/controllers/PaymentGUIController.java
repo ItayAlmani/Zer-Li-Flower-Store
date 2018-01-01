@@ -113,7 +113,12 @@ public class PaymentGUIController extends ParentGUIController {
 			ord.setGreeting(txtGreeting.getText());
 		else
 			ord.setGreeting("");
-		Context.fac.orderProcess.updateFinilizeOrder(ord);
+		try {
+			Context.fac.orderProcess.updateFinilizeOrder(ord);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public void loadNextWindow() {

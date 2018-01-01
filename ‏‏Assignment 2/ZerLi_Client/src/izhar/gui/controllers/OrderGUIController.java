@@ -2,6 +2,7 @@ package izhar.gui.controllers;
 
 import java.net.URL;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
 import common.Context;
@@ -19,9 +20,13 @@ public class OrderGUIController extends ParentGUIController {
 		Context.currentGUI = this;
 		Order ord = Context.order;
 		
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd--MM-yyyy HH:mm");
+		String formatDateTime = ord.getDate().format(formatter);
+
+		
 		lblOrderID.setText(ord.getOrderID().toString());
 		lblDelMethod.setText(ord.getDeliveryType().toString());
-		lblDelTime.setText(ord.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate().toString());
+		lblDelTime.setText(formatDateTime);
 		lblPayment.setText(((Float)ord.getFinalPrice()).toString());
 	}
 	

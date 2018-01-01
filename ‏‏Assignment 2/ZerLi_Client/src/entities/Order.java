@@ -4,7 +4,6 @@ import java.math.BigInteger;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class Order {
 	private BigInteger orderID;
@@ -14,7 +13,7 @@ public class Order {
 	private String greeting = null;
 	private DeliveryType deliveryType = null;
 	private OrderStatus orderStatus;
-	private Date date = new Date();
+	private LocalDateTime date = LocalDateTime.now();
 	private float finalPrice = 0f;
 	private ArrayList<ProductInOrder> products;
 	private PayMethod paymentMethod;
@@ -43,7 +42,7 @@ public class Order {
 	public Order() {
 		finalPrice=0;
 		products = new ArrayList<>();
-		date = Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant());
+		date = LocalDateTime.now();
 	}
 	
 	public Order(BigInteger customerID, ArrayList<ProductInOrder> products) {
@@ -55,7 +54,7 @@ public class Order {
 	}
 
 	public Order(BigInteger orderID, BigInteger customerID, DeliveryDetails delivery, OrderType type,
-			PayMethod paymentMethod, String greeting, DeliveryType deliveryType, OrderStatus orderStatus, Date date,
+			PayMethod paymentMethod, String greeting, DeliveryType deliveryType, OrderStatus orderStatus, LocalDateTime date,
 			float finalPrice) {
 		super();
 		this.orderID = orderID;
@@ -81,7 +80,7 @@ public class Order {
 	}
 
 	public Order(BigInteger orderID, BigInteger customerID, OrderType type, PayMethod paymentMethod,
-			String greeting, OrderStatus orderStatus, Date date, float finalPrice) {
+			String greeting, OrderStatus orderStatus, LocalDateTime date, float finalPrice) {
 		super();
 		this.orderID = orderID;
 		this.customerID = customerID;
@@ -94,7 +93,7 @@ public class Order {
 	}
 
 	public Order(BigInteger orderID, BigInteger customerID, OrderType type, String greeting, OrderStatus orderStatus,
-			Date date) {
+			LocalDateTime date) {
 		super();
 		this.orderID = orderID;
 		this.customerID = customerID;
@@ -152,11 +151,11 @@ public class Order {
 		this.type = type;
 	}
 
-	public Date getDate() {
+	public LocalDateTime getDate() {
 		return date;
 	}
 
-	public void setDate(Date date) {
+	public void setDate(LocalDateTime date) {
 		this.date = date;
 	}
 

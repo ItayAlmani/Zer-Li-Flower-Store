@@ -3,6 +3,8 @@ package izhar;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.sql.Date;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import common.Context;
@@ -26,7 +28,7 @@ public class PickupController extends ParentController implements IPickup {
 		String query = "INSERT INTO deliverydetails (orderID, storeID, date, isImmediate) "+
 				"VALUES ('"+deliveryDetails.getOrderID() + "', '"
 				+ deliveryDetails.getStore().getStoreID() + "', '"
-				+ new Date(deliveryDetails.getDate().getTime()) + "', '"
+				+ (Timestamp.valueOf(deliveryDetails.getDate())).toString() + "', '"
 				+ res + "');";
 		query += "SELECT Max(deliveryID) from deliverydetails;";
 		myMsgArr.add(query);
@@ -34,7 +36,7 @@ public class PickupController extends ParentController implements IPickup {
 	}
 	
 	@Override
-	public DeliveryDetails parse(BigInteger deliveryID, BigInteger orderID, Store store, java.util.Date date, boolean isImmediate) {
+	public DeliveryDetails parse(BigInteger deliveryID, BigInteger orderID, Store store, LocalDateTime date, boolean isImmediate) {
 		return new DeliveryDetails(deliveryID, orderID, date, isImmediate, store);
 	}
 
@@ -46,7 +48,7 @@ public class PickupController extends ParentController implements IPickup {
 					(int) obj.get(i), 
 					(int) obj.get(i + 1), 
 					(int) obj.get(i + 3),
-					new java.util.Date(((Date) obj.get(i + 2)).getTime()),
+					((Timestamp) obj.get(i + 2)).toLocalDateTime(),
 					((int) obj.get(i + 4)!= 0);
 		sendProducts(prds);
 	}

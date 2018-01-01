@@ -152,10 +152,6 @@ public class CatalogGUIController extends ParentGUIController {
 						if(pio==null) {
 							pio = new ProductInOrder(prd, 1, Context.order.getOrderID());
 							try {
-								Context.fac.order.addOrder(
-										new Order(Context.getUserAsCustomer().getCustomerID(),
-										OrderType.InfoSystem,
-										OrderStatus.InProcess));
 								Context.order.getProducts().add(pio);
 								Context.fac.prodInOrder.addPIO(pio);
 							} catch (IOException e) {

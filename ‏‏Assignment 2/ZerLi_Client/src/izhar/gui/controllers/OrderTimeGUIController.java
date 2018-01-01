@@ -70,7 +70,7 @@ public class OrderTimeGUIController extends ParentGUIController {
 				date = LocalDateTime.of(new_date, new_time);
 			}
 		}
-		Context.order.getDelivery().setDate(Date.from(date.atZone(ZoneId.systemDefault()).toInstant()));
+		Context.order.getDelivery().setDate(date);
 		try {
 			loadGUI("PaymentGUI", false);
 		} catch (Exception e) {
@@ -136,7 +136,7 @@ public class OrderTimeGUIController extends ParentGUIController {
 	}
 	
 	@FXML public void selectedDate() {
-		Context.order.getDelivery().setDate(Date.from(dpDate.getValue().atStartOfDay().atZone(ZoneId.systemDefault()).toInstant()));
+		Context.order.getDelivery().setDate(dpDate.getValue().atStartOfDay());
 		LocalTime now_time = LocalTime.now();
 		LocalDate reqDate = dpDate.getValue(), now_date = LocalDate.now();
 		

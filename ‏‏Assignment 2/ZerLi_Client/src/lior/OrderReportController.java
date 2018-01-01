@@ -6,6 +6,8 @@ import java.lang.reflect.Method;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -87,8 +89,9 @@ public class OrderReportController extends ParentController implements IOrderRep
 		this.oReport.setEnddate(this.rDate);
 		for(int i=0;i<orders.size();i++)
 		{
-			if(orders.get(i).getDate().after(rDate)==false&&
-					orders.get(i).getDate().after(startDate)
+			Date date = Date.from(orders.get(i).getDate().atZone(ZoneId.systemDefault()).toInstant());
+			if(date.after(rDate)==false&&
+					date.after(startDate)
 					/*&& orders.get(i).getOrderStatus().equals(OrderStatus.Paid)*/
 					)
 			{

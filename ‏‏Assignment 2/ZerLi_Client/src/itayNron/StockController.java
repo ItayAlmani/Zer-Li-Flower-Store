@@ -85,11 +85,18 @@ public class StockController extends ParentController implements IStock {
 		myMsgArr.clear();
 		for(ProductInOrder productInOrder : prds) {
 			myMsgArr.add(String.format(
-					"update stock" + 
-					"set quantity=quantity - '%d'" + 
-					"where storeID=(select storeID from deliverydetails where orderID='%d');",productInOrder.getQuantity(),order.getOrderID()));
+					" UPDATE stock" + 
+					" SET quantity=quantity - '%d'" + 
+					" WHERE storeID="
+					+ "("
+						+ " SELECT storeID"
+						+ " FROM deliverydetails "
+						+ " WHERE orderID='%d' AND productID='%d'"
+					+ ");",
+					productInOrder.getQuantity(),
+					order.getOrderID(),
+					productInOrder.getProduct().getPrdID()));
 			Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.UPDATE,myMsgArr));
-			
 		}
 		
 	}

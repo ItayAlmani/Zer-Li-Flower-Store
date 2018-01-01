@@ -1,6 +1,7 @@
 package entities;
 
 import java.math.BigInteger;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 public class ShipmentDetails extends DeliveryDetails {
@@ -55,7 +56,7 @@ public class ShipmentDetails extends DeliveryDetails {
 		this.phoneNumber = phoneNumber;
 	}
 
-	public ShipmentDetails(BigInteger deliveryID, BigInteger orderID, Date date, boolean isImmediate, Store store, 
+	public ShipmentDetails(BigInteger deliveryID, BigInteger orderID, LocalDateTime date, boolean isImmediate, Store store, 
 			String[] address, String customerName, String phoneNumber) {
 		super(deliveryID, orderID, date, isImmediate, store);
 		this.street = address[0];

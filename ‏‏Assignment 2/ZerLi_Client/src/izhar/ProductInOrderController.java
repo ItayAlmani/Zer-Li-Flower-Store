@@ -115,6 +115,16 @@ public class ProductInOrderController extends ParentController implements IProdu
 		myMsgArr.add(query);
 		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.UPDATE, myMsgArr,ProductInOrder.class));
 	}
+	
+	public void deletePIO(ProductInOrder pio) throws IOException{
+		myMsgArr.clear();
+		String query = "delete from cart" + 
+						" where orderID='"+pio.getOrderID()
+						+"' AND productID='"+pio.getProduct().getPrdID()+"'";
+		query += "SELECT Max(productInOrderID) from cart;";
+		myMsgArr.add(query);
+		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.UPDATE, myMsgArr,ProductInOrder.class));
+	}
 
 	@Override
 	public void getPIOsByOrder(BigInteger orderID) throws IOException {

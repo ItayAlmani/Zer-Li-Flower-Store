@@ -6,8 +6,10 @@ import java.lang.reflect.Method;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.time.Duration;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.temporal.Temporal;
 
 import common.Context;
@@ -78,7 +80,7 @@ public class OrderController extends ParentController implements IOrder {
 				+  greeting + ", "
 				+ delType + ", '" 
 				+ order.getOrderStatus().toString() + "', '"
-				+ new Date(order.getDate().getTime()) + "','"+
+				+ (Timestamp.valueOf(order.getDate())).toString() + "','"+
 				 order.getFinalPrice()+"');";
 		query += "SELECT Max(orderID) from orders;";
 		myMsgArr.add(query);
@@ -103,7 +105,7 @@ public class OrderController extends ParentController implements IOrder {
 					(String) obj.get(i + 6),
 					(String) obj.get(i + 7),
 					(String) obj.get(i + 8),
-					(java.util.Date)obj.get(i + 9),
+					(Timestamp)obj.get(i + 9),
 					(float)obj.get(i+10)
 					));
 		}
@@ -153,7 +155,7 @@ public class OrderController extends ParentController implements IOrder {
 		+ ",greeting = " + greeting 
 		+ ",deliveryType = " + delType
 		+ ",status='" + order.getOrderStatus().toString() 
-		+ "',date = '" + new Date(order.getDate().getTime())
+		+ "',date = '" + (Timestamp.valueOf(order.getDate())).toString()
 		+ "',price = '"+ order.getFinalPrice()
 		+ "' WHERE orderID='" + order.getOrderID() + "'");
 		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.UPDATE, myMsgArr));
@@ -210,7 +212,8 @@ public class OrderController extends ParentController implements IOrder {
 
 	@Override
 	public Order parse(BigInteger orderID, BigInteger customerID, BigInteger deliveryID, String payMethod, BigInteger shipmentID, String type,
-			String greeting, String deliveryType, String orderStatus, java.util.Date date, float price) {
+			String greeting, String deliveryType, String orderStatus, Timestamp date, float price) {
+		LocalDateTime ldtDate = date.toLocalDateTime();
 		if(deliveryType==null)
 			return new Order(orderID,
 					customerID,
@@ -218,7 +221,7 @@ public class OrderController extends ParentController implements IOrder {
 					payMethod==null?null:PayMethod.valueOf(payMethod), 
 					greeting,
 					OrderStatus.valueOf(orderStatus), 
-					date,
+					ldtDate,
 					price);
 		else if(DeliveryType.valueOf(deliveryType).equals(DeliveryType.Pickup))
 			return new Order(orderID,
@@ -229,7 +232,7 @@ public class OrderController extends ParentController implements IOrder {
 					greeting,
 					DeliveryType.valueOf(deliveryType), 
 					OrderStatus.valueOf(orderStatus), 
-					date, 
+					ldtDate, 
 					price);
 		else if(DeliveryType.valueOf(deliveryType).equals(DeliveryType.Shipment))
 			return new Order(orderID,
@@ -240,7 +243,7 @@ public class OrderController extends ParentController implements IOrder {
 					greeting,
 					DeliveryType.valueOf(deliveryType), 
 					OrderStatus.valueOf(orderStatus), 
-					date,
+					ldtDate,
 					price);
 		else return null;
 	}
