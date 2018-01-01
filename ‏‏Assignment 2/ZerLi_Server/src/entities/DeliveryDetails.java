@@ -9,7 +9,13 @@ public class DeliveryDetails {
 	protected Date date;
 	private boolean isImmediate = true;
 	private Store store;
+	
+	private static BigInteger idInc = null;
 
+	public DeliveryDetails() {
+		
+	}
+	
 	public DeliveryDetails(BigInteger deliveryID) {
 		super();
 		this.deliveryID = deliveryID;
@@ -90,6 +96,14 @@ public class DeliveryDetails {
 
 	public Store getStore() {
 		return store;
+	}
+
+	public static BigInteger getIdInc() {
+		return idInc;
+	}
+
+	public static void setIdInc(BigInteger idInc) {
+		DeliveryDetails.idInc = idInc;
 	}
 	
 	

@@ -87,8 +87,10 @@ public class User {
 		this.userName = userName;
 		this.password = password;
 	}
-
-
+	
+	public String getFullName() {
+		return getFirstName()+" "+getLastName();
+	}
 
 	public UserType getPermissions() {
 		return this.permissions;

@@ -83,7 +83,7 @@ public interface IOrder extends IParent  {
 	 * @param cartID		-	the cart which contains all the products in order ID
 	 * @return new object created by the data above
 	 */
-	Order parse(BigInteger orderID, BigInteger customerID, BigInteger deliveryID, BigInteger transactionID, BigInteger shipmentID, String type,
+	Order parse(BigInteger orderID, BigInteger customerID, BigInteger deliveryID, String payMethodID, BigInteger shipmentID, String type,
 			String greeting, String deliveryType, String orderStatus, Date date, float price);
 	
 	/**

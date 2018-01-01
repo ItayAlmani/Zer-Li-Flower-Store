@@ -4,6 +4,12 @@ import java.math.BigInteger;
 
 public class User {
 	
+	public User() {
+		super();
+	}
+
+	private static BigInteger idInc = null;
+	
 	public enum UserType {
 		Customer,
 		StoreManager,
@@ -28,8 +34,6 @@ public class User {
 	private String password;
 	private UserType permissions;
 	private boolean isConnected;
-	
-	
 	
 	public User(BigInteger userID) {
 		super();
@@ -65,14 +69,28 @@ public class User {
 		this.permissions = permissions;
 		this.isConnected=isConnected;
 	}
+	
+	public User(BigInteger userID, String privateID, String firstName, String lastName, String userName, String password,
+			UserType permissions) {
+		super();
+		this.userID = userID;
+		this.privateID = privateID;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.userName = userName;
+		this.password = password;
+		this.permissions = permissions;
+	}
 
 	public User(String userName, String password) {
 		super();
 		this.userName = userName;
 		this.password = password;
 	}
-
-
+	
+	public String getFullName() {
+		return getFirstName()+" "+getLastName();
+	}
 
 	public UserType getPermissions() {
 		return this.permissions;

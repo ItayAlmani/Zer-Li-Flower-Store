@@ -27,7 +27,6 @@ public class Factory {
 	public OrderProcessHandler orderProcess = new OrderProcessHandler();
 	public PickupController pickup = new PickupController();
 	public StoreController store = new StoreController();
-	public TransactionController transaction = new TransactionController();
 	public ProductController product = new ProductController();
 	public ProductInOrderController prodInOrder = new ProductInOrderController();
 	public ShipmentController shipment = new ShipmentController();

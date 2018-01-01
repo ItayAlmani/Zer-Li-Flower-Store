@@ -17,6 +17,7 @@ import entities.CSMessage.MessageType;
 import entities.Order.DeliveryType;
 import entities.Order.OrderStatus;
 import entities.Order.OrderType;
+import entities.Order.PayMethod;
 import entities.Order.Refund;
 import entities.Subscription.SubscriptionType;
 import izhar.interfaces.IOrder;
@@ -56,7 +57,7 @@ public class OrderController extends ParentController implements IOrder {
 	@Override
 	public void addOrder(Order order) throws IOException {
 		myMsgArr.clear();
-		String delID ="NULL", shipID="NULL", transID = "NULL", delType="NULL", greeting = "NULL";
+		String delID ="NULL", shipID="NULL", payMeth = "NULL", delType="NULL", greeting = "NULL";
 		if(order.getDeliveryType() != null) {
 			if(order.getDeliveryType().equals(DeliveryType.Pickup) && order.getDelivery() != null)
 				delID="'"+order.getDelivery().getDeliveryID().toString()+"'";
@@ -64,15 +65,15 @@ public class OrderController extends ParentController implements IOrder {
 				shipID="'"+((ShipmentDetails)order.getDelivery()).getOrderID().toString()+"'";
 			delType="'"+order.getDeliveryType().toString()+"'";
 		}
-		if(order.getTransaction()!=null)
-			transID="'"+order.getTransaction().toString()+"'";
+		if(order.getPaymentMethod()!=null)
+			payMeth="'"+order.getPaymentMethod().toString()+"'";
 		if(order.getGreeting()!=null)
 			greeting = "'"+order.getGreeting()+"'";
-		String query = "INSERT INTO orders (customerID, deliveryID, type, transactionID, shipmentID, greeting, deliveryType, status, date, price)"
+		String query = "INSERT INTO orders (customerID, deliveryID, type, paymentMethod, shipmentID, greeting, deliveryType, status, date, price)"
 				+ "VALUES ('" + order.getCustomerID() + "'"
 				+ ", " + delID + ", '"
 				+ order.getType().toString() + "', "
-				+ transID + ", " 
+				+ payMeth + ", " 
 				+ shipID + ", "
 				+  greeting + ", "
 				+ delType + ", '" 
@@ -89,15 +90,14 @@ public class OrderController extends ParentController implements IOrder {
 		ArrayList<Order> ords = new ArrayList<>();
 		for (int i = 0; i < obj.size(); i += 11) {
 			BigInteger deliveryID = obj.get(i + 2)==null?null:BigInteger.valueOf(Long.valueOf((int)obj.get(i + 2))),
-					shipmentID=obj.get(i + 4)==null?null:BigInteger.valueOf(Long.valueOf((int) obj.get(i + 4))),
-					transID = obj.get(i + 3)==null?null:BigInteger.valueOf(Long.valueOf((int) obj.get(i + 3)));
+					shipmentID=obj.get(i + 4)==null?null:BigInteger.valueOf(Long.valueOf((int) obj.get(i + 4)));
 			
 			
 			ords.add(parse(
 					BigInteger.valueOf(Long.valueOf((int)obj.get(i))), 
 					BigInteger.valueOf(Long.valueOf((int) obj.get(i + 1))),
 					deliveryID, 
-					transID,
+					obj.get(i + 3)==null?null:(String)obj.get(i + 3),
 					shipmentID,
 					obj.get(i + 5)==null?null:(String)obj.get(i + 5),
 					(String) obj.get(i + 6),
@@ -133,7 +133,7 @@ public class OrderController extends ParentController implements IOrder {
 	@Override
 	public void updateOrder(Order order) throws IOException {
 		myMsgArr.clear();
-		String delID ="NULL", shipID="NULL", transID = "NULL", delType="NULL", greeting = "NULL";
+		String delID ="NULL", shipID="NULL", payMeth = "NULL", delType="NULL", greeting = "NULL";
 		if(order.getDeliveryType() != null) {
 			if(order.getDeliveryType().equals(DeliveryType.Pickup) && order.getDelivery() != null)
 				delID="'"+order.getDelivery().getDeliveryID().toString()+"'";
@@ -141,14 +141,14 @@ public class OrderController extends ParentController implements IOrder {
 				shipID="'"+((ShipmentDetails)order.getDelivery()).getOrderID().toString()+"'";
 			delType="'"+order.getDeliveryType().toString()+"'";
 		}
-		if(order.getTransaction()!=null)
-			transID="'"+order.getTransaction().getTransID().toString()+"'";
+		if(order.getPaymentMethod()!=null)
+			payMeth="'"+order.getPaymentMethod().toString()+"'";
 		if(order.getGreeting()!=null)
 			greeting = "'"+order.getGreeting()+"'";
 		myMsgArr.add("UPDATE orders SET customerID = '" + order.getCustomerID() 
 		+ "',deliveryID = " + delID 
 		+ ",type = '" + order.getType().toString() 
-		+ "',transactionID = " + transID
+		+ "',paymentMethod = " + payMeth
 		+ ",shipmentID = " + shipID
 		+ ",greeting = " + greeting 
 		+ ",deliveryType = " + delType
@@ -209,14 +209,13 @@ public class OrderController extends ParentController implements IOrder {
 	}
 
 	@Override
-	public Order parse(BigInteger orderID, BigInteger customerID, BigInteger deliveryID, BigInteger transactionID, BigInteger shipmentID, String type,
+	public Order parse(BigInteger orderID, BigInteger customerID, BigInteger deliveryID, String payMethod, BigInteger shipmentID, String type,
 			String greeting, String deliveryType, String orderStatus, java.util.Date date, float price) {
-		Transaction tran = transactionID==null?null:new Transaction(transactionID);
 		if(deliveryType==null)
 			return new Order(orderID,
 					customerID,
 					OrderType.valueOf(type),
-					tran, 
+					payMethod==null?null:PayMethod.valueOf(payMethod), 
 					greeting,
 					OrderStatus.valueOf(orderStatus), 
 					date,
@@ -226,7 +225,7 @@ public class OrderController extends ParentController implements IOrder {
 					customerID,
 					new DeliveryDetails(deliveryID),
 					OrderType.valueOf(type),
-					tran, 
+					PayMethod.valueOf(payMethod), 
 					greeting,
 					DeliveryType.valueOf(deliveryType), 
 					OrderStatus.valueOf(orderStatus), 
@@ -237,7 +236,7 @@ public class OrderController extends ParentController implements IOrder {
 					customerID,
 					new ShipmentDetails(shipmentID),
 					OrderType.valueOf(type),
-					tran, 
+					PayMethod.valueOf(payMethod), 
 					greeting,
 					DeliveryType.valueOf(deliveryType), 
 					OrderStatus.valueOf(orderStatus), 

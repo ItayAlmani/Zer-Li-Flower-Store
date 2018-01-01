@@ -6,7 +6,7 @@ import java.math.BigInteger;
 
 import javafx.scene.image.Image;
 
-public class Product{ 
+public class Product {
 	private BigInteger prdID;
 	private String name;
 	private ProductType type;
@@ -15,22 +15,25 @@ public class Product{
 	private boolean inCatalog;
 	private Image image;
 
+	private static BigInteger idInc = null;
+
 	public enum ProductType {
 		Bouquet, Single, Empty;
 	}
-	
+
 	public enum Color {
 		White, Yellow, Red, Gray, Purple, Blue, Green, Black, Orange, Brown;
 	}
-	
-	public Product() {}
-	
+
+	public Product() {
+	}
+
 	public Product(BigInteger prdID, String name) {
 		super();
 		this.prdID = prdID;
 		this.name = name;
 	}
-	
+
 	public Product(BigInteger prdID, String name, ProductType type) {
 		super();
 		this.prdID = prdID;
@@ -47,7 +50,7 @@ public class Product{
 		this.color = color;
 		this.inCatalog = inCatalog;
 	}
-	
+
 	public Product(BigInteger prdID, String name, String type) {
 		super();
 		this.prdID = prdID;
@@ -64,8 +67,9 @@ public class Product{
 		this.setColor(color);
 		this.inCatalog = inCatalog;
 	}
-	
-	public Product(BigInteger prdID, String name, String type, float price, String color, boolean inCatalog, String image) throws FileNotFoundException {
+
+	public Product(BigInteger prdID, String name, String type, float price, String color, boolean inCatalog,
+			String image) throws FileNotFoundException {
 		super();
 		this.prdID = prdID;
 		this.name = name;
@@ -95,15 +99,15 @@ public class Product{
 	public void setType(ProductType type) {
 		this.type = type;
 	}
-	
+
 	public void setType(String type) {
 		try {
 			this.setType(ProductType.valueOf(type));
 		} catch (IllegalArgumentException e) {
-			System.err.println("No enum constant of type as "+type);
+			System.err.println("No enum constant of type as " + type);
 		}
 	}
-	
+
 	public Color getColor() {
 		return color;
 	}
@@ -116,7 +120,7 @@ public class Product{
 		try {
 			this.setColor(Color.valueOf(color));
 		} catch (IllegalArgumentException e) {
-			System.err.println("No enum constant of color as "+color);
+			System.err.println("No enum constant of color as " + color);
 		}
 	}
 
@@ -146,5 +150,18 @@ public class Product{
 
 	public void setImage(Image image) {
 		this.image = image;
+	}
+
+	public static BigInteger getIdInc() {
+		return idInc;
+	}
+
+	public static void setIdInc(BigInteger idInc) {
+		Product.idInc = idInc;
+	}
+
+	@Override
+	public String toString() {
+		return getName();
 	}
 }

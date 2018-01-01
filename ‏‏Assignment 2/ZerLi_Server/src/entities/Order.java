@@ -9,17 +9,38 @@ import java.util.Date;
 public class Order {
 	private BigInteger orderID;
 	private BigInteger customerID;
-	private DeliveryDetails delivery;
+	private DeliveryDetails delivery = null;
 	private OrderType type;
-	private Transaction transaction;
-	private String greeting;
-	private DeliveryType deliveryType;
+	private String greeting = null;
+	private DeliveryType deliveryType = null;
 	private OrderStatus orderStatus;
-	private Date date;
-	private float finalPrice;
+	private Date date = new Date();
+	private float finalPrice = 0f;
 	private ArrayList<ProductInOrder> products;
+	private PayMethod paymentMethod;
 	
-	private Order() {
+	private static BigInteger idInc = null;
+	
+	public Order(OrderType type, OrderStatus orderStatus) {
+		super();
+		this.type = type;
+		this.orderStatus = orderStatus;
+	}
+
+	public Order(BigInteger customerID, OrderType type, OrderStatus orderStatus) {
+		super();
+		this.customerID = customerID;
+		this.type = type;
+		this.orderStatus = orderStatus;
+	}
+
+	public Order(BigInteger customerID, OrderType type) {
+		super();
+		this.customerID = customerID;
+		this.type = type;
+	}
+
+	public Order() {
 		finalPrice=0;
 		products = new ArrayList<>();
 		date = Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant());
@@ -33,6 +54,22 @@ public class Order {
 		this.products = products;
 	}
 
+	public Order(BigInteger orderID, BigInteger customerID, DeliveryDetails delivery, OrderType type,
+			PayMethod paymentMethod, String greeting, DeliveryType deliveryType, OrderStatus orderStatus, Date date,
+			float finalPrice) {
+		super();
+		this.orderID = orderID;
+		this.customerID = customerID;
+		this.delivery = delivery;
+		this.type = type;
+		this.paymentMethod = paymentMethod;
+		this.greeting = greeting;
+		this.deliveryType = deliveryType;
+		this.orderStatus = orderStatus;
+		this.date = date;
+		this.finalPrice=finalPrice;
+	}
+	
 	public Order(Integer customerID) {
 		this();
 		this.customerID=BigInteger.valueOf(customerID);
@@ -41,6 +78,30 @@ public class Order {
 	public Order(BigInteger orderID) {
 		this();
 		this.orderID = orderID;
+	}
+
+	public Order(BigInteger orderID, BigInteger customerID, OrderType type, PayMethod paymentMethod,
+			String greeting, OrderStatus orderStatus, Date date, float finalPrice) {
+		super();
+		this.orderID = orderID;
+		this.customerID = customerID;
+		this.type = type;
+		this.paymentMethod=paymentMethod;
+		this.greeting = greeting;
+		this.orderStatus = orderStatus;
+		this.date = date;
+		this.finalPrice=finalPrice;
+	}
+
+	public Order(BigInteger orderID, BigInteger customerID, OrderType type, String greeting, OrderStatus orderStatus,
+			Date date) {
+		super();
+		this.orderID = orderID;
+		this.customerID = customerID;
+		this.type = type;
+		this.greeting = greeting;
+		this.orderStatus = orderStatus;
+		this.date = date;
 	}
 
 	public BigInteger getOrderID() {
@@ -57,14 +118,6 @@ public class Order {
 
 	public void setDelivery(DeliveryDetails delivery) {
 		this.delivery = delivery;
-	}
-
-	public Transaction getTransaction() {
-		return this.transaction;
-	}
-
-	public void setTransaction(Transaction transaction) {
-		this.transaction = transaction;
 	}
 
 	public String getGreeting() {
@@ -111,21 +164,6 @@ public class Order {
 		this.orderID = orderID;
 	}
 
-
-	public Order(BigInteger orderID, BigInteger customerID, DeliveryDetails delivery, OrderType type,
-			Transaction transaction, String greeting, DeliveryType deliveryType, OrderStatus orderStatus, Date date) {
-		super();
-		this.orderID = orderID;
-		this.customerID = customerID;
-		this.delivery = delivery;
-		this.type = type;
-		this.transaction = transaction;
-		this.greeting = greeting;
-		this.deliveryType = deliveryType;
-		this.orderStatus = orderStatus;
-		this.date = date;
-	}
-
 	public void setCustomerID(BigInteger customerID) {
 		this.customerID = customerID;
 	}
@@ -136,11 +174,21 @@ public class Order {
 	public void setFinalPrice(float finalPrice) {
 		this.finalPrice = finalPrice;
 	}
+	
+	private void setFinalPrice() {
+		if(products==null) return;
+		for (ProductInOrder productInOrder : products)
+			finalPrice+=productInOrder.getFinalPrice();
+	}
+	
 	public ArrayList<ProductInOrder> getProducts() {
 		return products;
 	}
+	
 	public void setProducts(ArrayList<ProductInOrder> products) {
 		this.products = products;
+		this.finalPrice=0f;
+		setFinalPrice();
 	}
 	
 	public void addToFinalPrice(float amount) {
@@ -177,5 +225,28 @@ public class Order {
 		Full,
 		Partial,
 		No
+	}
+	
+	public enum PayMethod {
+		CreditCard,
+		Cash,
+		Refund,
+		RefundAndCreditCard
+	}
+
+	public static BigInteger getIdInc() {
+		return idInc;
+	}
+
+	public static void setIdInc(BigInteger idInc) {
+		Order.idInc = idInc;
+	}
+
+	public PayMethod getPaymentMethod() {
+		return paymentMethod;
+	}
+
+	public void setPaymentMethod(PayMethod paymentMethod) {
+		this.paymentMethod = paymentMethod;
 	}
 }

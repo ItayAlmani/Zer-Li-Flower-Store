@@ -31,9 +31,12 @@ public class LogInGUIController extends ParentGUIController{
 	private @FXML Button btnConfig, btnLogIn;
 	
 	public void logIn() {
-		/*String uName = this.txtUserName.getText(),
-				pass = this.txtPassword.getText();*/
-		String uName ="izharAn", pass="1234";
+		String uName = this.txtUserName.getText(),
+				pass = this.txtPassword.getText();
+		if(uName == null || uName.isEmpty() || pass == null || pass.isEmpty()) {
+			uName ="izharAn";
+			pass="1234";
+		}
 		System.err.println("Go to LogInGUIController to enable data in login");
 		if(uName!=null && pass !=null) {
 			try {

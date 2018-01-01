@@ -11,17 +11,13 @@ import java.util.ArrayList;
 import common.Context;
 import controllers.ParentController;
 import entities.CSMessage;
-import entities.Customer;
-import entities.Order;
-import entities.Product;
 import entities.CSMessage.MessageType;
-import entities.Product.Color;
-import entities.Product.ProductType;
-import entities.Subscription.SubscriptionType;
-import izhar.interfaces.IProductInOrder;
+import entities.Customer;
+import entities.Product;
 import entities.ProductInOrder;
 import entities.Subscription;
-import entities.Transaction;
+import entities.Subscription.SubscriptionType;
+import izhar.interfaces.IProductInOrder;
 
 public class ProductInOrderController extends ParentController implements IProductInOrder {	
 	
@@ -38,10 +34,6 @@ public class ProductInOrderController extends ParentController implements IProdu
 					pio.setFinalPrice(pio.getFinalPrice()*Subscription.getDiscountInPercent());
 			}
 		}
-	}
-	
-	public void setLastAutoIncrenment(ArrayList<Object> obj) throws IOException {
-		Transaction.setIdInc((BigInteger)obj.get(10));
 	}
 	
 	@Override
@@ -161,5 +153,15 @@ public class ProductInOrderController extends ParentController implements IProdu
 				return false;
 		}
 		return true;
+	}
+	
+	public ProductInOrder getPIOFromArr(ArrayList<ProductInOrder> prods, Product prod) {
+		if(prod == null) return null;
+		for (ProductInOrder pio : prods) {
+			if(pio.getProduct()!=null &&
+					pio.getProduct().getPrdID().equals(prod.getPrdID()))
+				return pio;
+		}
+		return null;
 	}
 }

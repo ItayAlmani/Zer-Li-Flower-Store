@@ -6,6 +6,8 @@ public class Customer extends User {
 	private BigInteger customerID;
 	private PaymentAccount paymentAccount;
 	
+	private static BigInteger idInc = null;
+	
 	public Customer(User user, BigInteger customerID, PaymentAccount paymentAccount) {
 		super(user);
 		this.customerID = customerID;
@@ -48,5 +50,17 @@ public class Customer extends User {
 	public void setPaymentAccount(PaymentAccount paymentAccount) {
 		this.paymentAccount = paymentAccount;
 	}
-	
+
+	public static BigInteger getIdInc() {
+		return idInc;
+	}
+
+	public static void setIdInc(BigInteger idInc) {
+		Customer.idInc = idInc;
+	}
+
+	@Override
+	public String toString() {
+		return getFullName();
+	}
 }

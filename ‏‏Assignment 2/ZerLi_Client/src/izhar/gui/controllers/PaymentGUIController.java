@@ -7,9 +7,6 @@ import java.util.ResourceBundle;
 
 import common.Context;
 import entities.Order;
-import entities.ProductInOrder;
-import entities.Transaction;
-import entities.Transaction.PayMethod;
 import entities.Order.OrderStatus;
 import gui.controllers.ParentGUIController;
 import javafx.application.Platform;
@@ -108,8 +105,7 @@ public class PaymentGUIController extends ParentGUIController {
 		Order ord = Context.order;
 		if(tGroup.getSelectedToggle().getUserData().equals("CreditCard")) {
 			ord.setOrderStatus(OrderStatus.Paid);
-			Transaction t = new Transaction(PayMethod.CreditCard, Context.order);
-			ord.setTransaction(t);
+			ord.setPaymentMethod(entities.Order.PayMethod.CreditCard);
 		}
 		else
 			ord.setOrderStatus(OrderStatus.WaitingForCashPayment);
