@@ -141,5 +141,11 @@ public class CustomerController extends UserController implements ICustomer {
 		
 	}
 
+	@Override
+	public void getAllCustomers() {
+		// TODO Auto-generated method stub
+		
+	}
+
 
 }

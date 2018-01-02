@@ -1,5 +1,6 @@
 package entities;
 
+import java.math.BigInteger;
 import java.util.Date;
 
 public abstract class QuarterlyReport {
@@ -13,7 +14,7 @@ public abstract class QuarterlyReport {
 	
 	/** The date of the last month - will take the range of this date to 3 months back */
 	private Date ReportDate;
-	private String storeID;
+	private BigInteger storeID;
 
 	public void setType(ReportType Type) {
 		this.Type = Type;
@@ -23,7 +24,7 @@ public abstract class QuarterlyReport {
 		this.ReportDate = ReportDate;
 	}
 
-	public void setStoreID(String storeID) {
+	public void setStoreID(BigInteger storeID) {
 		this.storeID = storeID;
 	}
 

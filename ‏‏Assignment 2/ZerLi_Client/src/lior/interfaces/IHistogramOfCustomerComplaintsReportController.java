@@ -1,6 +1,6 @@
 package lior.interfaces;
 
-import java.util.ArrayList;
+import java.math.BigInteger;
 import java.util.Date;
 
 import entities.CustomerComplaintsReport;
@@ -13,5 +13,5 @@ public interface IHistogramOfCustomerComplaintsReportController extends IParent 
 	 * @param Reqdate
 	 * @param storeID
 	 */
-	CustomerComplaintsReport ProduceHistogramOfCustomerComplaintsReport(Date Reqdate, int storeID);
+	CustomerComplaintsReport ProduceHistogramOfCustomerComplaintsReport(Date Reqdate, BigInteger storeID);
 }

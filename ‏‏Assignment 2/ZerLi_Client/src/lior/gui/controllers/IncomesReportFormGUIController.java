@@ -56,7 +56,6 @@ public class IncomesReportFormGUIController extends ParentGUIController {
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
-				System.out.println("Get To run inside setIncomeReports");
 				String s=String.valueOf(rep.getTotIncomes());
 				lblStoreID.setText("1");
 				lblEndDate.setText(ReqDate.format(rep.getEnddate()));

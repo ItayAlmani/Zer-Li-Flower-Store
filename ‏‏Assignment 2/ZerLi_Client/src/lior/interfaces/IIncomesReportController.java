@@ -1,5 +1,6 @@
 package lior.interfaces;
 
+import java.math.BigInteger;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -16,7 +17,7 @@ public interface IIncomesReportController extends IParent {
 	 * @param storeID
 	 * @throws ParseException 
 	 */
-	IncomesReport ProduceIncomesReport(Date Reqdate, int storeID) throws ParseException;
+	IncomesReport ProduceIncomesReport(Date Reqdate, BigInteger storeID) throws ParseException;
 	void sendIncomeReports(ArrayList<IncomesReport> iReports);
 	void setPIOs(ArrayList<ProductInOrder> products);
 }

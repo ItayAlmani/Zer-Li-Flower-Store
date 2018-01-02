@@ -151,7 +151,7 @@ public class OrderController extends ParentController implements IOrder {
 	}
 
 	@Override
-	public void getAllOrdersByStoreID(int storeID) throws IOException {
+	public void getAllOrdersByStoreID(BigInteger storeID) throws IOException {
 		myMsgArr.clear();
 		myMsgArr.add(
 				"SELECT ord.*" + 

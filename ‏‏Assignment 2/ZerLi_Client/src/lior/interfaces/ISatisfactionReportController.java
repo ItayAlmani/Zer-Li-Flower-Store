@@ -1,6 +1,6 @@
 package lior.interfaces;
 
-import java.util.ArrayList;
+import java.math.BigInteger;
 import java.util.Date;
 
 import entities.SatisfactionReport;
@@ -13,5 +13,5 @@ public interface ISatisfactionReportController extends IParent  {
 	 * @param Reqdate
 	 * @param storeID
 	 */
-	SatisfactionReport ProduceSatisfactionReport(Date Reqdate, int storeID);
+	SatisfactionReport ProduceSatisfactionReport(Date Reqdate, BigInteger storeID);
 }
