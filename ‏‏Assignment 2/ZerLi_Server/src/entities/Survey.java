@@ -12,6 +12,10 @@ public class Survey implements Serializable  {
 	private BigInteger storeID;
 	private SurveyType type;
 	
+	public Survey(float[] surveyAnswerers) {
+		this.surveyAnswerers=surveyAnswerers;
+	}
+	
 	public Survey(float[] surveyAnswerers, LocalDate date, BigInteger storeID, SurveyType type) {
 		super();
 		this.surveyAnswerers = surveyAnswerers;

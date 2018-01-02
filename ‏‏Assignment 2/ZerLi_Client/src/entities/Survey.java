@@ -12,13 +12,11 @@ public class Survey implements Serializable  {
 	private BigInteger storeID;
 	private SurveyType type;
 	
-<<<<<<< HEAD
-	private static BigInteger idInc = null;
+	public Survey(float[] surveyAnswerers) {
+		this.surveyAnswerers=surveyAnswerers;
+	}
 	
 	public Survey(float[] surveyAnswerers, LocalDate date, BigInteger storeID, SurveyType type) {
-=======
-	public Survey(int[] surveyAnswerers, LocalDate date, Store store, SurveyType type) {
->>>>>>> branch 'master' of https://github.com/ItayAlmani/Zer-Li-Flower-Store.git
 		super();
 		this.surveyAnswerers = surveyAnswerers;
 		this.date = date;
@@ -35,10 +33,6 @@ public class Survey implements Serializable  {
 	}
 	public enum SurveyType{
 		Answer, Analyzes;
-	}
-	
-	public Survey(float[] surveyAnswerers) {
-		this.surveyAnswerers=surveyAnswerers;
 	}
 
 	public Survey(float[] surveyAnswerers, LocalDate date, BigInteger storeID) {
