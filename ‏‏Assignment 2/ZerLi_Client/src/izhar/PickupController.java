@@ -18,22 +18,6 @@ import entities.CSMessage.MessageType;
 import izhar.interfaces.IPickup;
 
 public class PickupController extends ParentController implements IPickup {
-
-	@Override
-	public void addPickup(DeliveryDetails deliveryDetails) throws IOException {
-		myMsgArr.clear();
-		String res = "0";
-		if(deliveryDetails.isImmediate())
-			res = "1";
-		String query = "INSERT INTO deliverydetails (orderID, storeID, date, isImmediate) "+
-				"VALUES ('"+deliveryDetails.getOrderID() + "', '"
-				+ deliveryDetails.getStore().getStoreID() + "', '"
-				+ (Timestamp.valueOf(deliveryDetails.getDate())).toString() + "', '"
-				+ res + "');";
-		query += "SELECT Max(deliveryID) from deliverydetails;";
-		myMsgArr.add(query);
-		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.UPDATE, myMsgArr, DeliveryDetails.class));
-	}
 	
 	@Override
 	public DeliveryDetails parse(BigInteger deliveryID, BigInteger orderID, Store store, LocalDateTime date, boolean isImmediate) {

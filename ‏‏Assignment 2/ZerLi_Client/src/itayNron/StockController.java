@@ -82,8 +82,8 @@ public class StockController extends ParentController implements IStock {
 	}
 	
 	public void setPIOs(ArrayList<ProductInOrder> prds) throws IOException  {
-		myMsgArr.clear();
 		for(ProductInOrder productInOrder : prds) {
+			myMsgArr.clear();
 			myMsgArr.add(String.format(
 					" UPDATE stock" + 
 					" SET quantity=quantity - '%d'" + 

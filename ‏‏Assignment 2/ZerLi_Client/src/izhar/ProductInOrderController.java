@@ -105,15 +105,31 @@ public class ProductInOrderController extends ParentController implements IProdu
 	@Override
 	public void addPIO(ProductInOrder p) throws IOException {
 		myMsgArr.clear();
-		String query = "INSERT INTO cart (orderID, productID, quantity, totalprice) " + 
-				" VALUES ('" 
-				+ p.getOrderID()+ "', '"
-				+ p.getProduct().getPrdID() + "', '"
-				+ p.getQuantity() + "', '"
-				+ p.getFinalPrice() + "');";
-		query += "SELECT Max(productInOrderID) from cart;";
-		myMsgArr.add(query);
-		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.UPDATE, myMsgArr,ProductInOrder.class));
+		myMsgArr.add(p);
+		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.INSERT, myMsgArr,ProductInOrder.class));
+	}
+	
+	public void handleInsert(BigInteger id) {
+		String methodName = "setPIOID";
+		Method m = null;
+		try {
+			//a controller asked data, not GUI
+			if(Context.askingCtrl!=null && Context.askingCtrl.size()!=0) {
+				m = Context.askingCtrl.get(0).getClass().getMethod(methodName,BigInteger.class);
+				m.invoke(Context.askingCtrl.get(0), id);
+				Context.askingCtrl.remove(0);
+			}
+			else {
+				m = Context.currentGUI.getClass().getMethod(methodName,BigInteger.class);
+				m.invoke(Context.currentGUI, id);
+			}
+		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e1) {
+			System.err.println("Couldn't invoke method '"+methodName+"'");
+			e1.printStackTrace();
+		} catch (NoSuchMethodException | SecurityException e2) {
+			System.err.println("No method called '"+methodName+"'");
+			e2.printStackTrace();
+		}
 	}
 	
 	public void deletePIO(ProductInOrder pio) throws IOException{

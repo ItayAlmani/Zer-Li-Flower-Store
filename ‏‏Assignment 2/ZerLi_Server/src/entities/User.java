@@ -1,14 +1,13 @@
 package entities;
 
+import java.io.Serializable;
 import java.math.BigInteger;
 
-public class User {
+public class User implements Serializable {
 	
 	public User() {
 		super();
 	}
-
-	private static BigInteger idInc = null;
 	
 	public enum UserType {
 		Customer,

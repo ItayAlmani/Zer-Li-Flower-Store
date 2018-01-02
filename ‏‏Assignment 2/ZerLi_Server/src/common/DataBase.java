@@ -37,24 +37,10 @@ public class DataBase{
 		}
 	}
 	
-	public Integer setQuery(String query) {
+	public void updateQuery(String query) throws Exception {
 		Statement stmt;
-		try {
-			stmt = con.createStatement();
-			if(query.contains(";")) {
-				String[] querys = query.split(";");
-				stmt.executeUpdate(querys[0]);
-				ResultSet rs = stmt.executeQuery(querys[1]);
-				if(rs.next())
-					return rs.getInt(1);
-			}
-			else
-				stmt.executeUpdate(query);
-			return null;
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return null;
-		}
+		stmt = con.createStatement();
+		stmt.executeUpdate(query);
 	}
 
 	private Connection connectToDB(String dbUrl, String dbName, String dbUserName, String dbPassword) throws SQLException {

@@ -16,6 +16,7 @@ import java.util.Date;
 import common.Context;
 import controllers.ParentController;
 import entities.Order;
+import entities.Order.OrderStatus;
 import entities.OrderReport;
 import entities.Product;
 import entities.Product.ProductType;
@@ -92,7 +93,7 @@ public class OrderReportController extends ParentController implements IOrderRep
 			Date date = Date.from(orders.get(i).getDate().atZone(ZoneId.systemDefault()).toInstant());
 			if(date.after(rDate)==false&&
 					date.after(startDate)
-					/*&& orders.get(i).getOrderStatus().equals(OrderStatus.Paid)*/
+					&& orders.get(i).getOrderStatus().equals(OrderStatus.Paid)
 					)
 			{
 				Context.askingCtrl.add(this);
@@ -116,7 +117,7 @@ public class OrderReportController extends ParentController implements IOrderRep
 		
 		Order myOrder = null;
 		for (Order ord : orders) {
-			if(ord.getOrderID()==products.get(0).getOrderID()) {
+			if(ord.getOrderID().equals(products.get(0).getOrderID())) {
 				myOrder = ord;
 				break;
 			}

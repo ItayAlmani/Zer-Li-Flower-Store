@@ -62,5 +62,5 @@ public class OrderReport extends QuarterlyReport {
 	public void setEnddate(Date enddate) {
 		Enddate = enddate;
 	}
-
+	
 }

@@ -1,26 +1,25 @@
 package entities;
 
+import java.io.Serializable;
 import java.math.BigInteger;
 import java.time.LocalDate;
 
-public class Survey {
+public class Survey implements Serializable  {
 
 	private BigInteger surveyID;
-	private int[] surveyAnswerers;
+	private float[] surveyAnswerers;
 	private LocalDate date;
 	private BigInteger storeID;
 	private SurveyType type;
 	
-	private static BigInteger idInc = null;
-	
-	public Survey(int[] surveyAnswerers, LocalDate date, BigInteger storeID, SurveyType type) {
+	public Survey(float[] surveyAnswerers, LocalDate date, BigInteger storeID, SurveyType type) {
 		super();
 		this.surveyAnswerers = surveyAnswerers;
 		this.date = date;
 		this.storeID = storeID;
 		this.type = type;
 	}
-	public Survey(BigInteger surveyID,int[] surveyAnswerers, LocalDate date, BigInteger storeID, SurveyType type) {
+	public Survey(BigInteger surveyID,float[] surveyAnswerers, LocalDate date, BigInteger storeID, SurveyType type) {
 		super();
 		this.surveyID=surveyID;
 		this.surveyAnswerers = surveyAnswerers;
@@ -32,18 +31,18 @@ public class Survey {
 		Answer, Analyzes;
 	}
 
-	public Survey(int[] surveyAnswerers, LocalDate date, BigInteger storeID) {
+	public Survey(float[] surveyAnswerers, LocalDate date, BigInteger storeID) {
 		super();
 		this.surveyAnswerers = surveyAnswerers;
 		this.date = date;
 		this.storeID = storeID;
 	}
 
-	public int[] getSurveyAnswerers() {
+	public float[] getSurveyAnswerers() {
 		return this.surveyAnswerers;
 	}
 
-	public void setSurveyAnswerers(int[] surveyAnswerers) {
+	public void setSurveyAnswerers(float[] surveyAnswerers) {
 		this.surveyAnswerers = surveyAnswerers;
 	}
 
@@ -78,13 +77,4 @@ public class Survey {
 	public void setType(SurveyType type) {
 		this.type = type;
 	}
-
-	public static BigInteger getIdInc() {
-		return idInc;
-	}
-
-	public static void setIdInc(BigInteger idInc) {
-		Survey.idInc = idInc;
-	}
-
 }

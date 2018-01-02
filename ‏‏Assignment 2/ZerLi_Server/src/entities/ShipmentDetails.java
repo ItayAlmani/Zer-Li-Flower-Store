@@ -1,10 +1,11 @@
 package entities;
 
+import java.io.Serializable;
 import java.math.BigInteger;
 import java.time.LocalDateTime;
 import java.util.Date;
 
-public class ShipmentDetails extends DeliveryDetails {
+public class ShipmentDetails extends DeliveryDetails implements Serializable  {
 
 	private BigInteger shipmentID;
 	private String street;

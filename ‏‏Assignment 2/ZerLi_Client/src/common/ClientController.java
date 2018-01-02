@@ -10,6 +10,7 @@ import controllers.ParentController;
 import entities.*;
 import entities.CSMessage.MessageType;
 import gui.controllers.*;
+import izhar.gui.controllers.PaymentGUIController;
 
 /** Will parse/decode the <code>CSMessage</code> which present the answer of the GUI request,
  * and will send the answer to the correct GUI.
@@ -25,13 +26,12 @@ public class ClientController {
 	 */
 	public static void parseMessage(CSMessage csMsg) {
 		MessageType msgType = csMsg.getType();
-
-		/*------------------SELECT queries from DB------------------*/
-		if (msgType.equals(MessageType.SELECT) || msgType.equals(MessageType.GetAI)) {
+		
+		Class<?> c = null;
+		Method m = null;
+		if(csMsg.getClasz()!=null) {
 			String className = csMsg.getClasz().getName();
 			className=className.substring(className.lastIndexOf("."));
-			Class<?> c = null;
-			Method m = null;
 			if((c=findHandleGetFunc(className, "controllers"))==null) {
 				if((c=findHandleGetFunc(className, "itayNron"))==null)
 					if((c=findHandleGetFunc(className, "izhar"))==null)
@@ -39,24 +39,37 @@ public class ClientController {
 							if((c=findHandleGetFunc(className, "kfir"))==null)
 								return;
 			}
+		}
+		/*------------------SELECT queries from DB------------------*/
+		if (msgType.equals(MessageType.SELECT) && c!=null) {
 			try {
-				if(msgType.equals(MessageType.SELECT)) {
-					m = c.getMethod("handleGet",ArrayList.class);
-					m.invoke(c.newInstance(), csMsg.getObjs());
-				}
-				else if(msgType.equals(MessageType.GetAI)) {
-					m = c.getMethod("setLastAutoIncrenment",ArrayList.class);
-					m.invoke(c.newInstance(), csMsg.getObjs());
-				}
+				m = c.getMethod("handleGet",ArrayList.class);
+				m.invoke(c.newInstance(), csMsg.getObjs());
 			} catch (NoSuchMethodException | SecurityException |IllegalAccessException | IllegalArgumentException | InvocationTargetException | InstantiationException e) {
 				e.printStackTrace();
 			}
 		}
 		else if (msgType.equals(MessageType.UPDATE)) {
 			if (csMsg.getObjs().get(0)!= null &&
-					csMsg.getObjs().get(0) instanceof Integer &&
+					csMsg.getObjs().get(0) instanceof Boolean &&
 					csMsg.getClasz() !=null)
-				sendNewID((Integer)csMsg.getObjs().get(0),csMsg.getClasz());
+				ParentController.sendResultToClient((Boolean)csMsg.getObjs().get(0));
+		}
+		else if (msgType.equals(MessageType.INSERT) && c!=null) {
+			if (csMsg.getObjs().get(0)!= null &&
+					csMsg.getObjs().get(0) instanceof BigInteger &&
+					csMsg.getClasz() !=null) {
+				try {
+					m = c.getMethod("handleInsert",BigInteger.class);
+					m.invoke(c.newInstance(), (BigInteger)csMsg.getObjs().get(0));
+				} catch (NoSuchMethodException | SecurityException |IllegalAccessException | IllegalArgumentException | InvocationTargetException | InstantiationException e) {
+					e.printStackTrace();
+				}
+					
+				if(Context.currentGUI instanceof PaymentGUIController)
+					((PaymentGUIController)Context.currentGUI).loadNextWindow();
+				ParentController.sendResultToClient(true);
+			}
 			else
 				ParentController.sendResultToClient(false);
 		}
@@ -76,7 +89,7 @@ public class ClientController {
 		}
 	}
 	
-	private static void sendNewID(Integer id, Class<?> clasz) {
+	private static void sendNewID(BigInteger id, Class<?> clasz) {
 		String methodName = "setUpdateRespond";
 		Method m = null;
 		try {

@@ -24,6 +24,7 @@ import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.Pagination;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Border;
@@ -145,49 +146,54 @@ public class CatalogGUIController extends ParentGUIController {
     	return new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-					if(event.getSource() instanceof Button) {
-						Button btn = (Button)event.getSource();
-						Product prd = productsInCatalog.get((int) btn.getUserData());
-						ProductInOrder pio = Context.order.containsProduct(prd);
-						if(pio==null) {
-							pio = new ProductInOrder(prd, 1, Context.order.getOrderID());
-							try {
-								Context.order.getProducts().add(pio);
-								Context.fac.prodInOrder.addPIO(pio);
-							} catch (IOException e) {
-								System.err.println("Can't add PIO in Catalog\n");
-								e.printStackTrace();
-							}
+				if(event.getSource() instanceof Button) {
+					Button btn = (Button)event.getSource();
+					Product prd = productsInCatalog.get((int) btn.getUserData());
+					ProductInOrder pio = Context.order.containsProduct(prd);
+					if(pio==null) {
+						pio = new ProductInOrder(prd, 1, Context.order.getOrderID());
+						if(Context.order.getProducts()==null)
+							Context.order.setProducts(new ArrayList<>());
+						Context.order.getProducts().add(pio);
+						try {
+							Context.fac.prodInOrder.addPIO(pio);
+						} catch (IOException e) {
+							System.err.println("Can't add PIO in Catalog\n");
+							e.printStackTrace();
 						}
-						else {
-							pio.addOneToQuantity();
-							
-							Context.fac.prodInOrder.updatePriceWithSubscription(pio, Context.getUserAsCustomer());
-							try {
-								Context.fac.prodInOrder.updatePIO(pio);
-							} catch (IOException e) {
-								System.err.println("Can't update PIO in Catalog\n");
-								e.printStackTrace();
-							}
-						}
-						Platform.runLater(new Runnable() {
-							@Override
-							public void run() {
-								lblMsg.setText("Added");
-							}
-						});
-						
 					}
+					else {
+						pio.addOneToQuantity();
+						
+						Context.fac.prodInOrder.updatePriceWithSubscription(pio, Context.getUserAsCustomer());
+						try {
+							Context.fac.prodInOrder.updatePIO(pio);
+						} catch (IOException e) {
+							System.err.println("Can't update PIO in Catalog\n");
+							e.printStackTrace();
+						}
+					}
+					Platform.runLater(new Runnable() {
+						@Override
+						public void run() {
+							lblMsg.setText("Added");
+						}
+					});
+					
+				}
 			}
 		};
     }
+    
+    public static void setPIOID(BigInteger id) {
+	}
 
     private GridPane setGridPane(int i, Product p) {
     	grids[i] = new GridPane();
 		/*grids[i].setBorder(new Border(new BorderStroke(Color.BLACK, 
 	            BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));*/
 		
-		imgImages[i] = new ImageView(p.getImage());
+		imgImages[i] = new ImageView(new Image(getClass().getResourceAsStream(p.getImageName())));
 		grids[i].setConstraints(imgImages[i], 1, i);
 		components.add(imgImages[i]);
 		

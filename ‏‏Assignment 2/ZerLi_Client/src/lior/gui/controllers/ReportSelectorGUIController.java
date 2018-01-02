@@ -1,5 +1,6 @@
 package lior.gui.controllers;
 import java.io.IOException;
+import java.math.BigInteger;
 import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -9,7 +10,10 @@ import java.util.ResourceBundle;
 
 import common.Context;
 import controllers.ParentController;
+import entities.Store;
+import entities.Store.StoreType;
 import gui.controllers.ParentGUIController;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -27,6 +31,8 @@ public class ReportSelectorGUIController extends ParentGUIController {
 	private @FXML ComboBox<Integer> DayCB;
 	private @FXML ComboBox<Integer> MonthCB;
 	public @FXML ComboBox<Integer> YearCB;
+	
+	private ArrayList<Store> stores;
 	
 	public void start(Stage stage) throws IOException {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/fxmls/ReportSelectorGUI.fxml"));
@@ -63,13 +69,22 @@ public class ReportSelectorGUIController extends ParentGUIController {
 		TypeCB.getItems().add("Orders Report");
 		TypeCB.getItems().add("Client complaimnts histogram");
 		TypeCB.getItems().add("Satisfaction Report");
+		try {
+			Context.fac.store.getAllStores();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public void askforreportHandler (ActionEvent event) throws Exception
 	{
 		@SuppressWarnings("deprecation")
 		Date date = new Date(YearCB.getValue()-1900, MonthCB.getValue()-1, DayCB.getValue());
-		
+		BigInteger n=null;
+		for(int i=0;i<this.stores.size();i++)
+			if(this.stores.get(i).getName().equals(this.StoreCB.getValue()))
+					n=this.stores.get(i).getStoreID();
 		if(this.TypeCB.getValue().equals("Orders Report"))
 		{
 			try {
@@ -78,7 +93,7 @@ public class ReportSelectorGUIController extends ParentGUIController {
 				//lblMsg.setText("Loader failed");
 				e.printStackTrace();
 			}
-			Context.fac.orderReport.produceOrderReport(date, 1);
+			Context.fac.orderReport.produceOrderReport(date, n);
 		}
 		
 		else if(TypeCB.getValue().equals("Incomes Report"))
@@ -89,7 +104,7 @@ public class ReportSelectorGUIController extends ParentGUIController {
 				//lblMsg.setText("Loader failed");
 				e.printStackTrace();
 			}
-			Context.fac.incomesReport.ProduceIncomesReport(date, 1);
+			Context.fac.incomesReport.ProduceIncomesReport(date, n);
 		}
 		
 		else if(TypeCB.getValue().equals("Client complaimnts histogram"))
@@ -120,4 +135,15 @@ public class ReportSelectorGUIController extends ParentGUIController {
 				System.out.println(DayCB.getValue()+","+MonthCB.getValue()+","+YearCB.getValue());*/
 		}
 		
+	
+	public void setStores(ArrayList<Store> stores) {
+		this.stores=stores;
+		ArrayList<String> ar = new ArrayList<>();
+		for (Store store : stores) {
+			if(store.getType().equals(StoreType.Physical))
+				ar.add(store.getName());
+		}
+		StoreCB.setItems(FXCollections.observableArrayList(ar));
+		this.stores = stores;
+	}
 	}

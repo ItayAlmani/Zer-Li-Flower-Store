@@ -21,6 +21,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
@@ -101,7 +102,7 @@ public class ProductsFormGUIController extends ParentGUIController{
 		this.txtShowName.setText(p.getName());
 		this.lblShowColor.setText(p.getColor().toString());
 		this.lblShowPrice.setText(((Float)p.getPrice()).toString() + "¤");
-		this.imgImage.setImage(p.getImage());
+		this.imgImage.setImage(new Image(p.getImage()));
 		paneItem.setVisible(true);
 	}
 	

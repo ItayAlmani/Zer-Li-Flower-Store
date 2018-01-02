@@ -8,5 +8,4 @@ import interfaces.IParent;
 
 public interface IShipment extends IParent  {
 
-	void addShipment(ShipmentDetails shipmentDetails) throws IOException;
 }

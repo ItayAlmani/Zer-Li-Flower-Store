@@ -1,9 +1,10 @@
 package entities;
 
+import java.io.Serializable;
 import java.math.BigInteger;
 import java.time.LocalDate;
 
-public class Survey {
+public class Survey implements Serializable  {
 
 	private BigInteger surveyID;
 	private float[] surveyAnswerers;
@@ -11,9 +12,13 @@ public class Survey {
 	private BigInteger storeID;
 	private SurveyType type;
 	
+<<<<<<< HEAD
 	private static BigInteger idInc = null;
 	
 	public Survey(float[] surveyAnswerers, LocalDate date, BigInteger storeID, SurveyType type) {
+=======
+	public Survey(int[] surveyAnswerers, LocalDate date, Store store, SurveyType type) {
+>>>>>>> branch 'master' of https://github.com/ItayAlmani/Zer-Li-Flower-Store.git
 		super();
 		this.surveyAnswerers = surveyAnswerers;
 		this.date = date;
@@ -82,13 +87,4 @@ public class Survey {
 	public void setType(SurveyType type) {
 		this.type = type;
 	}
-
-	public static BigInteger getIdInc() {
-		return idInc;
-	}
-
-	public static void setIdInc(BigInteger idInc) {
-		Survey.idInc = idInc;
-	}
-
 }
