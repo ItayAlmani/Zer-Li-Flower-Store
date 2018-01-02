@@ -50,7 +50,7 @@ public interface IOrder extends IParent  {
 	 * asks the server for all the <code>Order</code>s by <code>storeID</code>
 	 * @param storeID - the parameter to find the <code>Order</code>s
 	 */
-	public void getAllOrdersByStoreID(int storeID) throws IOException;
+	public void getAllOrdersByStoreID(BigInteger storeID) throws IOException;
 	
 	/**
 	 * send the response from server to the correct GUI which asked the Orders

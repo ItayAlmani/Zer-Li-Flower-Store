@@ -20,6 +20,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 public class IncomesReportFormGUIController extends ParentGUIController {
 
@@ -34,6 +35,7 @@ public class IncomesReportFormGUIController extends ParentGUIController {
 	@FXML Label lblEndDate;
 	@FXML Label lblStoreID;
 	@FXML Label lblTotIncomeSum;
+	@FXML Label lblDataerr;
 	
 	public void start(Stage stage) throws IOException {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/fxmls/IncomesReportFormGUI.fxml"));
@@ -47,17 +49,38 @@ public class IncomesReportFormGUIController extends ParentGUIController {
 	public void initialize(URL location, ResourceBundle resources) {
 		super.initialize(location, resources);
 		Context.currentGUI = this;
+		lblFrom.setVisible(false);
+		lblTo.setVisible(false);
+		lblStore.setVisible(false);
+		lblTotIncome.setVisible(false);
+		lblMsg.setVisible(false);
+		lblStartDate.setVisible(false);
+		lblEndDate.setVisible(false);
+		lblStoreID.setVisible(false);
+		lblTotIncomeSum.setVisible(false);
+		Duration.seconds(5);
+		lblDataerr.setVisible(true);
 	}
 	
 	public void setIncomeReports(ArrayList<IncomesReport> iReports) {
 		if(iReports==null)return;
 		IncomesReport rep = iReports.get(0);
 		DateFormat ReqDate = new SimpleDateFormat("dd/MM/yyyy");
+		lblFrom.setVisible(true);
+		lblTo.setVisible(true);
+		lblStore.setVisible(true);
+		lblTotIncome.setVisible(true);
+		lblMsg.setVisible(true);
+		lblStartDate.setVisible(true);
+		lblEndDate.setVisible(true);
+		lblStoreID.setVisible(true);
+		lblTotIncomeSum.setVisible(true);
+		lblDataerr.setVisible(false);
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
 				String s=String.valueOf(rep.getTotIncomes());
-				lblStoreID.setText("1");
+				lblStoreID.setText(rep.getStoreID().toString());
 				lblEndDate.setText(ReqDate.format(rep.getEnddate()));
 				lblStartDate.setText(ReqDate.format(rep.getStartdate()));
 				lblTotIncomeSum.setText(s);

@@ -58,6 +58,7 @@ public class IncomesReportController extends ParentController implements IIncome
 	@Override
 	public IncomesReport ProduceIncomesReport(Date Reqdate, BigInteger storeID) throws ParseException {
 		iReport.setTotIncomes(0);
+		iReport.setStoreID(storeID);
 		rDate=Reqdate;
 		startDate=new Date();
 		Calendar c = Calendar.getInstance(); 
@@ -86,7 +87,7 @@ public class IncomesReportController extends ParentController implements IIncome
 			Date date = Date.from(orders.get(i).getDate().atZone(ZoneId.systemDefault()).toInstant());
 			if(date.after(rDate)==false&&
 					date.after(startDate)
-					&& orders.get(i).getOrderStatus().equals(OrderStatus.Paid)
+					//&& orders.get(i).getOrderStatus().equals(OrderStatus.Paid)
 					)
 			{
 				Context.askingCtrl.add(this);

@@ -117,30 +117,14 @@ public class ReportSelectorGUIController extends ParentGUIController {
 			}
 			//Context.fac.orderReport.produceOrderReport(date, 1);
 		}
-			
-		/*DateFormat day = new SimpleDateFormat("dd");
-		DateFormat Month = new SimpleDateFormat("MM");
-		DateFormat Year = new SimpleDateFormat("yyyy");
-		 * String yearstr=Year.format(date);
-		String monthstr=Month.format(date);
-		String daystr=day.format(date);
-		 if(YearCB.getValue()>Integer.parseInt(yearstr))
-			System.out.println(DayCB.getValue()+","+MonthCB.getValue()+","+YearCB.getValue());
-		else {
-			if(MonthCB.getValue()>Integer.parseInt(monthstr))
-				System.out.println("Error Month");
-			else if(DayCB.getValue()>Integer.parseInt(daystr)-1)
-				System.out.println("Error Day");
-			else
-				System.out.println(DayCB.getValue()+","+MonthCB.getValue()+","+YearCB.getValue());*/
-		}
+}
 		
 	
 	public void setStores(ArrayList<Store> stores) {
 		this.stores=stores;
 		ArrayList<String> ar = new ArrayList<>();
 		for (Store store : stores) {
-			if(store.getType().equals(StoreType.Physical))
+			//if(store.getType().equals(StoreType.Physical))
 				ar.add(store.getName());
 		}
 		StoreCB.setItems(FXCollections.observableArrayList(ar));

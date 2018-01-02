@@ -16,6 +16,10 @@ public abstract class QuarterlyReport {
 	private Date ReportDate;
 	private BigInteger storeID;
 
+	public BigInteger getStoreID() {
+		return storeID;
+	}
+
 	public void setType(ReportType Type) {
 		this.Type = Type;
 	}

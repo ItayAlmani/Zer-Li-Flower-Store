@@ -29,5 +29,6 @@
       <Label fx:id="lblfPlntsum" layoutX="282.0" layoutY="142.0" />
       <Label fx:id="lblBBousum" layoutX="282.0" layoutY="192.0" />
       <Label fx:id="lblFClusum" layoutX="282.0" layoutY="249.0" />
+      <Button fx:id="btAnotherreport" layoutX="143.0" layoutY="275.0" mnemonicParsing="false" text="Another Report" wrapText="true" />
    </children>
 </AnchorPane>

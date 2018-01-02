@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.effect.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="400.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" 
-fx:controller="lior.gui.controllers.IncomesReportFormGUIController">
+<AnchorPane prefHeight="400.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lior.gui.controllers.IncomesReportFormGUIController">
    <children>
       <Label fx:id="lbltitle" layoutX="100.0" layoutY="29.0" text="Total Incomes Report" AnchorPane.topAnchor="29.0">
          <font>
@@ -24,5 +24,17 @@ fx:controller="lior.gui.controllers.IncomesReportFormGUIController">
       <Label fx:id="lblEndDate" layoutX="269.0" layoutY="82.0" text="EndDate" />
       <Label fx:id="lblStoreID" layoutX="186.0" layoutY="139.0" text="StoreID" />
       <Label fx:id="lblTotIncomeSum" layoutX="200.0" layoutY="192.0" text="TotalIncomeSum" />
+      <Label fx:id="lblDataerr" layoutX="71.0" layoutY="139.0" text="There is no data for this store!" textFill="RED">
+         <effect>
+            <Lighting>
+               <bumpInput>
+                  <Shadow />
+               </bumpInput>
+               <light>
+                  <Light.Distant />
+               </light>
+            </Lighting>
+         </effect>
+      </Label>
    </children>
 </AnchorPane>

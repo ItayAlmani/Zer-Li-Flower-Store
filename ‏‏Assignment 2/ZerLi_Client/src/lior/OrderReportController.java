@@ -3,6 +3,7 @@ package lior;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.math.BigInteger;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -60,7 +61,8 @@ public class OrderReportController extends ParentController implements IOrderRep
 	}
 
 	@Override
-	public void produceOrderReport(Date reqDate, int storeID) throws ParseException {
+	public void produceOrderReport(Date reqDate, BigInteger storeID) throws ParseException {
+		oReport.setStoreID(storeID);
 		for (int i = 0; i < 4/*OrderType.values().length*/; i++) {
 			oReport.addToCounterPerType(0);
 			oReport.addToSumPerType(0f);
