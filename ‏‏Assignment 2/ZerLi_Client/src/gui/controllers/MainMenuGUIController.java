@@ -27,7 +27,7 @@ public class MainMenuGUIController extends ParentGUIController{
 	private @FXML ImageView imgCart;
 	private @FXML MenuItem	miCatalog, miShowProduct, miAddSurvey,
 							miReportSelector, miAssembleItem, miUpdateOrderStatus,
-							miManualTransaction;
+							miManualTransaction,miSurveyReport;
 		
 	public void showProducts(ActionEvent event){		
 		if(Context.clientConsole.isConnected()==false)
@@ -55,6 +55,18 @@ public class MainMenuGUIController extends ParentGUIController{
 		}
 	}
 	
+	public void showSurveyReport(ActionEvent event){
+		if(Context.clientConsole.isConnected()==false)
+			setServerUnavailable();
+		else {
+			try {
+				loadGUI("SurveyReportGUI", false);
+			} catch (Exception e) {
+				lblMsg.setText("Loader failed");
+				e.printStackTrace();
+			}
+		}
+	}
 	public void showConnectionGUI(ActionEvent event) throws Exception{
 		try {
 			Context.prevGUI=this;

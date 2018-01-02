@@ -5,6 +5,11 @@ import java.util.Date;
 
 public class SurveyReport {
 
+	public SurveyReport(Survey surveyAnalyzes) {
+		super();
+		this.surveyAnalyzes = surveyAnalyzes;
+	}
+
 	private BigInteger surveyReportID;
 	private BigInteger storeID;
 	private Survey surveyAnalyzes;

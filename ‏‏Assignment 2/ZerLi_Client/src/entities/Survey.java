@@ -6,37 +6,48 @@ import java.time.LocalDate;
 public class Survey {
 
 	private BigInteger surveyID;
-	private int[] surveyAnswerers;
+	private float[] surveyAnswerers;
 	private LocalDate date;
-	private Store store;
+	private BigInteger storeID;
 	private SurveyType type;
 	
 	private static BigInteger idInc = null;
 	
-	public Survey(int[] surveyAnswerers, LocalDate date, Store store, SurveyType type) {
+	public Survey(float[] surveyAnswerers, LocalDate date, BigInteger storeID, SurveyType type) {
 		super();
 		this.surveyAnswerers = surveyAnswerers;
 		this.date = date;
-		this.store = store;
+		this.storeID = storeID;
 		this.type = type;
 	}
-
+	public Survey(BigInteger surveyID,float[] surveyAnswerers, LocalDate date, BigInteger storeID, SurveyType type) {
+		super();
+		this.surveyID=surveyID;
+		this.surveyAnswerers = surveyAnswerers;
+		this.date = date;
+		this.storeID = storeID;
+		this.type = type;
+	}
 	public enum SurveyType{
 		Answer, Analyzes;
 	}
+	
+	public Survey(float[] surveyAnswerers) {
+		this.surveyAnswerers=surveyAnswerers;
+	}
 
-	public Survey(int[] surveyAnswerers, LocalDate date, Store store) {
+	public Survey(float[] surveyAnswerers, LocalDate date, BigInteger storeID) {
 		super();
 		this.surveyAnswerers = surveyAnswerers;
 		this.date = date;
-		this.store = store;
+		this.storeID = storeID;
 	}
 
-	public int[] getSurveyAnswerers() {
+	public float[] getSurveyAnswerers() {
 		return this.surveyAnswerers;
 	}
 
-	public void setSurveyAnswerers(int[] surveyAnswerers) {
+	public void setSurveyAnswerers(float[] surveyAnswerers) {
 		this.surveyAnswerers = surveyAnswerers;
 	}
 
@@ -48,12 +59,12 @@ public class Survey {
 		this.date = date;
 	}
 
-	public Store getStore() {
-		return this.store;
+	public BigInteger getStoreID() {
+		return this.storeID;
 	}
 
-	public void setStore(Store store) {
-		this.store = store;
+	public void setStore(BigInteger storeID) {
+		this.storeID = storeID;
 	}
 
 	public BigInteger getSurveyID() {

@@ -2,6 +2,6 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="C:/Users/izhar/eclipse-github/Zer-Li-Flower-Store/‏‏Assignment 2/ZerLi_Client/External/mysql-connector-java-5.1.45-bin.jar"/>
+	<classpathentry kind="lib" path="C:/Users/RON90/Documents/GitHub/Zer-Li-Flower-Store/‏‏Assignment 2/ZerLi_Server/mysql-connector-java-5.1.45-bin.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
