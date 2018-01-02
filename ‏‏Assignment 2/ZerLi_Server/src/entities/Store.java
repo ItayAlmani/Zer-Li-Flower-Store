@@ -1,9 +1,10 @@
 package entities;
 
+import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.ArrayList;
 
-public class Store {
+public class Store implements Serializable  {
 	
 	public enum StoreType {
 		Physical,
@@ -15,9 +16,6 @@ public class Store {
 	private ArrayList<Stock> stock = null;
 	private StoreType type;
 	private StoreWorker manager;
-	
-	
-	private static BigInteger idInc = null;
 	
 	public BigInteger getStoreID() {
 		return storeID;
@@ -80,15 +78,5 @@ public class Store {
 				return prodInStock;
 		}
 		return null;
-	}
-
-
-	public static BigInteger getIdInc() {
-		return idInc;
-	}
-
-
-	public static void setIdInc(BigInteger idInc) {
-		Store.idInc = idInc;
 	}
 }

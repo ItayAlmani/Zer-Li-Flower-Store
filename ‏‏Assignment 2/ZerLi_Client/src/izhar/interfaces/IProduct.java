@@ -14,7 +14,7 @@ public interface IProduct extends IParent {
 	
 	void addProduct(Product p) throws IOException;
 
-	void getProductByID(int prdID) throws IOException;
+	void getProductByID(BigInteger prdID) throws IOException;
 	
 	void getAllProducts() throws IOException;
 

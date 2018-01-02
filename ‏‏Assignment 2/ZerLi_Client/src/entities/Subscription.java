@@ -1,10 +1,11 @@
 package entities;
 
+import java.io.Serializable;
 import java.math.BigInteger;
 import java.time.LocalDate;
 import java.util.Date;
 
-public class Subscription {
+public class Subscription implements Serializable  {
 	
 	public enum SubscriptionType {
 		Monthly, Yearly
@@ -16,8 +17,6 @@ public class Subscription {
 	private LocalDate subDate;
 	
 	private static int discountInPercent = 10; 
-	
-	private static BigInteger idInc = null;
 
 	/**
 	 * 
@@ -56,14 +55,6 @@ public class Subscription {
 
 	public void setSubDate(LocalDate subDate) {
 		this.subDate = subDate;
-	}
-
-	public static BigInteger getIdInc() {
-		return idInc;
-	}
-
-	public static void setIdInc(BigInteger idInc) {
-		Subscription.idInc = idInc;
 	}
 
 	public static int getDiscountInPercent() {

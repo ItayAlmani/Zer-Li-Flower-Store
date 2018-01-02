@@ -26,15 +26,28 @@ import izhar.interfaces.IOrder;
 
 public class OrderController extends ParentController implements IOrder {
 	
-	public void setLastAutoIncrenment(ArrayList<Object> obj) throws IOException {
-		Context.order = new Order((BigInteger)obj.get(10));
-		Order.setIdInc((BigInteger)obj.get(10));
+	public void handleInsert(BigInteger id) {
+		String methodName = "setOrderID";
+		Method m = null;
+		try {
+			//a controller asked data, not GUI
+			if(Context.askingCtrl!=null && Context.askingCtrl.size()!=0) {
+				m = Context.askingCtrl.get(0).getClass().getMethod(methodName,BigInteger.class);
+				m.invoke(Context.askingCtrl.get(0), id);
+				Context.askingCtrl.remove(0);
+			}
+			else {
+				m = Context.currentGUI.getClass().getMethod(methodName,BigInteger.class);
+				m.invoke(Context.currentGUI, id);
+			}
+		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e1) {
+			System.err.println("Couldn't invoke method '"+methodName+"'");
+			e1.printStackTrace();
+		} catch (NoSuchMethodException | SecurityException e2) {
+			System.err.println("No method called '"+methodName+"'");
+			e2.printStackTrace();
+		}
 	}
-	
-	/*public void setCreatedRow(Integer id){
-		Order.setIdInc(BigInteger.valueOf(id));
-		
-	}*/
 
 	public boolean isCartEmpty(ArrayList<ProductInOrder> products) {
 		for (ProductInOrder pio : products)
@@ -59,32 +72,8 @@ public class OrderController extends ParentController implements IOrder {
 	@Override
 	public void addOrder(Order order) throws IOException {
 		myMsgArr.clear();
-		String delID ="NULL", shipID="NULL", payMeth = "NULL", delType="NULL", greeting = "NULL";
-		if(order.getDeliveryType() != null) {
-			if(order.getDeliveryType().equals(DeliveryType.Pickup) && order.getDelivery() != null)
-				delID="'"+order.getDelivery().getDeliveryID().toString()+"'";
-			else if(order.getDeliveryType().equals(DeliveryType.Shipment) && order.getDelivery() != null)
-				shipID="'"+((ShipmentDetails)order.getDelivery()).getOrderID().toString()+"'";
-			delType="'"+order.getDeliveryType().toString()+"'";
-		}
-		if(order.getPaymentMethod()!=null)
-			payMeth="'"+order.getPaymentMethod().toString()+"'";
-		if(order.getGreeting()!=null)
-			greeting = "'"+order.getGreeting()+"'";
-		String query = "INSERT INTO orders (customerID, deliveryID, type, paymentMethod, shipmentID, greeting, deliveryType, status, date, price)"
-				+ "VALUES ('" + order.getCustomerID() + "'"
-				+ ", " + delID + ", '"
-				+ order.getType().toString() + "', "
-				+ payMeth + ", " 
-				+ shipID + ", "
-				+  greeting + ", "
-				+ delType + ", '" 
-				+ order.getOrderStatus().toString() + "', '"
-				+ (Timestamp.valueOf(order.getDate())).toString() + "','"+
-				 order.getFinalPrice()+"');";
-		query += "SELECT Max(orderID) from orders;";
-		myMsgArr.add(query);
-		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.UPDATE, myMsgArr,Order.class));
+		myMsgArr.add(order);
+		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.INSERT, myMsgArr,Order.class));
 	}
 
 	@Override

@@ -56,6 +56,7 @@ public class Context {
 	
 	private static User user;
 	public static Order order;
+	private static boolean needNewOrder = true;
 	
 	/**
 	 * Looking for the .txt file at <code>projectPath</code>+<code>serTxtPath</code> path,
@@ -196,6 +197,7 @@ public class Context {
 	
 	public static void setOrders(ArrayList<Order> orders) {
 		if(orders!=null && orders.size()!=0 && orders.get(0)!=null) {
+			needNewOrder = false;
 			order = orders.get(0);
 			try {
 				askingCtrl.add(Context.class.newInstance());
@@ -212,6 +214,7 @@ public class Context {
 		else
 		{
 			if(user instanceof Customer) {
+				needNewOrder = true;
 				try {
 					order = new Order(Context.getUserAsCustomer().getCustomerID(),
 							OrderType.InfoSystem,
@@ -223,23 +226,6 @@ public class Context {
 					e.printStackTrace();
 				}
 			}
-			/*if(user instanceof Customer) {
-				//order=new Order(((Customer)user).getCustomerID());
-				try {
-					ClientController.getLastAutoIncrenment(Order.class);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}*/
-		}
-	}
-	
-	public void setUpdateRespond(Integer id, Class<?> clasz) {
-		Factory f = Context.fac;
-		BigInteger biID = BigInteger.valueOf(id);
-		if(clasz.equals(Order.class)) {
-			order.setOrderID(biID);
 		}
 	}
 	
@@ -247,5 +233,20 @@ public class Context {
 		if(order!=null) {
 			order.setProducts(prds);
 		}
+	}
+
+	public static void setOrderID(BigInteger id) {
+		if(needNewOrder == false) {
+			Context.order.setOrderID(id.subtract(BigInteger.ONE));
+			try {
+				Context.fac.stock.updateStock(Context.order);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			Context.order.setOrderID(id.add(BigInteger.ONE));
+		}
+		else
+			Context.order.setOrderID(id);
 	}
 }

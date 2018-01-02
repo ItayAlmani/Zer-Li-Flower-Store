@@ -22,6 +22,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Pagination;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderStroke;
@@ -213,7 +214,9 @@ public class CartGUIController extends ParentGUIController {
 		grids[i].setBorder(new Border(new BorderStroke(Color.BLACK, 
 	            BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
 		
-		imgImages[i] = new ImageView(p.getProduct().getImage());
+		imgImages[i] = new ImageView(
+				new Image(getClass().getResourceAsStream(p.getProduct().getImageName()))
+				);
 		grids[i].setConstraints(imgImages[i], 1, i);
 		components.add(imgImages[i]);
 		

@@ -1,17 +1,16 @@
 package entities;
 
+import java.io.Serializable;
 import java.math.BigInteger;
 import java.time.LocalDate;
 
-public class Survey {
+public class Survey implements Serializable  {
 
 	private BigInteger surveyID;
 	private int[] surveyAnswerers;
 	private LocalDate date;
 	private Store store;
 	private SurveyType type;
-	
-	private static BigInteger idInc = null;
 	
 	public Survey(int[] surveyAnswerers, LocalDate date, Store store, SurveyType type) {
 		super();
@@ -71,13 +70,4 @@ public class Survey {
 	public void setType(SurveyType type) {
 		this.type = type;
 	}
-
-	public static BigInteger getIdInc() {
-		return idInc;
-	}
-
-	public static void setIdInc(BigInteger idInc) {
-		Survey.idInc = idInc;
-	}
-
 }

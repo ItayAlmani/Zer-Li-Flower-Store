@@ -116,7 +116,8 @@ public class MainMenuGUIController extends ParentGUIController{
 		
 		Tooltip.install(imgCart, new Tooltip("Show my cart"));
 		
-		Context.askOrder();
+		if(Context.order==null)
+			Context.askOrder();
 		/*User user = Context.getUser();
 		if(user != null) {
 			UserType perm = user.getPermissions();

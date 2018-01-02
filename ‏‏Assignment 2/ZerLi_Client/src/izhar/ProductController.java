@@ -6,12 +6,12 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.math.BigInteger;
 import java.util.ArrayList;
-import java.util.Date;
 
 import common.Context;
 import controllers.ParentController;
-import entities.*;
+import entities.CSMessage;
 import entities.CSMessage.MessageType;
+import entities.Product;
 import entities.Product.Color;
 import entities.Product.ProductType;
 import izhar.interfaces.IProduct;
@@ -19,7 +19,7 @@ import izhar.interfaces.IProduct;
 public class ProductController extends ParentController implements IProduct {	
 	
 	@Override
-	public void getProductByID(int prdID) throws IOException {
+	public void getProductByID(BigInteger prdID) throws IOException {
 		myMsgArr.clear();
 		myMsgArr.add("SELECT * FROM product WHERE productID = '"+prdID+"';");
 		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.SELECT,myMsgArr,Product.class));
@@ -56,8 +56,7 @@ public class ProductController extends ParentController implements IProduct {
 	
 	@Override
 	public Product parse(BigInteger prdID, String name, String type, float price, String color, boolean inCatalog, String imageURL) throws FileNotFoundException {
-		return new Product(prdID, name, type,price,color,inCatalog,
-				Context.projectPath+"\\src\\images\\"+imageURL);
+		return new Product(prdID, name, type,price,color,inCatalog, "/images/"+imageURL);
 	}
 	
 	@Override

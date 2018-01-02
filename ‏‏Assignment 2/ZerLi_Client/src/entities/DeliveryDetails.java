@@ -1,17 +1,16 @@
 package entities;
 
+import java.io.Serializable;
 import java.math.BigInteger;
 import java.time.LocalDateTime;
 import java.util.Date;
 
-public class DeliveryDetails {	
+public class DeliveryDetails implements Serializable{	
 	private BigInteger deliveryID;
 	private BigInteger orderID;
 	protected LocalDateTime date;
 	private boolean isImmediate = true;
 	private Store store;
-	
-	private static BigInteger idInc = null;
 
 	public DeliveryDetails() {
 		
@@ -98,15 +97,4 @@ public class DeliveryDetails {
 	public Store getStore() {
 		return store;
 	}
-
-	public static BigInteger getIdInc() {
-		return idInc;
-	}
-
-	public static void setIdInc(BigInteger idInc) {
-		DeliveryDetails.idInc = idInc;
-	}
-	
-	
-
 }

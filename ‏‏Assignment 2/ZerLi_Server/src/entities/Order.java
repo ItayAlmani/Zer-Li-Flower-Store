@@ -1,11 +1,12 @@
 package entities;
 
+import java.io.Serializable;
 import java.math.BigInteger;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 
-public class Order {
+public class Order implements Serializable {
 	private BigInteger orderID;
 	private BigInteger customerID;
 	private DeliveryDetails delivery = null;
@@ -17,8 +18,6 @@ public class Order {
 	private float finalPrice = 0f;
 	private ArrayList<ProductInOrder> products;
 	private PayMethod paymentMethod;
-	
-	private static BigInteger idInc = null;
 	
 	public Order(OrderType type, OrderStatus orderStatus) {
 		super();
@@ -195,6 +194,8 @@ public class Order {
 	}
 	
 	public ProductInOrder containsProduct(Product p) {
+		if(products==null)
+			return null;
 		for (ProductInOrder productInOrder : products) {
 			if(productInOrder.getProduct().getPrdID()==p.getPrdID())
 				return productInOrder;
@@ -231,14 +232,6 @@ public class Order {
 		Cash,
 		Refund,
 		RefundAndCreditCard
-	}
-
-	public static BigInteger getIdInc() {
-		return idInc;
-	}
-
-	public static void setIdInc(BigInteger idInc) {
-		Order.idInc = idInc;
 	}
 
 	public PayMethod getPaymentMethod() {

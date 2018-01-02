@@ -20,7 +20,7 @@ public class Factory {
 	public ComplaintController complaint = new ComplaintController();
 	public SurveyController survey = new SurveyController();
 	public SurveyReportController surveyReport = new SurveyReportController();
-	public IStock stock = new StockController();
+	public StockController stock = new StockController();
 	
 	public BrowsingProcessHandler browsingProcess = new BrowsingProcessHandler();
 	public OrderController order = new OrderController();
