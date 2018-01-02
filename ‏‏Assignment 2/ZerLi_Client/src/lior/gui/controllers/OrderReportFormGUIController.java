@@ -1,13 +1,17 @@
 package lior.gui.controllers;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import common.Context;
 import entities.OrderReport;
+import entities.Store;
+import entities.Store.StoreType;
 import gui.controllers.ParentGUIController;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.Button;
@@ -24,12 +28,13 @@ public class OrderReportFormGUIController extends ParentGUIController {
 	@FXML Label lblFClucnt;
 	@FXML Label lblFClusum;
 	@FXML Button OutOrderReport;
+	
+	
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		super.initialize(location, resources);
 		Context.currentGUI = this;
-		
 	}
 	
 	public void setOrderReports(ArrayList<OrderReport> oReports) {
@@ -53,4 +58,6 @@ public class OrderReportFormGUIController extends ParentGUIController {
 	}
 
 	@FXML public void GoToMainMenu(ActionEvent event) {super.loadMainMenu();}
+	
+
 }

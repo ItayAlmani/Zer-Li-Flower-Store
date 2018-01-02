@@ -3,6 +3,7 @@ package lior;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.math.BigInteger;
 import java.text.ParseException;
 import java.time.ZoneId;
 import java.util.ArrayList;
@@ -13,6 +14,7 @@ import common.Context;
 import controllers.ParentController;
 import entities.IncomesReport;
 import entities.Order;
+import entities.Order.OrderStatus;
 import entities.OrderReport;
 import entities.Product;
 import entities.ProductInOrder;
@@ -54,7 +56,7 @@ public class IncomesReportController extends ParentController implements IIncome
 	}
 
 	@Override
-	public IncomesReport ProduceIncomesReport(Date Reqdate, int storeID) throws ParseException {
+	public IncomesReport ProduceIncomesReport(Date Reqdate, BigInteger storeID) throws ParseException {
 		iReport.setTotIncomes(0);
 		rDate=Reqdate;
 		startDate=new Date();
@@ -66,7 +68,7 @@ public class IncomesReportController extends ParentController implements IIncome
 			Context.askingCtrl.add(this);
 			Context.fac.order.getAllOrdersByStoreID(storeID);
 		} catch (IOException e) {
-			System.err.println("OrderReportController\n");
+			System.err.println("IncomesReportController\n");
 			e.printStackTrace();
 		}
 		return null;
@@ -84,7 +86,7 @@ public class IncomesReportController extends ParentController implements IIncome
 			Date date = Date.from(orders.get(i).getDate().atZone(ZoneId.systemDefault()).toInstant());
 			if(date.after(rDate)==false&&
 					date.after(startDate)
-					/*&& orders.get(i).getOrderStatus().equals(OrderStatus.Paid)*/
+					&& orders.get(i).getOrderStatus().equals(OrderStatus.Paid)
 					)
 			{
 				Context.askingCtrl.add(this);
@@ -108,7 +110,7 @@ public class IncomesReportController extends ParentController implements IIncome
 		
 		Order myOrder = null;
 		for (Order ord : orders) {
-			if(ord.getOrderID()==products.get(0).getOrderID()) {
+			if(ord.getOrderID().equals(products.get(0).getOrderID())) {
 				myOrder = ord;
 				break;
 			}
@@ -121,6 +123,7 @@ public class IncomesReportController extends ParentController implements IIncome
 		{
 			Totalincomessum+=products.get(j).getFinalPrice();
 		}
+		iReport.setTotIncomes(Totalincomessum);
 		ArrayList<IncomesReport> ar = new ArrayList<>();
 		ar.add(iReport);
 		sendIncomeReports(ar);
