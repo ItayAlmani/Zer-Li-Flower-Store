@@ -5,23 +5,35 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.math.BigInteger;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 import common.Context;
 import controllers.ParentController;
 import entities.CSMessage;
-import entities.Product;
 import entities.CSMessage.MessageType;
-import entities.Product.Color;
-import entities.Product.ProductType;
-import izhar.interfaces.IProductInOrder;
+import entities.Customer;
+import entities.Product;
 import entities.ProductInOrder;
-import entities.Transaction;
+import entities.Subscription;
+import entities.Subscription.SubscriptionType;
+import izhar.interfaces.IProductInOrder;
 
 public class ProductInOrderController extends ParentController implements IProductInOrder {	
 	
-	public void setLastAutoIncrenment(ArrayList<Object> obj) throws IOException {
-		Transaction.setIdInc((BigInteger)obj.get(10));
+	public void updatePriceWithSubscription(ProductInOrder pio, Customer customer) {
+		if(customer.getPaymentAccount()!= null && customer.getPaymentAccount().getSub() != null) {
+			LocalDate date = customer.getPaymentAccount().getSub().getSubDate();
+			SubscriptionType type = customer.getPaymentAccount().getSub().getSubType();
+			if(type.equals(SubscriptionType.Monthly)) {
+				if(date.plusMonths(1).isBefore(LocalDate.now()))
+					pio.setFinalPrice(pio.getFinalPrice()*Subscription.getDiscountInPercent());
+			}
+			else if(type.equals(SubscriptionType.Yearly)) {
+				if(date.plusYears(1).isBefore(LocalDate.now()))
+					pio.setFinalPrice(pio.getFinalPrice()*Subscription.getDiscountInPercent());
+			}
+		}
 	}
 	
 	@Override
@@ -103,6 +115,16 @@ public class ProductInOrderController extends ParentController implements IProdu
 		myMsgArr.add(query);
 		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.UPDATE, myMsgArr,ProductInOrder.class));
 	}
+	
+	public void deletePIO(ProductInOrder pio) throws IOException{
+		myMsgArr.clear();
+		String query = "delete from cart" + 
+						" where orderID='"+pio.getOrderID()
+						+"' AND productID='"+pio.getProduct().getPrdID()+"'";
+		query += "SELECT Max(productInOrderID) from cart;";
+		myMsgArr.add(query);
+		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.UPDATE, myMsgArr,ProductInOrder.class));
+	}
 
 	@Override
 	public void getPIOsByOrder(BigInteger orderID) throws IOException {
@@ -141,5 +163,15 @@ public class ProductInOrderController extends ParentController implements IProdu
 				return false;
 		}
 		return true;
+	}
+	
+	public ProductInOrder getPIOFromArr(ArrayList<ProductInOrder> prods, Product prod) {
+		if(prod == null) return null;
+		for (ProductInOrder pio : prods) {
+			if(pio.getProduct()!=null &&
+					pio.getProduct().getPrdID().equals(prod.getPrdID()))
+				return pio;
+		}
+		return null;
 	}
 }

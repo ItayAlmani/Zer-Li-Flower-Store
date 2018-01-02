@@ -55,16 +55,22 @@ public class OrderTimeGUIController extends ParentGUIController {
 		
 		if(select.equals("PreOrder")) {
 			date = dpDate.getValue().atStartOfDay();
-			date.plusHours(cbHours.getValue());
-			date.plusMinutes(cbMinutes.getValue());
+			date=date.plusHours(cbHours.getValue());
+			date=date.plusMinutes(cbMinutes.getValue());
 		}
 		else if(select.equals("Immediate")) {
 			Context.order.getDelivery().setImmediate(true);
 			date = LocalDateTime.now();
-			date.plusHours(3);
-			date.plusMinutes(-1);
+			if(date.plusHours(3).plusMinutes(-1).toLocalDate().isBefore(date.toLocalDate())
+					&& date.toLocalTime().plusHours(3).plusMinutes(-1).isBefore(LocalTime.of(21, 00)))
+				date=date.plusHours(3).plusMinutes(-1);
+			else {
+				LocalDate new_date = date.toLocalDate().plusDays(1);
+				LocalTime new_time = LocalTime.of(7, 00);
+				date = LocalDateTime.of(new_date, new_time);
+			}
 		}
-		Context.order.getDelivery().setDate(Date.from(date.atZone(ZoneId.systemDefault()).toInstant()));
+		Context.order.getDelivery().setDate(date);
 		try {
 			loadGUI("PaymentGUI", false);
 		} catch (Exception e) {
@@ -106,7 +112,7 @@ public class OrderTimeGUIController extends ParentGUIController {
 		dpDate.setEditable(false);
 		
 		LocalTime now_time = LocalTime.now();
-		if(now_time.plusHours(3).getHour()>21 || 
+		if(now_time.plusHours(3).getHour()>22 || 
 				LocalDateTime.now().plusHours(3).getDayOfMonth()>LocalDateTime.now().getDayOfMonth()) {
 			dpDate.setDayCellFactory(picker -> new DateCell() {
 	            @Override
@@ -130,7 +136,7 @@ public class OrderTimeGUIController extends ParentGUIController {
 	}
 	
 	@FXML public void selectedDate() {
-		Context.order.getDelivery().setDate(Date.from(dpDate.getValue().atStartOfDay().atZone(ZoneId.systemDefault()).toInstant()));
+		Context.order.getDelivery().setDate(dpDate.getValue().atStartOfDay());
 		LocalTime now_time = LocalTime.now();
 		LocalDate reqDate = dpDate.getValue(), now_date = LocalDate.now();
 		
@@ -138,13 +144,13 @@ public class OrderTimeGUIController extends ParentGUIController {
 		
 		//The order is for today
 		if(now_date.compareTo(reqDate)==0) {
-			if(now_time.compareTo(LocalTime.of(21, 00))<=0) { //delivery until 22:00
-				for (int i = now_time.getHour()+3; i <= 22; i++)
+			if(now_time.compareTo(LocalTime.of(22, 00))<=0) { //delivery until 22:00
+				for (Integer i = now_time.getHour()+3; i <= 22; i++)
 					al.add(i);
 			}
 		}
 		else {
-			for (int i = 7; i <= 22; i++)
+			for (Integer i = 7; i <= 22; i++)
 				al.add(i);
 		}
 		cbHours.setItems(FXCollections.observableArrayList(al));

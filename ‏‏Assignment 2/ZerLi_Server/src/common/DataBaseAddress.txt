@@ -1,8 +1,4 @@
 Url: localhost
-<<<<<<< HEAD
-Name: schema
-=======
 Name: dbassignment2
->>>>>>> branch 'master' of https://github.com/ItayAlmani/Zer-Li-Flower-Store.git
 UserName: root
 Password: 1234

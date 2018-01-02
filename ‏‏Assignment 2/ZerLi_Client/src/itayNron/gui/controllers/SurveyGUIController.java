@@ -1,5 +1,6 @@
 package itayNron.gui.controllers;
 
+import java.math.BigInteger;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -42,7 +43,7 @@ public class SurveyGUIController extends ParentGUIController {
 			i++;
 		}
 		//Date date = Date.from(dpDate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
-		Survey sur = new Survey(ans, dpDate.getValue(), new Store(1),SurveyType.Answer);
+		Survey sur = new Survey(ans, dpDate.getValue(), new Store(BigInteger.ONE),SurveyType.Answer);
 		
 		Context.fac.survey.addSurvey(sur);
 		

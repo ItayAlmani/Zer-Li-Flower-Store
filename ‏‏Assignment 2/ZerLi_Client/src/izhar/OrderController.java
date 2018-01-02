@@ -6,8 +6,10 @@ import java.lang.reflect.Method;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.time.Duration;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.temporal.Temporal;
 
 import common.Context;
@@ -17,7 +19,9 @@ import entities.CSMessage.MessageType;
 import entities.Order.DeliveryType;
 import entities.Order.OrderStatus;
 import entities.Order.OrderType;
+import entities.Order.PayMethod;
 import entities.Order.Refund;
+import entities.Subscription.SubscriptionType;
 import izhar.interfaces.IOrder;
 
 public class OrderController extends ParentController implements IOrder {
@@ -55,25 +59,29 @@ public class OrderController extends ParentController implements IOrder {
 	@Override
 	public void addOrder(Order order) throws IOException {
 		myMsgArr.clear();
-		String delID ="NULL", shipID="NULL", transID = "NULL", delType="NULL";
-		if(order.getDeliveryType().equals(DeliveryType.Pickup) && order.getDelivery() != null)
-			delID="'"+order.getDelivery().getDeliveryID().toString()+"'";
-		else if(order.getDeliveryType().equals(DeliveryType.Shipment) && order.getDelivery() != null)
-			shipID="'"+((ShipmentDetails)order.getDelivery()).getOrderID().toString()+"'";
-		if(order.getTransaction()!=null)
-			transID="'"+order.getTransaction().toString()+"'";
-		if(order.getDeliveryType() != null)
+		String delID ="NULL", shipID="NULL", payMeth = "NULL", delType="NULL", greeting = "NULL";
+		if(order.getDeliveryType() != null) {
+			if(order.getDeliveryType().equals(DeliveryType.Pickup) && order.getDelivery() != null)
+				delID="'"+order.getDelivery().getDeliveryID().toString()+"'";
+			else if(order.getDeliveryType().equals(DeliveryType.Shipment) && order.getDelivery() != null)
+				shipID="'"+((ShipmentDetails)order.getDelivery()).getOrderID().toString()+"'";
 			delType="'"+order.getDeliveryType().toString()+"'";
-		String query = "INSERT INTO orders (customerID, deliveryID, type, transactionID, shipmentID, greeting, deliveryType, status, date)"
+		}
+		if(order.getPaymentMethod()!=null)
+			payMeth="'"+order.getPaymentMethod().toString()+"'";
+		if(order.getGreeting()!=null)
+			greeting = "'"+order.getGreeting()+"'";
+		String query = "INSERT INTO orders (customerID, deliveryID, type, paymentMethod, shipmentID, greeting, deliveryType, status, date, price)"
 				+ "VALUES ('" + order.getCustomerID() + "'"
 				+ ", " + delID + ", '"
 				+ order.getType().toString() + "', "
-				+ transID + ", " 
-				+ shipID + ", '"
-				+ order.getGreeting() + "', "
+				+ payMeth + ", " 
+				+ shipID + ", "
+				+  greeting + ", "
 				+ delType + ", '" 
 				+ order.getOrderStatus().toString() + "', '"
-				+ new Date(order.getDate().getTime()) + "');";
+				+ (Timestamp.valueOf(order.getDate())).toString() + "','"+
+				 order.getFinalPrice()+"');";
 		query += "SELECT Max(orderID) from orders;";
 		myMsgArr.add(query);
 		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.UPDATE, myMsgArr,Order.class));
@@ -82,21 +90,23 @@ public class OrderController extends ParentController implements IOrder {
 	@Override
 	public void handleGet(ArrayList<Object> obj) {
 		ArrayList<Order> ords = new ArrayList<>();
-		for (int i = 0; i < obj.size(); i += 10) {
+		for (int i = 0; i < obj.size(); i += 11) {
 			BigInteger deliveryID = obj.get(i + 2)==null?null:BigInteger.valueOf(Long.valueOf((int)obj.get(i + 2))),
 					shipmentID=obj.get(i + 4)==null?null:BigInteger.valueOf(Long.valueOf((int) obj.get(i + 4)));
+			
 			
 			ords.add(parse(
 					BigInteger.valueOf(Long.valueOf((int)obj.get(i))), 
 					BigInteger.valueOf(Long.valueOf((int) obj.get(i + 1))),
 					deliveryID, 
-					BigInteger.valueOf(Long.valueOf((int) obj.get(i + 3))),
+					obj.get(i + 3)==null?null:(String)obj.get(i + 3),
 					shipmentID,
 					obj.get(i + 5)==null?null:(String)obj.get(i + 5),
 					(String) obj.get(i + 6),
 					(String) obj.get(i + 7),
 					(String) obj.get(i + 8),
-					(java.util.Date)obj.get(i + 9)
+					(Timestamp)obj.get(i + 9),
+					(float)obj.get(i+10)
 					));
 		}
 		sendOrders(ords);
@@ -125,24 +135,28 @@ public class OrderController extends ParentController implements IOrder {
 	@Override
 	public void updateOrder(Order order) throws IOException {
 		myMsgArr.clear();
-		String delID ="NULL", shipID="NULL", transID="NULL", delType = "NULL";
-		if(order.getDeliveryType().equals(DeliveryType.Pickup) && order.getDelivery() != null)
-			delID="'"+order.getDelivery().getDeliveryID().toString()+"'";
-		else if(order.getDeliveryType().equals(DeliveryType.Shipment) && order.getDelivery() != null)
-			shipID="'"+((ShipmentDetails)order.getDelivery()).getShipmentID().toString()+"'";
-		if(order.getTransaction()!=null)
-			transID="'"+order.getTransaction().toString()+"'";
-		if(order.getDeliveryType() != null)
+		String delID ="NULL", shipID="NULL", payMeth = "NULL", delType="NULL", greeting = "NULL";
+		if(order.getDeliveryType() != null) {
+			if(order.getDeliveryType().equals(DeliveryType.Pickup) && order.getDelivery() != null)
+				delID="'"+order.getDelivery().getDeliveryID().toString()+"'";
+			else if(order.getDeliveryType().equals(DeliveryType.Shipment) && order.getDelivery() != null)
+				shipID="'"+((ShipmentDetails)order.getDelivery()).getOrderID().toString()+"'";
 			delType="'"+order.getDeliveryType().toString()+"'";
+		}
+		if(order.getPaymentMethod()!=null)
+			payMeth="'"+order.getPaymentMethod().toString()+"'";
+		if(order.getGreeting()!=null)
+			greeting = "'"+order.getGreeting()+"'";
 		myMsgArr.add("UPDATE orders SET customerID = '" + order.getCustomerID() 
 		+ "',deliveryID = " + delID 
 		+ ",type = '" + order.getType().toString() 
-		+ "',transactionID = " + transID
+		+ "',paymentMethod = " + payMeth
 		+ ",shipmentID = " + shipID
-		+ ",greeting = '" + order.getGreeting() 
-		+ "',deliveryType = " + delType
+		+ ",greeting = " + greeting 
+		+ ",deliveryType = " + delType
 		+ ",status='" + order.getOrderStatus().toString() 
-		+ "',date = '" + new Date(order.getDate().getTime())
+		+ "',date = '" + (Timestamp.valueOf(order.getDate())).toString()
+		+ "',price = '"+ order.getFinalPrice()
 		+ "' WHERE orderID='" + order.getOrderID() + "'");
 		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.UPDATE, myMsgArr));
 	}
@@ -197,28 +211,40 @@ public class OrderController extends ParentController implements IOrder {
 	}
 
 	@Override
-	public Order parse(BigInteger orderID, BigInteger customerID, BigInteger deliveryID, BigInteger transactionID, BigInteger shipmentID, String type,
-			String greeting, String deliveryType, String orderStatus, java.util.Date date) {
-		if(DeliveryType.valueOf(deliveryType).equals(DeliveryType.Pickup))
+	public Order parse(BigInteger orderID, BigInteger customerID, BigInteger deliveryID, String payMethod, BigInteger shipmentID, String type,
+			String greeting, String deliveryType, String orderStatus, Timestamp date, float price) {
+		LocalDateTime ldtDate = date.toLocalDateTime();
+		if(deliveryType==null)
+			return new Order(orderID,
+					customerID,
+					OrderType.valueOf(type),
+					payMethod==null?null:PayMethod.valueOf(payMethod), 
+					greeting,
+					OrderStatus.valueOf(orderStatus), 
+					ldtDate,
+					price);
+		else if(DeliveryType.valueOf(deliveryType).equals(DeliveryType.Pickup))
 			return new Order(orderID,
 					customerID,
 					new DeliveryDetails(deliveryID),
 					OrderType.valueOf(type),
-					new Transaction(transactionID), 
+					PayMethod.valueOf(payMethod), 
 					greeting,
 					DeliveryType.valueOf(deliveryType), 
 					OrderStatus.valueOf(orderStatus), 
-					date);
+					ldtDate, 
+					price);
 		else if(DeliveryType.valueOf(deliveryType).equals(DeliveryType.Shipment))
 			return new Order(orderID,
 					customerID,
-					new DeliveryDetails(shipmentID),
+					new ShipmentDetails(shipmentID),
 					OrderType.valueOf(type),
-					new Transaction(transactionID), 
+					PayMethod.valueOf(payMethod), 
 					greeting,
 					DeliveryType.valueOf(deliveryType), 
 					OrderStatus.valueOf(orderStatus), 
-					date);
+					ldtDate,
+					price);
 		else return null;
 	}
 
@@ -269,5 +295,20 @@ public class OrderController extends ParentController implements IOrder {
 		myMsgArr.clear();
 		myMsgArr.add("SELECT * FROM orders WHERE customerID='"+	customerID+"'");
 		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.SELECT, myMsgArr, Order.class));
+	}
+
+	public void updatePriceWithSubscription(Order order, Customer customer) {
+		if(customer.getPaymentAccount()!= null && customer.getPaymentAccount().getSub() != null) {
+			LocalDate date = customer.getPaymentAccount().getSub().getSubDate();
+			SubscriptionType type = customer.getPaymentAccount().getSub().getSubType();
+			if(type.equals(SubscriptionType.Monthly)) {
+				if(date.plusMonths(1).isBefore(LocalDate.now()))
+					order.setFinalPrice(order.getFinalPrice()*Subscription.getDiscountInPercent());
+			}
+			else if(type.equals(SubscriptionType.Yearly)) {
+				if(date.plusYears(1).isBefore(LocalDate.now()))
+					order.setFinalPrice(order.getFinalPrice()*Subscription.getDiscountInPercent());
+			}
+		}
 	}
 }

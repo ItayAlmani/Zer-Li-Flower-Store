@@ -1,6 +1,7 @@
 package entities;
 
 import java.math.BigInteger;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 public class Complaint {
@@ -8,11 +9,13 @@ public class Complaint {
 	private BigInteger complaintID;
 	private String complaintReason;
 	private String customerID;
-	private Date date;
+	private LocalDateTime date;
 	private boolean isTreated = false;
 	private boolean isRefunded = false;
 	private String status;
 	private String storeID;
+	
+	private static BigInteger idInc = null;
 
 	public String getComplaintReason() {
 		return this.complaintReason;
@@ -30,11 +33,11 @@ public class Complaint {
 		this.customerID = customerID;
 	}
 
-	public Date getDate() {
+	public LocalDateTime getDate() {
 		return this.date;
 	}
 
-	public void setDate(Date date) {
+	public void setDate(LocalDateTime date) {
 		this.date = date;
 	}
 
@@ -54,4 +57,11 @@ public class Complaint {
 		this.isRefunded = isRefunded;
 	}
 
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
 }

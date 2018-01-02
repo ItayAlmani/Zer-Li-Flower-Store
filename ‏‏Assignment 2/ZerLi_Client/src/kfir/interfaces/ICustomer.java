@@ -17,6 +17,11 @@ import interfaces.IParent;
 public interface ICustomer extends IParent {
 
 	/**
+	 * asks from db all customers with all User details - names, privateID...
+	 */
+	void getAllCustomers();
+	
+	/**
 	 * 
 	 * @param customer
 	 */

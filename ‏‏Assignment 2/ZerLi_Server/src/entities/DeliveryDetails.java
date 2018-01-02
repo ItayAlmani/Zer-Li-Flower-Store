@@ -1,15 +1,22 @@
 package entities;
 
 import java.math.BigInteger;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 public class DeliveryDetails {	
 	private BigInteger deliveryID;
 	private BigInteger orderID;
-	protected Date date;
+	protected LocalDateTime date;
 	private boolean isImmediate = true;
 	private Store store;
+	
+	private static BigInteger idInc = null;
 
+	public DeliveryDetails() {
+		
+	}
+	
 	public DeliveryDetails(BigInteger deliveryID) {
 		super();
 		this.deliveryID = deliveryID;
@@ -29,7 +36,7 @@ public class DeliveryDetails {
 		this.store = store;
 	}
 
-	public DeliveryDetails(BigInteger orderID, Date date, boolean isImmediate, Store store) {
+	public DeliveryDetails(BigInteger orderID, LocalDateTime date, boolean isImmediate, Store store) {
 		super();
 		this.orderID = orderID;
 		this.date = date;
@@ -37,7 +44,7 @@ public class DeliveryDetails {
 		this.store = store;
 	}
 	
-	public DeliveryDetails(BigInteger deliveryID, BigInteger orderID, Date date, boolean isImmediate, Store store) {
+	public DeliveryDetails(BigInteger deliveryID, BigInteger orderID, LocalDateTime date, boolean isImmediate, Store store) {
 		super();
 		this.deliveryID = deliveryID;
 		this.orderID = orderID;
@@ -52,11 +59,11 @@ public class DeliveryDetails {
 		this.orderID = orderID;
 	}
 
-	public Date getDate() {
+	public LocalDateTime getDate() {
 		return this.date;
 	}
 
-	public void setDate(Date date) {
+	public void setDate(LocalDateTime date) {
 		this.date = date;
 	}
 
@@ -90,6 +97,14 @@ public class DeliveryDetails {
 
 	public Store getStore() {
 		return store;
+	}
+
+	public static BigInteger getIdInc() {
+		return idInc;
+	}
+
+	public static void setIdInc(BigInteger idInc) {
+		DeliveryDetails.idInc = idInc;
 	}
 	
 	

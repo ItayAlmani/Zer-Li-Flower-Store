@@ -58,5 +58,9 @@ public class Customer extends User {
 	public static void setIdInc(BigInteger idInc) {
 		Customer.idInc = idInc;
 	}
-	
+
+	@Override
+	public String toString() {
+		return getFullName();
+	}
 }

@@ -2,8 +2,8 @@ package izhar.interfaces;
 
 import java.io.IOException;
 import java.math.BigInteger;
+import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Date;
 
 import entities.*;
 import entities.Order.*;
@@ -79,11 +79,15 @@ public interface IOrder extends IParent  {
 	 * @param deliveryType	-	the delivery type by the ENUM
 	 * @param orderStatus	-	the order's status by the ENUm
 	 * @param date			-	the order's date
+	 * @param price TODO
 	 * @param cartID		-	the cart which contains all the products in order ID
 	 * @return new object created by the data above
 	 */
-	Order parse(BigInteger orderID, BigInteger customerID, BigInteger deliveryID, BigInteger transactionID, BigInteger shipmentID, String type,
-			String greeting, String deliveryType, String orderStatus, Date date);
+/*	Order parse(BigInteger orderID, BigInteger customerID, BigInteger deliveryID, String payMethodID, BigInteger shipmentID, String type,
+			String greeting, String deliveryType, String orderStatus, Timestamp date, float price);*/
+	Order parse(BigInteger orderID, BigInteger customerID, BigInteger deliveryID, String payMethod,
+			BigInteger shipmentID, String type, String greeting, String deliveryType, String orderStatus,
+			Timestamp date, float price);
 	
 	/**
 	 * asks from server an Order with orderid=<code>orderID</code>

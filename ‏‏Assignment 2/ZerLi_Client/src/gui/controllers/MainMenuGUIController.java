@@ -26,7 +26,8 @@ public class MainMenuGUIController extends ParentGUIController{
 	private @FXML Button btnConfig;
 	private @FXML ImageView imgCart;
 	private @FXML MenuItem	miCatalog, miShowProduct, miAddSurvey,
-							miReportSelector, miAssembleItem, miUpdateOrderStatus;
+							miReportSelector, miAssembleItem, miUpdateOrderStatus,
+							miManualTransaction;
 		
 	public void showProducts(ActionEvent event){		
 		if(Context.clientConsole.isConnected()==false)
@@ -116,19 +117,18 @@ public class MainMenuGUIController extends ParentGUIController{
 		Tooltip.install(imgCart, new Tooltip("Show my cart"));
 		
 		Context.askOrder();
-		User user = Context.getUser();
+		/*User user = Context.getUser();
 		if(user != null) {
 			UserType perm = user.getPermissions();
-			/*if(perm.equals(UserType.Customer) ==false) {
+			if(perm.equals(UserType.Customer) ==false) {
 				miCatalog.setVisible(false);
 			}
 			if(perm.equals(UserType.Customer)==true) {
 				miReportSelector.setVisible(false);
 				miUpdateOrderStatus.setVisible(false);
 				miAddSurvey.setVisible(false);
-			}*/
-				
-		}
+			}
+		}*/
 		
 	}
 	
@@ -153,6 +153,15 @@ public class MainMenuGUIController extends ParentGUIController{
 	@FXML public void loadUpdateOrder() {
 		try {
 			loadGUI("UpdateOrderStatusGUI", false);
+		} catch (Exception e) {
+			lblMsg.setText("Loader failed");
+			e.printStackTrace();
+		}
+	}
+
+	@FXML public void loadManualTransaction() {
+		try {
+			loadGUI("ManualTransactionGUI", false);
 		} catch (Exception e) {
 			lblMsg.setText("Loader failed");
 			e.printStackTrace();

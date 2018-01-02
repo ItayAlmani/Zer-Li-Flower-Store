@@ -12,7 +12,7 @@ public class Store {
 	
 	private BigInteger storeID;
 	private String name;
-	private ArrayList<Stock> stock;
+	private ArrayList<Stock> stock = null;
 	private StoreType type;
 	private StoreWorker manager;
 	

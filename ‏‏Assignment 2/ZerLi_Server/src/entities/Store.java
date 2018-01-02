@@ -12,9 +12,12 @@ public class Store {
 	
 	private BigInteger storeID;
 	private String name;
-	private ArrayList<Stock> stock;
+	private ArrayList<Stock> stock = null;
 	private StoreType type;
 	private StoreWorker manager;
+	
+	
+	private static BigInteger idInc = null;
 	
 	public BigInteger getStoreID() {
 		return storeID;
@@ -25,8 +28,10 @@ public class Store {
 		super();
 		this.storeID = storeID;
 	}
-
-
+	
+	
+	
+	
 	public Store(BigInteger storeID, String name, StoreType type, StoreWorker manager) {
 		super();
 		this.storeID = storeID;
@@ -36,6 +41,7 @@ public class Store {
 	}
 
 
+	
 	public void setStoreID(BigInteger storeID) {
 		this.storeID = storeID;
 	}
@@ -74,5 +80,15 @@ public class Store {
 				return prodInStock;
 		}
 		return null;
+	}
+
+
+	public static BigInteger getIdInc() {
+		return idInc;
+	}
+
+
+	public static void setIdInc(BigInteger idInc) {
+		Store.idInc = idInc;
 	}
 }

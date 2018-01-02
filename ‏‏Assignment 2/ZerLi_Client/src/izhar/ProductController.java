@@ -17,6 +17,7 @@ import entities.Product.ProductType;
 import izhar.interfaces.IProduct;
 
 public class ProductController extends ParentController implements IProduct {	
+	
 	@Override
 	public void getProductByID(int prdID) throws IOException {
 		myMsgArr.clear();

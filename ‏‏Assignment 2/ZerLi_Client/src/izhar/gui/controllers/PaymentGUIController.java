@@ -1,14 +1,12 @@
 package izhar.gui.controllers;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.Random;
 import java.util.ResourceBundle;
 
 import common.Context;
 import entities.Order;
-import entities.ProductInOrder;
-import entities.Transaction;
-import entities.Transaction.PayMethod;
 import entities.Order.OrderStatus;
 import gui.controllers.ParentGUIController;
 import javafx.application.Platform;
@@ -29,6 +27,8 @@ public class PaymentGUIController extends ParentGUIController {
 	private @FXML ProgressIndicator piBill;
 	private @FXML ToggleGroup tGroup;
 	private @FXML TextArea txtGreeting;
+	
+	public static boolean orderAdded = false;
 	
 	private void setLblFinalPrice(Float ordPrice) {
     	if(ordPrice == Math.round(ordPrice))
@@ -93,7 +93,6 @@ public class PaymentGUIController extends ParentGUIController {
 							lblPayMsg.setText("");
 							payWithCC();
 						}
-						
 					}
 				});
 			}
@@ -106,8 +105,7 @@ public class PaymentGUIController extends ParentGUIController {
 		Order ord = Context.order;
 		if(tGroup.getSelectedToggle().getUserData().equals("CreditCard")) {
 			ord.setOrderStatus(OrderStatus.Paid);
-			Transaction t = new Transaction(PayMethod.CreditCard, Context.order);
-			ord.setTransaction(t);
+			ord.setPaymentMethod(entities.Order.PayMethod.CreditCard);
 		}
 		else
 			ord.setOrderStatus(OrderStatus.WaitingForCashPayment);
@@ -115,7 +113,27 @@ public class PaymentGUIController extends ParentGUIController {
 			ord.setGreeting(txtGreeting.getText());
 		else
 			ord.setGreeting("");
-		Context.fac.orderProcess.updateFinilizeOrder(ord);
+		try {
+			Context.fac.orderProcess.updateFinilizeOrder(ord);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void loadNextWindow() {
+		Platform.runLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				try {
+					loadGUI("OrderGUI", false);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
 	}
 
 	public void back() {

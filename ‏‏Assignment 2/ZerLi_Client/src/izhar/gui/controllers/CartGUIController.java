@@ -44,13 +44,14 @@ public class CartGUIController extends ParentGUIController {
 			lblTitleID, lblTitleType, lblTitleColor, lblTitlePrice, lblTitleName, lblTitleQuantity;
 	
 	private @FXML VBox vbox;
-	private @FXML Pagination pagination;
-	private @FXML Label lblFinalPrice;
+	private @FXML Pagination pagination = null;
+	private @FXML Label lblFinalPrice, lblTitleFPrice;
 	
 	private ArrayList<Node> components = new ArrayList<>();
-	private ArrayList<ProductInOrder> products;
+	public static ArrayList<ProductInOrder> products;
 	
 	public static Float ordPrice = 0f;
+	public static boolean cartEmpty = true;
 	
 	 @Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -78,13 +79,54 @@ public class CartGUIController extends ParentGUIController {
 		throw new UnsupportedOperationException();
 	}
 	
+	private boolean isIfCartEmpty() {
+		if(products==null || products.size()==0 || products.get(0)==null)
+			return true;
+		for (ProductInOrder prd : products)
+			if(prd.getQuantity()>0)
+				return false;
+		return true;
+	}
+	
+	public static boolean firstPagination = false;
 	public void setPIOs(ArrayList<ProductInOrder> prds) {	
+		if(firstPagination==true)
+			firstPagination=false;
 		Context.order.setProducts(prds);
 		initGrids(prds);
+		products=prds;
     	int i = 0;
-    	pagination  = new Pagination(prds.size(), 0);
+    	if(pagination==null) {
+    		pagination  = new Pagination(prds.size(), 0);
+    		firstPagination=true;
+    	}
+    	Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+		    	if(cartEmpty=isIfCartEmpty()) {
+		    		if(firstPagination==false) {
+			    		pagination.setPageFactory(new Callback<Integer, Node>() {
+				            @Override
+				            public Node call(Integer pageIndex) {
+				            	 return null;
+				            }
+						});
+		    		}
+		    		pagination.setVisible(false);
+		    		lblTitleFPrice.setVisible(false);
+		    		lblFinalPrice.setText("");
+		    		lblMsg.setText("Cart is EMPTY!");
+		    	}
+		    	else {
+		    		pagination.setVisible(true);
+		    		lblFinalPrice.setText("");
+		    		lblTitleFPrice.setVisible(true);
+		    	}
+			}});
 		for (ProductInOrder p : prds) {
 			ordPrice+=p.getFinalPrice();
+			if(p.getQuantity()>0)
+				cartEmpty=false;
 			setGridPane(i, p);
 			pagination.setPageFactory(new Callback<Integer, Node>() {
 	            @Override
@@ -94,12 +136,17 @@ public class CartGUIController extends ParentGUIController {
 			});
 			i++;
 		}
-		
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
-				vbox.getChildren().add(0,pagination);
-				setLblFinalPrice();
+				if(cartEmpty==true)
+					lblMsg.setText("Cart is EMPTY!");
+				else {
+					setLblFinalPrice();
+					lblMsg.setText("");
+				}
+				if(vbox.getChildren().contains(pagination)==false)
+					vbox.getChildren().add(0,pagination);
 			}
 		});
 	}	
@@ -145,6 +192,7 @@ public class CartGUIController extends ParentGUIController {
 						}
 						if(quantity==0) {
 							products.remove(gridInx);
+							grids[gridInx] = new GridPane();
 							setPIOs(products);
 						}
 					}

@@ -6,9 +6,11 @@ public class Stock {
 	private BigInteger id;
 	private Product product;
 	private int quantity;
-	private int storeID;
+	private BigInteger storeID;
 	
-	public Stock(BigInteger id, Product product, int quantity, int storeID) {
+	private static BigInteger idInc = null;
+	
+	public Stock(BigInteger id, Product product, int quantity, BigInteger storeID) {
 		super();
 		this.id=id;
 		this.product = product;
@@ -16,7 +18,7 @@ public class Stock {
 		this.storeID = storeID;
 	}
 
-	public Stock(Product product, int quantity, int storeID) {
+	public Stock(Product product, int quantity, BigInteger storeID) {
 		super();
 		this.product = product;
 		this.quantity = quantity;
@@ -47,11 +49,19 @@ public class Stock {
 		this.id = id;
 	}
 
-	public int getStoreID() {
+	public BigInteger getStoreID() {
 		return storeID;
 	}
 
-	public void setStoreID(int storeID) {
+	public void setStoreID(BigInteger storeID) {
 		this.storeID = storeID;
+	}
+
+	public static BigInteger getIdInc() {
+		return idInc;
+	}
+
+	public static void setIdInc(BigInteger idInc) {
+		Stock.idInc = idInc;
 	}
 }
