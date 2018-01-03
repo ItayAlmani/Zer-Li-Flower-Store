@@ -26,7 +26,7 @@ import izhar.OrderController;
 import lior.interfaces.IOrderReportController;
 
 public class OrderReportController extends ParentController implements IOrderReportController {
-	private OrderReport oReport = new OrderReport();
+	private OrderReport[] oReports = new OrderReport[2];
 	private Date rDate, startDate;
 
 	@Override
@@ -47,8 +47,8 @@ public class OrderReportController extends ParentController implements IOrderRep
 				Context.askingCtrl.remove(0);
 			}
 			else {*/
-				m = Context.currentGUI.getClass().getMethod(methodName,ArrayList.class);
-				m.invoke(Context.currentGUI, oReports);
+				m = Context.prevGUI.getClass().getMethod(methodName,ArrayList.class);
+				m.invoke(Context.prevGUI, oReports);
 			//}
 		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e1) {
 			System.err.println("Couldn't invoke method '"+methodName+"'");
@@ -62,10 +62,14 @@ public class OrderReportController extends ParentController implements IOrderRep
 
 	@Override
 	public void produceOrderReport(Date reqDate, BigInteger storeID) throws ParseException {
-		oReport.setStoreID(storeID);
+		int ind = 1;
+		if(oReports[0]==null)
+			ind = 0;
+		oReports[ind]=new OrderReport();
+		oReports[ind].setStoreID(storeID);
 		for (int i = 0; i < 4/*OrderType.values().length*/; i++) {
-			oReport.addToCounterPerType(0);
-			oReport.addToSumPerType(0f);
+			oReports[ind].addToCounterPerType(0);
+			oReports[ind].addToSumPerType(0f);
 		}
 		rDate=reqDate;
 		startDate=new Date();
@@ -84,18 +88,21 @@ public class OrderReportController extends ParentController implements IOrderRep
 	}
 
 	public void setOrders(ArrayList<Order> orders) {
-		this.oReport.setOrders(orders);
+		int ind = 1;
+		if(oReports[0].getOrders().size()==0)
+			ind = 0;
+		this.oReports[ind].setOrders(orders);
 		rDate.setHours(23);
 		rDate.setMinutes(59);
 		rDate.setSeconds(59);
-		this.oReport.setStartdate(this.startDate);
-		this.oReport.setEnddate(this.rDate);
+		this.oReports[ind].setStartdate(this.startDate);
+		this.oReports[ind].setEnddate(this.rDate);
 		for(int i=0;i<orders.size();i++)
 		{
 			Date date = Date.from(orders.get(i).getDate().atZone(ZoneId.systemDefault()).toInstant());
 			if(date.after(rDate)==false&&
 					date.after(startDate)
-					&& orders.get(i).getOrderStatus().equals(OrderStatus.Paid)
+					/*&& orders.get(i).getOrderStatus().equals(OrderStatus.Paid)*/
 					)
 			{
 				Context.askingCtrl.add(this);
@@ -110,12 +117,18 @@ public class OrderReportController extends ParentController implements IOrderRep
 	}
 
 	public void setPIOs(ArrayList<ProductInOrder> products) {
-		ArrayList<Order> orders = oReport.getOrders();
-		ArrayList<Integer> cntType = oReport.getCounterPerType();
-		ArrayList<Float> sumType = oReport.getSumPerType();
-		
+		int ind = 1;
 		if(Context.fac.prodInOrder.isAllPIOsFromSameOrder(products)==false)
 			return;
+		for (Order order : oReports[0].getOrders()) {
+			if(order.getOrderID().equals(products.get(0).getOrderID())) {
+				ind=0;
+				break;
+			}
+		}
+		ArrayList<Order> orders = oReports[ind].getOrders();
+		ArrayList<Integer> cntType = oReports[ind].getCounterPerType();
+		ArrayList<Float> sumType = oReports[ind].getSumPerType();
 		
 		Order myOrder = null;
 		for (Order ord : orders) {
@@ -131,18 +144,18 @@ public class OrderReportController extends ParentController implements IOrderRep
 		for(int j=0;j<products.size();j++)
 		{
 			ProductType pt = products.get(j).getProduct().getType();
-			int ind = -1;
+			int indx = -1;
 			if(pt.equals(Product.ProductType.Bouquet))
-				ind = 0;
+				indx = 0;
 			else if(pt.equals(Product.ProductType.Single))
-				ind = 1;
+				indx = 1;
 			else if(pt.equals(Product.ProductType.Empty))
-				ind = 2;
-			cntType.set(ind, cntType.get(ind)+1);
-			sumType.set(ind, sumType.get(ind)+products.get(j).getFinalPrice());
+				indx = 2;
+			cntType.set(indx, cntType.get(indx)+1);
+			sumType.set(indx, sumType.get(indx)+products.get(j).getFinalPrice());
 		}
 		ArrayList<OrderReport> ar = new ArrayList<>();
-		ar.add(oReport);
+		ar.add(oReports[ind]);
 		sendOrderReports(ar);
 	}
 }

@@ -68,29 +68,6 @@ public class OrderReportFormGUIController extends ParentGUIController {
 		});
 		if(Context.getUser().getPermissions().equals(User.UserType.ChainStoreManager)) {
 			btAnotherreport.setVisible(true);
-			btAnotherreport.setOnAction(g->{
-				/*try {
-					loadGUI("ReportSelectorGUI", false);
-				} catch (Exception e) {
-					lblMsg.setText("Loader failed");
-					e.printStackTrace();
-				}
-			}*/		Stage seconderyStage = new Stage();
-			Scene scene;
-			try {
-				scene = new Scene(
-						new FXMLLoader(getClass().getResource("/gui/fxmls/"+"ReportSelectorGUI"+".fxml")).load()
-						);
-				scene.getStylesheets().add(getClass().getResource("/gui/css/ParentCSS.css").toExternalForm());
-				
-				seconderyStage.setScene(scene);
-				seconderyStage.setTitle("ReportSelectorGUI".split("GUI")[0].trim());
-				seconderyStage.show();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		});
 	}
 	}
 
