@@ -13,6 +13,8 @@ import java.util.ResourceBundle;
 
 import org.controlsfx.control.textfield.AutoCompletionBinding;
 import org.controlsfx.control.textfield.TextFields;
+import org.controlsfx.validation.ValidationSupport;
+import org.controlsfx.validation.Validator;
 
 import common.Context;
 import entities.User;
@@ -103,7 +105,10 @@ public class LogInGUIController extends ParentGUIController{
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
-		
+		ValidationSupport validationSupport = new ValidationSupport();
+		validationSupport.registerValidator(txtUserName, Validator.createEmptyValidator("Text is required"));
+		/*validationSupport.validationResultProperty().addListener( (o, oldValue, newValue) ->
+        messageList.getItems().setAll(newValue.getMessages()));*/
 		imgLogo.setImage(new Image(getClass().getResourceAsStream(logoPath)));
 		
 		if(Context.clientConsole==null || Context.clientConsole.isConnected()==false) {
