@@ -159,7 +159,7 @@ public class ServerController {
 		int dbSuccessFlag = 0;		//will be 1 if updateDB(args) succeeded
 		try {
 			Scanner scnr = null;
-			scnr = new Scanner(new File(ServerController.class.getResource(dbTxtPath).toURI()));
+			scnr = new Scanner(ServerController.class.getResourceAsStream(dbTxtPath));
 			scnr.useDelimiter("\\w");
 			String[] args = new String[4];
 			for(int i = 0;i<4 && scnr.hasNextLine();i++) {
@@ -171,13 +171,13 @@ public class ServerController {
 			dbSuccessFlag = 1;
 		} catch (SQLException e) {
 			System.err.println("DataBaseAddress.txt data is corrupted, or the process is.\nGo to EchoServer for the process\n");
-		} catch (FileNotFoundException e) {
+		}/* catch (FileNotFoundException e) {
 			db=null;
 			System.err.println("Can't find txt file at "+dbTxtPath+"\n");
 		} catch (URISyntaxException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
 		
 		if(dbSuccessFlag==0) {	//db data corrupted 
 			try {
@@ -189,5 +189,4 @@ public class ServerController {
 			}
 		}
 	}
-	
 }

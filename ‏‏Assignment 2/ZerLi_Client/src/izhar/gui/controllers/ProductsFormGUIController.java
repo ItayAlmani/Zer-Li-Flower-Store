@@ -102,7 +102,7 @@ public class ProductsFormGUIController extends ParentGUIController{
 		this.txtShowName.setText(p.getName());
 		this.lblShowColor.setText(p.getColor().toString());
 		this.lblShowPrice.setText(((Float)p.getPrice()).toString() + "¤");
-		this.imgImage.setImage(new Image(p.getImage()));
+		this.imgImage.setImage(new Image(getClass().getResourceAsStream(p.getImageName())));
 		paneItem.setVisible(true);
 	}
 	
