@@ -137,8 +137,7 @@ public class CustomerController extends UserController implements ICustomer {
 
 	@Override
 	public void getCustomerByPrivateID(String privateID) throws IOException {
-		// TODO Auto-generated method stub
-		
+				
 	}
 
 	@Override

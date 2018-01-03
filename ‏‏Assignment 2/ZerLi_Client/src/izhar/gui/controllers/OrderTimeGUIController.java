@@ -61,8 +61,9 @@ public class OrderTimeGUIController extends ParentGUIController {
 		else if(select.equals("Immediate")) {
 			Context.order.getDelivery().setImmediate(true);
 			date = LocalDateTime.now();
-			if(date.plusHours(3).plusMinutes(-1).toLocalDate().isBefore(date.toLocalDate())
-					&& date.toLocalTime().plusHours(3).plusMinutes(-1).isBefore(LocalTime.of(21, 00)))
+			//if 3 hours from now are before 22:00
+			if(date.plusHours(3).plusMinutes(-1).toLocalDate().isAfter(date.toLocalDate())==false
+					&& date.toLocalTime().plusHours(3).plusMinutes(-1).isBefore(LocalTime.of(21, 59)))
 				date=date.plusHours(3).plusMinutes(-1);
 			else {
 				LocalDate new_date = date.toLocalDate().plusDays(1);
@@ -121,7 +122,6 @@ public class OrderTimeGUIController extends ParentGUIController {
 	                setDisable(empty || date.isBefore(LocalDate.now()) || date.equals(LocalDate.now()));
 	            }
 	        });
-			//dpDate.setValue(LocalDate.now().plusDays(1));
 		}
 		else {
 			dpDate.setDayCellFactory(picker -> new DateCell() {
@@ -131,7 +131,6 @@ public class OrderTimeGUIController extends ParentGUIController {
 	                setDisable(empty || date.isBefore(LocalDate.now()));
 	            }
 	        });
-			//dpDate.setValue(LocalDate.now());
 		}
 	}
 	

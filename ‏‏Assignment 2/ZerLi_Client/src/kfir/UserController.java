@@ -112,6 +112,10 @@ public class UserController extends ParentController implements IUser {
 		
 	}
 
-	
-	
+	@Override
+	public void getAllUsers() throws IOException {
+		myMsgArr.clear();
+		myMsgArr.add("SELECT * FROM user");
+		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.SELECT,myMsgArr,User.class));
+	}
 }

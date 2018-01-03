@@ -11,6 +11,9 @@ import java.util.Collection;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import org.controlsfx.control.textfield.AutoCompletionBinding;
+import org.controlsfx.control.textfield.TextFields;
+
 import common.Context;
 import entities.User;
 import entities.User.UserType;
@@ -33,6 +36,7 @@ public class LogInGUIController extends ParentGUIController{
 	private @FXML Button btnConfig, btnLogIn;
 	private @FXML ImageView imgLogo;
 	private String logoPath="/images/logos/img/logo3-0.png";
+	private boolean getAllUsers=true;
 	
 	public void logIn() {
 		String uName = this.txtUserName.getText(),
@@ -54,6 +58,16 @@ public class LogInGUIController extends ParentGUIController{
 	}
 	
 	public void setUsers(ArrayList<User> users) {
+		if(getAllUsers==true) {
+			Platform.runLater(new Runnable() {
+		        @Override
+		        public void run() {
+		        	TextFields.bindAutoCompletion(txtUserName, users);
+		        }
+			});
+			getAllUsers=false;
+			return;
+		}
 		if(users.size()==0)
 			ShowErrorMsg();
 		else {
@@ -68,7 +82,6 @@ public class LogInGUIController extends ParentGUIController{
 		        	loadMainMenu();
 		        }
 			});
-			
 		}
 	}
 	
@@ -84,6 +97,12 @@ public class LogInGUIController extends ParentGUIController{
 	public void initialize(URL location, ResourceBundle resources) {
 		super.initialize(location, resources);
 		Context.currentGUI = this;
+		
+		try {
+			Context.fac.user.getAllUsers();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
 		
 		imgLogo.setImage(new Image(getClass().getResourceAsStream(logoPath)));
 		

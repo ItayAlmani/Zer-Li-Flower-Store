@@ -79,4 +79,10 @@ public class Store implements Serializable  {
 		}
 		return null;
 	}
+
+
+	@Override
+	public String toString() {
+		return getName();
+	}
 }

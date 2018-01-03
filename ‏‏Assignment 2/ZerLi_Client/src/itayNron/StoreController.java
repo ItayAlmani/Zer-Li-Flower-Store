@@ -78,6 +78,14 @@ public class StoreController extends ParentController implements IStore {
 				ordersOnly.add(store);
 		return ordersOnly;
 	}
+	
+	public ArrayList<Store> getPhysicalStoresFromArrayList(ArrayList<Store> allStores){
+		ArrayList<Store> physicals = new ArrayList<>();
+		for (Store store : allStores)
+			if(store.getType().equals(StoreType.Physical))
+				physicals.add(store);
+		return physicals;
+	}
 
 	@Override
 	public void updateStore(Store store) throws IOException {

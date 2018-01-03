@@ -155,4 +155,9 @@ public class User implements Serializable {
 		this.privateID = privateID;
 	}
 
+	@Override
+	public String toString() {
+		return getUserName();
+	}
+
 }

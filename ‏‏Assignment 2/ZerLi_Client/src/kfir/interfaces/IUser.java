@@ -44,4 +44,6 @@ public interface IUser extends IParent{
 	void sendUsers(ArrayList<User> users);
 	
 	void updateUser(User user);
+	
+	void getAllUsers() throws IOException;
 }

@@ -66,8 +66,8 @@ public class ClientController {
 					e.printStackTrace();
 				}
 					
-				if(Context.currentGUI instanceof PaymentGUIController)
-					((PaymentGUIController)Context.currentGUI).loadNextWindow();
+/*				if(Context.currentGUI instanceof PaymentGUIController)
+					((PaymentGUIController)Context.currentGUI).loadNextWindow();*/
 				ParentController.sendResultToClient(true);
 			}
 			else

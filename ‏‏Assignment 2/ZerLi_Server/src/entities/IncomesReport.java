@@ -9,7 +9,7 @@ public class IncomesReport extends QuarterlyReport {
 	private double TotIncomes;
 	private Date Startdate=new Date();
 	private Date Enddate=new Date();
-	
+
 	public Date getStartdate() {
 		return Startdate;
 	}

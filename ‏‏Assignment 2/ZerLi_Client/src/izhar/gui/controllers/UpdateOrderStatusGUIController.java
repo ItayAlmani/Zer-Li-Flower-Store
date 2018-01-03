@@ -6,12 +6,17 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+import org.controlsfx.control.textfield.TextFields;
+
 import common.Context;
 import entities.Customer;
 import entities.Order;
 import entities.Order.OrderStatus;
+import entities.Order.PayMethod;
 import entities.User.UserType;
 import gui.controllers.ParentGUIController;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -28,8 +33,8 @@ public class UpdateOrderStatusGUIController extends ParentGUIController {
 	private @FXML VBox vboxComboBox;
 	private ArrayList<Order> orders = null;
 	private Order selctedOrd = null;
+	private boolean originStatusWaitForCash = false;
 	
-
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		super.initialize(location, resources);
@@ -90,14 +95,22 @@ public class UpdateOrderStatusGUIController extends ParentGUIController {
 			}
 		}
 		if(selctedOrd!=null) {
+			if(selctedOrd.getOrderStatus().equals(OrderStatus.WaitingForCashPayment))
+				originStatusWaitForCash=true;
 			cbOrderStatus.setValue(selctedOrd.getOrderStatus());
 			cbOrderStatus.setVisible(true);
 		}
 	}
 
 	@FXML public void updateOrderStatus() {
+		if(cbOrderStatus.getValue()==null)
+			return;
+		if(originStatusWaitForCash==true && cbOrderStatus.getValue().equals(OrderStatus.Paid))
+			selctedOrd.setPaymentMethod(PayMethod.Cash);
 		selctedOrd.setOrderStatus(OrderStatus.valueOf(cbOrderStatus.getValue().toString()));
 		try {
+			if(Context.getUserAsStoreWorker()!=null)
+				selctedOrd.getDelivery().setStore(Context.getUserAsStoreWorker().getStore());
 			Context.fac.order.updateOrder(selctedOrd);
 		} catch (IOException e) {
 			e.printStackTrace();
