@@ -23,7 +23,7 @@ import entities.Order.Refund;
 import entities.Subscription.SubscriptionType;
 
 public class OrderController {
-	
+	private static String delIDSTR, shipIDSTR, payMeth, delTypeSTR, greeting;
 	public static BigInteger addOrder(Order order) {
 		order.setDate(LocalDateTime.now());
 		try {
@@ -39,10 +39,12 @@ public class OrderController {
 						e.printStackTrace();
 					}
 				}
-				else if(order.getDeliveryType().equals(DeliveryType.Shipment)) {
+				else if(order.getDeliveryType().equals(DeliveryType.Shipment) && 
+						order.getDelivery() instanceof ShipmentDetails) {
 					try {
-						BigInteger id = ShipmentController.addShipment(order.getDelivery(),(ShipmentDetails) order.getDelivery());
-						order.getDelivery().setDeliveryID(id);
+						ShipmentDetails ship = (ShipmentDetails) order.getDelivery();
+						BigInteger id = ShipmentController.addShipment(ship);
+						ship.setShipmentID(id);
 					} catch (Exception e) {
 						System.err.println("Error with get id in order process");
 						e.printStackTrace();
@@ -64,26 +66,17 @@ public class OrderController {
 		return false;
 	}
 	
+	
+	
 	public static BigInteger updateOrder(Order order) throws Exception {
-		String delID ="NULL", shipID="NULL", payMeth = "NULL", delType="NULL", greeting = "NULL";
-		if(order.getDeliveryType() != null) {
-			if(order.getDeliveryType().equals(DeliveryType.Pickup) && order.getDelivery() != null)
-				delID="'"+order.getDelivery().getDeliveryID().toString()+"'";
-			else if(order.getDeliveryType().equals(DeliveryType.Shipment) && order.getDelivery() != null)
-				shipID="'"+((ShipmentDetails)order.getDelivery()).getOrderID().toString()+"'";
-			delType="'"+order.getDeliveryType().toString()+"'";
-		}
-		if(order.getPaymentMethod()!=null)
-			payMeth="'"+order.getPaymentMethod().toString()+"'";
-		if(order.getGreeting()!=null)
-			greeting = "'"+order.getGreeting()+"'";
+		prepareStrings(order);
 		String query = "UPDATE orders SET customerID = '" + order.getCustomerID() 
-		+ "',deliveryID = " + delID 
+		+ "',deliveryID = " + delIDSTR 
 		+ ",type = '" + order.getType().toString() 
 		+ "',paymentMethod = " + payMeth
-		+ ",shipmentID = " + shipID
+		+ ",shipmentID = " + shipIDSTR
 		+ ",greeting = " + greeting 
-		+ ",deliveryType = " + delType
+		+ ",deliveryType = " + delTypeSTR
 		+ ",status='" + order.getOrderStatus().toString() 
 		+ "',date = '" + (Timestamp.valueOf(order.getDate())).toString()
 		+ "',price = '"+ order.getFinalPrice()
@@ -93,27 +86,15 @@ public class OrderController {
 	}
 	
 	public static BigInteger addOrderWithQuery(Order order) throws Exception {
-		String delID ="NULL", shipID="NULL", payMeth = "NULL", delType="NULL", greeting = "NULL";
-		if(order.getDeliveryType() != null) {
-			if(order.getDeliveryType().equals(DeliveryType.Pickup) && order.getDelivery() != null &&
-					order.getDelivery().getDeliveryID() != null)
-				delID="'"+order.getDelivery().getDeliveryID().toString()+"'";
-			else if(order.getDeliveryType().equals(DeliveryType.Shipment) && order.getDelivery() != null)
-				shipID="'"+((ShipmentDetails)order.getDelivery()).getOrderID().toString()+"'";
-			delType="'"+order.getDeliveryType().toString()+"'";
-		}
-		if(order.getPaymentMethod()!=null)
-			payMeth="'"+order.getPaymentMethod().toString()+"'";
-		if(order.getGreeting()!=null)
-			greeting = "'"+order.getGreeting()+"'";
+		prepareStrings(order);
 		String query = "INSERT INTO orders (customerID, deliveryID, type, paymentMethod, shipmentID, greeting, deliveryType, status, date, price)"
 				+ "VALUES ('" + order.getCustomerID() + "'"
-				+ ", " + delID + ", '"
+				+ ", " + delIDSTR + ", '"
 				+ order.getType().toString() + "', "
 				+ payMeth + ", " 
-				+ shipID + ", "
+				+ shipIDSTR + ", "
 				+  greeting + ", "
-				+ delType + ", '" 
+				+ delTypeSTR + ", '" 
 				+ order.getOrderStatus().toString() + "', '"
 				+ (Timestamp.valueOf(order.getDate())).toString() + "','"+
 				 order.getFinalPrice()+"');";
@@ -121,18 +102,42 @@ public class OrderController {
 		return getNextID(order);
 	}
 	
+	private static void prepareStrings(Order order) {
+		delIDSTR ="NULL";shipIDSTR="NULL"; payMeth = "NULL"; delTypeSTR="NULL"; greeting = "NULL";
+		DeliveryType type = order.getDeliveryType();
+		if(type != null) {
+			DeliveryDetails del = order.getDelivery();
+			if(type.equals(DeliveryType.Pickup) && del != null) {
+				BigInteger delID = del.getDeliveryID();
+				if(delID!=null)
+					delIDSTR="'"+delID.toString()+"'";
+			}
+			else if(type.equals(DeliveryType.Shipment) && del != null) {
+				ShipmentDetails ship = ((ShipmentDetails)del);
+				BigInteger shipID = ship.getShipmentID();
+				if(ship!=null && shipID!=null)
+					shipIDSTR="'"+shipID.toString()+"'";
+			}
+			delTypeSTR="'"+type.toString()+"'";
+		}
+		if(order.getPaymentMethod()!=null)
+			payMeth="'"+order.getPaymentMethod().toString()+"'";
+		if(order.getGreeting()!=null)
+			greeting = "'"+order.getGreeting()+"'";
+	}
+	
 	private static BigInteger getNextID(Order order) throws Exception {
-		String query;
-		if(order.getDelivery()!=null && order.getDelivery().getDeliveryID()!=null)
+		String query = "SELECT Max(orderID) from orders";
+		if(order.getDelivery()!=null && order.getDelivery() instanceof ShipmentDetails == false &&
+				order.getDelivery().getDeliveryID()!=null)
 			query = "SELECT orderID from orders where deliveryID='"+order.getDelivery().getDeliveryID()+"'";
 		else if(order.getDeliveryType()!=null &&
 				order.getDeliveryType().equals(DeliveryType.Shipment) &&
+				order.getDelivery() instanceof ShipmentDetails &&
 				((ShipmentDetails)order.getDelivery())!=null &&
-				((ShipmentDetails)order.getDelivery()).getShipmentID()!=null)
+				((ShipmentDetails)order.getDelivery()).getShipmentID()!=null) {
 			query = "SELECT orderID from orders where shipmentID='"+
 					((ShipmentDetails)order.getDelivery()).getShipmentID()+"'";
-		else {
-			query = "SELECT Max(orderID) from orders";
 		}
 		ArrayList<Object> arr =  ServerController.db.getQuery(query);
 		arr.set(0, ((Integer)arr.get(0))+1);

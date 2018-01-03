@@ -57,7 +57,7 @@ public class Context {
 	
 	private static User user;
 	public static Order order;
-	private static boolean needNewOrder = true;
+	private static boolean needNewOrder=true;
 	
 	/**
 	 * Looking for the .txt file at <code>projectPath</code>+<code>serTxtPath</code> path,
@@ -204,8 +204,8 @@ public class Context {
 	
 	public static void setOrders(ArrayList<Order> orders) {
 		if(orders!=null && orders.size()!=0 && orders.get(0)!=null) {
-			needNewOrder = false;
 			order = orders.get(0);
+			needNewOrder=false;
 			try {
 				askingCtrl.add(Context.class.newInstance());
 				if(order != null)
@@ -218,20 +218,16 @@ public class Context {
 				e.printStackTrace();
 			}
 		}
-		else
-		{
-			if(user instanceof Customer) {
-				needNewOrder = true;
-				try {
-					order = new Order(Context.getUserAsCustomer().getCustomerID(),
-							OrderType.InfoSystem,
-							OrderStatus.InProcess);
-					askingCtrl.add(Context.class.newInstance());
-					fac.order.addOrder(order);
-				} catch (IOException | InstantiationException | IllegalAccessException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+		else if(user instanceof Customer) {
+			try {
+				needNewOrder=true;
+				askingCtrl.add(Context.class.newInstance());
+				order = new Order(Context.getUserAsCustomer().getCustomerID(),
+						OrderType.InfoSystem,
+						OrderStatus.InProcess);
+				fac.order.addOrder(order);
+			} catch (IOException | InstantiationException | IllegalAccessException e) {
+				e.printStackTrace();
 			}
 		}
 	}
@@ -243,16 +239,8 @@ public class Context {
 	}
 
 	public static void setOrderID(BigInteger id) {
-		if(needNewOrder == false) {
+		if(needNewOrder==true)
 			Context.order.setOrderID(id.subtract(BigInteger.ONE));
-			try {
-				Context.fac.stock.updateStock(Context.order);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			Context.order.setOrderID(id.add(BigInteger.ONE));
-		}
 		else
 			Context.order.setOrderID(id);
 	}

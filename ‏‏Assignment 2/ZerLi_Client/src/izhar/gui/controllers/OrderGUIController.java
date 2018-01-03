@@ -19,8 +19,9 @@ public class OrderGUIController extends ParentGUIController {
 		super.initialize(location, resources);
 		Context.currentGUI = this;
 		Order ord = Context.order;
+		Context.order=null;
 		
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd--MM-yyyy HH:mm");
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
 		String formatDateTime = ord.getDate().format(formatter);
 
 		

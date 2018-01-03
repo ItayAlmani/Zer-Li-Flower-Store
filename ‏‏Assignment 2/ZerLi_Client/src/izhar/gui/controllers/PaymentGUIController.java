@@ -123,6 +123,12 @@ public class PaymentGUIController extends ParentGUIController {
 	}
 	
 	public void setOrderID(BigInteger id) {
+			try {
+				if(Context.order!=null && Context.order.getOrderID()!=null)
+					Context.fac.stock.updateStock(Context.order);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		loadNextWindow();
 	}
 	

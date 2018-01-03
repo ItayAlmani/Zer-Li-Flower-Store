@@ -8,7 +8,7 @@ import entities.ShipmentDetails;
 
 public class ShipmentController {
 	
-	public static BigInteger addShipment(DeliveryDetails delDetails, ShipmentDetails shipmentDetails) throws Exception {
+	public static BigInteger addShipment(ShipmentDetails shipmentDetails) throws Exception {
 		BigInteger id = null;
 		try {
 			id = PickupController.addPickup(new DeliveryDetails(
@@ -16,7 +16,7 @@ public class ShipmentController {
 					shipmentDetails.getDate(),
 					shipmentDetails.isImmediate(),
 					shipmentDetails.getStore()));
-			delDetails.setDeliveryID(id);
+			shipmentDetails.setDeliveryID(id);
 			String query = "INSERT INTO shipmentdetails (deliveryID, street, city, postCode, customerName, phoneNumber)" +
 					"VALUES ('"+id.toString() + "', '"
 					+ shipmentDetails.getStreet() + "', '"
@@ -25,6 +25,7 @@ public class ShipmentController {
 					+ shipmentDetails.getCustomerName() + "', '"
 					+ shipmentDetails.getPhoneNumber()
 					+ "');";
+			ServerController.db.updateQuery(query);
 			query = "SELECT Max(shipmentID) from shipmentdetails;";
 			ArrayList<Object> arr =  ServerController.db.getQuery(query);
 			if(arr!=null && arr.size()==1 && arr.get(0) instanceof Integer)
