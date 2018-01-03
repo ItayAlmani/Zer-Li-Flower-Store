@@ -1,16 +1,15 @@
 package entities;
 
+import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.Date;
 
-public class CreditCard {
+public class CreditCard implements Serializable {
 
 	private BigInteger ccID;
 	private String ccNumber;
 	private Date ccValidity;
 	private String ccCVV;
-	
-	private static BigInteger idInc = null;
 
 	public CreditCard(String ccNumber, Date ccValidity, String ccCVV) {
 		super();
@@ -49,13 +48,5 @@ public class CreditCard {
 
 	public void setCcCVV(String ccCVV) {
 		this.ccCVV = ccCVV;
-	}
-
-	public static BigInteger getIdInc() {
-		return idInc;
-	}
-
-	public static void setIdInc(BigInteger idInc) {
-		CreditCard.idInc = idInc;
 	}
 }

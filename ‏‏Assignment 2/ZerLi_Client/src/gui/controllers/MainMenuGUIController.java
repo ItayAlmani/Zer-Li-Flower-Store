@@ -16,6 +16,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Tooltip;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
@@ -27,7 +28,9 @@ public class MainMenuGUIController extends ParentGUIController{
 	private @FXML ImageView imgCart;
 	private @FXML MenuItem	miCatalog, miShowProduct, miAddSurvey,
 							miReportSelector, miAssembleItem, miUpdateOrderStatus,
-							miManualTransaction;
+							miManualTransaction,miSurveyReport;
+	
+	private String cartLogoPath="/images/Shopping_Cart.png";
 		
 	public void showProducts(ActionEvent event){		
 		if(Context.clientConsole.isConnected()==false)
@@ -55,6 +58,18 @@ public class MainMenuGUIController extends ParentGUIController{
 		}
 	}
 	
+	public void showSurveyReport(ActionEvent event){
+		if(Context.clientConsole.isConnected()==false)
+			setServerUnavailable();
+		else {
+			try {
+				loadGUI("SurveyReportGUI", false);
+			} catch (Exception e) {
+				lblMsg.setText("Loader failed");
+				e.printStackTrace();
+			}
+		}
+	}
 	public void showConnectionGUI(ActionEvent event) throws Exception{
 		try {
 			Context.prevGUI=this;
@@ -95,28 +110,22 @@ public class MainMenuGUIController extends ParentGUIController{
 			}
 		});
 	}
-		
-	public void start(Stage stage) throws IOException {
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/fxmls/MainMenuGUI.fxml"));
-		Scene scene = new Scene(loader.load());
-		stage.setTitle("Main Menu");
-		stage.setScene(scene);
-		stage.show();
-	}
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		super.initialize(location, resources);
 		Context.currentGUI = this;
-		if(Context.clientConsole==null || Context.clientConsole.isConnected()==false) {
-			setServerUnavailable();
-		}
-		if(Context.clientConsole!=null && Context.clientConsole.isConnected()==true)
-			setServerAvailable();
 		
+		imgCart.setImage(new Image(getClass().getResourceAsStream(cartLogoPath)));
 		Tooltip.install(imgCart, new Tooltip("Show my cart"));
 		
-		Context.askOrder();
+		if(Context.clientConsole==null || Context.clientConsole.isConnected()==false)
+			setServerUnavailable();
+		else
+			setServerAvailable();
+		
+		if(Context.order==null)
+			Context.askOrder();
 		/*User user = Context.getUser();
 		if(user != null) {
 			UserType perm = user.getPermissions();

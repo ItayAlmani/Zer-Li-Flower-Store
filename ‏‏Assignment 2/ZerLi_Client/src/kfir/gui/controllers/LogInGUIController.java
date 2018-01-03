@@ -25,10 +25,14 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 public class LogInGUIController extends ParentGUIController{
 	
 	private @FXML TextField txtUserName, txtPassword;
 	private @FXML Button btnConfig, btnLogIn;
+	private @FXML ImageView imgLogo;
+	private String logoPath="/images/logos/img/logo3-0.png";
 	
 	public void logIn() {
 		String uName = this.txtUserName.getText(),
@@ -80,6 +84,9 @@ public class LogInGUIController extends ParentGUIController{
 	public void initialize(URL location, ResourceBundle resources) {
 		super.initialize(location, resources);
 		Context.currentGUI = this;
+		
+		imgLogo.setImage(new Image(getClass().getResourceAsStream(logoPath)));
+		
 		if(Context.clientConsole==null || Context.clientConsole.isConnected()==false) {
 			try {
 				Context.connectToServer();

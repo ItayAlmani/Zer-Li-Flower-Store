@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.math.BigInteger;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
@@ -35,11 +36,11 @@ public class Context {
 	public static boolean dbConnected = false;
 	
 	/** The path of the project: "C:.../ZerLi_Client" */
-	public final static String projectPath=System.getProperty("user.dir");
+	//public final static String projectPath=System.getProperty("user.dir");
 	
 	/** The path of the ServerAddress.txt file - the file
 	 * that contains the server's details: host and port */
-	private final static String serTxtPath="\\src\\common\\ServerAddress.txt";
+	private final static String serTxtPath="/common/ServerAddress.txt";
 	
 	/** Each client has <b>one</b> <code>ClientConsole</code> */
 	public static ClientConsole clientConsole = null;
@@ -56,6 +57,7 @@ public class Context {
 	
 	private static User user;
 	public static Order order;
+	private static boolean needNewOrder = true;
 	
 	/**
 	 * Looking for the .txt file at <code>projectPath</code>+<code>serTxtPath</code> path,
@@ -68,7 +70,7 @@ public class Context {
 		int serSuccessFlag = 0;		//will be 1 if updateDB(args) succeeded
 		try {
 			Scanner scnr = null;
-			scnr = new Scanner(new File(projectPath+serTxtPath));
+			scnr = new Scanner(Context.class.getResourceAsStream(serTxtPath));
 			scnr.useDelimiter("\\w");
 			String[] args = new String[2];
 			for(int i = 0;i<2 && scnr.hasNextLine();i++) {
@@ -84,7 +86,7 @@ public class Context {
 			DEFAULT_PORT=Integer.parseInt(args[1]);
 			writeNewServerDataIntoTxt();
 		} catch (IOException e) {
-			System.err.println("ServerAddress.txt data is corrupted or Can't find txt file at "+projectPath+serTxtPath+".");
+			System.err.println("ServerAddress.txt data is corrupted or Can't find txt file at "+serTxtPath+".");
 			System.err.println("Go to Context for the process");
 		}
 		if(serSuccessFlag==0) {	//db data corrupted 
@@ -114,7 +116,7 @@ public class Context {
 			writeNewServerDataIntoTxt();
 			serSuccessFlag = 1;
 		} catch (IOException e) {
-			System.err.println("\nServerAddress.txt data is corrupted or Can't find txt file at "+projectPath+serTxtPath+".");
+			System.err.println("\nServerAddress.txt data is corrupted or Can't find txt file at "+serTxtPath+".");
 			System.err.println("Go to Context for the process\n");
 		}
 		
@@ -135,10 +137,16 @@ public class Context {
 	 * @throws IOException - will be thrown when the .txt file not found
 	 */
 	private static void writeNewServerDataIntoTxt() throws IOException {
-		File f = new File(projectPath+serTxtPath);
+		File f = null;
+		try {
+			f = new File(Context.class.getResource(serTxtPath).toURI().toString());
+		} catch (URISyntaxException e) {
+			f.createNewFile();
+			e.printStackTrace();
+		}
 		if (f.exists() == false) //Create a new file if doesn't exists yet
 			f.createNewFile();
-		PrintStream output = new PrintStream(projectPath+serTxtPath);
+		PrintStream output = new PrintStream(f);
 		output.flush();//flush whole txt file
 		output.println("Host: "+DEFAULT_HOST);
 		output.println("Port: "+DEFAULT_PORT);
@@ -196,6 +204,7 @@ public class Context {
 	
 	public static void setOrders(ArrayList<Order> orders) {
 		if(orders!=null && orders.size()!=0 && orders.get(0)!=null) {
+			needNewOrder = false;
 			order = orders.get(0);
 			try {
 				askingCtrl.add(Context.class.newInstance());
@@ -212,6 +221,7 @@ public class Context {
 		else
 		{
 			if(user instanceof Customer) {
+				needNewOrder = true;
 				try {
 					order = new Order(Context.getUserAsCustomer().getCustomerID(),
 							OrderType.InfoSystem,
@@ -223,23 +233,6 @@ public class Context {
 					e.printStackTrace();
 				}
 			}
-			/*if(user instanceof Customer) {
-				//order=new Order(((Customer)user).getCustomerID());
-				try {
-					ClientController.getLastAutoIncrenment(Order.class);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}*/
-		}
-	}
-	
-	public void setUpdateRespond(Integer id, Class<?> clasz) {
-		Factory f = Context.fac;
-		BigInteger biID = BigInteger.valueOf(id);
-		if(clasz.equals(Order.class)) {
-			order.setOrderID(biID);
 		}
 	}
 	
@@ -247,5 +240,20 @@ public class Context {
 		if(order!=null) {
 			order.setProducts(prds);
 		}
+	}
+
+	public static void setOrderID(BigInteger id) {
+		if(needNewOrder == false) {
+			Context.order.setOrderID(id.subtract(BigInteger.ONE));
+			try {
+				Context.fac.stock.updateStock(Context.order);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			Context.order.setOrderID(id.add(BigInteger.ONE));
+		}
+		else
+			Context.order.setOrderID(id);
 	}
 }

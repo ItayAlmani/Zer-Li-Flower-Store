@@ -2,6 +2,7 @@ package gui.controllers;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -71,6 +72,11 @@ public abstract class ParentGUIController implements Initializable {
 	}
 
 	protected void loadGUI(String name, boolean withCSS) throws IOException{		
+		if(Context.clientConsole==null || Context.clientConsole.isConnected()==false) {
+			loadMainMenu();
+			return;
+		}
+		
 		Stage primaryStage = Context.stage;
 		Scene scene = new Scene(
 				new FXMLLoader(getClass().getResource("/gui/fxmls/"+name+".fxml")).load()
@@ -89,10 +95,16 @@ public abstract class ParentGUIController implements Initializable {
 		}
 		primaryStage.show();
 		
-		String musicFile = Context.projectPath+"\\src\\sound\\Bana_Cut.mp3";
-		Media sound = new Media(new File(musicFile).toURI().toString());
-		MediaPlayer mediaPlayer = new MediaPlayer(sound);
-		//mediaPlayer.play();
+		String musicFile = "/sound/Bana_Cut.mp3";
+		Media sound;
+		try {
+			sound = new Media(getClass().getResource(musicFile).toURI().toString());
+			MediaPlayer mediaPlayer = new MediaPlayer(sound);
+			//mediaPlayer.play();
+		} catch (URISyntaxException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public void loadMainMenu() {

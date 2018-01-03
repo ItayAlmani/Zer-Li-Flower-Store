@@ -1,15 +1,14 @@
 package entities;
 
+import java.io.Serializable;
 import java.math.BigInteger;
 
-public class ProductInOrder {
+public class ProductInOrder implements Serializable  {
 	private BigInteger id;
 	private Product product;
 	private int quantity;
 	private BigInteger orderID;
 	private float finalPrice;
-	
-	private static BigInteger idInc = null;
 	
 	public ProductInOrder(Product product, int quantity, BigInteger orderID) {
 		this.product = product;
@@ -81,13 +80,5 @@ public class ProductInOrder {
 
 	public void setId(BigInteger id) {
 		this.id = id;
-	}
-
-	public static BigInteger getIdInc() {
-		return idInc;
-	}
-
-	public static void setIdInc(BigInteger idInc) {
-		ProductInOrder.idInc = idInc;
 	}
 }

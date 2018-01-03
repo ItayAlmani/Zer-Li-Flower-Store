@@ -1,16 +1,15 @@
 package entities;
 
+import java.io.Serializable;
 import java.math.BigInteger;
 
-public class PaymentAccount {
+public class PaymentAccount implements Serializable {
 
 	private BigInteger paID;
 	private BigInteger customerID;
 	private float refundAmount = 0;
 	private CreditCard creditCard;
 	private Subscription sub;
-	
-	private static BigInteger idInc = null;
 	
 	/*public enum PaymentAccountType {
 		Subscribed,
@@ -61,13 +60,4 @@ public class PaymentAccount {
 	public void setCustomerID(BigInteger customerID) {
 		this.customerID = customerID;
 	}
-
-	public static BigInteger getIdInc() {
-		return idInc;
-	}
-
-	public static void setIdInc(BigInteger idInc) {
-		PaymentAccount.idInc = idInc;
-	}
-
 }

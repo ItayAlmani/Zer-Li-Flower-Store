@@ -4,12 +4,17 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.math.BigInteger;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 import common.DataBase;
 import entities.CSMessage;
+import entities.Order;
+import entities.ProductInOrder;
 import entities.CSMessage.MessageType;
 
 public class ServerController {
@@ -19,8 +24,8 @@ public class ServerController {
 			dbUserName_default = "root", 
 			dbPassword_default = "1234";
 	
-	private static final String projectPath=System.getProperty("user.dir"),
-			dbTxtPath="\\src\\common\\DataBaseAddress.txt";
+	private static final String dbTxtPath="/common/DataBaseAddress.txt";
+	
 	
 	public static CSMessage setMessageToClient(CSMessage csMsg) throws Exception{
 		MessageType msgType = csMsg.getType();
@@ -34,17 +39,40 @@ public class ServerController {
 				
 				/*-------SELECT queries from DB-------*/
 				if(msgType.equals(MessageType.SELECT) || msgType.equals(MessageType.GetAI))
-					csMsg.setObjs(ServerController.db.getQuery(query));
+					csMsg.setObjs(db.getQuery(query));
 				
 				/*-------UPDATE queries from DB-------*/
 				else if(msgType.equals(MessageType.UPDATE)){
-					objArr.add(ServerController.db.setQuery(query));
+					try {
+						db.updateQuery(query);
+						objArr.add(true);
+					} catch (Exception e) {
+						objArr.add(false);
+					}
 					csMsg.setObjs(objArr);
 				}
 			}
 			else {
 				System.err.println("Not query");
 				throw new Exception();
+			}
+		}
+		else if(msgType.equals(MessageType.INSERT)) {
+			if(csMsg.getObjs() != null &&
+					csMsg.getObjs().size()!=0 && csMsg.getObjs().get(0) != null) {
+				if(csMsg.getClasz().equals(Order.class) && 
+						csMsg.getObjs().get(0) instanceof Order) {
+					Order ord = (Order)(csMsg.getObjs().get(0));
+					objArr.clear();
+					objArr.add(OrderController.addOrder(ord));
+				}
+				else if(csMsg.getClasz().equals(ProductInOrder.class) &&
+						csMsg.getObjs().get(0) instanceof ProductInOrder) {
+					ProductInOrder pio = (ProductInOrder)(csMsg.getObjs().get(0));
+					objArr.clear();
+					objArr.add(ProductInOrderController.addPIO(pio));
+				}
+				csMsg.setObjs(objArr);
 			}
 		}
 		else if(msgType.equals(MessageType.DBStatus)) {
@@ -100,10 +128,16 @@ public class ServerController {
 	}
 	
 	private static void writeNewDBDataIntoTxt() throws IOException {
-		File f = new File(projectPath+dbTxtPath);
+		File f = null;
+		try {
+			f = new File(ServerController.class.getResource(dbTxtPath).toURI());
+		} catch (URISyntaxException e) {
+			f.createNewFile();
+			e.printStackTrace();
+		}
 		if (f.exists() == false) //Create a new file if doesn't exists yet
 			f.createNewFile();
-		PrintStream output = new PrintStream(projectPath+dbTxtPath);
+		PrintStream output = new PrintStream(f);
 		output.flush();//flush whole txt file
 		output.println("Url: "+dbUrl_default);
 		output.println("Name: "+dbName_default);
@@ -125,7 +159,7 @@ public class ServerController {
 		int dbSuccessFlag = 0;		//will be 1 if updateDB(args) succeeded
 		try {
 			Scanner scnr = null;
-			scnr = new Scanner(new File(projectPath+dbTxtPath));
+			scnr = new Scanner(ServerController.class.getResourceAsStream(dbTxtPath));
 			scnr.useDelimiter("\\w");
 			String[] args = new String[4];
 			for(int i = 0;i<4 && scnr.hasNextLine();i++) {
@@ -137,10 +171,13 @@ public class ServerController {
 			dbSuccessFlag = 1;
 		} catch (SQLException e) {
 			System.err.println("DataBaseAddress.txt data is corrupted, or the process is.\nGo to EchoServer for the process\n");
-		} catch (FileNotFoundException e) {
+		}/* catch (FileNotFoundException e) {
 			db=null;
 			System.err.println("Can't find txt file at "+dbTxtPath+"\n");
-		}
+		} catch (URISyntaxException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}*/
 		
 		if(dbSuccessFlag==0) {	//db data corrupted 
 			try {
@@ -152,5 +189,4 @@ public class ServerController {
 			}
 		}
 	}
-	
 }

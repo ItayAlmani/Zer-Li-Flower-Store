@@ -1,10 +1,11 @@
 package entities;
 
+import java.io.Serializable;
 import java.math.BigInteger;
 import java.time.LocalDateTime;
 import java.util.Date;
 
-public class Complaint {
+public class Complaint implements Serializable {
 
 	private BigInteger complaintID;
 	private String complaintReason;
@@ -14,8 +15,6 @@ public class Complaint {
 	private boolean isRefunded = false;
 	private String status;
 	private String storeID;
-	
-	private static BigInteger idInc = null;
 
 	public String getComplaintReason() {
 		return this.complaintReason;
@@ -63,5 +62,42 @@ public class Complaint {
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+
+	public BigInteger getComplaintID() {
+		return complaintID;
+	}
+
+	public void setComplaintID(BigInteger complaintID) {
+		this.complaintID = complaintID;
+	}
+
+	public boolean isTreated() {
+		return isTreated;
+	}
+
+	public void setTreated(boolean isTreated) {
+		this.isTreated = isTreated;
+	}
+
+	public boolean isRefunded() {
+		return isRefunded;
+	}
+
+	public void setRefunded(boolean isRefunded) {
+		this.isRefunded = isRefunded;
+	}
+
+	public String getStoreID() {
+		return storeID;
+	}
+
+	public void setStoreID(String storeID) {
+		this.storeID = storeID;
+	}
+
+	@Override
+	public String toString() {
+		return "Customer ID: "+customerID +". Complaint Reason:" + complaintReason;
 	}
 }

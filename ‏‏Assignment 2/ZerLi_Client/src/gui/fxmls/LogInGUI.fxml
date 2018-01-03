@@ -20,11 +20,7 @@
             <Font name="Bauhaus 93" size="37.0" />
          </font>
       </Label>
-      <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../../bin/images/logos/img/logo3-0.png" />
-         </image>
-      </ImageView>
+      <ImageView fx:id="imgLogo" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true"/>
       <GridPane>
          <columnConstraints>
             <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" />

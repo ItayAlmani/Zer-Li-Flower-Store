@@ -1,6 +1,7 @@
 package izhar.gui.controllers;
 
 import java.io.IOException;
+import java.math.BigInteger;
 import java.net.URL;
 import java.util.Random;
 import java.util.ResourceBundle;
@@ -121,9 +122,12 @@ public class PaymentGUIController extends ParentGUIController {
 		}
 	}
 	
+	public void setOrderID(BigInteger id) {
+		loadNextWindow();
+	}
+	
 	public void loadNextWindow() {
 		Platform.runLater(new Runnable() {
-			
 			@Override
 			public void run() {
 				try {

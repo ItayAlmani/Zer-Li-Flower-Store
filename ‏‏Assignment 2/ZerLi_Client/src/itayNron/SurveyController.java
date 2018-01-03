@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.math.BigInteger;
+import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -25,8 +27,8 @@ public class SurveyController extends ParentController implements ISurvey {
 	public void addSurvey(Survey survey) {
 		myMsgArr.clear();
 		String query = "INSERT INTO survey(storeID, answer1, answer2, answer3, answer4, answer5, answer6, date, type) " + 
-				" VALUES ('" + survey.getStore().getStoreID()+"',";
-		for (Integer ans : survey.getSurveyAnswerers())
+				" VALUES ('" + survey.getStoreID().toString()+"',";
+		for (Float ans : survey.getSurveyAnswerers())
 			query+="'"+ans+"', ";
 		query+="'"+java.sql.Date.valueOf(survey.getDate())+"','"+
 			survey.getType().toString()+"')";
@@ -54,8 +56,9 @@ public class SurveyController extends ParentController implements ISurvey {
 			//a controller asked data, not GUI
 			if(Context.askingCtrl!=null && Context.askingCtrl.size()!=0) {
 				m = Context.askingCtrl.get(0).getClass().getMethod(methodName,ArrayList.class);
-				m.invoke(Context.askingCtrl.get(0), Surveys);
+				Object obj = Context.askingCtrl.get(0);
 				Context.askingCtrl.remove(0);
+				m.invoke(obj, Surveys);
 			}
 			else {
 				m = Context.currentGUI.getClass().getMethod(methodName,ArrayList.class);
@@ -71,34 +74,45 @@ public class SurveyController extends ParentController implements ISurvey {
 	}
 
 	@Override
-	public void getSurveyByDates(Date startDate, Date endDate) throws IOException {
+	public void getSurveyByDates(LocalDate startDate, LocalDate endDate) throws IOException {
 		myMsgArr.clear();
 		myMsgArr.add(
-				"SELECT survey.*" + "FROM survey" + "WHERE (date >= '"+startDate.toString()+"'" + "AND" +  "date <= '"+endDate.toString()+"'"
-				+ "AND" + "type='Answer')");
+				"SELECT survey.*" + " FROM survey WHERE (date >= '"+startDate.toString()+"' AND date <= '"+endDate.toString()+"' AND type='Answer')");
 		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.SELECT, myMsgArr, Survey.class));
 	}
 
 	@Override
 	public void handleGet(ArrayList<Object> obj) {
 		ArrayList<Survey> survey = new ArrayList<>();
-		for (int i = 0; i < obj.size(); i += 4)
+		for (int i = 0; i < obj.size(); i += 10)
 				survey.add(parse
 						(
 						BigInteger.valueOf(Long.valueOf((int) obj.get(i))), 
-						
-						(String) obj.get(i + 2), 
-						BigInteger.valueOf((int)obj.get(i+1)),
-						(String) obj.get(i + 3)));
+						BigInteger.valueOf(Long.valueOf((int) obj.get(i+1))),
+						(float) obj.get(i+2),
+						(float) obj.get(i+3),
+						(float) obj.get(i+4),
+						(float) obj.get(i+5),
+						(float) obj.get(i+6),
+						(float) obj.get(i+7),
+						(Timestamp) obj.get(i + 8), 
+						(String) obj.get(i + 9)));
 			 
 		sendSurveys(survey);
 	}
 	
-	
-
 	@Override
-	public Survey parse(BigInteger surveyID, int[] surveyAnswerers, LocalDate date, Store store, SurveyType type) {
-		return new Survey(surveyID,surveyAnswerers,date,store,type);
+	public Survey parse(BigInteger surveyID,BigInteger storeID, float answer1,float answer2,float answer3,float answer4,float answer5,float answer6, Timestamp date, String type) {
+		LocalDate ldtDate = date.toLocalDateTime().toLocalDate();
+		float[] answers = new float[6];
+		answers[0]= answer1;
+		answers[1]= answer2;
+		answers[2]= answer3;
+		answers[3]= answer4;
+		answers[4]= answer5;
+		answers[5]= answer6;
+		
+		return new Survey(surveyID,answers,ldtDate,storeID,SurveyType.valueOf(type));
 		
 	}
 }

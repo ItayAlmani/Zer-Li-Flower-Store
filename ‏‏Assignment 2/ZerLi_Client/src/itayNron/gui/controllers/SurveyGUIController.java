@@ -21,29 +21,29 @@ import javafx.scene.control.DatePicker;
 
 public class SurveyGUIController extends ParentGUIController {
 
-	private @FXML ChoiceBox<Integer>[] cbs;
-	private @FXML ChoiceBox<Integer> cb1;
-	private @FXML ChoiceBox<Integer> cb2;
-	private @FXML ChoiceBox<Integer> cb3;
-	private @FXML ChoiceBox<Integer> cb4;
-	private @FXML ChoiceBox<Integer> cb5;
-	private @FXML ChoiceBox<Integer> cb6;
+	private @FXML ChoiceBox<Float>[] cbs;
+	private @FXML ChoiceBox<Float> cb1;
+	private @FXML ChoiceBox<Float> cb2;
+	private @FXML ChoiceBox<Float> cb3;
+	private @FXML ChoiceBox<Float> cb4;
+	private @FXML ChoiceBox<Float> cb5;
+	private @FXML ChoiceBox<Float> cb6;
 	
-	private ObservableList<Integer> list;
+	private ObservableList<Float> list;
 	@FXML DatePicker dpDate;
 
 	@FXML public void sendSurvey(ActionEvent event) {
 		/*StoreWorker sw = Context.getUserAsStoreWorker();
 		if(sw == null)
 			return;*/
-		int[] ans = new int[6];
+		float[] ans = new float[6];
 		int i = 0;
-		for (ChoiceBox<Integer> cb : cbs) {
+		for (ChoiceBox<Float> cb : cbs) {
 			ans[i] = cb.getValue();
 			i++;
 		}
 		//Date date = Date.from(dpDate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
-		Survey sur = new Survey(ans, dpDate.getValue(), new Store(BigInteger.ONE),SurveyType.Answer);
+		Survey sur = new Survey(ans, dpDate.getValue(),Context.getUserAsStoreWorker().getStoreID(),SurveyType.Answer);
 		
 		Context.fac.survey.addSurvey(sur);
 		
@@ -61,9 +61,9 @@ public class SurveyGUIController extends ParentGUIController {
 		Context.currentGUI = this;
 		
 		cbs = new ChoiceBox[]{cb1,cb2,cb3,cb4,cb5,cb6};
-		ArrayList<Integer> ar = new ArrayList<>();
+		ArrayList<Float> ar = new ArrayList<>();
 		
-		for (Integer j = 1; j <= 10; j++)
+		for (Float j = 1f; j <= 10f; j++)
 			ar.add(j);
 		list =FXCollections.observableArrayList(ar);
 		

@@ -2,20 +2,20 @@ package entities;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.io.Serializable;
 import java.math.BigInteger;
 
 import javafx.scene.image.Image;
 
-public class Product implements Comparable<Product> {
+public class Product implements Comparable<Product>, Serializable  {
 	private BigInteger prdID;
 	private String name;
 	private ProductType type;
 	private float price;
 	private Color color;
 	private boolean inCatalog;
-	private Image image;
-
-	private static BigInteger idInc = null;
+	private String imageName;
 
 	public enum ProductType {
 		Bouquet, Single, Empty;
@@ -69,7 +69,7 @@ public class Product implements Comparable<Product> {
 	}
 
 	public Product(BigInteger prdID, String name, String type, float price, String color, boolean inCatalog,
-			String image) throws FileNotFoundException {
+			String imageName) throws FileNotFoundException {
 		super();
 		this.prdID = prdID;
 		this.name = name;
@@ -77,7 +77,7 @@ public class Product implements Comparable<Product> {
 		this.price = price;
 		this.setColor(color);
 		this.inCatalog = inCatalog;
-		this.image = new Image(new FileInputStream(image));
+		this.imageName = imageName;
 	}
 
 	public BigInteger getPrdID() {
@@ -144,20 +144,12 @@ public class Product implements Comparable<Product> {
 		this.inCatalog = inCatalog;
 	}
 
-	public Image getImage() {
-		return image;
+	public String getImageName() {
+		return imageName;
 	}
 
-	public void setImage(Image image) {
-		this.image = image;
-	}
-
-	public static BigInteger getIdInc() {
-		return idInc;
-	}
-
-	public static void setIdInc(BigInteger idInc) {
-		Product.idInc = idInc;
+	public void setImageName(String imageName) {
+		this.imageName = "/images/"+imageName;
 	}
 
 	@Override
