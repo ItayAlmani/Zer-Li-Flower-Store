@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.effect.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
@@ -7,34 +8,87 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="300.0" prefWidth="356.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lior.gui.controllers.ReportSelectorGUIController">
+<AnchorPane prefHeight="468.0" prefWidth="589.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lior.gui.controllers.ReportSelectorGUIController">
    <children>
-      <Label layoutX="79.0" layoutY="14.0" text="Reports">
+      <Label layoutX="205.0" text="Reports">
          <font>
             <Font name="David Bold" size="39.0" />
          </font>
       </Label>
-      <Label layoutX="7.0" layoutY="75.0" text="Store">
+      <Label layoutX="23.0" layoutY="13.0" text="Report 1">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <Label layoutX="4.0" layoutY="119.0" text="Type of report">
+      <Label fx:id="lblReport2" layoutX="354.0" layoutY="13.0" text="Report 2" visible="false">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <Label layoutX="3.0" layoutY="168.0" text="End of quarter date">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Label>
-      <Button id="askforreport" fx:id="askforreport" layoutX="70.0" layoutY="246.0" mnemonicParsing="false" text="Confirm" onAction="#askforreportHandler" />
-      <Button id="backbutton" fx:id="backbutton" layoutX="194.0" layoutY="246.0" mnemonicParsing="false" text="Back" />
-      <ComboBox fx:id="StoreCB" layoutX="63.0" layoutY="73.0" prefWidth="150.0" promptText="Store" />
-      <ComboBox fx:id="TypeCB" layoutX="109.0" layoutY="118.0" prefWidth="150.0" promptText="Type" />
-      <ComboBox fx:id="DayCB" layoutX="125.0" layoutY="167.0" prefHeight="25.0" prefWidth="59.0" />
-      <ComboBox fx:id="MonthCB" layoutX="190.0" layoutY="167.0" prefHeight="25.0" prefWidth="59.0" />
-      <ComboBox fx:id="YearCB" layoutX="256.0" layoutY="167.0" prefHeight="25.0" prefWidth="95.0" />
+      <Button id="askforreport" fx:id="askforreport" layoutX="190.0" layoutY="118.0" mnemonicParsing="false" onAction="#askforreportHandler" text="Confirm" />
+      <Button id="backbutton" fx:id="backbutton" layoutX="257.0" layoutY="118.0" mnemonicParsing="false" text="Back" />
+      <ComboBox fx:id="StoreCB" layoutX="7.0" layoutY="40.0" promptText="Store" />
+      <ComboBox fx:id="TypeCB" layoutX="132.0" layoutY="40.0" prefWidth="100.0" promptText="Type" />
+      <ComboBox fx:id="DayCB" layoutX="7.0" layoutY="74.0" promptText="Day" />
+      <ComboBox fx:id="MonthCB" layoutX="80.0" layoutY="74.0" promptText="Month" />
+      <ComboBox fx:id="YearCB" layoutX="167.0" layoutY="74.0" promptText="Year" />
+      <ComboBox fx:id="YearCB1" layoutX="464.0" layoutY="72.0" promptText="Year" visible="false" />
+      <ComboBox fx:id="MonthCB1" layoutX="377.0" layoutY="72.0" promptText="Month" visible="false" />
+      <ComboBox fx:id="DayCB1" layoutX="304.0" layoutY="72.0" promptText="Day" visible="false" />
+      <ComboBox fx:id="TypeCB1" layoutX="429.0" layoutY="38.0" prefWidth="100.0" promptText="Type" visible="false" />
+      <ComboBox fx:id="StoreCB1" layoutX="304.0" layoutY="38.0" promptText="Store" visible="false" />
+      <AnchorPane fx:id="paneorder1" layoutX="3.0" layoutY="158.0" prefHeight="303.0" prefWidth="303.0" visible="false">
+         <children>
+            <Label fx:id="lblBBousum1" layoutX="220.0" layoutY="182.0" prefHeight="17.0" prefWidth="41.0" />
+            <Label fx:id="lblfPlntsum1" layoutX="220.0" layoutY="224.0" prefHeight="17.0" prefWidth="41.0" />
+            <Label fx:id="lblfArrnsum1" layoutX="220.0" layoutY="98.0" prefHeight="17.0" prefWidth="41.0" />
+            <Label fx:id="lblFClucnt1" layoutX="131.0" layoutY="137.0" prefHeight="17.0" prefWidth="41.0" />
+            <Label fx:id="lblBBoucnt1" layoutX="131.0" layoutY="182.0" prefHeight="17.0" prefWidth="41.0" />
+            <Label fx:id="lblfPlntcnt1" layoutX="132.0" layoutY="224.0" prefHeight="17.0" prefWidth="41.0" />
+            <Label fx:id="lblfArrncnt1" layoutX="131.0" layoutY="98.0" prefHeight="17.0" prefWidth="41.0" />
+            <Label fx:id="lblTotPrice1" layoutX="212.0" layoutY="63.0" text="Total price" />
+            <Label fx:id="lblNumOford1" layoutX="96.0" layoutY="63.0" text="Number of orders" />
+            <Label fx:id="lblFlowClu1" layoutX="11.0" layoutY="137.0" text="Flowers Cluster" />
+            <Label fx:id="lblBridBou1" layoutX="12.0" layoutY="182.0" text="Bridal Bouquet" />
+            <Label fx:id="lblFlopl1" layoutX="10.0" layoutY="224.0" text="Flowering Plant" />
+            <Label fx:id="lblFloArr1" layoutX="11.0" layoutY="98.0" text="Flower Arrangment" />
+            <Label fx:id="lblFClusum1" layoutX="220.0" layoutY="137.0" prefHeight="17.0" prefWidth="41.0" />
+            <Label layoutX="103.0" layoutY="22.0" text="Order Report" textFill="#f80303">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Label>
+         </children>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+      </AnchorPane>
+      <AnchorPane fx:id="paneorder11" layoutX="306.0" layoutY="158.0" prefHeight="303.0" prefWidth="303.0" visible="false">
+         <children>
+            <Label fx:id="lblBBousum11" layoutX="220.0" layoutY="182.0" prefHeight="17.0" prefWidth="41.0" />
+            <Label fx:id="lblfPlntsum11" layoutX="220.0" layoutY="224.0" prefHeight="17.0" prefWidth="41.0" />
+            <Label fx:id="lblfArrnsum11" layoutX="220.0" layoutY="98.0" prefHeight="17.0" prefWidth="41.0" />
+            <Label fx:id="lblFClucnt11" layoutX="131.0" layoutY="137.0" prefHeight="17.0" prefWidth="41.0" />
+            <Label fx:id="lblBBoucnt11" layoutX="131.0" layoutY="182.0" prefHeight="17.0" prefWidth="41.0" />
+            <Label fx:id="lblfPlntcnt11" layoutX="132.0" layoutY="224.0" prefHeight="17.0" prefWidth="41.0" />
+            <Label fx:id="lblfArrncnt11" layoutX="131.0" layoutY="98.0" prefHeight="17.0" prefWidth="41.0" />
+            <Label fx:id="lblTotPrice11" layoutX="212.0" layoutY="63.0" text="Total price" />
+            <Label fx:id="lblNumOford11" layoutX="96.0" layoutY="63.0" text="Number of orders" />
+            <Label fx:id="lblFlowClu11" layoutX="11.0" layoutY="137.0" text="Flowers Cluster" />
+            <Label fx:id="lblBridBou11" layoutX="12.0" layoutY="182.0" text="Bridal Bouquet" />
+            <Label fx:id="lblFlopl11" layoutX="10.0" layoutY="224.0" text="Flowering Plant" />
+            <Label fx:id="lblFloArr11" layoutX="11.0" layoutY="98.0" text="Flower Arrangment" />
+            <Label fx:id="lblFClusum11" layoutX="220.0" layoutY="137.0" prefHeight="17.0" prefWidth="41.0" />
+            <Label layoutX="113.0" layoutY="21.0" text="Order Report" textFill="#f80303">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+      <Button fx:id="btnHide" alignment="CENTER" layoutX="310.0" layoutY="118.0" mnemonicParsing="false" onAction="#hideReport2" text="Hide Report 2" textAlignment="CENTER" visible="false" />
    </children>
+   <opaqueInsets>
+      <Insets />
+   </opaqueInsets>
 </AnchorPane>
