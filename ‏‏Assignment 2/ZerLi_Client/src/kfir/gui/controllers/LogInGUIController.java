@@ -2,6 +2,7 @@ package kfir.gui.controllers;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 
 import java.io.IOException;
 import java.net.URL;
@@ -17,6 +18,7 @@ import org.controlsfx.validation.ValidationSupport;
 import org.controlsfx.validation.Validator;
 
 import common.Context;
+import entities.Customer;
 import entities.User;
 import entities.User.UserType;
 import gui.controllers.ParentGUIController;
@@ -32,10 +34,10 @@ import javafx.stage.Stage;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-public class LogInGUIController extends ParentGUIController{
+public class LogInGUIController implements Initializable{
 	
 	private @FXML TextField txtUserName, txtPassword;
-	private @FXML Button btnConfig, btnLogIn;
+	private @FXML Button btnLogIn;
 	private @FXML ImageView imgLogo;
 	private String logoPath="/images/logos/img/logo3-0.png";
 	private boolean getAllUsers=true;
@@ -50,9 +52,9 @@ public class LogInGUIController extends ParentGUIController{
 		System.err.println("Go to LogInGUIController to enable data in login");
 		if(uName!=null && pass !=null) {
 			try {
-				Context.fac.user.getUser(new User(uName, pass));
+				Context.fac.user.getUserByUNameAndPass(new User(uName, pass));
 			} catch (IOException e) {
-				ShowErrorMsg();
+				Context.mainScene.ShowErrorMsg();
 				System.err.println("LogInGUI getUser failed");
 				e.printStackTrace();
 			}
@@ -70,21 +72,25 @@ public class LogInGUIController extends ParentGUIController{
 			getAllUsers=false;
 			return;
 		}
+		//User Name or Password are incorrect
 		if(users.size()==0)
-			ShowErrorMsg();
+			Context.mainScene.setMessage("User name or password are incorrect!");
 		else {
 			User user = users.get(0);
+			if(user.isConnected()==true) {
+				Context.mainScene.setMessage("You are already connected at another device\n"
+						+ "Please disconnect before next login");
+				return;
+			}
 			Context.setUser(user);
-			users.get(0).setConnected(true);
-			Context.fac.user.updateUser(user);
-			
-			Platform.runLater(new Runnable() {
-		        @Override
-		        public void run() {
-		        	loadMainMenu();
-		        }
-			});
+			//Will load next gui if Context will call to setUserConnected()
 		}
+	}
+	
+	public void setUserConnected(User user) {
+		user.setConnected(true);
+		Context.fac.user.updateUser(user);
+		Context.mainScene.logInSuccess();
 	}
 	
 	public void start(Stage stage) throws IOException {
@@ -97,7 +103,6 @@ public class LogInGUIController extends ParentGUIController{
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		super.initialize(location, resources);
 		Context.currentGUI = this;
 		
 		try {
@@ -110,26 +115,6 @@ public class LogInGUIController extends ParentGUIController{
 		/*validationSupport.validationResultProperty().addListener( (o, oldValue, newValue) ->
         messageList.getItems().setAll(newValue.getMessages()));*/
 		imgLogo.setImage(new Image(getClass().getResourceAsStream(logoPath)));
-		
-		if(Context.clientConsole==null || Context.clientConsole.isConnected()==false) {
-			try {
-				Context.connectToServer();
-			} catch (IOException e) {
-				setServerUnavailable();
-			}
-		}
-		if(Context.clientConsole!=null && Context.clientConsole.isConnected()==true &&
-				Context.dbConnected == true) {
-			try {
-				Context.fac.dataBase.getDBStatus();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			setServerAvailable();
-		}
-		if(Context.dbConnected == false)
-			setServerUnavailable();
 		setComponentSendOnEnter(Arrays.asList(new Node[] {txtUserName,txtPassword}));
 	}
 	
@@ -144,37 +129,5 @@ public class LogInGUIController extends ParentGUIController{
 			    }
 			});
 		}
-	}
-
-	public void showConnectionGUI(ActionEvent event){
-		try {
-			Context.prevGUI=this;
-			loadGUI("ConnectionConfigGUI", false);
-		} catch (Exception e) {
-			lblMsg.setText("Loader failed");
-			e.printStackTrace();
-		}
-	}
-	
-	public void setServerUnavailable() {
-		Platform.runLater(new Runnable() {
-			@Override
-			public void run() {
-				btnLogIn.setDisable(true);
-				btnConfig.setVisible(true);
-				lblMsg.setText("Connection failed");
-			}
-		});
-	}
-	
-	public void setServerAvailable() {
-		Platform.runLater(new Runnable() {
-			@Override
-			public void run() {
-				btnLogIn.setDisable(false);
-				btnConfig.setVisible(false);
-				lblMsg.setText("");
-			}
-		});
 	}
 }

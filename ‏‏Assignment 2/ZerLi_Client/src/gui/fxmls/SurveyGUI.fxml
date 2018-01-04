@@ -56,6 +56,5 @@
             <Label text="Date" GridPane.rowIndex="7" />
          </children>
       </GridPane>
-      <Label fx:id="lblMsg" layoutX="14.0" layoutY="267.0" textFill="RED" />
    </children>
 </AnchorPane>

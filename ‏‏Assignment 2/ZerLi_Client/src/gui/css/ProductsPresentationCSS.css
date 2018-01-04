@@ -3,6 +3,8 @@ VBox {
 }
 GridPane{
 	-fx-padding: 5 5 5 5;
+	-fx-hgap: 5;
+	-fx-vgap: 5;
 }
 
 #lblTitle{

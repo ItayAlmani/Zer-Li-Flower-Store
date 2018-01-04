@@ -12,6 +12,7 @@ import entities.Survey;
 import entities.Survey.SurveyType;
 import gui.controllers.ParentGUIController;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.ChoiceBox;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -19,7 +20,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.scene.control.DatePicker;
 
-public class SurveyGUIController extends ParentGUIController {
+public class SurveyGUIController implements Initializable {
 
 	private @FXML ChoiceBox<Float>[] cbs;
 	private @FXML ChoiceBox<Float> cb1;
@@ -47,17 +48,11 @@ public class SurveyGUIController extends ParentGUIController {
 		
 		Context.fac.survey.addSurvey(sur);
 		
-		Platform.runLater(new Runnable() {
-	        @Override
-	        public void run() {
-	        	loadMainMenu();
-	        }
-		});
+		Context.mainScene.loadMainMenu();
 	}
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		super.initialize(location, resources);
 		Context.currentGUI = this;
 		
 		cbs = new ChoiceBox[]{cb1,cb2,cb3,cb4,cb5,cb6};

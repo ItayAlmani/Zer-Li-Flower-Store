@@ -11,6 +11,7 @@ import entities.SurveyReport;
 import gui.controllers.ParentGUIController;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
@@ -18,7 +19,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.VBox;
 
-public class SurveyReportGUIController extends ParentGUIController
+public class SurveyReportGUIController implements Initializable
 {
 
 	private @FXML TextField txtVerbalReport;
@@ -82,7 +83,6 @@ public class SurveyReportGUIController extends ParentGUIController
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		super.initialize(location, resources);
 		Context.currentGUI = this;
 		
 		dpDateStart.setValue(LocalDate.now());
@@ -93,5 +93,9 @@ public class SurveyReportGUIController extends ParentGUIController
 		l4.setText("");
 		l5.setText("");
 		l6.setText("");
+	}
+
+	public void loadMainMenu() {
+		Context.mainScene.loadMainMenu();
 	}
 }

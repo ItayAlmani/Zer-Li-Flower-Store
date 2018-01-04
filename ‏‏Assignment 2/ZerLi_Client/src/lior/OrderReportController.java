@@ -47,8 +47,8 @@ public class OrderReportController extends ParentController implements IOrderRep
 				Context.askingCtrl.remove(0);
 			}
 			else {*/
-				m = Context.prevGUI.getClass().getMethod(methodName,ArrayList.class);
-				m.invoke(Context.prevGUI, oReports);
+				m = Context.currentGUI.getClass().getMethod(methodName,ArrayList.class);
+				m.invoke(Context.currentGUI, oReports);
 			//}
 		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e1) {
 			System.err.println("Couldn't invoke method '"+methodName+"'");

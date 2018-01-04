@@ -2,60 +2,22 @@ package izhar.gui.controllers;
 
 import java.io.IOException;
 import java.math.BigInteger;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.ResourceBundle;
 
 import common.Context;
-import entities.Order;
-import entities.Order.OrderStatus;
-import entities.Order.OrderType;
 import entities.Product;
 import entities.ProductInOrder;
-import gui.controllers.ParentGUIController;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.fxml.FXML;
-import javafx.geometry.HPos;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.control.Hyperlink;
-import javafx.scene.control.Label;
 import javafx.scene.control.Pagination;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Border;
-import javafx.scene.layout.BorderStroke;
-import javafx.scene.layout.BorderStrokeStyle;
-import javafx.scene.layout.BorderWidths;
-import javafx.scene.layout.CornerRadii;
-import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.RowConstraints;
-import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
-import javafx.util.Callback;
 
 public class CatalogGUIController extends ProductsPresentationGUIController {
 	private ArrayList<Product> productsInCatalog = new ArrayList<>();
     
-    @Override
-	public void initialize(URL location, ResourceBundle resources) {
-		super.initialize(location, resources);
-		Context.currentGUI = this;
-
-		getProducts();
-	}
-
-    private void getProducts() {
+    protected void getProducts() {
     	if(productsInCatalog.size()!=0)
     		setProducts(productsInCatalog);
     	else {
@@ -84,10 +46,11 @@ public class CatalogGUIController extends ProductsPresentationGUIController {
 			@Override
 			public void run() {
 				btnBack = new Button("Back");
-				btnBack.setOnAction(actionEvent -> loadMainMenu());
-				lblMsg = new Label();
+				btnBack.setOnAction(actionEvent -> Context.mainScene.loadMainMenu());
 				
-				vbox.getChildren().addAll(pagination,btnBack,lblMsg);
+				vbox.getChildren().addAll(pagination,btnBack);
+				vbox.setAlignment(Pos.CENTER);
+				vbox.getScene().getWindow().sizeToScene();
 			}
 		});
 	}
@@ -126,7 +89,7 @@ public class CatalogGUIController extends ProductsPresentationGUIController {
 					Platform.runLater(new Runnable() {
 						@Override
 						public void run() {
-							lblMsg.setText("Added");
+							Context.mainScene.setMessage("Added");
 						}
 					});
 					

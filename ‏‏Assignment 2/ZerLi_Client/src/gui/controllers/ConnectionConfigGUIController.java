@@ -21,18 +21,13 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-public class ConnectionConfigGUIController extends ParentGUIController{
+public class ConnectionConfigGUIController implements Initializable{
 	
 	private @FXML TextField txtHost,txtPort,txtName,txtUrl,txtUserName,txtPassword;
 	private @FXML Button btnUpdateServer, btnUpdateDB,btnBack;
-	private String prevGUI = null;
 	
 	private String host,dbUrl, dbName, dbUserName, dbPassword;
 	private Integer port;
-	
-	public void getPrevGUI(String prevGUI) {
-		this.prevGUI=prevGUI;
-	}
 	
 	public void setDBData(ArrayList<String> dbData) {
 		if(dbData!=null) {
@@ -47,19 +42,11 @@ public class ConnectionConfigGUIController extends ParentGUIController{
 		}
 	}
 	
-	public void back(ActionEvent event) throws Exception {
-		try {
-			String name = Context.prevGUI.getClass().getName();
-			Context.prevGUI=this;
-			loadGUI(name.substring(name.lastIndexOf(".")+1,name.lastIndexOf("Controller"))
-					, false);
-		} catch (Exception e) {
-			lblMsg.setText("Loader failed");
-			e.printStackTrace();
-		}
+	public void back() {
+		Context.mainScene.loadGUI("LogInGUI", false);
 	}
 	
-	public void updateServer(ActionEvent event) {
+	public void updateServer() {
 		if(txtHost.getText().equals("")==false)
 			host=txtHost.getText();
 		if(txtPort.getText().equals("")==false)
@@ -67,13 +54,14 @@ public class ConnectionConfigGUIController extends ParentGUIController{
 		if(port!=null&&host!=null) {
 			try {
 				Context.connectToServer(host, port);
-				ShowSuccessMsg();
+				Context.mainScene.setServerAvailable();
+				back();
 			} catch (IOException e) {
-				ShowErrorMsg();
+				Context.mainScene.ShowErrorMsg();
 			}
 		}
 		else
-			ShowErrorMsg();
+			Context.mainScene.ShowErrorMsg();
 	}
 	
 	public void updateDB(ActionEvent event) {
@@ -94,18 +82,17 @@ public class ConnectionConfigGUIController extends ParentGUIController{
 				Context.fac.dataBase.setDB(new DataBase(dbUrl, dbName, dbUserName, dbPassword));
 				Context.fac.dataBase.getDBStatus();
 			} catch (IOException e) {
-				ShowErrorMsg();
+				Context.mainScene.ShowErrorMsg();
 				System.err.println("Error in ConnConfigGUIController, on askSetDBData() in updateDB.\n");
 				e.printStackTrace();
 			}
 		}
 		else
-			ShowErrorMsg();
+			Context.mainScene.ShowErrorMsg();
 	}
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		super.initialize(location, resources);
-		Context.currentGUI = this;		
+		Context.currentGUI = this;
 	
 		if(Context.clientConsole !=null && Context.clientConsole.isConnected()==true) {
 			this.host=Context.clientConsole.getHost();
@@ -115,11 +102,12 @@ public class ConnectionConfigGUIController extends ParentGUIController{
 			try {
 				Context.fac.dataBase.getDB();
 			} catch (IOException e) {
-				ShowErrorMsg();
+				Context.mainScene.ShowErrorMsg();
 			}
 		}
 		else {
-			ShowErrorMsg();
+			txtHost.setText("localhost");
+			txtPort.setText("5555");
 		}
 	}
 }

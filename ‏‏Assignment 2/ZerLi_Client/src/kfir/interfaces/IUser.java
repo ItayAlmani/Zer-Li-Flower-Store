@@ -22,7 +22,7 @@ public interface IUser extends IParent{
 	 * @param Username
 	 * @param password
 	 */
-	void getUser(User user) throws IOException;
+	void getUserByUNameAndPass(User user) throws IOException;
 
 	/**
 	 * 

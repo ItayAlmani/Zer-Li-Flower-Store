@@ -4,6 +4,6 @@
 	-fx-content-display: center ;
 }
 
-Node{
-	-fx-alignment: center ;
+Pane{
+	-fx-padding: 5 5 5 5;
 }

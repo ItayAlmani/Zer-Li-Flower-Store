@@ -77,7 +77,6 @@
          </children>
       </VBox>
       <Button mnemonicParsing="false" onAction="#loadMainMenu" text="Back" />
-      <Label fx:id="lblMsg" />
    </children>
    <padding>
       <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />

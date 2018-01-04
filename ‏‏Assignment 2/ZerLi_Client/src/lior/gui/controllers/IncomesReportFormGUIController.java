@@ -16,13 +16,14 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-public class IncomesReportFormGUIController extends ParentGUIController {
+public class IncomesReportFormGUIController implements Initializable {
 
 	@FXML Label lblFrom;
 	@FXML Label lblTo;
@@ -47,8 +48,8 @@ public class IncomesReportFormGUIController extends ParentGUIController {
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		super.initialize(location, resources);
 		Context.currentGUI = this;
+		
 		lblFrom.setVisible(false);
 		lblTo.setVisible(false);
 		lblStore.setVisible(false);
@@ -90,7 +91,7 @@ public class IncomesReportFormGUIController extends ParentGUIController {
 	
 	public void Backtomainmenuhandler (ActionEvent event) throws Exception
 	{
-		super.loadMainMenu();
+		Context.mainScene.loadMainMenu();
 	}
 
 }

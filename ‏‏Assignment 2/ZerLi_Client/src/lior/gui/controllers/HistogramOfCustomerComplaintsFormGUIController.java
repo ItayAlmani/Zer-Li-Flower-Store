@@ -7,6 +7,7 @@ import gui.controllers.ParentGUIController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
@@ -14,7 +15,7 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.chart.XYChart.Series;
 import javafx.scene.control.Label;
 
-public class HistogramOfCustomerComplaintsFormGUIController extends ParentGUIController {
+public class HistogramOfCustomerComplaintsFormGUIController implements Initializable {
 	
 	private @FXML BarChart bar;
 	@FXML BarChart HistogramChart;
@@ -28,7 +29,6 @@ public class HistogramOfCustomerComplaintsFormGUIController extends ParentGUICon
 	@SuppressWarnings("unchecked")
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		super.initialize(location, resources);
 		Context.currentGUI = this;
 		xax=new CategoryAxis();
 		yax=new NumberAxis();

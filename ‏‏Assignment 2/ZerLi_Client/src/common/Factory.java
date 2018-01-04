@@ -33,13 +33,13 @@ public class Factory {
 	
 	public UserController user = new UserController();
 	public CustomerController customer = new CustomerController();
+	public StoreWorkerController storeWorker = new StoreWorkerController();
 	
 	public OrderReportController orderReport = new OrderReportController();
 	public IncomesReportController incomesReport = new IncomesReportController();
+	
 	/*public AdminController admin = new AdminController();
 	public PaymantAccountController paymentAccount = new PaymantAccountController();
-	public ServiceExpertController serviceExpert = new ServiceExpertController();
-	public StoreManagerController storeManager = new StoreManagerController();
 	
 	public HistogramOfCustomerComplaintsReportController histogramReport = new HistogramOfCustomerComplaintsReportController();
 	

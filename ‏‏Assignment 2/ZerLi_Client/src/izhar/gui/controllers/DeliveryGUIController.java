@@ -22,6 +22,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.RadioButton;
@@ -31,7 +32,7 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 
-public class DeliveryGUIController extends ParentGUIController {
+public class DeliveryGUIController implements Initializable {
 
 	private @FXML Button btnSend;
 	private @FXML TextField txtStreet, txtCity, txtPostCode, txtName, txtPhoneAreaCode, txtPhonePost;
@@ -46,7 +47,6 @@ public class DeliveryGUIController extends ParentGUIController {
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		super.initialize(location, resources);
 		Context.currentGUI = this;
 		
 		addTextLimiter(txtPhoneAreaCode, 3);
@@ -66,13 +66,7 @@ public class DeliveryGUIController extends ParentGUIController {
 			e.printStackTrace();
 		}
 		
-		tGroup.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
-
-			@Override
-			public void changed(ObservableValue<? extends Toggle> observable, Toggle oldValue, Toggle newValue) {
-				vboxForm.setVisible(true);
-			}
-		});
+		tGroup.selectedToggleProperty().addListener(e-> vboxForm.setVisible(true));
 	}
 	
 	public void setStocks(ArrayList<Stock> stocks) throws IOException {
@@ -90,14 +84,14 @@ public class DeliveryGUIController extends ParentGUIController {
 	}
 
 	public void showPickup(ActionEvent event) {
-		lblMsg.setText("");
+		Context.mainScene.setMessage("");
 		btnSend.setDisable(false);
 		this.gpShipment.setVisible(false);
 		this.gpPickup.setVisible(true);
 	}
 	
-	public void showShipment(ActionEvent event) {
-		lblMsg.setText("");
+	public void showShipment() {
+		Context.mainScene.setMessage("");
 		btnSend.setDisable(false);
 		this.gpPickup.setVisible(false);
 		this.gpShipment.setVisible(true);
@@ -105,7 +99,7 @@ public class DeliveryGUIController extends ParentGUIController {
 		
 		ArrayList<Store> ordOnly = Context.fac.store.getOrdersOnlyStoresFromArrayList(stores);
 		if(ordOnly==null || ordOnly.size()<=0) {
-			lblMsg.setText("Shipment not available right now!");
+			Context.mainScene.setMessage("Shipment not available right now!");
 			btnSend.setDisable(true);
 			return;
 		}
@@ -125,23 +119,23 @@ public class DeliveryGUIController extends ParentGUIController {
 			@Override
 			public void run() {
 				btnSend.setDisable(true);
-				lblMsg.setText("The product "+prod.getName()
+				Context.mainScene.setMessage("The product "+prod.getName()
 				+"is out of stock.\nPlease replace the product.");
 			}
 		});
 	}
 
-	public void addDelivery(ActionEvent event) {
+	public void addDelivery() {
 		Object userData = tGroup.getSelectedToggle().getUserData();
 		if(userData.equals("Pickup")==false && userData.equals("Shipment")==false) {
-			lblMsg.setText("Must choose at least one option");
+			Context.mainScene.setMessage("Must choose at least one option");
 			return;
 		}
 		if(selectedStore==null) {
 			if(userData.equals("Pickup"))
-				lblMsg.setText("Must choose store for pickup");
+				Context.mainScene.setMessage("Must choose store for pickup");
 			else if(userData.equals("Shipment"))
-				lblMsg.setText("Error");
+				Context.mainScene.setMessage("Error");
 			return;
 		}
 		
@@ -167,12 +161,7 @@ public class DeliveryGUIController extends ParentGUIController {
 				e.printStackTrace();
 			}
 		}
-		try {
-			loadGUI("OrderTimeGUI", false);
-		} catch (Exception e) {
-			lblMsg.setText("Loader failed");
-			e.printStackTrace();
-		}
+		Context.mainScene.loadGUI("OrderTimeGUI", false);
 	}
 
 	public Product checkStockInStore() {
@@ -186,7 +175,7 @@ public class DeliveryGUIController extends ParentGUIController {
 			Platform.runLater(new Runnable() {
 				@Override
 				public void run() {
-					lblMsg.setText("");
+					Context.mainScene.setMessage("");
 					btnSend.setDisable(false);
 				}
 			});
@@ -202,7 +191,7 @@ public class DeliveryGUIController extends ParentGUIController {
 									+outOfStockProd.getName() +" is out of stock at store "
 									+ selectedStore.getName()+".\nYou can replace store or product";
 						
-						lblMsg.setText(show);
+						Context.mainScene.setMessage(show);
 					}
 				});
 			}
@@ -257,11 +246,6 @@ public class DeliveryGUIController extends ParentGUIController {
 	}
 
 	public void back() {
-		try {
-			loadGUI("CartGUI", false);
-		} catch (Exception e) {
-			lblMsg.setText("Loader failed");
-			e.printStackTrace();
-		}
+		Context.mainScene.loadGUI("CartGUI", false);
 	}
 }

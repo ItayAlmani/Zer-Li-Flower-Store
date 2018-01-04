@@ -15,7 +15,8 @@ public class User implements Serializable {
 		ChainStoreWorker,
 		ChainStoreManager,
 		ServiceExpert,
-		CustomerServiceWorker
+		CustomerServiceWorker,
+		StoreWorker
 	}
 	
 	public enum UserState {

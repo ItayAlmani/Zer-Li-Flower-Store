@@ -13,13 +13,16 @@ import java.util.Map.Entry;
 import entities.Customer;
 import entities.Order;
 import entities.ProductInOrder;
+import entities.Store;
 import entities.StoreWorker;
 import entities.User;
 import entities.Order.OrderStatus;
 import entities.Order.OrderType;
 import entities.User.UserType;
 import gui.controllers.MainMenuGUIController;
+import gui.controllers.ParentGUIController;
 import javafx.stage.Stage;
+import kfir.gui.controllers.LogInGUIController;
 
 /** The class which holds the data of each client. 
  * Static class which will help to hold the common data that
@@ -46,7 +49,7 @@ public class Context {
 	public static ClientConsole clientConsole = null;
 	
 	/** The current GUI. Used to deliver the answer from the <code>EchoServer</code>. */
-	public static Object currentGUI = null, prevGUI = null;
+	public static Object currentGUI = null;
 	
 	/** The current JavaFX stage <=> the window of the GUI */
 	public static Stage stage = null;
@@ -58,6 +61,7 @@ public class Context {
 	private static User user;
 	public static Order order;
 	private static boolean needNewOrder=true;
+	public static ParentGUIController mainScene = null;
 	
 	/**
 	 * Looking for the .txt file at <code>projectPath</code>+<code>serTxtPath</code> path,
@@ -86,14 +90,13 @@ public class Context {
 			DEFAULT_PORT=Integer.parseInt(args[1]);
 			writeNewServerDataIntoTxt();
 		} catch (IOException e) {
-			System.err.println("ServerAddress.txt data is corrupted or Can't find txt file at "+serTxtPath+".");
-			System.err.println("Go to Context for the process");
+			System.err.println("Context->ServerAddress.txt data is corrupted or Can't find txt file at "+serTxtPath+".\n");
 		}
 		if(serSuccessFlag==0) {	//db data corrupted 
 			try {
 				clientConsole = new ClientConsole(DEFAULT_HOST,DEFAULT_PORT);
 			} catch (IOException e) {
-				System.err.println("Default Server data is wrong!\nGo to Context to fix it!");
+				System.err.println("Context->Default Server data is wrong!\n");
 				throw e;
 			}
 		}
@@ -139,7 +142,7 @@ public class Context {
 	private static void writeNewServerDataIntoTxt() throws IOException {
 		File f = null;
 		try {
-			f = new File(Context.class.getResource(serTxtPath).toURI().toString());
+			f = new File(Context.class.getResource(serTxtPath).toURI());
 		} catch (URISyntaxException e) {
 			f.createNewFile();
 			e.printStackTrace();
@@ -158,16 +161,39 @@ public class Context {
 	}
 
 	public static void setUser(User newuser) {
-		user = newuser;
-		if(user.getPermissions().equals(UserType.Customer)) {
-			try {
-				askingCtrl.add(Context.class.newInstance());
-				fac.customer.getCustomerByUser(user.getUserID());
-			} catch (InstantiationException | IllegalAccessException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+		try {
+			user = newuser;
+			if(user.getPermissions().equals(UserType.Customer)) {
+					askingCtrl.add(Context.class.newInstance());
+					fac.customer.getCustomerByUser(user.getUserID());
 			}
+			else if(user.getPermissions().equals(UserType.StoreWorker)||
+					user.getPermissions().equals(UserType.StoreManager)) {
+				/*askingCtrl.add(Context.class.newInstance());
+				Context.fac.storeWorker.getStoreWorkerByUser(user.getUserID());*/
+				
+				//JUST FOR TEST - MUST DELETE!!!
+				StoreWorker sw = new StoreWorker(user, BigInteger.ONE, new Store(BigInteger.ONE));
+				ArrayList<StoreWorker> sws = new ArrayList<>();
+				sws.add(sw);
+				setStoreWorkers(sws);
+			} //all other user types
+			else if(currentGUI instanceof LogInGUIController)
+				((LogInGUIController)currentGUI).setUserConnected(Context.user);
+				
+		} catch (InstantiationException | IllegalAccessException e) {
+			e.printStackTrace();
 		}
+	}
+	
+	public static void setStoreWorkers(ArrayList<StoreWorker> storeWorkers) {
+		if(storeWorkers.size()!=0) {
+			StoreWorker sw = storeWorkers.get(0);
+			sw.setUser(user);
+			user=sw;
+		}
+		if(currentGUI instanceof LogInGUIController)
+			((LogInGUIController)currentGUI).setUserConnected(Context.user);
 	}
 	
 	public static Customer getUserAsCustomer() {
@@ -200,6 +226,8 @@ public class Context {
 			cust.setUser(user);
 			user=cust;
 		}
+		if(currentGUI instanceof LogInGUIController)
+			((LogInGUIController)currentGUI).setUserConnected(Context.user);
 	}
 	
 	public static void setOrders(ArrayList<Order> orders) {

@@ -52,7 +52,7 @@ public class UserController extends ParentController implements IUser {
 	}
 
 	@Override
-	public void getUser(User user) throws IOException {
+	public void getUserByUNameAndPass(User user) throws IOException {
 		myMsgArr.clear();
 		myMsgArr.add("SELECT *" + 
 				" FROM user" + 

@@ -19,6 +19,7 @@ import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -32,7 +33,7 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-public class ReportSelectorGUIController extends ParentGUIController {
+public class ReportSelectorGUIController implements Initializable {
 
 	private ArrayList<Store> stores;
 	private BigInteger n, n1;
@@ -95,7 +96,6 @@ public class ReportSelectorGUIController extends ParentGUIController {
 	@SuppressWarnings("unchecked")
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		super.initialize(location, resources);
 		Context.currentGUI = this;
 		paneorder1.setBorder(new Border(new BorderStroke(Color.BLACK,BorderStrokeStyle.SOLID,CornerRadii.EMPTY,BorderWidths.DEFAULT)));
 		paneorder11.setBorder(new Border(new BorderStroke(Color.BLUE,BorderStrokeStyle.SOLID,CornerRadii.EMPTY,BorderWidths.DEFAULT)));
@@ -163,7 +163,6 @@ public class ReportSelectorGUIController extends ParentGUIController {
 		}
 		if (this.TypeCB.getValue().equals("Orders Report")) {
 			try {
-				Context.prevGUI = this;
 			} catch (Exception e) {
 				// lblMsg.setText("Loader failed");
 				e.printStackTrace();
@@ -173,7 +172,6 @@ public class ReportSelectorGUIController extends ParentGUIController {
 
 		else if (TypeCB.getValue().equals("Incomes Report")) {
 			try {
-				Context.prevGUI = this;
 				//loadGUI("IncomesReportFormGUI", false);
 			} catch (Exception e) {
 				// lblMsg.setText("Loader failed");
@@ -184,7 +182,6 @@ public class ReportSelectorGUIController extends ParentGUIController {
 
 		else if (TypeCB.getValue().equals("Client complaimnts histogram")) {
 			try {
-				Context.prevGUI = this;
 				//loadGUI("HistogramOfCustomerComplaintsFormGUI", false);
 			} catch (Exception e) {
 				// lblMsg.setText("Loader failed");
@@ -194,7 +191,6 @@ public class ReportSelectorGUIController extends ParentGUIController {
 		}
 		else if (TypeCB.getValue().equals("Client complaimnts histogram")) {
 			try {
-				Context.prevGUI = this;
 				//loadGUI("HistogramOfCustomerComplaintsFormGUI", false);
 			} catch (Exception e) {
 				// lblMsg.setText("Loader failed");
@@ -228,7 +224,6 @@ public class ReportSelectorGUIController extends ParentGUIController {
 			{
 				if (this.TypeCB1.getValue().equals("Orders Report")) {
 					try {
-						Context.prevGUI = this;
 						// loadGUI("OrderReportFormGUI", false);
 					} catch (Exception e) {
 						// lblMsg.setText("Loader failed");
@@ -238,22 +233,12 @@ public class ReportSelectorGUIController extends ParentGUIController {
 				}
 
 				else if (TypeCB1.getValue().equals("Incomes Report")) {
-					try {
-						loadGUI("IncomesReportFormGUI", false);
-					} catch (Exception e) {
-						// lblMsg.setText("Loader failed");
-						e.printStackTrace();
-					}
+					Context.mainScene.loadGUI("IncomesReportFormGUI", false);
 					Context.fac.incomesReport.ProduceIncomesReport(date1, n1);
 				}
 
 				else if (TypeCB.getValue().equals("Client complaimnts histogram")) {
-					try {
-						loadGUI("HistogramOfCustomerComplaintsFormGUI", false);
-					} catch (Exception e) {
-						// lblMsg.setText("Loader failed");
-						e.printStackTrace();
-					}
+					Context.mainScene.loadGUI("HistogramOfCustomerComplaintsFormGUI", false);
 					// Context.fac.orderReport.produceOrderReport(date1, n1);
 				}
 			}
@@ -332,7 +317,7 @@ public class ReportSelectorGUIController extends ParentGUIController {
 	
 	public void Backtomainmenuhandler (ActionEvent event) throws Exception
 	{
-		super.loadMainMenu();
+		Context.mainScene.loadMainMenu();
 	}
 }
 

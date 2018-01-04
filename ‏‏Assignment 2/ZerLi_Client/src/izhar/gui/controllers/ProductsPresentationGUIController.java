@@ -1,13 +1,16 @@
 package izhar.gui.controllers;
 
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.ResourceBundle;
 
+import common.Context;
 import entities.Product;
 import entities.ProductInOrder;
-import gui.controllers.ParentGUIController;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.geometry.HPos;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -24,15 +27,14 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.util.Callback;
 
-public class ProductsPresentationGUIController extends ParentGUIController {
-	protected @FXML ScrollPane scroll;
+public abstract class ProductsPresentationGUIController implements Initializable {
 	protected @FXML Pagination pagination = null;
 	protected @FXML GridPane[] grids;
 	protected @FXML Button[] btnFinalProduct;
 	protected @FXML ImageView[] imgImages;
 	protected @FXML Label[] lblShowType, lblShowPrice, lblShowName,
 							lblTitleType, lblTitlePrice, lblTitleName;
-	protected @FXML VBox vbox;
+	protected @FXML VBox vbox = new VBox();
 	protected @FXML VBox[] vbxProduct;
 	protected ArrayList<Node> components = new ArrayList<>();
 	
@@ -42,6 +44,14 @@ public class ProductsPresentationGUIController extends ParentGUIController {
 	protected @FXML Spinner<Integer>[] spnShowQuantity;
 	protected @FXML Label[] lblTitleQuantity;
 	protected @FXML Label lblFinalPrice, lblTitleFPrice;
+	
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		Context.currentGUI = this;
+		getProducts();
+	}
+	
+	protected abstract void getProducts();	
 	
 	protected void initArrays(int size) {
 		components.clear();
@@ -135,10 +145,11 @@ public class ProductsPresentationGUIController extends ParentGUIController {
 		
 		components.clear();
 		
-		pagination .setPageFactory(new Callback<Integer, Node>() {
+		pagination.setPageFactory(new Callback<Integer, Node>() {
             @Override
             public Node call(Integer pageIndex) {
-            	 return vbxProduct[pageIndex];
+            	vbox.getScene().getWindow().sizeToScene();
+            	return vbxProduct[pageIndex];
             }
 		});
 	}

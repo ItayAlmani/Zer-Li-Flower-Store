@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
@@ -12,11 +13,14 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="CENTER" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="izhar.gui.controllers.DeliveryGUIController">
+<VBox alignment="CENTER" spacing="5.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="izhar.gui.controllers.DeliveryGUIController">
    <children>
       <HBox spacing="20.0">
          <children>
-            <Label text="Choose Delivery Option:" />
+            <Label alignment="CENTER" contentDisplay="CENTER" text="Choose Delivery Option:" textAlignment="CENTER">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Label>
             <VBox spacing="5.0">
                <children>
                   <RadioButton fx:id="rbPickup" mnemonicParsing="false" onAction="#showPickup" text="Pickup" />
@@ -44,7 +48,7 @@
                   <ComboBox fx:id="cbStores" onAction="#checkStockInStore" promptText="Select Store" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
                </children>
             </GridPane>
-            <GridPane fx:id="gpShipment" prefHeight="122.0" prefWidth="296.0" visible="false">
+            <GridPane fx:id="gpShipment" alignment="CENTER" hgap="5.0" vgap="5.0" visible="false">
                <columnConstraints>
                   <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="159.80003662109374" minWidth="-Infinity" />
                   <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="213.6" minWidth="10.0" />
@@ -99,6 +103,8 @@
          </children>
       </VBox>
       <Button mnemonicParsing="false" onAction="#back" text="Back" />
-      <Label fx:id="lblMsg" alignment="CENTER" contentDisplay="CENTER" minHeight="35.0" textAlignment="CENTER" textFill="RED" wrapText="true" />
    </children>
+   <padding>
+      <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+   </padding>
 </VBox>

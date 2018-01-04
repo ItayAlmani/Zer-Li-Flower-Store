@@ -1,36 +1,20 @@
 package izhar.gui.controllers;
 
 import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.ResourceBundle;
 
 import common.Context;
 import entities.ProductInOrder;
-import gui.controllers.ParentGUIController;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.fxml.FXML;
-import javafx.geometry.HPos;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.control.Pagination;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Spinner;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.Border;
-import javafx.scene.layout.BorderStroke;
-import javafx.scene.layout.BorderStrokeStyle;
-import javafx.scene.layout.BorderWidths;
-import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.util.Callback;
 
 public class CartGUIController extends ProductsPresentationGUIController {	
@@ -38,16 +22,8 @@ public class CartGUIController extends ProductsPresentationGUIController {
 	
 	public static Float ordPrice = 0f;
 	public static boolean cartEmpty = true;
-	
-	 @Override
-	public void initialize(URL location, ResourceBundle resources) {
-		super.initialize(location, resources);
-		Context.currentGUI = this;
-		
-		getProducts();
-	}
 	 
-	 private void getProducts() {
+	 protected void getProducts() {
 		if(Context.order != null && Context.order.getProducts()!=null)
 			setPIOs(Context.order.getProducts());
 		else {
@@ -101,7 +77,7 @@ public class CartGUIController extends ProductsPresentationGUIController {
 		    		pagination.setVisible(false);
 		    		lblTitleFPrice.setVisible(false);
 		    		lblFinalPrice.setText("");
-		    		lblMsg.setText("Cart is EMPTY!");
+		    		Context.mainScene.setMessage("Cart is EMPTY!");
 		    	}
 		    	else {
 		    		pagination.setVisible(true);
@@ -120,13 +96,15 @@ public class CartGUIController extends ProductsPresentationGUIController {
 			@Override
 			public void run() {
 				if(cartEmpty==true)
-					lblMsg.setText("Cart is EMPTY!");
+					Context.mainScene.setMessage("Cart is EMPTY!");
 				else {
 					setLblFinalPrice();
-					lblMsg.setText("");
+					Context.mainScene.setMessage("");
 				}
 				if(vbox.getChildren().contains(pagination)==false)
 					vbox.getChildren().add(0,pagination);
+				vbox.setAlignment(Pos.CENTER);
+				vbox.getScene().getWindow().sizeToScene();
 			}
 		});
 	}	
@@ -143,7 +121,7 @@ public class CartGUIController extends ProductsPresentationGUIController {
 					try {
 						quantity = spnShowQuantity[gridInx].getValue();
 					}catch (NumberFormatException e) {
-						lblMsg.setText("Quantity not number");
+						Context.mainScene.setMessage("Quantity not number");
 						return;
 					}
 					float oldFinalPrice = products.get(gridInx).getFinalPrice();
@@ -197,20 +175,19 @@ public class CartGUIController extends ProductsPresentationGUIController {
 			Context.order.setProducts(products);
 			Context.fac.order.calcFinalPriceOfOrder(Context.order);
 			
-			try {
-				loadGUI("DeliveryGUI", false);
-			} catch (Exception e) {
-				lblMsg.setText("Loader failed");
-				e.printStackTrace();
-			}
+			Context.mainScene.loadGUI("DeliveryGUI", false);
 		}
 		else {
 			Platform.runLater(new Runnable() {
 				@Override
 				public void run() {
-					lblMsg.setText("Cart is empty!");
+					Context.mainScene.setMessage("Cart is empty!");
 				}
 			});
 		}
+	}
+
+	public void loadMainMenu() {
+		Context.mainScene.loadMainMenu();
 	}
 }
