@@ -36,7 +36,6 @@ public class ReportSelectorGUIController extends ParentGUIController {
 
 	private ArrayList<Store> stores;
 	private BigInteger n, n1;
-
 	private @FXML Button askforreport;
 	private @FXML Button backbutton;
 	private @FXML ComboBox<String> StoreCB;
@@ -44,81 +43,44 @@ public class ReportSelectorGUIController extends ParentGUIController {
 	private @FXML ComboBox<Integer> DayCB;
 	private @FXML ComboBox<Integer> MonthCB;
 	public @FXML ComboBox<Integer> YearCB;
-
-	@FXML
-	ComboBox<Integer> YearCB1;
-	@FXML
-	ComboBox<Integer> MonthCB1;
-	@FXML
-	ComboBox<Integer> DayCB1;
-	@FXML
-	ComboBox TypeCB1;
-	@FXML
-	ComboBox StoreCB1;
-	@FXML
-	AnchorPane paneorder1;
-	@FXML
-	Label lblBBousum1;
-	@FXML
-	Label lblfPlntsum1;
-	@FXML
-	Label lblfArrnsum1;
-	@FXML
-	Label lblFClucnt1;
-	@FXML
-	Label lblBBoucnt1;
-	@FXML
-	Label lblfPlntcnt1;
-	@FXML
-	Label lblfArrncnt1;
-	@FXML
-	Label lblTotPrice1;
-	@FXML
-	Label lblNumOford1;
-	@FXML
-	Label lblFlowClu1;
-	@FXML
-	Label lblBridBou1;
-	@FXML
-	Label lblFlopl1;
-	@FXML
-	Label lblFloArr1;
-	@FXML
-	Label lblFClusum1;
-	@FXML
-	AnchorPane paneorder11;
-	@FXML
-	Label lblBBousum11;
-	@FXML
-	Label lblfPlntsum11;
-	@FXML
-	Label lblfArrnsum11;
-	@FXML
-	Label lblFClucnt11;
-	@FXML
-	Label lblBBoucnt11;
-	@FXML
-	Label lblfPlntcnt11;
-	@FXML
-	Label lblfArrncnt11;
-	@FXML
-	Label lblTotPrice11;
-	@FXML
-	Label lblNumOford11;
-	@FXML
-	Label lblFlowClu11;
-	@FXML
-	Label lblBridBou11;
-	@FXML
-	Label lblFlopl11;
-	@FXML
-	Label lblFloArr11;
-	@FXML
-	Label lblFClusum11;
-	@FXML
-	Label lblReport2;
-	@FXML
-	Button btnHide;
+ 
+	@FXML ComboBox<Integer> YearCB1;
+	@FXML ComboBox<Integer> MonthCB1;
+	@FXML ComboBox<Integer> DayCB1;
+	@FXML ComboBox TypeCB1;
+	@FXML ComboBox StoreCB1;
+	@FXML AnchorPane paneorder1;
+	@FXML Label lblBBousum1;
+	@FXML Label lblfPlntsum1;
+	@FXML Label lblfArrnsum1;
+	@FXML Label lblFClucnt1;
+	@FXML Label lblBBoucnt1;
+	@FXML Label lblfPlntcnt1;
+	@FXML Label lblfArrncnt1;
+	@FXML Label lblTotPrice1;
+	@FXML Label lblNumOford1;
+	@FXML Label lblFlowClu1;
+	@FXML Label lblBridBou1;
+	@FXML Label lblFlopl1;
+	@FXML Label lblFloArr1;
+	@FXML Label lblFClusum1;
+	@FXML AnchorPane paneorder11;
+	@FXML Label lblBBousum11;
+	@FXML Label lblfPlntsum11;
+	@FXML Label lblfArrnsum11;
+	@FXML Label lblFClucnt11;
+	@FXML Label lblBBoucnt11;
+	@FXML Label lblfPlntcnt11;
+	@FXML Label lblfArrncnt11;
+	@FXML Label lblTotPrice11;
+	@FXML Label lblNumOford11;
+	@FXML Label lblFlowClu11;
+	@FXML Label lblBridBou11;
+	@FXML Label lblFlopl11;
+	@FXML Label lblFloArr11;
+	@FXML Label lblFClusum11;
+	@FXML Label lblReport2;
+	@FXML Button btnHide;
 	@FXML AnchorPane paneAll;
 	@FXML AnchorPane paneReport2;
 
@@ -195,8 +157,6 @@ public class ReportSelectorGUIController extends ParentGUIController {
 	public void askforreportHandler(ActionEvent event) throws Exception {
 		@SuppressWarnings("deprecation")
 		Date date = new Date(YearCB.getValue() - 1900, MonthCB.getValue() - 1, DayCB.getValue());
-		@SuppressWarnings("deprecation")
-		Date date1 = new Date(YearCB1.getValue() - 1900, MonthCB1.getValue() - 1, DayCB1.getValue());
 		for (int i = 0; i < this.stores.size(); i++) {
 			if (this.stores.get(i).getName().equals(this.StoreCB.getValue()))
 				n = this.stores.get(i).getStoreID();
@@ -204,18 +164,17 @@ public class ReportSelectorGUIController extends ParentGUIController {
 		if (this.TypeCB.getValue().equals("Orders Report")) {
 			try {
 				Context.prevGUI = this;
-				// loadGUI("OrderReportFormGUI", false);
 			} catch (Exception e) {
 				// lblMsg.setText("Loader failed");
 				e.printStackTrace();
 			}
 			Context.fac.orderReport.produceOrderReport(date, n);
-			Context.fac.orderReport.produceOrderReport(date1, n1);
 		}
 
 		else if (TypeCB.getValue().equals("Incomes Report")) {
 			try {
-				loadGUI("IncomesReportFormGUI", false);
+				Context.prevGUI = this;
+				//loadGUI("IncomesReportFormGUI", false);
 			} catch (Exception e) {
 				// lblMsg.setText("Loader failed");
 				e.printStackTrace();
@@ -225,7 +184,18 @@ public class ReportSelectorGUIController extends ParentGUIController {
 
 		else if (TypeCB.getValue().equals("Client complaimnts histogram")) {
 			try {
-				loadGUI("HistogramOfCustomerComplaintsFormGUI", false);
+				Context.prevGUI = this;
+				//loadGUI("HistogramOfCustomerComplaintsFormGUI", false);
+			} catch (Exception e) {
+				// lblMsg.setText("Loader failed");
+				e.printStackTrace();
+			}
+			// Context.fac.orderReport.produceOrderReport(date, 1);
+		}
+		else if (TypeCB.getValue().equals("Client complaimnts histogram")) {
+			try {
+				Context.prevGUI = this;
+				//loadGUI("HistogramOfCustomerComplaintsFormGUI", false);
 			} catch (Exception e) {
 				// lblMsg.setText("Loader failed");
 				e.printStackTrace();
@@ -248,15 +218,48 @@ public class ReportSelectorGUIController extends ParentGUIController {
 		 */
 		
 		if (Context.getUser().getPermissions().equals(User.UserType.ChainStoreManager)) {
+			@SuppressWarnings("deprecation")
+			Date date1 = new Date(YearCB1.getValue() - 1900, MonthCB1.getValue() - 1, DayCB1.getValue());
 			for (int i = 0; i < this.stores.size(); i++) {
 				if (this.stores.get(i).getName().equals(this.StoreCB1.getValue()))
 					n1 = this.stores.get(i).getStoreID();
 			}
 			if(this.StoreCB1.getValue()!=null&&this.TypeCB1.getValue()!=null)
 			{
-				//TODO Make reports for the second
+				if (this.TypeCB1.getValue().equals("Orders Report")) {
+					try {
+						Context.prevGUI = this;
+						// loadGUI("OrderReportFormGUI", false);
+					} catch (Exception e) {
+						// lblMsg.setText("Loader failed");
+						e.printStackTrace();
+					}
+					Context.fac.orderReport.produceOrderReport(date1, n1);
+				}
+
+				else if (TypeCB1.getValue().equals("Incomes Report")) {
+					try {
+						loadGUI("IncomesReportFormGUI", false);
+					} catch (Exception e) {
+						// lblMsg.setText("Loader failed");
+						e.printStackTrace();
+					}
+					Context.fac.incomesReport.ProduceIncomesReport(date1, n1);
+				}
+
+				else if (TypeCB.getValue().equals("Client complaimnts histogram")) {
+					try {
+						loadGUI("HistogramOfCustomerComplaintsFormGUI", false);
+					} catch (Exception e) {
+						// lblMsg.setText("Loader failed");
+						e.printStackTrace();
+					}
+					// Context.fac.orderReport.produceOrderReport(date1, n1);
+				}
 			}
 		}
+		askforreport.setVisible(false);
+		btnHide.setVisible(false);
 	}
 
 	public void setStores(ArrayList<Store> stores) {
@@ -294,6 +297,7 @@ public class ReportSelectorGUIController extends ParentGUIController {
 				}
 			});
 			paneorder1.setVisible(true);
+			oReports.remove(0);
 		} else {
 			Platform.runLater(new Runnable() {
 				@Override
@@ -311,6 +315,7 @@ public class ReportSelectorGUIController extends ParentGUIController {
 				}
 			});
 			paneorder11.setVisible(true);
+			oReports.remove(1);
 		}
 	}
 
@@ -324,4 +329,10 @@ public class ReportSelectorGUIController extends ParentGUIController {
 		}
 
 	}
+	
+	public void Backtomainmenuhandler (ActionEvent event) throws Exception
+	{
+		super.loadMainMenu();
+	}
 }
+
