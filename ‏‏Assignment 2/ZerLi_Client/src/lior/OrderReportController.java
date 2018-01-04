@@ -28,6 +28,7 @@ import lior.interfaces.IOrderReportController;
 public class OrderReportController extends ParentController implements IOrderReportController {
 	private OrderReport[] oReports = new OrderReport[2];
 	private Date rDate, startDate;
+	int flag=-1;
 
 	@Override
 	public void handleGet(ArrayList<Object> obj) {
@@ -118,6 +119,8 @@ public class OrderReportController extends ParentController implements IOrderRep
 
 	public void setPIOs(ArrayList<ProductInOrder> products) {
 		int ind = 1;
+		if(flag==-1)
+			flag=0;
 		if(Context.fac.prodInOrder.isAllPIOsFromSameOrder(products)==false)
 			return;
 		for (Order order : oReports[0].getOrders()) {
@@ -155,7 +158,15 @@ public class OrderReportController extends ParentController implements IOrderRep
 			sumType.set(indx, sumType.get(indx)+products.get(j).getFinalPrice());
 		}
 		ArrayList<OrderReport> ar = new ArrayList<>();
+		flag++;
+		oReports[ind].setCounterPerType(cntType);
+		oReports[ind].setSumPerType(sumType);
 		ar.add(oReports[ind]);
+		if(flag==oReports[ind].getOrders().size())
+		{
+			oReports[ind]=null;
+			flag=-1;
+		}
 		sendOrderReports(ar);
 	}
 }
