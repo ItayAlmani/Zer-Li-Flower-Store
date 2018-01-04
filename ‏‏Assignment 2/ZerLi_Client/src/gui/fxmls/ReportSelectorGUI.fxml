@@ -8,9 +8,9 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="468.0" prefWidth="589.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lior.gui.controllers.ReportSelectorGUIController">
+<AnchorPane fx:id="paneAll" prefHeight="468.0" prefWidth="340.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lior.gui.controllers.ReportSelectorGUIController">
    <children>
-      <Label layoutX="205.0" text="Reports">
+      <Label layoutX="216.0" layoutY="-5.0" prefHeight="45.0" prefWidth="133.0" text="Reports">
          <font>
             <Font name="David Bold" size="39.0" />
          </font>
@@ -20,23 +20,13 @@
             <Font size="14.0" />
          </font>
       </Label>
-      <Label fx:id="lblReport2" layoutX="354.0" layoutY="13.0" text="Report 2" visible="false">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Label>
-      <Button id="askforreport" fx:id="askforreport" layoutX="190.0" layoutY="118.0" mnemonicParsing="false" onAction="#askforreportHandler" text="Confirm" />
-      <Button id="backbutton" fx:id="backbutton" layoutX="257.0" layoutY="118.0" mnemonicParsing="false" text="Back" />
+      <Button id="askforreport" fx:id="askforreport" layoutX="21.0" layoutY="118.0" mnemonicParsing="false" onAction="#askforreportHandler" text="Confirm" />
+      <Button id="backbutton" fx:id="backbutton" layoutX="99.0" layoutY="118.0" mnemonicParsing="false" text="Back" />
       <ComboBox fx:id="StoreCB" layoutX="7.0" layoutY="40.0" promptText="Store" />
       <ComboBox fx:id="TypeCB" layoutX="132.0" layoutY="40.0" prefWidth="100.0" promptText="Type" />
       <ComboBox fx:id="DayCB" layoutX="7.0" layoutY="74.0" promptText="Day" />
       <ComboBox fx:id="MonthCB" layoutX="80.0" layoutY="74.0" promptText="Month" />
       <ComboBox fx:id="YearCB" layoutX="167.0" layoutY="74.0" promptText="Year" />
-      <ComboBox fx:id="YearCB1" layoutX="464.0" layoutY="72.0" promptText="Year" visible="false" />
-      <ComboBox fx:id="MonthCB1" layoutX="377.0" layoutY="72.0" promptText="Month" visible="false" />
-      <ComboBox fx:id="DayCB1" layoutX="304.0" layoutY="72.0" promptText="Day" visible="false" />
-      <ComboBox fx:id="TypeCB1" layoutX="429.0" layoutY="38.0" prefWidth="100.0" promptText="Type" visible="false" />
-      <ComboBox fx:id="StoreCB1" layoutX="304.0" layoutY="38.0" promptText="Store" visible="false" />
       <AnchorPane fx:id="paneorder1" layoutX="3.0" layoutY="158.0" prefHeight="303.0" prefWidth="303.0" visible="false">
          <children>
             <Label fx:id="lblBBousum1" layoutX="220.0" layoutY="182.0" prefHeight="17.0" prefWidth="41.0" />
@@ -86,7 +76,21 @@
             </Label>
          </children>
       </AnchorPane>
-      <Button fx:id="btnHide" alignment="CENTER" layoutX="310.0" layoutY="118.0" mnemonicParsing="false" onAction="#hideReport2" text="Hide Report 2" textAlignment="CENTER" visible="false" />
+      <Button fx:id="btnHide" alignment="CENTER" layoutX="246.0" layoutY="118.0" mnemonicParsing="false" onAction="#hideReport2" text="Ask for two reports" textAlignment="CENTER" visible="false" />
+      <AnchorPane fx:id="paneReport2" layoutX="338.0" layoutY="13.0" prefHeight="133.0" prefWidth="261.0" visible="false">
+         <children>
+            <ComboBox fx:id="YearCB1" layoutX="181.0" layoutY="58.0" promptText="Year" />
+            <ComboBox fx:id="MonthCB1" layoutX="92.0" layoutY="59.0" promptText="Month" />
+            <ComboBox fx:id="DayCB1" layoutX="14.0" layoutY="59.0" promptText="Day" />
+            <ComboBox fx:id="TypeCB1" layoutX="147.0" layoutY="29.0" prefWidth="100.0" promptText="Type" />
+            <ComboBox fx:id="StoreCB1" layoutX="14.0" layoutY="29.0" promptText="Store" />
+            <Label fx:id="lblReport2" layoutX="14.0" layoutY="4.0" text="Report 2">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
    </children>
    <opaqueInsets>
       <Insets />

@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.math.BigInteger;
 import java.net.URL;
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -25,6 +24,12 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Border;
+import javafx.scene.layout.BorderStroke;
+import javafx.scene.layout.BorderStrokeStyle;
+import javafx.scene.layout.BorderWidths;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 public class ReportSelectorGUIController extends ParentGUIController {
@@ -114,6 +119,8 @@ public class ReportSelectorGUIController extends ParentGUIController {
 	Label lblReport2;
 	@FXML
 	Button btnHide;
+	@FXML AnchorPane paneAll;
+	@FXML AnchorPane paneReport2;
 
 	public void start(Stage stage) throws IOException {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/fxmls/ReportSelectorGUI.fxml"));
@@ -128,6 +135,8 @@ public class ReportSelectorGUIController extends ParentGUIController {
 	public void initialize(URL location, ResourceBundle resources) {
 		super.initialize(location, resources);
 		Context.currentGUI = this;
+		paneorder1.setBorder(new Border(new BorderStroke(Color.BLACK,BorderStrokeStyle.SOLID,CornerRadii.EMPTY,BorderWidths.DEFAULT)));
+		paneorder11.setBorder(new Border(new BorderStroke(Color.BLUE,BorderStrokeStyle.SOLID,CornerRadii.EMPTY,BorderWidths.DEFAULT)));
 		DateFormat day = new SimpleDateFormat("dd");
 		DateFormat Month = new SimpleDateFormat("MM");
 		DateFormat Year = new SimpleDateFormat("yyyy");
@@ -158,7 +167,6 @@ public class ReportSelectorGUIController extends ParentGUIController {
 			e.printStackTrace();
 		}
 		if (Context.getUser().getPermissions().equals(User.UserType.ChainStoreManager)) {
-			lblReport2.setVisible(true);
 			str = Year.format(date);
 			for (int i = 1980; i <= Integer.parseInt(str); i++)
 				YearCB1.getItems().add(i);
@@ -192,8 +200,6 @@ public class ReportSelectorGUIController extends ParentGUIController {
 		for (int i = 0; i < this.stores.size(); i++) {
 			if (this.stores.get(i).getName().equals(this.StoreCB.getValue()))
 				n = this.stores.get(i).getStoreID();
-			if (this.stores.get(i).getName().equals(this.StoreCB1.getValue()))
-				n1 = this.stores.get(i).getStoreID();
 		}
 		if (this.TypeCB.getValue().equals("Orders Report")) {
 			try {
@@ -240,6 +246,17 @@ public class ReportSelectorGUIController extends ParentGUIController {
 		 * (Exception e) { //lblMsg.setText("Loader failed"); e.printStackTrace(); } //
 		 * Context.fac.orderReport.produceOrderReport(date1, n1); } }
 		 */
+		
+		if (Context.getUser().getPermissions().equals(User.UserType.ChainStoreManager)) {
+			for (int i = 0; i < this.stores.size(); i++) {
+				if (this.stores.get(i).getName().equals(this.StoreCB1.getValue()))
+					n1 = this.stores.get(i).getStoreID();
+			}
+			if(this.StoreCB1.getValue()!=null&&this.TypeCB1.getValue()!=null)
+			{
+				//TODO Make reports for the second
+			}
+		}
 	}
 
 	public void setStores(ArrayList<Store> stores) {
@@ -299,10 +316,10 @@ public class ReportSelectorGUIController extends ParentGUIController {
 
 	public void hideReport2(ActionEvent event) {
 		if (btnHide.getText().equals("Hide Report 2")) {
-			paneorder11.setVisible(false);
-			btnHide.setText("Show Report 2");
-		} else if (btnHide.getText().equals("Show Report 2")) {
-			paneorder11.setVisible(true);
+			paneReport2.setVisible(false);
+			btnHide.setText("Ask for two reports");
+		} else if (btnHide.getText().equals("Ask for two reports")) {
+			paneReport2.setVisible(true);
 			btnHide.setText("Hide Report 2");
 		}
 
