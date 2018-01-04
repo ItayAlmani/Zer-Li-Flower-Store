@@ -1,12 +1,8 @@
 package entities;
 
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.InputStream;
 import java.io.Serializable;
 import java.math.BigInteger;
-
-import javafx.scene.image.Image;
 
 public class Product implements Comparable<Product>, Serializable  {
 	private BigInteger prdID;
@@ -18,11 +14,11 @@ public class Product implements Comparable<Product>, Serializable  {
 	private String imageName;
 
 	public enum ProductType {
-		Bouquet, Single, Empty;
+		Bouquet, Single, Empty, FlowerArrangment, FloweringPlant, BridalBouquet, FlowersCluster;
 	}
 
 	public enum Color {
-		White, Yellow, Red, Gray, Purple, Blue, Green, Black, Orange, Brown;
+		White, Yellow, Red, Gray, Purple, Blue, Green, Black, Orange, Brown, Pink, Colorfull;
 	}
 
 	public Product() {
