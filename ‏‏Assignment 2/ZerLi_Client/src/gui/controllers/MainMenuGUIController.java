@@ -82,7 +82,7 @@ public class MainMenuGUIController extends ParentGUIController{
 	
 	public void showCatalog(ActionEvent event) throws Exception{
 		try {
-			loadGUI("CatalogGUI", false);
+			loadGUI("CatalogGUI", "ProductsPresentationCSS");
 		} catch (Exception e) {
 			lblMsg.setText("Loader failed");
 			e.printStackTrace();
@@ -143,7 +143,7 @@ public class MainMenuGUIController extends ParentGUIController{
 	
 	public void showCart(MouseEvent event) throws Exception{
 		try {
-			loadGUI("CartGUI", false);
+			loadGUI("CartGUI", "ProductsPresentationCSS");
 		} catch (Exception e) {
 			lblMsg.setText("Loader failed");
 			e.printStackTrace();

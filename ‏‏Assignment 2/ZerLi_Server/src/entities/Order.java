@@ -241,4 +241,8 @@ public class Order implements Serializable {
 	public void setPaymentMethod(PayMethod paymentMethod) {
 		this.paymentMethod = paymentMethod;
 	}
+	
+	public String getFinalPriceAsString() {
+		return ((Float)getFinalPrice()).toString() + "¤";
+	}
 }

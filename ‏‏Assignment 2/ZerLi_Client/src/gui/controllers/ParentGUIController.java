@@ -70,25 +70,20 @@ public abstract class ParentGUIController implements Initializable {
 			}
 		});
 	}
-
-	protected void loadGUI(String name, boolean withCSS) throws IOException{		
-		if(Context.clientConsole==null || Context.clientConsole.isConnected()==false) {
-			loadMainMenu();
-			return;
-		}
-		
+	
+	private void changeScene(String guiName, String cssName) throws IOException {
 		Stage primaryStage = Context.stage;
 		Scene scene = new Scene(
-				new FXMLLoader(getClass().getResource("/gui/fxmls/"+name+".fxml")).load()
+				new FXMLLoader(getClass().getResource("/gui/fxmls/"+guiName+".fxml")).load()
 				);
 		
-		if(withCSS==true)
-			scene.getStylesheets().add(getClass().getResource("/gui/css/"+name+".css").toExternalForm());
+		if(cssName!=null)
+			scene.getStylesheets().add(getClass().getResource("/gui/css/"+cssName+".css").toExternalForm());
 		else
 			scene.getStylesheets().add(getClass().getResource("/gui/css/ParentCSS.css").toExternalForm());
 		
 		primaryStage.setScene(scene);
-		primaryStage.setTitle(name.split("GUI")[0].trim());
+		primaryStage.setTitle(guiName.split("GUI")[0].trim());
 		if(lblMsgState!=null) {
 			changed=true;
 			lblMsgState=null;
@@ -105,6 +100,26 @@ public abstract class ParentGUIController implements Initializable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	protected void loadGUI(String guiName, String cssName) throws IOException{		
+		if(Context.clientConsole==null || Context.clientConsole.isConnected()==false) {
+			loadMainMenu();
+			return;
+		}
+		changeScene(guiName, cssName);
+	}
+
+	protected void loadGUI(String guiName, boolean withCSS) throws IOException{		
+		if(Context.clientConsole==null || Context.clientConsole.isConnected()==false) {
+			loadMainMenu();
+			return;
+		}
+		String cssName = null;
+		if(withCSS==true)
+			cssName=guiName.split("GUI")[0]+"CSS";
+		
+		changeScene(guiName, cssName);
 	}
 	
 	public void loadMainMenu() {

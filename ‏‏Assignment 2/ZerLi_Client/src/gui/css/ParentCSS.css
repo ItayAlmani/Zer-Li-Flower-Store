@@ -3,3 +3,7 @@
 	-fx-alignment: center;
 	-fx-content-display: center ;
 }
+
+Node{
+	-fx-alignment: center ;
+}

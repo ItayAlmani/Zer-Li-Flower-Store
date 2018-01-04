@@ -81,4 +81,8 @@ public class ProductInOrder implements Serializable  {
 	public void setId(BigInteger id) {
 		this.id = id;
 	}
+	
+	public String getFinalPriceAsString() {
+		return ((Float)getFinalPrice()).toString() + "¤";
+	}
 }

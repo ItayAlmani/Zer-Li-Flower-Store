@@ -157,4 +157,8 @@ public class Product implements Comparable<Product>, Serializable  {
 	public int compareTo(Product o) {
 		return getPrdID().compareTo(o.getPrdID());
 	}
+	
+	public String getPriceAsString() {
+		return ((Float)getPrice()).toString() + "¤";
+	}
 }

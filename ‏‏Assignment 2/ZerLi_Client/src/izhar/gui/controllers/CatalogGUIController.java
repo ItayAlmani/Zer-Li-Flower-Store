@@ -18,6 +18,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.HPos;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
@@ -38,24 +39,12 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.util.Callback;
 
-public class CatalogGUIController extends ParentGUIController {
-	
-	private @FXML ScrollPane scroll;
-	private @FXML Pagination pagination;
-	private @FXML GridPane[] grids;
-	private @FXML Button[] btnViewProduct;
-	private @FXML ImageView[] imgImages;
-	private @FXML Label[] lblShowID, lblShowType, lblShowColor, lblShowPrice, lblShowName,
-			lblTitleID, lblTitleType, lblTitleColor, lblTitlePrice, lblTitleName;
-	private @FXML Label lblMsg;
-	private @FXML VBox vbox;
-	
-	private ArrayList<Node> components = new ArrayList<>();
-	
-	private Button btnBack;
-	
+public class CatalogGUIController extends ProductsPresentationGUIController {
 	private ArrayList<Product> productsInCatalog = new ArrayList<>();
     
     @Override
@@ -82,34 +71,12 @@ public class CatalogGUIController extends ParentGUIController {
     public void setProducts(ArrayList<Product> prds) {	
     	components.clear();
     	productsInCatalog = prds;
-		/* The GridPanes which include the all data of all products */
-		grids = new GridPane[prds.size()];
-		
-		/* The labels which include each data of all products */
-		lblShowID = lblShowName = lblShowType = lblShowColor = lblShowPrice = new Label[prds.size()];
-		
-		/* The labels which indicates the title of each data of all products */
-		lblTitleID = lblTitleName = lblTitleType = lblTitleColor = lblTitlePrice = new Label[prds.size()];
-		
-		/* The images of all products */
-		imgImages= new ImageView[prds.size()];
-		
-		/* The order buttons of all products */
-		btnViewProduct = new Button[prds.size()];
-		
-    	productsInCatalog = prds;
-    	
+		initArrays(prds.size());
     	
     	pagination  = new Pagination(productsInCatalog.size(), 0);
     	int i = 0;
 		for (Product p : prds) {
-			setGridPane(i, p);
-			pagination .setPageFactory(new Callback<Integer, Node>() {
-	            @Override
-	            public Node call(Integer pageIndex) {
-	            	 return grids[pageIndex];
-	            }
-			});
+			setVBox(i, p,addToCart());
 			i++;
 		}
 		
@@ -120,27 +87,10 @@ public class CatalogGUIController extends ParentGUIController {
 				btnBack.setOnAction(actionEvent -> loadMainMenu());
 				lblMsg = new Label();
 				
-				vbox.getChildren().addAll(pagination ,btnBack,lblMsg);
+				vbox.getChildren().addAll(pagination,btnBack,lblMsg);
 			}
 		});
-	}	
-    
-    /**
-     * adding cmp to it's GridPane and to the list of components
-     * @param cmp	-	the Label/Button which need to be 
-     * @param col	-	the column in the GridPane to add to
-     * @param row	-	the row in the GridPane to add to
-     * @param i		-	the index of the GridPane in grids
-     */
-    private void setComponent(Node cmp, int col, int row, int i) {
-    	grids[i].setConstraints(cmp, col, row);
-		components.add(cmp);
-		if(cmp instanceof Button)
-		{
-			Button btn = (Button)cmp;
-			btn.setOnAction(addToCart());
-		}
-    }
+	}
     
     private EventHandler<ActionEvent> addToCart(){
     	return new EventHandler<ActionEvent>() {
@@ -186,51 +136,6 @@ public class CatalogGUIController extends ParentGUIController {
     }
     
     public static void setPIOID(BigInteger id) {
+    	
 	}
-
-    private GridPane setGridPane(int i, Product p) {
-    	grids[i] = new GridPane();
-		/*grids[i].setBorder(new Border(new BorderStroke(Color.BLACK, 
-	            BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));*/
-		
-		imgImages[i] = new ImageView(new Image(getClass().getResourceAsStream(p.getImageName())));
-		grids[i].setConstraints(imgImages[i], 1, i);
-		components.add(imgImages[i]);
-		
-		lblTitleID[i]=new Label("ID: "); 
-		setComponent(lblTitleID[i] ,0, i+1, i);
-		lblShowID[i] = new Label(p.getPrdID().toString());
-		setComponent(lblShowID[i],1, i+1, i);
-		
-		lblTitleName[i]=new Label("Name: ");
-		setComponent(lblTitleName[i] ,0, i+2, i);
-		lblShowName[i] = new Label(p.getName());
-		setComponent(lblShowName[i],1, i+2, i);
-		
-		lblTitleType[i]=new Label("Type: ");
-		setComponent(lblTitleType[i] ,0, i+3, i);
-		lblShowType[i] = new Label(p.getType().toString());
-		setComponent(lblShowType[i],1, i+3, i);
-		
-		lblTitleColor[i]=new Label("Color: ");
-		setComponent(lblTitleColor[i] ,0, i+4, i);
-		lblShowColor[i] = new Label(p.getColor().toString());
-		setComponent(lblShowColor[i],1, i+4, i);
-		
-		lblTitlePrice[i]=new Label("Price: ");
-		setComponent(lblTitlePrice[i] ,0, i+5, i);
-		lblShowPrice[i] = new Label(((Float)p.getPrice()).toString() + "¤");
-		setComponent(lblShowPrice[i],1, i+5, i);
-		
-		btnViewProduct[i] = new Button("Add to cart");
-		btnViewProduct[i].setUserData(i);
-		setComponent(btnViewProduct[i],1, i+6, i);
-		
-		grids[i].getChildren().addAll(components);
-		for (Node node : components)
-			grids[i].setHalignment(node, HPos.CENTER);
-		
-		components.clear();
-		return grids[i];
-    }
 }

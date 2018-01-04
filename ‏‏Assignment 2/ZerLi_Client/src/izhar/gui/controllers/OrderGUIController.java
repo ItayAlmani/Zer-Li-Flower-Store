@@ -35,7 +35,7 @@ public class OrderGUIController extends ParentGUIController {
 		lblOrderID.setText(ord.getOrderID().toString());
 		lblDelMethod.setText(ord.getDeliveryType().toString());
 		lblDelTime.setText(formatDateTime);
-		lblPayment.setText(((Float)ord.getFinalPrice()).toString());
+		lblPayment.setText(ord.getFinalPriceAsString());
 	}
 	
 	public void toMainMenu() {
