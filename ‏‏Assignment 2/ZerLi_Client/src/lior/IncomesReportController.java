@@ -23,12 +23,19 @@ import lior.interfaces.IIncomesReportController;
 
 public class IncomesReportController extends ParentController implements IIncomesReportController {
 
-	private IncomesReport iReport = new IncomesReport();
+	private IncomesReport[] iReport;
 	private Date rDate, startDate;
+	int ind;
 	
 	@Override
 	public void handleGet(ArrayList<Object> obj) {
 		// TODO Auto-generated method stub	
+	}
+	
+	public void initProduceIncomesReport(Date Reqdate, BigInteger storeID) throws ParseException
+	{
+		this.iReport = new IncomesReport[2];
+		ProduceIncomesReport(Reqdate, storeID);
 	}
 	
 	public void sendIncomeReports(ArrayList<IncomesReport> iReports) {
@@ -56,9 +63,16 @@ public class IncomesReportController extends ParentController implements IIncome
 	}
 
 	@Override
-	public IncomesReport ProduceIncomesReport(Date Reqdate, BigInteger storeID) throws ParseException {
-		iReport.setTotIncomes(0);
-		iReport.setStoreID(storeID);
+	public void ProduceIncomesReport(Date Reqdate, BigInteger storeID) throws ParseException {
+		int ind = 1;
+		if(this.iReport[0]==null)
+			ind = 0;
+		if(this.iReport[0]!=null&&this.iReport[1]!=null)
+			ind = 0;
+		iReport[ind]=new IncomesReport();
+		this.iReport[ind].setStoreID(storeID);
+		iReport[ind].setTotIncomes(0);
+		iReport[ind].setStoreID(storeID);
 		rDate=Reqdate;
 		startDate=new Date();
 		Calendar c = Calendar.getInstance(); 
@@ -72,16 +86,20 @@ public class IncomesReportController extends ParentController implements IIncome
 			System.err.println("IncomesReportController\n");
 			e.printStackTrace();
 		}
-		return null;
 	}
 
 	public void setOrders(ArrayList<Order> orders) {
-		this.iReport.setOrders(orders);
+		int ind = 1;
+		if(this.iReport[0].getOrders().size()==0)
+			ind = 0;
+		if(this.iReport[0].getOrders().size()!=0&&this.iReport[1].getOrders().size()!=0)
+			ind = 0;
+		this.iReport[ind].setOrders(orders);
 		rDate.setHours(23);
 		rDate.setMinutes(59);
 		rDate.setSeconds(59);
-		this.iReport.setStartdate(this.startDate);
-		this.iReport.setEnddate(this.rDate);
+		this.iReport[ind].setStartdate(this.startDate);
+		this.iReport[ind].setEnddate(this.rDate);
 		for(int i=0;i<orders.size();i++)
 		{
 			Date date = Date.from(orders.get(i).getDate().atZone(ZoneId.systemDefault()).toInstant());
@@ -102,10 +120,19 @@ public class IncomesReportController extends ParentController implements IIncome
 	}
 
 	public void setPIOs(ArrayList<ProductInOrder> products) {
-		ArrayList<Order> orders = iReport.getOrders();
-		double Totalincomessum=iReport.getTotIncomes();
-		iReport.setEnddate(rDate);
-		iReport.setStartdate(startDate);
+		int ind = 1;
+		if(Context.fac.prodInOrder.isAllPIOsFromSameOrder(products)==false)
+			return;
+		for (Order order : this.iReport[0].getOrders()) {
+			if(order.getOrderID().equals(products.get(0).getOrderID())) {
+				ind=0;
+				break;
+			}
+		}
+		ArrayList<Order> orders = iReport[ind].getOrders();
+		double Totalincomessum=iReport[ind].getTotIncomes();
+		iReport[ind].setEnddate(rDate);
+		iReport[ind].setStartdate(startDate);
 		if(Context.fac.prodInOrder.isAllPIOsFromSameOrder(products)==false)
 			return;
 		
@@ -124,9 +151,9 @@ public class IncomesReportController extends ParentController implements IIncome
 		{
 			Totalincomessum+=products.get(j).getFinalPrice();
 		}
-		iReport.setTotIncomes(Totalincomessum);
+		iReport[ind].setTotIncomes(Totalincomessum);
 		ArrayList<IncomesReport> ar = new ArrayList<>();
-		ar.add(iReport);
+		ar.add(iReport[ind]);
 		sendIncomeReports(ar);
 	}
 }

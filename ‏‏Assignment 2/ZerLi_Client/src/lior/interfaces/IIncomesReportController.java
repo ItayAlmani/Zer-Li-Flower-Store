@@ -17,7 +17,7 @@ public interface IIncomesReportController extends IParent {
 	 * @param storeID
 	 * @throws ParseException 
 	 */
-	IncomesReport ProduceIncomesReport(Date Reqdate, BigInteger storeID) throws ParseException;
+	void ProduceIncomesReport(Date Reqdate, BigInteger storeID) throws ParseException;
 	void sendIncomeReports(ArrayList<IncomesReport> iReports);
 	void setPIOs(ArrayList<ProductInOrder> products);
 }
