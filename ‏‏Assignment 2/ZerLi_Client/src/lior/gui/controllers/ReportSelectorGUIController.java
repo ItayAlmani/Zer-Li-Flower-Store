@@ -135,102 +135,91 @@ public class ReportSelectorGUIController implements Initializable {
 	}
 
 	public void askforreportHandler(ActionEvent event) throws Exception {
-		@SuppressWarnings("deprecation")
-		Date date = new Date(YearCB.getValue() - 1900, MonthCB.getValue() - 1, DayCB.getValue());
-		for (int i = 0; i < this.stores.size(); i++) {
-			if (this.stores.get(i).getName().equals(this.StoreCB.getValue()))
-				n = this.stores.get(i).getStoreID();
-		}
-		if (this.TypeCB.getValue().equals("Orders Report")) {
-			try {
-			} catch (Exception e) {
-				// lblMsg.setText("Loader failed");
-				e.printStackTrace();
-			}
-			Context.fac.orderReport.initproduceOrderReport(date, n);
-		}
-
-		else if (TypeCB.getValue().equals("Incomes Report")) {
-			try {
-				//loadGUI("IncomesReportFormGUI", false);
-			} catch (Exception e) {
-				// lblMsg.setText("Loader failed");
-				e.printStackTrace();
-			}
-			Context.fac.incomesReport.initProduceIncomesReport(date, n);
-		}
-
-		else if (TypeCB.getValue().equals("Client complaimnts histogram")) {
-			try {
-				//loadGUI("HistogramOfCustomerComplaintsFormGUI", false);
-			} catch (Exception e) {
-				// lblMsg.setText("Loader failed");
-				e.printStackTrace();
-			}
-			// Context.fac.orderReport.produceOrderReport(date, 1);
-		}
-		else if (TypeCB.getValue().equals("Client complaimnts histogram")) {
-			try {
-				//loadGUI("HistogramOfCustomerComplaintsFormGUI", false);
-			} catch (Exception e) {
-				// lblMsg.setText("Loader failed");
-				e.printStackTrace();
-			}
-			// Context.fac.orderReport.produceOrderReport(date, 1);
-		}
-		/*
-		 * if(Context.getUser().getPermissions().equals(User.UserType.ChainStoreManager)
-		 * ) {
-		 * 
-		 * @SuppressWarnings("deprecation") Date date1 = new
-		 * Date(YearCB1.getValue()-1900, MonthCB1.getValue()-1, DayCB1.getValue());
-		 * for(int i=0;i<this.stores.size();i++) {
-		 * if(this.stores.get(i).getName().equals(this.StoreCB1.getValue()))
-		 * n1=this.stores.get(i).getStoreID(); }
-		 * if(this.TypeCB1.getValue().equals("Orders Report")) { try {
-		 * Context.prevGUI=this; //loadGUI("OrderReportFormGUI", false); } catch
-		 * (Exception e) { //lblMsg.setText("Loader failed"); e.printStackTrace(); } //
-		 * Context.fac.orderReport.produceOrderReport(date1, n1); } }
-		 */
 		
-		if (Context.getUser().getPermissions().equals(User.UserType.ChainStoreManager)) {
+		if(TypeCB.getValue()!=null&&StoreCB.getValue()!=null) {
 			@SuppressWarnings("deprecation")
-			Date date1 = new Date(YearCB1.getValue() - 1900, MonthCB1.getValue() - 1, DayCB1.getValue());
+			Date date = new Date(YearCB.getValue() - 1900, MonthCB.getValue() - 1, DayCB.getValue());
 			for (int i = 0; i < this.stores.size(); i++) {
-				if (this.stores.get(i).getName().equals(this.StoreCB1.getValue()))
-					n1 = this.stores.get(i).getStoreID();
+				if (this.stores.get(i).getName().equals(this.StoreCB.getValue()))
+					n = this.stores.get(i).getStoreID();
 			}
-			if(this.StoreCB1.getValue()!=null&&this.TypeCB1.getValue()!=null)
-			{
-				if (this.TypeCB1.getValue().equals("Orders Report")) {
-					try {
-						// loadGUI("OrderReportFormGUI", false);
-					} catch (Exception e) {
-						// lblMsg.setText("Loader failed");
-						e.printStackTrace();
+			if (this.TypeCB.getValue().equals("Orders Report")) {
+				try {
+				} catch (Exception e) {
+					// lblMsg.setText("Loader failed");
+					e.printStackTrace();
+				}
+				Context.fac.orderReport.initproduceOrderReport(date, n);
+			}
+	
+			else if (TypeCB.getValue().equals("Incomes Report")) {
+				try {
+					//loadGUI("IncomesReportFormGUI", false);
+				} catch (Exception e) {
+					// lblMsg.setText("Loader failed");
+					e.printStackTrace();
+				}
+				Context.fac.incomesReport.initProduceIncomesReport(date, n);
+			}
+	
+			else if (TypeCB.getValue().equals("Client complaimnts histogram")) {
+				try {
+					//loadGUI("HistogramOfCustomerComplaintsFormGUI", false);
+				} catch (Exception e) {
+					// lblMsg.setText("Loader failed");
+					e.printStackTrace();
+				}
+				// Context.fac.orderReport.produceOrderReport(date, 1);
+			}
+			else if (TypeCB.getValue().equals("Client complaimnts histogram")) {
+				try {
+					//loadGUI("HistogramOfCustomerComplaintsFormGUI", false);
+				} catch (Exception e) {
+					// lblMsg.setText("Loader failed");
+					e.printStackTrace();
+				}
+				// Context.fac.orderReport.produceOrderReport(date, 1);
+			}
+	
+			if (Context.getUser().getPermissions().equals(User.UserType.ChainStoreManager)) {
+				@SuppressWarnings("deprecation")
+				Date date1 = new Date(YearCB1.getValue() - 1900, MonthCB1.getValue() - 1, DayCB1.getValue());
+				for (int i = 0; i < this.stores.size(); i++) {
+					if (this.stores.get(i).getName().equals(this.StoreCB1.getValue()))
+						n1 = this.stores.get(i).getStoreID();
+				}
+				if(this.StoreCB1.getValue()!=null&&this.TypeCB1.getValue()!=null)
+				{
+					if (this.TypeCB1.getValue().equals("Orders Report")) {
+						try {
+							// loadGUI("OrderReportFormGUI", false);
+						} catch (Exception e) {
+							// lblMsg.setText("Loader failed");
+							e.printStackTrace();
+						}
+						if(TypeCB1.getValue().equals(TypeCB.getValue()))
+							Context.fac.orderReport.produceOrderReport(date1, n1);
+						else
+							Context.fac.orderReport.initproduceOrderReport(date, n);
 					}
-					if(TypeCB1.getValue().equals(TypeCB.getValue()))
-						Context.fac.orderReport.produceOrderReport(date1, n1);
-					else
-						Context.fac.orderReport.initproduceOrderReport(date, n);
-				}
-
-				else if (TypeCB1.getValue().equals("Incomes Report")) {
-					//Context.mainScene.loadGUI("IncomesReportFormGUI", false);
-					if(TypeCB1.getValue().equals(TypeCB.getValue()))
-						Context.fac.incomesReport.ProduceIncomesReport(date1, n1);
-					else
-						Context.fac.incomesReport.initProduceIncomesReport(date1, n1);
-				}
-
-				else if (TypeCB.getValue().equals("Client complaimnts histogram")) {
-					Context.mainScene.loadGUI("HistogramOfCustomerComplaintsFormGUI", false);
-					// Context.fac.orderReport.produceOrderReport(date1, n1);
+	
+					else if (TypeCB1.getValue().equals("Incomes Report")) {
+						//Context.mainScene.loadGUI("IncomesReportFormGUI", false);
+						if(TypeCB1.getValue().equals(TypeCB.getValue()))
+							Context.fac.incomesReport.ProduceIncomesReport(date1, n1);
+						else
+							Context.fac.incomesReport.initProduceIncomesReport(date1, n1);
+					}
+	
+					else if (TypeCB.getValue().equals("Client complaimnts histogram")) {
+						Context.mainScene.loadGUI("HistogramOfCustomerComplaintsFormGUI", false);
+						// Context.fac.orderReport.produceOrderReport(date1, n1);
+					}
 				}
 			}
+			askforreport.setVisible(false);
+			btnHide.setVisible(false);
 		}
-		askforreport.setVisible(false);
-		btnHide.setVisible(false);
 	}
 
 	public void setStores(ArrayList<Store> stores) {
