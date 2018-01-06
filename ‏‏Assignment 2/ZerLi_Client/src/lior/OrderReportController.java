@@ -5,12 +5,9 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.math.BigInteger;
 import java.text.ParseException;
-<<<<<<< HEAD
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-=======
->>>>>>> branch 'master' of https://github.com/ItayAlmani/Zer-Li-Flower-Store.git
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Calendar;
