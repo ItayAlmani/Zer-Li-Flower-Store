@@ -6,12 +6,14 @@ import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.ResourceBundle;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
+import com.jfoenix.controls.JFXDatePicker;
+import com.jfoenix.controls.JFXToggleButton;
 
 import common.Context;
 import entities.IncomesReport;
@@ -25,8 +27,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
+import javafx.scene.chart.BarChart;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Border;
@@ -36,10 +37,6 @@ import javafx.scene.layout.BorderWidths;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import javafx.util.Duration;
-import com.jfoenix.controls.JFXDatePicker;
-import com.jfoenix.controls.JFXToggleButton;
-import javafx.scene.chart.BarChart;
 
 public class ReportSelectorGUIController implements Initializable {
 
@@ -283,15 +280,15 @@ public class ReportSelectorGUIController implements Initializable {
 		IncomesReport rep = iReports.get(0);
 		@SuppressWarnings("deprecation")
 		LocalDate date = DatePicker1.getValue();
+		DateTimeFormatter formatters = DateTimeFormatter.ofPattern("dd/MM/uuuu");
 		if (rep.getStoreID().equals(n)&&cbTypePick1.getValue().equals("Incomes Report")&&date.equals(rep.getEnddate())) {
-			DateFormat ReqDate = new SimpleDateFormat("dd/MM/yyyy");
 			Platform.runLater(new Runnable() {
 				@Override
 				public void run() {
 						String s=String.valueOf(rep.getTotIncomes());
 						lblStoreID1.setText(rep.getStoreID().toString());
-						lblEndDate1.setText(ReqDate.format(rep.getEnddate()));
-						lblStartDate1.setText(ReqDate.format(rep.getStartdate()));
+						lblEndDate1.setText(rep.getEnddate().format(formatters));
+						lblStartDate1.setText(rep.getStartdate().format(formatters));
 						lblTotIncome1.setText(s);
 				}
 			});
@@ -306,8 +303,8 @@ public class ReportSelectorGUIController implements Initializable {
 				public void run() {
 					String s=String.valueOf(rep.getTotIncomes());
 					lblStoreID2.setText(rep.getStoreID().toString());
-					lblEndDate2.setText(ReqDate.format(rep.getEnddate()));
-					lblStartDate2.setText(ReqDate.format(rep.getStartdate()));
+					lblEndDate2.setText(rep.getEnddate().format(formatters));
+					lblStartDate2.setText(rep.getStartdate().format(formatters));
 					lblTotIncome2.setText(s);
 				}
 			});

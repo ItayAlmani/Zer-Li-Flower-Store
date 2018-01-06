@@ -87,7 +87,6 @@ public class OrderReportController extends ParentController implements IOrderRep
 		this.oReports[ind].setEnddate(this.rDate);
 		try {
 			Context.askingCtrl.add(this);
-			
 			Context.fac.order.getAllOrdersByStoreID(storeID);
 		} catch (IOException e) {
 			System.err.println("OrderReportController\n");

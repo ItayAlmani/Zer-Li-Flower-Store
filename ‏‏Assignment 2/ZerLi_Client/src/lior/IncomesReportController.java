@@ -59,7 +59,7 @@ public class IncomesReportController extends ParentController implements IIncome
 
 	}
 
-	@Override
+	
 	public void ProduceIncomesReport(LocalDate date, BigInteger storeID) throws ParseException {
 		int ind = 1;
 		if(this.iReport[0]==null)
@@ -93,9 +93,9 @@ public class IncomesReportController extends ParentController implements IIncome
 	public void setOrders(ArrayList<Order> orders) {
 		int flag=0;
 		int ind = 1;
-		if(iReport[0].getOrders()==null || this.iReport[0].getOrders().size()==0)
+		if(/*iReport[0].getOrders()==null || */this.iReport[0].getOrders().size()==0)
 			ind = 0;
-		if(iReport[0].getOrders()!=null && 
+		if(/*iReport[0].getOrders()!=null &&*/ 
 				this.iReport[0].getOrders().size()!=0&&this.iReport[1].getOrders().size()!=0)
 			ind = 0;
 		this.iReport[ind].setOrders(orders);
@@ -160,9 +160,4 @@ public class IncomesReportController extends ParentController implements IIncome
 		sendIncomeReports(ar);
 	}
 
-	@Override
-	public void ProduceIncomesReport(Date Reqdate, BigInteger storeID) throws ParseException {
-		// TODO Auto-generated method stub
-		
-	}
 }
