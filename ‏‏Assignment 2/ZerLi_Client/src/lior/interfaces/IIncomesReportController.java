@@ -2,6 +2,7 @@ package lior.interfaces;
 
 import java.math.BigInteger;
 import java.text.ParseException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -20,4 +21,5 @@ public interface IIncomesReportController extends IParent {
 	void ProduceIncomesReport(Date Reqdate, BigInteger storeID) throws ParseException;
 	void sendIncomeReports(ArrayList<IncomesReport> iReports);
 	void setPIOs(ArrayList<ProductInOrder> products);
+	void ProduceIncomesReport(LocalDate date, BigInteger storeID) throws ParseException;
 }
