@@ -125,7 +125,6 @@ public class ReportSelectorGUIController implements Initializable {
 
 	public void askforreportHandler(ActionEvent event) throws Exception {
 		//paneAll.getChildren().add(paneReport2);
-		Context.stage.getScene().getWindow().sizeToScene();
 		if(cbTypePick1.getValue()!=null&&cbStorePick1.getValue()!=null) {
 			@SuppressWarnings("deprecation")
 			LocalDate date = DatePicker1.getValue();

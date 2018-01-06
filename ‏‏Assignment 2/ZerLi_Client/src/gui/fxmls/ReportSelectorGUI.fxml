@@ -11,15 +11,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<<<<<<< HEAD
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lior.gui.controllers.ReportSelectorGUIController">
-=======
-<<<<<<< HEAD
-<AnchorPane prefHeight="468.0" prefWidth="604.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lior.gui.controllers.ReportSelectorGUIController">
-=======
 <AnchorPane fx:id="paneAll" prefHeight="468.0" prefWidth="604.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lior.gui.controllers.ReportSelectorGUIController">
->>>>>>> branch 'master' of https://github.com/ItayAlmani/Zer-Li-Flower-Store.git
->>>>>>> branch 'master' of https://github.com/ItayAlmani/Zer-Li-Flower-Store.git
    <children>
       <Label layoutX="99.0" layoutY="14.0" text="Report 1">
          <font>
@@ -148,11 +140,4 @@
          </children>
       </AnchorPane>
    </children>
-<<<<<<< HEAD
 </AnchorPane>
-=======
-   <opaqueInsets>
-      <Insets />
-   </opaqueInsets>
-</AnchorPane>
->>>>>>> branch 'master' of https://github.com/ItayAlmani/Zer-Li-Flower-Store.git

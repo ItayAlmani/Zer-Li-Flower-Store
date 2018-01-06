@@ -13,9 +13,13 @@ import java.util.Scanner;
 
 import controllers.OrderController;
 import controllers.ProductInOrderController;
+import controllers.SurveyController;
+import controllers.SurveyReportController;
 import entities.CSMessage;
 import entities.Order;
 import entities.ProductInOrder;
+import entities.Survey;
+import entities.SurveyReport;
 import entities.CSMessage.MessageType;
 
 public class ServerController {
@@ -66,6 +70,18 @@ public class ServerController {
 					Order ord = (Order)(csMsg.getObjs().get(0));
 					objArr.clear();
 					objArr.add(OrderController.addOrder(ord));
+				}
+				else if(csMsg.getClasz().equals(Survey.class) && 
+						csMsg.getObjs().get(0) instanceof Survey) {
+					Survey survey = (Survey)(csMsg.getObjs().get(0));
+					objArr.clear();
+					objArr.add(SurveyController.addSurvey(survey));	
+				}
+				else if(csMsg.getClasz().equals(SurveyReport.class) && 
+						csMsg.getObjs().get(0) instanceof SurveyReport) {
+					SurveyReport sr = (SurveyReport)(csMsg.getObjs().get(0));
+					objArr.clear();
+					objArr.add(SurveyReportController.addSurveyReport(sr));
 				}
 				else if(csMsg.getClasz().equals(ProductInOrder.class) &&
 						csMsg.getObjs().get(0) instanceof ProductInOrder) {

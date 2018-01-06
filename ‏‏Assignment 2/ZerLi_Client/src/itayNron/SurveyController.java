@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import common.Context;
 import controllers.ParentController;
 import entities.CSMessage;
+import entities.Order;
 import entities.CSMessage.MessageType;
 import entities.Store;
 import entities.Survey;
@@ -20,21 +21,10 @@ import itayNron.interfaces.ISurvey;
 public class SurveyController extends ParentController implements ISurvey {
 
 	@Override
-	public void addSurvey(Survey survey) {
+	public void addSurvey(Survey survey) throws IOException {
 		myMsgArr.clear();
-		String query = "INSERT INTO survey(storeID, answer1, answer2, answer3, answer4, answer5, answer6, date, type) " + 
-				" VALUES ('" + survey.getStoreID().toString()+"',";
-		for (Float ans : survey.getSurveyAnswerers())
-			query+="'"+ans+"', ";
-		query+="'"+java.sql.Date.valueOf(survey.getDate())+"','"+
-			survey.getType().toString()+"')";
-		myMsgArr.add(query);
-		try {
-			Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.UPDATE, myMsgArr));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		myMsgArr.add(survey);
+		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.INSERT, myMsgArr,Survey.class));
 	}
 
 	@Override
