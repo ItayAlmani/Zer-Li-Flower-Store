@@ -8,36 +8,28 @@ import java.util.ArrayList;
 
 import common.Context;
 import controllers.ParentController;
+import entities.CSMessage;
 import entities.Survey;
 import entities.Survey.SurveyType;
 import entities.SurveyReport;
+import entities.CSMessage.MessageType;
 import itayNron.interfaces.ISurveyReport;
 
 public class SurveyReportController extends ParentController implements ISurveyReport {
 
 	@Override
-	public void addSurveyReport(SurveyReport surveyReport) 
-	{
-	/*	myMsgArr.clear();
-		String query = "INSERT INTO surveyreport(surveyID,verbalReport) " + 
-				" VALUES ('" + survey.getStoreID().toString()+"',";
-		for (Float ans : survey.getSurveyAnswerers())
-			query+="'"+ans+"', ";
-		query+="'"+java.sql.Date.valueOf(survey.getDate())+"','"+
-			survey.getType().toString()+"')";
-		myMsgArr.add(query);
-		try {
-			Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.UPDATE, myMsgArr));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}*/
+	public void addSurveyReport(SurveyReport sr) throws IOException {
+		myMsgArr.clear();
+		myMsgArr.add(sr);
+		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.INSERT, myMsgArr,SurveyReport.class));
 	}
 
 	@Override
 	public void getSurveyReportsByStore(int storeid) {
 		
 	}
+	
+	
 	
 	
 
@@ -94,4 +86,6 @@ public class SurveyReportController extends ParentController implements ISurveyR
 			e2.printStackTrace();
 		}
 	}
+
+	
 }

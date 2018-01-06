@@ -17,7 +17,7 @@ public interface ISurvey extends IParent {
 	 * 
 	 * @param survey
 	 */
-	void addSurvey(Survey survey);
+	void addSurvey(Survey survey) throws IOException;
 
 	/**
 	 * 

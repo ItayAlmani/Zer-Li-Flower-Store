@@ -14,13 +14,15 @@ public interface ISurveyReport extends IParent {
 	 * 
 	 * @param surveyReport
 	 */
-	void addSurveyReport(SurveyReport surveyReport);
+	void addSurveyReport(SurveyReport surveyReport) throws IOException;
 
 	/**
 	 * 
 	 * @param storeid
 	 */
 	void getSurveyReportsByStore(int storeid);
+	
+	
 
 	void sendSurveyReports(ArrayList<SurveyReport> surveyReports);
 	

@@ -73,7 +73,7 @@
                </font>
             </Label>
             <TextArea fx:id="txtVerbal" prefHeight="200.0" prefWidth="200.0" />
-            <Button mnemonicParsing="false" text="Send" />
+            <Button fx:id="btnSend" mnemonicParsing="false" onAction="#sendSurveyReport" text="Send" />
          </children>
       </VBox>
       <Button mnemonicParsing="false" onAction="#loadMainMenu" text="Back" />

@@ -5,6 +5,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.math.BigInteger;
 import java.text.ParseException;
+import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -20,7 +21,7 @@ import lior.interfaces.IIncomesReportController;
 public class IncomesReportController extends ParentController implements IIncomesReportController {
 
 	private IncomesReport[] iReport;
-	private Date rDate, startDate;
+	private LocalDate rDate, startDate;
 	int ind;
 	
 	@Override
@@ -28,10 +29,10 @@ public class IncomesReportController extends ParentController implements IIncome
 		// TODO Auto-generated method stub	
 	}
 	
-	public void initProduceIncomesReport(Date Reqdate, BigInteger storeID) throws ParseException
+	public void initProduceIncomesReport(LocalDate date, BigInteger storeID) throws ParseException
 	{
 		this.iReport = new IncomesReport[2];
-		ProduceIncomesReport(Reqdate, storeID);
+		ProduceIncomesReport(date, storeID);
 	}
 	
 	public void sendIncomeReports(ArrayList<IncomesReport> iReports) {
@@ -59,7 +60,7 @@ public class IncomesReportController extends ParentController implements IIncome
 	}
 
 	@Override
-	public void ProduceIncomesReport(Date Reqdate, BigInteger storeID) throws ParseException {
+	public void ProduceIncomesReport(LocalDate date, BigInteger storeID) throws ParseException {
 		int ind = 1;
 		if(this.iReport[0]==null)
 			ind = 0;
@@ -69,15 +70,15 @@ public class IncomesReportController extends ParentController implements IIncome
 		this.iReport[ind].setStoreID(storeID);
 		iReport[ind].setTotIncomes(0);
 		iReport[ind].setStoreID(storeID);
-		rDate=Reqdate;
-		startDate=new Date();
+		rDate=date;
+		//startDate=new Date();
 		Calendar c = Calendar.getInstance(); 
-		c.setTime(Reqdate); 
+		c.setTime(Date.from(rDate.atStartOfDay(ZoneId.systemDefault()).toInstant()));
 		c.add(Calendar.MONTH, -3);
-		startDate = c.getTime();
-		rDate.setHours(23);
+		startDate = c.getTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		/*rDate.setHours(23);
 		rDate.setMinutes(59);
-		rDate.setSeconds(59);
+		rDate.setSeconds(59);*/
 		this.iReport[ind].setStartdate(this.startDate);
 		this.iReport[ind].setEnddate(this.rDate);
 		try {
@@ -92,23 +93,17 @@ public class IncomesReportController extends ParentController implements IIncome
 	public void setOrders(ArrayList<Order> orders) {
 		int flag=0;
 		int ind = 1;
-<<<<<<< HEAD
 		if(iReport[0].getOrders()==null || this.iReport[0].getOrders().size()==0)
 			ind = 0;
 		if(iReport[0].getOrders()!=null && 
 				this.iReport[0].getOrders().size()!=0&&this.iReport[1].getOrders().size()!=0)
-=======
-		if(this.iReport[0].getOrders().size()==0)
-			ind = 0;
-		if(this.iReport[0].getOrders().size()!=0&&this.iReport[1].getOrders().size()!=0)
->>>>>>> branch 'master' of https://github.com/ItayAlmani/Zer-Li-Flower-Store.git
 			ind = 0;
 		this.iReport[ind].setOrders(orders);
 		for(int i=0;i<orders.size();i++)
 		{
 			Date date = Date.from(orders.get(i).getDate().atZone(ZoneId.systemDefault()).toInstant());
-			if(date.after(iReport[ind].getEnddate())==false&&
-					date.after(iReport[ind].getStartdate())
+			if(date.after(Date.from(iReport[ind].getEnddate().atStartOfDay(ZoneId.systemDefault()).toInstant()))==false&&
+					date.after(Date.from(iReport[ind].getStartdate().atStartOfDay(ZoneId.systemDefault()).toInstant()))
 					//&& orders.get(i).getOrderStatus().equals(OrderStatus.Paid)
 					)
 			{
@@ -163,5 +158,11 @@ public class IncomesReportController extends ParentController implements IIncome
 		ArrayList<IncomesReport> ar = new ArrayList<>();
 		ar.add(iReport[ind]);
 		sendIncomeReports(ar);
+	}
+
+	@Override
+	public void ProduceIncomesReport(Date Reqdate, BigInteger storeID) throws ParseException {
+		// TODO Auto-generated method stub
+		
 	}
 }

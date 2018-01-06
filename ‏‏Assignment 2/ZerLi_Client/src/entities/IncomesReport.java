@@ -1,5 +1,6 @@
 package entities;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -7,19 +8,19 @@ public class IncomesReport extends QuarterlyReport {
 
 	private ArrayList<Order> orders=new ArrayList<>();
 	private double TotIncomes=-1;
-	private Date Startdate=new Date();
-	private Date Enddate=new Date();
+	private LocalDate Startdate;
+	private LocalDate Enddate;
 
-	public Date getStartdate() {
+	public LocalDate getStartdate() {
 		return Startdate;
 	}
-	public void setStartdate(Date startdate) {
+	public void setStartdate(LocalDate startdate) {
 		Startdate = startdate;
 	}
-	public Date getEnddate() {
+	public LocalDate getEnddate() {
 		return Enddate;
 	}
-	public void setEnddate(Date enddate) {
+	public void setEnddate(LocalDate enddate) {
 		Enddate = enddate;
 	}
 	public double getTotIncomes() {

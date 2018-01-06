@@ -1,5 +1,6 @@
 package itayNron.gui.controllers;
 
+import java.io.IOException;
 import java.math.BigInteger;
 import java.net.URL;
 import java.time.LocalDate;
@@ -33,7 +34,7 @@ public class SurveyGUIController implements Initializable {
 	private ObservableList<Float> list;
 	@FXML DatePicker dpDate;
 
-	@FXML public void sendSurvey(ActionEvent event) {
+	@FXML public void sendSurvey(ActionEvent event) throws IOException {
 		/*StoreWorker sw = Context.getUserAsStoreWorker();
 		if(sw == null)
 			return;*/
