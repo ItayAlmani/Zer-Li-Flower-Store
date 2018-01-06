@@ -9,8 +9,6 @@ import java.util.ArrayList;
 
 import com.mysql.jdbc.ResultSetMetaData;
 
-import controllers.ServerController;
-
 public class DataBase{
 	public Connection con;
 

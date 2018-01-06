@@ -11,8 +11,8 @@ public abstract class ParentController {
 	
 	public static void sendResultToClient(boolean response) {
 		if(response==true)
-			((ParentGUIController)Context.currentGUI).ShowSuccessMsg();
+			Context.mainScene.ShowSuccessMsg();
 		else
-			((ParentGUIController)Context.currentGUI).ShowErrorMsg();
+			Context.mainScene.ShowErrorMsg();
 	}
 }

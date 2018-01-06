@@ -1,44 +1,47 @@
 package kfir.gui.controllers;
 
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import org.controlsfx.control.textfield.AutoCompletionBinding;
 import org.controlsfx.control.textfield.TextFields;
+import org.controlsfx.glyphfont.FontAwesome.Glyph;
 import org.controlsfx.validation.ValidationSupport;
 import org.controlsfx.validation.Validator;
 
+import com.jfoenix.controls.JFXPasswordField;
+import com.jfoenix.controls.JFXTextField;
+
 import common.Context;
-import entities.Customer;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIcon;
+import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView;
 import entities.User;
-import entities.User.UserType;
-import gui.controllers.ParentGUIController;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.Scene;
-import javafx.scene.control.TextField;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
-import javafx.stage.Stage;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
+import javafx.scene.control.Label;
+import javafx.scene.layout.GridPane;
 public class LogInGUIController implements Initializable{
 	
-	private @FXML TextField txtUserName, txtPassword;
+	private @FXML JFXTextField txtUserName;
+	private @FXML JFXPasswordField txtPassword;
 	private @FXML Button btnLogIn;
-	private @FXML ImageView imgLogo;
+	private @FXML ImageView imgLogo, imgLogIn;
 	private String logoPath="/images/logos/img/logo3-0.png";
 	private boolean getAllUsers=true;
 	
@@ -91,14 +94,6 @@ public class LogInGUIController implements Initializable{
 		user.setConnected(true);
 		Context.fac.user.updateUser(user);
 		Context.mainScene.logInSuccess();
-	}
-	
-	public void start(Stage stage) throws IOException {
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/fxmls/LogInGUI.fxml"));
-		Scene scene = new Scene(loader.load());
-		stage.setTitle("Login");
-		stage.setScene(scene);
-		stage.show();
 	}
 	
 	@Override

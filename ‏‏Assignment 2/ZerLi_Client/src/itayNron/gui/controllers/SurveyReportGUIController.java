@@ -8,22 +8,22 @@ import java.util.ResourceBundle;
 
 import common.Context;
 import entities.SurveyReport;
-import gui.controllers.ParentGUIController;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 
 public class SurveyReportGUIController implements Initializable
 {
-
 	private @FXML TextField txtVerbalReport;
 	private @FXML Button btnSubmit;
+	private @FXML Button btnsend;
 	private @FXML Label l1;
 	private @FXML Label l2;
 	private @FXML Label l3;
@@ -34,6 +34,8 @@ public class SurveyReportGUIController implements Initializable
 	@FXML DatePicker dpDateEnd;
 	@FXML TextArea txtVerbal;
 	@FXML VBox vboxVerbal;
+	private SurveyReport sr;
+
 	
 
 	/**
@@ -45,11 +47,17 @@ public class SurveyReportGUIController implements Initializable
 		Context.fac.surveyReport.getSurveysForAnalays(dpDateStart.getValue(), dpDateEnd.getValue());
 	}
 	
+	@FXML public void sendSurveyReport(ActionEvent event) throws IOException
+	{
+		sr.setVerbalReport("bamba");
+		Context.fac.surveyReport.addSurveyReport(sr);
+	}
+	
 	public void setSurveyReports(ArrayList<SurveyReport> surveys) {
 		if(surveys!=null && surveys.size()!=0&&surveys.get(0)!=null) {
 			SurveyReport sr = surveys.get(0);
 			if(sr.getSurveyAnalyzes()!=null) {
-				float[] ans = sr.getSurveyAnalyzes().getSurveyAnswerers();
+				float [] ans = sr.getSurveyAnalyzes().getSurveyAnswerers();
 				Platform.runLater(new Runnable() {
 					@Override
 					public void run() {
@@ -76,8 +84,9 @@ public class SurveyReportGUIController implements Initializable
 	 * 
 	 * @param txtVerbalReport
 	 */
-	public void attachVerbalReport(TextField txtVerbalReport) {
-		// TODO - implement SurveyReportGUI.attachVerbalReport
+	public void attachVerbalReport(TextArea txtVerbalReport)
+	{
+		txtVerbalReport.getText();
 		throw new UnsupportedOperationException();
 	}
 

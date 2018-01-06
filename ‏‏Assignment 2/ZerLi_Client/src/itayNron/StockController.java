@@ -134,6 +134,5 @@ public class StockController extends ParentController implements IStock {
 		return new Stock(stckID, 
 				Context.fac.product.parse(prdID, name, type, price, color, inCatalog, imageURL),
 				quantity, storeID);
-	}
-	
+	}	
 }

@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane fx:id="paneAll" prefHeight="468.0" prefWidth="340.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lior.gui.controllers.ReportSelectorGUIController">
+<AnchorPane prefHeight="468.0" prefWidth="604.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lior.gui.controllers.ReportSelectorGUIController">
    <children>
       <Label layoutX="216.0" layoutY="-5.0" prefHeight="45.0" prefWidth="133.0" text="Reports">
          <font>
@@ -21,12 +21,53 @@
          </font>
       </Label>
       <Button id="askforreport" fx:id="askforreport" layoutX="21.0" layoutY="118.0" mnemonicParsing="false" onAction="#askforreportHandler" text="Confirm" />
-      <Button id="backbutton" fx:id="backbutton" layoutX="99.0" layoutY="118.0" mnemonicParsing="false" text="Back" onAction="#Backtomainmenuhandler" />
-      <ComboBox fx:id="StoreCB" layoutX="7.0" layoutY="40.0" promptText="Store" />
-      <ComboBox fx:id="TypeCB" layoutX="132.0" layoutY="40.0" prefWidth="100.0" promptText="Type" />
+      <Button id="backbutton" fx:id="backbutton" layoutX="99.0" layoutY="118.0" mnemonicParsing="false" onAction="#Backtomainmenuhandler" text="Back" />
+      <ComboBox fx:id="StoreCB" layoutX="7.0" layoutY="40.0" maxHeight="25.0" maxWidth="90.0" promptText="Store" />
+      <ComboBox fx:id="TypeCB" layoutX="108.0" layoutY="40.0" maxWidth="125.0" prefHeight="25.0" prefWidth="124.0" promptText="Type" />
       <ComboBox fx:id="DayCB" layoutX="7.0" layoutY="74.0" promptText="Day" />
       <ComboBox fx:id="MonthCB" layoutX="80.0" layoutY="74.0" promptText="Month" />
       <ComboBox fx:id="YearCB" layoutX="167.0" layoutY="74.0" promptText="Year" />
+      <AnchorPane fx:id="paneorder11" layoutX="306.0" layoutY="158.0" prefHeight="303.0" prefWidth="303.0" visible="false">
+         <children>
+            <Label fx:id="lblBBousum11" layoutX="220.0" layoutY="182.0" prefHeight="17.0" prefWidth="41.0" />
+            <Label fx:id="lblfPlntsum11" layoutX="220.0" layoutY="224.0" prefHeight="17.0" prefWidth="41.0" />
+            <Label fx:id="lblfArrnsum11" layoutX="220.0" layoutY="98.0" prefHeight="17.0" prefWidth="41.0" />
+            <Label fx:id="lblFClucnt11" layoutX="131.0" layoutY="137.0" prefHeight="17.0" prefWidth="41.0" />
+            <Label fx:id="lblBBoucnt11" layoutX="131.0" layoutY="182.0" prefHeight="17.0" prefWidth="41.0" />
+            <Label fx:id="lblfPlntcnt11" layoutX="132.0" layoutY="224.0" prefHeight="17.0" prefWidth="41.0" />
+            <Label fx:id="lblfArrncnt11" layoutX="131.0" layoutY="98.0" prefHeight="17.0" prefWidth="41.0" />
+            <Label fx:id="lblTotPrice11" layoutX="212.0" layoutY="63.0" text="Total price">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Label>
+            <Label fx:id="lblNumOford11" layoutX="96.0" layoutY="63.0" text="Number of orders">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Label>
+            <Label fx:id="lblFlowClu11" layoutX="11.0" layoutY="137.0" text="Flowers Cluster">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Label>
+            <Label fx:id="lblBridBou11" layoutX="12.0" layoutY="182.0" text="Bridal Bouquet">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Label>
+            <Label fx:id="lblFlopl11" layoutX="10.0" layoutY="224.0" text="Flowering Plant">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Label>
+            <Label fx:id="lblFloArr11" layoutX="11.0" layoutY="98.0" text="Flower Arrangment">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Label>
+            <Label fx:id="lblFClusum11" layoutX="220.0" layoutY="137.0" prefHeight="17.0" prefWidth="41.0" />
+            <Label layoutX="113.0" layoutY="21.0" text="Order Report" textFill="#3b05f7">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
       <AnchorPane fx:id="paneorder1" layoutX="3.0" layoutY="158.0" prefHeight="303.0" prefWidth="303.0" visible="false">
          <children>
             <Label fx:id="lblBBousum1" layoutX="220.0" layoutY="182.0" prefHeight="17.0" prefWidth="41.0" />
@@ -36,14 +77,32 @@
             <Label fx:id="lblBBoucnt1" layoutX="131.0" layoutY="182.0" prefHeight="17.0" prefWidth="41.0" />
             <Label fx:id="lblfPlntcnt1" layoutX="132.0" layoutY="224.0" prefHeight="17.0" prefWidth="41.0" />
             <Label fx:id="lblfArrncnt1" layoutX="131.0" layoutY="98.0" prefHeight="17.0" prefWidth="41.0" />
-            <Label fx:id="lblTotPrice1" layoutX="212.0" layoutY="63.0" text="Total price" />
-            <Label fx:id="lblNumOford1" layoutX="96.0" layoutY="63.0" text="Number of orders" />
-            <Label fx:id="lblFlowClu1" layoutX="11.0" layoutY="137.0" text="Flowers Cluster" />
-            <Label fx:id="lblBridBou1" layoutX="12.0" layoutY="182.0" text="Bridal Bouquet" />
-            <Label fx:id="lblFlopl1" layoutX="10.0" layoutY="224.0" text="Flowering Plant" />
-            <Label fx:id="lblFloArr1" layoutX="11.0" layoutY="98.0" text="Flower Arrangment" />
+            <Label fx:id="lblTotPrice1" layoutX="212.0" layoutY="63.0" text="Total price">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Label>
+            <Label fx:id="lblNumOford1" layoutX="96.0" layoutY="63.0" text="Number of orders">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Label>
+            <Label fx:id="lblFlowClu1" layoutX="11.0" layoutY="137.0" text="Flowers Cluster">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Label>
+            <Label fx:id="lblBridBou1" layoutX="12.0" layoutY="182.0" text="Bridal Bouquet">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Label>
+            <Label fx:id="lblFlopl1" layoutX="10.0" layoutY="224.0" text="Flowering Plant">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Label>
+            <Label fx:id="lblFloArr1" layoutX="11.0" layoutY="98.0" text="Flower Arrangment">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Label>
             <Label fx:id="lblFClusum1" layoutX="220.0" layoutY="137.0" prefHeight="17.0" prefWidth="41.0" />
-            <Label layoutX="103.0" layoutY="22.0" text="Order Report" textFill="#f80303">
+            <Label layoutX="103.0" layoutY="22.0" text="Order Report" textFill="#6af705">
                <font>
                   <Font name="System Bold" size="16.0" />
                </font>
@@ -53,40 +112,75 @@
             <Insets />
          </opaqueInsets>
       </AnchorPane>
-      <AnchorPane fx:id="paneorder11" layoutX="306.0" layoutY="158.0" prefHeight="303.0" prefWidth="303.0" visible="false" >
-         <children>
-            <Label fx:id="lblBBousum11" layoutX="220.0" layoutY="182.0" prefHeight="17.0" prefWidth="41.0" />
-            <Label fx:id="lblfPlntsum11" layoutX="220.0" layoutY="224.0" prefHeight="17.0" prefWidth="41.0" />
-            <Label fx:id="lblfArrnsum11" layoutX="220.0" layoutY="98.0" prefHeight="17.0" prefWidth="41.0" />
-            <Label fx:id="lblFClucnt11" layoutX="131.0" layoutY="137.0" prefHeight="17.0" prefWidth="41.0" />
-            <Label fx:id="lblBBoucnt11" layoutX="131.0" layoutY="182.0" prefHeight="17.0" prefWidth="41.0" />
-            <Label fx:id="lblfPlntcnt11" layoutX="132.0" layoutY="224.0" prefHeight="17.0" prefWidth="41.0" />
-            <Label fx:id="lblfArrncnt11" layoutX="131.0" layoutY="98.0" prefHeight="17.0" prefWidth="41.0" />
-            <Label fx:id="lblTotPrice11" layoutX="212.0" layoutY="63.0" text="Total price" />
-            <Label fx:id="lblNumOford11" layoutX="96.0" layoutY="63.0" text="Number of orders" />
-            <Label fx:id="lblFlowClu11" layoutX="11.0" layoutY="137.0" text="Flowers Cluster" />
-            <Label fx:id="lblBridBou11" layoutX="12.0" layoutY="182.0" text="Bridal Bouquet" />
-            <Label fx:id="lblFlopl11" layoutX="10.0" layoutY="224.0" text="Flowering Plant" />
-            <Label fx:id="lblFloArr11" layoutX="11.0" layoutY="98.0" text="Flower Arrangment" />
-            <Label fx:id="lblFClusum11" layoutX="220.0" layoutY="137.0" prefHeight="17.0" prefWidth="41.0" />
-            <Label layoutX="113.0" layoutY="21.0" text="Order Report" textFill="#f80303">
-               <font>
-                  <Font name="System Bold" size="16.0" />
-               </font>
-            </Label>
-         </children>
-      </AnchorPane>
-      <Button fx:id="btnHide" alignment="CENTER" layoutX="246.0" layoutY="118.0" mnemonicParsing="false" onAction="#hideReport2" text="Ask for two reports" textAlignment="CENTER" visible="false" />
       <AnchorPane fx:id="paneReport2" layoutX="338.0" layoutY="13.0" prefHeight="133.0" prefWidth="261.0" visible="false">
          <children>
             <ComboBox fx:id="YearCB1" layoutX="181.0" layoutY="58.0" promptText="Year" />
             <ComboBox fx:id="MonthCB1" layoutX="92.0" layoutY="59.0" promptText="Month" />
             <ComboBox fx:id="DayCB1" layoutX="14.0" layoutY="59.0" promptText="Day" />
-            <ComboBox fx:id="TypeCB1" layoutX="147.0" layoutY="29.0" prefWidth="100.0" promptText="Type" />
-            <ComboBox fx:id="StoreCB1" layoutX="14.0" layoutY="29.0" promptText="Store" />
+            <ComboBox fx:id="TypeCB1" layoutX="121.0" layoutY="29.0" maxWidth="125.0" prefWidth="125.0" promptText="Type" />
+            <ComboBox fx:id="StoreCB1" layoutX="14.0" layoutY="29.0" maxWidth="90.0" promptText="Store" />
             <Label fx:id="lblReport2" layoutX="14.0" layoutY="4.0" text="Report 2">
                <font>
                   <Font size="14.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+      <Button fx:id="btnHide" alignment="CENTER" layoutX="246.0" layoutY="118.0" mnemonicParsing="false" onAction="#hideReport2" text="Ask for two reports" textAlignment="CENTER" visible="false" />
+      <AnchorPane fx:id="paneTotincome" layoutX="7.0" layoutY="158.0" prefHeight="215.0" prefWidth="293.0" visible="false">
+         <children>
+            <Label fx:id="lblIncometitle" layoutX="59.0" layoutY="17.0" text="Total Incomes Report">
+               <font>
+                  <Font name="David Bold" size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblTotIncomeSum" layoutX="111.0" layoutY="165.0" text="TotalIncomeSum" />
+            <Label fx:id="lblIncomeStoreID" layoutX="116.0" layoutY="118.0" text="StoreID" />
+            <Label fx:id="lblIncomeEndDate" layoutX="204.0" layoutY="64.0" text="EndDate" />
+            <Label fx:id="lblIncomeStartDate" layoutX="86.0" layoutY="64.0" text="StartDate" />
+            <Label fx:id="lblTotIncome" layoutX="22.0" layoutY="165.0" text="Total Incomes">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Label>
+            <Label fx:id="lblIncomeStore" layoutX="45.0" layoutY="118.0" text="Store">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Label>
+            <Label fx:id="lblIncomeTo" layoutX="168.0" layoutY="64.0" text="To">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Label>
+            <Label fx:id="lblIncomeFrom" layoutX="36.0" layoutY="64.0" text="From">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Label>
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="paneTotincome1" layoutX="306.0" layoutY="158.0" prefHeight="215.0" prefWidth="293.0" visible="false">
+         <children>
+            <Label fx:id="lblIncomeFrom1" layoutX="31.0" layoutY="67.0" text="From">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Label>
+            <Label fx:id="lblIncomeTo1" layoutX="176.0" layoutY="67.0" text="To">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Label>
+            <Label fx:id="lblIncomeStore1" layoutX="45.0" layoutY="119.0" text="Store">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Label>
+            <Label fx:id="lblTotIncome1" layoutX="25.0" layoutY="165.0" text="Total Incomes">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Label>
+            <Label fx:id="lblIncomeStartDate1" layoutX="92.0" layoutY="68.0" text="StartDate" />
+            <Label fx:id="lblIncomeEndDate1" layoutX="215.0" layoutY="67.0" text="EndDate" />
+            <Label fx:id="lblIncomeStoreID1" layoutX="156.0" layoutY="119.0" text="StoreID" />
+            <Label fx:id="lblTotIncomeSum1" layoutX="131.0" layoutY="165.0" text="TotalIncomeSum" />
+            <Label fx:id="lblIncometitle1" layoutX="60.0" layoutY="22.0" text="Total Incomes Report">
+               <font>
+                  <Font name="David Bold" size="18.0" />
                </font>
             </Label>
          </children>

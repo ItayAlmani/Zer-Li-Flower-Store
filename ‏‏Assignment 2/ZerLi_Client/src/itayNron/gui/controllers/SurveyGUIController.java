@@ -44,10 +44,11 @@ public class SurveyGUIController implements Initializable {
 			i++;
 		}
 		//Date date = Date.from(dpDate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
-		Survey sur = new Survey(ans, dpDate.getValue(),Context.getUserAsStoreWorker().getStoreID(),SurveyType.Answer);
-		
-		Context.fac.survey.addSurvey(sur);
-		
+		if(Context.getUserAsStoreWorker() !=null) {
+			Survey sur = new Survey(ans, dpDate.getValue(),Context.getUserAsStoreWorker().getStoreID(),SurveyType.Answer);
+			
+			Context.fac.survey.addSurvey(sur);
+		}
 		Context.mainScene.loadMainMenu();
 	}
 	

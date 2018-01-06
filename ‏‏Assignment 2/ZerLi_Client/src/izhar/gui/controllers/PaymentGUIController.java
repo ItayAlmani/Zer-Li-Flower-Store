@@ -7,11 +7,13 @@ import java.util.Random;
 import java.util.ResourceBundle;
 
 import common.Context;
+import entities.CreditCard;
 import entities.Order;
 import entities.Order.OrderStatus;
 import gui.controllers.ParentGUIController;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
@@ -20,7 +22,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.text.Text;
 
-public class PaymentGUIController extends ParentGUIController {
+public class PaymentGUIController implements Initializable {
 
 	private @FXML RadioButton rbCredit, rbCash;
 	private @FXML Label lblPayMsg, lblFinalPrice;
@@ -133,31 +135,15 @@ public class PaymentGUIController extends ParentGUIController {
 	}
 	
 	public void loadNextWindow() {
-		Platform.runLater(new Runnable() {
-			@Override
-			public void run() {
-				try {
-					loadGUI("OrderGUI", false);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-		});
+		Context.mainScene.loadGUI("OrderGUI", false);
 	}
 
 	public void back() {
-		try {
-			loadGUI("OrderTimeGUI", false);
-		} catch (Exception e) {
-			lblMsg.setText("Loader failed");
-			e.printStackTrace();
-		}
+		Context.mainScene.loadGUI("OrderTimeGUI", false);
 	}
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		super.initialize(location, resources);
 		Context.currentGUI = this;
 
 		tGroup = new ToggleGroup();

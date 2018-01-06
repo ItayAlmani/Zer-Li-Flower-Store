@@ -1,4 +1,4 @@
-package controllers;
+package common;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -11,7 +11,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import common.DataBase;
+import controllers.OrderController;
+import controllers.ProductInOrderController;
 import entities.CSMessage;
 import entities.Order;
 import entities.ProductInOrder;

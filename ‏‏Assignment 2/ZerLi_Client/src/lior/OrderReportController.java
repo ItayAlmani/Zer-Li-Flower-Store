@@ -4,38 +4,34 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.math.BigInteger;
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 
 import common.Context;
 import controllers.ParentController;
 import entities.Order;
-import entities.Order.OrderStatus;
 import entities.OrderReport;
 import entities.Product;
 import entities.Product.ProductType;
 import entities.ProductInOrder;
-import izhar.OrderController;
 import lior.interfaces.IOrderReportController;
 
 public class OrderReportController extends ParentController implements IOrderReportController {
-	private OrderReport[] oReports = new OrderReport[2];
+	private OrderReport[] oReports;
 	private Date rDate, startDate;
-	int flag=-1;
+	int ind;
 
 	@Override
 	public void handleGet(ArrayList<Object> obj) {
-		
-		
 	}
 	
+	public void initproduceOrderReport(Date reqDate, BigInteger storeID) throws ParseException{
+		this.oReports = new OrderReport[2];
+		produceOrderReport(reqDate, storeID);
+	}
 	
 	public void sendOrderReports(ArrayList<OrderReport> oReports) {
 		String methodName = "setOrderReports";
@@ -50,6 +46,7 @@ public class OrderReportController extends ParentController implements IOrderRep
 			else {*/
 				m = Context.currentGUI.getClass().getMethod(methodName,ArrayList.class);
 				m.invoke(Context.currentGUI, oReports);
+				oReports=null;
 			//}
 		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e1) {
 			System.err.println("Couldn't invoke method '"+methodName+"'");
@@ -64,13 +61,15 @@ public class OrderReportController extends ParentController implements IOrderRep
 	@Override
 	public void produceOrderReport(Date reqDate, BigInteger storeID) throws ParseException {
 		int ind = 1;
-		if(oReports[0]==null)
+		if(this.oReports[0]==null)
+			ind = 0;
+		if(this.oReports[0]!=null&&this.oReports[1]!=null)
 			ind = 0;
 		oReports[ind]=new OrderReport();
-		oReports[ind].setStoreID(storeID);
-		for (int i = 0; i < 4/*OrderType.values().length*/; i++) {
-			oReports[ind].addToCounterPerType(0);
-			oReports[ind].addToSumPerType(0f);
+		this.oReports[ind].setStoreID(storeID);
+		for (int i = 0; i < Product.ProductType.values().length; i++) {
+			this.oReports[ind].addToCounterPerType(0);
+			this.oReports[ind].addToSumPerType(0f);
 		}
 		rDate=reqDate;
 		startDate=new Date();
@@ -78,6 +77,11 @@ public class OrderReportController extends ParentController implements IOrderRep
 		c.setTime(reqDate); 
 		c.add(Calendar.MONTH, -3);
 		startDate = c.getTime();
+		rDate.setHours(23);
+		rDate.setMinutes(59);
+		rDate.setSeconds(59);
+		this.oReports[ind].setStartdate(this.startDate);
+		this.oReports[ind].setEnddate(this.rDate);
 		try {
 			Context.askingCtrl.add(this);
 			
@@ -89,23 +93,23 @@ public class OrderReportController extends ParentController implements IOrderRep
 	}
 
 	public void setOrders(ArrayList<Order> orders) {
+		int flag=0;
 		int ind = 1;
-		if(oReports[0].getOrders().size()==0)
+		if(this.oReports[0].getOrders().size()==0)
 			ind = 0;
+		if(this.oReports[0].getOrders().size()!=0&&this.oReports[1].getOrders().size()!=0)
+			ind = 0;
+		//oReports[ind]=new OrderReport();
 		this.oReports[ind].setOrders(orders);
-		rDate.setHours(23);
-		rDate.setMinutes(59);
-		rDate.setSeconds(59);
-		this.oReports[ind].setStartdate(this.startDate);
-		this.oReports[ind].setEnddate(this.rDate);
 		for(int i=0;i<orders.size();i++)
 		{
 			Date date = Date.from(orders.get(i).getDate().atZone(ZoneId.systemDefault()).toInstant());
-			if(date.after(rDate)==false&&
-					date.after(startDate)
+			if(date.after(this.oReports[ind].getEnddate())==false&&
+					date.after(this.oReports[ind].getStartdate())
 					/*&& orders.get(i).getOrderStatus().equals(OrderStatus.Paid)*/
 					)
 			{
+				flag=1;
 				Context.askingCtrl.add(this);
 				try {
 					Context.fac.prodInOrder.getPIOsByOrder(orders.get(i).getOrderID());
@@ -113,25 +117,29 @@ public class OrderReportController extends ParentController implements IOrderRep
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-			}
+			}	
+		}
+		if(flag==0)
+		{
+			ArrayList<OrderReport> ar = new ArrayList<>();
+			ar.add(this.oReports[ind]);
+			sendOrderReports(ar);
 		}
 	}
 
 	public void setPIOs(ArrayList<ProductInOrder> products) {
 		int ind = 1;
-		if(flag==-1)
-			flag=0;
 		if(Context.fac.prodInOrder.isAllPIOsFromSameOrder(products)==false)
 			return;
-		for (Order order : oReports[0].getOrders()) {
+		for (Order order : this.oReports[0].getOrders()) {
 			if(order.getOrderID().equals(products.get(0).getOrderID())) {
 				ind=0;
 				break;
 			}
 		}
-		ArrayList<Order> orders = oReports[ind].getOrders();
-		ArrayList<Integer> cntType = oReports[ind].getCounterPerType();
-		ArrayList<Float> sumType = oReports[ind].getSumPerType();
+		ArrayList<Order> orders = this.oReports[ind].getOrders();
+		ArrayList<Integer> cntType = this.oReports[ind].getCounterPerType();
+		ArrayList<Float> sumType = this.oReports[ind].getSumPerType();
 		
 		Order myOrder = null;
 		for (Order ord : orders) {
@@ -149,24 +157,26 @@ public class OrderReportController extends ParentController implements IOrderRep
 			ProductType pt = products.get(j).getProduct().getType();
 			int indx = -1;
 			if(pt.equals(Product.ProductType.Bouquet))
-				indx = 0;
+				indx = 4;
 			else if(pt.equals(Product.ProductType.Single))
-				indx = 1;
+				indx = 5;
 			else if(pt.equals(Product.ProductType.Empty))
+				indx = 6;
+			else if(pt.equals(Product.ProductType.FlowerArrangment))
+				indx = 0;
+			else if(pt.equals(Product.ProductType.FloweringPlant))
+				indx = 1;
+			else if(pt.equals(Product.ProductType.FlowersCluster))
+				indx = 3;
+			else if(pt.equals(Product.ProductType.BridalBouquet))
 				indx = 2;
 			cntType.set(indx, cntType.get(indx)+1);
 			sumType.set(indx, sumType.get(indx)+products.get(j).getFinalPrice());
 		}
 		ArrayList<OrderReport> ar = new ArrayList<>();
-		flag++;
-		oReports[ind].setCounterPerType(cntType);
-		oReports[ind].setSumPerType(sumType);
-		ar.add(oReports[ind]);
-		if(flag==oReports[ind].getOrders().size())
-		{
-			oReports[ind]=null;
-			flag=-1;
-		}
+		this.oReports[ind].setCounterPerType(cntType);
+		this.oReports[ind].setSumPerType(sumType);
+		ar.add(this.oReports[ind]);
 		sendOrderReports(ar);
 	}
 }

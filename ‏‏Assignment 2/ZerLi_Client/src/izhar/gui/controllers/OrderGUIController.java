@@ -12,14 +12,14 @@ import entities.Order.DeliveryType;
 import entities.ShipmentDetails;
 import gui.controllers.ParentGUIController;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 
-public class OrderGUIController extends ParentGUIController {
+public class OrderGUIController implements Initializable {
 	private @FXML Label lblOrderID, lblDelMethod, lblDelTime, lblPayment;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		super.initialize(location, resources);
 		Context.currentGUI = this;
 		Order ord = Context.order;
 		Context.order=null;
@@ -40,6 +40,6 @@ public class OrderGUIController extends ParentGUIController {
 	
 	public void toMainMenu() {
 		Context.askOrder();
-		loadMainMenu();
+		Context.mainScene.loadMainMenu();
 	}
 }
