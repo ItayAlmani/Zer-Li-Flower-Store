@@ -3,11 +3,13 @@ package itayNron.gui.controllers;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import common.Context;
 import entities.SurveyReport;
+import entities.Survey.SurveyType;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -23,7 +25,7 @@ public class SurveyReportGUIController implements Initializable
 {
 	private @FXML TextField txtVerbalReport;
 	private @FXML Button btnSubmit;
-	private @FXML Button btnsend;
+	private @FXML Button btnSend;
 	private @FXML Label l1;
 	private @FXML Label l2;
 	private @FXML Label l3;
@@ -49,13 +51,17 @@ public class SurveyReportGUIController implements Initializable
 	
 	@FXML public void sendSurveyReport(ActionEvent event) throws IOException
 	{
-		sr.setVerbalReport("bamba");
+		sr.setVerbalReport(txtVerbal.getText());
+		sr.getSurveyAnalyzes().setType(SurveyType.Analyzes);
+		sr.setStartDate(dpDateStart.getValue().atStartOfDay());
+		sr.setEndDate(dpDateEnd.getValue().atStartOfDay());	
+
 		Context.fac.surveyReport.addSurveyReport(sr);
 	}
 	
 	public void setSurveyReports(ArrayList<SurveyReport> surveys) {
 		if(surveys!=null && surveys.size()!=0&&surveys.get(0)!=null) {
-			SurveyReport sr = surveys.get(0);
+			this.sr = surveys.get(0);
 			if(sr.getSurveyAnalyzes()!=null) {
 				float [] ans = sr.getSurveyAnalyzes().getSurveyAnswerers();
 				Platform.runLater(new Runnable() {
