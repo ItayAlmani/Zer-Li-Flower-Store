@@ -92,10 +92,16 @@ public class IncomesReportController extends ParentController implements IIncome
 	public void setOrders(ArrayList<Order> orders) {
 		int flag=0;
 		int ind = 1;
+<<<<<<< HEAD
 		if(iReport[0].getOrders()==null || this.iReport[0].getOrders().size()==0)
 			ind = 0;
 		if(iReport[0].getOrders()!=null && 
 				this.iReport[0].getOrders().size()!=0&&this.iReport[1].getOrders().size()!=0)
+=======
+		if(this.iReport[0].getOrders().size()==0)
+			ind = 0;
+		if(this.iReport[0].getOrders().size()!=0&&this.iReport[1].getOrders().size()!=0)
+>>>>>>> branch 'master' of https://github.com/ItayAlmani/Zer-Li-Flower-Store.git
 			ind = 0;
 		this.iReport[ind].setOrders(orders);
 		for(int i=0;i<orders.size();i++)

@@ -8,7 +8,11 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
+<<<<<<< HEAD
 <AnchorPane prefHeight="468.0" prefWidth="604.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lior.gui.controllers.ReportSelectorGUIController">
+=======
+<AnchorPane fx:id="paneAll" prefHeight="468.0" prefWidth="604.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lior.gui.controllers.ReportSelectorGUIController">
+>>>>>>> branch 'master' of https://github.com/ItayAlmani/Zer-Li-Flower-Store.git
    <children>
       <Label layoutX="216.0" layoutY="-5.0" prefHeight="45.0" prefWidth="133.0" text="Reports">
          <font>
