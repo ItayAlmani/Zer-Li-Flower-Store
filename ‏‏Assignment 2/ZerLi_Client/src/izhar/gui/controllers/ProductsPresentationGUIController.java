@@ -1,5 +1,6 @@
 package izhar.gui.controllers;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -7,22 +8,29 @@ import java.util.ResourceBundle;
 import common.Context;
 import entities.Product;
 import entities.ProductInOrder;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.HPos;
 import javafx.geometry.Pos;
+import javafx.geometry.VPos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.control.Pagination;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Spinner;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Border;
+import javafx.scene.layout.BorderStroke;
+import javafx.scene.layout.BorderStrokeStyle;
+import javafx.scene.layout.BorderWidths;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.util.Callback;
@@ -76,7 +84,7 @@ public abstract class ProductsPresentationGUIController implements Initializable
 	 * @param i		-	the index of the GridPane in grids
      */
 	protected void setComponent(Node cmp, int col, int row, int i) {
-    	grids[i].setConstraints(cmp, col, row);
+    	GridPane.setConstraints(cmp, col, row);
     	//if its title and not show
     	if(col==0)
     		cmp.setId("lblTitle");
@@ -112,7 +120,7 @@ public abstract class ProductsPresentationGUIController implements Initializable
 		lblTitleName[i]=new Label("Name: ");
 		setComponent(lblTitleName[i] ,0, j, i);
 		lblShowName[i] = new Label(prd.getName());
-		lblShowName[i].setTextFill(Color.color(Math.random(), Math.random(), Math.random()));
+		lblShowName[i].setTextFill(getRandomColor());
 		setComponent(lblShowName[i],1, j, i);
 		
 		lblTitleType[i]=new Label("Type: ");
@@ -137,10 +145,12 @@ public abstract class ProductsPresentationGUIController implements Initializable
 		btnFinalProduct[i].setUserData(i);
 		btnFinalProduct[i].setOnAction(btnHandler);
 		
+		for (Node node : components) {
+			GridPane.setHalignment(node, HPos.CENTER);
+			GridPane.setHgrow(node, Priority.SOMETIMES);
+		}
 		grids[i].getChildren().addAll(components);
-		for (Node node : components)
-			grids[i].setHalignment(node, HPos.CENTER);
-		
+		vbxProduct[i].setFillWidth(true);
 		vbxProduct[i].getChildren().add(btnFinalProduct[i]);
 		
 		components.clear();
@@ -148,9 +158,59 @@ public abstract class ProductsPresentationGUIController implements Initializable
 		pagination.setPageFactory(new Callback<Integer, Node>() {
             @Override
             public Node call(Integer pageIndex) {
-            	vbox.getScene().getWindow().sizeToScene();
+            	//vbox.getScene().getWindow().sizeToScene();
             	return vbxProduct[pageIndex];
             }
 		});
 	}
+	
+	private Color getRandomColor() {
+		double[] color = new double[3];
+		double rangeMin = 0.05f, rangeMax = 0.6f;
+		for (int i = 0; i < color.length; i++)
+			color[i] = rangeMin + (rangeMax - rangeMin) * Math.random();
+		return Color.color(color[0], color[1], color[2]);
+	}
+	
+	protected EventHandler<ActionEvent> addToCart(ArrayList<Product> productsInCatalog){
+    	return new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				if(event.getSource() instanceof Button) {
+					Button btn = (Button)event.getSource();
+					Product prd = productsInCatalog.get((int) btn.getUserData());
+					ProductInOrder pio = Context.order.containsProduct(prd);
+					if(pio==null) {
+						pio = new ProductInOrder(prd, 1, Context.order.getOrderID());
+						if(Context.order.getProducts()==null)
+							Context.order.setProducts(new ArrayList<>());
+						Context.order.getProducts().add(pio);
+						try {
+							Context.fac.prodInOrder.addPIO(pio);
+						} catch (IOException e) {
+							System.err.println("Can't add product\n");
+							e.printStackTrace();
+						}
+					}
+					else {
+						pio.addOneToQuantity();
+						
+						Context.fac.prodInOrder.updatePriceWithSubscription(pio, Context.getUserAsCustomer());
+						try {
+							Context.fac.prodInOrder.updatePIO(pio);
+						} catch (IOException e) {
+							System.err.println("Can't update product\n");
+							e.printStackTrace();
+						}
+					}
+					Platform.runLater(new Runnable() {
+						@Override
+						public void run() {
+							Context.mainScene.setMessage("Added");
+						}
+					});
+				}
+			}
+		};
+    }
 }

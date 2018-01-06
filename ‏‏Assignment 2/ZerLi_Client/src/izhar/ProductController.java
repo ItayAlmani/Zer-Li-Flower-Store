@@ -84,8 +84,8 @@ public class ProductController extends ParentController implements IProduct {
 	}	
 
 	@Override
-	public void assembleItemFromDB(ProductType type, float priceStart, float priceEnd, Color color) throws IOException {
-		myMsgArr.clear();
+	public ArrayList<Product> assembleProduct(ProductType type, Float priceStart, Float priceEnd, Color color, ArrayList<Product> products) {
+		/*myMsgArr.clear();
 		myMsgArr.add(
 				"SELECT *" + 
 				"FROM product" + 
@@ -94,7 +94,30 @@ public class ProductController extends ParentController implements IProduct {
 				+ " price>="+priceStart+" AND"
 				+ " price<="+priceEnd+" AND"
 				+ " color='"+color.toString()+"'");
-		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.SELECT,myMsgArr));
+		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.SELECT,myMsgArr));*/
+		ArrayList<Product> inConditionProds = new ArrayList<>();
+		if(type!=null && priceStart!=null && priceEnd!=null) {
+			if(color==null) {
+				for (Product p : products) {
+					if(p.getType().equals(type)
+							&& p.getPrice()>=priceStart 
+							&& p.getPrice()<=priceEnd) {
+						inConditionProds.add(p);
+					}
+				}
+			}
+			else {
+				for (Product p : products) {
+					if(p.getType().equals(type)
+							&& p.getPrice()>=priceStart 
+							&& p.getPrice()<=priceEnd) {
+						if(p.getColor().equals(color))
+							inConditionProds.add(p);
+					}
+				}
+			}
+		}
+		return inConditionProds;
 	}
 
 	@Override
@@ -126,5 +149,12 @@ public class ProductController extends ParentController implements IProduct {
 		myMsgArr.clear();
 		myMsgArr.add("SELECT * FROM product WHERE inCatalog='1';");
 		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.SELECT,myMsgArr,Product.class));
+	}
+
+	@Override
+	public void getAllProductsNotInCatalog() throws IOException {
+		myMsgArr.clear();
+		myMsgArr.add("SELECT * FROM product WHERE inCatalog='0'");
+		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.SELECT,myMsgArr,Product.class));		
 	}
 }

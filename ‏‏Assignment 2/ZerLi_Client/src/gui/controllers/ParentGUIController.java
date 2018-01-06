@@ -46,41 +46,41 @@ public class ParentGUIController implements Initializable {
 	protected @FXML Label lblMsg, lblTitle;
 	private @FXML MenuButton menuProducts;
 	private @FXML ImageView imgCart, imgLogOut;
-	private @FXML MenuItem miCatalog, miShowProduct, miAddSurvey, miReportSelector, miAssembleItem, miUpdateOrderStatus,
+	private @FXML MenuItem miCatalog, miShowProduct, miAddSurvey, miReportSelector, miAssembleProduct, miUpdateOrderStatus,
 			miManualTransaction, miSurveyReport;
 	private @FXML MaterialDesignIconView icnLogOut, icnCart;
 	private @FXML VBox menu;
 	private @FXML BorderPane mainPane;
 	private @FXML HBox scenePane;
 
-	public void showProducts() {
+	public void loadProducts() {
 		loadGUI("ProductsFormGUI", false);
 	}
 
-	public void showSurvey() {
+	public void loadSurvey() {
 		loadGUI("SurveyGUI", false);
 	}
 
-	public void showSurveyReport() {
+	public void loadSurveyReport() {
 		loadGUI("SurveyReportGUI", false);
 	}
 
-	public void showConnectionGUI() {
+	public void loadConnectionGUI() {
 		loadGUI("ConnectionConfigGUI", false);
 	}
 
-	public void showCatalog() {
+	public void loadCatalog() {
 		loadGUI("CatalogGUI", "ProductsPresentationCSS");
 	}
 
-	public void showCart() {
+	public void loadCart() {
 		if (Context.order != null)
 			loadGUI("CartGUI", "ProductsPresentationCSS");
 		else
 			setMessage("Try again");
 	}
 
-	public void showReportSelector() {
+	public void loadReportSelector() {
 		loadGUI("ReportSelectorGUI", false);
 	}
 
@@ -90,6 +90,10 @@ public class ParentGUIController implements Initializable {
 
 	public void loadManualTransaction() {
 		loadGUI("ManualTransactionGUI", false);
+	}
+	
+	public void loadAssembleProduct() {
+		loadGUI("AssembleProductGUI", false);
 	}
 
 	public void ShowErrorMsg() {
@@ -218,6 +222,16 @@ public class ParentGUIController implements Initializable {
 			}
 		});
 	}
+	
+	public void loadMainMenu(String msg) {
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				loadGUI("MainMenuGUI", false);
+				setMessage(msg);
+			}
+		});
+	}
 
 	public void setServerUnavailable() {
 		Platform.runLater(new Runnable() {
@@ -266,7 +280,7 @@ public class ParentGUIController implements Initializable {
 		if (isServerConnected() == true)
 			loadGUI("LogInGUI", false);
 		else
-			showConnectionGUI();
+			loadConnectionGUI();
 		/*th = new Thread(lblMsgThread());
 		th.setDaemon(true);
 		th.start();*/

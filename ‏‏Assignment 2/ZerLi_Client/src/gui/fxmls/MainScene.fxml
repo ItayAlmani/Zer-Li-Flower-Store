@@ -5,53 +5,61 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane fx:id="mainPane" styleClass="mainScene" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controllers.ParentGUIController">
-   <bottom>
-      <Label fx:id="lblMsg" alignment="CENTER" contentDisplay="CENTER" minHeight="20.0" textAlignment="CENTER" textFill="RED" wrapText="true" BorderPane.alignment="CENTER" />
-   </bottom>
-   <center>
-      <VBox alignment="CENTER" BorderPane.alignment="CENTER">
-         <opaqueInsets>
-            <Insets />
-         </opaqueInsets>
-         <children>
-            <HBox fx:id="scenePane" alignment="CENTER" />
-         </children>
-      </VBox>
-   </center>
-   <top>
-      <VBox fx:id="menu" alignment="CENTER" styleClass="menu" visible="false" BorderPane.alignment="CENTER">
-         <children>
-            <HBox alignment="CENTER">
+<ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" pannable="true" styleClass="mainScene" vmax="3.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.141" fx:controller="gui.controllers.ParentGUIController">
+   <content>
+      <BorderPane fx:id="mainPane" styleClass="mainScene">
+         <bottom>
+            <Label fx:id="lblMsg" alignment="CENTER" contentDisplay="CENTER" minHeight="20.0" textAlignment="CENTER" textFill="RED" textOverrun="CLIP" wrapText="true" BorderPane.alignment="CENTER" />
+         </bottom>
+         <center>
+            <VBox alignment="CENTER" BorderPane.alignment="CENTER">
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
                <children>
-                  <Label id="lblHeader" fx:id="lblTitle" alignment="CENTER" contentDisplay="CENTER" styleClass="lblHeader" text="Main Menu" textAlignment="CENTER" />
+                  <HBox fx:id="scenePane" alignment="CENTER" />
                </children>
-            </HBox>
-            <FlowPane alignment="CENTER" columnHalignment="CENTER" hgap="10.0" vgap="10.0">
+               <BorderPane.margin>
+                  <Insets top="10.0" />
+               </BorderPane.margin>
+            </VBox>
+         </center>
+         <top>
+            <VBox fx:id="menu" alignment="CENTER" styleClass="menu" visible="false" BorderPane.alignment="CENTER">
                <children>
-                  <MaterialDesignIconView fx:id="icnLogOut" fontSmoothingType="LCD" glyphName="LOGOUT" onMouseClicked="#logOut" size="30" styleClass="coloredIcon" textAlignment="CENTER" />
-                  <MaterialDesignIconView fx:id="icnCart" fontSmoothingType="LCD" glyphName="CART" onMouseClicked="#showCart" size="30" styleClass="coloredIcon" textAlignment="CENTER" />
-                  <MenuButton id="menuButton" fx:id="menuProducts" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" popupSide="RIGHT" text="Products" textAlignment="CENTER" wrapText="true">
-                     <items>
-                        <MenuItem fx:id="miCatalog" mnemonicParsing="false" onAction="#showCatalog" styleClass="menuItem" text="View Catalog" />
-                        <MenuItem fx:id="miShowProduct" mnemonicParsing="false" onAction="#showProducts" text="Show Product" />
-                        <MenuItem fx:id="miAddSurvey" mnemonicParsing="false" onAction="#showSurvey" text="Add Survey" />
-                        <MenuItem fx:id="miReportSelector" mnemonicParsing="false" onAction="#showReportSelector" text="Select Report" />
-                        <MenuItem fx:id="miAssembleItem" mnemonicParsing="false" text="Assemble Product" />
-                        <MenuItem fx:id="miSurveyReport" mnemonicParsing="false" onAction="#showSurveyReport" text="Add Survey Report" />
-                        <MenuItem fx:id="miUpdateOrderStatus" mnemonicParsing="false" onAction="#loadUpdateOrder" text="Update Order Status" />
-                        <MenuItem fx:id="miManualTransaction" mnemonicParsing="false" onAction="#loadManualTransaction" text="Manual Transaction" />
-                     </items>
-                  </MenuButton>
+                  <HBox alignment="CENTER">
+                     <children>
+                        <Label id="lblHeader" fx:id="lblTitle" alignment="CENTER" contentDisplay="CENTER" styleClass="lblHeader" text="Main Menu" textAlignment="CENTER" textOverrun="CLIP" wrapText="true" />
+                     </children>
+                  </HBox>
+                  <FlowPane alignment="CENTER" columnHalignment="CENTER" hgap="10.0" vgap="10.0">
+                     <children>
+                        <MaterialDesignIconView fx:id="icnLogOut" fontSmoothingType="LCD" glyphName="LOGOUT" onMouseClicked="#logOut" size="30.0" styleClass="coloredIcon" textAlignment="CENTER" />
+                        <MaterialDesignIconView fx:id="icnCart" fontSmoothingType="LCD" glyphName="CART" onMouseClicked="#loadCart" size="30.0" styleClass="coloredIcon" textAlignment="CENTER" />
+                        <MenuButton id="menuButton" fx:id="menuProducts" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" popupSide="RIGHT" text="Products" textAlignment="CENTER" wrapText="true">
+                           <items>
+                              <MenuItem fx:id="miCatalog" mnemonicParsing="false" onAction="#loadCatalog" styleClass="menuItem" text="View Catalog" />
+                              <MenuItem fx:id="miShowProduct" mnemonicParsing="false" onAction="#loadProducts" text="Show Product" />
+                              <MenuItem fx:id="miAddSurvey" mnemonicParsing="false" onAction="#loadSurvey" text="Add Survey" />
+                              <MenuItem fx:id="miReportSelector" mnemonicParsing="false" onAction="#loadReportSelector" text="Select Report" />
+                              <MenuItem fx:id="miAssembleProduct" mnemonicParsing="false" onAction="#loadAssembleProduct" text="Assemble Product" />
+                              <MenuItem fx:id="miSurveyReport" mnemonicParsing="false" onAction="#loadSurveyReport" text="Add Survey Report" />
+                              <MenuItem fx:id="miUpdateOrderStatus" mnemonicParsing="false" onAction="#loadUpdateOrder" text="Update Order Status" />
+                              <MenuItem fx:id="miManualTransaction" mnemonicParsing="false" onAction="#loadManualTransaction" text="Manual Transaction" />
+                           </items>
+                        </MenuButton>
+                     </children>
+                  </FlowPane>
+                  <Label fx:id="lblMsg1" alignment="CENTER" contentDisplay="BOTTOM" textFill="RED" />
                </children>
-            </FlowPane>
-            <Label fx:id="lblMsg1" alignment="CENTER" contentDisplay="BOTTOM" textFill="RED" />
-         </children>
-      </VBox>
-   </top>
-</BorderPane>
+            </VBox>
+         </top>
+      </BorderPane>
+   </content>
+</ScrollPane>

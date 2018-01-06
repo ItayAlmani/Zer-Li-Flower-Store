@@ -5,8 +5,8 @@ import java.util.Date;
 
 public class IncomesReport extends QuarterlyReport {
 
-	private ArrayList<Order> orders;
-	private double TotIncomes;
+	private ArrayList<Order> orders=new ArrayList<>();
+	private double TotIncomes=-1;
 	private Date Startdate=new Date();
 	private Date Enddate=new Date();
 

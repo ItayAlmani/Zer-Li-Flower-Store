@@ -28,10 +28,14 @@ public interface IProduct extends IParent {
 	 * @param priceStart
 	 * @param priceEnd
 	 * @param color
+	 * @param products TODO
+	 * @return TODO
 	 */
-	void assembleItemFromDB(ProductType type, float priceStart, float priceEnd, Color color) throws IOException;
+	ArrayList<Product> assembleProduct(ProductType type, Float priceStart, Float priceEnd, Color color, ArrayList<Product> products) throws IOException;
 	
 	public void getProductsInCatalog() throws IOException;
 	
 	Product parse(BigInteger prdID, String name, String type, float price, String color, boolean inCatalog, String imageURL) throws FileNotFoundException;
+	
+	void getAllProductsNotInCatalog() throws IOException;
 }

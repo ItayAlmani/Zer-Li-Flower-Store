@@ -14,7 +14,23 @@ public class Product implements Comparable<Product>, Serializable  {
 	private String imageName;
 
 	public enum ProductType {
-		Bouquet, Single, Empty, FlowerArrangment, FloweringPlant, BridalBouquet, FlowersCluster;
+		Bouquet("Bouquet"),
+		Single("Single"), 
+		Empty("Empty"),
+		FlowerArrangment("Flower Arrangment"),
+		FloweringPlant("Flowering Plant"), 
+		BridalBouquet("Bridal Bouquet"),
+		FlowersCluster("Flowers Cluster");
+		private final String name;
+		
+		private ProductType(String name) {
+	        this.name = name;
+	    }
+		
+		@Override
+		public String toString() {
+			return name;
+		}
 	}
 
 	public enum Color {

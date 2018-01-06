@@ -38,7 +38,7 @@ public class CatalogGUIController extends ProductsPresentationGUIController {
     	pagination  = new Pagination(productsInCatalog.size(), 0);
     	int i = 0;
 		for (Product p : prds) {
-			setVBox(i, p,addToCart());
+			setVBox(i, p,addToCart(productsInCatalog));
 			i++;
 		}
 		
@@ -54,49 +54,6 @@ public class CatalogGUIController extends ProductsPresentationGUIController {
 			}
 		});
 	}
-    
-    private EventHandler<ActionEvent> addToCart(){
-    	return new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				if(event.getSource() instanceof Button) {
-					Button btn = (Button)event.getSource();
-					Product prd = productsInCatalog.get((int) btn.getUserData());
-					ProductInOrder pio = Context.order.containsProduct(prd);
-					if(pio==null) {
-						pio = new ProductInOrder(prd, 1, Context.order.getOrderID());
-						if(Context.order.getProducts()==null)
-							Context.order.setProducts(new ArrayList<>());
-						Context.order.getProducts().add(pio);
-						try {
-							Context.fac.prodInOrder.addPIO(pio);
-						} catch (IOException e) {
-							System.err.println("Can't add PIO in Catalog\n");
-							e.printStackTrace();
-						}
-					}
-					else {
-						pio.addOneToQuantity();
-						
-						Context.fac.prodInOrder.updatePriceWithSubscription(pio, Context.getUserAsCustomer());
-						try {
-							Context.fac.prodInOrder.updatePIO(pio);
-						} catch (IOException e) {
-							System.err.println("Can't update PIO in Catalog\n");
-							e.printStackTrace();
-						}
-					}
-					Platform.runLater(new Runnable() {
-						@Override
-						public void run() {
-							Context.mainScene.setMessage("Added");
-						}
-					});
-					
-				}
-			}
-		};
-    }
     
     public static void setPIOID(BigInteger id) {
     	
