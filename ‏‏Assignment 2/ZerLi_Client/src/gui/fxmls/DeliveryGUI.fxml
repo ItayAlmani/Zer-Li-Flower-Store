@@ -71,7 +71,7 @@
                         <Insets />
                      </VBox.margin>
                   </JFXTextField>
-                  <HBox>
+                  <HBox alignment="CENTER">
                      <children>
                         <JFXTextField fx:id="txtPhoneAreaCode" alignment="CENTER" focusColor="ORANGE" labelFloat="true" maxWidth="90.0" promptText="Area code" unFocusColor="RED" />
                         <Label prefHeight="26.0" text="-" />
@@ -80,7 +80,22 @@
                   </HBox>
                </children>
             </VBox>
-            <JFXButton fx:id="btnSend" alignment="CENTER" buttonType="RAISED" onAction="#addDelivery" ripplerFill="ORANGE" text="Send" textAlignment="CENTER" textFill="ORANGE">
+         </children>
+         <VBox.margin>
+            <Insets left="5.0" right="5.0" />
+         </VBox.margin>
+      </VBox>
+      <HBox alignment="CENTER">
+         <children>
+            <JFXButton alignment="CENTER" buttonType="RAISED" onAction="#back" ripplerFill="RED" text="Back" textAlignment="CENTER" textFill="RED">
+               <font>
+                  <Font name="Material Design Icons" size="15.0" />
+               </font>
+               <graphic>
+                  <FontAwesomeIconView fill="RED" fontSmoothingType="LCD" glyphName="ARROW_LEFT" size="15" textAlignment="CENTER" />
+               </graphic>
+            </JFXButton>
+            <JFXButton fx:id="btnSend" alignment="CENTER" buttonType="RAISED" disable="true" onAction="#addDelivery" ripplerFill="ORANGE" text="Send" textAlignment="CENTER" textFill="ORANGE">
                <graphic>
                   <MaterialDesignIconView fill="ORANGE" fontSmoothingType="LCD" glyphName="SEND" size="15" textAlignment="CENTER" />
                </graphic>
@@ -89,18 +104,7 @@
                </font>
             </JFXButton>
          </children>
-         <VBox.margin>
-            <Insets left="5.0" right="5.0" />
-         </VBox.margin>
-      </VBox>
-      <JFXButton alignment="CENTER" buttonType="RAISED" onAction="#back" ripplerFill="RED" text="Back" textAlignment="CENTER" textFill="RED">
-         <font>
-            <Font name="Material Design Icons" size="15.0" />
-         </font>
-         <graphic>
-            <FontAwesomeIconView fill="RED" fontSmoothingType="LCD" glyphName="ARROW_LEFT" size="15" textAlignment="CENTER" />
-         </graphic>
-      </JFXButton>
+      </HBox>
    </children>
    <padding>
       <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />

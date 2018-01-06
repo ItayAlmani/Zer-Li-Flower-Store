@@ -44,7 +44,7 @@ public class ParentGUIController implements Initializable {
 	private @FXML Pane paneOfScene;
 	private Region homePane;
 	protected @FXML Label lblMsg, lblTitle;
-	private @FXML MenuButton menuProducts;
+	private @FXML MenuButton menuProducts,menuCustomersSat,menuOrders;
 	private @FXML ImageView imgCart, imgLogOut;
 	private @FXML MenuItem miCatalog, miShowProduct, miAddSurvey, miReportSelector, miAssembleProduct, miUpdateOrderStatus,
 			miManualTransaction, miSurveyReport;
@@ -147,7 +147,7 @@ public class ParentGUIController implements Initializable {
 			primaryStage.show();
 			if (primaryStage.getScene() != null) {
 				primaryStage.getScene().getWindow().sizeToScene();
-				primaryStage.getScene().getWindow().setHeight(menu.getHeight()+scenePane.getHeight()+100);
+				//primaryStage.getScene().getWindow().setHeight(menu.getHeight()+scenePane.getHeight()+100);
 			}
 
 			// addMediaPlayer();

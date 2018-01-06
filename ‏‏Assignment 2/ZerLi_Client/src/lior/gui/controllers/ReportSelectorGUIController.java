@@ -18,6 +18,7 @@ import entities.IncomesReport;
 import entities.OrderReport;
 import entities.Store;
 import entities.User;
+import gui.controllers.ParentGUIController;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;

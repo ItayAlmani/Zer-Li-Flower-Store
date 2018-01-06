@@ -4,11 +4,13 @@ import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
 import javafx.stage.Modality;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import kfir.gui.controllers.LogInGUIController;
@@ -21,6 +23,7 @@ import java.util.Optional;
 import gui.controllers.*;
 
 public class MainClient extends Application {
+	private Stage stage;
 	public static void main(String args[]) throws IOException {
 		try {
 			Context.connectToServer();
@@ -39,18 +42,24 @@ public class MainClient extends Application {
 	} // end main
 
 	@Override
-	public void start(Stage stage) throws Exception {
+	public void start(Stage primaryStage) throws Exception {
 		ParentGUIController main = new ParentGUIController();
-		this.stage=stage;
-		stage.setOnCloseRequest(confirmCloseEventHandler);
-		stage.setHeight(500);
-		stage.setWidth(500);
+		this.stage=primaryStage;
+		primaryStage.setOnCloseRequest(confirmCloseEventHandler);
+		primaryStage.setHeight(500);
+		primaryStage.setWidth(500);
 		for (int i = 0; i <= 5; i++)
-			stage.getIcons().add(new Image(getClass().getResourceAsStream("/images/logos/img/logo3-" + i + ".png")));
-		main.start(stage);
+			primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/images/logos/img/logo3-" + i + ".png")));
+		Rectangle2D primScreenBounds = Screen.getPrimary().getVisualBounds();
+        primaryStage.setX((primScreenBounds.getWidth() - primaryStage.getWidth()) / 2);
+        primaryStage.setY(0);
+        primaryStage.setMaxHeight(primScreenBounds.getMaxY());
+        primaryStage.resizableProperty().setValue(Boolean.FALSE);
+		main.start(primaryStage);
 	}
 	
-	private Stage stage;
+	
+
 
 	private EventHandler<WindowEvent> confirmCloseEventHandler = winEvent -> {
 		Alert closeConfirmation = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to exit?");

@@ -19,16 +19,16 @@
          <children>
             <Label alignment="CENTER" styleClass="title" text="Price Range" textAlignment="CENTER" textFill="ORANGE" textOverrun="CLIP" wrapText="true">
                <graphic>
-                  <FontAwesomeIconView fill="ORANGE" glyphName="MONEY" size="20" style="-glyph-size: 20;">
+                  <FontAwesomeIconView fill="ORANGE" fontSmoothingType="LCD" glyphName="MONEY" size="12" style="-glyph-size: 20;" textAlignment="CENTER">
                      <font>
-                        <Font name="FontAwesome Regular" size="20.0" />
+                        <Font name="FontAwesome Regular" size="12.0" />
                      </font></FontAwesomeIconView>
                </graphic>
                <font>
-                  <Font name="FontAwesome Regular" size="20.0" />
+                  <Font name="FontAwesome Regular" size="12.0" />
                </font>
             </Label>
-            <RangeSlider fx:id="rsPrice" blockIncrement="15.0" highValue="100.0" highValueChanging="true" lowValue="0.0" lowValueChanging="true" majorTickUnit="10.0" max="100.0" minWidth="400.0" minorTickCount="10" showTickLabels="true" showTickMarks="true" snapToTicks="true">
+            <RangeSlider fx:id="rsPrice" blockIncrement="15.0" highValue="100.0" highValueChanging="true" lowValue="0.0" lowValueChanging="true" majorTickUnit="15.0" max="100.0" minWidth="400.0" minorTickCount="10" showTickLabels="true" showTickMarks="true" snapToTicks="true">
                <VBox.margin>
                   <Insets bottom="10.0" />
                </VBox.margin></RangeSlider>
@@ -57,7 +57,7 @@
                <font>
                   <Font name="Material Design Icons" size="40.0" />
                </font></MaterialDesignIconView>
-            <JFXComboBox fx:id="cbColor" focusColor="ORANGE" labelFloat="true" promptText="Product color(optional)" unFocusColor="RED" />
+            <JFXComboBox fx:id="cbColor" focusColor="BLACK" labelFloat="true" promptText="Product color(optional)" unFocusColor="BLACK" />
          </children>
       </HBox>
       <HBox alignment="CENTER">
@@ -70,7 +70,7 @@
                   <FontAwesomeIconView fill="RED" fontSmoothingType="LCD" glyphName="ARROW_LEFT" size="15" textAlignment="CENTER" />
                </graphic>
             </JFXButton>
-            <JFXButton fx:id="btnSend" alignment="CENTER" buttonType="RAISED" onAction="#assembleProduct" ripplerFill="ORANGE" text="Send" textAlignment="CENTER" textFill="ORANGE" textOverrun="CLIP">
+            <JFXButton fx:id="btnSend" alignment="CENTER" buttonType="RAISED" onAction="#assembleProduct" ripplerFill="ORANGE" text="Assemble" textAlignment="CENTER" textFill="ORANGE" textOverrun="CLIP">
                <graphic>
                   <MaterialDesignIconView fill="ORANGE" fontSmoothingType="LCD" glyphName="SEND" size="15" textAlignment="CENTER" />
                </graphic>

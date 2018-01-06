@@ -16,6 +16,7 @@ import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView;
 import entities.Product;
 import entities.Product.Color;
 import entities.Product.ProductType;
+import gui.controllers.ParentGUIController;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -46,46 +47,8 @@ public class AssembleProductGUIController extends ProductsPresentationGUIControl
 	public void initialize(URL location, ResourceBundle resources) {
 		Context.currentGUI=this;
 		btnSend.setDisable(true);
-		
 		getProducts();
-		
-		cbColor.valueProperty().addListener((obs, oldval, newVal) -> {
-			javafx.scene.paint.Color color=javafx.scene.paint.Color.valueOf(newVal.toString());
-			icnFlower.setFill(color);
-			cbColor.setFocusColor(color);
-		});
-		
-		rsPrice.setHighValue(40);
-		txtMaxPrice.setText(((Integer)((Double)rsPrice.getHighValue()).intValue()).toString());
-		
-		rsPrice.setLowValue(0);
-		txtMinPrice.setText(((Integer)((Double)rsPrice.getLowValue()).intValue()).toString());
-		
-		rsPrice.highValueProperty().addListener((obs, oldval, newVal) -> {
-			rsPrice.setHighValue(newVal.intValue());
-			txtMaxPrice.setText(((Integer)newVal.intValue()).toString());
-		});
-		
-		rsPrice.lowValueProperty().addListener((obs, oldval, newVal) -> {
-			rsPrice.setLowValue(newVal.intValue());
-			txtMinPrice.setText(((Integer)newVal.intValue()).toString());
-		});
-		
-		txtMinPrice.textProperty().addListener((obs, oldval, newVal)->{
-			try {
-				rsPrice.setLowValue(Integer.parseInt(newVal));
-			} catch (NumberFormatException e) {
-				Context.mainScene.setMessage("Must enter only integers");
-			}
-		});
-		
-		txtMaxPrice.textProperty().addListener((obs, oldval, newVal)->{
-			try {
-				rsPrice.setHighValue(Integer.parseInt(newVal));
-			} catch (NumberFormatException e) {
-				Context.mainScene.setMessage("Must enter only integers");
-			}
-		});
+		initListeners();
 	}
 	
 	public void setProducts(ArrayList<Product> prds) {
@@ -95,12 +58,36 @@ public class AssembleProductGUIController extends ProductsPresentationGUIControl
 		}
 		this.products=prds;
 		
-		ArrayList<Color> cal = new ArrayList<>();
+		cbType.valueProperty().addListener((obs,oldVal,newVal)->{
+			cbColor.setValue(null);
+			if(vbox.getChildren().contains(hxProds))
+				vbox.getChildren().remove(hxProds);
+			Float min = products.get(0).getPrice(), max=0f;
+			ArrayList<Color> cal = new ArrayList<>();
+			for (Product p : products) {
+				if(p.getType().equals(newVal)&& p.getColor()!=null &&
+						p.getColor().equals(Color.Colorfull)==false &&
+						cal.contains(p.getColor())==false) {
+					cal.add(p.getColor());
+					if(p.getPrice()<min)
+						min=p.getPrice();
+					if(p.getPrice()>max)
+						max=p.getPrice();
+				}
+			}
+			min=min!=0f?min-1:0f;
+			max++;
+			rsPrice.setMin(min.intValue());
+			rsPrice.setMax(max.intValue());
+			rsPrice.setHighValue(max.intValue());
+			rsPrice.setLowValue(min.intValue());
+			Integer ticks = ((int)((max-min)/10f));
+			rsPrice.setMajorTickUnit(++ticks);
+			rsPrice.setMinorTickCount(ticks);
+			cbColor.setItems(FXCollections.observableArrayList(cal));
+		});
 		ArrayList<ProductType> ptal = new ArrayList<>();
 		for (Product p : products) {
-			if(p.getColor()!=null && p.getColor().equals(Color.Colorfull)==false &&
-					cal.contains(p.getColor())==false)
-				cal.add(p.getColor());
 			if(ptal.contains(p.getType())==false)
 				ptal.add(p.getType());
 		}
@@ -109,10 +96,13 @@ public class AssembleProductGUIController extends ProductsPresentationGUIControl
 			@Override
 			public void run() {
 				cbType.setItems(FXCollections.observableArrayList(ptal));
-				cbColor.setItems(FXCollections.observableArrayList(cal));
 				btnSend.setDisable(false);
 			}
 		});
+	}
+	
+	public void typeSelected() {
+		
 	}
 	
 	public void back() {
@@ -130,6 +120,51 @@ public class AssembleProductGUIController extends ProductsPresentationGUIControl
 		}
 	}
 	
+	private void initListeners() {
+		cbColor.valueProperty().addListener((obs, oldval, newVal) -> {
+			javafx.scene.paint.Color color = null;
+			if(newVal==null)
+				color=javafx.scene.paint.Color.BLACK;
+			else
+				color=javafx.scene.paint.Color.valueOf(newVal.toString());
+			icnFlower.setFill(color);
+			cbColor.setFocusColor(color);
+		});
+		
+		rsPrice.setHighValue(40);
+		txtMaxPrice.setText(((Integer)((Double)rsPrice.getHighValue()).intValue()).toString());
+		
+		rsPrice.setLowValue(0);
+		txtMinPrice.setText(((Integer)((Double)rsPrice.getLowValue()).intValue()).toString());
+		
+		rsPrice.highValueProperty().addListener((obs, oldval, newVal) -> {
+			rsPrice.setHighValue(newVal.intValue());
+			txtMaxPrice.setText(((Integer)newVal.intValue()).toString());
+		});		
+		
+		rsPrice.lowValueProperty().addListener((obs, oldval, newVal) -> {
+			rsPrice.setLowValue(newVal.intValue());
+			txtMinPrice.setText(((Integer)newVal.intValue()).toString());
+		});
+		
+		txtMinPrice.textProperty().addListener((obs, oldval, newVal)->{
+			try {
+				rsPrice.setLowValue(Integer.parseInt(newVal));
+			} catch (NumberFormatException e) {
+				Context.mainScene.setMessage("Must enter only integers");
+			}
+		});
+		txtMinPrice.textProperty().addListener(e->Context.mainScene.setMessage(""));
+		txtMaxPrice.textProperty().addListener(e->Context.mainScene.setMessage(""));
+		txtMaxPrice.textProperty().addListener((obs, oldval, newVal)->{
+			try {
+				rsPrice.setHighValue(Integer.parseInt(newVal));
+			} catch (NumberFormatException e) {
+				Context.mainScene.setMessage("Must enter only integers");
+			}
+		});
+	}
+	
 	private void initPage() {
 		components.clear();
 		initArrays(inConditionProds.size());
@@ -143,10 +178,13 @@ public class AssembleProductGUIController extends ProductsPresentationGUIControl
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {			
+				if(vbox.getChildren().contains(hxProds))
+					vbox.getChildren().remove(hxProds);
 				hxProds = new HBox(5,pagination);
 				hxProds.setAlignment(Pos.CENTER);
 				vbox.getChildren().add(vbox.getChildren().size()-1,hxProds);
 				vbox.setAlignment(Pos.CENTER);
+				ParentGUIController.primaryStage.getScene().getWindow().sizeToScene();
 			}
 		});
 	}

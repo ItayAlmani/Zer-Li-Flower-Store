@@ -24,6 +24,8 @@ import javafx.scene.control.Pagination;
 import javafx.scene.control.Spinner;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderStroke;
 import javafx.scene.layout.BorderStrokeStyle;
@@ -120,7 +122,9 @@ public abstract class ProductsPresentationGUIController implements Initializable
 		lblTitleName[i]=new Label("Name: ");
 		setComponent(lblTitleName[i] ,0, j, i);
 		lblShowName[i] = new Label(prd.getName());
-		lblShowName[i].setTextFill(getRandomColor());
+		lblShowName[i].setTextFill(getRandomColor(prd));
+		if(lblShowName[i].getTextFill().equals(Color.WHITE))
+			lblShowName[i].setBackground(new Background(new BackgroundFill(Color.GRAY,null,null)));
 		setComponent(lblShowName[i],1, j, i);
 		
 		lblTitleType[i]=new Label("Type: ");
@@ -164,7 +168,16 @@ public abstract class ProductsPresentationGUIController implements Initializable
 		});
 	}
 	
-	private Color getRandomColor() {
+	protected Color getRandomColor(Product prod) {
+		if(prod.getColor().equals(entities.Product.Color.Colorfull)==false) {
+			if(prod.getColor().equals(entities.Product.Color.Pink))
+				return Color.DEEPPINK;
+			else if(prod.getColor().equals(entities.Product.Color.Yellow))
+				return Color.GOLD;
+			/*else if(prod.getColor().equals(entities.Product.Color.White))
+				return Color.web("#cccccc");*/
+			return Color.valueOf(prod.getColor().toString());
+		}
 		double[] color = new double[3];
 		double rangeMin = 0.05f, rangeMax = 0.6f;
 		for (int i = 0; i < color.length; i++)
