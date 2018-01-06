@@ -215,7 +215,7 @@ public class ReportSelectorGUIController implements Initializable {
 					}
 				}
 			}
-			btConfirm1.setVisible(false);
+			//btConfirm1.setVisible(false);
 			ToggleReport2.setVisible(false);
 		}
 	}
@@ -316,7 +316,6 @@ public class ReportSelectorGUIController implements Initializable {
 
 	public void hideReport2(ActionEvent event) {
 		if (!this.ToggleReport2.isSelected()) {
-			System.out.println("asdasd");
 			paneReport2.setVisible(false);
 		} else/* if (btnHide.getText().equals("Ask for two reports"))*/ {
 			paneReport2.setVisible(true);
