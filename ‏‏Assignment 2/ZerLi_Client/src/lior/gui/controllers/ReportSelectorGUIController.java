@@ -18,7 +18,6 @@ import entities.IncomesReport;
 import entities.OrderReport;
 import entities.Store;
 import entities.User;
-import gui.controllers.ParentGUIController;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -328,8 +327,7 @@ public class ReportSelectorGUIController implements Initializable {
 
 	}
 	
-	public void Backtomainmenuhandler (ActionEvent event) throws Exception
-	{
+	public void Backtomainmenuhandler (ActionEvent event) throws Exception{
 		Context.mainScene.loadMainMenu();
 	}
 }

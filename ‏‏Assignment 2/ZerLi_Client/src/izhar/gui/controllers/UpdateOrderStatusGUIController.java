@@ -19,12 +19,13 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 
-public class UpdateOrderStatusGUIController extends ParentGUIController {
+public class UpdateOrderStatusGUIController implements Initializable {
 
 	private @FXML Button btnSend, btnUpdate;
 	private @FXML ComboBox<OrderStatus> cbOrderStatus;
@@ -37,7 +38,6 @@ public class UpdateOrderStatusGUIController extends ParentGUIController {
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		super.initialize(location, resources);
 		Context.currentGUI = this;
 		ArrayList<OrderStatus> al = new ArrayList<>();
 		for(OrderStatus os : OrderStatus.values())
@@ -117,7 +117,7 @@ public class UpdateOrderStatusGUIController extends ParentGUIController {
 		}
 	}
 
-	@FXML public void back() {
-		loadMainMenu();
+	public void back() {
+		Context.mainScene.loadMainMenu();
 	}
 }

@@ -6,6 +6,12 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXComboBox;
+import com.jfoenix.controls.JFXRadioButton;
+import com.jfoenix.controls.JFXSlider;
+import com.jfoenix.controls.JFXTextField;
+
 import common.Context;
 import entities.DeliveryDetails;
 import entities.Order.DeliveryType;
@@ -20,6 +26,7 @@ import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.css.CssMetaData;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -31,19 +38,21 @@ import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView;
 
 public class DeliveryGUIController implements Initializable {
 
-	private @FXML Button btnSend;
-	private @FXML TextField txtStreet, txtCity, txtPostCode, txtName, txtPhoneAreaCode, txtPhonePost;
-	private @FXML ComboBox<Store> cbStores;
-	private @FXML GridPane gpShipment, gpPickup;
+	private @FXML JFXButton btnSend;
+	private @FXML JFXTextField txtStreet, txtCity, txtPostCode, txtName, txtPhoneAreaCode, txtPhonePost;
+	private @FXML JFXComboBox<Store> cbStores;
 	private @FXML ToggleGroup tGroup;
-	private @FXML RadioButton rbShipment, rbPickup;
-	private @FXML VBox vboxForm;
+	private @FXML JFXRadioButton rbShipment, rbPickup;
+	private @FXML VBox vboxForm, paneShipment;
 	
 	private ArrayList<Store> stores;
 	private Store selectedStore;
+	private @FXML MaterialDesignIconView icnPickup, icnShipment;
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -52,7 +61,6 @@ public class DeliveryGUIController implements Initializable {
 		addTextLimiter(txtPhoneAreaCode, 3);
 		addTextLimiter(txtPhonePost, 7);
 		addTextLimiter(txtPostCode, 7);
-
 		
 		tGroup= new ToggleGroup();
 		rbPickup.setUserData("Pickup");
@@ -85,16 +93,20 @@ public class DeliveryGUIController implements Initializable {
 
 	public void showPickup(ActionEvent event) {
 		Context.mainScene.setMessage("");
+		icnPickup.setFill(Color.ORANGE);
+		icnShipment.setFill(Color.RED);
 		btnSend.setDisable(false);
-		this.gpShipment.setVisible(false);
-		this.gpPickup.setVisible(true);
+		this.paneShipment.setVisible(false);
+		this.cbStores.setVisible(true);
 	}
 	
 	public void showShipment() {
 		Context.mainScene.setMessage("");
+		icnShipment.setFill(Color.ORANGE);
+		icnPickup.setFill(Color.RED);
 		btnSend.setDisable(false);
-		this.gpPickup.setVisible(false);
-		this.gpShipment.setVisible(true);
+		this.cbStores.setVisible(false);
+		this.paneShipment.setVisible(true);
 		this.cbStores.getSelectionModel().clearSelection();
 		
 		ArrayList<Store> ordOnly = Context.fac.store.getOrdersOnlyStoresFromArrayList(stores);

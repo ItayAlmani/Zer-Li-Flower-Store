@@ -51,9 +51,6 @@ public class Context {
 	/** The current GUI. Used to deliver the answer from the <code>EchoServer</code>. */
 	public static Object currentGUI = null;
 	
-	/** The current JavaFX stage <=> the window of the GUI */
-	public static Stage stage = null;
-	
 	public static ArrayList<Object> askingCtrl = new ArrayList<>();
 	
 	public static Factory fac = new Factory();

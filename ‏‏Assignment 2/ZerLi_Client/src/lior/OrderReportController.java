@@ -4,26 +4,25 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.math.BigInteger;
-import java.text.DateFormat;
 import java.text.ParseException;
+<<<<<<< HEAD
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+=======
+>>>>>>> branch 'master' of https://github.com/ItayAlmani/Zer-Li-Flower-Store.git
 import java.time.ZoneId;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 
 import common.Context;
 import controllers.ParentController;
 import entities.Order;
-import entities.Order.OrderStatus;
 import entities.OrderReport;
 import entities.Product;
 import entities.Product.ProductType;
 import entities.ProductInOrder;
-import izhar.OrderController;
 import lior.interfaces.IOrderReportController;
 
 public class OrderReportController extends ParentController implements IOrderReportController {
@@ -33,8 +32,6 @@ public class OrderReportController extends ParentController implements IOrderRep
 
 	@Override
 	public void handleGet(ArrayList<Object> obj) {
-		
-		
 	}
 	
 	public void initproduceOrderReport(LocalDate date, BigInteger storeID) throws ParseException{

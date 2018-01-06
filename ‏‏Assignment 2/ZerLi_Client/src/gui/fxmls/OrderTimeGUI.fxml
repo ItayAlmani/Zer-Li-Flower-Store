@@ -1,18 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXDatePicker?>
+<?import com.jfoenix.controls.JFXSlider?>
+<?import de.jensd.fx.glyphs.weathericons.WeatherIconView?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.RadioButton?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="CENTER" spacing="10.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="izhar.gui.controllers.OrderTimeGUIController">
+<VBox alignment="CENTER" spacing="10.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="izhar.gui.controllers.OrderTimeGUIController">
    <children>
       <HBox spacing="20.0">
          <children>
@@ -25,38 +23,36 @@
             </VBox>
          </children>
       </HBox>
-      <GridPane fx:id="gpDate" prefHeight="62.0" prefWidth="296.0" visible="false">
-         <columnConstraints>
-            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="159.80003662109374" minWidth="-Infinity" />
-            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" />
-         </columnConstraints>
-         <rowConstraints>
-            <RowConstraints maxHeight="49.39998168945313" minHeight="0.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="84.0" minHeight="10.0" vgrow="SOMETIMES" />
-         </rowConstraints>
+      <VBox fx:id="vboxDateTime" alignment="CENTER" spacing="10.0" visible="false">
          <children>
-            <Label text="Select Date:" textAlignment="CENTER" wrapText="true">
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font>
-            </Label>
-            <Label text="Select Time:" textAlignment="CENTER" wrapText="true" GridPane.rowIndex="1">
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font>
-            </Label>
-            <DatePicker fx:id="dpDate" onAction="#selectedDate" showWeekNumbers="true" GridPane.columnIndex="1" />
-            <HBox fx:id="hboxTime" alignment="CENTER" spacing="5.0" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <JFXDatePicker fx:id="dpDate" defaultColor="GREEN" editable="false" onAction="#selectedDate" promptText="Select date of delivery" />
+            <VBox fx:id="vboxTime" alignment="CENTER">
                <children>
-                  <ComboBox fx:id="cbHours" onAction="#selectedHours" promptText="Hours" />
-                  <Label alignment="CENTER" contentDisplay="CENTER" text=":" textAlignment="CENTER" />
-                  <ComboBox fx:id="cbMinutes" promptText="Minutes" visible="false" />
+                  <Label contentDisplay="RIGHT" text="Time of delivery" textFill="GREEN">
+                     <graphic>
+                        <WeatherIconView fill="GREEN" fontSmoothingType="LCD" glyphName="TIME_3" size="12" textAlignment="CENTER" />
+                     </graphic>
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <HBox alignment="CENTER" spacing="10.0">
+                     <children>
+                        <Label contentDisplay="RIGHT" text="Hours" textFill="GREEN" />
+                        <JFXSlider fx:id="sldHours" blockIncrement="1.0" majorTickUnit="2.0" max="22.0" min="7.0" minorTickCount="1" showTickLabels="true" showTickMarks="true" snapToTicks="true" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" spacing="10.0">
+                     <children>
+                        <Label contentDisplay="RIGHT" text="Minutes" textFill="GREEN" />
+                        <JFXSlider fx:id="sldMinutes" blockIncrement="15.0" majorTickUnit="15.0" max="60.0" minorTickCount="1" showTickLabels="true" showTickMarks="true" snapToTicks="true" />
+                     </children>
+                  </HBox>
                </children>
-            </HBox>
+            </VBox>
          </children>
-      </GridPane>
+      </VBox>
       <Button fx:id="btnSend" alignment="CENTER" contentDisplay="CENTER" disable="true" mnemonicParsing="false" onAction="#addTime" text="Send" textAlignment="CENTER" />
       <Button mnemonicParsing="false" onAction="#back" text="Back" />
-      <Label fx:id="lblMsg" alignment="CENTER" contentDisplay="CENTER" textAlignment="CENTER" textFill="RED" />
    </children>
 </VBox>

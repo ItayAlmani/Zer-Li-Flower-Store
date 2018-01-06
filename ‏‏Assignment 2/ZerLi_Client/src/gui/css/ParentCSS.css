@@ -1,9 +1,52 @@
 .root{
-	-fx-font-size: 10;
 	-fx-alignment: center;
 	-fx-content-display: center ;
 }
 
+.mainScene{
+	-fx-background-image: url("/images/Light_Background_Image.jpg");
+}
+
+.menu{
+	-fx-background-color: #ffe5af;
+	-fx-border-color: #ffbb2d;
+
+}
+.lblHeader{
+	-fx-text-fill: linear-gradient(to top right,#ff6d08 0%, RED 44.63%, #fff700 100%);
+	-fx-font-family: "Bauhaus 93";
+	-fx-font-size: 37.0;
+}
+
+.title{
+	-fx-font-family: "Bauhaus 93";
+	-fx-font-weight: bold;
+}
+
+.iconedButton{
+	-fx-font-size: 30.0;
+}
+
+.coloredIcon{
+	-fx-fill: linear-gradient(to top right,#ff6d08 0%, RED 44.63%, #fff700 100%);
+}
+
+MenuButton, .menuItem{
+	-fx-background-color: linear-gradient(to top right,#ff6d08 0%, RED 44.63%, #fff700 100%);
+}
+
 Pane{
 	-fx-padding: 5 5 5 5;
+}
+
+MaterialDesignIconView{
+	-fx-font-family:"Material Design Icons";
+}
+
+.material-icons{
+	-fx-font-family:"Material Design Icons";
+}
+
+FontAwesomeIconView{
+	-fx-font-family:"FontAwesome";
 }

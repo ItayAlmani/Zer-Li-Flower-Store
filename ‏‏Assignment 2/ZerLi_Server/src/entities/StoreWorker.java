@@ -4,15 +4,28 @@ import java.io.Serializable;
 import java.math.BigInteger;
 
 public class StoreWorker extends User implements Serializable  {
+	private BigInteger storeWorkerID;
+	private Store store;
+	
+	public StoreWorker(User user, BigInteger storeWorkerID,Store store) {
+		super(user);
+		this.storeWorkerID=storeWorkerID;
+		this.store=store;
+	}
+	
+	public void setUser(User user) {
+		setUserID(user.getUserID());
+		setFirstName(user.getFirstName());
+		setLastName(user.getLastName());
+		setUserName(user.getUserName());
+		setPassword(user.getPassword());
+		setPermissions(user.getPermissions());
+	}
 	
 	public StoreWorker(BigInteger storeWorkerID) {
 		super();
 		this.storeWorkerID = storeWorkerID;
 	}
-
-	private BigInteger storeWorkerID;
-	private Store store;
-	
 	public StoreWorker(String privateID, String firstName, String lastName, String userName, String password, UserType permissions) {
 		super(privateID,firstName, lastName, userName, password, permissions);
 		// TODO Auto-generated constructor stub

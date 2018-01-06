@@ -30,6 +30,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Control;
@@ -37,12 +38,11 @@ import javafx.scene.control.Spinner;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
-public class ManualTransactionGUIController extends ParentGUIController {
+public class ManualTransactionGUIController implements Initializable {
 	
 	private @FXML Button btnSend;
 	private @FXML VBox vbox;
 	private ObservableList<Customer> custList;
-	//private ArrayList<Product> products;
 	private SortedSet<Product> prdSet;
 	private ArrayList<ProductInOrder> pios = new ArrayList<>();
 	private ArrayList<ComboBox<Product>> comboBoxs = new ArrayList<>();
@@ -72,7 +72,6 @@ public class ManualTransactionGUIController extends ParentGUIController {
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		super.initialize(location, resources);
 		Context.currentGUI = this;
 		
 		if(Context.order == null)

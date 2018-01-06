@@ -6,15 +6,28 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.ResourceBundle;
 
+import com.jfoenix.controls.JFXComboBox;
+import com.jfoenix.controls.JFXDatePicker;
+import com.jfoenix.controls.JFXTimePicker;
+import com.jfoenix.controls.behavior.JFXTimePickerBehavior;
+import com.jfoenix.skins.JFXTimePickerContent;
+import com.jfoenix.skins.JFXTimePickerSkin;
+
 import common.Context;
 import gui.controllers.ParentGUIController;
 import javafx.application.Platform;
+import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.RadioButton;
@@ -27,36 +40,38 @@ import javafx.util.converter.LocalDateStringConverter;
 import javafx.util.converter.LocalTimeStringConverter;
 import javafx.scene.layout.GridPane;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.ComboBoxBase;
 import javafx.scene.control.DateCell;
+import com.jfoenix.controls.JFXSlider;
 
 /**
  * The Customer will choose between Immediate delivery or Pre-order. If pre-order has been chosen, the GUI will reveal the datepickers
  */
-public class OrderTimeGUIController extends ParentGUIController {
+public class OrderTimeGUIController implements Initializable {
 
 	private @FXML RadioButton rbImmediate, rbPreOrder;
 	private @FXML Button btnSend, btnBack;
-	private @FXML DatePicker dpDate;
-	private @FXML GridPane gpDate;
-	private @FXML ComboBox<Integer> cbHours, cbMinutes;
-	private @FXML HBox hboxTime;
+	private @FXML JFXDatePicker dpDate;
+	private @FXML JFXTimePicker tpTime;
+	private @FXML VBox vboxTime, vboxDateTime;
 	private @FXML ToggleGroup tGroup;
+	@FXML JFXSlider sldMinutes, sldHours;
 
-	@FXML public void addTime() {
+	public void addTime() {
 		LocalDateTime date = null;
 		Object select =null;
 		Toggle toggle = tGroup.getSelectedToggle();
 		if(toggle == null || 
 				toggle.getUserData().equals("PreOrder")==false && toggle.getUserData().equals("Immediate")==false) {
-			lblMsg.setText("Must choose one option");
+			Context.mainScene.setMessage("Must choose one option");
 			return;
 		}
 		select = toggle.getUserData();
 		
 		if(select.equals("PreOrder")) {
 			date = dpDate.getValue().atStartOfDay();
-			date=date.plusHours(cbHours.getValue());
-			date=date.plusMinutes(cbMinutes.getValue());
+			date=date.plusHours(((Double)sldHours.getValue()).longValue());
+			date=date.plusMinutes(((Double)sldMinutes.getValue()).longValue());
 		}
 		else if(select.equals("Immediate")) {
 			Context.order.getDelivery().setImmediate(true);
@@ -72,45 +87,34 @@ public class OrderTimeGUIController extends ParentGUIController {
 			}
 		}
 		Context.order.getDelivery().setDate(date);
-		try {
-			loadGUI("PaymentGUI", false);
-		} catch (Exception e) {
-			lblMsg.setText("Loader failed");
-			e.printStackTrace();
-		}
+		Context.mainScene.loadGUI("PaymentGUI", false);
 	}
 
 	public void back() {
-		try {
-			loadGUI("DeliveryGUI", false);
-		} catch (Exception e) {
-			lblMsg.setText("Loader failed");
-			e.printStackTrace();
-		}
+		Context.mainScene.loadGUI("DeliveryGUI", false);
 	}
 
 	public void selectedImmediate() {
 		btnSend.setDisable(false);
-		gpDate.setVisible(false);
+		vboxDateTime.setVisible(false);
 	}
 
 	public void selectedPreOrder() {
 		btnSend.setDisable(false);
-		gpDate.setVisible(true);
+		vboxDateTime.setVisible(true);
 	}
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		super.initialize(location, resources);
 		Context.currentGUI = this;
+		
+		//tpTime.setIs24HourView(true);
 		
 		tGroup= new ToggleGroup();
 		rbImmediate.setUserData("Immediate");
 		rbImmediate.setToggleGroup(tGroup);
 		rbPreOrder.setUserData("PreOrder");
 		rbPreOrder.setToggleGroup(tGroup);
-		
-		dpDate.setEditable(false);
 		
 		LocalTime now_time = LocalTime.now();
 		if(now_time.plusHours(3).getHour()>22 || 
@@ -134,44 +138,42 @@ public class OrderTimeGUIController extends ParentGUIController {
 		}
 	}
 	
-	@FXML public void selectedDate() {
+	public void selectedDate() {
 		Context.order.getDelivery().setDate(dpDate.getValue().atStartOfDay());
 		LocalTime now_time = LocalTime.now();
 		LocalDate reqDate = dpDate.getValue(), now_date = LocalDate.now();
 		
-		ArrayList<Integer> al = new ArrayList<>();
+		ArrayList<LocalTime> al = new ArrayList<>();
 		
 		//The order is for today
 		if(now_date.compareTo(reqDate)==0) {
 			if(now_time.compareTo(LocalTime.of(22, 00))<=0) { //delivery until 22:00
-				for (Integer i = now_time.getHour()+3; i <= 22; i++)
+				sldHours.setMin(now_time.plusHours(3).getHour());
+				for (LocalTime i = LocalTime.of(now_time.plusHours(3).getHour(), now_time.truncatedTo(ChronoUnit.MINUTES).getMinute()); i.isBefore(LocalTime.of(21, 45)); i=i.plusMinutes(15))
 					al.add(i);
 			}
 		}
 		else {
-			for (Integer i = 7; i <= 22; i++)
+			sldHours.setMin(7);
+			for (LocalTime i = LocalTime.of(7, 00); i.isBefore(LocalTime.of(22, 00)); i=i.plusHours(1))
 				al.add(i);
 		}
-		cbHours.setItems(FXCollections.observableArrayList(al));
-		hboxTime.setVisible(true);
-		cbHours.setVisible(true);
+		sldHours.setValue(sldHours.getMin());
+		vboxTime.setVisible(true);
+		sldHours.setVisible(true);
 	}
 
-	@FXML public void selectedHours() {
+	public void selectedHours() {
 		LocalTime now_time = LocalTime.now();
-		
-		ArrayList<Integer> al = new ArrayList<>();
+
 		//if now hours+3 chosen
-		if(now_time.getHour()+3==cbHours.getValue()) {
-			for (int i = now_time.getMinute()+1; i <= 59; i++)
-				al.add(i);
-		}
-		else {
-			for (int i = 0; i <= 59; i++)
-				al.add(i);
-		}
-		
-		cbMinutes.setItems(FXCollections.observableArrayList(al));
-		cbMinutes.setVisible(true);
+		Integer val = ((Double)sldHours.getValue()).intValue();
+		Integer hour = now_time.getHour()+3;
+		if(val.equals(hour))
+			sldMinutes.setMin(now_time.getMinute()+1);
+		else
+			sldMinutes.setMin(0);
+		sldMinutes.setValue(sldMinutes.getMin());
+		sldMinutes.setVisible(true);
 	}
 }

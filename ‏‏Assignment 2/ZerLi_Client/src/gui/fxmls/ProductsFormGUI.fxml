@@ -18,7 +18,6 @@
 	<children>
 		<ComboBox id="cmbProducts" fx:id="cmbProducts" layoutX="10.0" layoutY="1.0" onAction="#showProduct" prefHeight="23.0" prefWidth="291.0" promptText="Select product" />
 		<Button id="btnBack" fx:id="btnBack" layoutX="157.0" layoutY="341.0" mnemonicParsing="false" onAction="#loadMainMenu" text="Back" />
-      <Label id="lblMsg" fx:id="lblMsg" layoutX="51.0" layoutY="259.0" textFill="RED" />
       <Pane fx:id="paneItem" layoutX="5.0" layoutY="41.0" prefHeight="297.0" prefWidth="344.0" visible="false">
          <children>
             <ImageView id="imgImage" fx:id="imgImage" fitHeight="150.0" fitWidth="200.0" layoutX="97.0" pickOnBounds="true" preserveRatio="true" />

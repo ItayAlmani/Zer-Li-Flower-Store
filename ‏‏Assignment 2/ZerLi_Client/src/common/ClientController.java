@@ -65,9 +65,6 @@ public class ClientController {
 				} catch (NoSuchMethodException | SecurityException |IllegalAccessException | IllegalArgumentException | InvocationTargetException | InstantiationException e) {
 					e.printStackTrace();
 				}
-					
-/*				if(Context.currentGUI instanceof PaymentGUIController)
-					((PaymentGUIController)Context.currentGUI).loadNextWindow();*/
 				ParentController.sendResultToClient(true);
 			}
 			else

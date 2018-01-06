@@ -37,9 +37,9 @@ import entities.CSMessage.MessageType;
 import entities.User.UserType;
 import gui.controllers.ParentGUIController;
 
-public class ProductsFormGUIController extends ParentGUIController{
+public class ProductsFormGUIController implements Initializable{
 
-	private @FXML ComboBox cmbProducts;
+	private @FXML ComboBox<Product> cmbProducts;
 	private @FXML Button btnBack, btnUpdate;
 	private @FXML Label lblShowID, lblShowType, lblShowColor, lblShowPrice;
 	private @FXML TextField txtShowName;
@@ -48,7 +48,6 @@ public class ProductsFormGUIController extends ParentGUIController{
 	
 	private Product p;
 	private ArrayList<Product> products;
-	ObservableList<String> list;
 
 	private void getProductsComboBox() {
 		try {
@@ -61,37 +60,18 @@ public class ProductsFormGUIController extends ParentGUIController{
 	
 	public void setProducts(ArrayList<Product> prods) {
 		this.products=prods;
-		ArrayList<String> al = new ArrayList<>();
-		for (Product p : this.products) {
-			al.add(p.getName());
-		}
-
-		list = FXCollections.observableArrayList(al);
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
-				cmbProducts.setItems(list);
+				cmbProducts.setItems(FXCollections.observableArrayList(products));
 				paneItem.setVisible(false);
 			}
 		});
 	}
 	
-	public void showProduct(ActionEvent event) throws Exception {
-		if(Context.clientConsole.isConnected()==false) {
-			serverDown(event);
-			return;
-		}
-		Product prd = null;
-		if(cmbProducts.getValue()!=null) {
-			for (Product p : this.products) {
-				if(p.getName().equals(cmbProducts.getValue())) {
-					prd = p;
-					break;
-				}
-			}
-			if(prd!=null)
-				loadProduct(prd);
-		}
+	public void showProduct() throws Exception {
+		if(cmbProducts.getValue()!=null)
+			loadProduct(cmbProducts.getValue());
 	}
 	
 	public void loadProduct(Product p) {
@@ -106,28 +86,24 @@ public class ProductsFormGUIController extends ParentGUIController{
 		paneItem.setVisible(true);
 	}
 	
-	public void updateName(ActionEvent event) throws Exception {
-		if(Context.clientConsole.isConnected()==false)
-			serverDown(event);
+	public void updateName() throws Exception {
 		if(txtShowName.getText()!=null) {
 			if(txtShowName.getText().equals(p.getName())==false) {//Name changed
 				p.setName(txtShowName.getText());
 				Context.fac.product.updateProduct(p);
+				getProductsComboBox();
 			}
 		}
 	}
 	
 	@Override
-	public void ShowSuccessMsg() {
-		super.ShowSuccessMsg();
-		getProductsComboBox();
-	}
-	
-	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		super.initialize(location, resources);
 		Context.currentGUI = this;
 		getProductsComboBox();
 		cmbProducts.setStyle("-fx-font-size:10");
+	}
+
+	public void loadMainMenu() {
+		Context.mainScene.loadMainMenu();
 	}
 }
