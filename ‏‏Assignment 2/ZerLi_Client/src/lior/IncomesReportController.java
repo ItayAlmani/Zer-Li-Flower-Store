@@ -79,6 +79,11 @@ public class IncomesReportController extends ParentController implements IIncome
 		c.setTime(Reqdate); 
 		c.add(Calendar.MONTH, -3);
 		startDate = c.getTime();
+		rDate.setHours(23);
+		rDate.setMinutes(59);
+		rDate.setSeconds(59);
+		this.iReport[ind].setStartdate(this.startDate);
+		this.iReport[ind].setEnddate(this.rDate);
 		try {
 			Context.askingCtrl.add(this);
 			Context.fac.order.getAllOrdersByStoreID(storeID);
@@ -89,22 +94,18 @@ public class IncomesReportController extends ParentController implements IIncome
 	}
 
 	public void setOrders(ArrayList<Order> orders) {
+		int flag=0;
 		int ind = 1;
 		if(this.iReport[0].getOrders().size()==0)
 			ind = 0;
 		if(this.iReport[0].getOrders().size()!=0&&this.iReport[1].getOrders().size()!=0)
 			ind = 0;
 		this.iReport[ind].setOrders(orders);
-		rDate.setHours(23);
-		rDate.setMinutes(59);
-		rDate.setSeconds(59);
-		this.iReport[ind].setStartdate(this.startDate);
-		this.iReport[ind].setEnddate(this.rDate);
 		for(int i=0;i<orders.size();i++)
 		{
 			Date date = Date.from(orders.get(i).getDate().atZone(ZoneId.systemDefault()).toInstant());
-			if(date.after(rDate)==false&&
-					date.after(startDate)
+			if(date.after(iReport[ind].getEnddate())==false&&
+					date.after(iReport[ind].getStartdate())
 					//&& orders.get(i).getOrderStatus().equals(OrderStatus.Paid)
 					)
 			{
@@ -116,6 +117,12 @@ public class IncomesReportController extends ParentController implements IIncome
 					e.printStackTrace();
 				}
 			}
+		}
+		if(flag==0)
+		{
+			ArrayList<IncomesReport> ar = new ArrayList<>();
+			ar.add(iReport[ind]);
+			sendIncomeReports(ar);
 		}
 	}
 
@@ -131,8 +138,6 @@ public class IncomesReportController extends ParentController implements IIncome
 		}
 		ArrayList<Order> orders = iReport[ind].getOrders();
 		double Totalincomessum=iReport[ind].getTotIncomes();
-		iReport[ind].setEnddate(rDate);
-		iReport[ind].setStartdate(startDate);
 		if(Context.fac.prodInOrder.isAllPIOsFromSameOrder(products)==false)
 			return;
 		

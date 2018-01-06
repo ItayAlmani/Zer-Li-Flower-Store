@@ -54,11 +54,11 @@ public class ReportSelectorGUIController implements Initializable {
 	//Income Report General Variables
 	private @FXML AnchorPane paneTotincome,paneTotincome1;
 	//Income Report 1 Variables
-	private @FXML Label lblIncometitle,lblincomeDataerr,lblTotIncomeSum,lblIncomeStoreID,lblIncomeEndDate
+	private @FXML Label lblIncometitle,lblTotIncomeSum,lblIncomeStoreID,lblIncomeEndDate
 	,lblIncomeStartDate,lblTotIncome,lblIncomeStore,lblIncomeTo,lblIncomeFrom;
 	//Income Report 2 Variables
 	private @FXML Label lblIncomeFrom1,lblIncomeTo1,lblIncomeStore1,lblTotIncome1,lblIncomeStartDate1,
-	lblIncomeEndDate1,lblIncomeStoreID1,lblTotIncomeSum1,lblincomeDataerr1,lblIncometitle1;
+	lblIncomeEndDate1,lblIncomeStoreID1,lblTotIncomeSum1,lblIncometitle1;
 
 	
 	
@@ -184,6 +184,9 @@ public class ReportSelectorGUIController implements Initializable {
 			if (Context.getUser().getPermissions().equals(User.UserType.ChainStoreManager)) {
 				@SuppressWarnings("deprecation")
 				Date date1 = new Date(YearCB1.getValue() - 1900, MonthCB1.getValue() - 1, DayCB1.getValue());
+				date1.setHours(23);
+				date1.setMinutes(59);
+				date1.setSeconds(59);
 				for (int i = 0; i < this.stores.size(); i++) {
 					if (this.stores.get(i).getName().equals(this.StoreCB1.getValue()))
 						n1 = this.stores.get(i).getStoreID();
@@ -197,18 +200,29 @@ public class ReportSelectorGUIController implements Initializable {
 							// lblMsg.setText("Loader failed");
 							e.printStackTrace();
 						}
-						if(TypeCB1.getValue().equals(TypeCB.getValue()))
-							Context.fac.orderReport.produceOrderReport(date1, n1);
+						if(TypeCB1.getValue().equals(TypeCB.getValue())&&date.equals(date1));
 						else
-							Context.fac.orderReport.initproduceOrderReport(date, n);
+						{
+							if(TypeCB1.getValue().equals(TypeCB.getValue()))
+							{
+								Context.fac.orderReport.produceOrderReport(date1, n1);
+							}
+							else
+								Context.fac.orderReport.initproduceOrderReport(date1, n1);
+						}
+							
 					}
 	
 					else if (TypeCB1.getValue().equals("Incomes Report")) {
 						//Context.mainScene.loadGUI("IncomesReportFormGUI", false);
-						if(TypeCB1.getValue().equals(TypeCB.getValue()))
-							Context.fac.incomesReport.ProduceIncomesReport(date1, n1);
+						if(TypeCB1.getValue().equals(TypeCB.getValue())&&date.equals(date1));
 						else
-							Context.fac.incomesReport.initProduceIncomesReport(date1, n1);
+						{
+							if(TypeCB1.getValue().equals(TypeCB.getValue()))
+								Context.fac.incomesReport.ProduceIncomesReport(date1, n1);
+							else
+								Context.fac.incomesReport.initProduceIncomesReport(date1, n1);
+						}
 					}
 	
 					else if (TypeCB.getValue().equals("Client complaimnts histogram")) {
@@ -241,7 +255,12 @@ public class ReportSelectorGUIController implements Initializable {
 		if (oReports == null)
 			return;
 		OrderReport rep = oReports.get(0);
-		if (rep.getStoreID().equals(n)&&TypeCB.getValue().equals("Orders Report")) {
+		@SuppressWarnings("deprecation")
+		Date date = new Date(YearCB.getValue() - 1900, MonthCB.getValue() - 1, DayCB.getValue());
+		date.setHours(23);
+		date.setMinutes(59);
+		date.setSeconds(59);
+		if (rep.getStoreID().equals(n)&&TypeCB.getValue().equals("Orders Report")&&date.equals(rep.getEnddate())) {
 			Platform.runLater(new Runnable() {
 				@Override
 				public void run() {
@@ -257,7 +276,6 @@ public class ReportSelectorGUIController implements Initializable {
 				}
 			});
 			paneorder1.setVisible(true);
-			//oReports.remove(0);
 		} else {
 			Platform.runLater(new Runnable() {
 				public void run() {
@@ -274,38 +292,27 @@ public class ReportSelectorGUIController implements Initializable {
 				}
 			});
 			paneorder11.setVisible(true);
-			//oReports.remove(1);
 		}
 	}
 	
 	public void setIncomeReports(ArrayList<IncomesReport> iReports) {
 		if(iReports==null)return;
 		IncomesReport rep = iReports.get(0);
-		if (rep.getStoreID().equals(n)&&TypeCB.getValue().equals("Incomes Report")) {
+		@SuppressWarnings("deprecation")
+		Date date = new Date(YearCB.getValue() - 1900, MonthCB.getValue() - 1, DayCB.getValue());
+		date.setHours(23);
+		date.setMinutes(59);
+		date.setSeconds(59);
+		if (rep.getStoreID().equals(n)&&TypeCB.getValue().equals("Incomes Report")&&date.equals(rep.getEnddate())) {
 			DateFormat ReqDate = new SimpleDateFormat("dd/MM/yyyy");
 			Platform.runLater(new Runnable() {
 				@Override
 				public void run() {
-					if(rep.getTotIncomes()!=-1) {
 						String s=String.valueOf(rep.getTotIncomes());
 						lblIncomeStoreID.setText(rep.getStoreID().toString());
 						lblIncomeEndDate.setText(ReqDate.format(rep.getEnddate()));
 						lblIncomeStartDate.setText(ReqDate.format(rep.getStartdate()));
 						lblTotIncomeSum.setText(s);
-						lblincomeDataerr.setVisible(false);
-					}
-					else {
-						lblIncomeFrom.setVisible(false);
-						lblIncomeTo.setVisible(false);
-						lblIncomeStore.setVisible(false);
-						lblTotIncome.setVisible(false);
-						lblIncomeStartDate.setVisible(false);
-						lblIncomeEndDate.setVisible(false);
-						lblIncomeStoreID.setVisible(false);
-						lblTotIncomeSum.setVisible(false);
-						lblincomeDataerr.setVisible(true);
-					}
-						
 				}
 			});
 			
