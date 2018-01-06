@@ -202,7 +202,6 @@ public class DeliveryGUIController implements Initializable {
 						String show = "The product " 
 									+outOfStockProd.getName() +" is out of stock at store "
 									+ selectedStore.getName()+".\nYou can replace store or product";
-						
 						Context.mainScene.setMessage(show);
 					}
 				});

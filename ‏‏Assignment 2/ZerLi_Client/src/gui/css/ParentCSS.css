@@ -21,6 +21,7 @@
 .title{
 	-fx-font-family: "Bauhaus 93";
 	-fx-font-weight: bold;
+	-fx-font-size: 20px;
 }
 
 .iconedButton{
@@ -29,9 +30,10 @@
 
 .coloredIcon{
 	-fx-fill: linear-gradient(to top right,#ff6d08 0%, RED 44.63%, #fff700 100%);
+	-glyph-size: 30.0;
 }
 
-MenuButton, .menuItem{
+.menu-button{
 	-fx-background-color: linear-gradient(to top right,#ff6d08 0%, RED 44.63%, #fff700 100%);
 }
 
@@ -39,14 +41,6 @@ Pane{
 	-fx-padding: 5 5 5 5;
 }
 
-MaterialDesignIconView{
-	-fx-font-family:"Material Design Icons";
-}
-
-.material-icons{
-	-fx-font-family:"Material Design Icons";
-}
-
-FontAwesomeIconView{
-	-fx-font-family:"FontAwesome";
+.tooltip{
+	-fx-font-size: 12px;
 }
