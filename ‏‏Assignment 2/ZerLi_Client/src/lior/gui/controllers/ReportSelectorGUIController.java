@@ -5,9 +5,13 @@ import java.math.BigInteger;
 import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.ResourceBundle;
+
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXComboBox;
 
 import common.Context;
 import entities.IncomesReport;
@@ -34,36 +38,49 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import com.jfoenix.controls.JFXDatePicker;
+import com.jfoenix.controls.JFXToggleButton;
+import javafx.scene.chart.BarChart;
 
 public class ReportSelectorGUIController implements Initializable {
 
 	private ArrayList<Store> stores;
 	private BigInteger n, n1;
-	private @FXML Button askforreport,backbutton,btnHide;
-	private @FXML ComboBox<String> StoreCB,TypeCB,StoreCB1,TypeCB1;
-	private @FXML ComboBox<Integer> DayCB,MonthCB,YearCB,DayCB1,MonthCB1,YearCB1;
+	
+	//Report1Pick variables
+	private @FXML JFXComboBox cbStorePick1,cbTypePick1;
+	private @FXML JFXDatePicker DatePicker1;
+	private @FXML JFXToggleButton ToggleReport2;
+	private @FXML JFXButton btConfirm1,btBack;
+	//Report1Pick variables
+	private @FXML Label lblReport2;
+	private @FXML JFXComboBox cbStorePick2,cbTypePick2;
+	private @FXML JFXDatePicker DatePicker2;
+	private @FXML AnchorPane paneReport2;
 	//Order Report General Variables
-	private @FXML AnchorPane paneorder1,paneorder11,paneReport2;
+	private @FXML AnchorPane paneOrderReport1,paneOrderReport2;
 	//Order Report 1 Variables
-	private @FXML Label lblBBousum1,lblfPlntsum1,lblfArrnsum1,lblFClusum1,lblFClucnt1,lblBBoucnt1,lblfPlntcnt1
-	,lblfArrncnt1,lblTotPrice1,lblNumOford1,lblFlowClu1,lblBridBou1,lblFlopl1,lblFloArr1;
+	private @FXML Label lblFlowerArrcnt1,lblFlowerClusum1,lblBridalBousum1,lblFlowerPlasum1
+	,lblFlowerArrsum1,lblFlowerPlacnt1,lblBridalBoucnt1,lblFlowerClucnt1;
 	//Order Report 2 Variables
-	private @FXML Label lblBBousum11,lblfPlntsum11,lblfArrnsum11,lblFClucnt11,lblBBoucnt11,lblfPlntcnt11
-	,lblfArrncnt11,lblTotPrice11,lblNumOford11,lblFlowClu11,lblBridBou11,lblFlopl11,lblFloArr11,
-	lblFClusum11,lblReport2;
+	private @FXML Label lblFlowerArrcnt2,lblFlowerClusum2,lblBridalBousum2,lblFlowerPlasum2
+		,lblFlowerArrsum2,lblFlowerPlacnt2,lblBridalBoucnt2,lblFlowerClucnt2;
 	//Income Report General Variables
-	private @FXML AnchorPane paneTotincome,paneTotincome1;
+	private @FXML AnchorPane paneIncomeReport2,paneIncomeReport1;
 	//Income Report 1 Variables
-	private @FXML Label lblIncometitle,lblTotIncomeSum,lblIncomeStoreID,lblIncomeEndDate
-	,lblIncomeStartDate,lblTotIncome,lblIncomeStore,lblIncomeTo,lblIncomeFrom;
+	private @FXML Label lblStartDate1,lblEndDate1,lblStoreID1,lblTotIncome1;
 	//Income Report 2 Variables
-	private @FXML Label lblIncomeFrom1,lblIncomeTo1,lblIncomeStore1,lblTotIncome1,lblIncomeStartDate1,
-	lblIncomeEndDate1,lblIncomeStoreID1,lblTotIncomeSum1,lblIncometitle1;
+	private @FXML Label lblStartDate2,lblEndDate2,lblStoreID2,lblTotIncome2;
+	//Histogram Report General Variables
+	private @FXML AnchorPane paneHistogram1,paneHistogram2;
+	@SuppressWarnings("rawtypes")
+	private @FXML BarChart Barchart1,Barchart2;
+	
 
 	
 	
 	public void start(Stage stage) throws IOException {
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/fxmls/ReportSelectorGUI.fxml"));
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/fxmls/ReportMainGUI.fxml"));
 		Scene scene = new Scene(loader.load());
 		stage.setTitle("Report Menu");
 		stage.setScene(scene);
@@ -75,33 +92,17 @@ public class ReportSelectorGUIController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		Context.currentGUI = this;
-		paneorder1.setBorder(new Border(new BorderStroke(Color.FORESTGREEN,BorderStrokeStyle.SOLID,CornerRadii.EMPTY,BorderWidths.DEFAULT)));
-		paneorder11.setBorder(new Border(new BorderStroke(Color.BLUE,BorderStrokeStyle.SOLID,CornerRadii.EMPTY,BorderWidths.DEFAULT)));
-		paneTotincome.setBorder(new Border(new BorderStroke(Color.FORESTGREEN,BorderStrokeStyle.SOLID,CornerRadii.EMPTY,BorderWidths.DEFAULT)));
-		paneTotincome1.setBorder(new Border(new BorderStroke(Color.BLUE,BorderStrokeStyle.SOLID,CornerRadii.EMPTY,BorderWidths.DEFAULT)));
-		DateFormat day = new SimpleDateFormat("dd");
-		DateFormat Month = new SimpleDateFormat("MM");
-		DateFormat Year = new SimpleDateFormat("yyyy");
-		DateFormat ReqDate = new SimpleDateFormat("dd/MM/yyyy");
-		Date date = new Date();
-		ReqDate.format(date);
-		String str = Year.format(date);
-		YearCB.getItems().removeAll(YearCB.getItems());
-		for (int i = 1980; i <= Integer.parseInt(str); i++)
-			YearCB.getItems().add(i);
-		YearCB.setValue(Integer.parseInt(str));
-		str = Month.format(date);
-		for (int i = 1; i <= 12; i++)
-			MonthCB.getItems().add(i);
-		MonthCB.setValue(Integer.parseInt(str));
-		str = day.format(date);
-		for (int i = 1; i <= 31; i++)
-			DayCB.getItems().add(i);
-		DayCB.setValue(Integer.parseInt(str) - 1);
-		TypeCB.getItems().add("Incomes Report");
-		TypeCB.getItems().add("Orders Report");
-		TypeCB.getItems().add("Client complaimnts histogram");
-		TypeCB.getItems().add("Satisfaction Report");
+		//paneAll.getChildren().removeAll(paneReport2,paneorder11,paneTotincome1);
+		
+		//btn.setRipplerFill(Color.ALICEBLUE);
+		paneOrderReport1.setBorder(new Border(new BorderStroke(Color.FORESTGREEN,BorderStrokeStyle.SOLID,CornerRadii.EMPTY,BorderWidths.DEFAULT)));
+		paneOrderReport2.setBorder(new Border(new BorderStroke(Color.BLUE,BorderStrokeStyle.SOLID,CornerRadii.EMPTY,BorderWidths.DEFAULT)));
+		paneIncomeReport1.setBorder(new Border(new BorderStroke(Color.FORESTGREEN,BorderStrokeStyle.SOLID,CornerRadii.EMPTY,BorderWidths.DEFAULT)));
+		paneIncomeReport2.setBorder(new Border(new BorderStroke(Color.BLUE,BorderStrokeStyle.SOLID,CornerRadii.EMPTY,BorderWidths.DEFAULT)));
+		cbTypePick1.getItems().add("Incomes Report");
+		cbTypePick1.getItems().add("Orders Report");
+		cbTypePick1.getItems().add("Client complaimnts histogram");
+		cbTypePick1.getItems().add("Satisfaction Report");
 		try {
 			Context.fac.store.getAllStores();
 		} catch (IOException e) {
@@ -109,41 +110,31 @@ public class ReportSelectorGUIController implements Initializable {
 			e.printStackTrace();
 		}
 		if (Context.getUser().getPermissions().equals(User.UserType.ChainStoreManager)) {
-			str = Year.format(date);
-			for (int i = 1980; i <= Integer.parseInt(str); i++)
-				YearCB1.getItems().add(i);
-			YearCB1.setValue(Integer.parseInt(str));
-			str = Month.format(date);
-			for (int i = 1; i <= 12; i++)
-				MonthCB1.getItems().add(i);
-			MonthCB1.setValue(Integer.parseInt(str));
-			str = day.format(date);
-			for (int i = 1; i <= 31; i++)
-				DayCB1.getItems().add(i);
-			DayCB1.setValue(Integer.parseInt(str) - 1);
-			TypeCB1.getItems().add("Incomes Report");
-			TypeCB1.getItems().add("Orders Report");
-			TypeCB1.getItems().add("Client complaimnts histogram");
-			TypeCB1.getItems().add("Satisfaction Report");
-			YearCB1.setVisible(true);
-			MonthCB1.setVisible(true);
-			DayCB1.setVisible(true);
-			TypeCB1.setVisible(true);
-			btnHide.setVisible(true);
+			cbTypePick2.getItems().add("Incomes Report");
+			cbTypePick2.getItems().add("Orders Report");
+			cbTypePick2.getItems().add("Client complaimnts histogram");
+			cbTypePick2.getItems().add("Satisfaction Report");
+			cbTypePick2.setVisible(true);
+			cbTypePick2.setVisible(true);
+			cbTypePick2.setVisible(true);
+			cbTypePick2.setVisible(true);
+			ToggleReport2.setVisible(true);
+			//ToggleReport2.set;
 		}
 
 	}
 
 	public void askforreportHandler(ActionEvent event) throws Exception {
-		
-		if(TypeCB.getValue()!=null&&StoreCB.getValue()!=null) {
+		//paneAll.getChildren().add(paneReport2);
+		Context.stage.getScene().getWindow().sizeToScene();
+		if(cbTypePick1.getValue()!=null&&cbStorePick1.getValue()!=null) {
 			@SuppressWarnings("deprecation")
-			Date date = new Date(YearCB.getValue() - 1900, MonthCB.getValue() - 1, DayCB.getValue());
+			LocalDate date = DatePicker1.getValue();
 			for (int i = 0; i < this.stores.size(); i++) {
-				if (this.stores.get(i).getName().equals(this.StoreCB.getValue()))
+				if (this.stores.get(i).getName().equals(this.cbStorePick1.getValue()))
 					n = this.stores.get(i).getStoreID();
 			}
-			if (this.TypeCB.getValue().equals("Orders Report")) {
+			if (this.cbTypePick1.getValue().equals("Orders Report")) {
 				try {
 				} catch (Exception e) {
 					// lblMsg.setText("Loader failed");
@@ -152,7 +143,7 @@ public class ReportSelectorGUIController implements Initializable {
 				Context.fac.orderReport.initproduceOrderReport(date, n);
 			}
 	
-			else if (TypeCB.getValue().equals("Incomes Report")) {
+			else if (cbTypePick1.getValue().equals("Incomes Report")) {
 				try {
 					//loadGUI("IncomesReportFormGUI", false);
 				} catch (Exception e) {
@@ -162,7 +153,7 @@ public class ReportSelectorGUIController implements Initializable {
 				Context.fac.incomesReport.initProduceIncomesReport(date, n);
 			}
 	
-			else if (TypeCB.getValue().equals("Client complaimnts histogram")) {
+			else if (cbTypePick1.getValue().equals("Client complaimnts histogram")) {
 				try {
 					//loadGUI("HistogramOfCustomerComplaintsFormGUI", false);
 				} catch (Exception e) {
@@ -171,7 +162,7 @@ public class ReportSelectorGUIController implements Initializable {
 				}
 				// Context.fac.orderReport.produceOrderReport(date, 1);
 			}
-			else if (TypeCB.getValue().equals("Client complaimnts histogram")) {
+			else if (cbTypePick1.getValue().equals("Satisfaction Report")) {
 				try {
 					//loadGUI("HistogramOfCustomerComplaintsFormGUI", false);
 				} catch (Exception e) {
@@ -183,27 +174,24 @@ public class ReportSelectorGUIController implements Initializable {
 	
 			if (Context.getUser().getPermissions().equals(User.UserType.ChainStoreManager)) {
 				@SuppressWarnings("deprecation")
-				Date date1 = new Date(YearCB1.getValue() - 1900, MonthCB1.getValue() - 1, DayCB1.getValue());
-				date1.setHours(23);
-				date1.setMinutes(59);
-				date1.setSeconds(59);
+				LocalDate date1 = DatePicker2.getValue();
 				for (int i = 0; i < this.stores.size(); i++) {
-					if (this.stores.get(i).getName().equals(this.StoreCB1.getValue()))
+					if (this.stores.get(i).getName().equals(this.cbStorePick2.getValue()))
 						n1 = this.stores.get(i).getStoreID();
 				}
-				if(this.StoreCB1.getValue()!=null&&this.TypeCB1.getValue()!=null)
+				if(this.cbStorePick2.getValue()!=null&&this.cbTypePick2.getValue()!=null)
 				{
-					if (this.TypeCB1.getValue().equals("Orders Report")) {
+					if (this.cbTypePick2.getValue().equals("Orders Report")) {
 						try {
 							// loadGUI("OrderReportFormGUI", false);
 						} catch (Exception e) {
 							// lblMsg.setText("Loader failed");
 							e.printStackTrace();
 						}
-						if(TypeCB1.getValue().equals(TypeCB.getValue())&&date.equals(date1));
+						if(cbTypePick2.getValue().equals(cbTypePick1.getValue())&&date.equals(date1));
 						else
 						{
-							if(TypeCB1.getValue().equals(TypeCB.getValue()))
+							if(cbTypePick2.getValue().equals(cbTypePick1.getValue()))
 							{
 								Context.fac.orderReport.produceOrderReport(date1, n1);
 							}
@@ -213,29 +201,30 @@ public class ReportSelectorGUIController implements Initializable {
 							
 					}
 	
-					else if (TypeCB1.getValue().equals("Incomes Report")) {
+					else if (cbTypePick2.getValue().equals("Incomes Report")) {
 						//Context.mainScene.loadGUI("IncomesReportFormGUI", false);
-						if(TypeCB1.getValue().equals(TypeCB.getValue())&&date.equals(date1));
+						if(cbTypePick2.getValue().equals(cbTypePick1.getValue())&&date.equals(date1));
 						else
 						{
-							if(TypeCB1.getValue().equals(TypeCB.getValue()))
+							if(cbTypePick2.getValue().equals(cbTypePick1.getValue()))
 								Context.fac.incomesReport.ProduceIncomesReport(date1, n1);
 							else
 								Context.fac.incomesReport.initProduceIncomesReport(date1, n1);
 						}
 					}
 	
-					else if (TypeCB.getValue().equals("Client complaimnts histogram")) {
+					else if (cbTypePick2.getValue().equals("Client complaimnts histogram")) {
 						Context.mainScene.loadGUI("HistogramOfCustomerComplaintsFormGUI", false);
 						// Context.fac.orderReport.produceOrderReport(date1, n1);
 					}
 				}
 			}
-			askforreport.setVisible(false);
-			btnHide.setVisible(false);
+			btConfirm1.setVisible(false);
+			ToggleReport2.setVisible(false);
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	public void setStores(ArrayList<Store> stores) {
 		this.stores = stores;
 		ArrayList<String> ar = new ArrayList<>();
@@ -243,10 +232,10 @@ public class ReportSelectorGUIController implements Initializable {
 			// if(store.getType().equals(StoreType.Physical))
 			ar.add(store.getName());
 		}
-		StoreCB.setItems(FXCollections.observableArrayList(ar));
+		cbStorePick1.setItems(FXCollections.observableArrayList(ar));
 		if (Context.getUser().getPermissions().equals(User.UserType.ChainStoreManager)) {
-			StoreCB1.setItems(FXCollections.observableArrayList(ar));
-			StoreCB1.setVisible(true);
+			cbStorePick2.setItems(FXCollections.observableArrayList(ar));
+			cbStorePick2.setVisible(true);
 		}
 		this.stores = stores;
 	}
@@ -256,42 +245,38 @@ public class ReportSelectorGUIController implements Initializable {
 			return;
 		OrderReport rep = oReports.get(0);
 		@SuppressWarnings("deprecation")
-		Date date = new Date(YearCB.getValue() - 1900, MonthCB.getValue() - 1, DayCB.getValue());
-		date.setHours(23);
-		date.setMinutes(59);
-		date.setSeconds(59);
-		if (rep.getStoreID().equals(n)&&TypeCB.getValue().equals("Orders Report")&&date.equals(rep.getEnddate())) {
+		LocalDate date = DatePicker1.getValue();
+		if (rep.getStoreID().equals(n)&&cbTypePick1.getValue().equals("Orders Report")&&date.equals(rep.getEnddate())) {
 			Platform.runLater(new Runnable() {
 				@Override
 				public void run() {
-					lblfArrncnt1.setText(Integer.toString(rep.getCounterPerType().get(0)+rep.getCounterPerType().get(4)));
-					lblfPlntcnt1.setText(Integer.toString(rep.getCounterPerType().get(1)+rep.getCounterPerType().get(5)));
-					lblBBoucnt1.setText(Integer.toString(rep.getCounterPerType().get(2)+rep.getCounterPerType().get(6)));
-					lblFClucnt1.setText(rep.getCounterPerType().get(3).toString());
-					lblfArrnsum1.setText(Float.toString(rep.getSumPerType().get(0)+rep.getSumPerType().get(4)));
-					lblfPlntsum1.setText(Float.toString(rep.getSumPerType().get(1)+rep.getSumPerType().get(5)));
-					lblBBousum1.setText(Float.toString(rep.getSumPerType().get(2)+rep.getSumPerType().get(6)));
-					lblFClusum1.setText(rep.getSumPerType().get(3).toString());
-
+					lblFlowerArrcnt1.setText(Integer.toString(rep.getCounterPerType().get(0)+rep.getCounterPerType().get(4)));
+					lblFlowerPlacnt1.setText(Integer.toString(rep.getCounterPerType().get(1)+rep.getCounterPerType().get(5)));
+					lblBridalBoucnt1.setText(Integer.toString(rep.getCounterPerType().get(2)+rep.getCounterPerType().get(6)));
+					lblFlowerClucnt1.setText(rep.getCounterPerType().get(3).toString());
+					
+					lblFlowerArrsum1.setText(Float.toString(rep.getSumPerType().get(0)+rep.getSumPerType().get(4)));
+					lblFlowerPlasum1.setText(Float.toString(rep.getSumPerType().get(1)+rep.getSumPerType().get(5)));
+					lblBridalBousum1.setText(Float.toString(rep.getSumPerType().get(2)+rep.getSumPerType().get(6)));
+					lblFlowerClusum1.setText(rep.getSumPerType().get(3).toString());
 				}
 			});
-			paneorder1.setVisible(true);
+			paneOrderReport1.setVisible(true);
 		} else {
 			Platform.runLater(new Runnable() {
 				public void run() {
-					lblfArrncnt11.setText(Integer.toString(rep.getCounterPerType().get(0)+rep.getCounterPerType().get(4)));
-					lblfPlntcnt11.setText(Integer.toString(rep.getCounterPerType().get(1)+rep.getCounterPerType().get(5)));
-					lblBBoucnt11.setText(Integer.toString(rep.getCounterPerType().get(2)+rep.getCounterPerType().get(6)));
-					lblFClucnt11.setText(rep.getCounterPerType().get(3).toString());
-
-					lblfArrnsum11.setText(Float.toString(rep.getSumPerType().get(0)+rep.getSumPerType().get(4)));
-					lblfPlntsum11.setText(Float.toString(rep.getSumPerType().get(1)+rep.getSumPerType().get(5)));
-					lblBBousum11.setText(Float.toString(rep.getSumPerType().get(2)+rep.getSumPerType().get(6)));
-					lblFClusum11.setText(rep.getSumPerType().get(3).toString());
-
+					lblFlowerArrcnt2.setText(Integer.toString(rep.getCounterPerType().get(0)+rep.getCounterPerType().get(4)));
+					lblFlowerPlacnt2.setText(Integer.toString(rep.getCounterPerType().get(1)+rep.getCounterPerType().get(5)));
+					lblBridalBoucnt2.setText(Integer.toString(rep.getCounterPerType().get(2)+rep.getCounterPerType().get(6)));
+					lblFlowerClucnt2.setText(rep.getCounterPerType().get(3).toString());
+					
+					lblFlowerArrsum2.setText(Float.toString(rep.getSumPerType().get(0)+rep.getSumPerType().get(4)));
+					lblFlowerPlasum2.setText(Float.toString(rep.getSumPerType().get(1)+rep.getSumPerType().get(5)));
+					lblBridalBousum2.setText(Float.toString(rep.getSumPerType().get(2)+rep.getSumPerType().get(6)));
+					lblFlowerClusum2.setText(rep.getSumPerType().get(3).toString());
 				}
 			});
-			paneorder11.setVisible(true);
+			paneOrderReport2.setVisible(true);
 		}
 	}
 	
@@ -299,24 +284,21 @@ public class ReportSelectorGUIController implements Initializable {
 		if(iReports==null)return;
 		IncomesReport rep = iReports.get(0);
 		@SuppressWarnings("deprecation")
-		Date date = new Date(YearCB.getValue() - 1900, MonthCB.getValue() - 1, DayCB.getValue());
-		date.setHours(23);
-		date.setMinutes(59);
-		date.setSeconds(59);
-		if (rep.getStoreID().equals(n)&&TypeCB.getValue().equals("Incomes Report")&&date.equals(rep.getEnddate())) {
+		LocalDate date = DatePicker1.getValue();
+		if (rep.getStoreID().equals(n)&&cbTypePick1.getValue().equals("Incomes Report")&&date.equals(rep.getEnddate())) {
 			DateFormat ReqDate = new SimpleDateFormat("dd/MM/yyyy");
 			Platform.runLater(new Runnable() {
 				@Override
 				public void run() {
 						String s=String.valueOf(rep.getTotIncomes());
-						lblIncomeStoreID.setText(rep.getStoreID().toString());
-						lblIncomeEndDate.setText(ReqDate.format(rep.getEnddate()));
-						lblIncomeStartDate.setText(ReqDate.format(rep.getStartdate()));
-						lblTotIncomeSum.setText(s);
+						lblStoreID1.setText(rep.getStoreID().toString());
+						lblEndDate1.setText(ReqDate.format(rep.getEnddate()));
+						lblStartDate1.setText(ReqDate.format(rep.getStartdate()));
+						lblTotIncome1.setText(s);
 				}
 			});
 			
-			paneTotincome.setVisible(true);
+			paneIncomeReport1.setVisible(true);
 		}
 		else
 		{
@@ -325,24 +307,23 @@ public class ReportSelectorGUIController implements Initializable {
 				@Override
 				public void run() {
 					String s=String.valueOf(rep.getTotIncomes());
-					lblIncomeStoreID1.setText(rep.getStoreID().toString());
-					lblIncomeEndDate1.setText(ReqDate.format(rep.getEnddate()));
-					lblIncomeStartDate1.setText(ReqDate.format(rep.getStartdate()));
-					lblTotIncomeSum1.setText(s);
+					lblStoreID2.setText(rep.getStoreID().toString());
+					lblEndDate2.setText(ReqDate.format(rep.getEnddate()));
+					lblStartDate2.setText(ReqDate.format(rep.getStartdate()));
+					lblTotIncome2.setText(s);
 				}
 			});
-			paneTotincome1.setVisible(true);
+			paneIncomeReport2.setVisible(true);
 		}
 
 	}
 
 	public void hideReport2(ActionEvent event) {
-		if (btnHide.getText().equals("Hide Report 2")) {
+		if (!this.ToggleReport2.isSelected()) {
+			System.out.println("asdasd");
 			paneReport2.setVisible(false);
-			btnHide.setText("Ask for two reports");
-		} else if (btnHide.getText().equals("Ask for two reports")) {
+		} else/* if (btnHide.getText().equals("Ask for two reports"))*/ {
 			paneReport2.setVisible(true);
-			btnHide.setText("Hide Report 2");
 		}
 
 	}

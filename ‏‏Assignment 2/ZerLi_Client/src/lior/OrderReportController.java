@@ -7,6 +7,7 @@ import java.math.BigInteger;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
@@ -27,7 +28,7 @@ import lior.interfaces.IOrderReportController;
 
 public class OrderReportController extends ParentController implements IOrderReportController {
 	private OrderReport[] oReports;
-	private Date rDate, startDate;
+	private LocalDate rDate, startDate;
 	int ind;
 
 	@Override
@@ -36,9 +37,9 @@ public class OrderReportController extends ParentController implements IOrderRep
 		
 	}
 	
-	public void initproduceOrderReport(Date reqDate, BigInteger storeID) throws ParseException{
+	public void initproduceOrderReport(LocalDate date, BigInteger storeID) throws ParseException{
 		this.oReports = new OrderReport[2];
-		produceOrderReport(reqDate, storeID);
+		produceOrderReport(date, storeID);
 	}
 	
 	public void sendOrderReports(ArrayList<OrderReport> oReports) {
@@ -67,7 +68,7 @@ public class OrderReportController extends ParentController implements IOrderRep
 	}
 
 	@Override
-	public void produceOrderReport(Date reqDate, BigInteger storeID) throws ParseException {
+	public void produceOrderReport(LocalDate date, BigInteger storeID) throws ParseException {
 		int ind = 1;
 		if(this.oReports[0]==null)
 			ind = 0;
@@ -79,15 +80,15 @@ public class OrderReportController extends ParentController implements IOrderRep
 			this.oReports[ind].addToCounterPerType(0);
 			this.oReports[ind].addToSumPerType(0f);
 		}
-		rDate=reqDate;
-		startDate=new Date();
+		rDate=date;
+		//startDate=new LocalDate();
 		Calendar c = Calendar.getInstance(); 
-		c.setTime(reqDate); 
+		c.setTime(Date.from(rDate.atStartOfDay(ZoneId.systemDefault()).toInstant())); 
 		c.add(Calendar.MONTH, -3);
-		startDate = c.getTime();
-		rDate.setHours(23);
-		rDate.setMinutes(59);
-		rDate.setSeconds(59);
+		startDate = c.getTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		//rDate.setHours(23);
+		//rDate.setMinutes(59);
+		//rDate.setSeconds(59);
 		this.oReports[ind].setStartdate(this.startDate);
 		this.oReports[ind].setEnddate(this.rDate);
 		try {
@@ -112,8 +113,8 @@ public class OrderReportController extends ParentController implements IOrderRep
 		for(int i=0;i<orders.size();i++)
 		{
 			Date date = Date.from(orders.get(i).getDate().atZone(ZoneId.systemDefault()).toInstant());
-			if(date.after(this.oReports[ind].getEnddate())==false&&
-					date.after(this.oReports[ind].getStartdate())
+			if(date.after(Date.from(this.oReports[ind].getEnddate().atStartOfDay(ZoneId.systemDefault()).toInstant()))==false&&
+					date.after(Date.from(this.oReports[ind].getStartdate().atStartOfDay(ZoneId.systemDefault()).toInstant()))
 					/*&& orders.get(i).getOrderStatus().equals(OrderStatus.Paid)*/
 					)
 			{
@@ -186,5 +187,11 @@ public class OrderReportController extends ParentController implements IOrderRep
 		this.oReports[ind].setSumPerType(sumType);
 		ar.add(this.oReports[ind]);
 		sendOrderReports(ar);
+	}
+
+	@Override
+	public void produceOrderReport(Date reqDate, BigInteger storeID) throws ParseException {
+		// TODO Auto-generated method stub
+		
 	}
 }
