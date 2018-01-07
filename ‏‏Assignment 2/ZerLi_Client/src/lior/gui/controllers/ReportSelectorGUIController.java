@@ -18,7 +18,9 @@ import com.jfoenix.controls.JFXToggleButton;
 import common.Context;
 import entities.IncomesReport;
 import entities.OrderReport;
+import entities.SatisfactionReport;
 import entities.Store;
+import entities.Survey;
 import entities.User;
 import gui.controllers.ParentGUIController;
 import javafx.application.Platform;
@@ -72,9 +74,15 @@ public class ReportSelectorGUIController implements Initializable {
 	private @FXML AnchorPane paneHistogram1,paneHistogram2;
 	@SuppressWarnings("rawtypes")
 	private @FXML BarChart Barchart1,Barchart2;
-	
+	//Satisfaction Report General Variables
+	private @FXML AnchorPane paneSatisfactionReport1,paneSatisfactionReport2;
+	//Satisfaction Report 1 Variables
+	private @FXML Label lblQ1Ans1,lblQ3Ans1,lblQ4Ans1,lblQ5Ans1,lblQ6Ans1,lblQ7Ans1,lblQ8Ans1,lblQ2Ans1
+	,lblQ10Ans1,lblQ9Ans1,lblTotans1;
+	//Satisfaction Report 2 Variables
+	private @FXML Label lblQ1Ans2,lblQ3Ans2,lblQ4Ans2,lblQ5Ans2,lblQ6Ans2,lblQ7Ans2,lblQ8Ans2,lblQ2Ans2
+	,lblQ10Ans2,lblQ9Ans2,lblTotans2;
 
-	
 	
 	public void start(Stage stage) throws IOException {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/fxmls/ReportMainGUI.fxml"));
@@ -96,6 +104,8 @@ public class ReportSelectorGUIController implements Initializable {
 		paneOrderReport2.setBorder(new Border(new BorderStroke(Color.BLUE,BorderStrokeStyle.SOLID,CornerRadii.EMPTY,BorderWidths.DEFAULT)));
 		paneIncomeReport1.setBorder(new Border(new BorderStroke(Color.FORESTGREEN,BorderStrokeStyle.SOLID,CornerRadii.EMPTY,BorderWidths.DEFAULT)));
 		paneIncomeReport2.setBorder(new Border(new BorderStroke(Color.BLUE,BorderStrokeStyle.SOLID,CornerRadii.EMPTY,BorderWidths.DEFAULT)));
+		paneSatisfactionReport1.setBorder(new Border(new BorderStroke(Color.FORESTGREEN,BorderStrokeStyle.SOLID,CornerRadii.EMPTY,BorderWidths.DEFAULT)));
+		paneSatisfactionReport2.setBorder(new Border(new BorderStroke(Color.BLUE,BorderStrokeStyle.SOLID,CornerRadii.EMPTY,BorderWidths.DEFAULT)));
 		cbTypePick1.getItems().add("Incomes Report");
 		cbTypePick1.getItems().add("Orders Report");
 		cbTypePick1.getItems().add("Client complaimnts histogram");
@@ -291,6 +301,41 @@ public class ReportSelectorGUIController implements Initializable {
 						lblEndDate1.setText(rep.getEnddate().format(formatters));
 						lblStartDate1.setText(rep.getStartdate().format(formatters));
 						lblTotIncome1.setText(s);
+				}
+			});
+			
+			paneIncomeReport1.setVisible(true);
+		}
+		else
+		{
+			DateFormat ReqDate = new SimpleDateFormat("dd/MM/yyyy");
+			Platform.runLater(new Runnable() {
+				@Override
+				public void run() {
+					String s=String.valueOf(rep.getTotIncomes());
+					lblStoreID2.setText(rep.getStoreID().toString());
+					lblEndDate2.setText(rep.getEnddate().format(formatters));
+					lblStartDate2.setText(rep.getStartdate().format(formatters));
+					lblTotIncome2.setText(s);
+				}
+			});
+			paneIncomeReport2.setVisible(true);
+		}
+
+	}
+	
+	public void sendSatisfactionReports(ArrayList<SatisfactionReport> sReports) {
+		if(sReports==null)return;
+		SatisfactionReport rep = sReports.get(0);
+		ArrayList<Survey> sr=new ArrayList<>();
+		@SuppressWarnings("deprecation")
+		LocalDate date = DatePicker1.getValue();
+		DateTimeFormatter formatters = DateTimeFormatter.ofPattern("dd/MM/uuuu");
+		if (rep.getStoreID().equals(n)&&cbTypePick1.getValue().equals("Satisfaction Report")&&date.equals(rep.getEnddate())) {
+			Platform.runLater(new Runnable() {
+				@Override
+				public void run() {
+						sr=sReports.get(0).getSurveys();
 				}
 			});
 			

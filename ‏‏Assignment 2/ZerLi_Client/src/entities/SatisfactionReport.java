@@ -1,5 +1,6 @@
 package entities;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 /**
@@ -7,6 +8,27 @@ import java.util.ArrayList;
  */
 public class SatisfactionReport extends QuarterlyReport {
 
-	private ArrayList<SurveyReport> surveys;
+	private ArrayList<Survey> Surveys;
+	private LocalDate Startdate;
+	private LocalDate Enddate;
+	public ArrayList<Survey> getSurveys() {
+		return Surveys;
+	}
+	public void setSurveys(ArrayList<Survey> Surveys) {
+		this.Surveys = Surveys;
+	}
+	public LocalDate getStartdate() {
+		return Startdate;
+	}
+	public void setStartdate(LocalDate startdate) {
+		Startdate = startdate;
+	}
+	public LocalDate getEnddate() {
+		return Enddate;
+	}
+	public void setEnddate(LocalDate enddate) {
+		Enddate = enddate;
+	}
+
 
 }
