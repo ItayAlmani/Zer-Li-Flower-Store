@@ -87,7 +87,7 @@ public class SatisfactionReportController extends ParentController implements IS
 		}
 	}
 
-	public void setOrders(ArrayList<Survey> Surveys) {
+	public void setSurveys(ArrayList<Survey> Surveys) {
 		int flag=0;
 		int ind = 1;
 		if(this.sReports[0].getSurveys().size()==0)
@@ -97,6 +97,7 @@ public class SatisfactionReportController extends ParentController implements IS
 		//oReports[ind]=new OrderReport();
 		//this.sReports[ind].setSurveys(Surveys);
 		ArrayList<Survey> ar=new ArrayList<>();
+		float[] answers = new float[6];
 		for(int i=0;i<Surveys.size();i++)
 		{
 			if(Surveys.get(i).getStoreID()==this.sReports[ind].getStoreID()
@@ -106,8 +107,16 @@ public class SatisfactionReportController extends ParentController implements IS
 				ar.add(Surveys.get(i));
 			}	
 		}
+		for(int i=0;i<ar.size();i++)
+		{
+			for(int j=0;j<6;j++)
+			{
+				answers[j]=ar.get(i).getSurveyAnswerers()[j];
+			}	
+		}
 		ArrayList<SatisfactionReport> ar1=new ArrayList<>();
 		this.sReports[ind].setSurveys(ar);
+		this.sReports[ind].setFinalanswers(answers);
 		ar1.add(this.sReports[ind]);
 		sendSatisfactionReports(ar1);
 	}

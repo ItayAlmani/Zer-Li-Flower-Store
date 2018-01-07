@@ -11,6 +11,14 @@ public class SatisfactionReport extends QuarterlyReport {
 	private ArrayList<Survey> Surveys;
 	private LocalDate Startdate;
 	private LocalDate Enddate;
+	private float[] finalanswers;
+	
+	public float[] getFinalanswers() {
+		return finalanswers;
+	}
+	public void setFinalanswers(float[] finalanswers) {
+		this.finalanswers = finalanswers;
+	}
 	public ArrayList<Survey> getSurveys() {
 		return Surveys;
 	}
