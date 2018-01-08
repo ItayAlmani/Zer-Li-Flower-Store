@@ -8,11 +8,18 @@ import java.util.ArrayList;
  */
 public class SatisfactionReport extends QuarterlyReport {
 
-	private ArrayList<Survey> Surveys;
+	private ArrayList<Survey> Surveys=new ArrayList<>();
 	private LocalDate Startdate;
 	private LocalDate Enddate;
 	private float[] finalanswers;
+	private float AverageTotanswer;
 	
+	public float getAverageTotanswer() {
+		return AverageTotanswer;
+	}
+	public void setAverageTotanswer(float averageTotanswer) {
+		AverageTotanswer = averageTotanswer;
+	}
 	public float[] getFinalanswers() {
 		return finalanswers;
 	}

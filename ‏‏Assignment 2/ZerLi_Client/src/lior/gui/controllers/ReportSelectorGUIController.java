@@ -78,10 +78,10 @@ public class ReportSelectorGUIController implements Initializable {
 	private @FXML AnchorPane paneSatisfactionReport1,paneSatisfactionReport2;
 	//Satisfaction Report 1 Variables
 	private @FXML Label lblQ1Ans1,lblQ3Ans1,lblQ4Ans1,lblQ5Ans1,lblQ6Ans1,lblQ7Ans1,lblQ8Ans1,lblQ2Ans1
-	,lblQ10Ans1,lblQ9Ans1,lblTotans1;
+	,lblQ10Ans1,lblQ9Ans1,lblTotans1,lblSatisfactionStartdate1,lblSatisfactionEnddate1;
 	//Satisfaction Report 2 Variables
 	private @FXML Label lblQ1Ans2,lblQ3Ans2,lblQ4Ans2,lblQ5Ans2,lblQ6Ans2,lblQ7Ans2,lblQ8Ans2,lblQ2Ans2
-	,lblQ10Ans2,lblQ9Ans2,lblTotans2;
+	,lblQ10Ans2,lblQ9Ans2,lblTotans2,lblSatisfactionStartdate2,lblSatisfactionEnddate2;
 
 	
 	public void start(Stage stage) throws IOException {
@@ -132,102 +132,129 @@ public class ReportSelectorGUIController implements Initializable {
 	}
 
 	public void askforreportHandler(ActionEvent event) throws Exception {
-		//paneAll.getChildren().add(paneReport2);
+		Context.mainScene.setMessage("");
+		paneOrderReport1.setVisible(false);
+		paneOrderReport2.setVisible(false);
+		paneIncomeReport1.setVisible(false);
+		paneIncomeReport2.setVisible(false);
+		paneSatisfactionReport1.setVisible(false);
+		paneSatisfactionReport2.setVisible(false);
+		int err=0;
 		if(cbTypePick1.getValue()!=null&&cbStorePick1.getValue()!=null) {
 			@SuppressWarnings("deprecation")
 			LocalDate date = DatePicker1.getValue();
-			for (int i = 0; i < this.stores.size(); i++) {
-				if (this.stores.get(i).getName().equals(this.cbStorePick1.getValue()))
-					n = this.stores.get(i).getStoreID();
-			}
-			if (this.cbTypePick1.getValue().equals("Orders Report")) {
-				try {
-				} catch (Exception e) {
-					// lblMsg.setText("Loader failed");
-					e.printStackTrace();
+			if(date.isBefore(LocalDate.now())){
+				for (int i = 0; i < this.stores.size(); i++) {
+					if (this.stores.get(i).getName().equals(this.cbStorePick1.getValue()))
+						n = this.stores.get(i).getStoreID();
 				}
-				Context.fac.orderReport.initproduceOrderReport(date, n);
-			}
-	
-			else if (cbTypePick1.getValue().equals("Incomes Report")) {
-				try {
-					//loadGUI("IncomesReportFormGUI", false);
-				} catch (Exception e) {
-					// lblMsg.setText("Loader failed");
-					e.printStackTrace();
+				if (this.cbTypePick1.getValue().equals("Orders Report")) {
+					try {
+					} catch (Exception e) {
+						// lblMsg.setText("Loader failed");
+						e.printStackTrace();
+					}
+					Context.fac.orderReport.initproduceOrderReport(date, n);
 				}
-				Context.fac.incomesReport.initProduceIncomesReport(date, n);
-			}
-	
-			else if (cbTypePick1.getValue().equals("Client complaimnts histogram")) {
-				try {
-					//loadGUI("HistogramOfCustomerComplaintsFormGUI", false);
-				} catch (Exception e) {
-					// lblMsg.setText("Loader failed");
-					e.printStackTrace();
+		
+				else if (cbTypePick1.getValue().equals("Incomes Report")) {
+					try {
+						//loadGUI("IncomesReportFormGUI", false);
+					} catch (Exception e) {
+						// lblMsg.setText("Loader failed");
+						e.printStackTrace();
+					}
+					Context.fac.incomesReport.initProduceIncomesReport(date, n);
 				}
-				// Context.fac.orderReport.produceOrderReport(date, 1);
-			}
-			else if (cbTypePick1.getValue().equals("Satisfaction Report")) {
-				try {
-					//loadGUI("HistogramOfCustomerComplaintsFormGUI", false);
-				} catch (Exception e) {
-					// lblMsg.setText("Loader failed");
-					e.printStackTrace();
+		
+				else if (cbTypePick1.getValue().equals("Client complaimnts histogram")) {
+					try {
+						//loadGUI("HistogramOfCustomerComplaintsFormGUI", false);
+					} catch (Exception e) {
+						// lblMsg.setText("Loader failed");
+						e.printStackTrace();
+					}
+					// Context.fac.orderReport.produceOrderReport(date, 1);
 				}
-				// Context.fac.orderReport.produceOrderReport(date, 1);
+				else if (cbTypePick1.getValue().equals("Satisfaction Report")) {
+					try {
+					} catch (Exception e) {
+						// lblMsg.setText("Loader failed");
+						e.printStackTrace();
+					}
+					Context.fac.satisfactionReport.initProduceSatisfactionReport(date, n);
+				}
 			}
-	
+			else err=2;
 			if (Context.getUser().getPermissions().equals(User.UserType.ChainStoreManager)) {
 				@SuppressWarnings("deprecation")
 				LocalDate date1 = DatePicker2.getValue();
-				for (int i = 0; i < this.stores.size(); i++) {
-					if (this.stores.get(i).getName().equals(this.cbStorePick2.getValue()))
-						n1 = this.stores.get(i).getStoreID();
-				}
-				if(this.cbStorePick2.getValue()!=null&&this.cbTypePick2.getValue()!=null)
-				{
-					if (this.cbTypePick2.getValue().equals("Orders Report")) {
-						try {
-							// loadGUI("OrderReportFormGUI", false);
-						} catch (Exception e) {
-							// lblMsg.setText("Loader failed");
-							e.printStackTrace();
+				if(this.cbStorePick2.getValue()!=null&&this.cbTypePick2.getValue()!=null){
+					if(date1.isBefore(LocalDate.now()))
+					{
+						for (int i = 0; i < this.stores.size(); i++) {
+							if (this.stores.get(i).getName().equals(this.cbStorePick2.getValue()))
+								n1 = this.stores.get(i).getStoreID();
 						}
-						if(cbTypePick2.getValue().equals(cbTypePick1.getValue())&&date.equals(date1));
-						else
-						{
-							if(cbTypePick2.getValue().equals(cbTypePick1.getValue()))
-							{
-								Context.fac.orderReport.produceOrderReport(date1, n1);
+						if (this.cbTypePick2.getValue().equals("Orders Report")) {
+							try {
+								// loadGUI("OrderReportFormGUI", false);
+							} catch (Exception e) {
+								// lblMsg.setText("Loader failed");
+								e.printStackTrace();
 							}
+							if(cbTypePick2.getValue().equals(cbTypePick1.getValue())&&date.equals(date1));
 							else
-								Context.fac.orderReport.initproduceOrderReport(date1, n1);
+							{
+								if(cbTypePick2.getValue().equals(cbTypePick1.getValue()))
+								{
+									Context.fac.orderReport.produceOrderReport(date1, n1);
+								}
+								else
+									Context.fac.orderReport.initproduceOrderReport(date1, n1);
+							}
+								
 						}
-							
-					}
-	
-					else if (cbTypePick2.getValue().equals("Incomes Report")) {
-						//Context.mainScene.loadGUI("IncomesReportFormGUI", false);
-						if(cbTypePick2.getValue().equals(cbTypePick1.getValue())&&date.equals(date1));
-						else
-						{
-							if(cbTypePick2.getValue().equals(cbTypePick1.getValue()))
-								Context.fac.incomesReport.ProduceIncomesReport(date1, n1);
+		
+						else if (cbTypePick2.getValue().equals("Incomes Report")) {
+							//Context.mainScene.loadGUI("IncomesReportFormGUI", false);
+							if(cbTypePick2.getValue().equals(cbTypePick1.getValue())&&date.equals(date1));
 							else
-								Context.fac.incomesReport.initProduceIncomesReport(date1, n1);
+							{
+								if(cbTypePick2.getValue().equals(cbTypePick1.getValue()))
+									Context.fac.incomesReport.ProduceIncomesReport(date1, n1);
+								else
+									Context.fac.incomesReport.initProduceIncomesReport(date1, n1);
+							}
 						}
-					}
-	
-					else if (cbTypePick2.getValue().equals("Client complaimnts histogram")) {
-						Context.mainScene.loadGUI("HistogramOfCustomerComplaintsFormGUI", false);
-						// Context.fac.orderReport.produceOrderReport(date1, n1);
-					}
+		
+						else if (cbTypePick2.getValue().equals("Client complaimnts histogram")) {
+							Context.mainScene.loadGUI("HistogramOfCustomerComplaintsFormGUI", false);
+							// Context.fac.orderReport.produceOrderReport(date1, n1);
+						}
+						
+						else if (cbTypePick2.getValue().equals("Satisfaction Report")) {
+							//Context.mainScene.loadGUI("IncomesReportFormGUI", false);
+							if(cbTypePick2.getValue().equals(cbTypePick1.getValue())&&date.equals(date1));
+							else
+							{
+								if(cbTypePick2.getValue().equals(cbTypePick1.getValue()))
+									Context.fac.satisfactionReport.ProduceSatisfactionReport(date1, n1);
+								else
+									Context.fac.satisfactionReport.initProduceSatisfactionReport(date1, n1);
+							}
+						}
 				}
+				}else err++;
 			}
-			//btConfirm1.setVisible(false);
-			ToggleReport2.setVisible(false);
+			if(err==1)
+				Context.mainScene.setMessage("Report 2 data incorrect");
+			else if(err==2)
+				Context.mainScene.setMessage("Report 1 data incorrect");
+			else if(err==3)
+				Context.mainScene.setMessage("Report 1 and 2 data incorrect");
 		}
+		ToggleReport2.setVisible(false);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -324,10 +351,10 @@ public class ReportSelectorGUIController implements Initializable {
 
 	}
 	
-	public void sendSatisfactionReports(ArrayList<SatisfactionReport> sReports) {
+	public void setSatisfactionReports(ArrayList<SatisfactionReport> sReports) {
 		if(sReports==null)return;
 		SatisfactionReport rep = sReports.get(0);
-		ArrayList<Survey> sr=new ArrayList<>();
+		
 		@SuppressWarnings("deprecation")
 		LocalDate date = DatePicker1.getValue();
 		DateTimeFormatter formatters = DateTimeFormatter.ofPattern("dd/MM/uuuu");
@@ -335,26 +362,36 @@ public class ReportSelectorGUIController implements Initializable {
 			Platform.runLater(new Runnable() {
 				@Override
 				public void run() {
-						sr=sReports.get(0).getSurveys();
+					lblQ1Ans1.setText(Float.toString(rep.getFinalanswers()[0]));
+					lblQ2Ans1.setText(Float.toString(rep.getFinalanswers()[1]));
+					lblQ3Ans1.setText(Float.toString(rep.getFinalanswers()[2]));
+					lblQ4Ans1.setText(Float.toString(rep.getFinalanswers()[3]));
+					lblQ5Ans1.setText(Float.toString(rep.getFinalanswers()[4]));
+					lblQ6Ans1.setText(Float.toString(rep.getFinalanswers()[5]));
+					lblTotans1.setText(Float.toString(rep.getAverageTotanswer()));
+					lblSatisfactionStartdate1.setText(rep.getStartdate().format(formatters));
+					lblSatisfactionEnddate1.setText(rep.getEnddate().format(formatters));
 				}
 			});
-			
-			paneIncomeReport1.setVisible(true);
+			paneSatisfactionReport1.setVisible(true);
 		}
 		else
 		{
-			DateFormat ReqDate = new SimpleDateFormat("dd/MM/yyyy");
 			Platform.runLater(new Runnable() {
 				@Override
 				public void run() {
-					String s=String.valueOf(rep.getTotIncomes());
-					lblStoreID2.setText(rep.getStoreID().toString());
-					lblEndDate2.setText(rep.getEnddate().format(formatters));
-					lblStartDate2.setText(rep.getStartdate().format(formatters));
-					lblTotIncome2.setText(s);
+					lblQ1Ans2.setText(Float.toString(rep.getFinalanswers()[0]));
+					lblQ2Ans2.setText(Float.toString(rep.getFinalanswers()[1]));
+					lblQ3Ans2.setText(Float.toString(rep.getFinalanswers()[2]));
+					lblQ4Ans2.setText(Float.toString(rep.getFinalanswers()[3]));
+					lblQ5Ans2.setText(Float.toString(rep.getFinalanswers()[4]));
+					lblQ6Ans2.setText(Float.toString(rep.getFinalanswers()[5]));
+					lblTotans2.setText(Float.toString(rep.getAverageTotanswer()));
+					lblSatisfactionStartdate2.setText(rep.getStartdate().format(formatters));
+					lblSatisfactionEnddate2.setText(rep.getEnddate().format(formatters));
 				}
 			});
-			paneIncomeReport2.setVisible(true);
+			paneSatisfactionReport2.setVisible(true);
 		}
 
 	}

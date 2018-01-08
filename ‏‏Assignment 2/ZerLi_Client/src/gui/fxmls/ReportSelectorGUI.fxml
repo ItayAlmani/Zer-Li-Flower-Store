@@ -139,70 +139,62 @@
             </BarChart>
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="paneSatisfactionReport1" layoutX="14.0" layoutY="184.0" prefHeight="274.0" prefWidth="274.0" visible="false">
+      <AnchorPane fx:id="paneSatisfactionReport1" layoutX="14.0" layoutY="174.0" prefHeight="242.0" prefWidth="274.0" visible="false">
          <children>
-            <Label layoutX="90.0" layoutY="14.0" text="Satisfaction Report">
+            <Label layoutX="77.0" layoutY="21.0" text="Satisfaction Report">
                <font>
                   <Font size="15.0" />
                </font>
             </Label>
-            <Label layoutX="71.0" layoutY="55.0" text="Average" />
-            <Label layoutX="2.0" layoutY="78.0" text="Question 1" />
-            <Label layoutX="3.0" layoutY="108.0" text="Question 2" />
-            <Label layoutX="3.0" layoutY="140.0" text="Question 3" />
-            <Label layoutX="3.0" layoutY="171.0" text="Question 4" />
-            <Label fx:id="lblQ1Ans1" layoutX="81.0" layoutY="78.0" prefHeight="17.0" prefWidth="28.0" />
-            <Label fx:id="lblQ3Ans1" layoutX="77.0" layoutY="140.0" prefHeight="17.0" prefWidth="32" />
-            <Label fx:id="lblQ4Ans1" layoutX="77.0" layoutY="171.0" prefHeight="17.0" prefWidth="32" />
-            <Label fx:id="lblQ5Ans1" layoutX="77.0" layoutY="202.0" prefHeight="17.0" prefWidth="32" />
-            <Label fx:id="lblQ6Ans1" layoutX="219.0" layoutY="78.0" prefHeight="17.0" prefWidth="32" />
-            <Label fx:id="lblQ7Ans1" layoutX="221.0" layoutY="108.0" prefHeight="17.0" prefWidth="28.0" />
-            <Label fx:id="lblQ8Ans1" layoutX="221.0" layoutY="140.0" prefHeight="17.0" prefWidth="28.0" />
-            <Label fx:id="lblQ2Ans1" layoutX="79.0" layoutY="108.0" prefHeight="17.0" prefWidth="28.0" />
-            <Label layoutX="3.0" layoutY="202.0" text="Question 5" />
-            <Label layoutX="140.0" layoutY="202.0" text="Question 10" />
-            <Label layoutX="140.0" layoutY="171.0" text="Question 9" />
-            <Label layoutX="140.0" layoutY="140.0" text="Question 8" />
-            <Label layoutX="140.0" layoutY="108.0" text="Question 7" />
-            <Label layoutX="138.0" layoutY="78.0" text="Question 6" />
-            <Label layoutX="213.0" layoutY="55.0" text="Average" />
-            <Label layoutX="57.0" layoutY="236.0" text="Total answers:" />
-            <Label fx:id="lblQ10Ans1" layoutX="221.0" layoutY="202.0" prefHeight="17.0" prefWidth="28.0" />
-            <Label fx:id="lblQ9Ans1" layoutX="221.0" layoutY="171.0" prefHeight="17.0" prefWidth="28.0" />
-            <Label fx:id="lblTotans1" layoutX="153.0" layoutY="236.0" prefHeight="17.0" prefWidth="40.0" />
+            <Label layoutX="78.0" layoutY="82.0" text="Average" />
+            <Label layoutX="10.0" layoutY="103.0" text="Question 1" />
+            <Label layoutX="10.0" layoutY="134.0" text="Question 2" />
+            <Label layoutX="10.0" layoutY="165.0" text="Question 3" />
+            <Label layoutX="145.0" layoutY="103.0" text="Question 4" />
+            <Label fx:id="lblQ1Ans1" layoutX="86.0" layoutY="103.0" prefHeight="17.0" prefWidth="28.0" />
+            <Label fx:id="lblQ3Ans1" layoutX="84.0" layoutY="165.0" prefHeight="17.0" prefWidth="32" />
+            <Label fx:id="lblQ4Ans1" layoutX="226.0" layoutY="103.0" prefHeight="17.0" prefWidth="32" />
+            <Label fx:id="lblQ5Ans1" layoutX="226.0" layoutY="134.0" prefHeight="17.0" prefWidth="32" />
+            <Label fx:id="lblQ6Ans1" layoutX="226.0" layoutY="165.0" prefHeight="17.0" prefWidth="32" />
+            <Label fx:id="lblQ2Ans1" layoutX="83.0" layoutY="134.0" prefHeight="17.0" prefWidth="28.0" />
+            <Label layoutX="145.0" layoutY="134.0" text="Question 5" />
+            <Label layoutX="145.0" layoutY="165.0" text="Question 6" />
+            <Label layoutX="220.0" layoutY="83.0" text="Average" />
+            <Label layoutX="64.0" layoutY="199.0" text="Total answers:" />
+            <Label fx:id="lblTotans1" layoutX="160.0" layoutY="199.0" prefHeight="17.0" prefWidth="40.0" />
+            <Label layoutX="25.0" layoutY="55.0" text="From" />
+            <Label fx:id="lblSatisfactionStartdate1" layoutX="75.0" layoutY="55.0" text="StartDate" />
+            <Label layoutX="152.0" layoutY="55.0" text="To" />
+            <Label fx:id="lblSatisfactionEnddate1" layoutX="209.0" layoutY="55.0" text="EndDate" />
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="paneSatisfactionReport2" layoutX="312.0" layoutY="184.0" prefHeight="274.0" prefWidth="274.0" visible="false">
+      <AnchorPane fx:id="paneSatisfactionReport2" layoutX="306.0" layoutY="174.0" prefHeight="242.0" prefWidth="274.0" visible="false">
          <children>
-            <Label layoutX="90.0" layoutY="14.0" text="Satisfaction Report">
+            <Label layoutX="77.0" layoutY="21.0" text="Satisfaction Report">
                <font>
                   <Font size="15.0" />
                </font>
             </Label>
-            <Label layoutX="71.0" layoutY="55.0" text="Average" />
-            <Label layoutX="2.0" layoutY="78.0" text="Question 1" />
-            <Label layoutX="3.0" layoutY="108.0" text="Question 2" />
-            <Label layoutX="3.0" layoutY="140.0" text="Question 3" />
-            <Label layoutX="3.0" layoutY="171.0" text="Question 4" />
-            <Label fx:id="lblQ1Ans2" layoutX="81.0" layoutY="78.0" prefHeight="17.0" prefWidth="28.0" />
-            <Label fx:id="lblQ3Ans2" layoutX="77.0" layoutY="140.0" prefHeight="17.0" prefWidth="32" />
-            <Label fx:id="lblQ4Ans2" layoutX="77.0" layoutY="171.0" prefHeight="17.0" prefWidth="32" />
-            <Label fx:id="lblQ5Ans2" layoutX="77.0" layoutY="202.0" prefHeight="17.0" prefWidth="32" />
-            <Label fx:id="lblQ6Ans2" layoutX="219.0" layoutY="78.0" prefHeight="17.0" prefWidth="32" />
-            <Label fx:id="lblQ7Ans2" layoutX="221.0" layoutY="108.0" prefHeight="17.0" prefWidth="28.0" />
-            <Label fx:id="lblQ8Ans2" layoutX="221.0" layoutY="140.0" prefHeight="17.0" prefWidth="28.0" />
-            <Label fx:id="lblQ2Ans2" layoutX="79.0" layoutY="108.0" prefHeight="17.0" prefWidth="28.0" />
-            <Label layoutX="3.0" layoutY="202.0" text="Question 5" />
-            <Label layoutX="140.0" layoutY="202.0" text="Question 10" />
-            <Label layoutX="140.0" layoutY="171.0" text="Question 9" />
-            <Label layoutX="140.0" layoutY="140.0" text="Question 8" />
-            <Label layoutX="140.0" layoutY="108.0" text="Question 7" />
-            <Label layoutX="138.0" layoutY="78.0" text="Question 6" />
-            <Label layoutX="213.0" layoutY="55.0" text="Average" />
-            <Label layoutX="57.0" layoutY="236.0" text="Total answers:" />
-            <Label fx:id="lblQ10Ans2" layoutX="221.0" layoutY="202.0" prefHeight="17.0" prefWidth="28.0" />
-            <Label fx:id="lblQ9Ans2" layoutX="221.0" layoutY="171.0" prefHeight="17.0" prefWidth="28.0" />
-            <Label fx:id="lblTotans2" layoutX="153.0" layoutY="236.0" prefHeight="17.0" prefWidth="40.0" />
+            <Label layoutX="78.0" layoutY="82.0" text="Average" />
+            <Label layoutX="10.0" layoutY="103.0" text="Question 1" />
+            <Label layoutX="10.0" layoutY="134.0" text="Question 2" />
+            <Label layoutX="10.0" layoutY="165.0" text="Question 3" />
+            <Label layoutX="145.0" layoutY="103.0" text="Question 4" />
+            <Label fx:id="lblQ1Ans2" layoutX="86.0" layoutY="103.0" prefHeight="17.0" prefWidth="28.0" />
+            <Label fx:id="lblQ3Ans2" layoutX="84.0" layoutY="165.0" prefHeight="17.0" prefWidth="32" />
+            <Label fx:id="lblQ4Ans2" layoutX="226.0" layoutY="103.0" prefHeight="17.0" prefWidth="32" />
+            <Label fx:id="lblQ5Ans2" layoutX="226.0" layoutY="134.0" prefHeight="17.0" prefWidth="32" />
+            <Label fx:id="lblQ6Ans2" layoutX="226.0" layoutY="165.0" prefHeight="17.0" prefWidth="32" />
+            <Label fx:id="lblQ2Ans2" layoutX="83.0" layoutY="134.0" prefHeight="17.0" prefWidth="28.0" />
+            <Label layoutX="145.0" layoutY="134.0" text="Question 5" />
+            <Label layoutX="145.0" layoutY="165.0" text="Question 6" />
+            <Label layoutX="220.0" layoutY="83.0" text="Average" />
+            <Label layoutX="64.0" layoutY="199.0" text="Total answers:" />
+            <Label fx:id="lblTotans2" layoutX="160.0" layoutY="199.0" prefHeight="17.0" prefWidth="40.0" />
+            <Label layoutX="25.0" layoutY="55.0" text="From" />
+            <Label fx:id="lblSatisfactionStartdate2" layoutX="75.0" layoutY="55.0" text="StartDate" />
+            <Label layoutX="152.0" layoutY="55.0" text="To" />
+            <Label fx:id="lblSatisfactionEnddate2" layoutX="209.0" layoutY="55.0" text="EndDate" />
          </children>
       </AnchorPane>
    </children>

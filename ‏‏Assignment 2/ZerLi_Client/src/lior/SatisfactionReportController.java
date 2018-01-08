@@ -15,6 +15,7 @@ import common.Context;
 import controllers.ParentController;
 import entities.SatisfactionReport;
 import entities.Survey;
+import entities.Survey.SurveyType;
 import lior.interfaces.ISatisfactionReportController;
 
 public class SatisfactionReportController extends ParentController implements ISatisfactionReportController {
@@ -82,7 +83,7 @@ public class SatisfactionReportController extends ParentController implements IS
 			Context.askingCtrl.add(this);
 			Context.fac.survey.getSurveyByDates(this.startDate,this.rDate);
 		} catch (IOException e) {
-			System.err.println("SatisFactionReportController\n");
+			System.err.println("SatisfactionReportController\n");
 			e.printStackTrace();
 		}
 	}
@@ -90,7 +91,7 @@ public class SatisfactionReportController extends ParentController implements IS
 	public void setSurveys(ArrayList<Survey> Surveys) {
 		int flag=0;
 		int ind = 1;
-		if(this.sReports[0].getSurveys().size()==0)
+		if(this.sReports[0].getSurveys().size()==0/*||this.sReports[0].getSurveys().size()==null*/)
 			ind = 0;
 		if(this.sReports[0].getSurveys().size()!=0&&this.sReports[1].getSurveys().size()!=0)
 			ind = 0;
@@ -98,10 +99,11 @@ public class SatisfactionReportController extends ParentController implements IS
 		//this.sReports[ind].setSurveys(Surveys);
 		ArrayList<Survey> ar=new ArrayList<>();
 		float[] answers = new float[6];
+		float totans=0;
 		for(int i=0;i<Surveys.size();i++)
 		{
 			if(Surveys.get(i).getStoreID()==this.sReports[ind].getStoreID()
-					/*&& orders.get(i).getOrderStatus().equals(OrderStatus.Paid)*/
+					&& Surveys.get(i).getType().equals(SurveyType.Answer)
 					)
 			{
 				ar.add(Surveys.get(i));
@@ -111,12 +113,18 @@ public class SatisfactionReportController extends ParentController implements IS
 		{
 			for(int j=0;j<6;j++)
 			{
-				answers[j]=ar.get(i).getSurveyAnswerers()[j];
+				answers[j]+=ar.get(i).getSurveyAnswerers()[j];
 			}	
 		}
+		for(int j=0;j<6;j++)
+		{
+			answers[j]=answers[j]/ar.size();
+			totans+=answers[j];
+		}	
 		ArrayList<SatisfactionReport> ar1=new ArrayList<>();
 		this.sReports[ind].setSurveys(ar);
 		this.sReports[ind].setFinalanswers(answers);
+		this.sReports[ind].setAverageTotanswer(totans/6);
 		ar1.add(this.sReports[ind]);
 		sendSatisfactionReports(ar1);
 	}
