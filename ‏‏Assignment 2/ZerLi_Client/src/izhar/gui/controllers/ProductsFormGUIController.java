@@ -90,7 +90,7 @@ public class ProductsFormGUIController implements Initializable{
 		if(txtShowName.getText()!=null) {
 			if(txtShowName.getText().equals(p.getName())==false) {//Name changed
 				p.setName(txtShowName.getText());
-				Context.fac.product.updateProduct(p);
+				Context.fac.product.update(p);
 				getProductsComboBox();
 			}
 		}

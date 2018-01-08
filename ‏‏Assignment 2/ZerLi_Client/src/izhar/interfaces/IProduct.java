@@ -10,17 +10,15 @@ import entities.Product.Color;
 import entities.Product.ProductType;
 import interfaces.IParent;
 
-public interface IProduct extends IParent {
+public interface IProduct {
 	
-	void addProduct(Product p) throws IOException;
+	void add(Product p) throws IOException;
 
 	void getProductByID(BigInteger prdID) throws IOException;
 	
 	void getAllProducts() throws IOException;
 
-	void updateProduct(Product p) throws IOException;
-	
-	void sendProducts(ArrayList<Product> prds);
+	void update(Product p) throws IOException;
 
 	/**
 	 * 
@@ -34,8 +32,6 @@ public interface IProduct extends IParent {
 	ArrayList<Product> assembleProduct(ProductType type, Float priceStart, Float priceEnd, Color color, ArrayList<Product> products) throws IOException;
 	
 	public void getProductsInCatalog() throws IOException;
-	
-	Product parse(BigInteger prdID, String name, String type, float price, String color, boolean inCatalog, String imageURL) throws FileNotFoundException;
 	
 	void getAllProductsNotInCatalog() throws IOException;
 }

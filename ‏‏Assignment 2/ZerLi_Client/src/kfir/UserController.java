@@ -14,7 +14,6 @@ import controllers.ParentController;
 import entities.CSMessage;
 import entities.Customer;
 import entities.Order;
-import entities.Product;
 import entities.User;
 import entities.User.UserType;
 import javafx.scene.control.Tooltip;

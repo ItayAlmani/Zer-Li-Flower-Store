@@ -27,8 +27,14 @@ public class ClientController {
 	public static void parseMessage(CSMessage csMsg) {
 		MessageType msgType = csMsg.getType();
 		
+		if(csMsg.getObjs()==null) {
+			ParentController.sendResultToClient(false);
+			return;
+		}
+		
 		Class<?> c = null;
 		Method m = null;
+		
 		if(csMsg.getClasz()!=null) {
 			String className = csMsg.getClasz().getName();
 			className=className.substring(className.lastIndexOf("."));
@@ -36,10 +42,13 @@ public class ClientController {
 				if((c=findHandleGetFunc(className, "itayNron"))==null)
 					if((c=findHandleGetFunc(className, "izhar"))==null)
 						if((c=findHandleGetFunc(className, "lior"))==null)
-							if((c=findHandleGetFunc(className, "kfir"))==null)
+							if((c=findHandleGetFunc(className, "kfir"))==null) {
+								ParentController.sendResultToClient(false);
 								return;
+							}
 			}
 		}
+		
 		/*------------------SELECT queries from DB------------------*/
 		if (msgType.equals(MessageType.SELECT) && c!=null) {
 			try {
@@ -51,21 +60,26 @@ public class ClientController {
 		}
 		else if (msgType.equals(MessageType.UPDATE)) {
 			if (csMsg.getObjs().get(0)!= null &&
-					csMsg.getObjs().get(0) instanceof Boolean &&
-					csMsg.getClasz() !=null)
+					csMsg.getObjs().get(0) instanceof Boolean)
 				ParentController.sendResultToClient((Boolean)csMsg.getObjs().get(0));
 		}
 		else if (msgType.equals(MessageType.INSERT) && c!=null) {
-			if (csMsg.getObjs().get(0)!= null &&
-					csMsg.getObjs().get(0) instanceof BigInteger &&
+			if (csMsg.getObjs().get(0)!= null) {
+				if(csMsg.getObjs().get(0) instanceof BigInteger &&
 					csMsg.getClasz() !=null) {
-				try {
-					m = c.getMethod("handleInsert",BigInteger.class);
-					m.invoke(c.newInstance(), (BigInteger)csMsg.getObjs().get(0));
-				} catch (NoSuchMethodException | SecurityException |IllegalAccessException | IllegalArgumentException | InvocationTargetException | InstantiationException e) {
-					e.printStackTrace();
+					try {
+						m = c.getMethod("handleInsert",BigInteger.class);
+						m.invoke(c.newInstance(), (BigInteger)csMsg.getObjs().get(0));
+						ParentController.sendResultToClient(true);
+					} catch (NoSuchMethodException | SecurityException |IllegalAccessException | IllegalArgumentException | InvocationTargetException | InstantiationException e) {
+						e.printStackTrace();
+						ParentController.sendResultToClient(false);
+					}
 				}
-				ParentController.sendResultToClient(true);
+				else if(csMsg.getObjs().get(0) instanceof Boolean)
+					ParentController.sendResultToClient((boolean)csMsg.getObjs().get(0));
+				else
+					ParentController.sendResultToClient(false);
 			}
 			else
 				ParentController.sendResultToClient(false);

@@ -22,7 +22,6 @@ public class Factory {
 	public SurveyReportController surveyReport = new SurveyReportController();
 	public StockController stock = new StockController();
 	
-	public BrowsingProcessHandler browsingProcess = new BrowsingProcessHandler();
 	public OrderController order = new OrderController();
 	public OrderProcessHandler orderProcess = new OrderProcessHandler();
 	public PickupController pickup = new PickupController();

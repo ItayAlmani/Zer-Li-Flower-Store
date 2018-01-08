@@ -1,67 +1,28 @@
 package common;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.PrintStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.math.BigInteger;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Scanner;
 
-import controllers.SurveyController;
-import controllers.SurveyReportController;
-import entities.CSMessage;
-import entities.Order;
-import entities.ProductInOrder;
-import entities.Survey;
-import entities.SurveyReport;
+import controllers.*;
+import entities.*;
 import entities.CSMessage.MessageType;
-import izhar.OrderController;
-import izhar.ProductInOrderController;
+import itayNron.SurveyController;
+import itayNron.SurveyReportController;
 
 public class ServerController {
-	private static CSMessage sendRequest(CSMessage csMsg) throws Exception {
-		MessageType msgType = csMsg.getType();
-		ArrayList<Object> objArr = csMsg.getObjs();
-		Class<?> c = getObjectClass(csMsg);
-		Method m = null;
-		
-		
-		if(c!=null && objArr!=null && objArr.size()>=2 
-				&& objArr.get(0) instanceof String) {
-			try {
-				m = c.getMethod((String)objArr.get(0),objArr.get(1).getClass());
-				Object arr = m.invoke(c.newInstance(), objArr.get(1));
-				if(arr!=null && arr instanceof ArrayList<?>) {
-					csMsg.setObjs((ArrayList<Object>)arr);
-					return csMsg;
-				}
-				else
-					throw new Exception();
-			} catch (NoSuchMethodException | SecurityException |IllegalAccessException | IllegalArgumentException | InvocationTargetException | InstantiationException e) {
-				e.printStackTrace();
-			}
-		}
-		else {
-			System.err.println("Problem in ServerController\n");
-			throw new Exception();
-		}
-			
-		return csMsg;
-	}
-	
 	public static CSMessage setMessageToClient(CSMessage csMsg) throws Exception{
 		MessageType msgType = csMsg.getType();
 		ArrayList<Object> objArr = csMsg.getObjs();
 		
 		if(csMsg.getClasz()!=null) {
 			if(csMsg.getClasz().equals(Order.class) ||
-					csMsg.getClasz().equals(ProductInOrder.class)) {
+					csMsg.getClasz().equals(ProductInOrder.class) ||
+					csMsg.getClasz().equals(Product.class) ||
+					csMsg.getClasz().equals(Stock.class) ||
+					csMsg.getClasz().equals(Store.class) ||
+					csMsg.getClasz().equals(Survey.class) ||
+					csMsg.getClasz().equals(SurveyReport.class)){
 				return sendRequest(csMsg);
 			}
 		}
@@ -92,16 +53,16 @@ public class ServerController {
 				throw new Exception();
 			}
 		}
-		else if(msgType.equals(MessageType.INSERT)) {
+		/*else if(msgType.equals(MessageType.INSERT)) {
 			if(csMsg.getObjs() != null &&
 					csMsg.getObjs().size()!=0 && csMsg.getObjs().get(0) != null) {
-				/*if(csMsg.getClasz().equals(Order.class) && 
+				if(csMsg.getClasz().equals(Order.class) && 
 						csMsg.getObjs().get(0) instanceof Order) {
 					Order ord = (Order)(csMsg.getObjs().get(0));
 					objArr.clear();
 					objArr.add(EchoServer.addOrder(ord));
 				}
-				else*/ if(csMsg.getClasz().equals(Survey.class) && 
+				else if(csMsg.getClasz().equals(Survey.class) && 
 						csMsg.getObjs().get(0) instanceof Survey) {
 					Survey survey = (Survey)(csMsg.getObjs().get(0));
 					objArr.clear();
@@ -118,10 +79,10 @@ public class ServerController {
 					ProductInOrder pio = (ProductInOrder)(csMsg.getObjs().get(0));
 					objArr.clear();
 					objArr.add(EchoServer.fac.prodInOrder.add(pio));
-				}*/
+				}
 				csMsg.setObjs(objArr);
 			}
-		}
+		}*/
 		else if(msgType.equals(MessageType.DBStatus)) {
 			if(objArr!=null)	objArr.clear();
 			else				objArr = new ArrayList<>();
@@ -136,6 +97,66 @@ public class ServerController {
 			csMsg.setObjs(objArr);
 		}
 		return csMsg;
+	}	
+	
+	private static CSMessage sendRequest(CSMessage csMsg) throws Exception {
+		ArrayList<Object> objArr = csMsg.getObjs();
+		Class<?> c = getObjectClass(csMsg);
+		Method m = null;
+		
+		
+		if(c!=null && objArr!=null && objArr.size()>=1 
+				&& objArr.get(0) instanceof String) {
+			String funcName = (String)objArr.get(0);
+			if(objArr.size()==1)
+				callToMethod(c, m, funcName, csMsg);
+			else if(objArr.size()==2)
+				callToMethod(c, m, funcName,csMsg,objArr.get(1));
+		}
+		else {
+			System.err.println("Problem in ServerController\n");
+			throw new Exception();
+		}
+			
+		return csMsg;
+	}
+	
+	private static void callToMethod(Class<?> c, Method m, String funcName, CSMessage csMsg) throws Exception {
+		try {
+			m = c.getMethod(funcName);
+			Object arr = m.invoke(c.newInstance());
+			if(arr!=null && arr instanceof ArrayList<?>) {
+				csMsg.setObjs((ArrayList<Object>)arr);
+			}
+			else
+				throw new Exception();
+		} catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | InstantiationException e) {
+			e.printStackTrace();
+			throw e;
+		}
+		
+	}
+	
+	private static void callToMethod(Class<?> c, Method m, String funcName, CSMessage csMsg, Object o) throws Exception {
+		try {
+			m = c.getMethod(funcName,o.getClass());
+			Object arr = m.invoke(c.newInstance(), o);
+			if(arr!=null && arr instanceof ArrayList<?>) {
+				csMsg.setObjs((ArrayList<Object>)arr);
+			}
+			else
+				throw new Exception();
+		}catch (NoSuchMethodException e) {
+			m = c.getMethod(funcName,Object.class);
+			Object arr = m.invoke(c.newInstance(), o);
+			if(arr!=null && arr instanceof ArrayList<?>)
+				csMsg.setObjs((ArrayList<Object>) arr);
+			else
+				throw new Exception();
+		} catch (SecurityException |IllegalAccessException | IllegalArgumentException | InvocationTargetException | InstantiationException e) {
+			e.printStackTrace();
+			throw e;
+		}
 	}
 	
 	private static Class<?> findHandleGetFunc(String className, String classPath) {

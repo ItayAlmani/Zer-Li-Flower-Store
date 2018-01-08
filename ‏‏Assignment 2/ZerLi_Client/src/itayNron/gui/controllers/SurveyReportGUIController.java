@@ -46,7 +46,7 @@ public class SurveyReportGUIController implements Initializable
 	 * @throws IOException 
 	 */
 	@FXML public void loadSurveyAnalyzesToGUI() throws IOException {
-		Context.fac.surveyReport.getSurveysForAnalays(dpDateStart.getValue(), dpDateEnd.getValue());
+		Context.fac.surveyReport.analyzeSurveys(dpDateStart.getValue(), dpDateEnd.getValue());
 	}
 	
 	@FXML public void sendSurveyReport(ActionEvent event) throws IOException
@@ -56,7 +56,7 @@ public class SurveyReportGUIController implements Initializable
 		sr.setStartDate(dpDateStart.getValue().atStartOfDay());
 		sr.setEndDate(dpDateEnd.getValue().atStartOfDay());	
 
-		Context.fac.surveyReport.addSurveyReport(sr);
+		Context.fac.surveyReport.add(sr);
 	}
 	
 	public void setSurveyReports(ArrayList<SurveyReport> surveys) {

@@ -1,27 +1,17 @@
 package izhar;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.math.BigInteger;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 
 import common.EchoServer;
-import common.ServerController;
 import controllers.ParentController;
-import entities.CSMessage;
-import entities.Order;
 import entities.Product;
 import entities.ProductInOrder;
-import entities.ShipmentDetails;
-import entities.CSMessage.MessageType;
-import entities.Order.DeliveryType;
 
 public class ProductInOrderController extends ParentController{	
 	
 	public ArrayList<Object> add(ArrayList<Object> arr) throws Exception {
-		myMsgArr.clear();
 		if(arr!=null && (arr.get(0) instanceof ProductInOrder == false) || arr.get(1) instanceof Boolean == false)
 			throw new Exception();
 		ProductInOrder p = (ProductInOrder)arr.get(0);
@@ -89,30 +79,25 @@ public class ProductInOrderController extends ParentController{
 		myMsgArr.add(true);
 		return myMsgArr;
 	}
-	
+
 	
 	@Override
 	public ArrayList<Object> handleGet(ArrayList<Object> obj) {
 		if(obj==null) return null;
 		ArrayList<Object> prds = new ArrayList<>();
 		for (int i = 0; i < obj.size(); i += 11) {
-			try {
-				prds.add(parse(BigInteger.valueOf(Long.valueOf((int)obj.get(i))),
-						(EchoServer.fac.product.parse(BigInteger.valueOf(Long.valueOf((int) obj.get(i+1))), 
-						(String) obj.get(i + 2), 
-						(String) obj.get(i + 3),
-						(float) obj.get(i + 4),
-						(String) obj.get(i + 5),
-						((int)obj.get(i + 6))!= 0,
-						(String)obj.get(i+7))
-						),BigInteger.valueOf(Long.valueOf((int)obj.get(i+8)))
-						,(int)obj.get(i+9),
-						(float)obj.get(i+10)
-						));
-			} catch (FileNotFoundException e) {
-				System.err.println("Couldn't find Image named "+ (String)obj.get(i+6) +".");
-				e.printStackTrace();
-			}
+			prds.add(parse(BigInteger.valueOf(Long.valueOf((int)obj.get(i))),
+					(EchoServer.fac.product.parse(BigInteger.valueOf(Long.valueOf((int) obj.get(i+1))), 
+					(String) obj.get(i + 2), 
+					(String) obj.get(i + 3),
+					(float) obj.get(i + 4),
+					(String) obj.get(i + 5),
+					((int)obj.get(i + 6))!= 0,
+					(String)obj.get(i+7))
+					),BigInteger.valueOf(Long.valueOf((int)obj.get(i+8)))
+					,(int)obj.get(i+9),
+					(float)obj.get(i+10)
+					));
 		}
 		return prds;
 	}
@@ -120,7 +105,4 @@ public class ProductInOrderController extends ParentController{
 	public ProductInOrder parse(BigInteger id, Product prod, BigInteger orderID, int quantity, float finalPrice) {
 		return new ProductInOrder(id, prod,orderID,quantity,finalPrice);
 	}
-
-
-	
 }

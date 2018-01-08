@@ -48,8 +48,10 @@ public class SurveyGUIController implements Initializable {
 		if(Context.getUserAsStoreWorker() !=null) {
 			Survey sur = new Survey(ans, dpDate.getValue(),Context.getUserAsStoreWorker().getStoreID(),SurveyType.Answer);
 			
-			Context.fac.survey.addSurvey(sur);
+			Context.fac.survey.add(sur);
 		}
+		else
+			System.err.println("You are not a store worker");
 		Context.mainScene.loadMainMenu();
 	}
 	

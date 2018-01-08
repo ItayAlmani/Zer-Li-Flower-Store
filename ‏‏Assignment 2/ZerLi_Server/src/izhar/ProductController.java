@@ -1,39 +1,81 @@
 package izhar;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.math.BigInteger;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
+import common.EchoServer;
 import controllers.ParentController;
-import entities.CSMessage;
-import entities.CSMessage.MessageType;
 import entities.Product;
-import entities.Product.Color;
-import entities.Product.ProductType;
 
 public class ProductController extends ParentController {	
 	
-	public Product parse(BigInteger prdID, String name, String type, float price, String color, boolean inCatalog, String imageURL) throws FileNotFoundException {
+	public Product parse(BigInteger prdID, String name, String type, float price, String color, boolean inCatalog, String imageURL){
 		return new Product(prdID, name, type,price,color,inCatalog, "/images/"+imageURL);
 	}
 
 	@Override
 	public ArrayList<Object> handleGet(ArrayList<Object> obj) {
-		// TODO Auto-generated method stub
-		return null;
+		ArrayList<Object> prds = new ArrayList<>();
+		for (int i = 0; i < obj.size(); i += 7)
+				prds.add(parse(
+						BigInteger.valueOf(Long.valueOf((int) obj.get(i))), 
+						(String) obj.get(i + 1), 
+						(String) obj.get(i + 2),
+						(float) obj.get(i + 3),
+						(String) obj.get(i + 4),
+						((int)obj.get(i + 5))!= 0,
+						(String)obj.get(i+6))
+						);
+		return prds;
 	}
 
 	@Override
-	public ArrayList<Object> add(Object obj) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	public ArrayList<Object> add(ArrayList<Object> arr) throws Exception {
+		if(arr!=null && (arr.get(0) instanceof Product == false) || arr.get(1) instanceof Boolean == false)
+			throw new Exception();
+		Product p = (Product)arr.get(0);
+		boolean isReturnNextID = (boolean)arr.get(1);
+		String res = "0";
+		if(p.isInCatalog())
+			res="1";
+		String query = "INSERT INTO orders (productName, productType, price, color, inCatalog)"
+				+ "VALUES ('" + p.getName() + "', '" 
+				+ p.getType().toString() + "', '"
+				+ p.getPrice() + "', '"
+				+ p.getColor().toString() + "', '"
+				+ res + "')";
+		EchoServer.fac.dataBase.db.updateQuery(query);
+		if(isReturnNextID) {
+			query="SELECT Max(productID) from product";
+			myMsgArr =  EchoServer.fac.dataBase.db.getQuery(query);
+			if(myMsgArr!=null && myMsgArr.size()==1 && myMsgArr.get(0) instanceof Integer) {
+				myMsgArr.set(0, BigInteger.valueOf((Integer)myMsgArr.get(0)));
+			}
+			else throw new Exception();
+		}
+		else
+			myMsgArr.add(true);
+		return myMsgArr;
 	}
 
+	public ArrayList<Object> getAllProducts() throws SQLException {
+		String query = "SELECT * FROM product";
+		return handleGet(EchoServer.fac.dataBase.db.getQuery(query));
+	}
+	
+	public ArrayList<Object> getProductsInCatalog() throws SQLException{
+		String query = "SELECT * FROM product WHERE inCatalog='1'";
+		return handleGet(EchoServer.fac.dataBase.db.getQuery(query));
+	}
+
+	public ArrayList<Object> getAllProductsNotInCatalog() throws SQLException{
+		String query = "SELECT * FROM product WHERE inCatalog='0'";
+		return handleGet(EchoServer.fac.dataBase.db.getQuery(query));
+	}
+	
 	@Override
-	public ArrayList<Object> update(ArrayList<Object> arr) throws Exception {
+	public ArrayList<Object> update(Object obj) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}

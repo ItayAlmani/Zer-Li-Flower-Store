@@ -11,16 +11,12 @@ import entities.Stock;
 import entities.Store;
 import interfaces.IParent;
 
-public interface IStock extends IParent {
+public interface IStock {
 
 	void getStockByStore(BigInteger storeID) throws IOException;
 
-	void sendStocks(ArrayList<Stock> stocks);
-
 	Product checkStockByOrder(Order order, Store store);
 
-	void updateStock(Order order) throws IOException;
-
-	void setPIOs(ArrayList<ProductInOrder> prds) throws IOException;
+	void update(Order order) throws IOException;
 
 }

@@ -12,14 +12,12 @@ import entities.Order;
 import entities.Store;
 import interfaces.IParent;
 
-public interface IStore extends IParent {
+public interface IStore {
 
 	/**
 	 * Static method
 	 */
 	void getAllStores() throws IOException;
-	
-	void sendStores(ArrayList<Store> stores);
 	
 	Store parse(BigInteger storeID, String type, BigInteger managerID, String name) ;
 	
@@ -28,7 +26,7 @@ public interface IStore extends IParent {
 	 * 
 	 * @param order
 	 */
-	void updateStore(Store store) throws IOException;
+	void update(Store store) throws IOException;
 
 	void getAllPhysicalStores() throws IOException;
 }

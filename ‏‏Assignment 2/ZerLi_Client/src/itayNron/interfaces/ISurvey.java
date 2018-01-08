@@ -11,13 +11,13 @@ import entities.Store;
 import entities.Survey;
 import interfaces.IParent;
 
-public interface ISurvey extends IParent {
+public interface ISurvey{
 
 	/**
 	 * 
 	 * @param survey
 	 */
-	void addSurvey(Survey survey) throws IOException;
+	void add(Survey survey) throws IOException;
 
 	/**
 	 * 
@@ -25,15 +25,11 @@ public interface ISurvey extends IParent {
 	 */
 	void getSurveyByStore(Store store) throws IOException;
 
-	void sendSurveys(ArrayList<Survey> surveys);
-
 	/**
 	 * 
 	 * @param startDate
 	 * @param endDate
 	 */
 	void getSurveyByDates(LocalDate startDate, LocalDate endDate) throws IOException;
-	
-	public Survey parse(BigInteger surveyID,BigInteger storeID, float answer1,float answer2,float answer3,float answer4,float answer5,float answer6, Timestamp date, String type);
 
 }

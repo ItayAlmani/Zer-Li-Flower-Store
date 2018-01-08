@@ -17,31 +17,7 @@ import itayNron.interfaces.IStore;
 
 public class StoreController extends ParentController implements IStore {
 	
-	@Override
-	public void handleGet(ArrayList<Object> obj) {
-		ArrayList<Store> stores = new ArrayList<>();
-		for (int i = 0; i < obj.size(); i += 4)
-				stores.add(parse
-						(
-						BigInteger.valueOf(Long.valueOf((int) obj.get(i))), 
-						(String) obj.get(i + 2), 
-						BigInteger.valueOf((int)obj.get(i+1)),
-						(String) obj.get(i + 3)));
-			 
-		sendStores(stores);
-	}
-	
-
-	@Override
-	public void getAllStores() throws IOException   {
-		myMsgArr.clear();
-		myMsgArr.add("SELECT * FROM store;");
-		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.SELECT,myMsgArr,Store.class));
-	}
-	
-	@Override
-	public void sendStores(ArrayList<Store> stores) 
-	{
+	public void handleGet(ArrayList<Store> stores) {
 		String methodName = "setStores";
 		Method m = null;
 		try {
@@ -62,9 +38,15 @@ public class StoreController extends ParentController implements IStore {
 			System.err.println("No method called '"+methodName+"'");
 			e2.printStackTrace();
 		}
-		
 	}
-
+	
+	@Override
+	public void getAllStores() throws IOException   {
+		myMsgArr.clear();
+		myMsgArr.add(Thread.currentThread().getStackTrace()[1].getMethodName());
+		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.SELECT,myMsgArr,Store.class));
+	}
+	
 	public ArrayList<Store> getOrdersOnlyStoresFromArrayList(ArrayList<Store> allStores){
 		ArrayList<Store> ordersOnly = new ArrayList<>();
 		for (Store store : allStores)
@@ -82,14 +64,11 @@ public class StoreController extends ParentController implements IStore {
 	}
 
 	@Override
-	public void updateStore(Store store) throws IOException {
+	public void update(Store store) throws IOException {
 		myMsgArr.clear();
-		myMsgArr.add(String.format(
-				"UPDATE store " + 
-				" SET storeID=%d, managerID=%d,type=%s,name=%s" + 
-				" WHERE storeID=%d",
-				store.getStoreID(),store.getManager().getUserID(),store.getType().toString(),store.getName()));
-		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.UPDATE,myMsgArr));
+		myMsgArr.add(Thread.currentThread().getStackTrace()[1].getMethodName());
+		myMsgArr.add(store);
+		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.UPDATE,myMsgArr,Store.class));
 	}
 
 	@Override
@@ -98,12 +77,10 @@ public class StoreController extends ParentController implements IStore {
 		
 	}
 
-
 	@Override
 	public void getAllPhysicalStores() throws IOException {
 		myMsgArr.clear();
-		myMsgArr.add(
-				"SELECT store.*" + "FROM store" + "WHERE store.type='Physical'");
+		myMsgArr.add(Thread.currentThread().getStackTrace()[1].getMethodName());
 		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.SELECT, myMsgArr, Store.class));
 		
 	}

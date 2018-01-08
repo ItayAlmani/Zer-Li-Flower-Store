@@ -36,27 +36,12 @@ public class OrderController extends ParentController implements IOrder {
 				nextID=getNextID(order);
 			}
 			else if(order.getDeliveryType() != null) {
-				if(order.getDeliveryType().equals(DeliveryType.Pickup)) {
-					try {
-						BigInteger id = PickupController.addPickup(order.getDelivery());
-						order.getDelivery().setDeliveryID(id);
-					} catch (Exception e) {
-						System.err.println("Error with get id in order process");
-						e.printStackTrace();
-						throw e;
-					}
-				}
+				if(order.getDeliveryType().equals(DeliveryType.Pickup))
+					order.getDelivery().setDeliveryID(addPickupWithOrder(order.getDelivery()));
 				else if(order.getDeliveryType().equals(DeliveryType.Shipment) && 
 						order.getDelivery() instanceof ShipmentDetails) {
-					try {
-						ShipmentDetails ship = (ShipmentDetails) order.getDelivery();
-						BigInteger id = ShipmentController.addShipment(ship);
-						ship.setShipmentID(id);
-					} catch (Exception e) {
-						System.err.println("Error with get id in order process");
-						e.printStackTrace();
-						throw e;
-					}
+					ShipmentDetails ship = (ShipmentDetails) order.getDelivery();
+					ship.setShipmentID(addShipmentWithOrder(ship));
 				}
 				update(order);
 				nextID=getNextID(order).subtract(BigInteger.ONE);
@@ -68,6 +53,38 @@ public class OrderController extends ParentController implements IOrder {
 				myMsgArr.add(true);
 			return myMsgArr;
 		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+	}
+	
+	private BigInteger addPickupWithOrder(DeliveryDetails del) throws Exception {
+		try {
+			myMsgArr.clear();
+			myMsgArr.add(del);
+			myMsgArr.add(true);
+			myMsgArr = EchoServer.fac.pickup.add(myMsgArr);
+			if(myMsgArr.get(0) instanceof BigInteger)
+				return (BigInteger)myMsgArr.get(0);
+			throw new Exception("addPickupWithOrder() error\n");
+		} catch (Exception e) {
+			System.err.println(e.getMessage());
+			e.printStackTrace();
+			throw e;
+		}
+	}
+	
+	private BigInteger addShipmentWithOrder(ShipmentDetails ship) throws Exception{
+		try {
+			myMsgArr.clear();
+			myMsgArr.add(ship);
+			myMsgArr.add(true);
+			myMsgArr = EchoServer.fac.pickup.add(myMsgArr);
+			if(myMsgArr.get(0) instanceof BigInteger)
+				return (BigInteger)myMsgArr.get(0);
+			throw new Exception("addShipmentWithOrder() error\n");
+		} catch (Exception e) {
+			System.err.println(e.getMessage());
 			e.printStackTrace();
 			throw e;
 		}
@@ -158,7 +175,7 @@ public class OrderController extends ParentController implements IOrder {
 			query = "SELECT orderID from orders where shipmentID='"+
 					((ShipmentDetails)order.getDelivery()).getShipmentID()+"'";
 		}
-		myMsgArr =  EchoServer.fac.dataBase.db.getQuery(query);
+		myMsgArr = EchoServer.fac.dataBase.db.getQuery(query);
 		myMsgArr.set(0, ((Integer)myMsgArr.get(0))+1);
 		if(myMsgArr!=null && myMsgArr.size()==1 && myMsgArr.get(0) instanceof Integer)
 			return BigInteger.valueOf((Integer)myMsgArr.get(0));

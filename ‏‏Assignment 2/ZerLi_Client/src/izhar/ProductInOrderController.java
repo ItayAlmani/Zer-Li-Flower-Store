@@ -1,6 +1,5 @@
 package izhar;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -10,12 +9,8 @@ import java.util.ArrayList;
 
 import common.Context;
 import controllers.ParentController;
-import entities.CSMessage;
+import entities.*;
 import entities.CSMessage.MessageType;
-import entities.Customer;
-import entities.Product;
-import entities.ProductInOrder;
-import entities.Subscription;
 import entities.Subscription.SubscriptionType;
 import izhar.interfaces.IProductInOrder;
 
@@ -67,8 +62,9 @@ public class ProductInOrderController extends ParentController implements IProdu
 			//a controller asked data, not GUI
 			if(Context.askingCtrl!=null && Context.askingCtrl.size()!=0) {
 				m = Context.askingCtrl.get(0).getClass().getMethod(methodName,ArrayList.class);
-				m.invoke(Context.askingCtrl.get(0), pios);
+				Object obj = Context.askingCtrl.get(0);
 				Context.askingCtrl.remove(0);
+				m.invoke(obj, pios);
 			}
 			else {
 				m = Context.currentGUI.getClass().getMethod(methodName,ArrayList.class);

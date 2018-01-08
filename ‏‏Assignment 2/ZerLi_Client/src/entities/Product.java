@@ -81,7 +81,7 @@ public class Product implements Comparable<Product>, Serializable  {
 	}
 
 	public Product(BigInteger prdID, String name, String type, float price, String color, boolean inCatalog,
-			String imageName) throws FileNotFoundException {
+			String imageName) {
 		super();
 		this.prdID = prdID;
 		this.name = name;

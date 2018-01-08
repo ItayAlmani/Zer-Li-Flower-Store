@@ -145,6 +145,4 @@ public class CustomerController extends UserController implements ICustomer {
 		// TODO Auto-generated method stub
 		
 	}
-
-
 }

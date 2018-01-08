@@ -8,13 +8,13 @@ import entities.Survey;
 import entities.SurveyReport;
 import interfaces.IParent;
 
-public interface ISurveyReport extends IParent {
+public interface ISurveyReport {
 
 	/**
 	 * 
 	 * @param surveyReport
 	 */
-	void addSurveyReport(SurveyReport surveyReport) throws IOException;
+	void add(SurveyReport surveyReport) throws IOException;
 
 	/**
 	 * 
@@ -23,8 +23,5 @@ public interface ISurveyReport extends IParent {
 	void getSurveyReportsByStore(int storeid);
 	
 	
-
-	void sendSurveyReports(ArrayList<SurveyReport> surveyReports);
-	
-	void getSurveysForAnalays(LocalDate start, LocalDate end) throws IOException;
+	void analyzeSurveys(LocalDate start, LocalDate end) throws IOException;
 }

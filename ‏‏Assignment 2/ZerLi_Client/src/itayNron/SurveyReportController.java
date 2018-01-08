@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import common.Context;
 import controllers.ParentController;
 import entities.CSMessage;
+import entities.Product;
 import entities.Survey;
 import entities.Survey.SurveyType;
 import entities.SurveyReport;
@@ -18,9 +19,13 @@ import itayNron.interfaces.ISurveyReport;
 public class SurveyReportController extends ParentController implements ISurveyReport {
 
 	@Override
-	public void addSurveyReport(SurveyReport sr) throws IOException {
+	public void add(SurveyReport sr) throws IOException {
 		myMsgArr.clear();
-		myMsgArr.add(sr);
+		myMsgArr.add(Thread.currentThread().getStackTrace()[1].getMethodName());
+		ArrayList<Object> arr = new ArrayList<>();
+		arr.add(sr);
+		arr.add(false);
+		myMsgArr.add(arr);
 		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.INSERT, myMsgArr,SurveyReport.class));
 	}
 
@@ -29,41 +34,7 @@ public class SurveyReportController extends ParentController implements ISurveyR
 		
 	}
 	
-	
-	
-	
-
-	@Override
-	public void handleGet(ArrayList<Object> obj) {
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
-	public void getSurveysForAnalays(LocalDate start, LocalDate end) throws IOException {
-		Context.askingCtrl.add(this);
-		Context.fac.survey.getSurveyByDates(start, end);
-	}
-	
-	public void setSurveys(ArrayList<Survey> surveys) //analysis survey
-	{ 
-		float [] totalSumOfAnswers = new float[6];
-		for (Survey survey : surveys) 
-		{
-			float[] surveyAnswers =  survey.getSurveyAnswerers();
-			for (int i=0;i<surveyAnswers.length;i++)
-				totalSumOfAnswers[i]+=surveyAnswers[i];
-		}
-		for (int i=0;i<totalSumOfAnswers.length;i++)
-			totalSumOfAnswers[i]=totalSumOfAnswers[i]/(float)surveys.size();
-		ArrayList<SurveyReport> arr = new ArrayList<>();
-		arr.add(new SurveyReport(new Survey(totalSumOfAnswers, LocalDate.now(), surveys.get(0).getStoreID(),SurveyType.Analyzes)));
-		sendSurveyReports(arr);
-	}
-
-	
-	
-	@Override
-	public void sendSurveyReports(ArrayList<SurveyReport> surveys) {
+	public void handleGet(ArrayList<SurveyReport> surveys) {
 		String methodName = "setSurveyReports";
 		Method m = null;
 		try {
@@ -85,7 +56,18 @@ public class SurveyReportController extends ParentController implements ISurveyR
 			System.err.println("No method called '"+methodName+"'");
 			e2.printStackTrace();
 		}
+		
+	}
+	
+	@Override
+	public void analyzeSurveys(LocalDate start, LocalDate end) throws IOException {
+		myMsgArr.clear();
+		myMsgArr.add(Thread.currentThread().getStackTrace()[1].getMethodName());
+		ArrayList<Object> arr = new ArrayList<>();
+		arr.add(start);
+		arr.add(end);
+		myMsgArr.add(arr);
+		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.SELECT, myMsgArr, SurveyReport.class));
 	}
 
-	
 }

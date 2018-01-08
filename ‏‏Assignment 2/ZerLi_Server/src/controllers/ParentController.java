@@ -14,11 +14,11 @@ public abstract class ParentController {
 	
 	/**
 	 * 
-	 * @param obj
+	 * @param arr
 	 * @return true or false, or
 	 * @throws Exception
 	 */
-	public abstract ArrayList<Object> add(ArrayList<Object> obj) throws Exception;
+	public abstract ArrayList<Object> add(ArrayList<Object> arr) throws Exception;
 	
 	public abstract ArrayList<Object> update(Object obj) throws Exception;
 }
