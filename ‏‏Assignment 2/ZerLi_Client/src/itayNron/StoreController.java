@@ -13,6 +13,7 @@ import entities.CSMessage.MessageType;
 import entities.Store;
 import entities.Store.StoreType;
 import entities.StoreWorker;
+import gui.controllers.ParentGUIController;
 import itayNron.interfaces.IStore;
 
 public class StoreController extends ParentController implements IStore {
@@ -24,12 +25,13 @@ public class StoreController extends ParentController implements IStore {
 			//a controller asked data, not GUI
 			if(Context.askingCtrl!=null && Context.askingCtrl.size()!=0) {
 				m = Context.askingCtrl.get(0).getClass().getMethod(methodName,ArrayList.class);
-				m.invoke(Context.askingCtrl.get(0), stores);
+				Object obj = Context.askingCtrl.get(0);
 				Context.askingCtrl.remove(0);
+				m.invoke(obj, stores);
 			}
 			else {
-				m = Context.currentGUI.getClass().getMethod(methodName,ArrayList.class);
-				m.invoke(Context.currentGUI, stores);
+				m = ParentGUIController.currentGUI.getClass().getMethod(methodName,ArrayList.class);
+				m.invoke(ParentGUIController.currentGUI, stores);
 			}
 		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e1) {
 			System.err.println("Couldn't invoke method '"+methodName+"'");

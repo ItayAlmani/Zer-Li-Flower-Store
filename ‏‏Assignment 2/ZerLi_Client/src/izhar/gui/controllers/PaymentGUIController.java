@@ -144,7 +144,7 @@ public class PaymentGUIController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		Context.currentGUI = this;
+		ParentGUIController.currentGUI = this;
 
 		tGroup = new ToggleGroup();
 		rbCredit.setUserData("CreditCard");

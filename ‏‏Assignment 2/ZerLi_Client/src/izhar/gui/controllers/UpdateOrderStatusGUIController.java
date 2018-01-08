@@ -38,7 +38,7 @@ public class UpdateOrderStatusGUIController implements Initializable {
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		Context.currentGUI = this;
+		ParentGUIController.currentGUI = this;
 		ArrayList<OrderStatus> al = new ArrayList<>();
 		for(OrderStatus os : OrderStatus.values())
 			al.add(os);

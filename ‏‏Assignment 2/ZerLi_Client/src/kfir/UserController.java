@@ -16,6 +16,7 @@ import entities.Customer;
 import entities.Order;
 import entities.User;
 import entities.User.UserType;
+import gui.controllers.ParentGUIController;
 import javafx.scene.control.Tooltip;
 import entities.CSMessage.MessageType;
 import kfir.interfaces.IUser;
@@ -90,12 +91,13 @@ public class UserController extends ParentController implements IUser {
 			//a controller asked data, not GUI
 			if(Context.askingCtrl!=null && Context.askingCtrl.size()!=0) {
 				m = Context.askingCtrl.get(0).getClass().getMethod(methodName,ArrayList.class);
-				m.invoke(Context.askingCtrl, users);
+				Object obj = Context.askingCtrl.get(0);
 				Context.askingCtrl.remove(0);
+				m.invoke(obj, users);
 			}
 			else {
-				m = Context.currentGUI.getClass().getMethod(methodName,ArrayList.class);
-				m.invoke(Context.currentGUI, users);
+				m = ParentGUIController.currentGUI.getClass().getMethod(methodName,ArrayList.class);
+				m.invoke(ParentGUIController.currentGUI, users);
 			}
 		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e1) {
 			System.err.println("Couldn't invoke method '"+methodName+"'");

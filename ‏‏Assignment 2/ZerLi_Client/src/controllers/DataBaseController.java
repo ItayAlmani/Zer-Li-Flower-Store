@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import common.Context;
 import entities.CSMessage;
 import entities.DataBase;
+import gui.controllers.ParentGUIController;
 import entities.CSMessage.MessageType;
 
 public class DataBaseController extends ParentController {
@@ -82,8 +83,8 @@ public class DataBaseController extends ParentController {
 				m.invoke(obj, dbData);
 			}
 			else {
-				m = Context.currentGUI.getClass().getMethod(methodName,ArrayList.class);
-				m.invoke(Context.currentGUI, dbData);
+				m = ParentGUIController.currentGUI.getClass().getMethod(methodName,ArrayList.class);
+				m.invoke(ParentGUIController.currentGUI, dbData);
 			}
 		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e1) {
 			System.err.println("Couldn't invoke method '"+methodName+"'");

@@ -1,4 +1,7 @@
 package gui.controllers;
+
+import javafx.scene.control.TextField;
+
 public class SubscriptionGUI {
 
 	private TextField subType;
@@ -12,7 +15,7 @@ public class SubscriptionGUI {
 	 * 
 	 * @param SubType
 	 */
-	public void InsertData(TexField SubType) {
+	public void InsertData(TextField SubType) {
 		// TODO - implement SubscriptionGUI.InsertData
 		throw new UnsupportedOperationException();
 	}

@@ -16,6 +16,7 @@ import entities.CSMessage.MessageType;
 import entities.Store;
 import entities.Survey;
 import entities.Survey.SurveyType;
+import gui.controllers.ParentGUIController;
 import itayNron.interfaces.ISurvey;
 
 public class SurveyController extends ParentController implements ISurvey {
@@ -62,8 +63,8 @@ public class SurveyController extends ParentController implements ISurvey {
 				m.invoke(obj, surveys);
 			}
 			else {
-				m = Context.currentGUI.getClass().getMethod(methodName,ArrayList.class);
-				m.invoke(Context.currentGUI, surveys);
+				m = ParentGUIController.currentGUI.getClass().getMethod(methodName,ArrayList.class);
+				m.invoke(ParentGUIController.currentGUI, surveys);
 			}
 		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e1) {
 			System.err.println("Couldn't invoke method '"+methodName+"'");

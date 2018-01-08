@@ -48,7 +48,7 @@ public class IncomesReportFormGUIController implements Initializable {
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		Context.currentGUI = this;
+		ParentGUIController.currentGUI = this;
 		
 		lblFrom.setVisible(false);
 		lblTo.setVisible(false);

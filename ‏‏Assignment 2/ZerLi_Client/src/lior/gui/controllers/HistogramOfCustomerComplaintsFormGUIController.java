@@ -29,7 +29,7 @@ public class HistogramOfCustomerComplaintsFormGUIController implements Initializ
 	@SuppressWarnings("unchecked")
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		Context.currentGUI = this;
+		ParentGUIController.currentGUI = this;
 		xax=new CategoryAxis();
 		yax=new NumberAxis();
 		this.bar=new BarChart<>(xax, yax);

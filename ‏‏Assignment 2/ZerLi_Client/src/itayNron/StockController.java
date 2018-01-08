@@ -15,6 +15,7 @@ import entities.Product;
 import entities.ProductInOrder;
 import entities.Stock;
 import entities.Store;
+import gui.controllers.ParentGUIController;
 import itayNron.interfaces.IStock;
 
 public class StockController extends ParentController implements IStock {
@@ -58,12 +59,13 @@ public class StockController extends ParentController implements IStock {
 			//a controller asked data, not GUI
 			if(Context.askingCtrl!=null && Context.askingCtrl.size()!=0) {
 				m = Context.askingCtrl.get(0).getClass().getMethod(methodName,ArrayList.class);
-				m.invoke(Context.askingCtrl.get(0), stocks);
+				Object obj = Context.askingCtrl.get(0);
 				Context.askingCtrl.remove(0);
+				m.invoke(obj, stocks);
 			}
 			else {
-				m = Context.currentGUI.getClass().getMethod(methodName,ArrayList.class);
-				m.invoke(Context.currentGUI, stocks);
+				m = ParentGUIController.currentGUI.getClass().getMethod(methodName,ArrayList.class);
+				m.invoke(ParentGUIController.currentGUI, stocks);
 			}
 		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e1) {
 			System.err.println("Couldn't invoke method '"+methodName+"'");

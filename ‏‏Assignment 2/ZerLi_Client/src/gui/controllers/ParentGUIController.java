@@ -41,6 +41,9 @@ public class ParentGUIController implements Initializable {
 	/** The current JavaFX stage <=> the window of the GUI */
 	public static Stage primaryStage;
 	
+	/** The current GUI. Used to deliver the answer from the <code>EchoServer</code>. */
+	public static Object currentGUI = null;
+	
 	private @FXML Pane paneOfScene;
 	private Region homePane;
 	protected @FXML Label lblMsg, lblTitle;

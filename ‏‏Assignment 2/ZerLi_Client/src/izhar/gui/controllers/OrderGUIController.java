@@ -20,7 +20,7 @@ public class OrderGUIController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		Context.currentGUI = this;
+		ParentGUIController.currentGUI = this;
 		Order ord = Context.order;
 		Context.order=null;
 		

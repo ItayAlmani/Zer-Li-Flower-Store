@@ -1,6 +1,8 @@
 package lior.interfaces;
 
 import java.math.BigInteger;
+import java.text.ParseException;
+import java.time.LocalDate;
 import java.util.Date;
 
 import entities.SatisfactionReport;
@@ -13,5 +15,6 @@ public interface ISatisfactionReportController extends IParent  {
 	 * @param Reqdate
 	 * @param storeID
 	 */
-	SatisfactionReport ProduceSatisfactionReport(Date Reqdate, BigInteger storeID);
+
+	void ProduceSatisfactionReport(LocalDate Reqdate, BigInteger storeID) throws ParseException;
 }

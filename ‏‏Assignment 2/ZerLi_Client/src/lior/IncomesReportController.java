@@ -16,6 +16,7 @@ import controllers.ParentController;
 import entities.IncomesReport;
 import entities.Order;
 import entities.ProductInOrder;
+import gui.controllers.ParentGUIController;
 import lior.interfaces.IIncomesReportController;
 
 public class IncomesReportController extends ParentController implements IIncomesReportController {
@@ -42,12 +43,13 @@ public class IncomesReportController extends ParentController implements IIncome
 			//a controller asked data, not GUI
 			/*if(Context.askingCtrl!=null && Context.askingCtrl.size()!=0) {
 				m = Context.askingCtrl.get(0).getClass().getMethod(methodName,ArrayList.class);
-				m.invoke(Context.askingCtrl, orders);
+				Object obj = Context.askingCtrl.get(0);
 				Context.askingCtrl.remove(0);
+				m.invoke(obj, iReports);
 			}
 			else {*/
-				m = Context.currentGUI.getClass().getMethod(methodName,ArrayList.class);
-				m.invoke(Context.currentGUI, iReports);
+				m = ParentGUIController.currentGUI.getClass().getMethod(methodName,ArrayList.class);
+				m.invoke(ParentGUIController.currentGUI, iReports);
 			//}
 		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e1) {
 			System.err.println("Couldn't invoke method '"+methodName+"'");

@@ -98,7 +98,7 @@ public class ProductsFormGUIController implements Initializable{
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		Context.currentGUI = this;
+		ParentGUIController.currentGUI = this;
 		getProductsComboBox();
 		cmbProducts.setStyle("-fx-font-size:10");
 	}

@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import org.controlsfx.control.textfield.TextFields;
-import org.controlsfx.glyphfont.FontAwesome.Glyph;
 import org.controlsfx.validation.ValidationSupport;
 import org.controlsfx.validation.Validator;
 
@@ -16,26 +15,18 @@ import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 
 import common.Context;
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
-import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIcon;
-import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView;
 import entities.User;
+import gui.controllers.ParentGUIController;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
-import javafx.scene.control.Label;
-import javafx.scene.layout.GridPane;
 public class LogInGUIController implements Initializable{
 	
 	private @FXML JFXTextField txtUserName;
@@ -98,7 +89,7 @@ public class LogInGUIController implements Initializable{
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		Context.currentGUI = this;
+		ParentGUIController.currentGUI = this;
 		
 		try {
 			Context.fac.user.getAllUsers();

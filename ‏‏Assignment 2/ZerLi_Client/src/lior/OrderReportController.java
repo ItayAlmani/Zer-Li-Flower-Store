@@ -20,6 +20,7 @@ import entities.OrderReport;
 import entities.Product;
 import entities.Product.ProductType;
 import entities.ProductInOrder;
+import gui.controllers.ParentGUIController;
 import lior.interfaces.IOrderReportController;
 
 public class OrderReportController extends ParentController implements IOrderReportController {
@@ -47,8 +48,8 @@ public class OrderReportController extends ParentController implements IOrderRep
 				Context.askingCtrl.remove(0);
 			}
 			else {*/
-				m = Context.currentGUI.getClass().getMethod(methodName,ArrayList.class);
-				m.invoke(Context.currentGUI, oReports);
+				m = ParentGUIController.currentGUI.getClass().getMethod(methodName,ArrayList.class);
+				m.invoke(ParentGUIController.currentGUI, oReports);
 				oReports=null;
 			//}
 		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e1) {

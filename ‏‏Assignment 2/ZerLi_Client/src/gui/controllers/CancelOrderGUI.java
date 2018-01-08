@@ -1,8 +1,12 @@
 package gui.controllers;
+
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
+
 public class CancelOrderGUI {
 
 	private TextField txtOrderID;
-	private Button btnSend = "Send";
+	private Button btnSend;
 
 	public void loadGUI() {
 		// TODO - implement CancelOrderGUI.loadGUI
@@ -27,7 +31,7 @@ public class CancelOrderGUI {
 	 * 
 	 * @param msg
 	 */
-	public void showMsg(string msg) {
+	public void showMsg(String msg) {
 		// TODO - implement CancelOrderGUI.showMsg
 		throw new UnsupportedOperationException();
 	}

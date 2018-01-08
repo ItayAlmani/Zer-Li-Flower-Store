@@ -8,6 +8,7 @@ import java.util.ResourceBundle;
 import common.Context;
 import entities.Product;
 import entities.ProductInOrder;
+import gui.controllers.ParentGUIController;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -57,7 +58,7 @@ public abstract class ProductsPresentationGUIController implements Initializable
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		Context.currentGUI = this;
+		ParentGUIController.currentGUI = this;
 		getProducts();
 	}
 	

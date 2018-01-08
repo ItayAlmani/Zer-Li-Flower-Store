@@ -3,13 +3,13 @@ package itayNron.gui.controllers;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import common.Context;
-import entities.SurveyReport;
 import entities.Survey.SurveyType;
+import entities.SurveyReport;
+import gui.controllers.ParentGUIController;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -98,7 +98,7 @@ public class SurveyReportGUIController implements Initializable
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		Context.currentGUI = this;
+		ParentGUIController.currentGUI = this;
 		
 		dpDateStart.setValue(LocalDate.now());
 		dpDateEnd.setValue(LocalDate.now());

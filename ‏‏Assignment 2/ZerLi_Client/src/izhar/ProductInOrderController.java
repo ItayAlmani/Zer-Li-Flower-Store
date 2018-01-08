@@ -12,6 +12,7 @@ import controllers.ParentController;
 import entities.*;
 import entities.CSMessage.MessageType;
 import entities.Subscription.SubscriptionType;
+import gui.controllers.ParentGUIController;
 import izhar.interfaces.IProductInOrder;
 
 public class ProductInOrderController extends ParentController implements IProductInOrder {	
@@ -67,8 +68,8 @@ public class ProductInOrderController extends ParentController implements IProdu
 				m.invoke(obj, pios);
 			}
 			else {
-				m = Context.currentGUI.getClass().getMethod(methodName,ArrayList.class);
-				m.invoke(Context.currentGUI, pios);
+				m = ParentGUIController.currentGUI.getClass().getMethod(methodName,ArrayList.class);
+				m.invoke(ParentGUIController.currentGUI, pios);
 			}
 		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e1) {
 			System.err.println("Couldn't invoke method '"+methodName+"'");
@@ -86,12 +87,13 @@ public class ProductInOrderController extends ParentController implements IProdu
 			//a controller asked data, not GUI
 			if(Context.askingCtrl!=null && Context.askingCtrl.size()!=0) {
 				m = Context.askingCtrl.get(0).getClass().getMethod(methodName,BigInteger.class);
-				m.invoke(Context.askingCtrl.get(0), id);
+				Object obj = Context.askingCtrl.get(0);
 				Context.askingCtrl.remove(0);
+				m.invoke(obj, id);
 			}
 			else {
-				m = Context.currentGUI.getClass().getMethod(methodName,BigInteger.class);
-				m.invoke(Context.currentGUI, id);
+				m = ParentGUIController.currentGUI.getClass().getMethod(methodName,BigInteger.class);
+				m.invoke(ParentGUIController.currentGUI, id);
 			}
 		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e1) {
 			System.err.println("Couldn't invoke method '"+methodName+"'");

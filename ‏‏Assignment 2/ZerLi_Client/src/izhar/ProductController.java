@@ -14,6 +14,7 @@ import entities.CSMessage.MessageType;
 import entities.Product;
 import entities.Product.Color;
 import entities.Product.ProductType;
+import gui.controllers.ParentGUIController;
 import izhar.interfaces.IProduct;
 
 public class ProductController extends ParentController implements IProduct {	
@@ -72,12 +73,13 @@ public class ProductController extends ParentController implements IProduct {
 			//a controller asked data, not GUI
 			if(Context.askingCtrl!=null && Context.askingCtrl.size()!=0) {
 				m = Context.askingCtrl.get(0).getClass().getMethod(methodName,ArrayList.class);
-				m.invoke(Context.askingCtrl.get(0), prds);
+				Object obj = Context.askingCtrl.get(0);
 				Context.askingCtrl.remove(0);
+				m.invoke(obj, prds);
 			}
 			else {
-				m = Context.currentGUI.getClass().getMethod(methodName,ArrayList.class);
-				m.invoke(Context.currentGUI, prds);
+				m = ParentGUIController.currentGUI.getClass().getMethod(methodName,ArrayList.class);
+				m.invoke(ParentGUIController.currentGUI, prds);
 			}
 		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e1) {
 			System.err.println("Couldn't invoke method '"+methodName+"'");

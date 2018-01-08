@@ -46,7 +46,7 @@ public class AssembleProductGUIController extends ProductsPresentationGUIControl
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		Context.currentGUI=this;
+		ParentGUIController.currentGUI=this;
 		btnSend.setDisable(true);
 		getProducts();
 		initListeners();
@@ -199,7 +199,7 @@ public class AssembleProductGUIController extends ProductsPresentationGUIControl
 		}
 	}
 	
-	public void setPIOID(BigInteger pioID) {
+	/*public void setPIOID(BigInteger pioID) {
 		
-	}
+	}*/
 }

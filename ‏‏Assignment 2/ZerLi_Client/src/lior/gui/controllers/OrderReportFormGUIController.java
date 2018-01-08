@@ -51,7 +51,7 @@ public class OrderReportFormGUIController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		Context.currentGUI = this;
+		ParentGUIController.currentGUI = this;
 		btAnotherreport.setVisible(false);
 	}
 

@@ -1,4 +1,7 @@
 package gui.controllers;
+
+import javafx.scene.control.TextField;
+
 public class UpdateUserGUI {
 
 	private Object attribute;
@@ -14,7 +17,7 @@ public class UpdateUserGUI {
 	 * @param Username
 	 * @param Password
 	 */
-	public void InsertData(TexField Username, TextField Password) {
+	public void InsertData(TextField Username, TextField Password) {
 		// TODO - implement UpdateUserGUI.InsertData
 		throw new UnsupportedOperationException();
 	}

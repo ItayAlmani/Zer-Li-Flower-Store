@@ -18,6 +18,7 @@ import entities.PaymentAccount;
 import entities.Subscription;
 import entities.Subscription.SubscriptionType;
 import entities.User;
+import gui.controllers.ParentGUIController;
 import kfir.interfaces.ICustomer;
 
 public class CustomerController extends UserController implements ICustomer {
@@ -119,12 +120,13 @@ public class CustomerController extends UserController implements ICustomer {
 			//a controller asked data, not GUI
 			if(Context.askingCtrl!=null && Context.askingCtrl.size()!=0) {
 				m = Context.askingCtrl.get(0).getClass().getMethod(methodName,ArrayList.class);
-				m.invoke(Context.askingCtrl, customers);
+				Object obj = Context.askingCtrl.get(0);
 				Context.askingCtrl.remove(0);
+				m.invoke(obj, customers);
 			}
 			else {
-				m = Context.currentGUI.getClass().getMethod(methodName,ArrayList.class);
-				m.invoke(Context.currentGUI, customers);
+				m = ParentGUIController.currentGUI.getClass().getMethod(methodName,ArrayList.class);
+				m.invoke(ParentGUIController.currentGUI, customers);
 			}
 		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e1) {
 			System.err.println("Couldn't invoke method '"+methodName+"'");

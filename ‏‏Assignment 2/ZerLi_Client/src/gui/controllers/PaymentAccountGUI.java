@@ -1,4 +1,7 @@
 package gui.controllers;
+
+import javafx.scene.control.TextField;
+
 public class PaymentAccountGUI {
 
 	private TextField cardNUM;
@@ -20,7 +23,7 @@ public class PaymentAccountGUI {
 	 * @param cardCVV
 	 * @param CustomerID
 	 */
-	public void InsertData(TexField CardNum, TextField IdNum, TextField cardValidity, TextField cardCVV, TextField CustomerID) {
+	public void InsertData(TextField CardNum, TextField IdNum, TextField cardValidity, TextField cardCVV, TextField CustomerID) {
 		// TODO - implement PaymentAccountGUI.InsertData
 		throw new UnsupportedOperationException();
 	}

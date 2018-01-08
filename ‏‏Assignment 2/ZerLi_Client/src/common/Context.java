@@ -48,9 +48,6 @@ public class Context {
 	/** Each client has <b>one</b> <code>ClientConsole</code> */
 	public static ClientConsole clientConsole = null;
 	
-	/** The current GUI. Used to deliver the answer from the <code>EchoServer</code>. */
-	public static Object currentGUI = null;
-	
 	public static ArrayList<Object> askingCtrl = new ArrayList<>();
 	
 	public static Factory fac = new Factory();
@@ -175,8 +172,8 @@ public class Context {
 				sws.add(sw);
 				setStoreWorkers(sws);
 			} //all other user types
-			else if(currentGUI instanceof LogInGUIController)
-				((LogInGUIController)currentGUI).setUserConnected(Context.user);
+			else if(ParentGUIController.currentGUI instanceof LogInGUIController)
+				((LogInGUIController)ParentGUIController.currentGUI).setUserConnected(Context.user);
 				
 		} catch (InstantiationException | IllegalAccessException e) {
 			e.printStackTrace();
@@ -189,8 +186,8 @@ public class Context {
 			sw.setUser(user);
 			user=sw;
 		}
-		if(currentGUI instanceof LogInGUIController)
-			((LogInGUIController)currentGUI).setUserConnected(Context.user);
+		if(ParentGUIController.currentGUI instanceof LogInGUIController)
+			((LogInGUIController)ParentGUIController.currentGUI).setUserConnected(Context.user);
 	}
 	
 	public static Customer getUserAsCustomer() {
@@ -223,8 +220,8 @@ public class Context {
 			cust.setUser(user);
 			user=cust;
 		}
-		if(currentGUI instanceof LogInGUIController)
-			((LogInGUIController)currentGUI).setUserConnected(Context.user);
+		if(ParentGUIController.currentGUI instanceof LogInGUIController)
+			((LogInGUIController)ParentGUIController.currentGUI).setUserConnected(Context.user);
 	}
 	
 	public static void setOrders(ArrayList<Order> orders) {

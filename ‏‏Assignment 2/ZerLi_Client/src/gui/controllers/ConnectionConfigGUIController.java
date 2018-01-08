@@ -92,7 +92,7 @@ public class ConnectionConfigGUIController implements Initializable{
 	}
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		Context.currentGUI = this;
+		ParentGUIController.currentGUI = this;
 	
 		if(Context.clientConsole !=null && Context.clientConsole.isConnected()==true) {
 			this.host=Context.clientConsole.getHost();

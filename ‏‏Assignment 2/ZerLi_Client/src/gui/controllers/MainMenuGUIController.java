@@ -9,6 +9,6 @@ import javafx.fxml.Initializable;
 public class MainMenuGUIController implements Initializable{
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		Context.currentGUI = this;
+		ParentGUIController.currentGUI = this;
 	}
 }

@@ -56,7 +56,7 @@ public class DeliveryGUIController implements Initializable {
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		Context.currentGUI = this;
+		ParentGUIController.currentGUI = this;
 		
 		addTextLimiter(txtPhoneAreaCode, 3);
 		addTextLimiter(txtPhonePost, 7);

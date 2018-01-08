@@ -4,24 +4,27 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.math.BigInteger;
-import java.util.ArrayList;
-import java.sql.Date;
-import java.sql.Timestamp;
 import java.time.Duration;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.temporal.Temporal;
+import java.util.ArrayList;
 
 import common.Context;
 import controllers.ParentController;
-import entities.*;
+import entities.CSMessage;
 import entities.CSMessage.MessageType;
-import entities.Order.DeliveryType;
+import entities.Customer;
+import entities.DeliveryDetails;
+import entities.Order;
 import entities.Order.OrderStatus;
-import entities.Order.OrderType;
-import entities.Order.PayMethod;
 import entities.Order.Refund;
+import entities.PaymentAccount;
+import entities.Product;
+import entities.ProductInOrder;
+import entities.ShipmentDetails;
+import entities.Subscription;
 import entities.Subscription.SubscriptionType;
+import gui.controllers.ParentGUIController;
 import izhar.interfaces.IOrder;
 
 public class OrderController extends ParentController implements IOrder {
@@ -33,12 +36,13 @@ public class OrderController extends ParentController implements IOrder {
 			//a controller asked data, not GUI
 			if(Context.askingCtrl!=null && Context.askingCtrl.size()!=0) {
 				m = Context.askingCtrl.get(0).getClass().getMethod(methodName,BigInteger.class);
-				m.invoke(Context.askingCtrl.get(0), id);
+				Object obj = Context.askingCtrl.get(0);
 				Context.askingCtrl.remove(0);
+				m.invoke(obj, id);
 			}
 			else {
-				m = Context.currentGUI.getClass().getMethod(methodName,BigInteger.class);
-				m.invoke(Context.currentGUI, id);
+				m = ParentGUIController.currentGUI.getClass().getMethod(methodName,BigInteger.class);
+				m.invoke(ParentGUIController.currentGUI, id);
 			}
 		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e1) {
 			System.err.println("Couldn't invoke method '"+methodName+"'");
@@ -115,12 +119,13 @@ public class OrderController extends ParentController implements IOrder {
 			//a controller asked data, not GUI
 			if(Context.askingCtrl!=null && Context.askingCtrl.size()!=0) {
 				m = Context.askingCtrl.get(0).getClass().getMethod(methodName,ArrayList.class);
-				m.invoke(Context.askingCtrl.get(0), orders);
+				Object obj = Context.askingCtrl.get(0);
 				Context.askingCtrl.remove(0);
+				m.invoke(obj, orders);
 			}
 			else {
-				m = Context.currentGUI.getClass().getMethod(methodName,ArrayList.class);
-				m.invoke(Context.currentGUI, orders);
+				m = ParentGUIController.currentGUI.getClass().getMethod(methodName,ArrayList.class);
+				m.invoke(ParentGUIController.currentGUI, orders);
 			}
 		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e1) {
 			System.err.println("Couldn't invoke method '"+methodName+"'");

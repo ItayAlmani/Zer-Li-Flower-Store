@@ -9,11 +9,9 @@ import java.util.ArrayList;
 import common.Context;
 import controllers.ParentController;
 import entities.CSMessage;
-import entities.Product;
-import entities.Survey;
-import entities.Survey.SurveyType;
-import entities.SurveyReport;
 import entities.CSMessage.MessageType;
+import entities.SurveyReport;
+import gui.controllers.ParentGUIController;
 import itayNron.interfaces.ISurveyReport;
 
 public class SurveyReportController extends ParentController implements ISurveyReport {
@@ -46,8 +44,8 @@ public class SurveyReportController extends ParentController implements ISurveyR
 				m.invoke(obj, surveys);
 			}
 			else {
-				m = Context.currentGUI.getClass().getMethod(methodName,ArrayList.class);
-				m.invoke(Context.currentGUI, surveys);
+				m = ParentGUIController.currentGUI.getClass().getMethod(methodName,ArrayList.class);
+				m.invoke(ParentGUIController.currentGUI, surveys);
 			}
 		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e1) {
 			System.err.println("Couldn't invoke method '"+methodName+"'");
