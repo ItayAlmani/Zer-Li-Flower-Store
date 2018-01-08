@@ -23,6 +23,6 @@ public class OrderProcessHandler extends ParentController implements IOrderProce
 	}
 	
 	public void updateFinilizeOrder(Order order) throws IOException {
-		Context.fac.order.addOrder(order);
+		Context.fac.order.add(order);
 	}
 }

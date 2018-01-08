@@ -13,6 +13,8 @@ public class EchoServer extends AbstractServer {
 	/**The default port to listen on.*/
 	final public static int DEFAULT_PORT = 5555;
 	
+	final public static Factory fac = new Factory();
+	
 	// Constructors ****************************************************
 
 	/**
@@ -21,7 +23,7 @@ public class EchoServer extends AbstractServer {
 	 */
 	public EchoServer(int port) {
 		super(port);
-		ServerController.connectToDB();
+		fac.dataBase.connectToDB();
 	}
 
 	// Instance methods ************************************************

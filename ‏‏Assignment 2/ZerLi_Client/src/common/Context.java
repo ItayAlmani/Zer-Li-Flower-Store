@@ -250,7 +250,7 @@ public class Context {
 				order = new Order(Context.getUserAsCustomer().getCustomerID(),
 						OrderType.InfoSystem,
 						OrderStatus.InProcess);
-				fac.order.addOrder(order);
+				fac.order.add(order);
 			} catch (IOException | InstantiationException | IllegalAccessException e) {
 				e.printStackTrace();
 			}

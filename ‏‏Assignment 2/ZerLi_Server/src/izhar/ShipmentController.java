@@ -1,8 +1,9 @@
-package controllers;
+package izhar;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
 
+import common.EchoServer;
 import common.ServerController;
 import entities.DeliveryDetails;
 import entities.ShipmentDetails;
@@ -26,9 +27,9 @@ public class ShipmentController {
 					+ shipmentDetails.getCustomerName() + "', '"
 					+ shipmentDetails.getPhoneNumber()
 					+ "');";
-			ServerController.db.updateQuery(query);
+			EchoServer.fac.dataBase.db.updateQuery(query);
 			query = "SELECT Max(shipmentID) from shipmentdetails;";
-			ArrayList<Object> arr =  ServerController.db.getQuery(query);
+			ArrayList<Object> arr =  EchoServer.fac.dataBase.db.getQuery(query);
 			if(arr!=null && arr.size()==1 && arr.get(0) instanceof Integer)
 				return BigInteger.valueOf((Integer)arr.get(0));
 			throw new Exception();

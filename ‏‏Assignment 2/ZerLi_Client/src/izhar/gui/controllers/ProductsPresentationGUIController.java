@@ -199,7 +199,7 @@ public abstract class ProductsPresentationGUIController implements Initializable
 							Context.order.setProducts(new ArrayList<>());
 						Context.order.getProducts().add(pio);
 						try {
-							Context.fac.prodInOrder.addPIO(pio);
+							Context.fac.prodInOrder.add(pio);
 						} catch (IOException e) {
 							System.err.println("Can't add product\n");
 							e.printStackTrace();
@@ -210,7 +210,7 @@ public abstract class ProductsPresentationGUIController implements Initializable
 						
 						Context.fac.prodInOrder.updatePriceWithSubscription(pio, Context.getUserAsCustomer());
 						try {
-							Context.fac.prodInOrder.updatePIO(pio);
+							Context.fac.prodInOrder.update(pio);
 						} catch (IOException e) {
 							System.err.println("Can't update product\n");
 							e.printStackTrace();

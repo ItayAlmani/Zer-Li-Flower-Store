@@ -5,6 +5,7 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
+import common.EchoServer;
 import common.ServerController;
 import entities.Order;
 import entities.ShipmentDetails;
@@ -30,9 +31,9 @@ public class SurveyReportController
 		String query = "INSERT INTO surveyreport (surveyID, verbalReport,startDate,endDate)" 
 		+ " VALUES ('" + sr.getSurveyAnalyzes().getSurveyID()  
 		+ "','"+ sr.getVerbalReport()+ "','"+ sr.getStartDate()+ "','"+ sr.getEndDate()+"')";
-		ServerController.db.updateQuery(query);
+		EchoServer.fac.dataBase.db.updateQuery(query);
 		query="SELECT Max(surveyreportID) from surveyreport";
-		ArrayList<Object> arr =  ServerController.db.getQuery(query);
+		ArrayList<Object> arr =  EchoServer.fac.dataBase.db.getQuery(query);
 		if(arr!=null && arr.size()==1 && arr.get(0) instanceof Integer)
 			return BigInteger.valueOf((Integer)arr.get(0)+1);
 		throw new Exception();
@@ -43,7 +44,7 @@ public class SurveyReportController
 	{
 		String query= "SELECT * FROM surveyreport WHERE startDate='"+sr.getStartDate()+"'"+ "AND"
 				+ " endDate='"+sr.getEndDate()+"'";
-		ArrayList<Object> arr =  ServerController.db.getQuery(query);
+		ArrayList<Object> arr =  EchoServer.fac.dataBase.db.getQuery(query);
 		if(arr!=null && arr.size()!=0)
 			return true;
 		return false;

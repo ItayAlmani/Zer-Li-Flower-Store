@@ -14,7 +14,7 @@
 
 <!-- CHANGE CONTROLLER path -->
 
-<AnchorPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="izhar.gui.controllers.ProductsFormGUIController">
+<AnchorPane xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="izhar.gui.controllers.ProductsFormGUIController">
 	<children>
 		<ComboBox id="cmbProducts" fx:id="cmbProducts" layoutX="10.0" layoutY="1.0" onAction="#showProduct" prefHeight="23.0" prefWidth="291.0" promptText="Select product" />
 		<Button id="btnBack" fx:id="btnBack" layoutX="157.0" layoutY="341.0" mnemonicParsing="false" onAction="#loadMainMenu" text="Back" />

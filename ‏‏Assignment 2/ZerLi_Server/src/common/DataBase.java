@@ -16,7 +16,7 @@ public class DataBase{
 		this.con = connectToDB(dbUrl, dbName, dbUserName, dbPassword);
 	}
 	
-	public ArrayList<Object> getQuery(String query) throws Exception {
+	public ArrayList<Object> getQuery(String query) throws SQLException {
 		Statement stmt;
 		try {
 			stmt = con.createStatement();
@@ -31,11 +31,11 @@ public class DataBase{
 		}
 		catch (SQLException e) {
 			e.printStackTrace();
-			return null;
+			throw e;
 		}
 	}
 	
-	public void updateQuery(String query) throws Exception {
+	public void updateQuery(String query) throws SQLException {
 		Statement stmt;
 		stmt = con.createStatement();
 		stmt.executeUpdate(query);

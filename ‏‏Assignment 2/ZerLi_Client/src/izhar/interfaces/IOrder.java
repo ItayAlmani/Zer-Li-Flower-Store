@@ -9,22 +9,12 @@ import entities.*;
 import entities.Order.*;
 import interfaces.IParent;
 
-public interface IOrder extends IParent  {
-
-	/**  */
-	void noOrderIDErrMsg();
-
-	/**
-	 * update status to canceled
-	 * @param complaint
-	 */
-	boolean updateCustomerComplaintRefund(Complaint complaint);
-
+public interface IOrder  {
 	/**
 	 * sending new order to server and asks to insert it to DataBase
 	 * @param order - the Order which will be add
 	 */
-	void addOrder(Order order) throws IOException;
+	void add(Order order) throws IOException;
 
 	/**
 	 * asks the server to update the <code>Order</code>'s <code>status</code> attribute
@@ -44,19 +34,13 @@ public interface IOrder extends IParent  {
 	 * by the data in <code>order</code>
 	 * @param order - the object with the new data and the <code>orderID</code>
 	 */
-	void updateOrder(Order order) throws IOException;
+	void update(Order order) throws IOException;
 
 	/**
 	 * asks the server for all the <code>Order</code>s by <code>storeID</code>
 	 * @param storeID - the parameter to find the <code>Order</code>s
 	 */
 	public void getAllOrdersByStoreID(BigInteger storeID) throws IOException;
-	
-	/**
-	 * send the response from server to the correct GUI which asked the Orders
-	 * @param orders - collection of orders
-	 */
-	public void sendOrders(ArrayList<Order> orders);
 
 	public void getOrdersWaitingForPaymentByCustomerID(BigInteger customerID) throws IOException;
 	
@@ -85,9 +69,9 @@ public interface IOrder extends IParent  {
 	 */
 /*	Order parse(BigInteger orderID, BigInteger customerID, BigInteger deliveryID, String payMethodID, BigInteger shipmentID, String type,
 			String greeting, String deliveryType, String orderStatus, Timestamp date, float price);*/
-	Order parse(BigInteger orderID, BigInteger customerID, BigInteger deliveryID, String payMethod,
+	/*Order parse(BigInteger orderID, BigInteger customerID, BigInteger deliveryID, String payMethod,
 			BigInteger shipmentID, String type, String greeting, String deliveryType, String orderStatus,
-			Timestamp date, float price);
+			Timestamp date, float price);*/
 	
 	/**
 	 * asks from server an Order with orderid=<code>orderID</code>
@@ -104,4 +88,10 @@ public interface IOrder extends IParent  {
 	void getOrderInProcess(BigInteger customerID) throws IOException;
 
 	void getOrdersByCustomerID(BigInteger customerID) throws IOException;
+	
+	/**
+	 * send the response from server to the correct GUI which asked the Orders
+	 * @param orders - collection of orders
+	 */
+	void handleGet(ArrayList<Order> orders);
 }

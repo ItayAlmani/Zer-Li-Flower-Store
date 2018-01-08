@@ -1,6 +1,7 @@
 package izhar.gui.controllers;
 
 import java.io.IOException;
+import java.math.BigInteger;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -196,5 +197,9 @@ public class AssembleProductGUIController extends ProductsPresentationGUIControl
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public void setPIOID(BigInteger pioID) {
+		
 	}
 }
