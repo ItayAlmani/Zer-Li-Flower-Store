@@ -140,7 +140,7 @@ public class ReportSelectorGUIController implements Initializable {
 		paneSatisfactionReport1.setVisible(false);
 		paneSatisfactionReport2.setVisible(false);
 		int err=0;
-		if(cbTypePick1.getValue()!=null&&cbStorePick1.getValue()!=null) {
+		if(cbTypePick1.getValue()!=null&&cbStorePick1.getValue()!=null&&DatePicker1.getValue()!=null) {
 			@SuppressWarnings("deprecation")
 			LocalDate date = DatePicker1.getValue();
 			if(date.isBefore(LocalDate.now())){
@@ -187,9 +187,11 @@ public class ReportSelectorGUIController implements Initializable {
 			}
 			else err=2;
 			if (Context.getUser().getPermissions().equals(User.UserType.ChainStoreManager)) {
-				@SuppressWarnings("deprecation")
-				LocalDate date1 = DatePicker2.getValue();
-				if(this.cbStorePick2.getValue()!=null&&this.cbTypePick2.getValue()!=null){
+				
+				if(this.cbStorePick2.getValue()!=null&&this.cbTypePick2.getValue()!=null
+						&&DatePicker2!=null){
+					@SuppressWarnings("deprecation")
+					LocalDate date1 = DatePicker2.getValue();
 					if(date1.isBefore(LocalDate.now()))
 					{
 						for (int i = 0; i < this.stores.size(); i++) {
