@@ -13,30 +13,24 @@ import java.util.Date;
 
 import common.Context;
 import controllers.ParentController;
+import entities.CSMessage;
 import entities.IncomesReport;
 import entities.Order;
+import entities.OrderReport;
 import entities.ProductInOrder;
+import entities.CSMessage.MessageType;
 import gui.controllers.ParentGUIController;
 import lior.interfaces.IIncomesReportController;
 
 public class IncomesReportController extends ParentController implements IIncomesReportController {
-
-	private IncomesReport[] iReport;
-	private LocalDate rDate, startDate;
-	int ind;
 	
-	@Override
-	public void handleGet(ArrayList<Object> obj) {
-		// TODO Auto-generated method stub	
-	}
-	
-	public void initProduceIncomesReport(LocalDate date, BigInteger storeID) throws ParseException
+	public void initProduceIncomesReport(LocalDate date, BigInteger storeID) throws IOException
 	{
-		this.iReport = new IncomesReport[2];
+		//this.iReport = new IncomesReport[2];
 		ProduceIncomesReport(date, storeID);
 	}
 	
-	public void sendIncomeReports(ArrayList<IncomesReport> iReports) {
+	public void handleGet(ArrayList<IncomesReport> iReports) {
 		String methodName = "setIncomeReports";
 		Method m = null;
 		try {
@@ -62,104 +56,14 @@ public class IncomesReportController extends ParentController implements IIncome
 	}
 
 	
-	public void ProduceIncomesReport(LocalDate date, BigInteger storeID) throws ParseException {
-		int ind = 1;
-		if(this.iReport[0]==null)
-			ind = 0;
-		if(this.iReport[0]!=null&&this.iReport[1]!=null)
-			ind = 0;
-		iReport[ind]=new IncomesReport();
-		this.iReport[ind].setStoreID(storeID);
-		iReport[ind].setTotIncomes(0);
-		iReport[ind].setStoreID(storeID);
-		rDate=date;
-		//startDate=new Date();
-		Calendar c = Calendar.getInstance(); 
-		c.setTime(Date.from(rDate.atStartOfDay(ZoneId.systemDefault()).toInstant()));
-		c.add(Calendar.MONTH, -3);
-		startDate = c.getTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-		/*rDate.setHours(23);
-		rDate.setMinutes(59);
-		rDate.setSeconds(59);*/
-		this.iReport[ind].setStartdate(this.startDate);
-		this.iReport[ind].setEnddate(this.rDate);
-		try {
-			Context.askingCtrl.add(this);
-			Context.fac.order.getAllOrdersByStoreID(storeID);
-		} catch (IOException e) {
-			System.err.println("IncomesReportController\n");
-			e.printStackTrace();
-		}
-	}
-
-	public void setOrders(ArrayList<Order> orders) {
-		int flag=0;
-		int ind = 1;
-		if(/*iReport[0].getOrders()==null || */this.iReport[0].getOrders().size()==0)
-			ind = 0;
-		if(/*iReport[0].getOrders()!=null &&*/ 
-				this.iReport[0].getOrders().size()!=0&&this.iReport[1].getOrders().size()!=0)
-			ind = 0;
-		this.iReport[ind].setOrders(orders);
-		for(int i=0;i<orders.size();i++)
-		{
-			Date date = Date.from(orders.get(i).getDate().atZone(ZoneId.systemDefault()).toInstant());
-			if(date.after(Date.from(iReport[ind].getEnddate().atStartOfDay(ZoneId.systemDefault()).toInstant()))==false&&
-					date.after(Date.from(iReport[ind].getStartdate().atStartOfDay(ZoneId.systemDefault()).toInstant()))
-					//&& orders.get(i).getOrderStatus().equals(OrderStatus.Paid)
-					)
-			{
-				Context.askingCtrl.add(this);
-				try {
-					Context.fac.prodInOrder.getPIOsByOrder(orders.get(i).getOrderID());
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-		}
-		if(flag==0)
-		{
-			ArrayList<IncomesReport> ar = new ArrayList<>();
-			ar.add(iReport[ind]);
-			sendIncomeReports(ar);
-		}
-	}
-
-	public void setPIOs(ArrayList<ProductInOrder> products) {
-		int ind = 1;
-		if(Context.fac.prodInOrder.isAllPIOsFromSameOrder(products)==false)
-			return;
-		for (Order order : this.iReport[0].getOrders()) {
-			if(order.getOrderID().equals(products.get(0).getOrderID())) {
-				ind=0;
-				break;
-			}
-		}
-		ArrayList<Order> orders = iReport[ind].getOrders();
-		double Totalincomessum=iReport[ind].getTotIncomes();
-		if(Context.fac.prodInOrder.isAllPIOsFromSameOrder(products)==false)
-			return;
-		
-		Order myOrder = null;
-		for (Order ord : orders) {
-			if(ord.getOrderID().equals(products.get(0).getOrderID())) {
-				myOrder = ord;
-				break;
-			}
-		}
-		if(myOrder==null)
-			return;
-		myOrder.setProducts(products);
-		
-		for(int j=0;j<products.size();j++)
-		{
-			Totalincomessum+=products.get(j).getFinalPrice();
-		}
-		iReport[ind].setTotIncomes(Totalincomessum);
-		ArrayList<IncomesReport> ar = new ArrayList<>();
-		ar.add(iReport[ind]);
-		sendIncomeReports(ar);
+	public void ProduceIncomesReport(LocalDate date, BigInteger storeID) throws IOException {
+		myMsgArr.clear();
+		myMsgArr.add(Thread.currentThread().getStackTrace()[1].getMethodName());
+		ArrayList<Object> arr = new ArrayList<>();
+		arr.add(date);
+		arr.add(storeID);
+		myMsgArr.add(arr);
+		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.SELECT, myMsgArr, IncomesReport.class));
 	}
 
 }

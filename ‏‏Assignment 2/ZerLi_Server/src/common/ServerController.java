@@ -22,8 +22,10 @@ public class ServerController {
 					csMsg.getClasz().equals(Stock.class) ||
 					csMsg.getClasz().equals(Store.class) ||
 					csMsg.getClasz().equals(Survey.class) ||
-					csMsg.getClasz().equals(SurveyReport.class)/* ||
-					csMsg.getClasz().equals(OrderReport.class)*/){
+					csMsg.getClasz().equals(SurveyReport.class) ||
+					csMsg.getClasz().equals(OrderReport.class)||
+					csMsg.getClasz().equals(IncomesReport.class)||
+					csMsg.getClasz().equals(SatisfactionReport.class)){
 				return sendRequest(csMsg);
 			}
 		}
