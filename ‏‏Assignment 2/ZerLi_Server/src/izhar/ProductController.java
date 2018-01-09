@@ -1,17 +1,37 @@
 package izhar;
 
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.math.BigInteger;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
 import common.EchoServer;
+import common.ServerController;
 import controllers.ParentController;
 import entities.Product;
 
 public class ProductController extends ParentController {	
 	
 	public Product parse(BigInteger prdID, String name, String type, float price, String color, boolean inCatalog, String imageURL){
-		return new Product(prdID, name, type,price,color,inCatalog, "/images/"+imageURL);
+		return new Product(prdID, name, type,price,color,inCatalog, imageURL, insertImageToByteArr("/images/"+imageURL));
+	}
+	
+	private byte[] insertImageToByteArr(String filePath) {
+		try {
+			File newFile = new File(getClass().getResource(filePath).toURI());
+		      
+			byte[] mybytearray  = new byte [(int)newFile.length()];
+			FileInputStream fis = new FileInputStream(newFile);
+			BufferedInputStream bis = new BufferedInputStream(fis);			    
+			bis.read(mybytearray,0,mybytearray.length);
+			bis.close();
+			return mybytearray;
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	@Override

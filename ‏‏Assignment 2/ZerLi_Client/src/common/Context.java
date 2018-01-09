@@ -2,6 +2,7 @@ package common;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintStream;
 import java.math.BigInteger;
 import java.net.URISyntaxException;
@@ -68,7 +69,9 @@ public class Context {
 		int serSuccessFlag = 0;		//will be 1 if updateDB(args) succeeded
 		try {
 			Scanner scnr = null;
-			scnr = new Scanner(Context.class.getResourceAsStream(serTxtPath));
+			InputStream is = Context.class.getResourceAsStream(serTxtPath);
+			scnr = new Scanner(is);
+			is.close();
 			scnr.useDelimiter("\\w");
 			String[] args = new String[2];
 			for(int i = 0;i<2 && scnr.hasNextLine();i++) {

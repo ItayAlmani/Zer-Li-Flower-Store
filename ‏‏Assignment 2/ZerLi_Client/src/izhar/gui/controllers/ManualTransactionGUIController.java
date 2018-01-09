@@ -107,11 +107,9 @@ public class ManualTransactionGUIController implements Initializable {
 	}
 	
 	public void setStocks(ArrayList<Stock> stocks) {
-		//products = new ArrayList<>();
 		prdSet = new TreeSet<>();
 		for (Stock stock : stocks)
 			if(stock.getProduct() != null)
-				//products.add(stock.getProduct());
 				prdSet.add(stock.getProduct());
 		addNewHBox();
 	}
@@ -134,8 +132,6 @@ public class ManualTransactionGUIController implements Initializable {
 		cb.setUserData(newSet);
 		cb.setPrefHeight(Control.USE_COMPUTED_SIZE);
 		cb.setPrefWidth(Control.USE_COMPUTED_SIZE);
-		//cb.setPromptText("Enter another product id");
-		//cb.getSelectionModel().selectFirst();
 		comboBoxs.add(cb);
 		
 		Spinner<Integer> sp = new Spinner<>(0, Integer.MAX_VALUE, 1);
@@ -203,12 +199,6 @@ public class ManualTransactionGUIController implements Initializable {
 					if(pio!=null) {
 						if(picb.s.getValue().equals(0)) {
 							order.getProducts().remove(pio);
-							/*try {
-								Context.fac.prodInOrder.deletePIO(pio);
-							} catch (IOException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							}*/
 						}
 						else
 							pio.setQuantity(picb.s.getValue());
@@ -217,12 +207,6 @@ public class ManualTransactionGUIController implements Initializable {
 						pio = new ProductInOrder(observable.getValue(),
 								picb.s.getValue(), order.getOrderID());
 						order.getProducts().add(pio);
-						/*try {
-							Context.fac.prodInOrder.addPIO(pio);
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}*/
 					}
 				}
 			}    

@@ -1,6 +1,5 @@
 package entities;
 
-import java.io.FileNotFoundException;
 import java.io.Serializable;
 import java.math.BigInteger;
 
@@ -12,6 +11,7 @@ public class Product implements Comparable<Product>, Serializable  {
 	private Color color;
 	private boolean inCatalog;
 	private String imageName;
+	private byte[] mybytearray = null;
 
 	public enum ProductType {
 		Bouquet("Bouquet"),
@@ -81,8 +81,7 @@ public class Product implements Comparable<Product>, Serializable  {
 	}
 
 	public Product(BigInteger prdID, String name, String type, float price, String color, boolean inCatalog,
-			String imageName) {
-		super();
+			String imageName, byte[] mybytearray) {
 		this.prdID = prdID;
 		this.name = name;
 		this.setType(type);
@@ -90,6 +89,7 @@ public class Product implements Comparable<Product>, Serializable  {
 		this.setColor(color);
 		this.inCatalog = inCatalog;
 		this.imageName = imageName;
+		this.mybytearray=mybytearray;
 	}
 
 	public BigInteger getPrdID() {
@@ -161,7 +161,7 @@ public class Product implements Comparable<Product>, Serializable  {
 	}
 
 	public void setImageName(String imageName) {
-		this.imageName = "/images/"+imageName;
+		this.imageName = imageName;
 	}
 
 	@Override
@@ -176,5 +176,13 @@ public class Product implements Comparable<Product>, Serializable  {
 	
 	public String getPriceAsString() {
 		return ((Float)getPrice()).toString() + "¤";
+	}
+
+	public byte[] getMybytearray() {
+		return mybytearray;
+	}
+
+	public void setMybytearray(byte[] mybytearray) {
+		this.mybytearray = mybytearray;
 	}
 }

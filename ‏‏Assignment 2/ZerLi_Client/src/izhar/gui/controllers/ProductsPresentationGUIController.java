@@ -1,6 +1,7 @@
 package izhar.gui.controllers;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -116,9 +117,15 @@ public abstract class ProductsPresentationGUIController implements Initializable
 			btnText="Update quantity";
 		}
 		else return;
-		
-		imgImages[i] = new ImageView(new Image(getClass().getResourceAsStream(prd.getImageName())));
-		vbxProduct[i].getChildren().addAll(imgImages[i],grids[i]);
+		try {
+			InputStream is = getClass().getResourceAsStream("/images/"+prd.getImageName());
+			imgImages[i] = new ImageView(new Image(is));
+			is.close();
+			vbxProduct[i].getChildren().addAll(imgImages[i],grids[i]);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		lblTitleName[i]=new Label("Name: ");
 		setComponent(lblTitleName[i] ,0, j, i);

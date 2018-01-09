@@ -1,10 +1,15 @@
 package izhar;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.math.BigInteger;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 
 import common.Context;
@@ -47,7 +52,42 @@ public class ProductController extends ParentController implements IProduct {
 	}
 	
 	
-	
+	private void saveImagesInClient(ArrayList<Product> prds) {
+		try {
+			if(prds!=null && prds.isEmpty()==false) {
+				URI uri = ProductController.class.getResource("/images/").toURI();				
+				/*File directory = new File(uri);
+				for(File f: directory.listFiles()) {
+					  if(f.isDirectory()==false)
+						  if(f.delete()==false)
+							  System.err.println("Can't delete "+ f.getName());
+				}*/
+				for (Product product : prds) {
+					try {
+						if(product.getImageName()==null) {
+							System.err.println("image name is null");
+							throw new IOException();
+						}
+						//String[] arr = product.getImageName().split("\\.");
+						//File f = File.createTempFile(arr[0],"."+arr[1],directory);
+						File f = new File(new URI(uri.toString()+product.getImageName()));
+						f.createNewFile();
+						f.deleteOnExit();
+						FileOutputStream fos = new FileOutputStream(f.getAbsolutePath());
+						product.setImageName(f.getName());
+						BufferedOutputStream bos = new BufferedOutputStream(fos);
+						bos.write(product.getMybytearray());
+						bos.close();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		} catch (URISyntaxException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+	}
 	
 	
 //------------------------------------------------IN SERVER--------------------------------------------------------------------
@@ -67,6 +107,7 @@ public class ProductController extends ParentController implements IProduct {
 	}
 	
 	public void handleGet(ArrayList<Product> prds) {
+		saveImagesInClient(prds);
 		String methodName = "setProducts";
 		Method m = null;
 		try {

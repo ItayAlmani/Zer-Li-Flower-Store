@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.math.BigInteger;
 import java.util.ArrayList;
 
+import com.sun.prism.Image;
+
 import common.Context;
 import entities.Product;
 import entities.ProductInOrder;
@@ -13,6 +15,7 @@ import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Pagination;
+import javafx.scene.layout.VBox;
 
 public class CatalogGUIController extends ProductsPresentationGUIController {
 	private ArrayList<Product> productsInCatalog = new ArrayList<>();
@@ -46,7 +49,10 @@ public class CatalogGUIController extends ProductsPresentationGUIController {
 			@Override
 			public void run() {
 				btnBack = new Button("Back");
-				btnBack.setOnAction(actionEvent -> Context.mainScene.loadMainMenu());
+				btnBack.setOnAction(actionEvent -> {
+					pagination=null;
+					Context.mainScene.loadMainMenu();
+					});
 				
 				vbox.getChildren().addAll(pagination,btnBack);
 				vbox.setAlignment(Pos.CENTER);
