@@ -1,5 +1,6 @@
 package entities;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -8,8 +9,8 @@ public class OrderReport extends QuarterlyReport {
 	private ArrayList<Order> orders = new ArrayList<>();
 	private ArrayList<Integer> counterPerType = new ArrayList<>();
 	private ArrayList<Float> sumPerType = new ArrayList<>();
-	private Date Startdate=new Date();
-	private Date Enddate=new Date();
+	private LocalDate Startdate;//=new LocalDate();
+	private LocalDate Enddate;//=new LocalDate(qReportID, qReportID, qReportID);
 
 	public ArrayList<Order> getOrders() {
 		return this.orders;
@@ -47,19 +48,19 @@ public class OrderReport extends QuarterlyReport {
 		this.sumPerType.add(sum);
 	}
 	
-	public Date getStartdate() {
+	public LocalDate getStartdate() {
 		return Startdate;
 	}
 
-	public void setStartdate(Date startdate) {
+	public void setStartdate(LocalDate startdate) {
 		Startdate = startdate;
 	}
 
-	public Date getEnddate() {
+	public LocalDate getEnddate() {
 		return Enddate;
 	}
 
-	public void setEnddate(Date enddate) {
+	public void setEnddate(LocalDate enddate) {
 		Enddate = enddate;
 	}
 	

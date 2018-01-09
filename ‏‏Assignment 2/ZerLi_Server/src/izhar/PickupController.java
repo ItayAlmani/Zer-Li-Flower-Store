@@ -26,9 +26,8 @@ public class PickupController extends ParentController {
 		String res = "0";
 		if(deliveryDetails.isImmediate())
 			res = "1";
-		String query = "INSERT INTO deliverydetails (orderID, storeID, date, isImmediate) "+
-				"VALUES ('"+deliveryDetails.getOrderID() + "', '"
-				+ deliveryDetails.getStore().getStoreID() + "', '"
+		String query = "INSERT INTO deliverydetails (storeID, date, isImmediate) "+
+				"VALUES ('" + deliveryDetails.getStore().getStoreID() + "', '"
 				+ (Timestamp.valueOf(deliveryDetails.getDate())).toString() + "', '"
 				+ res + "');";
 		EchoServer.fac.dataBase.db.updateQuery(query);
@@ -57,7 +56,7 @@ public class PickupController extends ParentController {
 		return null;
 	}
 	
-	public DeliveryDetails parse(BigInteger deliveryID, BigInteger orderID, Store store, LocalDateTime date, boolean isImmediate) {
-		return new DeliveryDetails(deliveryID, orderID, date, isImmediate, store);
+	public DeliveryDetails parse(BigInteger deliveryID, Store store, LocalDateTime date, boolean isImmediate) {
+		return new DeliveryDetails(deliveryID, date, isImmediate, store);
 	}
 }

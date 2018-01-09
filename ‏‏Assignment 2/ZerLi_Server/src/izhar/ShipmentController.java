@@ -51,7 +51,6 @@ public class ShipmentController extends ParentController {
 	
 	private BigInteger addPickupToShipment(ShipmentDetails shipmentDetails) throws Exception {
 		DeliveryDetails del = new DeliveryDetails(
-				shipmentDetails.getOrderID(),
 				shipmentDetails.getDate(),
 				shipmentDetails.isImmediate(),
 				shipmentDetails.getStore());

@@ -74,7 +74,7 @@ public class Store implements Serializable  {
 	
 	public Stock getProductFromStock(Product prod) {
 		for (Stock prodInStock : stock) {
-			if(prodInStock.getProduct().getPrdID() == prod.getPrdID())
+			if(prodInStock.getProduct().getPrdID().equals(prod.getPrdID()))
 				return prodInStock;
 		}
 		return null;

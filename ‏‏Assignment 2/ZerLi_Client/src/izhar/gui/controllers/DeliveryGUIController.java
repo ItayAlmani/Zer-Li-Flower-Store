@@ -151,7 +151,7 @@ public class DeliveryGUIController implements Initializable {
 			return;
 		}
 		
-		DeliveryDetails del = new DeliveryDetails(Context.order.getOrderID(),selectedStore);
+		DeliveryDetails del = new DeliveryDetails(selectedStore);
 		if(userData.equals("Pickup")) {
 			Context.order.setDelivery(del);
 			if(Context.order.getDeliveryType() != null &&

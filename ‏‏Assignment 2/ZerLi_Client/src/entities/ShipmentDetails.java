@@ -57,9 +57,9 @@ public class ShipmentDetails extends DeliveryDetails implements Serializable  {
 		this.phoneNumber = phoneNumber;
 	}
 
-	public ShipmentDetails(BigInteger deliveryID, BigInteger orderID, LocalDateTime date, boolean isImmediate, Store store, 
+	public ShipmentDetails(BigInteger deliveryID, LocalDateTime date, boolean isImmediate, Store store, 
 			String[] address, String customerName, String phoneNumber) {
-		super(deliveryID, orderID, date, isImmediate, store);
+		super(deliveryID, date, isImmediate, store);
 		this.street = address[0];
 		this.city = address[1];
 		this.postCode = address[2];
