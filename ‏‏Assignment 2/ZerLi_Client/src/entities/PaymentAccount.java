@@ -11,6 +11,14 @@ public class PaymentAccount implements Serializable {
 	private CreditCard creditCard;
 	private Subscription sub;
 	
+	public PaymentAccount(BigInteger paID,BigInteger CustomerID, CreditCard creditCard, Subscription subscription,float refund) {
+		this.paID = paID;
+		this.customerID = CustomerID;
+		this.creditCard=creditCard;
+		this.sub=subscription;
+		this.refundAmount = refund;
+	}
+	
 	/*public enum PaymentAccountType {
 		Subscribed,
 		NonSubscribed

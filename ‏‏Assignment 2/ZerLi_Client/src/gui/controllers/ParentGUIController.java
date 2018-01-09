@@ -5,24 +5,21 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import com.jfoenix.controls.JFXSlider;
-
 import common.Context;
+import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView;
 import javafx.application.Platform;
-import javafx.css.CssMetaData;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
-import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tooltip;
 import javafx.scene.effect.DropShadow;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
@@ -30,12 +27,6 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundImage;
-import javafx.scene.layout.HBox;
-import javafx.scene.control.ToolBar;
-import javafx.scene.layout.BorderPane;
 
 public class ParentGUIController implements Initializable {
 	/** The current JavaFX stage <=> the window of the GUI */
@@ -50,11 +41,13 @@ public class ParentGUIController implements Initializable {
 	private @FXML MenuButton menuProducts,menuCustomersSat,menuOrders;
 	private @FXML ImageView imgCart, imgLogOut;
 	private @FXML MenuItem miCatalog, miShowProduct, miAddSurvey, miReportSelector, miAssembleProduct, miUpdateOrderStatus,
-			miManualTransaction, miSurveyReport,miComplaints;
+			miManualTransaction, miSurveyReport,miComplaints, miUpdatePaymentAccount;
 	private @FXML MaterialDesignIconView icnLogOut, icnCart;
 	private @FXML VBox menu;
 	private @FXML BorderPane mainPane;
 	private @FXML HBox scenePane;
+	
+	private @FXML MenuButton menuCustomers;
 
 	public void loadProducts() {
 		loadGUI("ProductsFormGUI", false);
@@ -101,6 +94,10 @@ public class ParentGUIController implements Initializable {
 	
 	public void loadComplaints() {
 		loadGUI("ComplaintGUI", false);
+	}
+	
+	public void loadUpdatePaymentAccount() {
+		loadGUI("ShowCustomersGUI", false);
 	}
 
 	public void ShowErrorMsg() {
@@ -327,7 +324,7 @@ public class ParentGUIController implements Initializable {
 		if (Context.getUser() != null) {
 			Context.getUser().setConnected(false);
 			// set user as logged out
-			Context.fac.user.updateUser(Context.getUser());
+			Context.fac.user.update(Context.getUser());
 		}
 	}
 	

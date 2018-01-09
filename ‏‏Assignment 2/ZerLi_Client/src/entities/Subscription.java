@@ -12,7 +12,6 @@ public class Subscription implements Serializable  {
 	}
 	
 	private BigInteger subID;
-	private BigInteger paID;
 	private SubscriptionType subType;
 	private LocalDate subDate;
 	
@@ -25,20 +24,17 @@ public class Subscription implements Serializable  {
 	public Subscription(SubscriptionType subType) {
 	}
 
+	public Subscription(BigInteger subID) {
+		super();
+		this.subID = subID;
+	}
+
 	public BigInteger getSubID() {
 		return subID;
 	}
 
 	public void setSubID(BigInteger subID) {
 		this.subID = subID;
-	}
-
-	public BigInteger getPaID() {
-		return paID;
-	}
-
-	public void setPaID(BigInteger paID) {
-		this.paID = paID;
 	}
 
 	public SubscriptionType getSubType() {

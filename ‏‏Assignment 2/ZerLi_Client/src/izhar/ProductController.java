@@ -94,7 +94,8 @@ public class ProductController extends ParentController implements IProduct {
 	@Override
 	public void getProductByID(BigInteger prdID) throws IOException {
 		myMsgArr.clear();
-		myMsgArr.add("SELECT * FROM product WHERE productID = '"+prdID+"';");
+		myMsgArr.add(Thread.currentThread().getStackTrace()[1].getMethodName());
+		myMsgArr.add(prdID);
 		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.SELECT,myMsgArr,Product.class));
 	}
 	

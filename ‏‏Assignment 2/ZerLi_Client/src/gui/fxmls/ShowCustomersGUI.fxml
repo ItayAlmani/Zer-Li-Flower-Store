@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<VBox alignment="CENTER" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kfir.gui.controllers.ShowCustomersGUIController">
+   <children>
+      <Text strokeWidth="0.0" text="Customers" />
+      <ComboBox fx:id="cbCustomers" onAction="#openPaymentAccount" promptText="Select customer">
+         <VBox.margin>
+            <Insets top="15.0" />
+         </VBox.margin></ComboBox>
+      <VBox fx:id="vboxPA" alignment="CENTER" spacing="10.0" visible="false">
+         <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Payment Account details">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Text>
+            <GridPane hgap="5.0" vgap="5.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Customer ID" GridPane.rowIndex="1" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Credit card number" GridPane.rowIndex="2" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Credit ceard validity" GridPane.rowIndex="3" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Credit card CVV" GridPane.rowIndex="4" />
+                  <TextField fx:id="txtIdNUM" alignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <TextField fx:id="txtCardNUM" alignment="CENTER" promptText="Enter card number" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <TextField fx:id="txtcardValidity" alignment="CENTER" promptText="Enter card validity" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                  <TextField fx:id="txtcardCVV" alignment="CENTER" promptText="Enter card CVV" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                  <Label text="Customer name" />
+                  <TextField fx:id="txtCustName" alignment="CENTER" GridPane.columnIndex="1" />
+               </children>
+               <columnConstraints>
+                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" />
+                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                  <RowConstraints vgrow="SOMETIMES" />
+                  <RowConstraints vgrow="SOMETIMES" />
+                  <RowConstraints vgrow="SOMETIMES" />
+               </rowConstraints>
+            </GridPane>
+            <HBox alignment="CENTER" spacing="10.0">
+               <children>
+                  <Label fx:id="lblMsg" text="" />
+                  <Button fx:id="Psave" mnemonicParsing="false" onAction="#savePaymentAccount" text="Save" />
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+      <Button fx:id="btnBack" mnemonicParsing="false" onAction="#back" text="Back" />
+   </children>
+</VBox>

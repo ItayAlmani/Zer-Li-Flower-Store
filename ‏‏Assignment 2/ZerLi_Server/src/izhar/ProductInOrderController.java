@@ -79,6 +79,15 @@ public class ProductInOrderController extends ParentController{
 		myMsgArr.add(true);
 		return myMsgArr;
 	}
+	
+	public boolean isAllPIOsFromSameOrder(ArrayList<ProductInOrder> products) {
+		BigInteger ordID = products.get(0).getOrderID();
+		for (ProductInOrder pio : products) {
+			if(pio.getOrderID().equals(ordID)==false)
+				return false;
+		}
+		return true;
+	}
 
 	
 	@Override

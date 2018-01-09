@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import common.Context;
+import controllers.ParentController;
 import entities.CSMessage;
 import entities.CSMessage.MessageType;
 import entities.CreditCard;
@@ -15,105 +16,42 @@ import entities.Customer;
 import entities.Order;
 import entities.Order.Refund;
 import entities.PaymentAccount;
+import entities.Product;
 import entities.Subscription;
 import entities.Subscription.SubscriptionType;
 import entities.User;
 import gui.controllers.ParentGUIController;
 import kfir.interfaces.ICustomer;
 
-public class CustomerController extends UserController implements ICustomer {
-
-	public PaymentAccount getPaymentAccount(Customer customer) {
-		// TODO - implement CustomerController.getPaymentAccount
-		throw new UnsupportedOperationException();
-	}
-
-	public CreditCard getCreditCard(String customerID) {
-		// TODO - implement CustomerController.getCreditCard
-		throw new UnsupportedOperationException();
-	}
-
-	public boolean updateRefundedOrderPrice(Order order, Refund refund) {
-		// TODO - implement CustomerController.updateRefundedOrderPrice
-		throw new UnsupportedOperationException();
-	}
-
-	public void updatePaymentAccountInDB(Customer customer) {
-		// TODO - implement CustomerController.updatePaymentAccountInDB
-		throw new UnsupportedOperationException();
-	}
-
+public class CustomerController extends ParentController implements ICustomer {
 
 	public void getCustomer(BigInteger customerID) {
 		
 	}
 	
-	public void getCustomerByUser(BigInteger userID) {
+	public void getCustomerByUser(BigInteger userID) throws IOException {
 		myMsgArr.clear();
-		myMsgArr.add("SELECT *" + 
-				" FROM customer" + 
-				" WHERE userID='"+userID+"'");
-		try {
-			Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.SELECT,myMsgArr,Customer.class));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		myMsgArr.add(Thread.currentThread().getStackTrace()[1].getMethodName());
+		myMsgArr.add(userID);
+		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.SELECT,myMsgArr,Customer.class));
 	}
-
-	public void SetPaymentAccount(String customerID, PaymentAccount account) {
-		// TODO - implement CustomerController.SetPaymentAccount
-		throw new UnsupportedOperationException();
-	}
-
-	public Subscription getSubscription(PaymentAccount account) {
-		// TODO - implement CustomerController.getSubscription
-		throw new UnsupportedOperationException();
-	}
-
-	public Subscription CreateSubscription(PaymentAccount account, SubscriptionType type) {
-		// TODO - implement CustomerController.CreateSubscription
-		throw new UnsupportedOperationException();
-	}
-
-	public void setSubscription(PaymentAccount account) {
-		// TODO - implement CustomerController.setSubscription
-		throw new UnsupportedOperationException();
-	}
-
+	
 	public boolean billCreditCardOfCustomer(Customer customer, float amount) {
 		//return billCard(customer.getPaymentAccount().getCreditCard(), amount);
 		return new Random().nextBoolean();
 	}
 
-	//Suppose to be external function - the billing is external
+	/**
+	 * Suppose to be external function - the billing is external
+	 * @param cc
+	 * @param amount
+	 * @return
+	 */
 	public boolean billCard(CreditCard cc, float amount) {
 		return new Random().nextBoolean();
 	}
-	public void updateRefundAccount(String customerID, String refundAmount) {
-		// TODO - implement CustomerController.updateRefundAccount
-		throw new UnsupportedOperationException();
-	}
 
-	@Override
-	public void handleGet(ArrayList<Object> obj) {
-		ArrayList<Customer> customers = new ArrayList<>();
-		for (int i = 0; i < obj.size(); i += 3)
-			customers.add(parse(
-					BigInteger.valueOf(Long.valueOf((int) obj.get(i))), 
-					new User(BigInteger.valueOf(Long.valueOf((int) obj.get(i+1)))),
-					new PaymentAccount(BigInteger.valueOf(Long.valueOf((int) obj.get(i+2))))
-					));
-		sendCustomers(customers);
-	}
-
-	@Override
-	public Customer parse(BigInteger customerID, User user, PaymentAccount pa) {
-		return new Customer(user, customerID, pa);
-	}
-
-	@Override
-	public void sendCustomers(ArrayList<Customer> customers) {
+	public void handleGet(ArrayList<Customer> customers) {
 		String methodName = "setCustomers";
 		Method m = null;
 		try {
@@ -143,8 +81,9 @@ public class CustomerController extends UserController implements ICustomer {
 	}
 
 	@Override
-	public void getAllCustomers() {
-		// TODO Auto-generated method stub
-		
+	public void getAllCustomers() throws IOException {
+		myMsgArr.clear();
+		myMsgArr.add(Thread.currentThread().getStackTrace()[1].getMethodName());
+		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.SELECT,myMsgArr,Customer.class));
 	}
 }
