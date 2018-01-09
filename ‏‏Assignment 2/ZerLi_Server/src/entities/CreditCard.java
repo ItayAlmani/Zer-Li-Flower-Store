@@ -8,18 +8,33 @@ public class CreditCard implements Serializable {
 
 	private BigInteger ccID;
 	private String ccNumber;
-	private Date ccValidity;
+	private String ccValidity;
 	private String ccCVV;
+	
+	
 
-	public CreditCard(String ccNumber, Date ccValidity, String ccCVV) {
+	public CreditCard(BigInteger ccID) {
 		super();
+		this.ccID = ccID;
+	}
+
+	public CreditCard(BigInteger ccID,String ccNumber, String ccValidity2, String ccCVV) {
+		super();
+		this.ccID = ccID;
 		this.ccNumber = ccNumber;
-		this.ccValidity = ccValidity;
+		this.ccValidity = ccValidity2;
 		this.ccCVV = ccCVV;
 	}
 
 	public BigInteger getCcID() {
 		return ccID;
+	}
+
+	public CreditCard(String ccNumber, String ccValidity, String ccCVV) {
+		super();
+		this.ccNumber = ccNumber;
+		this.ccValidity = ccValidity;
+		this.ccCVV = ccCVV;
 	}
 
 	public void setCcID(BigInteger ccID) {
@@ -34,11 +49,11 @@ public class CreditCard implements Serializable {
 		this.ccNumber = ccNumber;
 	}
 
-	public Date getCcValidity() {
+	public String getCcValidity() {
 		return ccValidity;
 	}
 
-	public void setCcValidity(Date ccValidity) {
+	public void setCcValidity(String ccValidity) {
 		this.ccValidity = ccValidity;
 	}
 

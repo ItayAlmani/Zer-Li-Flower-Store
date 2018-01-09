@@ -178,7 +178,7 @@ public class Context {
 			else if(ParentGUIController.currentGUI instanceof LogInGUIController)
 				((LogInGUIController)ParentGUIController.currentGUI).setUserConnected(Context.user);
 				
-		} catch (InstantiationException | IllegalAccessException e) {
+		} catch (InstantiationException | IllegalAccessException | IOException e) {
 			e.printStackTrace();
 		}
 	}

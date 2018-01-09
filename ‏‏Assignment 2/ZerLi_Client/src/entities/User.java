@@ -41,6 +41,7 @@ public class User implements Serializable {
 	}
 
 	public User(User user) {
+		this.userID = user.userID;
 		this.firstName = user.firstName;
 		this.lastName = user.lastName;
 		this.userName = user.userName;

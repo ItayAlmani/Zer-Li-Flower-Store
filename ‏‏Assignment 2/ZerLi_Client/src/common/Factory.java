@@ -31,7 +31,7 @@ public class Factory {
 	
 	public UserController user = new UserController();
 	public CustomerController customer = new CustomerController();
-	public StoreWorkerController storeWorker = new StoreWorkerController();
+	//public StoreWorkerController storeWorker = new StoreWorkerController();
 	
 	public OrderReportController orderReport = new OrderReportController();
 	public IncomesReportController incomesReport = new IncomesReportController();
@@ -40,7 +40,7 @@ public class Factory {
 
 	public SatisfactionReportController satisfactionReport = new SatisfactionReportController();
 	
-	/*public AdminController admin = new AdminController();
-	public PaymantAccountController paymentAccount = new PaymantAccountController();
-	*/
+	public AdminController admin = new AdminController();
+	public PaymentAccountController paymentAccount = new PaymentAccountController();
+	public CreditCardController creditCard = new CreditCardController();
 }

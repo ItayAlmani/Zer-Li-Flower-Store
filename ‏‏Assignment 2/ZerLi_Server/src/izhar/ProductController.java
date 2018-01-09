@@ -8,7 +8,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import common.EchoServer;
-import common.ServerController;
 import controllers.ParentController;
 import entities.Product;
 
@@ -36,6 +35,7 @@ public class ProductController extends ParentController {
 
 	@Override
 	public ArrayList<Object> handleGet(ArrayList<Object> obj) {
+		if(obj==null) return null;
 		ArrayList<Object> prds = new ArrayList<>();
 		for (int i = 0; i < obj.size(); i += 7)
 				prds.add(parse(
@@ -79,6 +79,11 @@ public class ProductController extends ParentController {
 		return myMsgArr;
 	}
 
+	public ArrayList<Object> getProductByID(BigInteger prdID) throws SQLException {
+		String query = "SELECT * FROM product WHERE productID = '"+prdID+"';";
+		return handleGet(EchoServer.fac.dataBase.db.getQuery(query));
+	}
+	
 	public ArrayList<Object> getAllProducts() throws SQLException {
 		String query = "SELECT * FROM product";
 		return handleGet(EchoServer.fac.dataBase.db.getQuery(query));

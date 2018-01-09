@@ -25,16 +25,16 @@ public class Factory {
 	public SurveyReportController surveyReport = new SurveyReportController();
 	
 	public StoreWorkerController storeWorker = new StoreWorkerController();
-	/*public ComplaintController complaint = new ComplaintController();	
-	
 	public UserController user = new UserController();
+	public PaymentAccountController paymentAccount = new PaymentAccountController();
+	public CreditCardController creditCard = new CreditCardController();
+	/*public ComplaintController complaint = new ComplaintController();	
 	public CustomerController customer = new CustomerController();
 	
 	public OrderReportController orderReport = new OrderReportController();
 	public IncomesReportController incomesReport = new IncomesReportController();*/
 	
 	/*public AdminController admin = new AdminController();
-	public PaymantAccountController paymentAccount = new PaymantAccountController();
 	
 	public HistogramOfCustomerComplaintsReportController histogramReport = new HistogramOfCustomerComplaintsReportController();
 	

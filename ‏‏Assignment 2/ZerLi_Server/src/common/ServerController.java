@@ -16,16 +16,16 @@ public class ServerController {
 		ArrayList<Object> objArr = csMsg.getObjs();
 		
 		if(csMsg.getClasz()!=null) {
-			if(csMsg.getClasz().equals(Order.class) ||
+			/*if(csMsg.getClasz().equals(Order.class) ||
 					csMsg.getClasz().equals(ProductInOrder.class) ||
 					csMsg.getClasz().equals(Product.class) ||
 					csMsg.getClasz().equals(Stock.class) ||
 					csMsg.getClasz().equals(Store.class) ||
 					csMsg.getClasz().equals(Survey.class) ||
-					csMsg.getClasz().equals(SurveyReport.class)/* ||
-					csMsg.getClasz().equals(OrderReport.class)*/){
+					csMsg.getClasz().equals(SurveyReport.class) ||
+					csMsg.getClasz().equals(OrderReport.class)){*/
 				return sendRequest(csMsg);
-			}
+			//}
 		}
 		
 		if(msgType.equals(MessageType.SELECT) || msgType.equals(MessageType.UPDATE)

@@ -51,10 +51,13 @@ public class ParentGUIController implements Initializable {
 	private @FXML ImageView imgCart, imgLogOut;
 	private @FXML MenuItem miCatalog, miShowProduct, miAddSurvey, miReportSelector, miAssembleProduct, miUpdateOrderStatus,
 			miManualTransaction, miSurveyReport;
+	private @FXML MenuItem miUpdatePaymentAccount;
 	private @FXML MaterialDesignIconView icnLogOut, icnCart;
 	private @FXML VBox menu;
 	private @FXML BorderPane mainPane;
 	private @FXML HBox scenePane;
+
+	@FXML MenuButton menuCustomers;
 
 	public void loadProducts() {
 		loadGUI("ProductsFormGUI", false);
@@ -97,6 +100,10 @@ public class ParentGUIController implements Initializable {
 	
 	public void loadAssembleProduct() {
 		loadGUI("AssembleProductGUI", false);
+	}
+	
+	public void loadUpdatePaymentAccount() {
+		loadGUI("ShowCustomersGUI", false);
 	}
 
 	public void ShowErrorMsg() {
@@ -323,7 +330,7 @@ public class ParentGUIController implements Initializable {
 		if (Context.getUser() != null) {
 			Context.getUser().setConnected(false);
 			// set user as logged out
-			Context.fac.user.updateUser(Context.getUser());
+			Context.fac.user.update(Context.getUser());
 		}
 	}
 	

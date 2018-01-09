@@ -103,6 +103,19 @@
                               </MenuItem>
                            </items>
                         </MenuButton>
+                        <MenuButton fx:id="menuCustomers" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" popupSide="RIGHT" styleClass="menuButton" text="Customers" textAlignment="CENTER" textOverrun="CLIP" wrapText="true">
+                           <items>
+                              <MenuItem fx:id="miUpdatePaymentAccount" mnemonicParsing="false" onAction="#loadUpdatePaymentAccount" text="Update customer payment account">
+                                 <graphic>
+                                    <MaterialIconView glyphName="EDIT">
+                                       <font>
+                                          <Font name="Material Icons" size="12.0" />
+                                       </font>
+                                    </MaterialIconView>
+                                 </graphic>
+                              </MenuItem>
+                           </items>
+                        </MenuButton>
                         <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../../images/logos/img/logo3-0.png" />

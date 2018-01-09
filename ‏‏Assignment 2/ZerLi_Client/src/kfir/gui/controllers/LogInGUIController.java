@@ -46,7 +46,7 @@ public class LogInGUIController implements Initializable{
 		System.err.println("Go to LogInGUIController to enable data in login");
 		if(uName!=null && pass !=null) {
 			try {
-				Context.fac.user.getUserByUNameAndPass(new User(uName, pass));
+				Context.fac.user.getUser(new User(uName, pass));
 			} catch (IOException e) {
 				Context.mainScene.ShowErrorMsg();
 				System.err.println("LogInGUI getUser failed");
@@ -76,6 +76,8 @@ public class LogInGUIController implements Initializable{
 						+ "Please disconnect before next login");
 				return;
 			}
+			user.setConnected(true);
+			Context.fac.user.update(user);
 			Context.setUser(user);
 			//Will load next gui if Context will call to setUserConnected()
 		}
@@ -83,7 +85,7 @@ public class LogInGUIController implements Initializable{
 	
 	public void setUserConnected(User user) {
 		user.setConnected(true);
-		Context.fac.user.updateUser(user);
+		Context.fac.user.update(user);
 		Context.mainScene.logInSuccess();
 	}
 	
