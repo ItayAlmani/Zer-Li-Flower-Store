@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.math.BigInteger;
-import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
@@ -14,10 +13,8 @@ import java.util.Date;
 import common.Context;
 import controllers.ParentController;
 import entities.CSMessage;
-import entities.SatisfactionReport;
-import entities.Survey;
 import entities.CSMessage.MessageType;
-import entities.Survey.SurveyType;
+import entities.SatisfactionReport;
 import gui.controllers.ParentGUIController;
 import lior.interfaces.ISatisfactionReportController;
 
@@ -25,7 +22,6 @@ public class SatisfactionReportController extends ParentController implements IS
 	
 	
 	public void initProduceSatisfactionReport(LocalDate date, BigInteger storeID) throws IOException{
-		//this.sReports = new SatisfactionReport[2];
 		ProduceSatisfactionReport(date, storeID);
 	}
 	
@@ -33,17 +29,9 @@ public class SatisfactionReportController extends ParentController implements IS
 		String methodName = "setSatisfactionReports";
 		Method m = null;
 		try {
-			//a controller asked data, not GUI
-			/*if(Context.askingCtrl!=null && Context.askingCtrl.size()!=0) {
-				m = Context.askingCtrl.get(0).getClass().getMethod(methodName,ArrayList.class);
-				m.invoke(Context.askingCtrl, orders);
-				Context.askingCtrl.remove(0);
-			}
-			else {*/
 				m = ParentGUIController.currentGUI.getClass().getMethod(methodName,ArrayList.class);
 				m.invoke(ParentGUIController.currentGUI, sReports);
 				sReports=null;
-			//}
 		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e1) {
 			System.err.println("Couldn't invoke method '"+methodName+"'");
 			e1.printStackTrace();

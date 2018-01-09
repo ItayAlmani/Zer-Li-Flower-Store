@@ -3,9 +3,7 @@ package lior.gui.controllers;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.net.URL;
-import java.text.DateFormat;
 import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -21,7 +19,6 @@ import entities.IncomesReport;
 import entities.OrderReport;
 import entities.SatisfactionReport;
 import entities.Store;
-import entities.Survey;
 import entities.User;
 import gui.controllers.ParentGUIController;
 import javafx.application.Platform;
@@ -48,13 +45,13 @@ public class ReportSelectorGUIController implements Initializable {
 	private BigInteger n, n1;
 	
 	//Report1Pick variables
-	private @FXML JFXComboBox cbStorePick1,cbTypePick1;
+	private @FXML JFXComboBox<String> cbStorePick1,cbTypePick1;
 	private @FXML JFXDatePicker DatePicker1;
 	private @FXML JFXToggleButton ToggleReport2;
 	private @FXML JFXButton btConfirm1,btBack;
 	//Report1Pick variables
 	private @FXML Label lblReport2;
-	private @FXML JFXComboBox cbStorePick2,cbTypePick2;
+	private @FXML JFXComboBox<String> cbStorePick2,cbTypePick2;
 	private @FXML JFXDatePicker DatePicker2;
 	private @FXML AnchorPane paneReport2;
 	//Order Report General Variables
@@ -94,21 +91,19 @@ public class ReportSelectorGUIController implements Initializable {
 	}
 	
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		ParentGUIController.currentGUI = this;
 		DatePicker1.setValue(LocalDate.now().minusDays(1));
 		DatePicker2.setValue(LocalDate.now().minusDays(1));
-		//paneAll.getChildren().removeAll(paneReport2,paneorder11,paneTotincome1);
 		
-		//btn.setRipplerFill(Color.ALICEBLUE);
 		paneOrderReport1.setBorder(new Border(new BorderStroke(Color.FORESTGREEN,BorderStrokeStyle.SOLID,CornerRadii.EMPTY,BorderWidths.DEFAULT)));
 		paneOrderReport2.setBorder(new Border(new BorderStroke(Color.BLUE,BorderStrokeStyle.SOLID,CornerRadii.EMPTY,BorderWidths.DEFAULT)));
 		paneIncomeReport1.setBorder(new Border(new BorderStroke(Color.FORESTGREEN,BorderStrokeStyle.SOLID,CornerRadii.EMPTY,BorderWidths.DEFAULT)));
 		paneIncomeReport2.setBorder(new Border(new BorderStroke(Color.BLUE,BorderStrokeStyle.SOLID,CornerRadii.EMPTY,BorderWidths.DEFAULT)));
 		paneSatisfactionReport1.setBorder(new Border(new BorderStroke(Color.FORESTGREEN,BorderStrokeStyle.SOLID,CornerRadii.EMPTY,BorderWidths.DEFAULT)));
 		paneSatisfactionReport2.setBorder(new Border(new BorderStroke(Color.BLUE,BorderStrokeStyle.SOLID,CornerRadii.EMPTY,BorderWidths.DEFAULT)));
+		
 		cbTypePick1.getItems().add("Incomes Report");
 		cbTypePick1.getItems().add("Orders Report");
 		cbTypePick1.getItems().add("Client complaimnts histogram");
@@ -116,7 +111,6 @@ public class ReportSelectorGUIController implements Initializable {
 		try {
 			Context.fac.store.getAllStores();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		if (Context.getUser().getPermissions().equals(User.UserType.ChainStoreManager)) {
@@ -144,7 +138,6 @@ public class ReportSelectorGUIController implements Initializable {
 		paneSatisfactionReport2.setVisible(false);
 		int err=0;
 		if(cbTypePick1.getValue()!=null&&cbStorePick1.getValue()!=null&&DatePicker1.getValue()!=null) {
-			@SuppressWarnings("deprecation")
 			LocalDate date = DatePicker1.getValue();
 			if(date.isBefore(LocalDate.now())){
 				for (int i = 0; i < this.stores.size(); i++) {
@@ -171,7 +164,6 @@ public class ReportSelectorGUIController implements Initializable {
 				
 				if(this.cbStorePick2.getValue()!=null&&this.cbTypePick2.getValue()!=null
 						&&DatePicker2!=null){
-					@SuppressWarnings("deprecation")
 					LocalDate date1 = DatePicker2.getValue();
 					if(date1.isBefore(LocalDate.now()))
 					{
@@ -238,12 +230,9 @@ public class ReportSelectorGUIController implements Initializable {
 		ToggleReport2.setVisible(false);
 	}
 
-	@SuppressWarnings("unchecked")
 	public void setStores(ArrayList<Store> stores) {
-		this.stores = stores;
 		ArrayList<String> ar = new ArrayList<>();
 		for (Store store : stores) {
-			// if(store.getType().equals(StoreType.Physical))
 			ar.add(store.getName());
 		}
 		cbStorePick1.setItems(FXCollections.observableArrayList(ar));
@@ -258,7 +247,6 @@ public class ReportSelectorGUIController implements Initializable {
 		if (oReports == null)
 			return;
 		OrderReport rep = oReports.get(0);
-		@SuppressWarnings("deprecation")
 		LocalDate date = DatePicker1.getValue();
 		if (rep.getStoreID().equals(n)&&cbTypePick1.getValue().equals("Orders Report")&&date.equals(rep.getEnddate())) {
 			Platform.runLater(new Runnable() {
@@ -297,7 +285,6 @@ public class ReportSelectorGUIController implements Initializable {
 	public void setIncomeReports(ArrayList<IncomesReport> iReports) {
 		if(iReports==null)return;
 		IncomesReport rep = iReports.get(0);
-		@SuppressWarnings("deprecation")
 		LocalDate date = DatePicker1.getValue();
 		DateTimeFormatter formatters = DateTimeFormatter.ofPattern("dd/MM/uuuu");
 		if (rep.getStoreID().equals(n)&&cbTypePick1.getValue().equals("Incomes Report")&&date.equals(rep.getEnddate())) {
@@ -316,7 +303,6 @@ public class ReportSelectorGUIController implements Initializable {
 		}
 		else
 		{
-			DateFormat ReqDate = new SimpleDateFormat("dd/MM/yyyy");
 			Platform.runLater(new Runnable() {
 				@Override
 				public void run() {
@@ -336,7 +322,6 @@ public class ReportSelectorGUIController implements Initializable {
 		if(sReports==null)return;
 		SatisfactionReport rep = sReports.get(0);
 		
-		@SuppressWarnings("deprecation")
 		LocalDate date = DatePicker1.getValue();
 		DateTimeFormatter formatters = DateTimeFormatter.ofPattern("dd/MM/uuuu");
 		if (rep.getStoreID().equals(n)&&cbTypePick1.getValue().equals("Satisfaction Report")&&date.equals(rep.getEnddate())) {
@@ -378,11 +363,10 @@ public class ReportSelectorGUIController implements Initializable {
 	}
 
 	public void hideReport2(ActionEvent event) {
-		if (!this.ToggleReport2.isSelected()) {
+		if (!this.ToggleReport2.isSelected())
 			paneReport2.setVisible(false);
-		} else/* if (btnHide.getText().equals("Ask for two reports"))*/ {
+		else
 			paneReport2.setVisible(true);
-		}
 
 	}
 	

@@ -2,20 +2,22 @@ package lior;
 
 import java.math.BigInteger;
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 
 import common.EchoServer;
 import entities.SatisfactionReport;
 import entities.Survey;
 import entities.Survey.SurveyType;
+import lior.interfaces.ISatisfactionReportController;
 
-public class SatisfactionReportController {
+public class SatisfactionReportController implements ISatisfactionReportController {
 	private SatisfactionReport sReport;
 	private LocalDate rDate, startDate;
 
+	/* (non-Javadoc)
+	 * @see lior.ISatisfactionReport#ProduceSatisfactionReport(java.util.ArrayList)
+	 */
+	@Override
 	public ArrayList<Object> ProduceSatisfactionReport(ArrayList<Object> arr) throws Exception {
 		if(arr!=null && (arr.get(0) instanceof LocalDate == false) ||
 				arr.get(1) instanceof LocalDate == false||arr.get(2) instanceof BigInteger == false)
@@ -23,17 +25,12 @@ public class SatisfactionReportController {
 		LocalDate enddate = (LocalDate)arr.get(1);
 		LocalDate  startdate= (LocalDate)arr.get(0);
 		BigInteger storeID=(BigInteger)arr.get(2);
-		//int ind = 1;
-		/*if(this.oReports[0]==null)
-			ind = 0;
-		if(this.oReports[0]!=null&&this.oReports[1]!=null)
-			ind = 0;*/
-		sReport/*s[ind]*/=new SatisfactionReport();
-		this.sReport/*s[ind]*/.setStoreID(storeID);
+		sReport=new SatisfactionReport();
+		this.sReport.setStoreID(storeID);
 		rDate=enddate;
 		startDate = startdate;
-		this.sReport/*s[ind]*/.setStartdate(this.startDate);
-		this.sReport/*s[ind]*/.setEnddate(this.rDate);
+		this.sReport.setStartdate(this.startDate);
+		this.sReport.setEnddate(this.rDate);
 		ArrayList<Object> obj=new ArrayList<>();
 		obj.add(startdate.atStartOfDay());
 		obj.add(enddate.atStartOfDay());
@@ -78,11 +75,11 @@ public class SatisfactionReportController {
 		this.sReport.setFinalanswers(answers);
 		this.sReport.setAverageTotanswer(totans/6);
 		if(flag==1) {
-			ar1.add(this.sReport/*s[ind]*/);
+			ar1.add(this.sReport);
 			return ar1;
 		}
 		else {
-			ar1.add(this.sReport/*s[ind]*/);
+			ar1.add(this.sReport);
 			return ar1;
 		}
 	}

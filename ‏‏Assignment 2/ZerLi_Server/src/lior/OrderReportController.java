@@ -13,12 +13,17 @@ import entities.Order.OrderStatus;
 import entities.OrderReport;
 import entities.Product;
 import entities.Product.ProductType;
+import lior.interfaces.IOrderReportController;
 import entities.ProductInOrder;
 
-public class OrderReportController {
+public class OrderReportController implements IOrderReportController {
 	private OrderReport oReport;
 	private LocalDate rDate, startDate;
 
+	/* (non-Javadoc)
+	 * @see lior.IOrderReportController#produceOrderReport(java.util.ArrayList)
+	 */
+	@Override
 	public ArrayList<Object> produceOrderReport(ArrayList<Object> arr) throws Exception {
 		if(arr!=null && (arr.get(0) instanceof LocalDate == false) || arr.get(1) instanceof BigInteger == false)
 			throw new Exception();
@@ -84,9 +89,9 @@ public class OrderReportController {
 		}
 		if(EchoServer.fac.prodInOrder.isAllPIOsFromSameOrder(products)==false)
 			throw new Exception();
-		ArrayList<Order> orders = this.oReport/*s[ind]*/.getOrders();
-		ArrayList<Integer> cntType = this.oReport/*s[ind]*/.getCounterPerType();
-		ArrayList<Float> sumType = this.oReport/*s[ind]*/.getSumPerType();
+		ArrayList<Order> orders = this.oReport.getOrders();
+		ArrayList<Integer> cntType = this.oReport.getCounterPerType();
+		ArrayList<Float> sumType = this.oReport.getSumPerType();
 		
 		Order myOrder = null;
 		for (Order ord : orders) {
@@ -120,7 +125,7 @@ public class OrderReportController {
 			cntType.set(indx, cntType.get(indx)+1);
 			sumType.set(indx, sumType.get(indx)+products.get(j).getFinalPrice());
 		}
-		this.oReport/*s[ind]*/.setCounterPerType(cntType);
-		this.oReport/*s[ind]*/.setSumPerType(sumType);
+		this.oReport.setCounterPerType(cntType);
+		this.oReport.setSumPerType(sumType);
 	}
 }
