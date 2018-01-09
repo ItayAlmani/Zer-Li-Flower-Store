@@ -56,7 +56,7 @@ public class SurveyReportGUIController implements Initializable
 		sr.setStartDate(dpDateStart.getValue().atStartOfDay());
 		sr.setEndDate(dpDateEnd.getValue().atStartOfDay());	
 
-		Context.fac.surveyReport.add(sr);
+		Context.fac.surveyReport.add(sr, false);
 	}
 	
 	public void setSurveyReports(ArrayList<SurveyReport> surveys) {

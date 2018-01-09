@@ -17,12 +17,13 @@ import itayNron.interfaces.ISurveyReport;
 public class SurveyReportController extends ParentController implements ISurveyReport {
 
 	@Override
-	public void add(SurveyReport sr) throws IOException {
+	public void add(SurveyReport sr, boolean getCurrentID) throws IOException {
 		myMsgArr.clear();
+		//adds this method's name - in this case = "add"
 		myMsgArr.add(Thread.currentThread().getStackTrace()[1].getMethodName());
 		ArrayList<Object> arr = new ArrayList<>();
 		arr.add(sr);
-		arr.add(false);
+		arr.add(getCurrentID);
 		myMsgArr.add(arr);
 		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.INSERT, myMsgArr,SurveyReport.class));
 	}
@@ -67,5 +68,4 @@ public class SurveyReportController extends ParentController implements ISurveyR
 		myMsgArr.add(arr);
 		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.SELECT, myMsgArr, SurveyReport.class));
 	}
-
 }

@@ -23,17 +23,17 @@ public class SurveyReportController extends ParentController
 		if(surveyExists(sr)==false) {
 			try {
 				sr.getSurveyAnalyzes().setSurveyID(addSurveyWithSurveyReport(sr.getSurveyAnalyzes()));
+				insertSurveyReport(sr);
+				myMsgArr.clear();
+				if(isReturnNextID)
+					myMsgArr.add(getNextID());
+				else
+					myMsgArr.add(true);
+				return myMsgArr;
 				} catch (Exception e) {
 					System.err.println("Error with get id in survey report process");
 				e.printStackTrace();
 				}
-			insertSurveyReport(sr);
-			myMsgArr.clear();
-			if(isReturnNextID)
-				myMsgArr.add(getNextID());
-			else
-				myMsgArr.add(true);
-			return myMsgArr;
 		}
 		throw new Exception("Survey with this dates already exists!");
 	}
@@ -94,7 +94,7 @@ public class SurveyReportController extends ParentController
 	public ArrayList<Object> analyzeSurveys(ArrayList<Object> obj) throws SQLException{
 		ArrayList<Object> arr = EchoServer.fac.survey.getSurveyByDates(obj);
 		if(arr==null || arr.isEmpty())
-			return arr;
+			return null;
 		float [] totalSumOfAnswers = new float[6];
 		for (Object o : arr) 
 		{

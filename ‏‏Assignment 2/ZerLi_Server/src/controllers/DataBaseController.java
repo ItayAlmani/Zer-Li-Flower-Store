@@ -2,7 +2,9 @@ package controllers;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintStream;
+import java.net.URI;
 import java.net.URISyntaxException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -67,9 +69,9 @@ public class DataBaseController {
 	private void writeNewDBDataIntoTxt() throws IOException {
 		File f = null;
 		try {
-			f = new File(ServerController.class.getResource(dbTxtPath).toURI());
+			URI uri = ServerController.class.getResource(dbTxtPath).toURI();
+			f = new File(uri);
 		} catch (URISyntaxException e) {
-			f.createNewFile();
 			e.printStackTrace();
 		}
 		if (f.exists() == false) //Create a new file if doesn't exists yet
@@ -96,7 +98,8 @@ public class DataBaseController {
 		int dbSuccessFlag = 0;		//will be 1 if updateDB(args) succeeded
 		try {
 			Scanner scnr = null;
-			scnr = new Scanner(ServerController.class.getResourceAsStream(dbTxtPath));
+			InputStream is = ServerController.class.getResourceAsStream(dbTxtPath);
+			scnr = new Scanner(is);
 			scnr.useDelimiter("\\w");
 			String[] args = new String[4];
 			for(int i = 0;i<4 && scnr.hasNextLine();i++) {
@@ -104,9 +107,10 @@ public class DataBaseController {
 				args[i]= tempSplit[tempSplit.length-1];
 			}
 			scnr.close();
+			is.close();
 			updateDB(args);
 			dbSuccessFlag = 1;
-		} catch (SQLException e) {
+		} catch (SQLException | IOException e) {
 			System.err.println("DataBaseAddress.txt data is corrupted, or the process is.\nGo to EchoServer for the process\n");
 		}
 		if(dbSuccessFlag==0) {	//db data corrupted 

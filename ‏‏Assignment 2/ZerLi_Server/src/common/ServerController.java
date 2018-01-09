@@ -22,7 +22,8 @@ public class ServerController {
 					csMsg.getClasz().equals(Stock.class) ||
 					csMsg.getClasz().equals(Store.class) ||
 					csMsg.getClasz().equals(Survey.class) ||
-					csMsg.getClasz().equals(SurveyReport.class)){
+					csMsg.getClasz().equals(SurveyReport.class)/* ||
+					csMsg.getClasz().equals(OrderReport.class)*/){
 				return sendRequest(csMsg);
 			}
 		}
@@ -109,9 +110,9 @@ public class ServerController {
 				&& objArr.get(0) instanceof String) {
 			String funcName = (String)objArr.get(0);
 			if(objArr.size()==1)
-				callToMethod(c, m, funcName, csMsg);
+				callToMethod(c, funcName, csMsg);
 			else if(objArr.size()==2)
-				callToMethod(c, m, funcName,csMsg,objArr.get(1));
+				callToMethod(c, funcName,csMsg,objArr.get(1));
 		}
 		else {
 			System.err.println("Problem in ServerController\n");
@@ -121,9 +122,9 @@ public class ServerController {
 		return csMsg;
 	}
 	
-	private static void callToMethod(Class<?> c, Method m, String funcName, CSMessage csMsg) throws Exception {
+	private static void callToMethod(Class<?> c, String funcName, CSMessage csMsg) throws Exception {
 		try {
-			m = c.getMethod(funcName);
+			Method m = c.getMethod(funcName);
 			Object arr = m.invoke(c.newInstance());
 			if(arr!=null && arr instanceof ArrayList<?>) {
 				csMsg.setObjs((ArrayList<Object>)arr);
@@ -138,7 +139,8 @@ public class ServerController {
 		
 	}
 	
-	private static void callToMethod(Class<?> c, Method m, String funcName, CSMessage csMsg, Object o) throws Exception {
+	private static void callToMethod(Class<?> c, String funcName, CSMessage csMsg, Object o) throws Exception {
+		Method m = null;
 		try {
 			m = c.getMethod(funcName,o.getClass());
 			Object arr = m.invoke(c.newInstance(), o);

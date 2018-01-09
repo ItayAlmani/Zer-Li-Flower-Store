@@ -71,7 +71,6 @@ public class Context {
 			Scanner scnr = null;
 			InputStream is = Context.class.getResourceAsStream(serTxtPath);
 			scnr = new Scanner(is);
-			is.close();
 			scnr.useDelimiter("\\w");
 			String[] args = new String[2];
 			for(int i = 0;i<2 && scnr.hasNextLine();i++) {
@@ -79,6 +78,7 @@ public class Context {
 				args[i]= tempSplit[tempSplit.length-1];
 			}
 			scnr.close();
+			is.close();
 			clientConsole = new ClientConsole(args[0],Integer.parseInt(args[1]));
 			
 			/*connection succeeded, default data will be changed in .txt file and in default attributes*/

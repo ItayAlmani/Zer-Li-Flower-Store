@@ -13,8 +13,9 @@ public interface ISurveyReport {
 	/**
 	 * 
 	 * @param surveyReport
+	 * @param getCurrentID TODO
 	 */
-	void add(SurveyReport surveyReport) throws IOException;
+	void add(SurveyReport surveyReport, boolean getCurrentID) throws IOException;
 
 	/**
 	 * 
