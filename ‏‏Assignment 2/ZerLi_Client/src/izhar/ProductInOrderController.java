@@ -46,7 +46,7 @@ public class ProductInOrderController extends ParentController implements IProdu
 	}
 	
 	public ProductInOrder getPIOFromArr(ArrayList<ProductInOrder> prods, Product prod) {
-		if(prod == null) return null;
+		if(prod == null || prods == null) return null;
 		for (ProductInOrder pio : prods) {
 			if(pio.getProduct()!=null &&
 					pio.getProduct().getPrdID().equals(prod.getPrdID()))

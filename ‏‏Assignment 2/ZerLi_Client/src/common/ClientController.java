@@ -91,7 +91,10 @@ public class ClientController {
 		}
 		/*--------------------exception caught----------------------*/
 		else if (msgType.equals(MessageType.Exception)) {
-			ParentController.sendResultToClient(false);
+			if(csMsg.getObjs()!=null && csMsg.getObjs().isEmpty()==false && csMsg.getObjs().get(0) instanceof String)
+				Context.mainScene.setMessage((String)csMsg.getObjs().get(0));
+			else
+				ParentController.sendResultToClient(false);
 		}
 		
 		else if(msgType.equals(MessageType.SetDB)) {

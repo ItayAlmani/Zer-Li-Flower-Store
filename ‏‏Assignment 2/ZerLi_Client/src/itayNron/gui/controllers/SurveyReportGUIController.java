@@ -78,10 +78,10 @@ public class SurveyReportGUIController implements Initializable
 				});
 			}
 			else
-				System.err.println("getSurveyAnalyzes() returns null");
+				Context.mainScene.loadMainMenu("getSurveyAnalyzes() returns null");
 		}
 		else
-			System.err.println("surveys is null");
+			Context.mainScene.loadMainMenu("surveys is null");
 	}
 	
 	

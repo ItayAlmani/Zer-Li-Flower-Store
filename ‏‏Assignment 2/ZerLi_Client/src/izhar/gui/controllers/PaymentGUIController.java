@@ -117,7 +117,7 @@ public class PaymentGUIController implements Initializable {
 		else
 			ord.setGreeting("");
 		try {
-			Context.fac.orderProcess.updateFinilizeOrder(ord);
+			Context.fac.order.add(ord,true);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

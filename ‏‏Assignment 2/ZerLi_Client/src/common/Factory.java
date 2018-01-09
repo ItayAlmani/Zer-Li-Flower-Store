@@ -23,7 +23,6 @@ public class Factory {
 	public StockController stock = new StockController();
 	
 	public OrderController order = new OrderController();
-	public OrderProcessHandler orderProcess = new OrderProcessHandler();
 	public PickupController pickup = new PickupController();
 	public StoreController store = new StoreController();
 	public ProductController product = new ProductController();

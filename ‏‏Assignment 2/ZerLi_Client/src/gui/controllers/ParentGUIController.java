@@ -265,7 +265,12 @@ public class ParentGUIController implements Initializable {
 		for (int i = 0; i < color.length; i++)
 			color[i] = rangeMin + (rangeMax - rangeMin) * Math.random();
 		this.lblMsg.setTextFill(Color.color(color[0], color[1], color[2]));
-		this.lblMsg.setText(msg);
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				lblMsg.setText(msg);
+			}
+		});
 	}
 	
 	public void initialize(URL location, ResourceBundle resources) {

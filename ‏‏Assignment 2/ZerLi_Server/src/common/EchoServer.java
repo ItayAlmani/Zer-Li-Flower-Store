@@ -42,7 +42,12 @@ public class EchoServer extends AbstractServer {
 		} catch (Exception e) {
 			if(msg instanceof CSMessage) {
 				CSMessage csMsg = (CSMessage)msg;
-				csMsg.setObjs(new ArrayList<>());
+				ArrayList<Object> arr = csMsg.getObjs();
+				arr.clear();
+				if(e.getMessage()!=null)
+					arr.add(e.getMessage());
+				else if(e.getCause()!=null && e.getCause().getMessage()!=null)
+					arr.add("Error - " + e.getCause().getMessage());
 				csMsg.setType(MessageType.Exception);
 				client.sendToClient(csMsg);
 			}

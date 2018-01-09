@@ -3,6 +3,7 @@ package izhar.gui.controllers;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.net.URL;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.SortedSet;
@@ -11,7 +12,9 @@ import java.util.TreeSet;
 import common.ClientController;
 import common.Context;
 import entities.Customer;
+import entities.DeliveryDetails;
 import entities.Order;
+import entities.Order.DeliveryType;
 import entities.Order.OrderStatus;
 import entities.Order.OrderType;
 import entities.Order.PayMethod;
@@ -48,14 +51,17 @@ public class ManualTransactionGUIController implements Initializable {
 	private ArrayList<ComboBox<Product>> comboBoxs = new ArrayList<>();
 	private @FXML ComboBox<Customer> cbCustomers;
 	private @FXML ComboBox<PayMethod> cbPayMethod;
+	private Order order = new Order();
 	
 	private boolean cbCust = false, cbPay = false, cbProd = false;
 	
 	public void sendNewOrder() {
-		Context.order.setType(OrderType.Manual);
-		Context.order.setOrderStatus(OrderStatus.Paid);
+		order.setType(OrderType.Manual);
+		order.setOrderStatus(OrderStatus.Paid);
+		order.setDelivery(new DeliveryDetails(order.getOrderID(), LocalDateTime.now(), true, Context.getUserAsStoreWorker().getStore()));
+		order.setDeliveryType(DeliveryType.Pickup);
 		try {
-			Context.fac.orderProcess.updateFinilizeOrder(Context.order);
+			Context.fac.order.add(order,false);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -74,20 +80,14 @@ public class ManualTransactionGUIController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		ParentGUIController.currentGUI = this;
 		
-		if(Context.order == null)
-			Context.order = new Order();
+		if(order == null)
+			order = new Order();
 		
 		ArrayList<PayMethod> pm = new ArrayList<>();
-		pm.add(PayMethod.Cash);
 		pm.add(PayMethod.CreditCard);
+		pm.add(PayMethod.Cash);
 		cbPayMethod.setItems(FXCollections.observableArrayList(pm));
 		
-		try {
-			ClientController.getLastAutoIncrenment(Order.class);
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
 		vbox.setSpacing(5);
 		try {
 			Context.fac.stock.getStockByStore(BigInteger.ONE);
@@ -199,10 +199,10 @@ public class ManualTransactionGUIController implements Initializable {
 					if(cbPay && cbCust)
 						btnSend.setDisable(false);
 					ProductInOrder pio = Context.fac.prodInOrder.getPIOFromArr(
-							Context.order.getProducts(), observable.getValue());
+							order.getProducts(), observable.getValue());
 					if(pio!=null) {
 						if(picb.s.getValue().equals(0)) {
-							Context.order.getProducts().remove(pio);
+							order.getProducts().remove(pio);
 							/*try {
 								Context.fac.prodInOrder.deletePIO(pio);
 							} catch (IOException e) {
@@ -215,8 +215,8 @@ public class ManualTransactionGUIController implements Initializable {
 					}
 					else if(observable.getValue() != null) {
 						pio = new ProductInOrder(observable.getValue(),
-								picb.s.getValue(), Context.order.getOrderID());
-						Context.order.getProducts().add(pio);
+								picb.s.getValue(), order.getOrderID());
+						order.getProducts().add(pio);
 						/*try {
 							Context.fac.prodInOrder.addPIO(pio);
 						} catch (IOException e) {
@@ -236,17 +236,17 @@ public class ManualTransactionGUIController implements Initializable {
 				if(newValue != null && newValue.equals(oldValue)==false) {
 					ComboBox<Product> cb = (ComboBox<Product>) picb.s.getUserData();
 					ProductInOrder pio = Context.fac.prodInOrder.getPIOFromArr(
-							Context.order.getProducts(), cb.getValue());
+							order.getProducts(), cb.getValue());
 					if(pio!=null) {
 						if(picb.s.getValue().equals(0))
-							Context.order.getProducts().remove(pio);
+							order.getProducts().remove(pio);
 						else
 							pio.setQuantity(picb.s.getValue());
 					}
 					else if(cb.getValue() != null) {
 						pio = new ProductInOrder(cb.getValue(),
-								picb.s.getValue(), Context.order.getOrderID());
-						Context.order.getProducts().add(pio);
+								picb.s.getValue(), order.getOrderID());
+						order.getProducts().add(pio);
 					}
 					if(newValue.equals(0)) {
 						vbox.getChildren().remove(picb.hbox);
@@ -276,20 +276,20 @@ public class ManualTransactionGUIController implements Initializable {
 		});
 	}
 
-	@FXML public void customerSelected() {
+	public void customerSelected() {
 		cbCust=true;
 		if(cbPay && cbProd)
 			btnSend.setDisable(false);
 		if(cbCustomers.getValue()!=null && cbCustomers.getValue().getCustomerID()!=null)
-			Context.order.setCustomerID(cbCustomers.getValue().getCustomerID());
+			order.setCustomerID(cbCustomers.getValue().getCustomerID());
 	}
 
 	@FXML public void paymentSelected() {
 		cbPay=true;
 		if(cbCust && cbProd)
 			btnSend.setDisable(false);
-		if(cbPayMethod.getValue()!=null &&Context.order!=null)
-			Context.order.setPaymentMethod(PayMethod.valueOf(cbPayMethod.getValue().toString()));
+		if(cbPayMethod.getValue()!=null &&order!=null)
+			order.setPaymentMethod(PayMethod.valueOf(cbPayMethod.getValue().toString()));
 	}
 	
 	public class ProductInComboBox{

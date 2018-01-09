@@ -14,7 +14,7 @@ public interface IOrder  {
 	 * sending new order to server and asks to insert it to DataBase
 	 * @param order - the Order which will be add
 	 */
-	void add(Order order) throws IOException;
+	void add(Order order, boolean getNextID) throws IOException;
 
 	/**
 	 * asks the server to update the <code>Order</code>'s <code>status</code> attribute

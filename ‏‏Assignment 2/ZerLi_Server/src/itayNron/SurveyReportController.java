@@ -20,20 +20,22 @@ public class SurveyReportController extends ParentController
 			throw new Exception();
 		SurveyReport sr = (SurveyReport)arr.get(0);
 		boolean isReturnNextID = (boolean)arr.get(1);
-		if(surveyExists(sr)==false)
-		try {
-			sr.getSurveyAnalyzes().setSurveyID(addSurveyWithSurveyReport(sr.getSurveyAnalyzes()));
-			} catch (Exception e) {
-				System.err.println("Error with get id in survey report process");
-			e.printStackTrace();
-			}
-		insertSurveyReport(sr);
-		myMsgArr.clear();
-		if(isReturnNextID)
-			myMsgArr.add(getNextID());
-		else
-			myMsgArr.add(true);
-		return myMsgArr;
+		if(surveyExists(sr)==false) {
+			try {
+				sr.getSurveyAnalyzes().setSurveyID(addSurveyWithSurveyReport(sr.getSurveyAnalyzes()));
+				} catch (Exception e) {
+					System.err.println("Error with get id in survey report process");
+				e.printStackTrace();
+				}
+			insertSurveyReport(sr);
+			myMsgArr.clear();
+			if(isReturnNextID)
+				myMsgArr.add(getNextID());
+			else
+				myMsgArr.add(true);
+			return myMsgArr;
+		}
+		throw new Exception("Survey with this dates already exists!");
 	}
 	
 	public void insertSurveyReport(SurveyReport sr) throws Exception {

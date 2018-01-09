@@ -131,7 +131,8 @@ public class ServerController {
 			else
 				throw new Exception();
 		} catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | InstantiationException e) {
-			e.printStackTrace();
+			if(e.getMessage()==null && e.getCause().getMessage()==null)
+				e.printStackTrace();
 			throw e;
 		}
 		
@@ -154,7 +155,8 @@ public class ServerController {
 			else
 				throw new Exception();
 		} catch (SecurityException |IllegalAccessException | IllegalArgumentException | InvocationTargetException | InstantiationException e) {
-			e.printStackTrace();
+			if(e.getMessage()==null && e.getCause().getMessage()==null)
+				e.printStackTrace();//<------------FIX
 			throw e;
 		}
 	}

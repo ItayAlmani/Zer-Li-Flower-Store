@@ -152,12 +152,12 @@ public class OrderController extends ParentController implements IOrder {
 		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.UPDATE, myMsgArr,Order.class));
 	}
 	
-	public void add(Order order) throws IOException {
+	public void add(Order order, boolean getNextID) throws IOException {
 		myMsgArr.clear();
 		myMsgArr.add(Thread.currentThread().getStackTrace()[1].getMethodName());
 		ArrayList<Object> arr = new ArrayList<>();
 		arr.add(order);
-		arr.add(true);
+		arr.add(getNextID);
 		myMsgArr.add(arr);
 		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.INSERT, myMsgArr,Order.class));
 	}
