@@ -1,17 +1,18 @@
 package itayNron.interfaces;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import entities.Complaint;
 import interfaces.IParent;
 
-public interface IComplaint extends IParent {
+public interface IComplaint{
 
 	/**
 	 * 
 	 * @param complaint
 	 */
-	void addComplaint(Complaint complaint);
+	void add(Complaint complaint, boolean getCurrentID) throws IOException;
 
 	/**
 	 * 
@@ -30,5 +31,7 @@ public interface IComplaint extends IParent {
 	void getNotTreatedComplaints();
 
 	void getAllComplaints();
+
+	void handleGet(ArrayList<Object> obj);
 
 }

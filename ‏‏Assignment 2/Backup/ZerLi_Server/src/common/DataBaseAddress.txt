@@ -1,0 +1,4 @@
+Url: localhost
+Name: schema
+UserName: root
+Password: 1234

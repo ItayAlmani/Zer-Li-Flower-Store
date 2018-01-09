@@ -50,7 +50,7 @@ public class ParentGUIController implements Initializable {
 	private @FXML MenuButton menuProducts,menuCustomersSat,menuOrders;
 	private @FXML ImageView imgCart, imgLogOut;
 	private @FXML MenuItem miCatalog, miShowProduct, miAddSurvey, miReportSelector, miAssembleProduct, miUpdateOrderStatus,
-			miManualTransaction, miSurveyReport;
+			miManualTransaction, miSurveyReport,miComplaints;
 	private @FXML MaterialDesignIconView icnLogOut, icnCart;
 	private @FXML VBox menu;
 	private @FXML BorderPane mainPane;
@@ -97,6 +97,10 @@ public class ParentGUIController implements Initializable {
 	
 	public void loadAssembleProduct() {
 		loadGUI("AssembleProductGUI", false);
+	}
+	
+	public void loadComplaints() {
+		loadGUI("ComplaintGUI", false);
 	}
 
 	public void ShowErrorMsg() {

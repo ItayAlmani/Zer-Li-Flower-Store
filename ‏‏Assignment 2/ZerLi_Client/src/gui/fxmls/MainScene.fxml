@@ -35,7 +35,7 @@
             </VBox>
          </center>
          <top>
-            <VBox fx:id="menu" alignment="CENTER" styleClass="menu" visible="false" BorderPane.alignment="CENTER">
+            <VBox fx:id="menu" alignment="CENTER" styleClass="menu" BorderPane.alignment="CENTER">
                <children>
                   <HBox alignment="CENTER">
                      <children>
@@ -79,6 +79,7 @@
                                     <OctIconView fontSmoothingType="LCD" glyphName="GRAPH" textAlignment="CENTER" />
                                  </graphic>
                               </MenuItem>
+                              <MenuItem fx:id="miComplaints" mnemonicParsing="false" onAction="#loadComplaints" text="Complaints" />
                            </items>
                         </MenuButton>
                         <MenuButton fx:id="menuOrders" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" popupSide="RIGHT" styleClass="menuButton" text="Orders" textAlignment="CENTER" textOverrun="CLIP" wrapText="true">
