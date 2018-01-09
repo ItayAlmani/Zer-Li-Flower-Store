@@ -36,7 +36,7 @@ public class HistogramOfCustomerComplaintsReportController extends ParentControl
 	public void initProduceHistogramOfCustomerComplaintsReport(LocalDate date, BigInteger storeID) throws ParseException{
 		this.cReports = new CustomerComplaintsReport[2];
 		ProduceHistogramOfCustomerComplaintsReport(date, storeID);
-	}
+	}*/
 	
 	public void sendCustomerComplaintsReports(ArrayList<CustomerComplaintsReport> cReports) {
 		String methodName = "setCustomerComplaintsReports";
@@ -93,7 +93,6 @@ public class HistogramOfCustomerComplaintsReportController extends ParentControl
 			System.err.println("CustomerComplaintsReportController\n");
 			e.printStackTrace();
 		}
-		
 	}
 	
 	public void setComplaints(ArrayList<Complaint> Complaints) {
