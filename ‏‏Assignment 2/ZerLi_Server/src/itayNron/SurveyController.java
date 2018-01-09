@@ -4,6 +4,7 @@ import java.math.BigInteger;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import common.EchoServer;
@@ -75,8 +76,8 @@ public class SurveyController extends ParentController
 	
 	public ArrayList<Object> getSurveyByDates(ArrayList<Object> arr) throws SQLException{
 		if(arr!=null && arr.size()==2 
-				&& arr.get(0) instanceof LocalDate && arr.get(1) instanceof LocalDate) {
-			LocalDate startDate = (LocalDate)arr.get(0), endDate = (LocalDate)arr.get(1);
+				&& arr.get(0) instanceof LocalDateTime && arr.get(1) instanceof LocalDateTime) {
+			LocalDateTime startDate = (LocalDateTime)arr.get(0), endDate = (LocalDateTime)arr.get(1);
 			String query = "SELECT survey.*" 
 					+ " FROM survey WHERE (date >= '"
 					+startDate.toString()+"' AND date <= '"+endDate.toString()+"' AND type='Answer')";

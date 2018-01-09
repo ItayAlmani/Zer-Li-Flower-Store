@@ -20,14 +20,6 @@ public interface ISurveyReport {
 	 */
 	void add(SurveyReport surveyReport, boolean getCurrentID) throws IOException;
 
-	/**
-	 * 
-	 * @param storeid
-	 */
-	void getSurveyReportsByStore(BigInteger storeID) throws IOException;
 	
-	 SurveyReport parse (BigInteger id,Survey surveyAnalyzes,String verbalReport,LocalDateTime startDate,LocalDateTime endDate);
-	 void handleGet(ArrayList<Object> obj);
-	
-	void analyzeSurveys(LocalDate start, LocalDate end) throws IOException;
+	void analyzeSurveys(LocalDateTime start, LocalDateTime end) throws IOException;
 }

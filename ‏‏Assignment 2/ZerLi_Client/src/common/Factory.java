@@ -35,20 +35,12 @@ public class Factory {
 	
 	public OrderReportController orderReport = new OrderReportController();
 	public IncomesReportController incomesReport = new IncomesReportController();
-<<<<<<< HEAD
+
 	public HistogramOfCustomerComplaintsReportController histogramReport = new HistogramOfCustomerComplaintsReportController();
-=======
->>>>>>> branch 'master' of https://github.com/ItayAlmani/Zer-Li-Flower-Store.git
+
 	public SatisfactionReportController satisfactionReport = new SatisfactionReportController();
 	
 	/*public AdminController admin = new AdminController();
 	public PaymantAccountController paymentAccount = new PaymantAccountController();
-	
-<<<<<<< HEAD
-=======
-	public HistogramOfCustomerComplaintsReportController histogramReport = new HistogramOfCustomerComplaintsReportController();
-	
-	
->>>>>>> branch 'master' of https://github.com/ItayAlmani/Zer-Li-Flower-Store.git
 	*/
 }

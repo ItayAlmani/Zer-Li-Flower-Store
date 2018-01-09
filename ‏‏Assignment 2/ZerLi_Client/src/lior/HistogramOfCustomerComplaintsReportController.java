@@ -1,7 +1,5 @@
 package lior;
 
-<<<<<<< HEAD
-=======
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -14,29 +12,22 @@ import java.util.Calendar;
 import java.util.Date;
 
 import common.Context;
->>>>>>> branch 'master' of https://github.com/ItayAlmani/Zer-Li-Flower-Store.git
 import controllers.ParentController;
-<<<<<<< HEAD
-=======
 import entities.Complaint;
 import entities.CustomerComplaintsReport;
 import entities.SatisfactionReport;
 import entities.Survey;
 import entities.Survey.SurveyType;
->>>>>>> branch 'master' of https://github.com/ItayAlmani/Zer-Li-Flower-Store.git
 import lior.interfaces.IHistogramOfCustomerComplaintsReportController;
 
 public class HistogramOfCustomerComplaintsReportController extends ParentController implements IHistogramOfCustomerComplaintsReportController {
-<<<<<<< HEAD
 
 	/*
-=======
 	private CustomerComplaintsReport[] cReports;
 	private LocalDate rDate, startDate;
 	int ind;
 	
 	@Override
->>>>>>> branch 'master' of https://github.com/ItayAlmani/Zer-Li-Flower-Store.git
 	public void handleGet(ArrayList<Object> obj) {
 		// TODO Auto-generated method stub
 		
@@ -73,11 +64,6 @@ public class HistogramOfCustomerComplaintsReportController extends ParentControl
 	}
 	
 	@Override
-<<<<<<< HEAD
-	public CustomerComplaintsReport ProduceHistogramOfCustomerComplaintsReport(Date Reqdate, int storeID) {
-		return null;
-	}*/
-=======
 	public void ProduceHistogramOfCustomerComplaintsReport(LocalDate Reqdate, BigInteger storeID) {
 		int ind = 1;
 		if(this.cReports[0]==null)
@@ -150,6 +136,5 @@ public class HistogramOfCustomerComplaintsReportController extends ParentControl
 		ar1.add(this.sReports[ind]);
 		sendSatisfactionReports(ar1);*/
 	}
->>>>>>> branch 'master' of https://github.com/ItayAlmani/Zer-Li-Flower-Store.git
 
 }
