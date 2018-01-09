@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.math.BigInteger;
 import java.net.URL;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -97,6 +98,8 @@ public class ReportSelectorGUIController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		ParentGUIController.currentGUI = this;
+		DatePicker1.setValue(LocalDate.now().minusDays(1));
+		DatePicker2.setValue(LocalDate.now().minusDays(1));
 		//paneAll.getChildren().removeAll(paneReport2,paneorder11,paneTotincome1);
 		
 		//btn.setRipplerFill(Color.ALICEBLUE);
@@ -149,39 +152,17 @@ public class ReportSelectorGUIController implements Initializable {
 						n = this.stores.get(i).getStoreID();
 				}
 				if (this.cbTypePick1.getValue().equals("Orders Report")) {
-					try {
-					} catch (Exception e) {
-						// lblMsg.setText("Loader failed");
-						e.printStackTrace();
-					}
 					Context.fac.orderReport.initproduceOrderReport(date, n);
 				}
 		
 				else if (cbTypePick1.getValue().equals("Incomes Report")) {
-					try {
-						//loadGUI("IncomesReportFormGUI", false);
-					} catch (Exception e) {
-						// lblMsg.setText("Loader failed");
-						e.printStackTrace();
-					}
 					Context.fac.incomesReport.initProduceIncomesReport(date, n);
 				}
 		
 				else if (cbTypePick1.getValue().equals("Client complaimnts histogram")) {
-					try {
-						//loadGUI("HistogramOfCustomerComplaintsFormGUI", false);
-					} catch (Exception e) {
-						// lblMsg.setText("Loader failed");
-						e.printStackTrace();
-					}
 					// Context.fac.orderReport.produceOrderReport(date, 1);
 				}
 				else if (cbTypePick1.getValue().equals("Satisfaction Report")) {
-					try {
-					} catch (Exception e) {
-						// lblMsg.setText("Loader failed");
-						e.printStackTrace();
-					}
 					Context.fac.satisfactionReport.initProduceSatisfactionReport(date, n);
 				}
 			}
@@ -199,14 +180,9 @@ public class ReportSelectorGUIController implements Initializable {
 								n1 = this.stores.get(i).getStoreID();
 						}
 						if (this.cbTypePick2.getValue().equals("Orders Report")) {
-							try {
-								// loadGUI("OrderReportFormGUI", false);
-							} catch (Exception e) {
-								// lblMsg.setText("Loader failed");
-								e.printStackTrace();
-							}
-							if(cbTypePick2.getValue().equals(cbTypePick1.getValue())&&date.equals(date1));
-							else
+							if(cbTypePick2.getValue().equals(cbTypePick1.getValue())==false||
+									date.equals(date1)==false||
+									cbStorePick1.getValue().equals(cbStorePick2)==false)
 							{
 								if(cbTypePick2.getValue().equals(cbTypePick1.getValue()))
 								{
@@ -219,29 +195,32 @@ public class ReportSelectorGUIController implements Initializable {
 						}
 		
 						else if (cbTypePick2.getValue().equals("Incomes Report")) {
-							//Context.mainScene.loadGUI("IncomesReportFormGUI", false);
-							if(cbTypePick2.getValue().equals(cbTypePick1.getValue())&&date.equals(date1));
-							else
+							if(cbTypePick2.getValue().equals(cbTypePick1.getValue())==false||
+									date.equals(date1)==false||
+									cbStorePick1.getValue().equals(cbStorePick2)==false)
 							{
 								if(cbTypePick2.getValue().equals(cbTypePick1.getValue()))
+								{
 									Context.fac.incomesReport.ProduceIncomesReport(date1, n1);
+								}
 								else
 									Context.fac.incomesReport.initProduceIncomesReport(date1, n1);
 							}
 						}
-		
 						else if (cbTypePick2.getValue().equals("Client complaimnts histogram")) {
 							Context.mainScene.loadGUI("HistogramOfCustomerComplaintsFormGUI", false);
 							// Context.fac.orderReport.produceOrderReport(date1, n1);
 						}
 						
 						else if (cbTypePick2.getValue().equals("Satisfaction Report")) {
-							//Context.mainScene.loadGUI("IncomesReportFormGUI", false);
-							if(cbTypePick2.getValue().equals(cbTypePick1.getValue())&&date.equals(date1));
-							else
+							if(cbTypePick2.getValue().equals(cbTypePick1.getValue())==false||
+									date.equals(date1)==false||
+									cbStorePick1.getValue().equals(cbStorePick2)==false)
 							{
 								if(cbTypePick2.getValue().equals(cbTypePick1.getValue()))
+								{
 									Context.fac.satisfactionReport.ProduceSatisfactionReport(date1, n1);
+								}
 								else
 									Context.fac.satisfactionReport.initProduceSatisfactionReport(date1, n1);
 							}
@@ -364,13 +343,13 @@ public class ReportSelectorGUIController implements Initializable {
 			Platform.runLater(new Runnable() {
 				@Override
 				public void run() {
-					lblQ1Ans1.setText(Float.toString(rep.getFinalanswers()[0]));
-					lblQ2Ans1.setText(Float.toString(rep.getFinalanswers()[1]));
-					lblQ3Ans1.setText(Float.toString(rep.getFinalanswers()[2]));
-					lblQ4Ans1.setText(Float.toString(rep.getFinalanswers()[3]));
-					lblQ5Ans1.setText(Float.toString(rep.getFinalanswers()[4]));
-					lblQ6Ans1.setText(Float.toString(rep.getFinalanswers()[5]));
-					lblTotans1.setText(Float.toString(rep.getAverageTotanswer()));
+					lblQ1Ans1.setText(new DecimalFormat("##.##").format(rep.getFinalanswers()[0]));
+					lblQ2Ans1.setText(new DecimalFormat("##.##").format(rep.getFinalanswers()[1]));
+					lblQ3Ans1.setText(new DecimalFormat("##.##").format(rep.getFinalanswers()[2]));
+					lblQ4Ans1.setText(new DecimalFormat("##.##").format(rep.getFinalanswers()[3]));
+					lblQ5Ans1.setText(new DecimalFormat("##.##").format(rep.getFinalanswers()[4]));
+					lblQ6Ans1.setText(new DecimalFormat("##.##").format(rep.getFinalanswers()[5]));
+					lblTotans1.setText(new DecimalFormat("##.###").format(rep.getAverageTotanswer()));
 					lblSatisfactionStartdate1.setText(rep.getStartdate().format(formatters));
 					lblSatisfactionEnddate1.setText(rep.getEnddate().format(formatters));
 				}
@@ -382,13 +361,13 @@ public class ReportSelectorGUIController implements Initializable {
 			Platform.runLater(new Runnable() {
 				@Override
 				public void run() {
-					lblQ1Ans2.setText(Float.toString(rep.getFinalanswers()[0]));
-					lblQ2Ans2.setText(Float.toString(rep.getFinalanswers()[1]));
-					lblQ3Ans2.setText(Float.toString(rep.getFinalanswers()[2]));
-					lblQ4Ans2.setText(Float.toString(rep.getFinalanswers()[3]));
-					lblQ5Ans2.setText(Float.toString(rep.getFinalanswers()[4]));
-					lblQ6Ans2.setText(Float.toString(rep.getFinalanswers()[5]));
-					lblTotans2.setText(Float.toString(rep.getAverageTotanswer()));
+					lblQ1Ans2.setText(new DecimalFormat("##.##").format(rep.getFinalanswers()[0]));
+					lblQ2Ans2.setText(new DecimalFormat("##.##").format(rep.getFinalanswers()[1]));
+					lblQ3Ans2.setText(new DecimalFormat("##.##").format(rep.getFinalanswers()[2]));
+					lblQ4Ans2.setText(new DecimalFormat("##.##").format(rep.getFinalanswers()[3]));
+					lblQ5Ans2.setText(new DecimalFormat("##.##").format(rep.getFinalanswers()[4]));
+					lblQ6Ans2.setText(new DecimalFormat("##.##").format(rep.getFinalanswers()[5]));
+					lblTotans2.setText(new DecimalFormat("##.###").format(rep.getAverageTotanswer()));
 					lblSatisfactionStartdate2.setText(rep.getStartdate().format(formatters));
 					lblSatisfactionEnddate2.setText(rep.getEnddate().format(formatters));
 				}

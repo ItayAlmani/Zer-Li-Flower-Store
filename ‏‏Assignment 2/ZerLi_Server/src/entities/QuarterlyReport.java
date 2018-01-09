@@ -1,9 +1,10 @@
 package entities;
 
+import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.Date;
 
-public abstract class QuarterlyReport {
+public abstract class QuarterlyReport implements Serializable {
 	public enum ReportType {
 		Order, Satisfaction, Quantity, Incomes, CustomerComplaints;
 	}

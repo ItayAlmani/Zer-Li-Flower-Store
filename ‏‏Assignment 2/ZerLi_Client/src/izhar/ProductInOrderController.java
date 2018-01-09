@@ -36,15 +36,6 @@ public class ProductInOrderController extends ParentController implements IProdu
 		return p.getQuantity()*p.getProduct().getPrice();
 	}
 	
-	public boolean isAllPIOsFromSameOrder(ArrayList<ProductInOrder> products) {
-		BigInteger ordID = products.get(0).getOrderID();
-		for (ProductInOrder pio : products) {
-			if(pio.getOrderID().equals(ordID)==false)
-				return false;
-		}
-		return true;
-	}
-	
 	public ProductInOrder getPIOFromArr(ArrayList<ProductInOrder> prods, Product prod) {
 		if(prod == null || prods == null) return null;
 		for (ProductInOrder pio : prods) {
