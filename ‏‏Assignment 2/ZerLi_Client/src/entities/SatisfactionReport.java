@@ -44,4 +44,9 @@ public class SatisfactionReport extends QuarterlyReport {
 	public void setEnddate(LocalDate enddate) {
 		Enddate = enddate;
 	}
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> branch 'master' of https://github.com/ItayAlmani/Zer-Li-Flower-Store.git
 }

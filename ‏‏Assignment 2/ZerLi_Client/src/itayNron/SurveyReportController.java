@@ -1,14 +1,26 @@
 package itayNron;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.math.BigInteger;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import common.Context;
 import controllers.ParentController;
 import entities.CSMessage;
+<<<<<<< HEAD
+=======
+import entities.Order;
+import entities.Product;
+import entities.Store;
+import entities.Survey;
+import entities.Survey.SurveyType;
+import entities.SurveyReport;
+>>>>>>> branch 'master' of https://github.com/ItayAlmani/Zer-Li-Flower-Store.git
 import entities.CSMessage.MessageType;
 import entities.SurveyReport;
 import gui.controllers.ParentGUIController;
@@ -28,12 +40,61 @@ public class SurveyReportController extends ParentController implements ISurveyR
 		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.INSERT, myMsgArr,SurveyReport.class));
 	}
 
+<<<<<<< HEAD
 	@Override
 	public void getSurveyReportsByStore(int storeid) {
 		
 	}
 	
 	public void handleGet(ArrayList<SurveyReport> surveys) {
+=======
+	
+	
+
+	@Override
+	public void handleGet(ArrayList<Object> obj) {
+			ArrayList<SurveyReport> sr = new ArrayList<>();
+			for (int i = 0; i < obj.size(); i += 5) {
+					sr.add(parse(
+							BigInteger.valueOf(Long.valueOf((int) obj.get(i))), 
+							(Survey) obj.get(i + 1), 
+							(String) obj.get(i + 2),
+							(LocalDateTime) obj.get(i + 3),
+							(LocalDateTime) obj.get(i + 4)
+				)); 
+			
+			}
+			sendSurveyReports(sr);
+		}
+		
+
+	@Override
+	public void getSurveysForAnalays(LocalDate start, LocalDate end) throws IOException {
+		Context.askingCtrl.add(this);
+		Context.fac.survey.getSurveyByDates(start, end);
+	}
+	
+	public void setSurveys(ArrayList<Survey> surveys) //analysis survey
+	{ 
+		float [] totalSumOfAnswers = new float[6];
+		for (Survey survey : surveys) 
+		{
+			float[] surveyAnswers =  survey.getSurveyAnswerers();
+			for (int i=0;i<surveyAnswers.length;i++)
+				totalSumOfAnswers[i]+=surveyAnswers[i];
+		}
+		for (int i=0;i<totalSumOfAnswers.length;i++)
+			totalSumOfAnswers[i]=totalSumOfAnswers[i]/(float)surveys.size();
+		ArrayList<SurveyReport> arr = new ArrayList<>();
+		arr.add(new SurveyReport(new Survey(totalSumOfAnswers, LocalDate.now(), surveys.get(0).getStoreID(),SurveyType.Analyzes)));
+		sendSurveyReports(arr);
+	}
+
+	
+	
+	@Override
+	public void sendSurveyReports(ArrayList<SurveyReport> surveys) {
+>>>>>>> branch 'master' of https://github.com/ItayAlmani/Zer-Li-Flower-Store.git
 		String methodName = "setSurveyReports";
 		Method m = null;
 		try {
@@ -57,6 +118,36 @@ public class SurveyReportController extends ParentController implements ISurveyR
 		}
 		
 	}
+<<<<<<< HEAD
+=======
+
+
+
+
+	@Override
+	public void getSurveyReportsByStore(BigInteger storeID) throws IOException {
+		myMsgArr.clear();
+		myMsgArr.add(
+				"SELECT surveyreport.*" + 
+				" FROM orders AS ord" + 
+				" JOIN survey ON surveyreport.surveyID=survey.surveyID" + 
+				" WHERE survey.storeID='"+storeID+"'" + " AND survey.type='Analyzes'");
+		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.SELECT, myMsgArr, SurveyReport.class));
+
+		
+	}
+
+
+
+
+	@Override
+	public SurveyReport parse(BigInteger id,Survey surveyAnalyzes, String verbalReport, LocalDateTime startDate,
+			LocalDateTime endDate) {
+		
+		return new SurveyReport(id,surveyAnalyzes,verbalReport,startDate,endDate);
+	}
+
+>>>>>>> branch 'master' of https://github.com/ItayAlmani/Zer-Li-Flower-Store.git
 	
 	@Override
 	public void analyzeSurveys(LocalDate start, LocalDate end) throws IOException {

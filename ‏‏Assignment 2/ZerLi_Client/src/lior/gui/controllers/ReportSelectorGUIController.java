@@ -140,7 +140,11 @@ public class ReportSelectorGUIController implements Initializable {
 		paneSatisfactionReport1.setVisible(false);
 		paneSatisfactionReport2.setVisible(false);
 		int err=0;
+<<<<<<< HEAD
 		if(cbTypePick1.getValue()!=null&&cbStorePick1.getValue()!=null) {
+=======
+		if(cbTypePick1.getValue()!=null&&cbStorePick1.getValue()!=null&&DatePicker1.getValue()!=null) {
+>>>>>>> branch 'master' of https://github.com/ItayAlmani/Zer-Li-Flower-Store.git
 			@SuppressWarnings("deprecation")
 			LocalDate date = DatePicker1.getValue();
 			if(date.isBefore(LocalDate.now())){
@@ -183,6 +187,7 @@ public class ReportSelectorGUIController implements Initializable {
 						e.printStackTrace();
 					}
 					Context.fac.satisfactionReport.initProduceSatisfactionReport(date, n);
+<<<<<<< HEAD
 				}
 			}
 			else err=2;
@@ -244,9 +249,78 @@ public class ReportSelectorGUIController implements Initializable {
 									Context.fac.satisfactionReport.initProduceSatisfactionReport(date1, n1);
 							}
 						}
+=======
+>>>>>>> branch 'master' of https://github.com/ItayAlmani/Zer-Li-Flower-Store.git
 				}
 				}else err++;
 			}
+<<<<<<< HEAD
+=======
+			else err=2;
+			if (Context.getUser().getPermissions().equals(User.UserType.ChainStoreManager)) {
+				
+				if(this.cbStorePick2.getValue()!=null&&this.cbTypePick2.getValue()!=null
+						&&DatePicker2!=null){
+					@SuppressWarnings("deprecation")
+					LocalDate date1 = DatePicker2.getValue();
+					if(date1.isBefore(LocalDate.now()))
+					{
+						for (int i = 0; i < this.stores.size(); i++) {
+							if (this.stores.get(i).getName().equals(this.cbStorePick2.getValue()))
+								n1 = this.stores.get(i).getStoreID();
+						}
+						if (this.cbTypePick2.getValue().equals("Orders Report")) {
+							try {
+								// loadGUI("OrderReportFormGUI", false);
+							} catch (Exception e) {
+								// lblMsg.setText("Loader failed");
+								e.printStackTrace();
+							}
+							if(cbTypePick2.getValue().equals(cbTypePick1.getValue())&&date.equals(date1));
+							else
+							{
+								if(cbTypePick2.getValue().equals(cbTypePick1.getValue()))
+								{
+									Context.fac.orderReport.produceOrderReport(date1, n1);
+								}
+								else
+									Context.fac.orderReport.initproduceOrderReport(date1, n1);
+							}
+								
+						}
+		
+						else if (cbTypePick2.getValue().equals("Incomes Report")) {
+							//Context.mainScene.loadGUI("IncomesReportFormGUI", false);
+							if(cbTypePick2.getValue().equals(cbTypePick1.getValue())&&date.equals(date1));
+							else
+							{
+								if(cbTypePick2.getValue().equals(cbTypePick1.getValue()))
+									Context.fac.incomesReport.ProduceIncomesReport(date1, n1);
+								else
+									Context.fac.incomesReport.initProduceIncomesReport(date1, n1);
+							}
+						}
+		
+						else if (cbTypePick2.getValue().equals("Client complaimnts histogram")) {
+							Context.mainScene.loadGUI("HistogramOfCustomerComplaintsFormGUI", false);
+							// Context.fac.orderReport.produceOrderReport(date1, n1);
+						}
+						
+						else if (cbTypePick2.getValue().equals("Satisfaction Report")) {
+							//Context.mainScene.loadGUI("IncomesReportFormGUI", false);
+							if(cbTypePick2.getValue().equals(cbTypePick1.getValue())&&date.equals(date1));
+							else
+							{
+								if(cbTypePick2.getValue().equals(cbTypePick1.getValue()))
+									Context.fac.satisfactionReport.ProduceSatisfactionReport(date1, n1);
+								else
+									Context.fac.satisfactionReport.initProduceSatisfactionReport(date1, n1);
+							}
+						}
+				}
+				}else err++;
+			}
+>>>>>>> branch 'master' of https://github.com/ItayAlmani/Zer-Li-Flower-Store.git
 			if(err==1)
 				Context.mainScene.setMessage("Report 2 data incorrect");
 			else if(err==2)

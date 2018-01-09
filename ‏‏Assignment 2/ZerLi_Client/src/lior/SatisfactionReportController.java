@@ -16,7 +16,10 @@ import controllers.ParentController;
 import entities.SatisfactionReport;
 import entities.Survey;
 import entities.Survey.SurveyType;
+<<<<<<< HEAD
 import gui.controllers.ParentGUIController;
+=======
+>>>>>>> branch 'master' of https://github.com/ItayAlmani/Zer-Li-Flower-Store.git
 import lior.interfaces.ISatisfactionReportController;
 
 public class SatisfactionReportController extends ParentController implements ISatisfactionReportController {
@@ -44,8 +47,13 @@ public class SatisfactionReportController extends ParentController implements IS
 				Context.askingCtrl.remove(0);
 			}
 			else {*/
+<<<<<<< HEAD
 				m = ParentGUIController.currentGUI.getClass().getMethod(methodName,ArrayList.class);
 				m.invoke(ParentGUIController.currentGUI, sReports);
+=======
+				m = Context.currentGUI.getClass().getMethod(methodName,ArrayList.class);
+				m.invoke(Context.currentGUI, sReports);
+>>>>>>> branch 'master' of https://github.com/ItayAlmani/Zer-Li-Flower-Store.git
 				sReports=null;
 			//}
 		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e1) {
