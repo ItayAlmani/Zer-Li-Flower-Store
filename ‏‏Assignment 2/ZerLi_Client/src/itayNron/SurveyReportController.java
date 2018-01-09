@@ -1,14 +1,20 @@
 package itayNron;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.math.BigInteger;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import common.Context;
 import controllers.ParentController;
 import entities.CSMessage;
+import entities.Order;
+import entities.Product;
+import entities.Store;
 import entities.Survey;
 import entities.Survey.SurveyType;
 import entities.SurveyReport;
@@ -24,20 +30,26 @@ public class SurveyReportController extends ParentController implements ISurveyR
 		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.INSERT, myMsgArr,SurveyReport.class));
 	}
 
-	@Override
-	public void getSurveyReportsByStore(int storeid) {
-		
-	}
-	
-	
 	
 	
 
 	@Override
 	public void handleGet(ArrayList<Object> obj) {
-		// TODO Auto-generated method stub
+			ArrayList<SurveyReport> sr = new ArrayList<>();
+			for (int i = 0; i < obj.size(); i += 5) {
+					sr.add(parse(
+							BigInteger.valueOf(Long.valueOf((int) obj.get(i))), 
+							(Survey) obj.get(i + 1), 
+							(String) obj.get(i + 2),
+							(LocalDateTime) obj.get(i + 3),
+							(LocalDateTime) obj.get(i + 4)
+				)); 
+			
+			}
+			sendSurveyReports(sr);
+		}
 		
-	}
+
 	@Override
 	public void getSurveysForAnalays(LocalDate start, LocalDate end) throws IOException {
 		Context.askingCtrl.add(this);
@@ -85,6 +97,32 @@ public class SurveyReportController extends ParentController implements ISurveyR
 			System.err.println("No method called '"+methodName+"'");
 			e2.printStackTrace();
 		}
+	}
+
+
+
+
+	@Override
+	public void getSurveyReportsByStore(BigInteger storeID) throws IOException {
+		myMsgArr.clear();
+		myMsgArr.add(
+				"SELECT surveyreport.*" + 
+				" FROM orders AS ord" + 
+				" JOIN survey ON surveyreport.surveyID=survey.surveyID" + 
+				" WHERE survey.storeID='"+storeID+"'" + " AND survey.type='Analyzes'");
+		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.SELECT, myMsgArr, SurveyReport.class));
+
+		
+	}
+
+
+
+
+	@Override
+	public SurveyReport parse(BigInteger id,Survey surveyAnalyzes, String verbalReport, LocalDateTime startDate,
+			LocalDateTime endDate) {
+		
+		return new SurveyReport(id,surveyAnalyzes,verbalReport,startDate,endDate);
 	}
 
 	
