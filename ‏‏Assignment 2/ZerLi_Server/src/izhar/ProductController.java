@@ -28,6 +28,7 @@ public class ProductController extends ParentController {
 			bis.close();
 			return mybytearray;
 		}catch (Exception e) {
+			System.err.println(filePath+"\n");
 			e.printStackTrace();
 		}
 		return null;
