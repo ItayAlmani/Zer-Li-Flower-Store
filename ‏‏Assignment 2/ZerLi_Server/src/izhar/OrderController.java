@@ -196,9 +196,9 @@ public class OrderController extends ParentController implements IOrder {
 	}
 
 	public ArrayList<Object> getAllOrdersByStoreID(BigInteger storeID) throws SQLException {
-		String query = "SELECT ord.*" + " FROM orders AS ord"
-				+ " JOIN deliverydetails ON ord.orderID=deliverydetails.orderID" + " WHERE deliverydetails.storeID='"
-				+ storeID + "'";
+		String query = "SELECT ord.*" + 
+				" FROM orders AS ord, deliverydetails AS del" + 
+				" WHERE del.deliveryID=ord.deliveryID AND del.storeID='"+storeID+"'";
 		return handleGet(EchoServer.fac.dataBase.db.getQuery(query));
 	}
 

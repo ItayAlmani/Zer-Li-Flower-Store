@@ -232,11 +232,21 @@ public class ReportSelectorGUIController implements Initializable {
 
 	public void setStores(ArrayList<Store> stores) {
 		ArrayList<String> ar = new ArrayList<>();
-		for (Store store : stores) {
-			ar.add(store.getName());
+		if (Context.getUser().getPermissions().equals(User.UserType.StoreManager)) {
+			for (Store store : stores) {
+				if(Context.getUser().getUserID().equals(store.getManager().getUserID()))
+						{
+						ar.add(store.getName());
+						break;
+						}
+			}
+			cbStorePick1.setItems(FXCollections.observableArrayList(ar));	
 		}
-		cbStorePick1.setItems(FXCollections.observableArrayList(ar));
 		if (Context.getUser().getPermissions().equals(User.UserType.ChainStoreManager)) {
+			for (Store store : stores) {
+				ar.add(store.getName());
+			}
+			cbStorePick1.setItems(FXCollections.observableArrayList(ar));
 			cbStorePick2.setItems(FXCollections.observableArrayList(ar));
 			cbStorePick2.setVisible(true);
 		}
