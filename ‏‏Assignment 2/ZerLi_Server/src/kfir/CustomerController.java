@@ -15,7 +15,7 @@ import entities.User;
 
 public class CustomerController extends ParentController {
 	
-	public ArrayList<Object> getCustomerByUser(BigInteger userID) throws SQLException {
+	public ArrayList<Object> getCustomerByUser(BigInteger userID) throws Exception {
 		String query = "SELECT * FROM customer WHERE userID='"+userID+"'";
 		return getAllCustomersData(handleGet(EchoServer.fac.dataBase.db.getQuery(query)));
 	}
@@ -30,34 +30,34 @@ public class CustomerController extends ParentController {
 		return new Random().nextBoolean();
 	}
 
+	@Override
 	public ArrayList<Object> handleGet(ArrayList<Object> obj) {
 		if(obj==null) return null;
 		ArrayList<Object> customers = new ArrayList<>();
-		for (int i = 0; i < obj.size(); i += 3) {
+		for (int i = 0; i < obj.size(); i += 2) {
 			User u = new User(BigInteger.valueOf((Integer) obj.get(i+1)));
 			customers.add(parse(
 					BigInteger.valueOf((Integer) obj.get(i)), 
-					u,
-					new PaymentAccount(BigInteger.valueOf((Integer) obj.get(i+2)))
+					u
 					));
 		}
 		return customers;
 	}
 
-	public Customer parse(BigInteger customerID, User user, PaymentAccount pa) {
-		return new Customer(user, customerID, pa);
+	public Customer parse(BigInteger customerID, User user) {
+		return new Customer(user, customerID);
 	}
 	
 	public void getCustomerByPrivateID(String privateID) throws IOException {
 				
 	}
 
-	public ArrayList<Object> getAllCustomers() throws SQLException {
+	public ArrayList<Object> getAllCustomers() throws Exception {
 		String query = "SELECT * FROM customer";
 		return getAllCustomersData(handleGet(EchoServer.fac.dataBase.db.getQuery(query)));
 	}
 	
-	private ArrayList<Object> getAllCustomersData(ArrayList<Object> customers) throws SQLException {
+	private ArrayList<Object> getAllCustomersData(ArrayList<Object> customers) throws Exception {
 		for (Object object : customers) {
 			if(object instanceof Customer) {
 				Customer cust = (Customer)object;
@@ -67,7 +67,7 @@ public class CustomerController extends ParentController {
 		return customers;
 	}
 
-	private void getUsersByCustomer(Customer cust) throws SQLException{
+	private void getUsersByCustomer(Customer cust) throws Exception{
 		ArrayList<Object> users = EchoServer.fac.user.getUser(cust.getUserID());
 		if(users!=null && users.size()==1 && users.get(0) instanceof User) {
 			User user = (User)users.get(0);
@@ -76,12 +76,16 @@ public class CustomerController extends ParentController {
 		}
 	}
 	
-	private void getPayAccOfCustomer(Customer cust) throws SQLException{
+	private void getPayAccOfCustomer(Customer cust) throws Exception{
 		ArrayList<Object> pas = EchoServer.fac.paymentAccount.getPayAccount(cust.getCustomerID());
-		if(pas!=null && pas.size()==1 && pas.get(0) instanceof PaymentAccount) {
-			PaymentAccount pa = (PaymentAccount)pas.get(0);
-			cust.setPaymentAccount(pa);
-			getCreCardOfPayAcc(pa);
+		if(pas!=null && pas.isEmpty()==false) {
+			for (Object o : pas) {
+				if(o instanceof PaymentAccount) {
+					PaymentAccount pa = (PaymentAccount)o;
+					cust.addPaymentAccount(pa);
+					//getCreCardOfPayAcc(pa);
+				}
+			}
 		}
 	}
 	

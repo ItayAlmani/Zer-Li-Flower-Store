@@ -13,7 +13,7 @@ import entities.Stock;
 public class StockController extends ParentController {
 	
 	public ArrayList<Object> getStockByStore(BigInteger storeID) throws SQLException {
-		String query =  "SELECT sto.stockID,product.*,sto.quantity,sto.storeID" + 
+		String query =  "SELECT sto.stockID,product.*,sto.quantity,sto.storeID, salePercetage" + 
 				" FROM stock AS sto" + 
 				" JOIN product ON sto.productID=product.productID" + 
 				" WHERE sto.storeID='"+storeID+"'"
@@ -52,7 +52,7 @@ public class StockController extends ParentController {
 	public ArrayList<Object> handleGet(ArrayList<Object> obj) {
 		if(obj==null) return null;
 		ArrayList<Object> stocks = new ArrayList<>();
-		for (int i = 0; i < obj.size(); i += 10) {
+		for (int i = 0; i < obj.size(); i += 11) {
 			stocks.add(parse(
 					BigInteger.valueOf(Long.valueOf((int)obj.get(i))),
 					BigInteger.valueOf(Long.valueOf((int)obj.get(i + 1))),
@@ -63,7 +63,8 @@ public class StockController extends ParentController {
 					((int)obj.get(i + 6))!= 0,
 					(String)obj.get(i+7),
 					(int)obj.get(i + 8),
-					BigInteger.valueOf(Long.valueOf((int)obj.get(i + 9)))
+					BigInteger.valueOf(Long.valueOf((int)obj.get(i + 9))),
+					(Float)obj.get(i+10)
 					));
 		}
 		return stocks;
@@ -72,10 +73,10 @@ public class StockController extends ParentController {
 	public Stock parse(BigInteger stckID, 
 			BigInteger prdID, String name, String type, float price, 
 			String color, boolean inCatalog, String imageURL,
-			int quantity, BigInteger storeID){
+			int quantity, BigInteger storeID, Float salePercetage){
 		return new Stock(stckID, 
 				EchoServer.fac.product.parse(prdID, name, type, price, color, inCatalog, imageURL),
-				quantity, storeID);
+				quantity, storeID, salePercetage);
 	}
 
 	

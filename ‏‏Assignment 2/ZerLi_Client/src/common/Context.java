@@ -193,23 +193,23 @@ public class Context {
 			((LogInGUIController)ParentGUIController.currentGUI).setUserConnected(Context.user);
 	}
 	
-	public static Customer getUserAsCustomer() {
+	public static Customer getUserAsCustomer() throws Exception{
 		if(user instanceof Customer)
 			return (Customer)user;
-		return null;
+		throw new Exception("User isn't customer");
 	}
 
-	public static StoreWorker getUserAsStoreWorker() {
+	public static StoreWorker getUserAsStoreWorker() throws Exception {
 		if(user instanceof StoreWorker)
 			return (StoreWorker)user;
-		return null;
+		throw new Exception("User isn't Store Worker or Store Manager");
 	}
 	
-	public static void askOrder() {
+	public static void askOrder(Store store) {
 		if(user instanceof Customer) {
 			try {
 				askingCtrl.add(Context.class.newInstance());
-				fac.order.getOrderInProcess(((Customer)user).getCustomerID());
+				fac.order.getOrAddOrderInProcess(((Customer)user).getCustomerID(), store);
 			} catch (IOException | InstantiationException | IllegalAccessException e) {
 				System.err.println("getOrderInProcess() not working in Context\n");
 				e.printStackTrace();
@@ -251,7 +251,7 @@ public class Context {
 						OrderType.InfoSystem,
 						OrderStatus.InProcess);
 				fac.order.add(order,true);
-			} catch (IOException | InstantiationException | IllegalAccessException e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}

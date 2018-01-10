@@ -10,15 +10,15 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="CENTER" spacing="10.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="izhar.gui.controllers.OrderTimeGUIController">
+<VBox alignment="CENTER" spacing="10.0" stylesheets="@../css/ParentCSS.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="izhar.gui.controllers.OrderTimeGUIController">
    <children>
       <HBox spacing="20.0">
          <children>
-            <Label text="Choose Delivery Time:" />
+            <Label text="Choose Delivery Time:" textOverrun="CLIP" />
             <VBox spacing="5.0">
                <children>
-                  <RadioButton fx:id="rbImmediate" mnemonicParsing="false" onAction="#selectedImmediate" text="Immediate" />
-                  <RadioButton fx:id="rbPreOrder" mnemonicParsing="false" onAction="#selectedPreOrder" text="Pre Order" />
+                  <RadioButton fx:id="rbImmediate" mnemonicParsing="false" onAction="#selectedImmediate" text="Immediate" textOverrun="CLIP" />
+                  <RadioButton fx:id="rbPreOrder" mnemonicParsing="false" onAction="#selectedPreOrder" stylesheets="@../css/ParentCSS.css" text="Pre Order" textOverrun="CLIP" />
                </children>
             </VBox>
          </children>

@@ -15,6 +15,7 @@ import com.jfoenix.controls.JFXTextField;
 import common.Context;
 import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView;
 import entities.Product;
+import entities.Stock;
 import entities.Product.Color;
 import entities.Product.ProductType;
 import gui.controllers.ParentGUIController;
@@ -41,39 +42,26 @@ public class AssembleProductGUIController extends ProductsPresentationGUIControl
 	private @FXML MaterialDesignIconView icnFlower;
 	private @FXML JFXButton btnSend;
 	private HBox hxProds;
+	private ArrayList<Stock> stocks = new ArrayList<>();
 	
-	private ArrayList<Product> products, inConditionProds=new ArrayList<>();
-
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-		ParentGUIController.currentGUI=this;
-		btnSend.setDisable(true);
-		getProducts();
-		initListeners();
-	}
+	//private ArrayList<Product> products, inConditionProds=new ArrayList<>();
 	
-	public void setProducts(ArrayList<Product> prds) {
-		if(prds==null || prds.isEmpty()) {
-			Context.mainScene.loadMainMenu("Can't assemble product right now!");
-			return;
-		}
-		this.products=prds;
-		
+	public void createForm() {		
 		cbType.valueProperty().addListener((obs,oldVal,newVal)->{
 			cbColor.setValue(null);
 			if(vbox.getChildren().contains(hxProds))
 				vbox.getChildren().remove(hxProds);
-			Float min = products.get(0).getPrice(), max=0f;
+			Float min = stocks.get(0).getPriceAfterSale(), max=0f;
 			ArrayList<Color> cal = new ArrayList<>();
-			for (Product p : products) {
-				if(p.getType().equals(newVal)&& p.getColor()!=null &&
-						p.getColor().equals(Color.Colorfull)==false &&
-						cal.contains(p.getColor())==false) {
-					cal.add(p.getColor());
-					if(p.getPrice()<min)
-						min=p.getPrice();
-					if(p.getPrice()>max)
-						max=p.getPrice();
+			for (Stock s : stocks) {
+				if(s.getProduct().getType().equals(newVal)&& s.getProduct().getColor()!=null &&
+						s.getProduct().getColor().equals(Color.Colorfull)==false &&
+						cal.contains(s.getProduct().getColor())==false) {
+					cal.add(s.getProduct().getColor());
+					if(s.getPriceAfterSale()<min)
+						min=s.getPriceAfterSale();
+					if(s.getPriceAfterSale()>max)
+						max=s.getPriceAfterSale();
 				}
 			}
 			min=min!=0f?min-1:0f;
@@ -88,9 +76,9 @@ public class AssembleProductGUIController extends ProductsPresentationGUIControl
 			cbColor.setItems(FXCollections.observableArrayList(cal));
 		});
 		ArrayList<ProductType> ptal = new ArrayList<>();
-		for (Product p : products) {
-			if(ptal.contains(p.getType())==false)
-				ptal.add(p.getType());
+		for (Stock s : stocks) {
+			if(ptal.contains(s.getProduct().getType())==false)
+				ptal.add(s.getProduct().getType());
 		}
 		
 		Platform.runLater(new Runnable() {
@@ -115,8 +103,8 @@ public class AssembleProductGUIController extends ProductsPresentationGUIControl
 		Color color = cbColor.getValue();
 		Float min = Float.parseFloat(txtMinPrice.getText()), 
 				max =Float.parseFloat(txtMaxPrice.getText());
-		inConditionProds=Context.fac.product.assembleProduct(type, min, max, color, this.products);
-		if(inConditionProds.isEmpty()==false) {
+		this.stocks=Context.fac.product.assembleProduct(type, min, max, color, this.stocks);
+		if(this.stocks.isEmpty()==false) {
 			initPage();
 		}
 	}
@@ -168,12 +156,12 @@ public class AssembleProductGUIController extends ProductsPresentationGUIControl
 	
 	private void initPage() {
 		components.clear();
-		initArrays(inConditionProds.size());
+		initArrays(this.stocks.size());
     	
-    	pagination  = new Pagination(inConditionProds.size(), 0);
+    	pagination  = new Pagination(this.stocks.size(), 0);
     	int i = 0;
-		for (Product p : inConditionProds) {
-			setVBox(i, p,addToCart(inConditionProds));
+		for (Stock s : this.stocks) {
+			setVBox(i, s,addToCart(s.getProduct(),s.getPriceAfterSale()));
 			i++;
 		}
 		Platform.runLater(new Runnable() {
@@ -192,14 +180,15 @@ public class AssembleProductGUIController extends ProductsPresentationGUIControl
 
 	@Override
 	protected void getProducts() {
-		try {
-			Context.fac.product.getAllProductsNotInCatalog();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		btnSend.setDisable(true);
+		if(Context.order!=null && 
+    			Context.order.getDelivery()!=null && 
+    			Context.order.getDelivery().getStore()!=null) {
+    		this.stocks=Context.fac.stock.getNotInCatalogOnlyStock(Context.order.getDelivery().getStore().getStock());
+    		createForm();
+    	}
+    	else
+    		Context.mainScene.setMessage("Can't open catalog right now!");
+		initListeners();
 	}
-	
-	/*public void setPIOID(BigInteger pioID) {
-		
-	}*/
 }

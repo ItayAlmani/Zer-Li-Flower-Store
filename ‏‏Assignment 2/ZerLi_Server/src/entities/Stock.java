@@ -8,6 +8,7 @@ public class Stock implements Serializable {
 	private Product product;
 	private int quantity;
 	private BigInteger storeID;
+	private Float salePercetage;
 	
 	public Stock(BigInteger id, Product product, int quantity, BigInteger storeID) {
 		super();
@@ -15,6 +16,15 @@ public class Stock implements Serializable {
 		this.product = product;
 		this.quantity = quantity;
 		this.storeID = storeID;
+	}
+	
+	public Stock(BigInteger id, Product product, int quantity, BigInteger storeID, Float salePercetage) {
+		super();
+		this.id=id;
+		this.product = product;
+		this.quantity = quantity;
+		this.storeID = storeID;
+		this.salePercetage=salePercetage;
 	}
 
 	public Stock(Product product, int quantity, BigInteger storeID) {
@@ -54,5 +64,21 @@ public class Stock implements Serializable {
 
 	public void setStoreID(BigInteger storeID) {
 		this.storeID = storeID;
+	}
+
+	public Float getSalePercetage() {
+		return salePercetage;
+	}
+
+	public void setSalePercetage(Float salePercetage) {
+		this.salePercetage = salePercetage;
+	}
+	
+	public Float getPriceAfterSale() {
+		return (Float)(product.getPrice()*(1-salePercetage));
+	}
+	
+	public String getPriceAfterSaleAsString() {
+		return getPriceAfterSale().toString() + "¤";
 	}
 }

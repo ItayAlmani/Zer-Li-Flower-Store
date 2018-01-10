@@ -1,7 +1,9 @@
 package izhar.gui.controllers;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigInteger;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -75,15 +77,21 @@ public class ProductsFormGUIController implements Initializable{
 	}
 	
 	public void loadProduct(Product p) {
-		this.p=p;
-		BigInteger id = p.getPrdID();
-		this.lblShowID.setText(id.toString());
-		this.lblShowType.setText(p.getType().toString());
-		this.txtShowName.setText(p.getName());
-		this.lblShowColor.setText(p.getColor().toString());
-		this.lblShowPrice.setText(((Float)p.getPrice()).toString() + "¤");
-		this.imgImage.setImage(new Image(getClass().getResourceAsStream(p.getImageName())));
-		paneItem.setVisible(true);
+		try {
+			this.p=p;
+			BigInteger id = p.getPrdID();
+			this.lblShowID.setText(id.toString());
+			this.lblShowType.setText(p.getType().toString());
+			this.txtShowName.setText(p.getName());
+			this.lblShowColor.setText(p.getColor().toString());
+			this.lblShowPrice.setText(((Float)p.getPrice()).toString() + "¤");
+			InputStream is = getClass().getResourceAsStream("/images/"+p.getImageName());
+			imgImage = new ImageView(new Image(is));
+			is.close();
+			paneItem.setVisible(true);
+		} catch (IOException | URISyntaxException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public void updateName() throws Exception {

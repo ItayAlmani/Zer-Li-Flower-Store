@@ -8,7 +8,7 @@ import java.util.Date;
 public class DeliveryDetails implements Serializable{	
 	private BigInteger deliveryID;
 	protected LocalDateTime date;
-	private boolean isImmediate = true;
+	private Boolean isImmediate;
 	private Store store;
 
 	public DeliveryDetails() {
@@ -31,13 +31,13 @@ public class DeliveryDetails implements Serializable{
 		this.store = store;
 	}
 
-	public DeliveryDetails(LocalDateTime date, boolean isImmediate, Store store) {
+	public DeliveryDetails(LocalDateTime date, Boolean isImmediate, Store store) {
 		this.date = date;
 		this.isImmediate = isImmediate;
 		this.store = store;
 	}
 	
-	public DeliveryDetails(BigInteger deliveryID, LocalDateTime date, boolean isImmediate, Store store) {
+	public DeliveryDetails(BigInteger deliveryID, LocalDateTime date, Boolean isImmediate, Store store) {
 		super();
 		this.deliveryID = deliveryID;
 		this.date = date;
@@ -53,10 +53,6 @@ public class DeliveryDetails implements Serializable{
 		this.date = date;
 	}
 
-	public void setIsImmediate(boolean isImmediate) {
-		this.isImmediate = isImmediate;
-	}
-
 	public void setStore(Store store) {
 		this.store = store;
 	}
@@ -69,11 +65,11 @@ public class DeliveryDetails implements Serializable{
 		this.deliveryID = deliveryID;
 	}
 
-	public boolean isImmediate() {
+	public Boolean isImmediate() {
 		return isImmediate;
 	}
 
-	public void setImmediate(boolean isImmediate) {
+	public void setImmediate(Boolean isImmediate) {
 		this.isImmediate = isImmediate;
 	}
 

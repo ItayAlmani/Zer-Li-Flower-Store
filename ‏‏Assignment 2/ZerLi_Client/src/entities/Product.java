@@ -1,7 +1,15 @@
 package entities;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.Serializable;
 import java.math.BigInteger;
+import java.net.URI;
+import java.net.URISyntaxException;
+
+import izhar.ProductController;
 
 public class Product implements Comparable<Product>, Serializable  {
 	private BigInteger prdID;
@@ -61,6 +69,17 @@ public class Product implements Comparable<Product>, Serializable  {
 		this.price = price;
 		this.color = color;
 		this.inCatalog = inCatalog;
+	}
+	
+	public Product(Product p) {
+		this.prdID = p.prdID;
+		this.name = p.name;
+		this.type = p.type;
+		this.price = p.price;
+		this.color = p.color;
+		this.inCatalog = p.inCatalog;
+		this.imageName = p.imageName;
+		this.mybytearray = p.mybytearray;
 	}
 
 	public Product(BigInteger prdID, String name, String type) {
@@ -156,7 +175,16 @@ public class Product implements Comparable<Product>, Serializable  {
 		this.inCatalog = inCatalog;
 	}
 
-	public String getImageName() {
+	public String getImageName() throws URISyntaxException, IOException {
+		URI uri = ProductController.class.getResource("/images/").toURI();
+		File f = new File(new URI(uri.toString()+this.imageName));
+		f.createNewFile();
+		f.deleteOnExit();
+		FileOutputStream fos = new FileOutputStream(f.getAbsolutePath());
+		setImageName(f.getName());
+		BufferedOutputStream bos = new BufferedOutputStream(fos);
+		bos.write(getMybytearray());
+		bos.close();
 		return imageName;
 	}
 

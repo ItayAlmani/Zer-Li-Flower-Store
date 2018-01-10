@@ -17,10 +17,14 @@ import izhar.interfaces.IProductInOrder;
 
 public class ProductInOrderController extends ParentController implements IProductInOrder {	
 //------------------------------------------------IN CLIENT--------------------------------------------------------------------	
-	public void updatePriceWithSubscription(ProductInOrder pio, Customer customer) {
-		if(customer.getPaymentAccount()!= null && customer.getPaymentAccount().getSub() != null) {
-			LocalDate date = customer.getPaymentAccount().getSub().getSubDate();
-			SubscriptionType type = customer.getPaymentAccount().getSub().getSubType();
+	public void updatePriceWithSubscription(Order order, ProductInOrder pio, Customer customer) {
+		PaymentAccount pa = null;
+		if(order.getDelivery() != null && order.getDelivery().getStore() != null)
+			pa = Context.fac.paymentAccount.getPaymentAccountOfStore(
+					customer.getPaymentAccounts(), order.getDelivery().getStore());
+		if(pa!= null && pa.getSub() != null) {
+			LocalDate date = pa.getSub().getSubDate();
+			SubscriptionType type = pa.getSub().getSubType();
 			if(type.equals(SubscriptionType.Monthly)) {
 				if(date.plusMonths(1).isBefore(LocalDate.now()))
 					pio.setFinalPrice(pio.getFinalPrice()*Subscription.getDiscountInPercent());
@@ -46,8 +50,16 @@ public class ProductInOrderController extends ParentController implements IProdu
 		return null;
 	}
 	
+	private void saveProductsImages(ArrayList<ProductInOrder> pios) {
+		ArrayList<Product> prds = new ArrayList<>();
+		for (ProductInOrder pio : pios)
+			prds.add(pio.getProduct());
+		Context.fac.product.saveImagesInClient(prds);
+	}
+	
 	@Override
 	public void handleGet(ArrayList<ProductInOrder> pios) {
+		saveProductsImages(pios);
 		String methodName = "setPIOs";
 		Method m = null;
 		try {
@@ -112,12 +124,12 @@ public class ProductInOrderController extends ParentController implements IProdu
 	}
 	
 	@Override
-	public void add(ProductInOrder p) throws IOException {
+	public void add(ProductInOrder p, boolean getID) throws IOException {
 		myMsgArr.clear();
 		myMsgArr.add(Thread.currentThread().getStackTrace()[1].getMethodName());
 		ArrayList<Object> arr = new ArrayList<>();
 		arr.add(p);
-		arr.add(true);
+		arr.add(getID);
 		myMsgArr.add(arr);
 		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.INSERT, myMsgArr,ProductInOrder.class));
 	}

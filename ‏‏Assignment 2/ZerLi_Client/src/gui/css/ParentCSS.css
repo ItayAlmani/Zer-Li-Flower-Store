@@ -7,6 +7,10 @@
 	-fx-background-image: url("/images/logos/Light_Background_Image.jpg");
 }
 
+.strike .text {
+    -fx-strikethrough: true;
+}
+
 .menu{
 	-fx-background-color: #ffe5af;
 	-fx-border-color: #ffbb2d;
@@ -43,4 +47,14 @@ Pane{
 
 .tooltip{
 	-fx-font-size: 12px;
+}
+
+.menuVBox{
+	-fx-border-color: #ffbb2d ;
+}
+
+.menuTitle{
+	-fx-font-size: 15px;
+	-fx-font-family: "Bauhaus 93";
+	-fx-font-weight: bold;
 }

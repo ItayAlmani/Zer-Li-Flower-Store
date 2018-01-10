@@ -15,6 +15,7 @@ import entities.CreditCard;
 import entities.Order;
 import entities.PaymentAccount;
 import entities.ProductInOrder;
+import entities.Store;
 import entities.Subscription;
 import entities.CSMessage.MessageType;
 
@@ -48,32 +49,43 @@ public class PaymentAccountController extends ParentController{
 		return myMsgArr;
 	}
 
-	public ArrayList<Object> handleGet(ArrayList<Object> obj) {
+	public ArrayList<Object> handleGet(ArrayList<Object> obj) throws Exception{
 		if(obj == null) return null;
 		ArrayList<Object> acc = new ArrayList<>();
-		for (int i = 0; i < obj.size(); i += 5) {
+		for (int i = 0; i < obj.size(); i += 6) {
 			BigInteger ccID = (Integer)obj.get(i + 2)==null?null:BigInteger.valueOf((Integer)obj.get(i + 2)),
-					subID = (Integer)obj.get(i + 3)==null?null:BigInteger.valueOf((Integer)obj.get(i + 3));
+					subID = (Integer)obj.get(i + 4)==null?null:BigInteger.valueOf((Integer)obj.get(i + 3));
 			acc.add(parse(
 					BigInteger.valueOf((Integer)obj.get(i)),
 					BigInteger.valueOf((Integer)obj.get(i + 1)),
 					ccID,
+					BigInteger.valueOf((Integer)obj.get(i + 3)),
 					subID, 
-					(float) obj.get(i + 4))
+					(float) obj.get(i + 5))
 					);
 		}
 		return acc;
 	}
 
 	public PaymentAccount parse(BigInteger paID, BigInteger CustomerID, BigInteger creditCardID,
-			BigInteger subscriptionID, float refund) {
-		return new PaymentAccount(paID, CustomerID, 
-				new CreditCard(creditCardID), 
-				new Subscription(subscriptionID),
-				refund);
+			BigInteger storeID, BigInteger subscriptionID, float refund) throws Exception {
+		ArrayList<Object> storesObj = EchoServer.fac.store.getStoreByID(storeID), 
+				cardsObj = new ArrayList<>();
+		if(creditCardID!=null)
+			cardsObj = EchoServer.fac.creditCard.getCreditCard(creditCardID);
+		else
+			cardsObj.add(null);
+		if(storesObj.size()==1) {
+			return new PaymentAccount(paID, CustomerID, 
+					(Store)storesObj.get(0),
+					(CreditCard)cardsObj.get(0), 
+					new Subscription(subscriptionID),
+					refund);
+		}
+		throw new Exception();
 	}
 
-	public ArrayList<Object> getPayAccount(BigInteger custID) throws SQLException {
+	public ArrayList<Object> getPayAccount(BigInteger custID) throws Exception {
 		String query = "SELECT * FROM paymentaccount WHERE customerID='" + custID + "'";
 		return handleGet(EchoServer.fac.dataBase.db.getQuery(query));
 	}

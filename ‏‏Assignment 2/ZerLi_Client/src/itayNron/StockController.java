@@ -20,6 +20,24 @@ import itayNron.interfaces.IStock;
 
 public class StockController extends ParentController implements IStock {
 	
+	public ArrayList<Stock> getInCatalogOnlyStock(ArrayList<Stock> stocks){
+		ArrayList<Stock> newStocks = new ArrayList<>();
+		for (Stock stk : stocks) {
+			if(stk.getProduct().isInCatalog())
+				newStocks.add(stk);
+		}
+		return newStocks;
+	}
+	
+	public ArrayList<Stock> getNotInCatalogOnlyStock(ArrayList<Stock> stocks){
+		ArrayList<Stock> newStocks = new ArrayList<>();
+		for (Stock stk : stocks) {
+			if(stk.getProduct().isInCatalog()==false)
+				newStocks.add(stk);
+		}
+		return newStocks;
+	}
+	
 	public Product checkStockByOrder(Order order, Store store) {
 		if(store.getStock()==null || store.getStock().size()==0) {
 			if(order.getProducts() != null && order.getProducts().size()>0)
@@ -52,7 +70,15 @@ public class StockController extends ParentController implements IStock {
 		
 	}
 	
+	private void saveProductsImages(ArrayList<Stock> stocks) {
+		ArrayList<Product> prds = new ArrayList<>();
+		for (Stock stk : stocks)
+			prds.add(stk.getProduct());
+		Context.fac.product.saveImagesInClient(prds);
+	}
+	
 	public void handleGet(ArrayList<Stock> stocks) {
+		saveProductsImages(stocks);
 		String methodName = "setStocks";
 		Method m = null;
 		try {

@@ -112,7 +112,7 @@ public class UpdateOrderStatusGUIController implements Initializable {
 			if(Context.getUserAsStoreWorker()!=null)
 				selctedOrd.getDelivery().setStore(Context.getUserAsStoreWorker().getStore());
 			Context.fac.order.update(selctedOrd);
-		} catch (IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}

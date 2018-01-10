@@ -3,11 +3,17 @@ package gui.controllers;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import common.Context;
 import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView;
+import entities.Customer;
+import entities.PaymentAccount;
+import entities.Store;
+import entities.User.UserType;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -27,79 +33,18 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import com.jfoenix.controls.JFXComboBox;
+import de.jensd.fx.glyphs.octicons.OctIconView;
+import de.jensd.fx.glyphs.materialicons.MaterialIconView;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 
-public class ParentGUIController implements Initializable {
+public class ParentGUIController extends SetUpMainGUIController implements Initializable {
 	/** The current JavaFX stage <=> the window of the GUI */
 	public static Stage primaryStage;
 	
 	/** The current GUI. Used to deliver the answer from the <code>EchoServer</code>. */
 	public static Object currentGUI = null;
 	
-	private @FXML Pane paneOfScene;
-	private Region homePane;
-	protected @FXML Label lblMsg, lblTitle;
-	private @FXML MenuButton menuProducts,menuCustomersSat,menuOrders;
-	private @FXML ImageView imgCart, imgLogOut;
-	private @FXML MenuItem miCatalog, miShowProduct, miAddSurvey, miReportSelector, miAssembleProduct, miUpdateOrderStatus,
-			miManualTransaction, miSurveyReport,miComplaints, miUpdatePaymentAccount;
-	private @FXML MaterialDesignIconView icnLogOut, icnCart;
-	private @FXML VBox menu;
-	private @FXML BorderPane mainPane;
-	private @FXML HBox scenePane;
-	
-	private @FXML MenuButton menuCustomers;
-
-	public void loadProducts() {
-		loadGUI("ProductsFormGUI", false);
-	}
-
-	public void loadSurvey() {
-		loadGUI("SurveyGUI", false);
-	}
-
-	public void loadSurveyReport() {
-		loadGUI("SurveyReportGUI", false);
-	}
-
-	public void loadConnectionGUI() {
-		loadGUI("ConnectionConfigGUI", false);
-	}
-
-	public void loadCatalog() {
-		loadGUI("CatalogGUI", "ProductsPresentationCSS");
-	}
-
-	public void loadCart() {
-		if (Context.order != null)
-			loadGUI("CartGUI", "ProductsPresentationCSS");
-		else
-			setMessage("Try again");
-	}
-
-	public void loadReportSelector() {
-		loadGUI("ReportSelectorGUI", false);
-	}
-
-	public void loadUpdateOrder() {
-		loadGUI("UpdateOrderStatusGUI", false);
-	}
-
-	public void loadManualTransaction() {
-		loadGUI("ManualTransactionGUI", false);
-	}
-	
-	public void loadAssembleProduct() {
-		loadGUI("AssembleProductGUI", false);
-	}
-	
-	public void loadComplaints() {
-		loadGUI("ComplaintGUI", false);
-	}
-	
-	public void loadUpdatePaymentAccount() {
-		loadGUI("ShowCustomersGUI", false);
-	}
-
 	public void ShowErrorMsg() {
 		Platform.runLater(new Runnable() {
 			@Override
@@ -123,10 +68,36 @@ public class ParentGUIController implements Initializable {
 			@Override
 			public void run() {
 				menu.setVisible(true);
+				if(Context.getUser()!=null) {
+					UserType perm = Context.getUser().getPermissions();
+					switch (perm) {
+					case Customer:
+						setUpCustomerMenu();
+						break;
+					case StoreWorker:
+						setUpStoreWorkerMenu();
+						break;
+					case StoreManager:
+						setUpStoreManagerMenu();
+						break;
+					case ServiceExpert:
+						setUpServiceExpertMenu();
+						break;
+					case CustomerServiceWorker:
+						setUpCustomerServiceWorkerMenu();
+						break;
+					case ChainStoreWorker:
+						setUpChainStoreWorkerMenu();
+						break;
+					case ChainStoreManager:
+						setUpChainStoreManagerMenu();
+						break;
+					default:
+						break;
+					}
+				}
 			}
 		});
-		if (Context.order == null)
-			Context.askOrder();
 		loadMainMenu();
 	}
 
@@ -139,160 +110,17 @@ public class ParentGUIController implements Initializable {
 		});
 	}
 
-	private void changeScene(String guiName, String cssName) {
-		setMessage("");
-		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/fxmls/" + guiName + ".fxml"));
-			homePane = loader.load();
-			homePane.getStylesheets().add(getClass().getResource("/gui/css/ParentCSS.css").toExternalForm());
-			if (cssName != null)
-				homePane.getStylesheets().add(getClass().getResource("/gui/css/" + cssName + ".css").toExternalForm());
-			createScene(guiName, primaryStage);
-			primaryStage.show();
-			if (primaryStage.getScene() != null) {
-				primaryStage.getScene().getWindow().sizeToScene();
-				//primaryStage.getScene().getWindow().setHeight(menu.getHeight()+scenePane.getHeight()+100);
-			}
-
-			// addMediaPlayer();
-		} catch (IOException e1) {
-			System.err.println("Loader failed");
-			Platform.runLater(new Runnable() {
-				@Override
-				public void run() {
-					Context.mainScene.setMessage("Loader failed");
-				}
-			});
-			e1.printStackTrace();
-		}
-	}
-
-	private void createScene(String guiName, Stage primaryStage) {
-		scenePane.getChildren().clear();
-		scenePane.getChildren().add(homePane);
-		String[] splitSTR = guiName.split("GUI")[0].trim().split("(?=\\p{Upper})");
-		String title = "";
-		for (String string : splitSTR)
-			title += string + " ";
-		this.lblTitle.setText(title);
-	}
-
-	private void addMediaPlayer() {
-		String musicFile = "/sound/Bana_Cut.mp3";
-		Media sound;
-		try {
-			sound = new Media(getClass().getResource(musicFile).toURI().toString());
-			MediaPlayer mediaPlayer = new MediaPlayer(sound);
-			mediaPlayer.play();
-		} catch (URISyntaxException e) {
-			e.printStackTrace();
-		}
-	}
-
-	public void loadGUI(String guiName, String cssName) {
-		if (Context.clientConsole == null || Context.clientConsole.isConnected() == false) {
-			setServerUnavailable();
-			return;
-		}
-		Platform.runLater(new Runnable() {
-			@Override
-			public void run() {
-				changeScene(guiName, cssName);
-			}
-		});
-	}
-
-	public void loadGUI(String guiName, boolean withCSS) {
-		if (Context.clientConsole == null || Context.clientConsole.isConnected() == false) {
-			setServerUnavailable();
-			return;
-		}
-		Platform.runLater(new Runnable() {
-			@Override
-			public void run() {
-				String cssName = null;
-				if (withCSS == true)
-					cssName = guiName.split("GUI")[0] + "CSS";
-				changeScene(guiName, cssName);
-			}
-		});
-	}
-
-	public void loadMainMenu() {
-		Platform.runLater(new Runnable() {
-			@Override
-			public void run() {
-				loadGUI("MainMenuGUI", false);
-			}
-		});
-	}
-	
-	public void loadMainMenu(String msg) {
-		Platform.runLater(new Runnable() {
-			@Override
-			public void run() {
-				loadGUI("MainMenuGUI", false);
-				setMessage(msg);
-			}
-		});
-	}
-
-	public void setServerUnavailable() {
-		Platform.runLater(new Runnable() {
-			@Override
-			public void run() {
-				menu.setVisible(false);
-				menuProducts.setDisable(true);
-				Context.mainScene.setMessage("Connection failed");
-			}
-		});
-		changeScene("ConnectionConfigGUI", null);
-	}
-
-	public void setServerAvailable() {
-		Platform.runLater(new Runnable() {
-			@Override
-			public void run() {
-				menuProducts.setDisable(false);
-				Context.mainScene.setMessage("");
-			}
-		});
-	}
-
-	public void setMessage(String msg) {
-		// Range for readable colors
-		double[] color = new double[3];
-		double rangeMin = 0.05f, rangeMax = 0.6f;
-		for (int i = 0; i < color.length; i++)
-			color[i] = rangeMin + (rangeMax - rangeMin) * Math.random();
-		this.lblMsg.setTextFill(Color.color(color[0], color[1], color[2]));
-		Platform.runLater(new Runnable() {
-			@Override
-			public void run() {
-				lblMsg.setText(msg);
-			}
-		});
-	}
-	
 	public void initialize(URL location, ResourceBundle resources) {
-		/*String cartLogoPath = "/images/Shopping_Cart.png", 
-				logOutLogoPath = "/images/Log_Out.png";
-		imgLogOut.setImage(new Image(getClass().getResourceAsStream(logOutLogoPath)));
-		imgCart.setImage(new Image(getClass().getResourceAsStream(cartLogoPath)));
-		*/
+		setUpInit();
 		mainPane.getStylesheets().add(getClass().getResource("/gui/css/ParentCSS.css").toExternalForm());
 		DropShadow ds = new DropShadow(30, Color.web("#ffbb2d"));
 		menu.setEffect(ds);
-		Tooltip.install(icnCart, new Tooltip("Show my cart"));
-		Tooltip.install(icnLogOut, new Tooltip("Log Out"));
+		setUpToolTips();
 		Context.mainScene = this;
 		if (isServerConnected() == true)
 			loadGUI("LogInGUI", false);
 		else
 			loadConnectionGUI();
-		/*th = new Thread(lblMsgThread());
-		th.setDaemon(true);
-		th.start();*/
 	}
 
 	private boolean isServerConnected() {
@@ -315,7 +143,6 @@ public class ParentGUIController implements Initializable {
 			logOutUserInSystem();
 			this.start(primaryStage);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -326,6 +153,13 @@ public class ParentGUIController implements Initializable {
 			// set user as logged out
 			Context.fac.user.update(Context.getUser());
 		}
+	}
+
+	public void getNewOrderByStore() {
+		if(cbStores.getValue()!=null) {
+			Context.askOrder(cbStores.getValue());
+			loadMainMenu();
+    	}
 	}
 	
 	/* 

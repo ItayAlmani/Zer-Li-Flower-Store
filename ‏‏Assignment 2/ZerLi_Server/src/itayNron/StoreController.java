@@ -69,11 +69,57 @@ public class StoreController extends ParentController {
 			throw new SQLException("Error in Store Worker of Store(s)\n");
 		return arr;	
 	}
+	
+	public ArrayList<Object> getStoreByID(BigInteger storeID) throws Exception{
+		String query = "SELECT *" + 
+				" FROM store" + 
+				" WHERE storeID='"+storeID.toString()+"'";
+		ArrayList<Object> arr = handleGet(EchoServer.fac.dataBase.db.getQuery(query));
+		if(arr!=null && arr.size()==1 && arr.get(0) instanceof Store) {
+			getStockByStore((Store)arr.get(0));
+			return arr;
+		}
+		throw new Exception();
+	}
 
+	public ArrayList<Object> getAllStoresWithStock() throws Exception{
+		ArrayList<Object> stores = getAllStores();
+		if(stores!=null && stores.isEmpty()==false) {
+			for (Object object : stores) {
+				if(object instanceof Store) {
+					getStockByStore((Store)object);
+				}
+			}
+		}
+		return stores;
+	}
+	
+	private void getStockByStore(Store store) throws Exception{
+		if(store == null || store.getStoreID()==null)
+			throw new Exception();
+		
+		ArrayList<Object> storeStockObj = EchoServer.fac.stock.getStockByStore(store.getStoreID());
+		if(storeStockObj != null && storeStockObj.isEmpty()==false) {
+			store.setStock(new ArrayList<>());
+			for (Object object : storeStockObj) {
+				if(object instanceof Stock)
+					store.getStock().add((Stock)object);
+			}
+		}
+	}
+	
 	public Store parse(BigInteger storeID, String type, BigInteger managerID, String name) throws SQLException {
-		ArrayList<Object> strWrksObj = EchoServer.fac.storeWorker.getStoreWorkerByUser(managerID); 
-		if(strWrksObj!=null && strWrksObj.size()==1)
-			return new Store(storeID, name, StoreType.valueOf(type), (StoreWorker)strWrksObj.get(0));
+		ArrayList<Object> strWrksObj = EchoServer.fac.storeWorker.getStoreWorkerByUser(managerID),
+				stocksObj = EchoServer.fac.stock.getStockByStore(storeID);
+		if(strWrksObj!=null && strWrksObj.size()==1) {
+			Store s =  new Store(storeID, name, StoreType.valueOf(type), (StoreWorker)strWrksObj.get(0));
+			s.setStock(new ArrayList<>());
+			for (Object o : stocksObj) {
+				if(o instanceof Stock)
+					s.getStock().add((Stock)o);
+			}
+			return s;
+		}
 		else throw new SQLException();
 	}
 

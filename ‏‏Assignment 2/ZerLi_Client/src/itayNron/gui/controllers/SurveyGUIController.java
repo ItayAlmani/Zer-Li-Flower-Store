@@ -45,13 +45,16 @@ public class SurveyGUIController implements Initializable {
 			i++;
 		}
 		//Date date = Date.from(dpDate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
-		if(Context.getUserAsStoreWorker() !=null) {
-			Survey sur = new Survey(ans, dpDate.getValue(),Context.getUserAsStoreWorker().getStoreID(),SurveyType.Answer);
-			
-			Context.fac.survey.add(sur);
+		try {
+			if(Context.getUserAsStoreWorker() !=null) {
+				Survey sur = new Survey(ans, dpDate.getValue(),Context.getUserAsStoreWorker().getStoreID(),SurveyType.Answer);
+				Context.fac.survey.add(sur);
+			}
+			else
+				System.err.println("You are not a store worker");
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		else
-			System.err.println("You are not a store worker");
 		Context.mainScene.loadMainMenu();
 	}
 	

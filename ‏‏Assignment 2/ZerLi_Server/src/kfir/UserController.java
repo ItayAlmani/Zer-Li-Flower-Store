@@ -11,6 +11,7 @@ import entities.User.UserType;
 
 public class UserController extends ParentController {
 
+	@Override
 	public ArrayList<Object> handleGet(ArrayList<Object> obj) {
 		ArrayList<Object> users = new ArrayList<>();
 		for (int i = 0; i < obj.size(); i += 8)

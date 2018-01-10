@@ -9,8 +9,9 @@ public abstract class ParentController {
 	 * 
 	 * @param orders - collection of orders
 	 * @return ArrayList of the parsed data that asked to SELECT 
+	 * @throws Exception 
 	 */
-	public abstract ArrayList<Object> handleGet(ArrayList<Object> obj);
+	public abstract ArrayList<Object> handleGet(ArrayList<Object> obj) throws Exception;
 	
 	/**
 	 * 

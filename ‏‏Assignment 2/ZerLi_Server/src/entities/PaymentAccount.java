@@ -10,11 +10,22 @@ public class PaymentAccount implements Serializable {
 	private float refundAmount = 0;
 	private CreditCard creditCard;
 	private Subscription sub;
+	private Store store;
 	
 	public PaymentAccount(BigInteger paID,BigInteger CustomerID, CreditCard creditCard, Subscription subscription,float refund) {
 		this.paID = paID;
 		this.customerID = CustomerID;
 		this.creditCard=creditCard;
+		this.sub=subscription;
+		this.refundAmount = refund;
+	}
+	
+	public PaymentAccount(BigInteger paID,BigInteger CustomerID,
+			Store store, CreditCard creditCard, Subscription subscription,float refund) {
+		this.paID = paID;
+		this.customerID = CustomerID;
+		this.creditCard=creditCard;
+		this.store=store;
 		this.sub=subscription;
 		this.refundAmount = refund;
 	}
@@ -67,5 +78,13 @@ public class PaymentAccount implements Serializable {
 
 	public void setCustomerID(BigInteger customerID) {
 		this.customerID = customerID;
+	}
+
+	public Store getStore() {
+		return store;
+	}
+
+	public void setStore(Store store) {
+		this.store = store;
 	}
 }

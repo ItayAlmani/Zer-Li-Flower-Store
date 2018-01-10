@@ -2,6 +2,7 @@ package izhar.gui.controllers;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -9,6 +10,7 @@ import java.util.ResourceBundle;
 import common.Context;
 import entities.Product;
 import entities.ProductInOrder;
+import entities.Stock;
 import gui.controllers.ParentGUIController;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -34,6 +36,7 @@ import javafx.scene.layout.BorderStrokeStyle;
 import javafx.scene.layout.BorderWidths;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -95,23 +98,27 @@ public abstract class ProductsPresentationGUIController implements Initializable
 		components.add(cmp);
     }
 	
-	protected void setVBox(int i,Object p, EventHandler<ActionEvent> btnHandler) {
+	protected void setVBox(int i,Object o, EventHandler<ActionEvent> btnHandler) {
 		int j = i;
 		Product prd = null;
 		ProductInOrder pio = null;
-		String price = null, btnText = null;
+		Stock stk = null;
+		String price = null, btnText = null, priceAfterSale = null;
 		
 		vbxProduct[i] = new VBox();
     	vbxProduct[i].setAlignment(Pos.CENTER);
     	grids[i] = new GridPane();
 		
-		if(p instanceof Product) {
-			prd = (Product)p;
+		if(o instanceof Stock) {
+			stk = (Stock)o;
+			prd = (Product)stk.getProduct();
 			price=prd.getPriceAsString();
+			if(stk.getSalePercetage()!=0)
+				priceAfterSale=stk.getPriceAfterSaleAsString();
 			btnText="Add to cart";
 		}
-		else if(p instanceof ProductInOrder) {
-			pio = (ProductInOrder)p;
+		else if(o instanceof ProductInOrder) {
+			pio = (ProductInOrder)o;
 			prd = pio.getProduct();
 			price=pio.getFinalPriceAsString();
 			btnText="Update quantity";
@@ -121,8 +128,9 @@ public abstract class ProductsPresentationGUIController implements Initializable
 			InputStream is = getClass().getResourceAsStream("/images/"+prd.getImageName());
 			imgImages[i] = new ImageView(new Image(is));
 			is.close();
+			imgImages[i].prefHeight(200);
 			vbxProduct[i].getChildren().addAll(imgImages[i],grids[i]);
-		} catch (IOException e) {
+		} catch (IOException | URISyntaxException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -151,7 +159,16 @@ public abstract class ProductsPresentationGUIController implements Initializable
 		lblTitlePrice[i]=new Label("Price: ");
 		setComponent(lblTitlePrice[i] ,0, ++j, i);
 		lblShowPrice[i] = new Label(price);
-		setComponent(lblShowPrice[i],1, j, i);
+		if(priceAfterSale!=null) {
+			lblShowPrice[i].getStyleClass().add("strike");
+			Label curPrice = new Label(priceAfterSale);
+			curPrice.setTextFill(Color.BLUE);
+			HBox h = new HBox(5,lblShowPrice[i],curPrice);
+			h.setAlignment(Pos.CENTER);
+			setComponent(h,1, j, i);
+		}
+		else
+			setComponent(lblShowPrice[i],1, j, i);
 		
 		btnFinalProduct[i] = new Button(btnText);
 		btnFinalProduct[i].setUserData(i);
@@ -193,13 +210,15 @@ public abstract class ProductsPresentationGUIController implements Initializable
 		return Color.color(color[0], color[1], color[2]);
 	}
 	
-	protected EventHandler<ActionEvent> addToCart(ArrayList<Product> productsInCatalog){
+	protected EventHandler<ActionEvent> addToCart(Product p, Float price){
     	return new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
 				if(event.getSource() instanceof Button) {
-					Button btn = (Button)event.getSource();
-					Product prd = productsInCatalog.get((int) btn.getUserData());
+					/*Button btn = (Button)event.getSource();
+					Product prd = productsInCatalog.get((int) btn.getUserData());*/
+					Product prd = new Product(p);
+					prd.setPrice(price);
 					ProductInOrder pio = Context.order.containsProduct(prd);
 					if(pio==null) {
 						pio = new ProductInOrder(prd, 1, Context.order.getOrderID());
@@ -207,7 +226,7 @@ public abstract class ProductsPresentationGUIController implements Initializable
 							Context.order.setProducts(new ArrayList<>());
 						Context.order.getProducts().add(pio);
 						try {
-							Context.fac.prodInOrder.add(pio);
+							Context.fac.prodInOrder.add(pio, false);
 						} catch (IOException e) {
 							System.err.println("Can't add product\n");
 							e.printStackTrace();
@@ -216,10 +235,10 @@ public abstract class ProductsPresentationGUIController implements Initializable
 					else {
 						pio.addOneToQuantity();
 						
-						Context.fac.prodInOrder.updatePriceWithSubscription(pio, Context.getUserAsCustomer());
 						try {
+							Context.fac.prodInOrder.updatePriceWithSubscription(Context.order,pio, Context.getUserAsCustomer());
 							Context.fac.prodInOrder.update(pio);
-						} catch (IOException e) {
+						} catch (Exception e) {
 							System.err.println("Can't update product\n");
 							e.printStackTrace();
 						}

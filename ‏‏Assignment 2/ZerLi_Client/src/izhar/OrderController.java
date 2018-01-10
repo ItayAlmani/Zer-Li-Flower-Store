@@ -22,6 +22,7 @@ import entities.PaymentAccount;
 import entities.Product;
 import entities.ProductInOrder;
 import entities.ShipmentDetails;
+import entities.Store;
 import entities.Subscription;
 import entities.Subscription.SubscriptionType;
 import gui.controllers.ParentGUIController;
@@ -61,9 +62,13 @@ public class OrderController extends ParentController implements IOrder {
 	}
 
 	public void updatePriceWithSubscription(Order order, Customer customer) {
-		if(customer.getPaymentAccount()!= null && customer.getPaymentAccount().getSub() != null) {
-			LocalDate date = customer.getPaymentAccount().getSub().getSubDate();
-			SubscriptionType type = customer.getPaymentAccount().getSub().getSubType();
+		PaymentAccount pa = null;
+		if(order.getDelivery() != null && order.getDelivery().getStore() != null)
+			pa = Context.fac.paymentAccount.getPaymentAccountOfStore(
+					customer.getPaymentAccounts(), order.getDelivery().getStore());
+		if(pa!= null && pa.getSub() != null) {
+			LocalDate date = pa.getSub().getSubDate();
+			SubscriptionType type = pa.getSub().getSubType();
 			if(type.equals(SubscriptionType.Monthly)) {
 				if(date.plusMonths(1).isBefore(LocalDate.now()))
 					order.setFinalPrice(order.getFinalPrice()*Subscription.getDiscountInPercent());
@@ -171,10 +176,13 @@ public class OrderController extends ParentController implements IOrder {
 	}
 
 	@Override
-	public void getOrderInProcess(BigInteger customerID) throws IOException {
+	public void getOrAddOrderInProcess(BigInteger customerID, Store store) throws IOException {
 		myMsgArr.clear();
 		myMsgArr.add(Thread.currentThread().getStackTrace()[1].getMethodName());
-		myMsgArr.add(customerID);
+		ArrayList<Object> arr = new ArrayList<>();
+		arr.add(customerID);
+		arr.add(store);
+		myMsgArr.add(arr);
 		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.SELECT, myMsgArr, Order.class));
 	}
 

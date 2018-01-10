@@ -42,7 +42,7 @@ public interface IOrder  {
 	 */
 	public ArrayList<Object> getAllOrdersByStoreID(BigInteger storeID) throws SQLException;
 
-	public ArrayList<Object> getOrdersWaitingForPaymentByCustomerID(BigInteger customerID) throws SQLException;
+	public ArrayList<Object> getOrdersWaitingForPaymentByCustomerID(ArrayList<Object> arr) throws Exception;
 	
 	/**
 	 * adds the shipment's price to the final price of the order 

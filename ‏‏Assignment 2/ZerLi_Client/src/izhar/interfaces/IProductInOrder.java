@@ -11,7 +11,7 @@ import entities.ProductInOrder;
 public interface IProductInOrder {
 	
 	void update(ProductInOrder p) throws IOException;
-	void add(ProductInOrder p) throws IOException;
+	void add(ProductInOrder p, boolean getID) throws IOException;
 	void getPIOsByOrder(BigInteger orderID) throws IOException;
 	void updatePriceOfPIO(ProductInOrder p) throws IOException;
 	void handleGet(ArrayList<ProductInOrder> pios);

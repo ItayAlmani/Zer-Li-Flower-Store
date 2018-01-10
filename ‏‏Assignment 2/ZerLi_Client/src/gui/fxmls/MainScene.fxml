@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView?>
 <?import de.jensd.fx.glyphs.materialicons.MaterialIconView?>
 <?import de.jensd.fx.glyphs.octicons.OctIconView?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.MenuButton?>
-<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -18,9 +18,6 @@
 <ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" pannable="true" styleClass="mainScene" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controllers.ParentGUIController">
    <content>
       <BorderPane fx:id="mainPane" styleClass="mainScene">
-         <bottom>
-            <Label fx:id="lblMsg" alignment="CENTER" contentDisplay="CENTER" minHeight="20.0" textAlignment="CENTER" textFill="RED" textOverrun="CLIP" wrapText="true" BorderPane.alignment="CENTER" />
-         </bottom>
          <center>
             <VBox alignment="CENTER" BorderPane.alignment="CENTER">
                <opaqueInsets>
@@ -35,7 +32,7 @@
             </VBox>
          </center>
          <top>
-            <VBox fx:id="menu" alignment="CENTER" styleClass="menu" visible="false" BorderPane.alignment="CENTER">
+            <VBox fx:id="menu" alignment="CENTER" styleClass="menu" BorderPane.alignment="CENTER">
                <children>
                   <HBox alignment="CENTER">
                      <children>
@@ -49,74 +46,71 @@
                               <Image url="@../../images/logos/img/logo3-0.png" />
                            </image>
                         </ImageView>
-                        <MaterialDesignIconView fx:id="icnLogOut" fontSmoothingType="LCD" glyphName="LOGOUT" onMouseClicked="#logOut" size="30.0" styleClass="coloredIcon" textAlignment="CENTER" />
-                        <MaterialDesignIconView fx:id="icnCart" fontSmoothingType="LCD" glyphName="CART" onMouseClicked="#loadCart" size="30.0" styleClass="coloredIcon" textAlignment="CENTER" />
-                        <OctIconView fontSmoothingType="LCD" glyphName="BOOK" onMouseClicked="#loadCatalog" styleClass="coloredIcon" />
-                        <MaterialDesignIconView fontSmoothingType="LCD" glyphName="FLOWER" onMouseClicked="#loadAssembleProduct" styleClass="coloredIcon" />
-                        <MenuButton fx:id="menuProducts" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" popupSide="RIGHT" styleClass="menuButton" text="Products" textAlignment="CENTER" textOverrun="CLIP" wrapText="true">
-                           <items>
-                              <MenuItem fx:id="miShowProduct" mnemonicParsing="false" onAction="#loadProducts" text="Show Product">
-                                 <graphic>
-                                    <MaterialDesignIconView glyphName="FLOWER" />
-                                 </graphic>
-                              </MenuItem>
-                           </items>
-                        </MenuButton>
-                        <MenuButton fx:id="menuCustomersSat" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" popupSide="RIGHT" styleClass="menuButton" text="Customers Satisfaction" textAlignment="CENTER" textOverrun="CLIP" wrapText="true">
-                           <items>
-                              <MenuItem fx:id="miAddSurvey" mnemonicParsing="false" onAction="#loadSurvey" text="Add Survey">
-                                 <graphic>
-                                    <MaterialDesignIconView fontSmoothingType="LCD" glyphName="CLIPBOARD_CHECK" textAlignment="CENTER" />
-                                 </graphic>
-                              </MenuItem>
-                              <MenuItem fx:id="miSurveyReport" mnemonicParsing="false" onAction="#loadSurveyReport" text="Add Survey Report">
-                                 <graphic>
-                                    <MaterialDesignIconView glyphName="CLIPBOARD_TEXT" />
-                                 </graphic>
-                              </MenuItem>
-                              <MenuItem fx:id="miReportSelector" mnemonicParsing="false" onAction="#loadReportSelector" text="Select Report">
-                                 <graphic>
-                                    <OctIconView fontSmoothingType="LCD" glyphName="GRAPH" textAlignment="CENTER" />
-                                 </graphic>
-                              </MenuItem>
-                              <MenuItem fx:id="miComplaints" mnemonicParsing="false" onAction="#loadComplaints" text="Complaints" />
-                           </items>
-                        </MenuButton>
-                        <MenuButton fx:id="menuOrders" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" popupSide="RIGHT" styleClass="menuButton" text="Orders" textAlignment="CENTER" textOverrun="CLIP" wrapText="true">
-                           <items>
-                              <MenuItem fx:id="miUpdateOrderStatus" mnemonicParsing="false" onAction="#loadUpdateOrder" text="Update Order Status">
-                                 <graphic>
-                                    <MaterialIconView glyphName="EDIT">
-                                       <font>
-                                          <Font name="Material Icons" size="12.0" />
-                                       </font>
-                                    </MaterialIconView>
-                                 </graphic>
-                              </MenuItem>
-                              <MenuItem fx:id="miManualTransaction" mnemonicParsing="false" onAction="#loadManualTransaction" text="Manual Transaction">
-                                 <graphic>
-                                    <MaterialIconView fontSmoothingType="LCD" glyphName="SHOPPING_BASKET" textAlignment="CENTER">
-                                       <font>
-                                          <Font name="Material Icons" size="12.0" />
-                                       </font>
-                                    </MaterialIconView>
-                                 </graphic>
-                              </MenuItem>
-                           </items>
-                        </MenuButton>
-                        <MenuButton fx:id="menuCustomers" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" popupSide="RIGHT" styleClass="menuButton" text="Customers" textAlignment="CENTER" textOverrun="CLIP" wrapText="true">
-                           <items>
-                              <MenuItem fx:id="miUpdatePaymentAccount" mnemonicParsing="false" onAction="#loadUpdatePaymentAccount" text="Update customer payment account">
-                                 <graphic>
-                                    <MaterialIconView glyphName="EDIT">
-                                       <font>
-                                          <Font name="Material Icons" size="12.0" />
-                                       </font>
-                                    </MaterialIconView>
-                                 </graphic>
-                              </MenuItem>
-                           </items>
-                        </MenuButton>
+                        <HBox fx:id="hbIcons" alignment="CENTER" spacing="10.0">
+                           <children>
+                              <MaterialDesignIconView fontSmoothingType="LCD" glyphName="HOME" onMouseClicked="#loadMainMenu" size="30" styleClass="coloredIcon" textAlignment="CENTER" />
+                              <MaterialDesignIconView fx:id="icnLogOut" fontSmoothingType="LCD" glyphName="LOGOUT" onMouseClicked="#logOut" size="30.0" styleClass="coloredIcon" textAlignment="CENTER" />
+                              <HBox fx:id="hbChangingIcons" alignment="CENTER">
+                                 <children>
+                                    <VBox fx:id="hbCustomer" alignment="CENTER" spacing="5.0" styleClass="menuVBox">
+                                       <children>
+                                          <Label styleClass="menuTitle" text="Products and cart" textAlignment="CENTER" textOverrun="CLIP" wrapText="true" />
+                                          <HBox alignment="CENTER" spacing="10.0">
+                                             <children>
+                                                <MaterialDesignIconView fx:id="icnCart" fontSmoothingType="LCD" glyphName="CART" onMouseClicked="#loadCart" size="30.0" styleClass="coloredIcon" textAlignment="CENTER" />
+                                                <OctIconView fx:id="icnCatalog" fontSmoothingType="LCD" glyphName="BOOK" onMouseClicked="#loadCatalog" size="30" styleClass="coloredIcon" />
+                                                <MaterialDesignIconView fx:id="icnAssemble" fontSmoothingType="LCD" glyphName="FLOWER" onMouseClicked="#loadAssembleProduct" size="30" styleClass="coloredIcon" />
+                                             </children>
+                                          </HBox>
+                                       </children>
+                                    </VBox>
+                                    <VBox fx:id="hbCustServiceData" alignment="CENTER" spacing="5.0" styleClass="menuVBox">
+                                       <children>
+                                          <Label styleClass="menuTitle" text="Customer Services Data" textAlignment="CENTER" textOverrun="CLIP" wrapText="true" />
+                                          <HBox alignment="CENTER" spacing="10.0">
+                                             <children>
+                                                <MaterialDesignIconView fx:id="icnSurvey" fontSmoothingType="LCD" glyphName="CLIPBOARD_CHECK" onMouseClicked="#loadSurvey" size="30" styleClass="coloredIcon" textAlignment="CENTER" />
+                                                <MaterialDesignIconView fx:id="icnSurveyReport" glyphName="CLIPBOARD_TEXT" onMouseClicked="#loadSurveyReport" size="30" styleClass="coloredIcon" />
+                                                <OctIconView fx:id="icnReportSelector" fontSmoothingType="LCD" glyphName="GRAPH" onMouseClicked="#loadReportSelector" size="30" styleClass="coloredIcon" textAlignment="CENTER" />
+                                                <MaterialDesignIconView fx:id="icnComplaints" fontSmoothingType="LCD" glyphName="ACCOUNT_ALERT" onMouseClicked="#loadComplaints" size="30" styleClass="coloredIcon" textAlignment="CENTER" />
+                                             </children>
+                                          </HBox>
+                                       </children>
+                                    </VBox>
+                                    <VBox fx:id="hbOrders" alignment="CENTER" spacing="5.0" styleClass="menuVBox">
+                                       <children>
+                                          <Label styleClass="menuTitle" text="Orders" textAlignment="CENTER" textOverrun="CLIP" wrapText="true" />
+                                          <HBox alignment="CENTER" spacing="10.0">
+                                             <children>
+                                                <MaterialIconView fx:id="icnUpdateOrder" glyphName="EDIT" onMouseClicked="#loadUpdateOrder" size="30" styleClass="coloredIcon">
+                                                   <font>
+                                                      <Font name="Material Icons" size="12.0" />
+                                                   </font>
+                                                </MaterialIconView>
+                                                <MaterialIconView fx:id="icnManualTransaction" fontSmoothingType="LCD" glyphName="SHOPPING_BASKET" onMouseClicked="#loadManualTransaction" size="30" styleClass="coloredIcon" textAlignment="CENTER">
+                                                   <font>
+                                                      <Font name="Material Icons" size="12.0" />
+                                                   </font>
+                                                </MaterialIconView>
+                                                <MaterialDesignIconView fx:id="icnProductsForm" fontSmoothingType="LCD" glyphName="FLOWER" onMouseClicked="#loadProducts" size="30" styleClass="coloredIcon" />
+                                             </children>
+                                          </HBox>
+                                       </children>
+                                    </VBox>
+                                    <VBox fx:id="hbCustomersInfo" alignment="CENTER" spacing="5.0" styleClass="menuVBox">
+                                       <children>
+                                          <Label styleClass="menuTitle" text="Customers Information" textAlignment="CENTER" textOverrun="CLIP" wrapText="true" />
+                                          <HBox alignment="CENTER" spacing="10.0">
+                                             <children>
+                                                <FontAwesomeIconView fx:id="icnUpdatePaymentAccount" fontSmoothingType="LCD" glyphName="EDIT" onMouseClicked="#loadUpdatePaymentAccount" size="30" styleClass="coloredIcon" textAlignment="CENTER" />
+                                             </children>
+                                          </HBox>
+                                       </children>
+                                    </VBox>
+                                 </children>
+                              </HBox>
+                           </children>
+                        </HBox>
                         <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../../images/logos/img/logo3-0.png" />
@@ -127,6 +121,25 @@
                </children>
             </VBox>
          </top>
+         <bottom>
+            <HBox alignment="BOTTOM_LEFT" spacing="100.0" BorderPane.alignment="CENTER">
+               <children>
+                  <JFXComboBox fx:id="cbStores" focusColor="ORANGE" labelFloat="true" onAction="#getNewOrderByStore" promptText="Select store" unFocusColor="RED" visible="false" />
+                  <Label fx:id="lblMsg" alignment="CENTER" contentDisplay="CENTER" minHeight="20.0" textAlignment="CENTER" textFill="RED" textOverrun="CLIP" wrapText="true" />
+                  <Label alignment="CENTER" contentDisplay="CENTER" minHeight="20.0" text="Hover above the icons for title" textAlignment="CENTER" textOverrun="CLIP" wrapText="true">
+                     <font>
+                        <Font size="8.0" />
+                     </font>
+                  </Label>
+               </children>
+               <BorderPane.margin>
+                  <Insets />
+               </BorderPane.margin>
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
+            </HBox>
+         </bottom>
       </BorderPane>
    </content>
 </ScrollPane>

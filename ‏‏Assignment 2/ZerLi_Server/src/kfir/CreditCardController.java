@@ -21,7 +21,7 @@ public class CreditCardController extends ParentController{
 				+ ", " + cc.getCcValidity() + ", '"
 				+ cc.getCcCVV()+"')";
 		EchoServer.fac.dataBase.db.updateQuery(query);
-		query ="SELECT * FROM creditcard WHERE number='"+cc.getCcNumber()+"'";
+		query ="SELECT creditcard.creditCardID FROM creditcard WHERE number='"+cc.getCcNumber()+"'";
 		if(isReturnNextID) {
 			myMsgArr =  EchoServer.fac.dataBase.db.getQuery(query);
 			if(myMsgArr!=null && myMsgArr.size()==1 && myMsgArr.get(0) instanceof Integer) {
@@ -35,6 +35,7 @@ public class CreditCardController extends ParentController{
 		return myMsgArr;
 	}
 	
+	@Override
 	public ArrayList<Object> handleGet(ArrayList<Object> obj) {
 		if(obj==null) return null;
 		ArrayList<Object> cards = new ArrayList<>();

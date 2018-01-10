@@ -58,11 +58,11 @@ public class ManualTransactionGUIController implements Initializable {
 	public void sendNewOrder() {
 		order.setType(OrderType.Manual);
 		order.setOrderStatus(OrderStatus.Paid);
-		order.setDelivery(new DeliveryDetails(order.getOrderID(), LocalDateTime.now(), true, Context.getUserAsStoreWorker().getStore()));
-		order.setDeliveryType(DeliveryType.Pickup);
 		try {
+			order.setDelivery(new DeliveryDetails(order.getOrderID(), LocalDateTime.now(), true, Context.getUserAsStoreWorker().getStore()));
+			order.setDeliveryType(DeliveryType.Pickup);
 			Context.fac.order.add(order,false);
-		} catch (IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -71,8 +71,8 @@ public class ManualTransactionGUIController implements Initializable {
 		ArrayList<Customer> cust = new ArrayList<>();
 		cust.add(new Customer(new User(BigInteger.ONE, "314785270",
 				"Izhar", "Ananiev", "izharAn", "1234",
-				UserType.Customer), BigInteger.ONE, 
-				new PaymentAccount(BigInteger.ONE)));
+				UserType.Customer), BigInteger.ONE));
+		cust.get(0).addPaymentAccount(new PaymentAccount(BigInteger.ONE));
 		setCustomers(cust);
 	}
 	

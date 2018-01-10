@@ -39,7 +39,8 @@ public class OrderGUIController implements Initializable {
 	}
 	
 	public void toMainMenu() {
-		Context.askOrder();
+		/*Context.askOrder();*/
+		Context.mainScene.getNewOrderByStore();
 		Context.mainScene.loadMainMenu();
 	}
 }

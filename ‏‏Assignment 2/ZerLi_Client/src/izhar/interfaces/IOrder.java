@@ -85,7 +85,7 @@ public interface IOrder  {
 	
 	void updateFinalPriceByPAT(PaymentAccount pa);
 	
-	void getOrderInProcess(BigInteger customerID) throws IOException;
+	void getOrAddOrderInProcess(BigInteger customerID, Store store) throws IOException;
 
 	void getOrdersByCustomerID(BigInteger customerID) throws IOException;
 	

@@ -73,12 +73,12 @@ public class ShowCustomersGUIController implements Initializable  {
 		if(this.cust!=null) {
 			txtCustName.setText(this.cust.getFullName());
 			txtIdNUM.setText(this.cust.getPrivateID());
-			if(this.cust.getPaymentAccount()==null || this.cust.getPaymentAccount().getPaID()==null)
+			if(this.cust.getPaymentAccounts()==null)
 				Context.mainScene.setMessage("Customer doesn't have an active Payment Account");
-			else if(this.cust.getPaymentAccount().getCreditCard()!=null && 
-					this.cust.getPaymentAccount().getCreditCard().getCcID()!=null) {
+			/*else if(this.cust.getPaymentAccounts().getCreditCard()!=null && 
+					this.cust.getPaymentAccounts().getCreditCard().getCcID()!=null) {
 				Context.mainScene.setMessage("Customer have already a Credit Card in data base");
-			}
+			}*/
 			else {
 				//txtCardNUM.setText(cust.getPaymentAccount().getCreditCard());
 				vboxPA.setVisible(true);
@@ -97,11 +97,13 @@ public class ShowCustomersGUIController implements Initializable  {
 	}
 	
 	public void setCredCardID(BigInteger id) {
-		this.cust.getPaymentAccount().setCreditCard(new CreditCard(id));
-		try {
-			Context.fac.paymentAccount.update(this.cust.getPaymentAccount());
-		} catch (IOException e) {
-			e.printStackTrace();
+		for (PaymentAccount pa : this.cust.getPaymentAccounts()) {
+			pa.setCreditCard(new CreditCard(id));
+			try {
+				Context.fac.paymentAccount.update(pa);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 

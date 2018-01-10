@@ -72,6 +72,7 @@ public class OrderTimeGUIController implements Initializable {
 			date = dpDate.getValue().atStartOfDay();
 			date=date.plusHours(((Double)sldHours.getValue()).longValue());
 			date=date.plusMinutes(((Double)sldMinutes.getValue()).longValue());
+			Context.order.getDelivery().setImmediate(false);
 		}
 		else if(select.equals("Immediate")) {
 			Context.order.getDelivery().setImmediate(true);
@@ -85,6 +86,7 @@ public class OrderTimeGUIController implements Initializable {
 				LocalTime new_time = LocalTime.of(7, 00);
 				date = LocalDateTime.of(new_date, new_time);
 			}
+			Context.order.getDelivery().setImmediate(true);
 		}
 		Context.order.getDelivery().setDate(date);
 		Context.mainScene.loadGUI("PaymentGUI", false);

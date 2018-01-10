@@ -49,6 +49,12 @@ public class StoreController extends ParentController implements IStore {
 		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.SELECT,myMsgArr,Store.class));
 	}
 	
+	public void getAllStoresWithStock() throws IOException {
+		myMsgArr.clear();
+		myMsgArr.add(Thread.currentThread().getStackTrace()[1].getMethodName());
+		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.SELECT,myMsgArr,Store.class));
+	}
+	
 	public ArrayList<Store> getOrdersOnlyStoresFromArrayList(ArrayList<Store> allStores){
 		ArrayList<Store> ordersOnly = new ArrayList<>();
 		for (Store store : allStores)

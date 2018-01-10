@@ -19,31 +19,32 @@ import entities.CSMessage.MessageType;
 import entities.Product;
 import entities.Product.Color;
 import entities.Product.ProductType;
+import entities.Stock;
 import gui.controllers.ParentGUIController;
 import izhar.interfaces.IProduct;
 
 public class ProductController extends ParentController implements IProduct {	
 //------------------------------------------------IN CLIENT--------------------------------------------------------------------
 	@Override
-	public ArrayList<Product> assembleProduct(ProductType type, Float priceStart, Float priceEnd, Color color, ArrayList<Product> products) {
-		ArrayList<Product> inConditionProds = new ArrayList<>();
+	public ArrayList<Stock> assembleProduct(ProductType type, Float priceStart, Float priceEnd, Color color, ArrayList<Stock> stocks) {
+		ArrayList<Stock> inConditionProds = new ArrayList<>();
 		if(type!=null && priceStart!=null && priceEnd!=null) {
 			if(color==null) {
-				for (Product p : products) {
-					if(p.getType().equals(type)
-							&& p.getPrice()>=priceStart 
-							&& p.getPrice()<=priceEnd) {
-						inConditionProds.add(p);
+				for (Stock s : stocks) {
+					if(s.getProduct().getType().equals(type)
+							&& s.getPriceAfterSale()>=priceStart 
+							&& s.getPriceAfterSale()<=priceEnd) {
+						inConditionProds.add(s);
 					}
 				}
 			}
 			else {
-				for (Product p : products) {
-					if(p.getType().equals(type)
-							&& p.getPrice()>=priceStart 
-							&& p.getPrice()<=priceEnd) {
-						if(p.getColor().equals(color))
-							inConditionProds.add(p);
+				for (Stock s : stocks) {
+					if(s.getProduct().equals(type)
+							&& s.getPriceAfterSale()>=priceStart 
+							&& s.getPriceAfterSale()<=priceEnd) {
+						if(s.getProduct().getColor().equals(color))
+							inConditionProds.add(s);
 					}
 				}
 			}
@@ -52,10 +53,10 @@ public class ProductController extends ParentController implements IProduct {
 	}
 	
 	
-	private void saveImagesInClient(ArrayList<Product> prds) {
+	public void saveImagesInClient(ArrayList<Product> prds) {
 		try {
 			if(prds!=null && prds.isEmpty()==false) {
-				URI uri = ProductController.class.getResource("/images/").toURI();				
+				URI uri = ProductController.class.getResource("/images/").toURI();			
 				/*File directory = new File(uri);
 				for(File f: directory.listFiles()) {
 					  if(f.isDirectory()==false)

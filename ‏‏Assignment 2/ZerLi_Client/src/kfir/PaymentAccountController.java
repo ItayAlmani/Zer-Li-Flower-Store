@@ -6,6 +6,7 @@ import java.lang.reflect.Method;
 import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.NoSuchElementException;
 
 import common.Context;
 import controllers.ParentController;
@@ -14,6 +15,7 @@ import entities.CreditCard;
 import entities.Customer;
 import entities.Order;
 import entities.PaymentAccount;
+import entities.Store;
 import gui.controllers.ParentGUIController;
 import interfaces.IParent;
 import entities.CSMessage.MessageType;
@@ -70,5 +72,17 @@ public class PaymentAccountController extends ParentController{
 		myMsgArr.add(Thread.currentThread().getStackTrace()[1].getMethodName());
 		myMsgArr.add(paymentAccount);
 		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.UPDATE, myMsgArr,PaymentAccount.class));
+	}
+	
+	public PaymentAccount getPaymentAccountOfStore(ArrayList<PaymentAccount> pas, Store store) throws NoSuchElementException,NullPointerException, IllegalArgumentException {
+		if(pas == null || store == null)
+			throw new NullPointerException("ArrayList named pas or Store named store is/are null");
+		if(pas.isEmpty())
+			throw new IllegalArgumentException("ArrayList named pas is empty");
+		for (PaymentAccount pa : pas) {
+			if(pa.getStore()!=null && pa.getStore().getStoreID().equals(store.getStoreID()))
+				return pa;
+		}
+		throw new NoSuchElementException("There is no Store with ID="+store.getStoreID()+"in this ArrayList");
 	}
 }

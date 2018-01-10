@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import entities.Product;
 import entities.Product.Color;
 import entities.Product.ProductType;
+import entities.Stock;
 import interfaces.IParent;
 
 public interface IProduct {
@@ -26,10 +27,10 @@ public interface IProduct {
 	 * @param priceStart
 	 * @param priceEnd
 	 * @param color
-	 * @param products TODO
+	 * @param stocks TODO
 	 * @return TODO
 	 */
-	ArrayList<Product> assembleProduct(ProductType type, Float priceStart, Float priceEnd, Color color, ArrayList<Product> products) throws IOException;
+	ArrayList<Stock> assembleProduct(ProductType type, Float priceStart, Float priceEnd, Color color, ArrayList<Stock> stocks);
 	
 	public void getProductsInCatalog() throws IOException;
 	
