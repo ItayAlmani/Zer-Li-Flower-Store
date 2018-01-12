@@ -28,10 +28,10 @@ public interface IComplaint{
 
 	void sendComplaints(ArrayList<Complaint> complaints);
 
-	void getNotTreatedComplaints();
+	void getNotTreatedComplaints() throws IOException;
 
-	void getAllComplaints();
 
-	void handleGet(ArrayList<Object> obj);
+
+	void handleGet(ArrayList<Complaint> obj);
 
 }

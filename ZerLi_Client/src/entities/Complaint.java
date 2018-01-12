@@ -9,12 +9,25 @@ public class Complaint implements Serializable {
 
 	private BigInteger complaintID;
 	private String complaintReason;
-	private String customerID;
+	private BigInteger customerID;
 	private LocalDateTime date;
 	private boolean isTreated = false;
 	private boolean isRefunded = false;
-	private String status;
-	private String storeID;
+	private BigInteger storeID;
+	
+	
+
+	public Complaint(BigInteger complaintID, BigInteger customerID,BigInteger storeID,String complaintReason, LocalDateTime date,
+			boolean isTreated, boolean isRefunded) {
+		super();
+		this.complaintID = complaintID;
+		this.customerID = customerID;
+		this.storeID = storeID;
+		this.complaintReason = complaintReason;
+		this.date = date;
+		this.isTreated = isTreated;
+		this.isRefunded = isRefunded;
+	}
 
 	public String getComplaintReason() {
 		return this.complaintReason;
@@ -24,11 +37,11 @@ public class Complaint implements Serializable {
 		this.complaintReason = complaintReason;
 	}
 
-	public String getCustomerID() {
+	public BigInteger getCustomerID() {
 		return this.customerID;
 	}
 
-	public void setCustomerID(String customerID) {
+	public void setCustomerID(BigInteger customerID) {
 		this.customerID = customerID;
 	}
 
@@ -56,13 +69,6 @@ public class Complaint implements Serializable {
 		this.isRefunded = isRefunded;
 	}
 
-	public String getStatus() {
-		return status;
-	}
-
-	public void setStatus(String status) {
-		this.status = status;
-	}
 
 	public BigInteger getComplaintID() {
 		return complaintID;
@@ -88,11 +94,11 @@ public class Complaint implements Serializable {
 		this.isRefunded = isRefunded;
 	}
 
-	public String getStoreID() {
+	public BigInteger getStoreID() {
 		return storeID;
 	}
 
-	public void setStoreID(String storeID) {
+	public void setStoreID(BigInteger storeID) {
 		this.storeID = storeID;
 	}
 

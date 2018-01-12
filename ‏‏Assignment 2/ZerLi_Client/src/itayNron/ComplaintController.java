@@ -21,7 +21,7 @@ public class ComplaintController extends ParentController implements IComplaint 
 		arr.add(complaint);
 		arr.add(getCurrentID);
 		myMsgArr.add(arr);
-		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.INSERT, myMsgArr,SurveyReport.class));
+		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.INSERT, myMsgArr,Complaint.class));
 	}
 	
 	@Override
