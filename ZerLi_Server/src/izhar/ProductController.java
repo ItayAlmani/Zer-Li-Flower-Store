@@ -14,13 +14,13 @@ import entities.Product;
 public class ProductController extends ParentController {	
 	
 	public Product parse(BigInteger prdID, String name, String type, float price, String color, boolean inCatalog, String imageURL){
-		return new Product(prdID, name, type,price,color,inCatalog, imageURL, insertImageToByteArr("/images/"+imageURL));
+		return new Product(prdID, name, type,price,color,inCatalog, imageURL, insertImageToByteArr(imageURL));
 	}
 	
-	private byte[] insertImageToByteArr(String filePath) {
+	private byte[] insertImageToByteArr(String fileName) {
 		try {
-			File newFile = new File(getClass().getResource(filePath).toURI());
-		      
+			File newFile = new File(getClass().getResource("/images/"+fileName).getPath());
+
 			byte[] mybytearray  = new byte [(int)newFile.length()];
 			FileInputStream fis = new FileInputStream(newFile);
 			BufferedInputStream bis = new BufferedInputStream(fis);			    
@@ -28,7 +28,7 @@ public class ProductController extends ParentController {
 			bis.close();
 			return mybytearray;
 		}catch (Exception e) {
-			System.err.println(filePath+"\n");
+			System.err.println(fileName+"\n");
 			e.printStackTrace();
 		}
 		return null;

@@ -1,9 +1,12 @@
 package common;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Optional;
+
+import gui.controllers.ParentGUIController;
 import javafx.application.Application;
-import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.control.Alert;
@@ -14,25 +17,34 @@ import javafx.stage.Modality;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-import kfir.gui.controllers.LogInGUIController;
-
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.Optional;
-
-import gui.controllers.*;
-import izhar.ProductController;
 
 public class MainClient extends Application {
 	private Stage stage;
+	public final static String logoName = "logo3.gif";
+	
+	/**The path to the project/JAR + /temp/.<br>
+	 *tempDir = {@value}*/
+	public final static String tempDir = System.getProperty("user.dir") + "\\temp\\";
+	
+	/**The path to {@link #tempDir} + */
+	public final static String imagesPath = tempDir+"images\\";
+	
 	public static void main(String args[]) throws IOException {
+		File fTmpDir = new File(MainClient.tempDir);
+		if(fTmpDir.exists()==false) {
+			fTmpDir.mkdir();
+			fTmpDir.deleteOnExit();
+		}
 		launch(args);
 	} // end main
 
+	public static Image getLogoAsImage() throws IOException {
+		InputStream is = MainClient.class.getResourceAsStream("/images/logos/"+logoName);
+		Image img = new Image(is);
+		is.close();
+		return img;
+	}
+	
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		primaryStage.show();
@@ -41,8 +53,9 @@ public class MainClient extends Application {
 		primaryStage.setOnCloseRequest(confirmCloseEventHandler);
 		primaryStage.setHeight(500);
 		primaryStage.setWidth(500);
-		for (int i = 0; i <= 5; i++)
-			primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/images/logos/img/logo3-" + i + ".png")));
+		/*for (int i = 0; i <= 5; i++)
+			primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/images/logos/img/logo3-" + i + ".png")));*/
+		primaryStage.getIcons().add(getLogoAsImage());
 		Rectangle2D primScreenBounds = Screen.getPrimary().getVisualBounds();
         primaryStage.setX((primScreenBounds.getWidth() - primaryStage.getWidth()) / 2);
         primaryStage.setY(0);
@@ -52,13 +65,14 @@ public class MainClient extends Application {
 		main.start(primaryStage);
 	}
 	
-	private void deleteAllImages() throws URISyntaxException {
-		URI uri = getClass().getResource("/images/").toURI();				
-		File directory = new File(uri);
-		for(File f: directory.listFiles()) {
-			  if(f.isDirectory()==false)
-				  if(f.delete()==false)
-					  System.err.println("Can't delete "+ f.getName());
+	private void deleteAllImages(){	
+		File directory = new File(MainClient.imagesPath);
+		if(directory.exists()) {
+			for(File f: directory.listFiles()) {
+				  if(f.isDirectory()==false)
+					  if(f.delete()==false)
+						  System.err.println("Can't delete "+ f.getName());
+			}
 		}
 	}
 
@@ -79,11 +93,7 @@ public class MainClient extends Application {
 		else {
 			if (Context.mainScene != null)
 				Context.mainScene.logOutUserInSystem();
-			try {
-				deleteAllImages();
-			} catch (URISyntaxException e) {
-				e.printStackTrace();
-			}
+			deleteAllImages();
 			if (Context.clientConsole != null)
 				Context.clientConsole.quit();
 		}

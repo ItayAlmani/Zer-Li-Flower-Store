@@ -116,8 +116,4 @@ public class UpdateOrderStatusGUIController implements Initializable {
 			e.printStackTrace();
 		}
 	}
-
-	public void back() {
-		Context.mainScene.loadMainMenu();
-	}
 }

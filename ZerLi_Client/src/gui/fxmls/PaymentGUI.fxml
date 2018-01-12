@@ -11,6 +11,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
+<?import com.jfoenix.controls.JFXButton?>
 
 <VBox alignment="CENTER" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="izhar.gui.controllers.PaymentGUIController">
 	<children>
@@ -54,8 +55,7 @@
             <Font name="System Bold" size="12.0" />
          </font>
       </Label>
-      <Button fx:id="btnPay" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#pay" text="Pay" textAlignment="CENTER" visible="false" />
-      <Button mnemonicParsing="false" onAction="#back" text="Back" />
-      <Label fx:id="lblMsg" alignment="CENTER" contentDisplay="CENTER" textAlignment="CENTER" textFill="RED" />
+      <JFXButton fx:id="btnPay" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#pay" text="Pay" textAlignment="CENTER" visible="false" />
+      <JFXButton mnemonicParsing="false" onAction="#back" text="Back" />
    </children>
 </VBox>

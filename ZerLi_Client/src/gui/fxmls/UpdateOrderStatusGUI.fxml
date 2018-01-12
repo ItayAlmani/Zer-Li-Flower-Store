@@ -23,7 +23,5 @@
             <Button mnemonicParsing="false" onAction="#updateOrderStatus" text="Update" />
          </children>
       </VBox>
-      <Button mnemonicParsing="false" onAction="#back" text="Back" />
-      <Label fx:id="lblMsg" textAlignment="CENTER" textFill="RED" wrapText="true" />
    </children>
 </VBox>

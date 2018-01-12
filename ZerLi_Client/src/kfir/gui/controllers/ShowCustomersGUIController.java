@@ -29,7 +29,6 @@ import javafx.scene.layout.VBox;
 public class ShowCustomersGUIController implements Initializable  {
 
 	private @FXML ComboBox<Customer> cbCustomers;
-	private @FXML Button btnBack;
 	static Customer selcted;
 	
 	private @FXML TextField txtCardNUM;

@@ -1,7 +1,6 @@
 package gui.controllers;
 
 import java.io.IOException;
-import java.net.URISyntaxException;
 
 import com.jfoenix.controls.JFXComboBox;
 
@@ -51,6 +50,8 @@ public class LoadGUIController {
 	protected @FXML HBox hbIcons, hbChangingIcons; 
 	protected @FXML VBox hbCustServiceData, hbCustomer, hbOrders, hbCustomersInfo;
 
+	protected @FXML ImageView imgLogo1, imgLogo2;
+	
 	public void loadProducts() {
 		loadGUI("ProductsFormGUI", false);
 	}
@@ -117,15 +118,10 @@ public class LoadGUIController {
 	}
 
 	private void addMediaPlayer() {
-		String musicFile = "/sound/Bana_Cut.mp3";
-		Media sound;
-		try {
-			sound = new Media(getClass().getResource(musicFile).toURI().toString());
-			MediaPlayer mediaPlayer = new MediaPlayer(sound);
-			mediaPlayer.play();
-		} catch (URISyntaxException e) {
-			e.printStackTrace();
-		}
+		String musicFile = "Bana_Cut.mp3";
+		Media sound = new Media(getClass().getResource("/sound/").getPath()+musicFile);
+		MediaPlayer mediaPlayer = new MediaPlayer(sound);
+		mediaPlayer.play();
 	}
 
 	public void loadGUI(String guiName, String cssName) {

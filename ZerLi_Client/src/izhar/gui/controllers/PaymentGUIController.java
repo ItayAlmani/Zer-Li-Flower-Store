@@ -6,15 +6,15 @@ import java.net.URL;
 import java.util.Random;
 import java.util.ResourceBundle;
 
+import com.jfoenix.controls.JFXButton;
+
 import common.Context;
-import entities.CreditCard;
 import entities.Order;
 import entities.Order.OrderStatus;
 import gui.controllers.ParentGUIController;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.RadioButton;
@@ -26,7 +26,7 @@ public class PaymentGUIController implements Initializable {
 
 	private @FXML RadioButton rbCredit, rbCash;
 	private @FXML Label lblPayMsg, lblFinalPrice;
-	private @FXML Button btnPay;
+	private @FXML JFXButton btnPay;
 	private @FXML ProgressIndicator piBill;
 	private @FXML ToggleGroup tGroup;
 	private @FXML TextArea txtGreeting;

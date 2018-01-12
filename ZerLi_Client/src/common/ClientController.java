@@ -6,19 +6,16 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
-import java.util.ArrayList;
-import java.util.Scanner;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.math.BigInteger;
-import java.net.URISyntaxException;
 import java.nio.channels.FileChannel;
+import java.util.ArrayList;
+import java.util.Scanner;
 
 import controllers.ParentController;
-import entities.*;
+import entities.CSMessage;
 import entities.CSMessage.MessageType;
-import gui.controllers.*;
-import izhar.gui.controllers.PaymentGUIController;
 
 /** Will parse/decode the <code>CSMessage</code> which present the answer of the GUI request,
  * and will send the answer to the correct GUI.
@@ -39,7 +36,7 @@ public class ClientController {
 	/** The text file name which contains the server's details: host and port */
 	private final static String serverTxtFileName="ServerAddress.txt";
 	private final static String txtBinPath = ClientController.class.getResource(serverTxtFileName).getPath();
-	private final static String txtSrcPath = System.getProperty("user.dir") + "//src//common//" + serverTxtFileName;
+	private final static String txtSrcPath = MainClient.tempDir;
 	
 	//private static ArrayList<Object> myMsgArr = new ArrayList<>();
 	
@@ -239,7 +236,7 @@ public class ClientController {
 	 * @throws IOException - will be thrown when the .txt file not found
 	 */
 	private static void writeNewServerDataIntoTxt() throws IOException {
-		File f = new File(ClientController.class.getResource(serverTxtFileName).getPath());
+		File f = new File(txtBinPath);
 		if (f.exists() == false) //Create a new file if doesn't exists yet
 			f.createNewFile();
 		PrintStream output = new PrintStream(f);
@@ -257,11 +254,11 @@ public class ClientController {
 	private static void copyFiles(boolean srcToBin) {
 		try {
 			File fBin = new File(txtBinPath);
-			File fSrc = new File(txtSrcPath);
-			if (fSrc.exists() == false)
+			File fSrc = new File(txtSrcPath,serverTxtFileName);
+			/*if (fSrc.exists() == false)
 				return;
 			if(fBin.exists()==false)
-				fBin.createNewFile();
+				fBin.createNewFile();*/
 			FileChannel sourceChannel = null;
 			FileChannel destChannel = null;
 			try {

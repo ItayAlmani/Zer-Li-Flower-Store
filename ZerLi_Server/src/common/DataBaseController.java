@@ -6,10 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.nio.channels.FileChannel;
-import java.nio.file.Files;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -20,6 +17,8 @@ public class DataBaseController {
 			dbPassword_default = "1234";
 
 	private final String dbTextFileName = "DataBaseAddress.txt";
+	private final String txtBinPath = getClass().getResource("").getPath()+dbTextFileName;
+	private final String txtSrcPath = System.getProperty("user.dir") + "//src//common//" + dbTextFileName;
 
 	public ArrayList<Object> getDBData() {
 		ArrayList<Object> objArr = new ArrayList<>();
@@ -61,7 +60,7 @@ public class DataBaseController {
 	}
 
 	private void writeNewDBDataIntoTxt() throws IOException {
-		File fBin = new File(getClass().getResource(dbTextFileName).getPath());
+		File fBin = new File(txtBinPath);
 		if (fBin.exists() == false) // Create a new file if doesn't exists yet
 			fBin.createNewFile();
 		PrintStream output = new PrintStream(fBin);
@@ -128,8 +127,8 @@ public class DataBaseController {
 	 */
 	private void copyFiles(boolean srcToBin) {
 		try {
-			File fBin = new File(getClass().getResource(dbTextFileName).getPath());
-			File fSrc = new File(System.getProperty("user.dir") + "//src//common//" + dbTextFileName);
+			File fBin = new File(txtBinPath);
+			File fSrc = new File(txtSrcPath);
 			if (fSrc.exists() == false)
 				return;
 			if(fBin.exists()==false)

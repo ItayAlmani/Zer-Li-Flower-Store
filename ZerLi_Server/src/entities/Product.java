@@ -6,8 +6,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.Serializable;
 import java.math.BigInteger;
-import java.net.URI;
-import java.net.URISyntaxException;
 
 import izhar.ProductController;
 
@@ -175,9 +173,8 @@ public class Product implements Comparable<Product>, Serializable  {
 		this.inCatalog = inCatalog;
 	}
 
-	public String getImageName() throws URISyntaxException, IOException {
-		URI uri = ProductController.class.getResource("/images/").toURI();
-		File f = new File(new URI(uri.toString()+this.imageName));
+	public String getImageName() throws IOException {
+		File f = new File(ProductController.class.getResource("/images/").getPath()+this.imageName);
 		f.createNewFile();
 		f.deleteOnExit();
 		FileOutputStream fos = new FileOutputStream(f.getAbsolutePath());

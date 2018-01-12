@@ -54,6 +54,5 @@
             </HBox>
          </children>
       </VBox>
-      <Button fx:id="btnBack" mnemonicParsing="false" onAction="#back" text="Back" />
    </children>
 </VBox>

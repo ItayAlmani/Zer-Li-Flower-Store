@@ -1,8 +1,10 @@
 package gui.controllers;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import common.Context;
+import common.MainClient;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView;
 import de.jensd.fx.glyphs.materialicons.MaterialIconView;
@@ -17,9 +19,11 @@ import javafx.scene.Node;
 import javafx.scene.control.Tooltip;
 
 public class SetUpMainGUIController extends LoadGUIController {
-	protected void setUpInit() {
+	protected void setUpInit() throws IOException {
 		ObservableList<Node> child = hbChangingIcons.getChildren();
 		child.clear();
+		imgLogo1.setImage(MainClient.getLogoAsImage());
+		imgLogo2.setImage(MainClient.getLogoAsImage());
 	}
 	
 	protected void setUpCustomerMenu() {

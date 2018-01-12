@@ -1,13 +1,14 @@
 package izhar.gui.controllers;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import common.Context;
+import common.MainClient;
 import entities.Product;
 import entities.ProductInOrder;
 import entities.Stock;
@@ -19,7 +20,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.HPos;
 import javafx.geometry.Pos;
-import javafx.geometry.VPos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Control;
@@ -30,11 +30,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.Border;
-import javafx.scene.layout.BorderStroke;
-import javafx.scene.layout.BorderStrokeStyle;
-import javafx.scene.layout.BorderWidths;
-import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -52,8 +47,6 @@ public abstract class ProductsPresentationGUIController implements Initializable
 	protected @FXML VBox vbox = new VBox();
 	protected @FXML VBox[] vbxProduct;
 	protected ArrayList<Node> components = new ArrayList<>();
-	
-	protected Button btnBack;
 	
 	/*Only for cartGUI*/
 	protected @FXML Spinner<Integer>[] spnShowQuantity;
@@ -125,12 +118,12 @@ public abstract class ProductsPresentationGUIController implements Initializable
 		}
 		else return;
 		try {
-			InputStream is = getClass().getResourceAsStream("/images/"+prd.getImageName());
-			imgImages[i] = new ImageView(new Image(is));
-			is.close();
+			/*InputStream is = getClass().getResourceAsStream("/images/"+);*/
+			imgImages[i] = new ImageView(new Image(new File(MainClient.imagesPath+prd.getImageName()).toURI().toURL().toExternalForm()));
+			/*is.close();*/
 			imgImages[i].prefHeight(200);
 			vbxProduct[i].getChildren().addAll(imgImages[i],grids[i]);
-		} catch (IOException | URISyntaxException e) {
+		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -215,8 +208,6 @@ public abstract class ProductsPresentationGUIController implements Initializable
 			@Override
 			public void handle(ActionEvent event) {
 				if(event.getSource() instanceof Button) {
-					/*Button btn = (Button)event.getSource();
-					Product prd = productsInCatalog.get((int) btn.getUserData());*/
 					Product prd = new Product(p);
 					prd.setPrice(price);
 					ProductInOrder pio = Context.order.containsProduct(prd);

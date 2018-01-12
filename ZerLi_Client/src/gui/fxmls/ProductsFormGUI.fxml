@@ -11,13 +11,13 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import com.jfoenix.controls.JFXButton?>
 
 <!-- CHANGE CONTROLLER path -->
 
 <AnchorPane xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="izhar.gui.controllers.ProductsFormGUIController">
 	<children>
 		<ComboBox id="cmbProducts" fx:id="cmbProducts" layoutX="10.0" layoutY="1.0" onAction="#showProduct" prefHeight="23.0" prefWidth="291.0" promptText="Select product" />
-		<Button id="btnBack" fx:id="btnBack" layoutX="157.0" layoutY="341.0" mnemonicParsing="false" onAction="#loadMainMenu" text="Back" />
       <Pane fx:id="paneItem" layoutX="5.0" layoutY="41.0" prefHeight="297.0" prefWidth="344.0" visible="false">
          <children>
             <ImageView id="imgImage" fx:id="imgImage" fitHeight="150.0" fitWidth="200.0" layoutX="97.0" pickOnBounds="true" preserveRatio="true" />
@@ -45,7 +45,7 @@
                   <Label id="lblShowColor" fx:id="lblShowColor" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                   <Label id="lblTitlePrice" contentDisplay="CENTER" text="Price:" GridPane.rowIndex="4" />
                   <Label id="lblShowPrice" fx:id="lblShowPrice" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                  <Button id="btnUpdate" fx:id="btnUpdate" mnemonicParsing="false" onAction="#updateName" text="Update" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                  <JFXButton id="btnUpdate" fx:id="btnUpdate" mnemonicParsing="false" onAction="#updateName" text="Update" GridPane.columnIndex="1" GridPane.rowIndex="5" />
                </children>
             </GridPane>
          </children>

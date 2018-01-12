@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.ResourceBundle;
 
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTimePicker;
@@ -50,7 +51,7 @@ import com.jfoenix.controls.JFXSlider;
 public class OrderTimeGUIController implements Initializable {
 
 	private @FXML RadioButton rbImmediate, rbPreOrder;
-	private @FXML Button btnSend, btnBack;
+	private @FXML JFXButton btnSend, btnBack;
 	private @FXML JFXDatePicker dpDate;
 	private @FXML JFXTimePicker tpTime;
 	private @FXML VBox vboxTime, vboxDateTime;

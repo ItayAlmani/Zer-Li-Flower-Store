@@ -15,6 +15,7 @@ import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 
 import common.Context;
+import common.MainClient;
 import entities.User;
 import gui.controllers.ParentGUIController;
 import javafx.application.Platform;
@@ -98,11 +99,15 @@ public class LogInGUIController implements Initializable{
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
-		ValidationSupport validationSupport = new ValidationSupport();
+		/*ValidationSupport validationSupport = new ValidationSupport();
 		validationSupport.registerValidator(txtUserName, Validator.createEmptyValidator("Text is required"));
-		/*validationSupport.validationResultProperty().addListener( (o, oldValue, newValue) ->
+		validationSupport.validationResultProperty().addListener( (o, oldValue, newValue) ->
         messageList.getItems().setAll(newValue.getMessages()));*/
-		imgLogo.setImage(new Image(getClass().getResourceAsStream(logoPath)));
+		try {
+			imgLogo.setImage(MainClient.getLogoAsImage());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		setComponentSendOnEnter(Arrays.asList(new Node[] {txtUserName,txtPassword}));
 	}
 	

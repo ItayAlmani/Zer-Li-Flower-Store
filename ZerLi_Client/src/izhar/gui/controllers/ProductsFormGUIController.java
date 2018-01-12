@@ -3,11 +3,13 @@ package izhar.gui.controllers;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigInteger;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+
+import com.jfoenix.controls.JFXButton;
+
 import java.util.Map.Entry;
 
 import javafx.application.Platform;
@@ -42,7 +44,7 @@ import gui.controllers.ParentGUIController;
 public class ProductsFormGUIController implements Initializable{
 
 	private @FXML ComboBox<Product> cmbProducts;
-	private @FXML Button btnBack, btnUpdate;
+	private @FXML JFXButton btnUpdate;
 	private @FXML Label lblShowID, lblShowType, lblShowColor, lblShowPrice;
 	private @FXML TextField txtShowName;
 	private @FXML Pane paneItem;
@@ -89,7 +91,7 @@ public class ProductsFormGUIController implements Initializable{
 			imgImage = new ImageView(new Image(is));
 			is.close();
 			paneItem.setVisible(true);
-		} catch (IOException | URISyntaxException e) {
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}

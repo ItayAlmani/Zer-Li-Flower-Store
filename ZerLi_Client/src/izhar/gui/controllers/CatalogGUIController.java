@@ -57,14 +57,14 @@ public class CatalogGUIController extends ProductsPresentationGUIController {
 					pagInd = vbox.getChildren().size();
 				vbox.getChildren().add(pagInd,pagination);
 				
-				if(btnBack == null || vbox.getChildren().contains(btnBack) == false) {
+				/*if(btnBack == null || vbox.getChildren().contains(btnBack) == false) {
 					btnBack = new Button("Back");
 					btnBack.setOnAction(actionEvent -> {
 						pagination=null;
 						Context.mainScene.loadMainMenu();
 						});
 					vbox.getChildren().add(btnBack);
-				}
+				}*/
 				
 				vbox.setAlignment(Pos.CENTER);
 				vbox.getScene().getWindow().sizeToScene();

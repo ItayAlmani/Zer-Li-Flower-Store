@@ -1,28 +1,19 @@
 package common;
 
-import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.PrintStream;
 import java.math.BigInteger;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Scanner;
-import java.util.Map.Entry;
 
 import entities.Customer;
 import entities.Order;
+import entities.Order.OrderStatus;
+import entities.Order.OrderType;
 import entities.ProductInOrder;
 import entities.Store;
 import entities.StoreWorker;
 import entities.User;
-import entities.Order.OrderStatus;
-import entities.Order.OrderType;
 import entities.User.UserType;
-import gui.controllers.MainMenuGUIController;
 import gui.controllers.ParentGUIController;
-import javafx.stage.Stage;
 import kfir.gui.controllers.LogInGUIController;
 
 /** The class which holds the data of each client. 

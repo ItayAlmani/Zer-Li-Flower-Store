@@ -50,7 +50,7 @@ public class ReportSelectorGUIController implements Initializable {
 	private @FXML JFXComboBox<Store> cbStorePick1, cbStorePick2;
 	private @FXML JFXDatePicker DatePicker1;
 	private @FXML JFXToggleButton ToggleReport2;
-	private @FXML JFXButton btConfirm1, btBack;
+	private @FXML JFXButton btConfirm1;
 	// Report1Pick variables
 	private @FXML Label lblReport2;
 	private @FXML JFXDatePicker DatePicker2;

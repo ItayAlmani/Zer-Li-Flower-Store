@@ -24,18 +24,11 @@ import javafx.scene.layout.VBox;
 public class SurveyReportGUIController implements Initializable
 {
 	private @FXML TextField txtVerbalReport;
-	private @FXML Button btnSubmit;
 	private @FXML Button btnSend;
-	private @FXML Label l1;
-	private @FXML Label l2;
-	private @FXML Label l3;
-	private @FXML Label l4;
-	private @FXML Label l5;
-	private @FXML Label l6;
-	@FXML DatePicker dpDateStart;
-	@FXML DatePicker dpDateEnd;
-	@FXML TextArea txtVerbal;
-	@FXML VBox vboxVerbal;
+	private @FXML Label l1, l2, l3, l4, l5, l6;
+	private @FXML DatePicker dpDateStart, dpDateEnd;
+	private @FXML TextArea txtVerbal;
+	private @FXML VBox vboxVerbal;
 	private SurveyReport sr;
 
 	
@@ -98,20 +91,14 @@ public class SurveyReportGUIController implements Initializable
 	}
 
 	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-		ParentGUIController.currentGUI = this;
-		
+	public void initialize(URL location, ResourceBundle resources) {		
 		dpDateStart.setValue(LocalDate.now());
 		dpDateEnd.setValue(LocalDate.now());
-		l1.setText("");
+		/*l1.setText("");
 		l2.setText("");
 		l3.setText("");
 		l4.setText("");
 		l5.setText("");
-		l6.setText("");
-	}
-
-	public void loadMainMenu() {
-		Context.mainScene.loadMainMenu();
+		l6.setText("");*/
 	}
 }

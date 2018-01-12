@@ -1,43 +1,19 @@
 package gui.controllers;
 
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import common.ClientController;
 import common.Context;
-import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView;
-import entities.Customer;
-import entities.PaymentAccount;
-import entities.Store;
 import entities.User.UserType;
 import javafx.application.Platform;
-import javafx.collections.FXCollections;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.control.MenuButton;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.Tooltip;
 import javafx.scene.effect.DropShadow;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.Region;
-import javafx.scene.layout.VBox;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import com.jfoenix.controls.JFXComboBox;
-import de.jensd.fx.glyphs.octicons.OctIconView;
-import de.jensd.fx.glyphs.materialicons.MaterialIconView;
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 
 public class ParentGUIController extends SetUpMainGUIController implements Initializable {
 	/** The current JavaFX stage <=> the window of the GUI */
@@ -112,7 +88,11 @@ public class ParentGUIController extends SetUpMainGUIController implements Initi
 	}
 
 	public void initialize(URL location, ResourceBundle resources) {
-		setUpInit();
+		try {
+			setUpInit();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		mainPane.getStylesheets().add(getClass().getResource("/gui/css/ParentCSS.css").toExternalForm());
 		DropShadow ds = new DropShadow(30, Color.web("#ffbb2d"));
 		menu.setEffect(ds);

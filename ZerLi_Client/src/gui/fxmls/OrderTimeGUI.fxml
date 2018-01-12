@@ -9,6 +9,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
+<?import com.jfoenix.controls.JFXButton?>
 
 <VBox alignment="CENTER" spacing="10.0" stylesheets="@../css/ParentCSS.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="izhar.gui.controllers.OrderTimeGUIController">
    <children>
@@ -52,7 +53,7 @@
             </VBox>
          </children>
       </VBox>
-      <Button fx:id="btnSend" alignment="CENTER" contentDisplay="CENTER" disable="true" mnemonicParsing="false" onAction="#addTime" text="Send" textAlignment="CENTER" />
-      <Button mnemonicParsing="false" onAction="#back" text="Back" />
+      <JFXButton fx:id="btnSend" alignment="CENTER" contentDisplay="CENTER" disable="true" mnemonicParsing="false" onAction="#addTime" text="Send" textAlignment="CENTER" />
+      <JFXButton mnemonicParsing="false" onAction="#back" text="Back" />
    </children>
 </VBox>
