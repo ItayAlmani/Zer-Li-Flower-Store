@@ -5,6 +5,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 
+import common.ClientController;
 import common.Context;
 import entities.CSMessage;
 import entities.DataBase;
@@ -51,8 +52,10 @@ public class DataBaseController extends ParentController {
 	 */
 	public void handleGet(ArrayList<Object> objArr) {
 		if(objArr.size()==1) {
-			if(objArr.get(0) instanceof Boolean)
-				Context.dbConnected=(boolean)objArr.get(0);
+			if(objArr.get(0) instanceof Boolean) {
+				ClientController.dbConnected=(boolean)objArr.get(0);
+				sendDBStatus((Boolean)objArr.get(0));
+			}
 		}
 		else {
 			ArrayList<String> strArr = new ArrayList<>();
@@ -62,7 +65,7 @@ public class DataBaseController extends ParentController {
 				else
 					strArr.add((String)object);
 			}
-			sendDB(strArr);
+			sendDBData(strArr);
 		}
 	}
 	
@@ -71,7 +74,7 @@ public class DataBaseController extends ParentController {
 	 * @param db - the information of the new <code>DataBase</code>.
 	 * @throws IOException - thrown when sending to Server failed.
 	 */
-	public void sendDB(ArrayList<String> dbData) {
+	public void sendDBData(ArrayList<String> dbData) {
 		String methodName = "setDBData";
 		Method m = null;
 		try {
@@ -94,5 +97,28 @@ public class DataBaseController extends ParentController {
 			e2.printStackTrace();
 		}
 	}
-
+	
+	public void sendDBStatus(Boolean dbStatus) {
+		String methodName = "setDBStatus";
+		Method m = null;
+		try {
+			//a controller asked data, not GUI
+			if(Context.askingCtrl!=null && Context.askingCtrl.size()!=0) {
+				m = Context.askingCtrl.get(0).getClass().getMethod(methodName,Boolean.class);
+				Object obj = Context.askingCtrl.get(0);
+				Context.askingCtrl.remove(0);
+				m.invoke(obj, dbStatus);
+			}
+			else {
+				m = ParentGUIController.currentGUI.getClass().getMethod(methodName,Boolean.class);
+				m.invoke(ParentGUIController.currentGUI, dbStatus);
+			}
+		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e1) {
+			System.err.println("Couldn't invoke method '"+methodName+"'");
+			e1.printStackTrace();
+		} catch (NoSuchMethodException | SecurityException e2) {
+			System.err.println("No method called '"+methodName+"'");
+			e2.printStackTrace();
+		}
+	}
 }

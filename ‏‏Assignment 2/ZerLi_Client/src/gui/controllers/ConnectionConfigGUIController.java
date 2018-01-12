@@ -53,7 +53,7 @@ public class ConnectionConfigGUIController implements Initializable{
 			port=Integer.parseInt(txtPort.getText());
 		if(port!=null&&host!=null) {
 			try {
-				Context.connectToServer(host, port);
+				ClientController.connectToServer(host, port);
 				Context.mainScene.setServerAvailable();
 				back();
 			} catch (IOException e) {
@@ -109,5 +109,9 @@ public class ConnectionConfigGUIController implements Initializable{
 			txtHost.setText("localhost");
 			txtPort.setText("5555");
 		}
+	}
+	
+	public void setDBStatus(Boolean dbStatus) {
+		Context.mainScene.setMessage("Data base details are " + (dbStatus==false?"in":"") + "correct");
 	}
 }

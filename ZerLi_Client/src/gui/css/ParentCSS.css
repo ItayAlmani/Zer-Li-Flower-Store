@@ -1,0 +1,60 @@
+.root{
+	-fx-alignment: center;
+	-fx-content-display: center ;
+}
+
+.mainScene{
+	-fx-background-image: url("/images/logos/Light_Background_Image.jpg");
+}
+
+.strike .text {
+    -fx-strikethrough: true;
+}
+
+.menu{
+	-fx-background-color: #ffe5af;
+	-fx-border-color: #ffbb2d;
+
+}
+.lblHeader{
+	-fx-text-fill: linear-gradient(to top right,#ff6d08 0%, RED 44.63%, #fff700 100%);
+	-fx-font-family: "Bauhaus 93";
+	-fx-font-size: 37.0;
+}
+
+.title{
+	-fx-font-family: "Bauhaus 93";
+	-fx-font-weight: bold;
+	-fx-font-size: 20px;
+}
+
+.iconedButton{
+	-fx-font-size: 30.0;
+}
+
+.coloredIcon{
+	-fx-fill: linear-gradient(to top right,#ff6d08 0%, RED 44.63%, #fff700 100%);
+	-glyph-size: 30.0;
+}
+
+.menu-button{
+	-fx-background-color: linear-gradient(to top right,#ff6d08 0%, RED 44.63%, #fff700 100%);
+}
+
+Pane{
+	-fx-padding: 5 5 5 5;
+}
+
+.tooltip{
+	-fx-font-size: 12px;
+}
+
+.menuVBox{
+	-fx-border-color: #ffbb2d ;
+}
+
+.menuTitle{
+	-fx-font-size: 15px;
+	-fx-font-family: "Bauhaus 93";
+	-fx-font-weight: bold;
+}

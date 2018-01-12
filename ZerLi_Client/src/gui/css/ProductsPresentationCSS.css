@@ -1,0 +1,13 @@
+VBox {
+	-fx-padding: 10 10 10 10;
+}
+GridPane{
+	-fx-padding: 5 5 5 5;
+	-fx-hgap: 5;
+	-fx-vgap: 5;
+}
+
+#lblTitle{
+	-fx-font-family: "Bauhaus 93";
+	-fx-font-weight: bold;
+}

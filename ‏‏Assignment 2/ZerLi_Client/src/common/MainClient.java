@@ -30,24 +30,12 @@ import izhar.ProductController;
 public class MainClient extends Application {
 	private Stage stage;
 	public static void main(String args[]) throws IOException {
-		try {
-			Context.connectToServer();
-		} catch (IOException e) {
-			System.err.println("Connecting to server failed");
-		}
-		if (Context.clientConsole != null && Context.clientConsole.isConnected() == true) {
-			try {
-				Context.fac.dataBase.getDBStatus();
-			} catch (IOException e) {
-				System.err.println("Can't get data base status");
-			}
-		}
 		launch(args);
-
 	} // end main
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
+		primaryStage.show();
 		ParentGUIController main = new ParentGUIController();
 		this.stage=primaryStage;
 		primaryStage.setOnCloseRequest(confirmCloseEventHandler);
@@ -59,7 +47,8 @@ public class MainClient extends Application {
         primaryStage.setX((primScreenBounds.getWidth() - primaryStage.getWidth()) / 2);
         primaryStage.setY(0);
         primaryStage.setMaxHeight(primScreenBounds.getMaxY());
-        primaryStage.resizableProperty().setValue(Boolean.FALSE);
+        //primaryStage.resizableProperty().setValue(Boolean.FALSE);
+        
 		main.start(primaryStage);
 	}
 	

@@ -1,4 +1,4 @@
 Url: localhost
-Name: schema
+Name: dbassignment2
 UserName: root
 Password: 1234

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXRadioButton?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox alignment="CENTER" spacing="10.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="izhar.gui.controllers.DeliveryGUIController">
+   <children>
+      <HBox spacing="20.0">
+         <children>
+            <Label alignment="CENTER" contentDisplay="CENTER" styleClass="title" text="Choose Delivery Option:" textAlignment="CENTER">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Label>
+            <VBox alignment="CENTER_LEFT" spacing="12.0">
+               <children>
+                  <HBox alignment="CENTER_LEFT">
+                     <children>
+                        <MaterialDesignIconView fx:id="icnPickup" fill="ORANGE" fontSmoothingType="LCD" glyphName="PACKAGE_VARIANT_CLOSED" size="20" textAlignment="CENTER">
+                           <font>
+                              <Font name="Material Design Icons" size="20.0" />
+                           </font>
+                        </MaterialDesignIconView>
+                        <JFXRadioButton fx:id="rbPickup" onAction="#showPickup" selected="true" style="-jfx-selected-color: ORANGE; -jfx-unselected-color: RED;" text="Pickup" textAlignment="CENTER" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT">
+                     <children>
+                        <MaterialDesignIconView fx:id="icnShipment" fill="RED" fontSmoothingType="LCD" glyphName="TRUCK_DELIVERY" size="20" textAlignment="CENTER">
+                           <font>
+                              <Font name="Material Design Icons" size="20.0" />
+                           </font>
+                        </MaterialDesignIconView>
+                        <JFXRadioButton fx:id="rbShipment" contentDisplay="CENTER" onAction="#showShipment" style="-jfx-selected-color: ORANGE; -jfx-unselected-color: RED;" text="Shipment" textAlignment="CENTER" />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+      <VBox fx:id="vboxForm" alignment="CENTER" spacing="15.0">
+         <children>
+            <VBox fx:id="paneShipment" alignment="CENTER" spacing="20.0" visible="false">
+               <children>
+                  <JFXTextField fx:id="txtStreet" alignment="CENTER" focusColor="ORANGE" labelFloat="true" promptText="Street of shipment" unFocusColor="RED">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </JFXTextField>
+                  <JFXTextField fx:id="txtCity" alignment="CENTER" focusColor="ORANGE" labelFloat="true" minHeight="30.0" promptText="City of shipment" unFocusColor="RED">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </JFXTextField>
+                  <JFXTextField fx:id="txtPostCode" alignment="CENTER" focusColor="ORANGE" labelFloat="true" minHeight="30.0" promptText="Postal code of shipment" unFocusColor="RED">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </JFXTextField>
+                  <JFXTextField fx:id="txtName" alignment="CENTER" focusColor="ORANGE" labelFloat="true" minHeight="30.0" promptText="Name of shipment reciver" unFocusColor="RED">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </JFXTextField>
+                  <HBox alignment="CENTER">
+                     <children>
+                        <JFXTextField fx:id="txtPhoneAreaCode" alignment="CENTER" focusColor="ORANGE" labelFloat="true" maxWidth="90.0" promptText="Area code" unFocusColor="RED" />
+                        <Label prefHeight="26.0" text="-" />
+                        <JFXTextField fx:id="txtPhonePost" alignment="CENTER" focusColor="ORANGE" labelFloat="true" maxWidth="160.0" prefWidth="150.0" promptText="Phone number" unFocusColor="RED" />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </children>
+         <VBox.margin>
+            <Insets left="5.0" right="5.0" />
+         </VBox.margin>
+      </VBox>
+      <HBox alignment="CENTER">
+         <children>
+            <JFXButton alignment="CENTER" buttonType="RAISED" onAction="#back" ripplerFill="RED" text="Back" textAlignment="CENTER" textFill="RED">
+               <font>
+                  <Font name="Material Design Icons" size="15.0" />
+               </font>
+               <graphic>
+                  <FontAwesomeIconView fill="RED" fontSmoothingType="LCD" glyphName="ARROW_LEFT" size="15" textAlignment="CENTER" />
+               </graphic>
+            </JFXButton>
+            <JFXButton fx:id="btnSend" alignment="CENTER" buttonType="RAISED" disable="true" onAction="#addDelivery" ripplerFill="ORANGE" text="Send" textAlignment="CENTER" textFill="ORANGE">
+               <graphic>
+                  <MaterialDesignIconView fill="ORANGE" fontSmoothingType="LCD" glyphName="SEND" size="15" textAlignment="CENTER" />
+               </graphic>
+               <font>
+                  <Font name="Material Design Icons" size="15.0" />
+               </font>
+            </JFXButton>
+         </children>
+      </HBox>
+   </children>
+   <padding>
+      <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+   </padding>
+</VBox>

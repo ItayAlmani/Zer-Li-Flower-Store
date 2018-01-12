@@ -6,6 +6,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+import common.ClientController;
 import common.Context;
 import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView;
 import entities.Customer;
@@ -117,15 +118,20 @@ public class ParentGUIController extends SetUpMainGUIController implements Initi
 		menu.setEffect(ds);
 		setUpToolTips();
 		Context.mainScene = this;
-		if (isServerConnected() == true)
-			loadGUI("LogInGUI", false);
-		else
-			loadConnectionGUI();
+	}
+	
+	public void setDBStatus(Boolean dbStatus) {
+		Platform.runLater(()->{
+			if (isServerConnected() == true)
+				loadGUI("LogInGUI", false);
+			else
+				loadConnectionGUI();
+		});
 	}
 
 	private boolean isServerConnected() {
 		if (Context.clientConsole == null || Context.clientConsole.isConnected() == false
-				|| Context.dbConnected == false)
+				|| ClientController.dbConnected == false)
 			return false;
 		return true;
 	}
@@ -136,6 +142,21 @@ public class ParentGUIController extends SetUpMainGUIController implements Initi
 		Scene scene = new Scene(loader.load());
 		stage.setTitle("ZerLi Flower Store");
 		stage.setScene(scene);
+		stage.show();
+
+		try {
+			ClientController.connectToServer();
+			if (Context.clientConsole != null && Context.clientConsole.isConnected() == true) {
+				try {
+					Context.fac.dataBase.getDBStatus();
+				} catch (IOException e) {
+					System.err.println("Can't get data base status");
+				}
+			}
+		} catch (IOException e) {
+			System.err.println("Connecting to server failed!!");
+			((ParentGUIController)loader.getController()).setServerUnavailable();
+		}
 	}
 
 	public void logOut() {

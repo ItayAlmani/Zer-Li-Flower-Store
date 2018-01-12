@@ -13,6 +13,8 @@ import de.jensd.fx.glyphs.octicons.OctIconView;
 import entities.Store;
 import entities.User.UserType;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
@@ -146,8 +148,12 @@ public class LoadGUIController {
 			createScene(guiName, ParentGUIController.primaryStage);
 			ParentGUIController.primaryStage.show();
 			if (ParentGUIController.primaryStage.getScene() != null) {
+				/*ParentGUIController.primaryStage.getScene().heightProperty().addListener((obs,oldHeight,newHeight)->{
+				    System.out.println("Height: " + newHeight);
+				});*/
 				ParentGUIController.primaryStage.getScene().getWindow().sizeToScene();
-				// primaryStage.getScene().getWindow().setHeight(menu.getHeight()+scenePane.getHeight()+100);
+				ParentGUIController.primaryStage.sizeToScene();
+				//ParentGUIController.primaryStage.getScene().getWindow().setHeight(menu.getHeight()+scenePane.getHeight()+100);
 			}
 
 			// addMediaPlayer();
@@ -204,10 +210,10 @@ public class LoadGUIController {
 		double rangeMin = 0.05f, rangeMax = 0.6f;
 		for (int i = 0; i < color.length; i++)
 			color[i] = rangeMin + (rangeMax - rangeMin) * Math.random();
-		this.lblMsg.setTextFill(Color.color(color[0], color[1], color[2]));
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
+				lblMsg.setTextFill(Color.color(color[0], color[1], color[2]));
 				lblMsg.setText(msg);
 			}
 		});

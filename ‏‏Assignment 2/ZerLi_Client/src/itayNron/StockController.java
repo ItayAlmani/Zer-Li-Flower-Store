@@ -10,6 +10,7 @@ import common.Context;
 import controllers.ParentController;
 import entities.CSMessage;
 import entities.CSMessage.MessageType;
+import entities.Product.ProductType;
 import entities.Order;
 import entities.Product;
 import entities.ProductInOrder;
@@ -33,6 +34,15 @@ public class StockController extends ParentController implements IStock {
 		ArrayList<Stock> newStocks = new ArrayList<>();
 		for (Stock stk : stocks) {
 			if(stk.getProduct().isInCatalog()==false)
+				newStocks.add(stk);
+		}
+		return newStocks;
+	}
+	
+	public ArrayList<Stock> getStocksByProductType(ArrayList<Stock> stocks, ProductType pt){
+		ArrayList<Stock> newStocks = new ArrayList<>();
+		for (Stock stk : stocks) {
+			if(stk.getProduct().getType().equals(pt))
 				newStocks.add(stk);
 		}
 		return newStocks;

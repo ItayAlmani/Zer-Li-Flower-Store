@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox fx:id="vbox" alignment="CENTER" prefHeight="300.0" prefWidth="300.0" spacing="10.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="izhar.gui.controllers.ManualTransactionGUIController">
+   <children>
+      <ComboBox fx:id="cbCustomers" onAction="#customerSelected" promptText="Choose customer" />
+      <ComboBox fx:id="cbPayMethod" onAction="#paymentSelected" promptText="Choose payment method" />
+      <Button fx:id="btnSend" disable="true" mnemonicParsing="false" onAction="#sendNewOrder" text="Add new order" />
+   </children>
+</VBox>

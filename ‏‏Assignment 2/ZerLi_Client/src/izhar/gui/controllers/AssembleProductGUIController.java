@@ -42,13 +42,15 @@ public class AssembleProductGUIController extends ProductsPresentationGUIControl
 	private @FXML MaterialDesignIconView icnFlower;
 	private @FXML JFXButton btnSend;
 	private HBox hxProds;
-	private ArrayList<Stock> stocks = new ArrayList<>();
+	private ArrayList<Stock> stocks = new ArrayList<>(), stocksByType;
 	
 	//private ArrayList<Product> products, inConditionProds=new ArrayList<>();
 	
 	public void createForm() {		
 		cbType.valueProperty().addListener((obs,oldVal,newVal)->{
 			cbColor.setValue(null);
+			cbColor.getItems().clear();
+			stocksByType=new ArrayList<>();
 			if(vbox.getChildren().contains(hxProds))
 				vbox.getChildren().remove(hxProds);
 			Float min = stocks.get(0).getPriceAfterSale(), max=0f;
@@ -62,6 +64,7 @@ public class AssembleProductGUIController extends ProductsPresentationGUIControl
 						min=s.getPriceAfterSale();
 					if(s.getPriceAfterSale()>max)
 						max=s.getPriceAfterSale();
+					stocksByType.add(s);
 				}
 			}
 			min=min!=0f?min-1:0f;
@@ -70,13 +73,14 @@ public class AssembleProductGUIController extends ProductsPresentationGUIControl
 			rsPrice.setMax(max.intValue());
 			rsPrice.setHighValue(max.intValue());
 			rsPrice.setLowValue(min.intValue());
-			Integer ticks = ((int)((max-min)/10f));
+			Integer ticks = ((Integer)((Float)((max-min)/10f)).intValue());
+			ticks=ticks>0?ticks:1;
 			rsPrice.setMajorTickUnit(++ticks);
 			rsPrice.setMinorTickCount(ticks);
 			cbColor.setItems(FXCollections.observableArrayList(cal));
 		});
 		ArrayList<ProductType> ptal = new ArrayList<>();
-		for (Stock s : stocks) {
+		for (Stock s : stocksByType) {
 			if(ptal.contains(s.getProduct().getType())==false)
 				ptal.add(s.getProduct().getType());
 		}
@@ -103,10 +107,12 @@ public class AssembleProductGUIController extends ProductsPresentationGUIControl
 		Color color = cbColor.getValue();
 		Float min = Float.parseFloat(txtMinPrice.getText()), 
 				max =Float.parseFloat(txtMaxPrice.getText());
-		this.stocks=Context.fac.product.assembleProduct(type, min, max, color, this.stocks);
-		if(this.stocks.isEmpty()==false) {
+		stocksByType=Context.fac.product.assembleProduct(type, min, max, color, this.stocks);
+		if(stocksByType.isEmpty()==false) {
 			initPage();
 		}
+		else
+			Context.mainScene.setMessage("Can't assemble right now");
 	}
 	
 	private void initListeners() {
@@ -156,24 +162,25 @@ public class AssembleProductGUIController extends ProductsPresentationGUIControl
 	
 	private void initPage() {
 		components.clear();
-		initArrays(this.stocks.size());
+		initArrays(stocksByType.size());
     	
-    	pagination  = new Pagination(this.stocks.size(), 0);
+    	pagination  = new Pagination(stocksByType.size(), 0);
     	int i = 0;
-		for (Stock s : this.stocks) {
+		for (Stock s : stocksByType) {
 			setVBox(i, s,addToCart(s.getProduct(),s.getPriceAfterSale()));
 			i++;
 		}
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {			
-				if(vbox.getChildren().contains(hxProds))
+				if(vbox.getChildren().contains(hxProds)==false)
 					vbox.getChildren().remove(hxProds);
 				hxProds = new HBox(5,pagination);
-				hxProds.setAlignment(Pos.CENTER);
-				vbox.getChildren().add(vbox.getChildren().size()-1,hxProds);
-				vbox.setAlignment(Pos.CENTER);
-				ParentGUIController.primaryStage.getScene().getWindow().sizeToScene();
+				hxProds.setAlignment(Pos.TOP_CENTER);
+				vbox.getChildren().add(vbox.getChildren().size(),hxProds);
+				vbox.setAlignment(Pos.TOP_CENTER);
+				//ParentGUIController.primaryStage.getScene().getWindow().sizeToScene();
+				ParentGUIController.primaryStage.getScene().getWindow().setHeight(ParentGUIController.primaryStage.getMaxHeight());
 			}
 		});
 	}
@@ -184,7 +191,7 @@ public class AssembleProductGUIController extends ProductsPresentationGUIControl
 		if(Context.order!=null && 
     			Context.order.getDelivery()!=null && 
     			Context.order.getDelivery().getStore()!=null) {
-    		this.stocks=Context.fac.stock.getNotInCatalogOnlyStock(Context.order.getDelivery().getStore().getStock());
+			stocksByType=this.stocks=Context.fac.stock.getNotInCatalogOnlyStock(Context.order.getDelivery().getStore().getStock());
     		createForm();
     	}
     	else

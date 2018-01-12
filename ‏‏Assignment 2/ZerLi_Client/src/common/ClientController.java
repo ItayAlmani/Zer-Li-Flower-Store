@@ -1,10 +1,16 @@
 package common;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.Scanner;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.math.BigInteger;
+import java.net.URISyntaxException;
 
 import controllers.ParentController;
 import entities.*;
@@ -17,7 +23,22 @@ import izhar.gui.controllers.PaymentGUIController;
  * Also, will be controller of the System data: DataBase information, Server information etc.
  */
 public class ClientController {
-	private static ArrayList<Object> myMsgArr = new ArrayList<>();
+	/** The default port of the server */
+	public static int DEFAULT_PORT = 5555;
+	
+	/** The default host of the server */
+	public static String DEFAULT_HOST="localhost1";
+	
+	public static boolean dbConnected = false;
+	
+	/** The path of the project: "C:.../ZerLi_Client" */
+	//public final static String projectPath=System.getProperty("user.dir");
+	
+	/** The path of the ServerAddress.txt file - the file
+	 * that contains the server's details: host and port */
+	private final static String serTxtPath="/ServerAddress.txt";
+	
+	//private static ArrayList<Object> myMsgArr = new ArrayList<>();
 	
 	/**
 	 * Analyzes the <code>csMsg</code> and calling to the suitable function which parse
@@ -133,16 +154,96 @@ public class ClientController {
 		}
 		return null;
 	}
-
-	public static void getLastAutoIncrenment(Class<?> clasz) throws IOException {
-		myMsgArr.clear();
-		String tbName = null;
-		if(clasz.equals(Order.class))
-			tbName="orders";
-		else
-			tbName=clasz.getName().toLowerCase().substring(clasz.getName().lastIndexOf("."+1));
-		myMsgArr.add("SHOW TABLE STATUS WHERE `Name` = '"+tbName+"'");
-		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.GetAI, myMsgArr, clasz));
+	
+	/**
+	 * Looking for the .txt file at <code>projectPath</code>+<code>serTxtPath</code> path,
+	 * and will take the data from there.
+	 * If not found or invalid data, the system will try to connect by
+	 * <code>DEFAULT_HOST</code> and <code>DEFAULT_PORT</code>.
+	 * @throws IOException - when the data in the .txt file is wrong, or the file couldn't be found
+	 */
+	public static void connectToServer() throws IOException{
+		int serSuccessFlag = 0;		//will be 1 if updateDB(args) succeeded
+		try {
+			Scanner scnr = null;
+			InputStream is = Context.class.getResourceAsStream("/common"+serTxtPath);
+			scnr = new Scanner(is);
+			scnr.useDelimiter("\\w");
+			String[] args = new String[2];
+			for(int i = 0;i<2 && scnr.hasNextLine();i++) {
+				String[] tempSplit = scnr.nextLine().split("\\W+");
+				args[i]= tempSplit[tempSplit.length-1];
+			}
+			scnr.close();
+			is.close();
+			Context.clientConsole = new ClientConsole(args[0],Integer.parseInt(args[1]));
+			
+			/*connection succeeded, default data will be changed in .txt file and in default attributes*/
+			serSuccessFlag = 1;
+			DEFAULT_HOST = args[0];
+			DEFAULT_PORT=Integer.parseInt(args[1]);
+			writeNewServerDataIntoTxt();
+		} catch (IOException e) {
+			System.err.println("Context->ServerAddress.txt data is corrupted or Can't find txt file at "+serTxtPath+".\n");
+		}
+		if(serSuccessFlag==0) {	//db data corrupted 
+			try {
+				Context.clientConsole = new ClientConsole(DEFAULT_HOST,DEFAULT_PORT);
+			} catch (IOException e) {
+				System.err.println("Context->Default Server data is wrong!\n");
+				throw e;
+			}
+		}
 	}
 
+	/**
+	 * Trying to connect into server at (<code>host</code>,<code>port</code>).
+	 * If succeeded will change the .txt file at <code>projectPath</code>+<code>serTxtPath</code> path.
+	 * If not, the system will try to connect by <code>DEFAULT_HOST</code> and <code>DEFAULT_PORT</code>.
+	 * @param host - new <code>DEFAULT_HOST</code> of the Server trying to connect to
+	 * @param port - new <code>DEFAULT_PORT</code> of the Server trying to connect to
+	 * @throws IOException - when the data in the .txt file is wrong, or the file couldn't be found
+	 */
+	public static void connectToServer(String host, int port) throws IOException{
+		int serSuccessFlag = 0;		//will be 1 if updateDB(args) succeeded
+		try {
+			Context.clientConsole = new ClientConsole(host,port);
+			DEFAULT_HOST = host;
+			DEFAULT_PORT=port;
+			writeNewServerDataIntoTxt();
+			serSuccessFlag = 1;
+		} catch (IOException e) {
+			System.err.println("\nServerAddress.txt data is corrupted or Can't find txt file at "+serTxtPath+".");
+			System.err.println("Go to Context for the process\n");
+		}
+		
+		if(serSuccessFlag==0) {	//db data corrupted 
+			try {
+				Context.clientConsole = new ClientConsole(DEFAULT_HOST,DEFAULT_PORT);
+				throw new IOException();
+			} catch (IOException e) {
+				System.err.println("\nDefault Server data is wrong!\nGo to Context to fix it!\n");
+				throw e;
+			}
+		}
+	}
+
+	/**
+	 * Will flush all data in .txt file at <code>projectPath</code>+<code>serTxtPath</code>,
+	 * and will write the new Server data: <code>DEFAULT_HOST</code> and <code>DEFAULT_PORT</code>.
+	 * @throws IOException - will be thrown when the .txt file not found
+	 */
+	private static void writeNewServerDataIntoTxt() throws IOException {
+		File f = null;
+		f = new File(Context.class.getResource("").getPath()+"ServerAddress.txt");
+		if (f.exists() == false) //Create a new file if doesn't exists yet
+			f.createNewFile();
+		//InputStream is = Context.class.getResourceAsStream(serTxtPath);
+		
+		PrintStream output = new PrintStream(f);
+		output.flush();//flush whole txt file
+		output.println("Host: "+DEFAULT_HOST);
+		output.println("Port: "+DEFAULT_PORT);
+		output.close();
+	}
 }

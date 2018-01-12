@@ -17,25 +17,21 @@ import izhar.ProductController;
 public class StoreController extends ParentController {
 	
 	@Override
-	public ArrayList<Object> handleGet(ArrayList<Object> obj){
+	public ArrayList<Object> handleGet(ArrayList<Object> obj) throws Exception{
 		if(obj == null) return null;
 		ArrayList<Object> stores = new ArrayList<>();
 		for (int i = 0; i < obj.size(); i += 4)
-			try {
-				stores.add(parse
-						(
-						BigInteger.valueOf(Long.valueOf((int) obj.get(i))), 
-						(String) obj.get(i + 2), 
-						BigInteger.valueOf((int)obj.get(i+1)),
-						(String) obj.get(i + 3))
-						);
-			} catch (SQLException e) {
-				return null;
-			}
+			stores.add(parse
+					(
+					BigInteger.valueOf(Long.valueOf((int) obj.get(i))), 
+					(String) obj.get(i + 2), 
+					BigInteger.valueOf((int)obj.get(i+1)),
+					(String) obj.get(i + 3))
+					);
 		return stores;
 	}
 	
-	public ArrayList<Object> getAllStores() throws SQLException   {
+	public ArrayList<Object> getAllStores() throws Exception   {
 		String query = "SELECT * FROM store";
 		ArrayList<Object> arr = handleGet(EchoServer.fac.dataBase.db.getQuery(query));
 		if(arr==null)
@@ -60,7 +56,7 @@ public class StoreController extends ParentController {
 			throw new Exception();
 	}
 
-	public ArrayList<Object> getAllPhysicalStores() throws SQLException {
+	public ArrayList<Object> getAllPhysicalStores() throws Exception {
 		String query = "SELECT store.*" + 
 				"FROM store" + 
 				"WHERE store.type='Physical'";
@@ -108,7 +104,7 @@ public class StoreController extends ParentController {
 		}
 	}
 	
-	public Store parse(BigInteger storeID, String type, BigInteger managerID, String name) throws SQLException {
+	public Store parse(BigInteger storeID, String type, BigInteger managerID, String name) throws Exception {
 		ArrayList<Object> strWrksObj = EchoServer.fac.storeWorker.getStoreWorkerByUser(managerID),
 				stocksObj = EchoServer.fac.stock.getStockByStore(storeID);
 		if(strWrksObj!=null && strWrksObj.size()==1) {
