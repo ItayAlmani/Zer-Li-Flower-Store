@@ -131,7 +131,11 @@
          <bottom>
             <TilePane alignment="BOTTOM_LEFT" hgap="30.0" prefColumns="3" prefRows="1">
                <children>
-                  <JFXComboBox fx:id="cbStores" focusColor="ORANGE" labelFloat="true" onAction="#getNewOrderByStore" promptText="Select store" unFocusColor="RED" visible="false" />
+                  <JFXComboBox fx:id="cbStores" focusColor="ORANGE" labelFloat="true" onAction="#getNewOrderByStore" promptText="Select store" unFocusColor="RED" visible="false">
+                     <TilePane.margin>
+                        <Insets bottom="5.0" top="10.0" />
+                     </TilePane.margin>
+                  </JFXComboBox>
                   <Label fx:id="lblMsg" alignment="CENTER" contentDisplay="CENTER" minHeight="20.0" textAlignment="CENTER" textFill="RED" textOverrun="CLIP" wrapText="true" />
                   <Label alignment="CENTER" contentDisplay="CENTER" minHeight="20.0" text="Hover above the icons for title" textAlignment="CENTER" textOverrun="CLIP" wrapText="true">
                      <font>
@@ -139,6 +143,9 @@
                      </font>
                   </Label>
                </children>
+               <BorderPane.margin>
+                  <Insets />
+               </BorderPane.margin>
             </TilePane>
          </bottom>
       </BorderPane>

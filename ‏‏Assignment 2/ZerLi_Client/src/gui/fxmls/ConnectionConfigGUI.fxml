@@ -83,11 +83,6 @@
             <Font size="10.0" />
          </font>
       </Button>
-      <Button id="btnBack" fx:id="btnBack" layoutX="223.0" layoutY="374.0" mnemonicParsing="false" onAction="#back" text="Back">
-         <font>
-            <Font size="10.0" />
-         </font>
-      </Button>
       <Button id="btnUpdateServer" fx:id="btnUpdateServer" layoutX="164.0" layoutY="125.0" mnemonicParsing="false" onAction="#updateServer" text="Update Server">
          <font>
             <Font size="10.0" />
