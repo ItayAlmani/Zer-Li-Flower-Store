@@ -14,8 +14,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import org.apache.commons.io.FileUtils;
-
 public class DataBaseController {
 	public DataBase db;
 	private String dbUrl_default = "localhost", dbName_default = "dbassignment2", dbUserName_default = "root",
