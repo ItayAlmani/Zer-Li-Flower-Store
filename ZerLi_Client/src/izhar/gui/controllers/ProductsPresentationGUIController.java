@@ -119,7 +119,7 @@ public abstract class ProductsPresentationGUIController implements Initializable
 		else return;
 		try {
 			/*InputStream is = getClass().getResourceAsStream("/images/"+);*/
-			imgImages[i] = new ImageView(new Image(new File(MainClient.imagesPath+prd.getImageName()).toURI().toURL().toExternalForm()));
+			imgImages[i] = new ImageView(new Image(new File(MainClient.tempImagesDir+prd.getImageName()).toURI().toURL().toExternalForm()));
 			/*is.close();*/
 			imgImages[i].prefHeight(200);
 			vbxProduct[i].getChildren().addAll(imgImages[i],grids[i]);

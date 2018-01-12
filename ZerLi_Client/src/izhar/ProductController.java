@@ -60,7 +60,7 @@ public class ProductController extends ParentController implements IProduct {
 						System.err.println("image name is null");
 						throw new IOException();
 					}
-					File f = new File(MainClient.imagesPath+product.getImageName());
+					File f = new File(MainClient.tempImagesDir+product.getImageName());
 					f.createNewFile();
 					f.deleteOnExit();
 					FileOutputStream fos = new FileOutputStream(f.getAbsolutePath());

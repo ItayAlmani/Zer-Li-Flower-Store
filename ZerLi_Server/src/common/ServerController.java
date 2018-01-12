@@ -4,88 +4,24 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 
-import controllers.*;
-import entities.*;
+import entities.CSMessage;
 import entities.CSMessage.MessageType;
-import itayNron.SurveyController;
-import itayNron.SurveyReportController;
 
 public class ServerController {
+	/**
+	 * 
+	 * @param csMsg
+	 * @return
+	 * @throws Exception
+	 */
 	public static CSMessage setMessageToClient(CSMessage csMsg) throws Exception{
 		MessageType msgType = csMsg.getType();
 		ArrayList<Object> objArr = csMsg.getObjs();
 		
-		if(csMsg.getClasz()!=null) {
-			/*if(csMsg.getClasz().equals(Order.class) ||
-					csMsg.getClasz().equals(ProductInOrder.class) ||
-					csMsg.getClasz().equals(Product.class) ||
-					csMsg.getClasz().equals(Stock.class) ||
-					csMsg.getClasz().equals(Store.class) ||
-					csMsg.getClasz().equals(Survey.class) ||
-					csMsg.getClasz().equals(SurveyReport.class) ||
-					csMsg.getClasz().equals(OrderReport.class)||
-					csMsg.getClasz().equals(IncomesReport.class)||
-					csMsg.getClasz().equals(SatisfactionReport.class)){*/
-				return sendRequest(csMsg);
-			//}
-		}
-		
-		if(msgType.equals(MessageType.SELECT) || msgType.equals(MessageType.UPDATE)
-				|| msgType.equals(MessageType.GetAI)) {
-			if(objArr.size() == 1 && objArr.get(0) instanceof String) {
-				String query = (String) objArr.get(0);
-				objArr.clear();
-				
-				/*-------SELECT queries from DB-------*/
-				if(msgType.equals(MessageType.SELECT) || msgType.equals(MessageType.GetAI))
-					csMsg.setObjs(EchoServer.fac.dataBase.db.getQuery(query));
-				
-				/*-------UPDATE queries from DB-------*/
-				else if(msgType.equals(MessageType.UPDATE)){
-					try {
-						EchoServer.fac.dataBase.db.updateQuery(query);
-						objArr.add(true);
-					} catch (Exception e) {
-						objArr.add(false);
-					}
-					csMsg.setObjs(objArr);
-				}
-			}
-			else {
-				System.err.println("Not query");
-				throw new Exception();
-			}
-		}
-		/*else if(msgType.equals(MessageType.INSERT)) {
-			if(csMsg.getObjs() != null &&
-					csMsg.getObjs().size()!=0 && csMsg.getObjs().get(0) != null) {
-				if(csMsg.getClasz().equals(Order.class) && 
-						csMsg.getObjs().get(0) instanceof Order) {
-					Order ord = (Order)(csMsg.getObjs().get(0));
-					objArr.clear();
-					objArr.add(EchoServer.addOrder(ord));
-				}
-				else if(csMsg.getClasz().equals(Survey.class) && 
-						csMsg.getObjs().get(0) instanceof Survey) {
-					Survey survey = (Survey)(csMsg.getObjs().get(0));
-					objArr.clear();
-					objArr.add(SurveyController.addSurvey(survey));	
-				}
-				else if(csMsg.getClasz().equals(SurveyReport.class) && 
-						csMsg.getObjs().get(0) instanceof SurveyReport) {
-					SurveyReport sr = (SurveyReport)(csMsg.getObjs().get(0));
-					objArr.clear();
-					objArr.add(SurveyReportController.addSurveyReport(sr));
-				}
-				/*else if(csMsg.getClasz().equals(ProductInOrder.class) &&
-						csMsg.getObjs().get(0) instanceof ProductInOrder) {
-					ProductInOrder pio = (ProductInOrder)(csMsg.getObjs().get(0));
-					objArr.clear();
-					objArr.add(EchoServer.fac.prodInOrder.add(pio));
-				}
-				csMsg.setObjs(objArr);
-			}
-		}*/
+		/*if there is entity that included in the request (not as attribute).
+		 Additionally, if the request is not for DB*/  
+		if(csMsg.getClasz()!=null)
+			return sendRequest(csMsg);
 		else if(msgType.equals(MessageType.DBStatus)) {
 			if(objArr!=null)	objArr.clear();
 			else				objArr = new ArrayList<>();
@@ -100,17 +36,27 @@ public class ServerController {
 			csMsg.setObjs(objArr);
 		}
 		return csMsg;
-	}	
+	}
 	
+	/**
+	 * Decoding the request and sending the details to the correct {@code controller}.<br>
+	 * Calling to {@link #callToMethod(Class, String, CSMessage)}<br>
+	 * or {@link #callToMethod(Class, String, CSMessage, Object)}<br>
+	 * with the message.
+	 * @param csMsg includes the details of the message (funcName,
+	 * parameters and {@link Class} of the entity)
+	 * @return {@link CSMessage} with the response
+	 * @throws Exception {@link #callToMethod(Class, String, CSMessage)}<br>or {@link #callToMethod(Class, String, CSMessage)}<br>or if there is no method called {@link CSMessage#getObjs()}.{@code get(0)}
+	 */
 	private static CSMessage sendRequest(CSMessage csMsg) throws Exception {
 		ArrayList<Object> objArr = csMsg.getObjs();
+		
+		//AT FINAL PROJECT WILL BE - findHandleGetFunc with name.split(".)+"controllers"
 		Class<?> c = getObjectClass(csMsg);
-		Method m = null;
 		
-		
-		if(c!=null && objArr!=null && objArr.size()>=1 
+		if(c!=null && objArr!=null && !objArr.isEmpty()
 				&& objArr.get(0) instanceof String) {
-			String funcName = (String)objArr.get(0);
+			String funcName = (String)objArr.get(0);	//objArr[0] is the function name
 			if(objArr.size()==1)
 				callToMethod(c, funcName, csMsg);
 			else if(objArr.size()==2)
@@ -124,11 +70,19 @@ public class ServerController {
 		return csMsg;
 	}
 	
-	private static void callToMethod(Class<?> c, String funcName, CSMessage csMsg) throws Exception {
+	/**
+	 * With {@link Class} and {@link Method} we invoking the function by the parameters.
+	 * In this function the requested function has no parameters.
+	 * @param cls the {@link Class} of the requested function
+	 * @param reqFuncName the name of the requested function 
+	 * @param csMsg the request {@link Object}
+	 * @throws Exception when method not found, the invoke failed (before or during running or no value returned from the invoke)
+	 */
+	private static void callToMethod(Class<?> cls, String reqFuncName, CSMessage csMsg) throws Exception {
 		try {
-			Method m = c.getMethod(funcName);
-			Object arr = m.invoke(c.newInstance());
-			if(arr!=null && arr instanceof ArrayList<?>) {
+			Method meth = cls.getMethod(reqFuncName);
+			Object arr = meth.invoke(cls.newInstance());
+			if(arr!=null && arr instanceof ArrayList) {
 				csMsg.setObjs((ArrayList<Object>)arr);
 			}
 			else
@@ -141,20 +95,29 @@ public class ServerController {
 		
 	}
 	
-	private static void callToMethod(Class<?> c, String funcName, CSMessage csMsg, Object o) throws Exception {
-		Method m = null;
+	/**
+	 * With {@link Class} and {@link Method} we invoking the function by the parameters.
+	 * In this function the requested function has no parameters.
+	 * @param cls the {@link Class} of the requested function
+	 * @param reqFuncName the name of the requested function 
+	 * @param csMsg the request {@link Object}
+	 * @param parameter the parameter of the requested function
+	 * @throws Exception when method not found, the invoke failed (before or during running or no value returned from the invoke)
+	 */
+	private static void callToMethod(Class<?> cls, String reqFuncName, CSMessage csMsg, Object parameter) throws Exception {
+		Method meth = null;
 		try {
-			m = c.getMethod(funcName,o.getClass());
-			Object arr = m.invoke(c.newInstance(), o);
-			if(arr!=null && arr instanceof ArrayList<?>) {
+			meth = cls.getMethod(reqFuncName,parameter.getClass());
+			Object arr = meth.invoke(cls.newInstance(), parameter);
+			if(arr!=null && arr instanceof ArrayList) {
 				csMsg.setObjs((ArrayList<Object>)arr);
 			}
 			else
 				throw new Exception();
 		}catch (NoSuchMethodException e) {
-			m = c.getMethod(funcName,Object.class);
-			Object arr = m.invoke(c.newInstance(), o);
-			if(arr!=null && arr instanceof ArrayList<?>)
+			meth = cls.getMethod(reqFuncName,Object.class);
+			Object arr = meth.invoke(cls.newInstance(), parameter);
+			if(arr!=null && arr instanceof ArrayList)
 				csMsg.setObjs((ArrayList<Object>) arr);
 			else
 				throw new Exception();
@@ -165,15 +128,32 @@ public class ServerController {
 		}
 	}
 	
-	private static Class<?> findHandleGetFunc(String className, String classPath) {
+	/**
+	 * Finds {@link Class} in the path: {@code classPath+className+"Controller"}
+	 * @param className is the {@link Class} name starting with <b>'.'</b>.
+	 * @param classPath is the {@code package} name
+	 * @return the {@link Class} object associated with the class or 
+	 * interface with the given string name {@code classPath+className+"Controller"}.
+	 * @throws Exception {@link Class#forName(String)}
+	 */
+	private static Class<?> findHandleGetFunc(String className, String classPath) throws Exception {
 		try {
 			return Class.forName(classPath+className+"Controller");
 		} catch (Exception e) {
 			return null;
+			//throw e;
 		}
 	}
 	
-	private static Class<?> getObjectClass(CSMessage csMsg){
+	/**
+	 * Finds {@link Class} between all the {@code controllers packages: itayNron, izhar etc.}
+	 *@deprecated In final project, all controllers will be at {@code controllers package}. Use {@link #findHandleGetFunc(String, String)} instead. 
+	 *@param csMsg the request {@link Object}
+	 *@return the {@link Class} object associated with the class or 
+	 * interface with the given string name {@code classPath+className+"Controller"}.
+	 * @throws Exception {@link #findHandleGetFunc(String, String)}
+	 */
+	private static Class<?> getObjectClass(CSMessage csMsg) throws Exception{
 		Class<?> c = null;
 		if(csMsg.getClasz()!=null) {
 			String className = csMsg.getClasz().getName();

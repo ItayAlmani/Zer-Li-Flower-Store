@@ -175,7 +175,7 @@ public class Product implements Comparable<Product>, Serializable  {
 	}
 
 	public String getImageName() throws IOException {
-		File dir = new File(MainClient.imagesPath);
+		File dir = new File(MainClient.tempImagesDir);
 		if(dir.exists()==false) {
 			dir.mkdir();
 			dir.deleteOnExit();
