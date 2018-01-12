@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
@@ -11,7 +16,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="364.0" prefWidth="387.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ComplaintController">
+<AnchorPane prefHeight="364.0" prefWidth="387.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="itayNron.gui.controllers.ComplaintGUIController">
    <children>
       <VBox alignment="TOP_CENTER" prefHeight="372.0" prefWidth="387.0">
          <children>
@@ -36,7 +41,7 @@
                   </ComboBox>
                </children>
             </HBox>
-            <VBox fx:id="vbxAddComplaint" alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0">
+            <VBox fx:id="vbxAddComplaint" alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" visible="false">
                <children>
                   <HBox prefHeight="36.0" prefWidth="387.0">
                      <children>
@@ -85,7 +90,7 @@
                   <Insets />
                </opaqueInsets>
             </VBox>
-            <VBox fx:id="vbxComplaint" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" visible="false">
+            <VBox fx:id="vbxComplaint" alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
                <children>
                   <HBox alignment="CENTER">
                      <children>
@@ -94,7 +99,7 @@
                               <Insets left="20.0" />
                            </HBox.margin>
                         </Label>
-                        <Label text="Customer Name">
+                        <Label fx:id="lblCustomerName" text="Customer Name">
                            <HBox.margin>
                               <Insets left="40.0" />
                            </HBox.margin>
@@ -108,7 +113,7 @@
                               <Insets left="20.0" top="10.0" />
                            </HBox.margin>
                         </Label>
-                        <Label text="Store Name">
+                        <Label fx:id="lblStoreName" text="Store Name">
                            <HBox.margin>
                               <Insets left="60.0" top="10.0" />
                            </HBox.margin>
@@ -117,7 +122,21 @@
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                      <children>
-                        <Label text="Complaint's Reason">
+                        <Label alignment="CENTER" text="Date">
+                           <HBox.margin>
+                              <Insets top="10.0" />
+                           </HBox.margin>
+                        </Label>
+                        <Label fx:id="lblComplaintDate" text="Complaint Date">
+                           <HBox.margin>
+                              <Insets left="60.0" top="10.0" />
+                           </HBox.margin>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Label fx:id="lblReason" text="Complaint's Reason">
                            <HBox.margin>
                               <Insets left="20.0" top="10.0" />
                            </HBox.margin>
@@ -129,13 +148,9 @@
                         </Label>
                      </children>
                   </HBox>
-                  <HBox alignment="CENTER" prefHeight="120.0" prefWidth="387.0">
+                  <ComboBox fx:id="cbsRefund" promptText="Refund?" />
+                  <HBox alignment="CENTER" prefHeight="120.0" prefWidth="387.0" visible="false">
                      <children>
-                        <ComboBox promptText="Refund?">
-                           <HBox.margin>
-                              <Insets left="20.0" />
-                           </HBox.margin>
-                        </ComboBox>
                         <Label text="Refund Amount">
                            <padding>
                               <Insets left="10.0" />

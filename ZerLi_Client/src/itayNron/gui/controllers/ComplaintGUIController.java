@@ -13,11 +13,13 @@ import entities.Customer;
 import entities.Store;
 import gui.controllers.ParentGUIController;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 	
@@ -28,11 +30,15 @@ public class ComplaintGUIController implements Initializable {
 	private @FXML ComboBox<Customer> cbsCustomer;
 	private @FXML ComboBox<Store> cbsStore;
 	private @FXML ComboBox<Complaint> cbsComplaints;
+	private @FXML ComboBox<String> cbsRefund;
 	private @FXML TextArea complaintReason;
 	private @FXML Button btnSendNewComplaint;
 	private @FXML VBox vbxAddComplaint;
 	private @FXML VBox vbxComplaint;
+	private @FXML Label lblCustomerName,lblStoreName,lblComplaintDate,lblReason;
 	private Complaint comp;
+	
+	private ObservableList<String> list;
 	
 	@FXML public void showAddComplaint(ActionEvent event) throws IOException
 	{
@@ -42,14 +48,19 @@ public class ComplaintGUIController implements Initializable {
 	@FXML public void showComplaint(ActionEvent event) throws IOException
 	{
 		vbxComplaint.setVisible(true);
+		lblCustomerName.setText(cbsComplaints.getValue().getCustomerID().toString());
+		lblStoreName.setText(cbsComplaints.getValue().getStoreID().toString());
+		lblComplaintDate.setText(cbsComplaints.getValue().getDate().toString());
+		lblReason.setText(cbsComplaints.getValue().getComplaintReason());
+		
 	}
 	
 	
 	@FXML public void sendComplaint (ActionEvent event) throws IOException
 	{
 		comp.setComplaintReason(complaintReason.getText());
-		comp.setCustomerID(cbsCustomer.getValue().getCustomerID().toString());
-		comp.setStoreID(cbsStore.getValue().getStoreID().toString());
+		comp.setCustomerID(cbsCustomer.getValue().getCustomerID());
+		comp.setStoreID(cbsStore.getValue().getStoreID());
 		comp.setDate(LocalDateTime.now());
 		Context.fac.complaint.add(comp, false);
 	}
@@ -75,6 +86,11 @@ public class ComplaintGUIController implements Initializable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		ArrayList<String> ar = new ArrayList<>();
+		ar.add("Yes");
+		ar.add("No");
+		list =FXCollections.observableArrayList(ar);
+		cbsRefund.setItems(list);
 		
 	}
 	
