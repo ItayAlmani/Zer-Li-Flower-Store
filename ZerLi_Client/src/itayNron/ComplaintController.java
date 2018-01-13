@@ -3,6 +3,7 @@ package itayNron;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.math.BigInteger;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -25,19 +26,15 @@ public class ComplaintController extends ParentController implements IComplaint 
 		arr.add(complaint);
 		arr.add(getCurrentID);
 		myMsgArr.add(arr);
-		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.INSERT, myMsgArr,SurveyReport.class));
+		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.INSERT, myMsgArr,Complaint.class));
 	}
 	
 	@Override
-	public void updateComplaint(Complaint complaint) {
+	public void update(Complaint complaint) {
 	}	
 
 	@Override
-	public void getComplaintsByStore(int storeid) {
-	}
-	
-	@Override
-	public void sendComplaints(ArrayList<Complaint> complaints) {
+	public void getComplaintsByStore(BigInteger storeid) {
 	}
 
 	@Override

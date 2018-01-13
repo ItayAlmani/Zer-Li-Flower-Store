@@ -93,7 +93,7 @@
                   <FontAwesomeIconView fill="RED" fontSmoothingType="LCD" glyphName="ARROW_LEFT" size="15" textAlignment="CENTER" />
                </graphic>
             </JFXButton>
-            <JFXButton fx:id="btnSend" alignment="CENTER" buttonType="RAISED" disable="true" onAction="#addDelivery" ripplerFill="ORANGE" text="Send" textAlignment="CENTER" textFill="ORANGE">
+            <JFXButton fx:id="btnSend" alignment="CENTER" buttonType="RAISED" onAction="#addDelivery" ripplerFill="ORANGE" text="Send" textAlignment="CENTER" textFill="ORANGE">
                <graphic>
                   <MaterialDesignIconView fill="ORANGE" fontSmoothingType="LCD" glyphName="SEND" size="15" textAlignment="CENTER" />
                </graphic>

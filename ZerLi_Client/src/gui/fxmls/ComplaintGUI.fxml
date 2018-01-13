@@ -1,172 +1,103 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXTextArea?>
+<?import com.jfoenix.controls.JFXToggleButton?>
+<?import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView?>
+<?import de.jensd.fx.glyphs.materialicons.MaterialIconView?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextArea?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.control.Spinner?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="364.0" prefWidth="387.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="itayNron.gui.controllers.ComplaintGUIController">
+<VBox fx:id="mainPane" alignment="CENTER" spacing="10.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="itayNron.gui.controllers.ComplaintGUIController">
    <children>
-      <VBox alignment="TOP_CENTER" prefHeight="372.0" prefWidth="387.0">
+      <HBox alignment="CENTER" spacing="50.0">
          <children>
-            <Label text="Complaints">
-               <font>
-                  <Font name="System Bold" size="18.0" />
-               </font>
-            </Label>
-            <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="281.0" spacing="50.0">
+            <JFXButton fx:id="btnAddComplaint" buttonType="RAISED" mnemonicParsing="false" onAction="#showAddComplaint" ripplerFill="#ffa100" text="Add Complaint" textAlignment="CENTER" textFill="ORANGE" textOverrun="CLIP" wrapText="true">
+               <graphic>
+                  <MaterialIconView fill="ORANGE" fontSmoothingType="LCD" glyphName="ADD_BOX" size="15" textAlignment="CENTER">
+                     <font>
+                        <Font name="Material Icons" size="12.0" />
+                     </font>
+                  </MaterialIconView>
+               </graphic>
+            </JFXButton>
+            <JFXComboBox fx:id="cbsComplaints" onAction="#showComplaint" promptText="Select Complaint" />
+         </children>
+      </HBox>
+      <VBox fx:id="vbxAddComplaint" alignment="BOTTOM_CENTER" spacing="15.0">
+         <children>
+            <HBox alignment="BOTTOM_CENTER" spacing="50.0">
                <children>
-                  <Button fx:id="btnAddComplaint" mnemonicParsing="false" onAction="#showAddComplaint" text="Add Complaint">
-                     <HBox.margin>
-                        <Insets top="20.0" />
-                     </HBox.margin></Button>
-                  <ComboBox fx:id="cbsComplaints" onAction="#showComplaint" promptText="Select Complaint">
-                     <HBox.margin>
-                        <Insets top="20.0" />
-                     </HBox.margin>
-                     <opaqueInsets>
-                        <Insets />
-                     </opaqueInsets>
-                  </ComboBox>
+                  <JFXComboBox fx:id="cbsCustomer" promptText="Customer" />
+                  <JFXComboBox fx:id="cbsStore" promptText="Store" />
+                  <JFXTextArea fx:id="complaintReason" focusColor="ORANGE" labelFloat="true" prefHeight="100.0" prefWidth="150.0" promptText="Complaint's Reason" style="-fx-background-color: white;" unFocusColor="RED">
+                     <padding>
+                        <Insets right="30.0" />
+                     </padding>
+                  </JFXTextArea>
+               </children>
+               <padding>
+                  <Insets left="20.0" />
+               </padding>
+            </HBox>
+         </children>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+         <VBox.margin>
+            <Insets right="5.0" />
+         </VBox.margin>
+         <padding>
+            <Insets top="15.0" />
+         </padding>
+      </VBox>
+      <VBox fx:id="vbxComplaint" alignment="CENTER" fillWidth="false" spacing="10.0">
+         <children>
+            <HBox alignment="CENTER" spacing="10.0">
+               <children>
+                  <VBox alignment="CENTER_LEFT" spacing="5.0">
+                     <children>
+                        <Label styleClass="menuTitle" text="Customer" />
+                        <Label styleClass="menuTitle" text="Store" />
+                        <Label alignment="CENTER" styleClass="menuTitle" text="Date" />
+                        <Label fx:id="lblReason" styleClass="menuTitle" text="Reason" />
+                     </children>
+                  </VBox>
+                  <VBox alignment="CENTER" spacing="5.0">
+                     <children>
+                        <Label fx:id="lblCustomerName" />
+                        <Label fx:id="lblStoreName" />
+                        <Label fx:id="lblComplaintDate" />
+                        <Label fx:id="lblCompReason" />
+                     </children>
+                  </VBox>
                </children>
             </HBox>
-            <VBox fx:id="vbxAddComplaint" alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" visible="false">
+            <JFXToggleButton fx:id="tglRefund" onAction="#toggledRefund" text="Refund" textAlignment="CENTER" textOverrun="CLIP" toggleColor="WHITE" toggleLineColor="ORANGE" unToggleColor="WHITE" unToggleLineColor="RED" wrapText="true">
+               <font>
+                  <Font name="Bauhaus 93" size="12.0" />
+               </font>
+            </JFXToggleButton>
+            <HBox fx:id="paneRefund" alignment="CENTER" spacing="10.0" visible="false">
                <children>
-                  <HBox prefHeight="36.0" prefWidth="387.0">
-                     <children>
-                        <Label text="Customer">
-                           <padding>
-                              <Insets left="20.0" />
-                           </padding>
-                        </Label>
-                        <Label text="Store">
-                           <HBox.margin>
-                              <Insets left="60.0" />
-                           </HBox.margin>
-                        </Label>
-                        <Label text="Complaint's Reason">
-                           <HBox.margin>
-                              <Insets left="80.0" />
-                           </HBox.margin>
-                        </Label>
-                     </children>
-                  </HBox>
-                  <HBox spacing="50.0">
-                     <children>
-                        <ComboBox prefWidth="150.0" />
-                        <ComboBox prefWidth="150.0">
-                           <HBox.margin>
-                              <Insets />
-                           </HBox.margin>
-                        </ComboBox>
-                        <TextArea fx:id="complaintReason" prefHeight="100.0" prefWidth="387.0">
-                           <padding>
-                              <Insets right="30.0" />
-                           </padding>
-                        </TextArea>
-                     </children>
-                     <padding>
-                        <Insets left="20.0" />
-                     </padding>
-                  </HBox>
-                  <Button fx:id="btnSendNewComplaint" mnemonicParsing="false" onAction="#sendComplaint" text="Send">
-                     <VBox.margin>
-                        <Insets top="20.0" />
-                     </VBox.margin>
-                  </Button>
+                  <Label styleClass="menuTitle" text="Refund Amount" />
+                  <Spinner fx:id="spnRefundAmount" accessibleText="ss" />
                </children>
-               <opaqueInsets>
-                  <Insets />
-               </opaqueInsets>
-            </VBox>
-            <VBox fx:id="vbxComplaint" alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
-               <children>
-                  <HBox alignment="CENTER">
-                     <children>
-                        <Label text="Customer">
-                           <HBox.margin>
-                              <Insets left="20.0" />
-                           </HBox.margin>
-                        </Label>
-                        <Label fx:id="lblCustomerName" text="Customer Name">
-                           <HBox.margin>
-                              <Insets left="40.0" />
-                           </HBox.margin>
-                        </Label>
-                     </children>
-                  </HBox>
-                  <HBox alignment="CENTER">
-                     <children>
-                        <Label text="Store">
-                           <HBox.margin>
-                              <Insets left="20.0" top="10.0" />
-                           </HBox.margin>
-                        </Label>
-                        <Label fx:id="lblStoreName" text="Store Name">
-                           <HBox.margin>
-                              <Insets left="60.0" top="10.0" />
-                           </HBox.margin>
-                        </Label>
-                     </children>
-                  </HBox>
-                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-                     <children>
-                        <Label alignment="CENTER" text="Date">
-                           <HBox.margin>
-                              <Insets top="10.0" />
-                           </HBox.margin>
-                        </Label>
-                        <Label fx:id="lblComplaintDate" text="Complaint Date">
-                           <HBox.margin>
-                              <Insets left="60.0" top="10.0" />
-                           </HBox.margin>
-                        </Label>
-                     </children>
-                  </HBox>
-                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-                     <children>
-                        <Label fx:id="lblReason" text="Complaint's Reason">
-                           <HBox.margin>
-                              <Insets left="20.0" top="10.0" />
-                           </HBox.margin>
-                        </Label>
-                        <Label text="Reason">
-                           <HBox.margin>
-                              <Insets left="30.0" top="10.0" />
-                           </HBox.margin>
-                        </Label>
-                     </children>
-                  </HBox>
-                  <ComboBox fx:id="cbsRefund" promptText="Refund?" />
-                  <HBox alignment="CENTER" prefHeight="120.0" prefWidth="387.0" visible="false">
-                     <children>
-                        <Label text="Refund Amount">
-                           <padding>
-                              <Insets left="10.0" />
-                           </padding>
-                        </Label>
-                        <TextField>
-                           <HBox.margin>
-                              <Insets left="20.0" />
-                           </HBox.margin>
-                        </TextField>
-                     </children>
-                  </HBox>
-                  <Button alignment="CENTER" mnemonicParsing="false" text="Send" />
-               </children>
-            </VBox>
+            </HBox>
          </children>
       </VBox>
+      <JFXButton fx:id="btnSend" alignment="CENTER" buttonType="RAISED" onAction="#send" ripplerFill="ORANGE" text="Send" textAlignment="CENTER" textFill="ORANGE" textOverrun="CLIP" wrapText="true">
+      <graphic>
+				<MaterialDesignIconView fill="ORANGE" fontSmoothingType="LCD" glyphName="SEND" size="15" textAlignment="CENTER" />
+			</graphic>
+		</JFXButton>
    </children>
-</AnchorPane>
+   <padding>
+      <Insets top="20.0" />
+   </padding>
+</VBox>

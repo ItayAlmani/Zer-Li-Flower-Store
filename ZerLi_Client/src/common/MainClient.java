@@ -99,6 +99,9 @@ public class MainClient extends Application {
 						  System.err.println("Can't delete "+ f.getName());
 			}
 		}
+		File fTmpDir = new File(MainClient.tempDir);
+		if(fTmpDir.exists())
+			fTmpDir.delete();
 	}
 
 	/**

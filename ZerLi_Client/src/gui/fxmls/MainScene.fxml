@@ -24,7 +24,7 @@
                   <Insets />
                </opaqueInsets>
                <children>
-                  <Label id="lblHeader" fx:id="lblTitle" alignment="CENTER" contentDisplay="CENTER" styleClass="lblHeader" text="Main Menu" textAlignment="CENTER" textOverrun="CLIP" wrapText="true" />
+                  <Label id="lblHeader" fx:id="lblTitle" alignment="CENTER" contentDisplay="CENTER" styleClass="lblHeader" textAlignment="CENTER" textOverrun="CLIP" wrapText="true" />
                   <HBox fx:id="scenePane" alignment="TOP_CENTER" fillHeight="false" />
                </children>
                <BorderPane.margin>

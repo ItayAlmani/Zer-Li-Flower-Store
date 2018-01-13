@@ -23,7 +23,7 @@ public abstract class ParentController {
 	
 	public abstract ArrayList<Object> update(Object obj) throws Exception;
 
-	public ArrayList<Object> getNotTreatedComplaints(Object obj) throws Exception {
+	public ArrayList<Object> getNotTreatedComplaints() throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -174,8 +174,7 @@ public class Product implements Comparable<Product>, Serializable  {
 	}
 
 	public String getImageName() throws IOException {
-		File f = new File(ProductController.class.getResource("/images/").getPath()+this.imageName);
-		f.createNewFile();
+		File f = new File(getClass().getResource("/images/")+this.imageName);
 		f.deleteOnExit();
 		FileOutputStream fos = new FileOutputStream(f.getAbsolutePath());
 		setImageName(f.getName());

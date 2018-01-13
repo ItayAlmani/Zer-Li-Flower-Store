@@ -58,3 +58,13 @@ Pane{
 	-fx-font-family: "Bauhaus 93";
 	-fx-font-weight: bold;
 }
+
+.combo-box{
+	-jfx-focus-color: orange;
+	-jfx-label-float: true;
+	-jfx-unfocus-color: red; 
+}
+
+.button{
+	-jfx-button-type: RAISED;
+}

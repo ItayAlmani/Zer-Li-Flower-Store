@@ -1,6 +1,7 @@
 package itayNron.interfaces;
 
 import java.io.IOException;
+import java.math.BigInteger;
 import java.util.ArrayList;
 
 import entities.Complaint;
@@ -18,15 +19,13 @@ public interface IComplaint{
 	 * 
 	 * @param complaint
 	 */
-	void updateComplaint(Complaint complaint);
+	void update(Complaint complaint);
 
 	/**
 	 * 
 	 * @param storeid
 	 */
-	void getComplaintsByStore(int storeid);
-
-	void sendComplaints(ArrayList<Complaint> complaints);
+	void getComplaintsByStore(BigInteger storeid);
 
 	void getNotTreatedComplaints() throws IOException;
 

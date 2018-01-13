@@ -23,13 +23,13 @@ public class ComplaintController extends ParentController {
 		for (int i = 0; i < obj.size(); i += 7)
 			comp.add(parse
 					(
-					BigInteger.valueOf(Long.valueOf((int) obj.get(i))), 
-					BigInteger.valueOf((int)obj.get(i+1)), 
-					BigInteger.valueOf((int)obj.get(i+2)),
+					BigInteger.valueOf((Integer) obj.get(i)), 
+					BigInteger.valueOf((Integer) obj.get(i+1)), 
+					BigInteger.valueOf((Integer) obj.get(i+2)),
 					(String) obj.get(i + 3),
 					(Timestamp) obj.get(i + 4),
-					(Boolean)obj.get(i+5),
-					(Boolean)obj.get(i+6)
+					((Integer)obj.get(i+5))!=0,
+					((Integer)obj.get(i+6))!=0
 					));
 		return comp;
 		
@@ -41,25 +41,31 @@ public class ComplaintController extends ParentController {
 			throw new Exception();
 		Complaint comp = (Complaint)arr.get(0);
 		boolean isReturnNextID = (boolean)arr.get(1);
-			try {
-				insertComplaint(comp);
-				myMsgArr.clear();
-				if(isReturnNextID)
-					myMsgArr.add(getNextID());
-				else
-					myMsgArr.add(true);
-				return myMsgArr;
-				} catch (Exception e) {
-					System.err.println("Error with get id in complaint process");
-				e.printStackTrace();
-				}
-		
-		throw new Exception("couldn't add complaint");
+		try {
+			insertComplaint(comp);
+			myMsgArr.clear();
+			if(isReturnNextID)
+				myMsgArr.add(getNextID());
+			else
+				myMsgArr.add(true);
+			return myMsgArr;
+		} catch (Exception e) {
+			System.err.println("Error with get id in complaint process");
+			e.printStackTrace();
+			throw e;
+		}
 	}
 	public void insertComplaint(Complaint comp) throws Exception {
+		String treStr = comp.isTreated()==true?"1":"0",
+				refStr = comp.isRefunded()==true?"1":"0";
 		String query = "INSERT INTO complaint (customerID, storeID,complaintReason,date,isTreated,isRefunded)" 
-		+ " VALUES ('" + comp.getCustomerID()  
-		+ "','"+ comp.getStoreID()+ "','"+ comp.getDate()+ "','"+ comp.isIsTreated()+ "','"+ comp.isIsRefunded()+"')";
+		+ " VALUES ('" 
+				+ comp.getCustomerID().toString() + "','"
+				+ comp.getStoreID().toString()+ "','"
+				+ comp.getComplaintReason()+ "','"
+				+ Timestamp.valueOf(comp.getDate())+ "','"
+				+ treStr+ "','"
+				+ refStr+"')";
 		EchoServer.fac.dataBase.db.updateQuery(query);		
 	}
 	
@@ -77,14 +83,9 @@ public class ComplaintController extends ParentController {
 	}
 	
 	@Override
-	public ArrayList<Object> getNotTreatedComplaints(Object obj) throws Exception {
-		String query = "SELECT complaint.*" + 
-				"FROM complaint" + 
-				"WHERE complaint.isTreated='0'";
-		ArrayList<Object> arr = handleGet(EchoServer.fac.dataBase.db.getQuery(query));
-		if(arr==null)
-			throw new SQLException("Error in Store Worker of Store(s)\n");
-		return arr;	
+	public ArrayList<Object> getNotTreatedComplaints() throws Exception {
+		String query = "SELECT complaint.* FROM complaint WHERE complaint.isTreated='0'";
+		return handleGet(EchoServer.fac.dataBase.db.getQuery(query));
 	}
 	
 	public Complaint parse(BigInteger complaintID,BigInteger customerID, BigInteger storeID,String complaintReason,Timestamp date,boolean isTreated,boolean isRefunded) {
