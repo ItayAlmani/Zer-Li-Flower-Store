@@ -3,12 +3,12 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXTextArea?>
+<?import com.jfoenix.controls.JFXTextField?>
 <?import com.jfoenix.controls.JFXToggleButton?>
 <?import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView?>
 <?import de.jensd.fx.glyphs.materialicons.MaterialIconView?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Spinner?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
@@ -33,8 +33,8 @@
          <children>
             <HBox alignment="BOTTOM_CENTER" spacing="50.0">
                <children>
-                  <JFXComboBox fx:id="cbsCustomer" promptText="Customer" />
-                  <JFXComboBox fx:id="cbsStore" promptText="Store" />
+                  <JFXComboBox fx:id="cbsCustomer" onAction="#customerSelected" promptText="Customer" />
+                  <JFXComboBox fx:id="cbsStore" disable="true" promptText="Store" />
                   <JFXTextArea fx:id="complaintReason" focusColor="ORANGE" labelFloat="true" prefHeight="100.0" prefWidth="150.0" promptText="Complaint's Reason" style="-fx-background-color: white;" unFocusColor="RED">
                      <padding>
                         <Insets right="30.0" />
@@ -83,12 +83,7 @@
                   <Font name="Bauhaus 93" size="12.0" />
                </font>
             </JFXToggleButton>
-            <HBox fx:id="paneRefund" alignment="CENTER" spacing="10.0" visible="false">
-               <children>
-                  <Label styleClass="menuTitle" text="Refund Amount" />
-                  <Spinner fx:id="spnRefundAmount" accessibleText="ss" />
-               </children>
-            </HBox>
+            <JFXTextField fx:id="txtRefundAmount" promptText="Refund Amount" visible="false" />
          </children>
       </VBox>
       <JFXButton fx:id="btnSend" alignment="CENTER" buttonType="RAISED" onAction="#send" ripplerFill="ORANGE" text="Send" textAlignment="CENTER" textFill="ORANGE" textOverrun="CLIP" wrapText="true">

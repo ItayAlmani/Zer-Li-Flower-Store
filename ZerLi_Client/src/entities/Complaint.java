@@ -9,17 +9,17 @@ public class Complaint implements Serializable {
 
 	private BigInteger complaintID;
 	private String complaintReason;
-	private BigInteger customerID;
+	private Customer customer;
 	private LocalDateTime date;
 	private boolean isTreated = false;
 	private boolean isRefunded = false;
 	private BigInteger storeID;
 
-	public Complaint(BigInteger complaintID, BigInteger customerID,BigInteger storeID,String complaintReason, LocalDateTime date,
+	public Complaint(BigInteger complaintID, Customer customer,BigInteger storeID,String complaintReason, LocalDateTime date,
 			boolean isTreated, boolean isRefunded) {
 		super();
 		this.complaintID = complaintID;
-		this.customerID = customerID;
+		this.customer = customer;
 		this.storeID = storeID;
 		this.complaintReason = complaintReason;
 		this.date = date;
@@ -27,9 +27,9 @@ public class Complaint implements Serializable {
 		this.isRefunded = isRefunded;
 	}
 
-	public Complaint(String complaintReason, BigInteger customerID, BigInteger storeID, LocalDateTime date) {
+	public Complaint(String complaintReason, Customer customer, BigInteger storeID, LocalDateTime date) {
 		this.complaintReason = complaintReason;
-		this.customerID = customerID;
+		this.customer = customer;
 		this.storeID = storeID;
 		this.date = date;
 	}
@@ -42,12 +42,12 @@ public class Complaint implements Serializable {
 		this.complaintReason = complaintReason;
 	}
 
-	public BigInteger getCustomerID() {
-		return this.customerID;
+	public Customer getCustomer() {
+		return this.customer;
 	}
 
-	public void setCustomerID(BigInteger customerID) {
-		this.customerID = customerID;
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
 	}
 
 	public LocalDateTime getDate() {
@@ -101,6 +101,6 @@ public class Complaint implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Customer ID: "+customerID +". Complaint Reason:" + complaintReason;
+		return "Customer: "+customer.toString() +". Complaint Reason:" + complaintReason;
 	}
 }

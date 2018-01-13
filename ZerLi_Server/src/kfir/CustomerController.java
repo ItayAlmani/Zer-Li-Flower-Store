@@ -20,6 +20,11 @@ public class CustomerController extends ParentController {
 		return getAllCustomersData(handleGet(EchoServer.fac.dataBase.db.getQuery(query)));
 	}
 	
+	public ArrayList<Object> getCustomerByID(BigInteger customerID) throws Exception {
+		String query = "SELECT * FROM customer WHERE customerID='"+customerID+"'";
+		return getAllCustomersData(handleGet(EchoServer.fac.dataBase.db.getQuery(query)));
+	}
+	
 	public boolean billCreditCardOfCustomer(Customer customer, float amount) {
 		//return billCard(customer.getPaymentAccount().getCreditCard(), amount);
 		return new Random().nextBoolean();

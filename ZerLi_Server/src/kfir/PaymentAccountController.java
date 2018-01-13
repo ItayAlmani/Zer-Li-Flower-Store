@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import common.EchoServer;
 import controllers.ParentController;
 import entities.CSMessage;
+import entities.Complaint;
 import entities.CreditCard;
 import entities.Order;
 import entities.PaymentAccount;
@@ -92,8 +93,28 @@ public class PaymentAccountController extends ParentController{
 
 	@Override
 	public ArrayList<Object> update(Object obj) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		if(obj instanceof PaymentAccount) {
+			PaymentAccount pa = (PaymentAccount)obj;
+		String subStr = pa.getSub()==null || pa.getSub().getSubID()==null?"NULL":"'"+pa.getSub().getSubID().toString()+"'";
+		String query=String.format("UPDATE paymentaccount SET customerID='%d',"
+				+ " creditCardID='%d'"
+				+ ", storeID='%d'"
+				+ ", subscriptionID=%s"
+				+ ", refundAmount='%f' WHERE paymentAccountID='%d'",
+				pa.getCustomerID(),
+				pa.getCreditCard().getCcID(),
+				pa.getStore().getStoreID(),
+				subStr,
+				pa.getRefundAmount(),
+				pa.getPaID());
+		EchoServer.fac.dataBase.db.updateQuery(query);
+		myMsgArr.clear();
+		myMsgArr.add(true);
+		return myMsgArr;
+		
+				
+		}
+		else throw new Exception();
 	}
 	
 	public ArrayList<Object> getPayAccontByCredCard(BigInteger ccID) throws SQLException {

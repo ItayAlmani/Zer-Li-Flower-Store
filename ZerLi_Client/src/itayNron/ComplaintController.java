@@ -11,6 +11,8 @@ import common.Context;
 import controllers.ParentController;
 import entities.CSMessage;
 import entities.Complaint;
+import entities.ProductInOrder;
+import entities.Survey;
 import entities.SurveyReport;
 import entities.CSMessage.MessageType;
 import gui.controllers.ParentGUIController;
@@ -30,11 +32,21 @@ public class ComplaintController extends ParentController implements IComplaint 
 	}
 	
 	@Override
-	public void update(Complaint complaint) {
+	public void update(Complaint complaint) throws IOException
+	{
+		myMsgArr.clear();
+		myMsgArr.add(Thread.currentThread().getStackTrace()[1].getMethodName());
+		myMsgArr.add(complaint);
+		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.UPDATE,myMsgArr,Complaint.class));
 	}	
+	
 
 	@Override
-	public void getComplaintsByStore(BigInteger storeid) {
+	public void getComplaintsByStore(BigInteger storeid) throws IOException {
+		myMsgArr.clear();
+		myMsgArr.add(Thread.currentThread().getStackTrace()[1].getMethodName());
+		myMsgArr.add(storeid);
+		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.SELECT, myMsgArr, Complaint.class));
 	}
 
 	@Override
