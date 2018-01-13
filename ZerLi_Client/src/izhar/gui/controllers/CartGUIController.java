@@ -85,8 +85,8 @@ public class CartGUIController extends ProductsPresentationGUIController {
 		    		lblTitleFPrice.setVisible(true);
 		    	}
 			}});
+    	ordPrice = Context.order.getFinalPrice();
 		for (ProductInOrder p : prds) {
-			ordPrice+=p.getFinalPrice();
 			if(p.getQuantity()>0)
 				cartEmpty=false;
 			setVBox(i, p,updateQuantity());

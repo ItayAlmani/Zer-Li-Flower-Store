@@ -3,14 +3,13 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXProgressBar?>
 <?import com.jfoenix.controls.JFXRadioButton?>
+<?import com.jfoenix.controls.JFXTextArea?>
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView?>
 <?import de.jensd.fx.glyphs.octicons.OctIconView?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextArea?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
@@ -19,26 +18,22 @@
       <HBox spacing="15.0">
          <children>
             <Label styleClass="menuTitle" text="Choose Payment Method:" />
-            <VBox spacing="5.0">
+            <HBox alignment="CENTER_LEFT">
                <children>
-                  <HBox alignment="CENTER_LEFT">
-                     <children>
-                     <OctIconView fx:id="icnCreditCard" fill="ORANGE" fontSmoothingType="LCD" glyphName="CREDIT_CARD" size="20" textAlignment="CENTER">
-                           <font>
-                              <Font name="octicons" size="20.0" />
-                           </font>
-                        </OctIconView>
-                        <JFXRadioButton fx:id="rbCredit" mnemonicParsing="false" onAction="#selectedCreditCard" text="Credit Card" textAlignment="CENTER" textOverrun="CLIP" wrapText="true" />
-                     </children>
-                  </HBox>
-                  <HBox alignment="CENTER_LEFT">
-                     <children>
-                     <FontAwesomeIconView fx:id="icnCash" fill="RED" fontSmoothingType="LCD" glyphName="MONEY" size="20" textAlignment="CENTER" />
-                        <JFXRadioButton fx:id="rbCash" mnemonicParsing="false" onAction="#selectedCash" text="Cash" />
-                     </children>
-                  </HBox>
+               <OctIconView fx:id="icnCreditCard" fill="ORANGE" fontSmoothingType="LCD" glyphName="CREDIT_CARD" size="20" textAlignment="CENTER">
+                     <font>
+                        <Font name="octicons" size="20.0" />
+                     </font>
+                  </OctIconView>
+                  <JFXRadioButton fx:id="rbCredit" mnemonicParsing="false" onAction="#selectedCreditCard" selected="true" text="Credit Card" textAlignment="CENTER" textFill="ORANGE" textOverrun="CLIP" wrapText="true" />
                </children>
-            </VBox>
+            </HBox>
+            <HBox alignment="CENTER_LEFT">
+               <children>
+               <FontAwesomeIconView fx:id="icnCash" fill="RED" fontSmoothingType="LCD" glyphName="MONEY" size="20" textAlignment="CENTER" />
+                  <JFXRadioButton fx:id="rbCash" mnemonicParsing="false" onAction="#selectedCash" text="Cash" textFill="RED" />
+               </children>
+            </HBox>
          </children>
       </HBox>
       <VBox alignment="CENTER">
@@ -47,42 +42,40 @@
             <Label fx:id="lblPayMsg" textAlignment="CENTER" textFill="BLUE" textOverrun="CLIP" wrapText="true" />
          </children>
       </VBox>
-      <Label fx:id="lblPayMsg" maxWidth="200.0" minHeight="20.0" textAlignment="CENTER" textFill="#4000ff" wrapText="true" />
-      <GridPane prefHeight="64.0" prefWidth="240.0">
-        <columnConstraints>
-          <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="116.2" minWidth="86.2" prefWidth="86.2" />
-          <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" />
-        </columnConstraints>
-        <rowConstraints>
-          <RowConstraints vgrow="SOMETIMES" />
-        </rowConstraints>
-         <children>
-            <Label text="Greeting (Optional):" textAlignment="CENTER" wrapText="true">
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font>
-            </Label>
-            <TextArea fx:id="txtGreeting" prefHeight="100.0" prefWidth="151.0" promptText="Enter greeting here" wrapText="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-         </children>
-      </GridPane>
-      <Label text="Final Price (With delivery method):" textAlignment="CENTER" textFill="#008cff">
+      <Label fx:id="lblPayMsg" minHeight="20.0" textAlignment="CENTER" textFill="#4000ff" textOverrun="CLIP" wrapText="true" />
+      <JFXTextArea fx:id="txtGreeting" prefColumnCount="20" prefRowCount="5" promptText="Enter greeting here (Optional)" wrapText="true">
+         <VBox.margin>
+            <Insets top="5.0" />
+         </VBox.margin>
+      </JFXTextArea>
+      <Label styleClass="menuTitle" text="Final Price (With delivery method):" textAlignment="CENTER" textFill="#008cff">
          <font>
             <Font name="System Bold Italic" size="12.0" />
          </font>
       </Label>
-      <Label fx:id="lblFinalPrice" minWidth="50.0" textAlignment="CENTER" textFill="#ffb5b5">
+      <Label fx:id="lblFinalPrice" minWidth="50.0" textAlignment="CENTER" textFill="ORANGE" textOverrun="CLIP" wrapText="true">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
       </Label>
-      <JFXButton fx:id="btnPay" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#pay" text="Pay" textAlignment="CENTER" visible="false" />
-      <JFXButton alignment="CENTER" buttonType="RAISED" onAction="#back" ripplerFill="RED" text="Back" textAlignment="CENTER" textFill="RED">
+      <JFXButton fx:id="btnPay" alignment="CENTER" buttonType="RAISED" mnemonicParsing="false" onAction="#pay" ripplerFill="ORANGE" text="Pay" textAlignment="CENTER" textFill="ORANGE" textOverrun="CLIP" visible="false">
+         <graphic>
+            <MaterialDesignIconView fx:id="icnNext" fill="ORANGE" fontSmoothingType="LCD" glyphName="CUBE_SEND" size="15" textAlignment="CENTER">
                <font>
                   <Font name="Material Design Icons" size="15.0" />
                </font>
+            </MaterialDesignIconView>
+         </graphic>
+         <font>
+            <Font name="Material Design Icons" size="15.0" />
+         </font></JFXButton>
+      <JFXButton alignment="CENTER" buttonType="RAISED" onAction="#back" ripplerFill="RED" text="Back" textAlignment="CENTER" textFill="RED">
                <graphic>
-                  <FontAwesomeIconView fill="RED" fontSmoothingType="LCD" glyphName="ARROW_LEFT" size="15" textAlignment="CENTER" />
+                  <MaterialDesignIconView fill="RED" fontSmoothingType="LCD" glyphName="ARROW_LEFT_BOLD_CIRCLE" size="15" textAlignment="CENTER" />
                </graphic>
+               <font>
+                  <Font name="Material Design Icons" size="15.0" />
+               </font>
             </JFXButton>
    </children>
 </VBox>

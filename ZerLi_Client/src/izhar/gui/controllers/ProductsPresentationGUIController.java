@@ -185,6 +185,7 @@ public abstract class ProductsPresentationGUIController implements Initializable
 		icnButtons[i].setFill(Color.ORANGE);
 		btnFinalProduct[i].setGraphic(icnButtons[i]);
 		btnFinalProduct[i].setTextFill(Color.ORANGE);
+		btnFinalProduct[i].setFont(Font.font(15));
 		
 		for (Node node : components) {
 			GridPane.setHalignment(node, HPos.CENTER);

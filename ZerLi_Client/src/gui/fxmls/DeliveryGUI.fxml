@@ -38,7 +38,7 @@
                               <Font name="Material Design Icons" size="20.0" />
                            </font>
                         </MaterialDesignIconView>
-                        <JFXRadioButton fx:id="rbShipment" contentDisplay="CENTER" onAction="#showShipment" style="-jfx-selected-color: ORANGE; -jfx-unselected-color: RED;" text="Shipment" textAlignment="CENTER" />
+                        <JFXRadioButton fx:id="rbShipment" contentDisplay="CENTER" onAction="#showShipment" text="Shipment" textAlignment="CENTER" />
                      </children>
                   </HBox>
                </children>
@@ -90,12 +90,12 @@
                   <Font name="Material Design Icons" size="15.0" />
                </font>
                <graphic>
-                  <FontAwesomeIconView fill="RED" fontSmoothingType="LCD" glyphName="ARROW_LEFT" size="15" textAlignment="CENTER" />
+                  <MaterialDesignIconView fill="RED" fontSmoothingType="LCD" glyphName="ARROW_LEFT_BOLD_CIRCLE" size="15" textAlignment="CENTER" />
                </graphic>
             </JFXButton>
-            <JFXButton fx:id="btnSend" alignment="CENTER" buttonType="RAISED" onAction="#addDelivery" ripplerFill="ORANGE" text="Send" textAlignment="CENTER" textFill="ORANGE">
+            <JFXButton fx:id="btnSend" alignment="CENTER" buttonType="RAISED" onAction="#addDelivery" ripplerFill="ORANGE" text="Next" textAlignment="CENTER" textFill="ORANGE">
                <graphic>
-                  <MaterialDesignIconView fill="ORANGE" fontSmoothingType="LCD" glyphName="SEND" size="15" textAlignment="CENTER" />
+                  <MaterialDesignIconView fill="ORANGE" fontSmoothingType="LCD" glyphName="ARROW_RIGHT_BOLD_CIRCLE" size="15" textAlignment="CENTER" />
                </graphic>
                <font>
                   <Font name="Material Design Icons" size="15.0" />

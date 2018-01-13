@@ -6,8 +6,12 @@ import java.net.URL;
 import java.util.Random;
 import java.util.ResourceBundle;
 
+import org.controlsfx.glyphfont.FontAwesome.Glyph;
+
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXProgressBar;
+import com.jfoenix.controls.JFXRadioButton;
+import com.jfoenix.controls.JFXTextArea;
 
 import common.Context;
 import entities.Order;
@@ -21,22 +25,27 @@ import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import de.jensd.fx.glyphs.octicons.OctIconView;
+import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIcon;
+import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView;
 
 public class PaymentGUIController implements Initializable {
 
-	private @FXML RadioButton rbCredit, rbCash;
+	private @FXML JFXRadioButton rbCredit, rbCash;
 	private @FXML Label lblPayMsg, lblFinalPrice;
 	private @FXML JFXButton btnPay;
 	private @FXML JFXProgressBar piBill;
+	private @FXML JFXTextArea txtGreeting;
 	private @FXML ToggleGroup tGroup;
-	private @FXML TextArea txtGreeting;
 	
 	public static boolean orderAdded = false;
 	@FXML FontAwesomeIconView icnCash;
 	@FXML OctIconView icnCreditCard;
+	@FXML MaterialDesignIconView icnNext;
 	
 	private void setLblFinalPrice(Float ordPrice) {
     	if(ordPrice == Math.round(ordPrice))
@@ -46,13 +55,30 @@ public class PaymentGUIController implements Initializable {
     }
 
 	public void selectedCreditCard() {
+		lblPayMsg.setText("");
 		btnPay.setText("Pay Now!");
+		icnNext.setGlyphName(MaterialDesignIcon.CUBE_SEND.toString());
+		
+		Paint ccColor = Color.ORANGE, cashColor = Color.RED;
+		icnCreditCard.setFill(ccColor);
+		rbCredit.setTextFill(ccColor);
+		
+		icnCash.setFill(cashColor);
+		rbCash.setTextFill(cashColor);
 		btnPay.setVisible(true);
 	}
 
 	public void selectedCash() {
 		lblPayMsg.setText("Order won't be complete until payment");
 		btnPay.setText("Next");
+		icnNext.setGlyphName(MaterialDesignIcon.ARROW_RIGHT_BOLD_CIRCLE.toString());
+		
+		Paint ccColor = Color.RED, cashColor = Color.ORANGE;
+		icnCreditCard.setFill(ccColor);
+		rbCredit.setTextFill(ccColor);
+		
+		icnCash.setFill(cashColor);
+		rbCash.setTextFill(cashColor);
 		piBill.setVisible(false);
 		btnPay.setDisable(false);
 		btnPay.setVisible(true);
@@ -148,8 +174,6 @@ public class PaymentGUIController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		ParentGUIController.currentGUI = this;
-
 		tGroup = new ToggleGroup();
 		rbCredit.setUserData("CreditCard");
 		rbCredit.setToggleGroup(tGroup);

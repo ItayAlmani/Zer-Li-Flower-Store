@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
-<?import de.jensd.fx.glyphs.materialicons.MaterialIconView?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.HBox?>
@@ -18,12 +18,15 @@
       </HBox>
       <JFXButton alignment="CENTER" buttonType="RAISED" mnemonicParsing="false" onAction="#createOrder" ripplerFill="ORANGE" text="Order Now!" textAlignment="CENTER" textFill="ORANGE" textOverrun="CLIP" wrapText="true">
          <graphic>
-            <MaterialIconView fill="ORANGE" fontSmoothingType="LCD" glyphName="SEND" size="15" textAlignment="CENTER">
+            <FontAwesomeIconView fill="ORANGE" fontSmoothingType="LCD" glyphName="SEND" size="15" textAlignment="CENTER">
                <font>
-                  <Font name="Material Icons" size="12.0" />
+                  <Font name="FontAwesome" size="15.0" />
                </font>
-            </MaterialIconView>
-         </graphic></JFXButton>
+            </FontAwesomeIconView>
+         </graphic>
+         <font>
+            <Font size="15.0" />
+         </font></JFXButton>
    </children>
    <padding>
       <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />

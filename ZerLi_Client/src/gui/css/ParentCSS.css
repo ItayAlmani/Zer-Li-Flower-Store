@@ -74,3 +74,19 @@ Pane{
 	-jfx-label-float: true;
 	-jfx-unfocus-color: red;
 }
+
+.text-area{
+	-jfx-focus-color: orange;
+	-jfx-label-float: true;
+	-jfx-unfocus-color: red;
+}
+
+.text-area .text{
+	-fx-fill: red;
+	-fx-text-fill: orange;
+}
+
+.radio-button{
+	-jfx-selected-color: orange;
+	-jfx-unselected-color: red;
+}
