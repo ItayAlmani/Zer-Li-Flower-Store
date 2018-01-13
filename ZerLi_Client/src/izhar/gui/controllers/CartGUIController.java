@@ -105,6 +105,7 @@ public class CartGUIController extends ProductsPresentationGUIController {
 					vbox.getChildren().add(0,pagination);
 				vbox.setAlignment(Pos.CENTER);
 				vbox.getScene().getWindow().sizeToScene();
+				vbox.getStylesheets().add(getClass().getResource("/gui/css/ParentCSS.css").toExternalForm());
 			}
 		});
 	}	
@@ -170,7 +171,7 @@ public class CartGUIController extends ProductsPresentationGUIController {
 		initArrays(prds.size());
 	}
 
-	public void createOrder(ActionEvent event) {
+	public void createOrder() {
 		if(Context.fac.order.isCartEmpty(products)==false) {
 			Context.order.setProducts(products);
 			Context.fac.order.calcFinalPriceOfOrder(Context.order);

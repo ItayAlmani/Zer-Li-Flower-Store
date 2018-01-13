@@ -7,6 +7,7 @@ import java.util.Random;
 import java.util.ResourceBundle;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXProgressBar;
 
 import common.Context;
 import entities.Order;
@@ -21,17 +22,21 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.text.Text;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+import de.jensd.fx.glyphs.octicons.OctIconView;
 
 public class PaymentGUIController implements Initializable {
 
 	private @FXML RadioButton rbCredit, rbCash;
 	private @FXML Label lblPayMsg, lblFinalPrice;
 	private @FXML JFXButton btnPay;
-	private @FXML ProgressIndicator piBill;
+	private @FXML JFXProgressBar piBill;
 	private @FXML ToggleGroup tGroup;
 	private @FXML TextArea txtGreeting;
 	
 	public static boolean orderAdded = false;
+	@FXML FontAwesomeIconView icnCash;
+	@FXML OctIconView icnCreditCard;
 	
 	private void setLblFinalPrice(Float ordPrice) {
     	if(ordPrice == Math.round(ordPrice))
@@ -83,7 +88,7 @@ public class PaymentGUIController implements Initializable {
 				}
 				boolean billResponse = true;
 						/*Context.fac.customer.billCreditCardOfCustomer(Context.getUserAsCustomer(), Context.order.getFinalPrice())*/;
-				((Text)piBill.lookup(".percentage")).setText(billResponse==true?"Confirmed":"Denied");
+				/*((Text)piBill.lookup(".percentage")).setText(billResponse==true?"Confirmed":"Denied");*/
 				Platform.runLater(new Runnable() {
 					@Override
 					public void run() {
@@ -106,7 +111,7 @@ public class PaymentGUIController implements Initializable {
 	
 	private void payWithCC() {
 		Order ord = Context.order;
-		if(tGroup.getSelectedToggle().getUserData().equals("CreditCard")) {
+		if(tGroup.getSelectedToggle().equals(rbCredit)) {
 			ord.setOrderStatus(OrderStatus.Paid);
 			ord.setPaymentMethod(entities.Order.PayMethod.CreditCard);
 		}
@@ -119,7 +124,6 @@ public class PaymentGUIController implements Initializable {
 		try {
 			Context.fac.order.add(ord,true);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

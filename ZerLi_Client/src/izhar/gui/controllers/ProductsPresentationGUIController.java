@@ -2,13 +2,17 @@ package izhar.gui.controllers;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXButton.ButtonType;
+
 import common.Context;
 import common.MainClient;
+import de.jensd.fx.glyphs.materialicons.MaterialIcon;
+import de.jensd.fx.glyphs.materialicons.MaterialIconView;
 import entities.Product;
 import entities.ProductInOrder;
 import entities.Stock;
@@ -35,17 +39,19 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.util.Callback;
 
 public abstract class ProductsPresentationGUIController implements Initializable {
 	protected @FXML Pagination pagination = null;
 	protected @FXML GridPane[] grids;
-	protected @FXML Button[] btnFinalProduct;
+	protected @FXML JFXButton[] btnFinalProduct;
 	protected @FXML ImageView[] imgImages;
 	protected @FXML Label[] lblShowType, lblShowPrice, lblShowName,
 							lblTitleType, lblTitlePrice, lblTitleName;
 	protected @FXML VBox vbox = new VBox();
 	protected @FXML VBox[] vbxProduct;
+	protected @FXML MaterialIconView[] icnButtons;
 	protected ArrayList<Node> components = new ArrayList<>();
 	
 	/*Only for cartGUI*/
@@ -72,7 +78,9 @@ public abstract class ProductsPresentationGUIController implements Initializable
 		/* The images of all products */
 		imgImages= new ImageView[size];
 		/* The order buttons of all products */
-		btnFinalProduct = new Button[size];
+		btnFinalProduct = new JFXButton[size];
+		
+		icnButtons = new MaterialIconView[size];
 		vbxProduct = new VBox[size];
 	}
 	
@@ -97,6 +105,7 @@ public abstract class ProductsPresentationGUIController implements Initializable
 		ProductInOrder pio = null;
 		Stock stk = null;
 		String price = null, btnText = null, priceAfterSale = null;
+		MaterialIcon mi;
 		
 		vbxProduct[i] = new VBox();
     	vbxProduct[i].setAlignment(Pos.CENTER);
@@ -109,12 +118,14 @@ public abstract class ProductsPresentationGUIController implements Initializable
 			if(stk.getSalePercetage()!=0)
 				priceAfterSale=stk.getPriceAfterSaleAsString();
 			btnText="Add to cart";
+			mi = MaterialIcon.ADD_SHOPPING_CART;
 		}
 		else if(o instanceof ProductInOrder) {
 			pio = (ProductInOrder)o;
 			prd = pio.getProduct();
 			price=pio.getFinalPriceAsString();
 			btnText="Update quantity";
+			mi = MaterialIcon.REPEAT;
 		}
 		else return;
 		try {
@@ -163,9 +174,17 @@ public abstract class ProductsPresentationGUIController implements Initializable
 		else
 			setComponent(lblShowPrice[i],1, j, i);
 		
-		btnFinalProduct[i] = new Button(btnText);
+		btnFinalProduct[i] = new JFXButton(btnText);
+		btnFinalProduct[i].setButtonType(ButtonType.RAISED);
+		btnFinalProduct[i].setRipplerFill(Color.ORANGE);
 		btnFinalProduct[i].setUserData(i);
 		btnFinalProduct[i].setOnAction(btnHandler);
+		icnButtons[i] = new MaterialIconView(mi);
+		icnButtons[i].setSize("15");
+		icnButtons[i].setFont(Font.font("Material Icons", 15));
+		icnButtons[i].setFill(Color.ORANGE);
+		btnFinalProduct[i].setGraphic(icnButtons[i]);
+		btnFinalProduct[i].setTextFill(Color.ORANGE);
 		
 		for (Node node : components) {
 			GridPane.setHalignment(node, HPos.CENTER);
@@ -174,13 +193,13 @@ public abstract class ProductsPresentationGUIController implements Initializable
 		grids[i].getChildren().addAll(components);
 		vbxProduct[i].setFillWidth(true);
 		vbxProduct[i].getChildren().add(btnFinalProduct[i]);
+		vbxProduct[i].getStylesheets().add(getClass().getResource("/gui/css/ParentCSS.css").toExternalForm());
 		
 		components.clear();
 		
 		pagination.setPageFactory(new Callback<Integer, Node>() {
             @Override
             public Node call(Integer pageIndex) {
-            	//vbox.getScene().getWindow().sizeToScene();
             	return vbxProduct[pageIndex];
             }
 		});
@@ -234,12 +253,7 @@ public abstract class ProductsPresentationGUIController implements Initializable
 							e.printStackTrace();
 						}
 					}
-					Platform.runLater(new Runnable() {
-						@Override
-						public void run() {
-							Context.mainScene.setMessage("Added");
-						}
-					});
+					//Context.mainScene.setMessage("Added");
 				}
 			}
 		};

@@ -68,3 +68,9 @@ Pane{
 .button{
 	-jfx-button-type: RAISED;
 }
+
+.text-field{
+	-jfx-focus-color: orange;
+	-jfx-label-float: true;
+	-jfx-unfocus-color: red;
+}

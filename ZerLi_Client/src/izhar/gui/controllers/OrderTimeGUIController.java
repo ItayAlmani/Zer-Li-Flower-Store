@@ -37,6 +37,7 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.util.converter.LocalDateStringConverter;
 import javafx.util.converter.LocalTimeStringConverter;
 import javafx.scene.layout.GridPane;
@@ -44,42 +45,34 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.ComboBoxBase;
 import javafx.scene.control.DateCell;
 import com.jfoenix.controls.JFXSlider;
+import com.jfoenix.controls.JFXToggleButton;
 
 /**
  * The Customer will choose between Immediate delivery or Pre-order. If pre-order has been chosen, the GUI will reveal the datepickers
  */
 public class OrderTimeGUIController implements Initializable {
 
-	private @FXML RadioButton rbImmediate, rbPreOrder;
 	private @FXML JFXButton btnSend, btnBack;
 	private @FXML JFXDatePicker dpDate;
 	private @FXML JFXTimePicker tpTime;
 	private @FXML VBox vboxTime, vboxDateTime;
-	private @FXML ToggleGroup tGroup;
-	@FXML JFXSlider sldMinutes, sldHours;
+	private @FXML JFXSlider sldMinutes, sldHours;
+	private @FXML JFXToggleButton tglPreOrder;
 
 	public void addTime() {
 		LocalDateTime date = null;
-		Object select =null;
-		Toggle toggle = tGroup.getSelectedToggle();
-		if(toggle == null || 
-				toggle.getUserData().equals("PreOrder")==false && toggle.getUserData().equals("Immediate")==false) {
-			Context.mainScene.setMessage("Must choose one option");
-			return;
-		}
-		select = toggle.getUserData();
 		
-		if(select.equals("PreOrder")) {
+		if(tglPreOrder.isSelected()) {
 			date = dpDate.getValue().atStartOfDay();
 			date=date.plusHours(((Double)sldHours.getValue()).longValue());
 			date=date.plusMinutes(((Double)sldMinutes.getValue()).longValue());
 			Context.order.getDelivery().setImmediate(false);
 		}
-		else if(select.equals("Immediate")) {
+		else {
 			Context.order.getDelivery().setImmediate(true);
 			date = LocalDateTime.now();
 			//if 3 hours from now are before 22:00
-			if(date.plusHours(3).plusMinutes(-1).toLocalDate().isAfter(date.toLocalDate())==false
+			if(date.plusHours(3).minusMinutes(1).toLocalDate().isAfter(date.toLocalDate())==false
 					&& date.toLocalTime().plusHours(3).plusMinutes(-1).isBefore(LocalTime.of(21, 59)))
 				date=date.plusHours(3).plusMinutes(-1);
 			else {
@@ -97,27 +90,9 @@ public class OrderTimeGUIController implements Initializable {
 		Context.mainScene.loadGUI("DeliveryGUI", false);
 	}
 
-	public void selectedImmediate() {
-		btnSend.setDisable(false);
-		vboxDateTime.setVisible(false);
-	}
-
-	public void selectedPreOrder() {
-		btnSend.setDisable(false);
-		vboxDateTime.setVisible(true);
-	}
-
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		ParentGUIController.currentGUI = this;
-		
-		//tpTime.setIs24HourView(true);
-		
-		tGroup= new ToggleGroup();
-		rbImmediate.setUserData("Immediate");
-		rbImmediate.setToggleGroup(tGroup);
-		rbPreOrder.setUserData("PreOrder");
-		rbPreOrder.setToggleGroup(tGroup);
 		
 		LocalTime now_time = LocalTime.now();
 		if(now_time.plusHours(3).getHour()>22 || 
@@ -178,5 +153,17 @@ public class OrderTimeGUIController implements Initializable {
 			sldMinutes.setMin(0);
 		sldMinutes.setValue(sldMinutes.getMin());
 		sldMinutes.setVisible(true);
+	}
+
+	public void toggledPreOrder() {
+		if(tglPreOrder.isSelected()) {
+			tglPreOrder.setText("Switch for immediate order");
+			tglPreOrder.setTextFill(Color.ORANGE);
+		}
+		else {
+			tglPreOrder.setText("Switch for pre order");
+			tglPreOrder.setTextFill(Color.RED);
+		}
+		vboxDateTime.setVisible(tglPreOrder.isSelected());
 	}
 }

@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXProgressBar?>
+<?import com.jfoenix.controls.JFXRadioButton?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import de.jensd.fx.glyphs.octicons.OctIconView?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ProgressIndicator?>
-<?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -11,22 +13,40 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-<?import com.jfoenix.controls.JFXButton?>
 
-<VBox alignment="CENTER" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="izhar.gui.controllers.PaymentGUIController">
+<VBox alignment="CENTER" spacing="10.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="izhar.gui.controllers.PaymentGUIController">
 	<children>
-      <HBox spacing="20.0">
+      <HBox spacing="15.0">
          <children>
-            <Label text="Choose Payment Method:" />
+            <Label styleClass="menuTitle" text="Choose Payment Method:" />
             <VBox spacing="5.0">
                <children>
-                  <RadioButton fx:id="rbCredit" mnemonicParsing="false" onAction="#selectedCreditCard" text="Credit Card" />
-                  <RadioButton fx:id="rbCash" mnemonicParsing="false" onAction="#selectedCash" text="Cash" />
+                  <HBox alignment="CENTER_LEFT">
+                     <children>
+                     <OctIconView fx:id="icnCreditCard" fill="ORANGE" fontSmoothingType="LCD" glyphName="CREDIT_CARD" size="20" textAlignment="CENTER">
+                           <font>
+                              <Font name="octicons" size="20.0" />
+                           </font>
+                        </OctIconView>
+                        <JFXRadioButton fx:id="rbCredit" mnemonicParsing="false" onAction="#selectedCreditCard" text="Credit Card" textAlignment="CENTER" textOverrun="CLIP" wrapText="true" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT">
+                     <children>
+                     <FontAwesomeIconView fx:id="icnCash" fill="RED" fontSmoothingType="LCD" glyphName="MONEY" size="20" textAlignment="CENTER" />
+                        <JFXRadioButton fx:id="rbCash" mnemonicParsing="false" onAction="#selectedCash" text="Cash" />
+                     </children>
+                  </HBox>
                </children>
             </VBox>
          </children>
       </HBox>
-      <ProgressIndicator fx:id="piBill" progress="0.0" visible="false" />
+      <VBox alignment="CENTER">
+         <children>
+            <JFXProgressBar fx:id="piBill" progress="0.0" visible="false" />
+            <Label fx:id="lblPayMsg" textAlignment="CENTER" textFill="BLUE" textOverrun="CLIP" wrapText="true" />
+         </children>
+      </VBox>
       <Label fx:id="lblPayMsg" maxWidth="200.0" minHeight="20.0" textAlignment="CENTER" textFill="#4000ff" wrapText="true" />
       <GridPane prefHeight="64.0" prefWidth="240.0">
         <columnConstraints>
@@ -56,6 +76,13 @@
          </font>
       </Label>
       <JFXButton fx:id="btnPay" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#pay" text="Pay" textAlignment="CENTER" visible="false" />
-      <JFXButton mnemonicParsing="false" onAction="#back" text="Back" />
+      <JFXButton alignment="CENTER" buttonType="RAISED" onAction="#back" ripplerFill="RED" text="Back" textAlignment="CENTER" textFill="RED">
+               <font>
+                  <Font name="Material Design Icons" size="15.0" />
+               </font>
+               <graphic>
+                  <FontAwesomeIconView fill="RED" fontSmoothingType="LCD" glyphName="ARROW_LEFT" size="15" textAlignment="CENTER" />
+               </graphic>
+            </JFXButton>
    </children>
 </VBox>
