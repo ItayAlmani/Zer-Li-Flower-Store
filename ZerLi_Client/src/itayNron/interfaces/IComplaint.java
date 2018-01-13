@@ -18,14 +18,16 @@ public interface IComplaint{
 	/**
 	 * 
 	 * @param complaint
+	 * @throws IOException 
 	 */
-	void update(Complaint complaint);
+	void update(Complaint complaint) throws IOException;
 
 	/**
 	 * 
 	 * @param storeid
+	 * @throws IOException 
 	 */
-	void getComplaintsByStore(BigInteger storeid);
+	void getComplaintsByStore(BigInteger storeid) throws IOException;
 
 	void getNotTreatedComplaints() throws IOException;
 

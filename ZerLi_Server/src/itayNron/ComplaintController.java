@@ -10,15 +10,18 @@ import java.util.ArrayList;
 import common.EchoServer;
 import controllers.ParentController;
 import entities.Complaint;
+import entities.Customer;
+import entities.ProductInOrder;
 import entities.Survey;
 import entities.Survey.SurveyType;
+import izhar.ProductController;
 
 
 public class ComplaintController extends ParentController {
 
 	@Override
 	public ArrayList<Object> handleGet(ArrayList<Object> obj) throws Exception {
-		if(obj == null) return null;
+		if(obj == null) return new ArrayList<>();
 		ArrayList<Object> comp = new ArrayList<>();
 		for (int i = 0; i < obj.size(); i += 7)
 			comp.add(parse
@@ -60,7 +63,7 @@ public class ComplaintController extends ParentController {
 				refStr = comp.isRefunded()==true?"1":"0";
 		String query = "INSERT INTO complaint (customerID, storeID,complaintReason,date,isTreated,isRefunded)" 
 		+ " VALUES ('" 
-				+ comp.getCustomerID().toString() + "','"
+				+ comp.getCustomer().getCustomerID().toString() + "','"
 				+ comp.getStoreID().toString()+ "','"
 				+ comp.getComplaintReason()+ "','"
 				+ Timestamp.valueOf(comp.getDate())+ "','"
@@ -78,20 +81,56 @@ public class ComplaintController extends ParentController {
 	}
 	@Override
 	public ArrayList<Object> update(Object obj) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		if(obj instanceof Complaint) {
+			Complaint comp = (Complaint)obj;
+			String query = String.format("UPDATE complaint"
+					+ " SET customerID='%d',"
+					+ " storeID='%d',"
+					+ " complaintReason='%s',"
+					+ " date='%s',"
+					+ " isTreated='%s',"
+					+ " isRefunded='%s'"
+					+ " WHERE complaintID='%d'" , 
+			comp.getCustomer().getCustomerID(),
+			comp.getStoreID(),
+			comp.getComplaintReason(),
+			Timestamp.valueOf(comp.getDate()).toString(),
+			comp.isTreated()==true?"1":"0",
+			comp.isRefunded()==true?"1":"0",
+			comp.getComplaintID());
+			EchoServer.fac.dataBase.db.updateQuery(query);
+			myMsgArr.clear();
+			myMsgArr.add(true);
+			return myMsgArr;
+		}
+		else
+			throw new Exception();
 	}
 	
-	@Override
+	
 	public ArrayList<Object> getNotTreatedComplaints() throws Exception {
 		String query = "SELECT complaint.* FROM complaint WHERE complaint.isTreated='0'";
 		return handleGet(EchoServer.fac.dataBase.db.getQuery(query));
 	}
 	
-	public Complaint parse(BigInteger complaintID,BigInteger customerID, BigInteger storeID,String complaintReason,Timestamp date,boolean isTreated,boolean isRefunded) {
+	public ArrayList<Object> getComplaintsByStore (Object obj) throws Exception
+	{
+		if(obj instanceof Complaint) {
+			Complaint comp = (Complaint)obj;
+		String query = String.format(
+				"SELECT complaint.* FROM survey WHERE storeID = %d",
+				comp.getStoreID());
+		return handleGet(EchoServer.fac.dataBase.db.getQuery(query));
+		}
+		else throw new SQLException();
+	}
+	public Complaint parse(BigInteger complaintID,BigInteger customerID, BigInteger storeID,String complaintReason,Timestamp date,boolean isTreated,boolean isRefunded) throws Exception {
 		LocalDateTime ldtDate = date.toLocalDateTime();
+		ArrayList<Object> custObj = EchoServer.fac.customer.getCustomerByID(customerID);
+		if(custObj==null || custObj.size()!=1 || custObj.get(0) instanceof Customer == false)
+			throw new Exception("Ani? Ata");
 		
-		return new Complaint(complaintID,customerID,storeID,complaintReason,ldtDate,isTreated,isRefunded);
+		return new Complaint(complaintID,(Customer)custObj.get(0),storeID,complaintReason,ldtDate,isTreated,isRefunded);
 	}
 
 }

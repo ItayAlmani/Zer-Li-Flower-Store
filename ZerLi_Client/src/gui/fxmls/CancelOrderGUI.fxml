@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import de.jensd.fx.glyphs.materialicons.MaterialIconView?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox alignment="CENTER" spacing="10.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="itayNron.gui.controllers.CancelOrderGUIController">
+   <children>
+      <JFXComboBox fx:id="cbsOrders" disable="true" focusColor="ORANGE" promptText="Select Order ID" unFocusColor="RED" />
+      <JFXButton fx:id="btnCancelOrder" buttonType="RAISED" onAction="#cancelOrder" text="Cancel Order" textFill="ORANGE" visible="false">
+         <graphic>
+            <MaterialIconView fill="ORANGE" glyphName="CANCEL" size="15">
+               <font>
+                  <Font name="Material Icons" size="8.0" />
+               </font>
+            </MaterialIconView>
+         </graphic>
+      </JFXButton>
+   </children>
+</VBox>

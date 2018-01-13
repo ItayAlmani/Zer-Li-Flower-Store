@@ -28,10 +28,10 @@ public class Factory {
 	public UserController user = new UserController();
 	public PaymentAccountController paymentAccount = new PaymentAccountController();
 	public CreditCardController creditCard = new CreditCardController();
-	/*public ComplaintController complaint = new ComplaintController();	
+	public ComplaintController complaint = new ComplaintController();	
 	public CustomerController customer = new CustomerController();
 	
-	public OrderReportController orderReport = new OrderReportController();
+	/*public OrderReportController orderReport = new OrderReportController();
 	public IncomesReportController incomesReport = new IncomesReportController();*/
 	
 	/*public AdminController admin = new AdminController();
