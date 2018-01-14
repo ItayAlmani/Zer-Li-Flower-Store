@@ -84,7 +84,6 @@ public class StockController extends ParentController implements IStock {
 		ArrayList<Product> prds = new ArrayList<>();
 		for (Stock stk : stocks)
 			prds.add(stk.getProduct());
-		Context.fac.product.saveImagesInClient(prds);
 	}
 	
 	public void handleGet(ArrayList<Stock> stocks) {

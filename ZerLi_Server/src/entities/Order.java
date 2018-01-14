@@ -243,6 +243,9 @@ public class Order implements Serializable {
 	}
 	
 	public String getFinalPriceAsString() {
-		return ((Float)getFinalPrice()).toString() + "¤";
+		if(this.finalPrice == Math.round(finalPrice))
+			return ((Integer)Math.round(finalPrice)).toString()+ "¤";
+		else
+			return ((Float)finalPrice).toString()+ "¤";
 	}
 }

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import com.jfoenix.controls.JFXToggleButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<!-- CHANGE CONTROLLER path -->
+
+<VBox fx:id="paneScene" alignment="TOP_CENTER" fillWidth="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" spacing="10.0" stylesheets="@../css/ParentCSS.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="izhar.gui.controllers.UpdateCatalogGUIController">
+   <children>
+      <JFXComboBox id="cmbProducts" fx:id="cbProducts" onAction="#showProduct" promptText="Select product" />
+      <VBox fx:id="paneItem" fillWidth="false" spacing="20.0">
+         <children>
+            <ImageView id="imgImage" fx:id="imgImage" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+            <JFXTextField fx:id="txtID" alignment="CENTER" disable="true" prefColumnCount="10" promptText="Product ID" />
+            <JFXTextField fx:id="txtName" alignment="CENTER" prefColumnCount="10" promptText="Product Name" />
+            <JFXComboBox fx:id="cbType" promptText="Product Type" />
+            <JFXComboBox fx:id="cbColor" promptText="Product Color" />
+            <JFXTextField fx:id="txtPrice" alignment="CENTER" prefColumnCount="10" promptText="Product Price" />
+            <JFXToggleButton text="In Catalog" toggleColor="WHITE" toggleLineColor="ORANGE" unToggleColor="WHITE" unToggleLineColor="RED" />
+            <JFXTextField fx:id="txtPrice1" alignment="CENTER" prefColumnCount="10" promptText="Sale Percentage" />
+         </children>
+      </VBox>
+      <JFXButton id="btnUpdate" fx:id="btnUpdate" buttonType="RAISED" mnemonicParsing="false" onAction="#updateName" ripplerFill="ORANGE" text="Update" textAlignment="CENTER" textFill="ORANGE" textOverrun="CLIP" wrapText="true">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </JFXButton>
+   </children>
+   <padding>
+      <Insets top="20.0" />
+   </padding>
+</VBox>

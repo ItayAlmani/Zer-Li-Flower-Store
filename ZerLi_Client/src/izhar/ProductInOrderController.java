@@ -54,7 +54,6 @@ public class ProductInOrderController extends ParentController implements IProdu
 		ArrayList<Product> prds = new ArrayList<>();
 		for (ProductInOrder pio : pios)
 			prds.add(pio.getProduct());
-		Context.fac.product.saveImagesInClient(prds);
 	}
 	
 	@Override

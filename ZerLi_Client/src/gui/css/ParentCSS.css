@@ -1,7 +1,4 @@
-.root{
-	-fx-alignment: center;
-	-fx-content-display: center ;
-}
+
 
 .mainScene{
 	-fx-background-image: url("/images/logos/Light_Background_Image.jpg");

@@ -80,10 +80,8 @@ public interface IOrder  {
 	 */
 	void getProductsInOrder(BigInteger orderID) throws IOException;
 	
-	void addProductInOrderToOrder(ProductInOrder product);
 	
-	
-	void updateFinalPriceByPAT(PaymentAccount pa);
+	void updateFinalPriceByPAT(PaymentAccount pa, Order order) throws IOException;
 	
 	void getOrAddOrderInProcess(BigInteger customerID, Store store) throws IOException;
 

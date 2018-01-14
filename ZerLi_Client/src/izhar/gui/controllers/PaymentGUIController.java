@@ -14,7 +14,10 @@ import com.jfoenix.controls.JFXRadioButton;
 import com.jfoenix.controls.JFXTextArea;
 
 import common.Context;
+import entities.Customer;
+import entities.DeliveryDetails;
 import entities.Order;
+import entities.PaymentAccount;
 import entities.Order.OrderStatus;
 import gui.controllers.ParentGUIController;
 import javafx.application.Platform;
@@ -41,17 +44,16 @@ public class PaymentGUIController implements Initializable {
 	private @FXML JFXProgressBar piBill;
 	private @FXML JFXTextArea txtGreeting;
 	private @FXML ToggleGroup tGroup;
+	private @FXML FontAwesomeIconView icnCash;
+	private @FXML OctIconView icnCreditCard;
+	private @FXML MaterialDesignIconView icnNext;
+	private String priceBeforeDiscount;
 	
-	public static boolean orderAdded = false;
-	@FXML FontAwesomeIconView icnCash;
-	@FXML OctIconView icnCreditCard;
-	@FXML MaterialDesignIconView icnNext;
-	
-	private void setLblFinalPrice(Float ordPrice) {
+	private String getFinalPriceAsStr(Float ordPrice) {
     	if(ordPrice == Math.round(ordPrice))
-			lblFinalPrice.setText(((Integer)Math.round(ordPrice)).toString()+ "¤");
+			return ((Integer)Math.round(ordPrice)).toString()+ "¤";
 		else
-			lblFinalPrice.setText(ordPrice.toString()+ "¤");
+			return ordPrice.toString()+ "¤";
     }
 
 	public void selectedCreditCard() {
@@ -113,8 +115,6 @@ public class PaymentGUIController implements Initializable {
 					}
 				}
 				boolean billResponse = true;
-						/*Context.fac.customer.billCreditCardOfCustomer(Context.getUserAsCustomer(), Context.order.getFinalPrice())*/;
-				/*((Text)piBill.lookup(".percentage")).setText(billResponse==true?"Confirmed":"Denied");*/
 				Platform.runLater(new Runnable() {
 					@Override
 					public void run() {
@@ -179,7 +179,24 @@ public class PaymentGUIController implements Initializable {
 		rbCredit.setToggleGroup(tGroup);
 		rbCash.setUserData("Cash");
 		rbCash.setToggleGroup(tGroup);
-		setLblFinalPrice(Context.order.getFinalPrice());
+		priceBeforeDiscount=Context.order.getFinalPriceAsString();
+		Customer cust;
+		try {
+			cust = Context.getUserAsCustomer();
+			DeliveryDetails del = Context.order.getDelivery();
+			PaymentAccount pa = Context.fac.paymentAccount.getPaymentAccountOfStore(cust.getPaymentAccounts(), del.getStore());
+			Float refundAmount = pa.getRefundAmount(); 
+			if(refundAmount>0) {
+				Context.mainScene.setMessage("We have credit in the refund section");
+				lblFinalPrice.setText(priceBeforeDiscount + "-" + 
+						getFinalPriceAsStr(refundAmount) + "=" +
+						Context.order.getFinalPriceAsString());
+			}
+			else
+				lblFinalPrice.setText(priceBeforeDiscount);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 }

@@ -173,14 +173,7 @@ public class Product implements Comparable<Product>, Serializable  {
 		this.inCatalog = inCatalog;
 	}
 
-	public String getImageName() throws IOException {
-		File f = new File(getClass().getResource("/images/")+this.imageName);
-		f.deleteOnExit();
-		FileOutputStream fos = new FileOutputStream(f.getAbsolutePath());
-		setImageName(f.getName());
-		BufferedOutputStream bos = new BufferedOutputStream(fos);
-		bos.write(getMybytearray());
-		bos.close();
+	public String getImageName(){
 		return imageName;
 	}
 
