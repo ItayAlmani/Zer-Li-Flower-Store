@@ -19,6 +19,8 @@ public class Order implements Serializable {
 	private ArrayList<ProductInOrder> products;
 	private PayMethod paymentMethod;
 	
+	
+
 	public Order(OrderType type, OrderStatus orderStatus) {
 		super();
 		this.type = type;

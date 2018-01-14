@@ -150,8 +150,8 @@ public class OrderController extends ParentController implements IOrder {
 	@Override
 	public void cancelOrder(Order order) throws IOException {
 		myMsgArr.clear();
-		myMsgArr.add("UPDATE orders SET status='" + OrderStatus.Canceled.toString() + "' WHERE orderID='"
-				+ order.getOrderID() + "'");
+		myMsgArr.add(Thread.currentThread().getStackTrace()[1].getMethodName());
+		myMsgArr.add(order);
 		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.UPDATE, myMsgArr,Order.class));
 	}
 	
