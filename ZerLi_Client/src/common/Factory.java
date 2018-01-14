@@ -31,7 +31,7 @@ public class Factory {
 	
 	public UserController user = new UserController();
 	public CustomerController customer = new CustomerController();
-	//public StoreWorkerController storeWorker = new StoreWorkerController();
+	public StoreWorkerController storeWorker = new StoreWorkerController();
 	
 	public OrderReportController orderReport = new OrderReportController();
 	public IncomesReportController incomesReport = new IncomesReportController();

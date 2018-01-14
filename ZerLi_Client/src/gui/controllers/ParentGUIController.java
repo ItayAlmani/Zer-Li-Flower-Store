@@ -14,6 +14,8 @@ import javafx.scene.Scene;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import javafx.fxml.FXML;
+import de.jensd.fx.glyphs.materialicons.MaterialIconView;
 
 public class ParentGUIController extends SetUpMainGUIController implements Initializable {
 	/** The current JavaFX stage <=> the window of the GUI */

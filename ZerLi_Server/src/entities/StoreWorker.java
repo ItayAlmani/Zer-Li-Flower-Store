@@ -45,10 +45,6 @@ public class StoreWorker extends User implements Serializable  {
 	public Store getStore() {
 		return store;
 	}
-	
-	public BigInteger getStoreID() {
-		return store.getStoreID();
-	}
 
 	public void setStore(Store store) {
 		this.store = store;

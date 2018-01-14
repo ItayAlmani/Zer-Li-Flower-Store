@@ -45,7 +45,7 @@ public class LoadGUIController {
 	protected @FXML OctIconView icnCatalog, icnReportSelector;
 	protected @FXML MaterialDesignIconView icnLogOut, icnCart, icnAssemble, icnSurvey, icnSurveyReport, icnComplaints,
 			icnProductsForm;
-	protected @FXML MaterialIconView icnUpdateOrder, icnManualTransaction;
+	protected @FXML MaterialIconView icnUpdateOrder, icnManualTransaction, icnCancelOrder;
 	protected @FXML	FontAwesomeIconView icnUpdatePaymentAccount;
 	protected @FXML HBox hbIcons, hbChangingIcons; 
 	protected @FXML VBox hbCustServiceData, hbCustomer, hbOrders, hbCustomersInfo;

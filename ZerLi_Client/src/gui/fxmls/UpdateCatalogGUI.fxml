@@ -5,28 +5,51 @@
 <?import com.jfoenix.controls.JFXTextField?>
 <?import com.jfoenix.controls.JFXToggleButton?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
 <!-- CHANGE CONTROLLER path -->
 
-<VBox fx:id="paneScene" alignment="TOP_CENTER" fillWidth="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" spacing="10.0" stylesheets="@../css/ParentCSS.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="izhar.gui.controllers.UpdateCatalogGUIController">
+<VBox fx:id="paneScene" alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" spacing="10.0" stylesheets="@../css/ParentCSS.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="izhar.gui.controllers.UpdateCatalogGUIController">
    <children>
       <JFXComboBox id="cmbProducts" fx:id="cbProducts" onAction="#showProduct" promptText="Select product" />
-      <VBox fx:id="paneItem" fillWidth="false" spacing="20.0">
+      <VBox fx:id="paneItem" alignment="TOP_CENTER" spacing="20.0" visible="false">
          <children>
-            <ImageView id="imgImage" fx:id="imgImage" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+            <VBox alignment="TOP_CENTER" spacing="3.0">
+               <children>
+                  <ImageView id="imgImage" fx:id="imgImage" fitHeight="150.0" fitWidth="200.0" onMouseClicked="#browseImage" pickOnBounds="true" preserveRatio="true" />
+                  <Label text="Click the image for browse" textAlignment="CENTER" textOverrun="CLIP" />
+               </children>
+            </VBox>
             <JFXTextField fx:id="txtID" alignment="CENTER" disable="true" prefColumnCount="10" promptText="Product ID" />
-            <JFXTextField fx:id="txtName" alignment="CENTER" prefColumnCount="10" promptText="Product Name" />
-            <JFXComboBox fx:id="cbType" promptText="Product Type" />
-            <JFXComboBox fx:id="cbColor" promptText="Product Color" />
-            <JFXTextField fx:id="txtPrice" alignment="CENTER" prefColumnCount="10" promptText="Product Price" />
-            <JFXToggleButton text="In Catalog" toggleColor="WHITE" toggleLineColor="ORANGE" unToggleColor="WHITE" unToggleLineColor="RED" />
-            <JFXTextField fx:id="txtPrice1" alignment="CENTER" prefColumnCount="10" promptText="Sale Percentage" />
+            <HBox alignment="CENTER_LEFT" spacing="30.0">
+               <children>
+                  <VBox alignment="TOP_CENTER" fillWidth="false" spacing="25.0">
+                     <children>
+                        <JFXTextField fx:id="txtName" alignment="CENTER" prefColumnCount="10" promptText="Product Name" />
+                        <JFXTextField fx:id="txtPrice" alignment="CENTER" prefColumnCount="10" promptText="Product Price" />
+                        <JFXToggleButton fx:id="tglInCatalog" onAction="#toggleChanged" text="Not in Catalog" textAlignment="CENTER" textFill="RED" textOverrun="CLIP" toggleColor="WHITE" toggleLineColor="ORANGE" unToggleColor="WHITE" unToggleLineColor="RED" wrapText="true" />
+                     </children>
+                  </VBox>
+                  <VBox alignment="TOP_CENTER" fillWidth="false" spacing="25.0">
+                     <children>
+                        <JFXComboBox fx:id="cbColor" promptText="Product Color" />
+                        <JFXComboBox fx:id="cbType" promptText="Product Type" />
+                        <JFXTextField fx:id="txtSale" alignment="CENTER" prefColumnCount="10" promptText="Sale Percentage">
+                           <VBox.margin>
+                              <Insets top="15.0" />
+                           </VBox.margin>
+                        </JFXTextField>
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
          </children>
       </VBox>
-      <JFXButton id="btnUpdate" fx:id="btnUpdate" buttonType="RAISED" mnemonicParsing="false" onAction="#updateName" ripplerFill="ORANGE" text="Update" textAlignment="CENTER" textFill="ORANGE" textOverrun="CLIP" wrapText="true">
+      <JFXButton id="btnUpdate" fx:id="btnUpdate" buttonType="RAISED" mnemonicParsing="false" onAction="#updateProd" ripplerFill="ORANGE" text="Update" textAlignment="CENTER" textFill="ORANGE" textOverrun="CLIP" wrapText="true">
          <font>
             <Font size="15.0" />
          </font>
