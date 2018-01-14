@@ -1,5 +1,6 @@
 package izhar.gui.controllers;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -93,9 +94,8 @@ public abstract class ProductsPresentationGUIController implements Initializable
      */
 	protected void setComponent(Node cmp, int col, int row, int i) {
     	GridPane.setConstraints(cmp, col, row);
-    	//if its title and not show
     	if(col==0)
-    		cmp.setId("lblTitle");
+    		cmp.getStyleClass().add("menuTitle");
 		components.add(cmp);
     }
 	
@@ -128,14 +128,13 @@ public abstract class ProductsPresentationGUIController implements Initializable
 			mi = MaterialIcon.REPEAT;
 		}
 		else return;
+		ByteArrayInputStream bais = new ByteArrayInputStream(prd.getMybytearray());
+		imgImages[i] = new ImageView(new Image(bais));
+		imgImages[i].prefHeight(200);
 		try {
-			/*InputStream is = getClass().getResourceAsStream("/images/"+);*/
-			imgImages[i] = new ImageView(new Image(new File(MainClient.tempImagesDir+prd.getImageName()).toURI().toURL().toExternalForm()));
-			/*is.close();*/
-			imgImages[i].prefHeight(200);
+			bais.close();
 			vbxProduct[i].getChildren().addAll(imgImages[i],grids[i]);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

@@ -53,7 +53,7 @@ public class LoadGUIController {
 	protected @FXML ImageView imgLogo1, imgLogo2;
 	
 	public void loadProducts() {
-		loadGUI("ProductsFormGUI", false);
+		loadGUI("UpdateCatalogGUI", false);
 	}
 
 	public void loadSurvey() {
@@ -66,6 +66,10 @@ public class LoadGUIController {
 
 	public void loadConnectionGUI() {
 		loadGUI("ConnectionConfigGUI", false);
+	}
+	
+	public void loadCancelOrder() {
+		loadGUI("CancelOrderGUI", false);
 	}
 
 	public void loadCatalog() {

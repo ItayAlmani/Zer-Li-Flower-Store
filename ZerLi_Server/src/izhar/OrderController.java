@@ -3,11 +3,8 @@ package izhar;
 import java.math.BigInteger;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-
-import com.sun.org.apache.xpath.internal.operations.Bool;
 
 import common.EchoServer;
 import controllers.ParentController;
@@ -19,7 +16,6 @@ import entities.Order.OrderType;
 import entities.Order.PayMethod;
 import entities.ShipmentDetails;
 import entities.Store;
-import interfaces.IOrder;
 
 public class OrderController extends ParentController{
 	private String delIDSTR, shipIDSTR, payMeth, delTypeSTR, greeting;
@@ -306,10 +302,10 @@ public class OrderController extends ParentController{
 		DeliveryDetails dl = null;
 		if(deliveryType!=null) {
 			DeliveryType dt = DeliveryType.valueOf(deliveryType);
-			if(dt.equals(DeliveryType.Shipment))
+			if(dt.equals(DeliveryType.Shipment) && shipmentID!=null)
 				dl = new ShipmentDetails(shipmentID);
 		}
-		else if(dl==null) {
+		else if(dl==null && deliveryID != null) {
 			ArrayList<Object> delsObj = EchoServer.fac.pickup.getDeliveryByID(deliveryID);
 			if(delsObj!=null && delsObj.size()==1 && delsObj.get(0) instanceof DeliveryDetails)
 				dl=(DeliveryDetails)delsObj.get(0);

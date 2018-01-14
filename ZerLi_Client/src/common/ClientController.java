@@ -26,19 +26,13 @@ public class ClientController {
 	public static int DEFAULT_PORT = 5555;
 	
 	/** The default host of the server */
-	public static String DEFAULT_HOST="localhost1";
+	public static String DEFAULT_HOST="localhost";
 	
 	public static boolean dbConnected = false;
-	
-	/** The path of the project: "C:.../ZerLi_Client" */
-	//public final static String projectPath=System.getProperty("user.dir");
 	
 	/** The text file name which contains the server's details: host and port */
 	private final static String serverTxtFileName="ServerAddress.txt";
 	private final static String txtBinPath = ClientController.class.getResource(serverTxtFileName).getPath();
-	private final static String txtSrcPath = MainClient.tempDir;
-	
-	//private static ArrayList<Object> myMsgArr = new ArrayList<>();
 	
 	/**
 	 * Analyzes the <code>csMsg</code> and calling to the suitable function which parse
@@ -165,7 +159,6 @@ public class ClientController {
 	public static void connectToServer() throws IOException{
 		int serSuccessFlag = 0;		//will be 1 if updateDB(args) succeeded
 		try {
-			copyFiles(true);
 			Scanner scnr = null;
 			InputStream is = ClientController.class.getResourceAsStream(serverTxtFileName);
 			scnr = new Scanner(is);
@@ -244,41 +237,5 @@ public class ClientController {
 		output.println("Host: "+DEFAULT_HOST);
 		output.println("Port: "+DEFAULT_PORT);
 		output.close();
-		copyFiles(false);
-	}
-	
-	/**
-	 * 
-	 * @param srcToBin - if <code>true</code>, will copy the txt file from src to bin, else from bin to src
-	 */
-	private static void copyFiles(boolean srcToBin) {
-		try {
-			File fBin = new File(txtBinPath);
-			File fSrc = new File(txtSrcPath,serverTxtFileName);
-			/*if (fSrc.exists() == false)
-				return;
-			if(fBin.exists()==false)
-				fBin.createNewFile();*/
-			FileChannel sourceChannel = null;
-			FileChannel destChannel = null;
-			try {
-				if(srcToBin) {
-					sourceChannel = new FileInputStream(fSrc).getChannel();
-					destChannel = new FileOutputStream(fBin).getChannel();
-				}
-				else {
-					sourceChannel = new FileInputStream(fBin).getChannel();
-					destChannel = new FileOutputStream(fSrc).getChannel();
-				}
-				destChannel.transferFrom(sourceChannel, 0, sourceChannel.size());
-			} finally {
-				if(sourceChannel!=null)
-					sourceChannel.close();
-				if(destChannel != null)
-					destChannel.close();
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
 }

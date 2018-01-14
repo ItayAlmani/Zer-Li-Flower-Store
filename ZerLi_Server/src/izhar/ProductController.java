@@ -20,7 +20,6 @@ public class ProductController extends ParentController {
 	private byte[] insertImageToByteArr(String fileName) {
 		try {
 			File newFile = new File(getClass().getResource("/images/"+fileName).getPath());
-
 			byte[] mybytearray  = new byte [(int)newFile.length()];
 			FileInputStream fis = new FileInputStream(newFile);
 			BufferedInputStream bis = new BufferedInputStream(fis);			    

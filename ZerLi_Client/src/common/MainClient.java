@@ -35,14 +35,6 @@ public class MainClient extends Application {
 	 *logoRelativePath = {@value}*/
 	public final static String logoRelativePath = "/images/logos/logo3.gif";
 	
-	/**The path to the temporary directory.<br>
-	 *tempDir = {@value}*/
-	public final static String tempDir = System.getProperty("user.dir") + "\\temp\\";
-	
-	/**The path to the temporary directory of the images.<br>
-	 *imagesPath = {@value #tempDir} + "images\\"*/
-	public final static String tempImagesDir = tempDir + "images\\";
-	
 	public static void main(String args[]) throws IOException {
 		launch(args);
 	} // end main
@@ -61,12 +53,6 @@ public class MainClient extends Application {
 	 * @throws IOException {@link #getLogoAsImage()}
 	 */
 	private void initApp(Stage primaryStage, ParentGUIController mainCtrl) throws IOException {
-		/*Creating new temporary directory*/
-		File fTmpDir = new File(MainClient.tempDir);
-		if(fTmpDir.exists()==false) {
-			fTmpDir.mkdir();
-			fTmpDir.deleteOnExit();
-		}
 		//Setting up listener when the primaryStage closing
 		this.stage=primaryStage;
 		primaryStage.setOnCloseRequest(confirmCloseEventHandler);
@@ -83,25 +69,6 @@ public class MainClient extends Application {
 		primaryStage.getIcons().add(getLogoAsImage());
 		
         primaryStage.show();
-	}
-	
-	/**
-	 * When asking {@link Product} from the Server, the {@link Product#getImageName()}
-	 * will create new {@link File} at {@value #tempImagesDir}.<br>
-	 * This function will delete all the {@link File}s which {@link Product#getImageName()} created.
-	 */
-	private void deleteAllImages(){	
-		File directory = new File(MainClient.tempImagesDir);
-		if(directory.exists()) {
-			for(File f: directory.listFiles()) {
-				  if(f.isDirectory()==false)
-					  if(f.delete()==false)
-						  System.err.println("Can't delete "+ f.getName());
-			}
-		}
-		File fTmpDir = new File(MainClient.tempDir);
-		if(fTmpDir.exists())
-			fTmpDir.delete();
 	}
 
 	/**
@@ -126,7 +93,7 @@ public class MainClient extends Application {
 		else {
 			if (Context.mainScene != null)
 				Context.mainScene.logOutUserInSystem();
-			deleteAllImages();
+			//deleteAllImages();
 			if (Context.clientConsole != null)
 				Context.clientConsole.quit();
 		}
@@ -143,5 +110,4 @@ public class MainClient extends Application {
 		is.close();
 		return img;
 	}
-	
 }

@@ -100,14 +100,12 @@ public class OrderController extends ParentController implements IOrder {
 	}
 
 	@Override
-	public void updateFinalPriceByPAT(PaymentAccount pa) {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	@Override
-	public void addProductInOrderToOrder(ProductInOrder product) {
-		// TODO Auto-generated method stub
+	public void updateFinalPriceByPAT(PaymentAccount pa, Order order) throws IOException {
+		if(pa != null && pa.getRefundAmount() > 0 && order != null) {
+			order.setFinalPrice(order.getFinalPrice()-pa.getRefundAmount());
+			pa.setRefundAmount(0f);
+			Context.fac.paymentAccount.update(pa);
+		}
 	}
 
 	@Override
@@ -209,7 +207,5 @@ public class OrderController extends ParentController implements IOrder {
 		myMsgArr.add(storeID);
 		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.SELECT, myMsgArr, Order.class));
 	}
-	
-	
 //--------------------------------------------------------------------------------------------------------------------
 }
