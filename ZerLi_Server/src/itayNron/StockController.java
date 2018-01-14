@@ -47,6 +47,33 @@ public class StockController extends ParentController {
 		myMsgArr.add(true);
 		return myMsgArr;
 	}
+	
+	public ArrayList<Object> updateAfterCancellation(Object obj) throws Exception {
+		if(obj instanceof Order) {
+			Order order = (Order)obj;
+			ArrayList<Object> pios = EchoServer.fac.prodInOrder.getPIOsByOrder(order.getOrderID());
+			for (Object object : pios) {
+				if(object instanceof ProductInOrder == false) throw new Exception();
+				ProductInOrder productInOrder = (ProductInOrder)object;
+				String query = String.format(
+						" UPDATE stock" + 
+						" SET quantity=quantity + '%d'" + 
+						" WHERE storeID="
+						+ "("
+							+ " SELECT storeID"
+							+ " FROM deliverydetails "
+							+ " WHERE orderID='%d' AND productID='%d'"
+						+ ");",
+						productInOrder.getQuantity(),
+						order.getOrderID(),
+						productInOrder.getProduct().getPrdID());
+				EchoServer.fac.dataBase.db.updateQuery(query);
+			}
+		}
+		myMsgArr.clear();
+		myMsgArr.add(true);
+		return myMsgArr;
+	}
 
 	@Override
 	public ArrayList<Object> handleGet(ArrayList<Object> obj) {

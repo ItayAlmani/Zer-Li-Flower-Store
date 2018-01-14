@@ -18,5 +18,7 @@ public interface IStock {
 	Product checkStockByOrder(Order order, Store store);
 
 	void update(Order order) throws IOException;
+	
+	public void updateAfterCancellation(Order order) throws IOException;
 
 }

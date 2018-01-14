@@ -72,6 +72,13 @@ public class StockController extends ParentController implements IStock {
 		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.UPDATE,myMsgArr,Stock.class));
 	}
 	
+	public void updateAfterCancellation(Order order) throws IOException {
+		myMsgArr.clear();
+		myMsgArr.add(Thread.currentThread().getStackTrace()[1].getMethodName());
+		myMsgArr.add(order);
+		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.UPDATE,myMsgArr,Stock.class));
+	}
+	
 	public void getStockByStore(BigInteger storeID) throws IOException {
 		myMsgArr.clear();
 		myMsgArr.add(Thread.currentThread().getStackTrace()[1].getMethodName());
