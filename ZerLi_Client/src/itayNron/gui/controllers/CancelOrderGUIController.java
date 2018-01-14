@@ -46,15 +46,15 @@ public class CancelOrderGUIController implements Initializable {
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
+				ArrayList<Order> paidOrders = new ArrayList<Order>();
 				if (ord != null && ord.isEmpty() == false) {
 					for (Order order : ord) 
 						if(order.getOrderStatus().equals(OrderStatus.Paid)==false)
-							ord.remove(order);
-					if(ord.isEmpty()==false) {
-						cbsOrders.setItems(FXCollections.observableArrayList(ord));
+							paidOrders.add(order);
+					if(paidOrders.isEmpty()==false) {
+						cbsOrders.setItems(FXCollections.observableArrayList(paidOrders));
 						cbsOrders.setDisable(false);
-						if(cbsOrders.getValue()!=null)
-							btnCancelOrder.setVisible(true);
+						
 					}
 					else
 						Context.mainScene.setMessage("No orders to cancel");
