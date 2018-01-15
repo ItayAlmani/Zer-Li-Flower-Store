@@ -47,7 +47,7 @@ public class SurveyGUIController implements Initializable {
 		//Date date = Date.from(dpDate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
 		try {
 			if(Context.getUserAsStoreWorker() !=null) {
-				Survey sur = new Survey(ans, dpDate.getValue(),Context.getUserAsStoreWorker().getStoreID(),SurveyType.Answer);
+				Survey sur = new Survey(ans, dpDate.getValue(),Context.getUserAsStoreWorker().getStore().getStoreID(),SurveyType.Answer);
 				Context.fac.survey.add(sur);
 			}
 			else

@@ -49,14 +49,10 @@ public class Context {
 			}
 			else if(user.getPermissions().equals(UserType.StoreWorker)||
 					user.getPermissions().equals(UserType.StoreManager)) {
-				/*askingCtrl.add(Context.class.newInstance());
-				Context.fac.storeWorker.getStoreWorkerByUser(user.getUserID());*/
+				askingCtrl.add(Context.class.newInstance());
+				Context.fac.storeWorker.getStoreWorkerByUser(user.getUserID());
 				
-				//JUST FOR TEST - MUST DELETE!!!
-				StoreWorker sw = new StoreWorker(user, BigInteger.ONE, new Store(BigInteger.ONE));
-				ArrayList<StoreWorker> sws = new ArrayList<>();
-				sws.add(sw);
-				setStoreWorkers(sws);
+				
 			} //all other user types
 			else if(ParentGUIController.currentGUI instanceof LogInGUIController)
 				((LogInGUIController)ParentGUIController.currentGUI).setUserConnected(Context.user);

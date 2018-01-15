@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.math.BigInteger;
 
-import common.MainClient;
 import izhar.ProductController;
 
 public class Product implements Comparable<Product>, Serializable  {

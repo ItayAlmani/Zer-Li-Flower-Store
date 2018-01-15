@@ -81,4 +81,9 @@ public class Stock implements Serializable {
 	public String getPriceAfterSaleAsString() {
 		return getPriceAfterSale().toString() + "¤";
 	}
+	
+	@Override
+	public String toString() {
+		return product.toString();
+	}
 }

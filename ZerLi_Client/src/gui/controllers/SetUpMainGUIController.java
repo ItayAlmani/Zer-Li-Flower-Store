@@ -122,6 +122,7 @@ public class SetUpMainGUIController extends LoadGUIController {
 		Tooltip.install(icnCatalog, new Tooltip("Show catalog"));
 		Tooltip.install(icnReportSelector, new Tooltip("Show Report Selector"));
 		Tooltip.install(icnAssemble, new Tooltip("Assemble product"));
+		Tooltip.install(icnCancelOrder, new Tooltip("Cancel order"));
 		Tooltip.install(icnSurvey, new Tooltip("Add survey answers"));
 		Tooltip.install(icnSurveyReport, new Tooltip("Add survey report"));
 		Tooltip.install(icnComplaints, new Tooltip("Add complaint"));
