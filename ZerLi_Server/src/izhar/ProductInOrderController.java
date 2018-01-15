@@ -8,6 +8,7 @@ import common.EchoServer;
 import controllers.ParentController;
 import entities.Product;
 import entities.ProductInOrder;
+import entities.Stock;
 
 public class ProductInOrderController extends ParentController{	
 	
@@ -23,6 +24,7 @@ public class ProductInOrderController extends ParentController{
 				+ p.getQuantity() + "', '"
 				+ p.getFinalPrice() + "');";
 		EchoServer.fac.dataBase.db.updateQuery(query);
+		myMsgArr.clear();
 		if(isReturnNextID) {
 			query="SELECT Max(productInOrderID) from cart";
 			myMsgArr =  EchoServer.fac.dataBase.db.getQuery(query);
@@ -54,7 +56,7 @@ public class ProductInOrderController extends ParentController{
 	
 	@Override
 	public ArrayList<Object> update(Object obj) throws Exception {
-		if(obj instanceof ProductController) {
+		if(obj instanceof ProductInOrder) {
 			ProductInOrder p = (ProductInOrder)obj;
 			String query = String.format("UPDATE cart " + 
 					" SET orderID=%d, productID=%d,quantity=%d,totalprice=%f" + 
@@ -65,8 +67,7 @@ public class ProductInOrderController extends ParentController{
 			myMsgArr.add(true);
 			return myMsgArr;
 		}
-		else
-			throw new Exception();
+		throw new Exception();
 	}
 
 	public ArrayList<Object> updatePriceOfPIO(ProductInOrder p) throws SQLException{

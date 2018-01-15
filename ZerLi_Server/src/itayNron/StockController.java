@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import common.EchoServer;
 import controllers.ParentController;
 import entities.Order;
+import entities.Product;
 import entities.ProductInOrder;
 import entities.Stock;
 
@@ -115,9 +116,8 @@ public class StockController extends ParentController {
 			BigInteger prdID, String name, String type, float price, 
 			String color, boolean inCatalog, String imageURL,
 			int quantity, BigInteger storeID, Float salePercetage){
-		return new Stock(stckID, 
-				EchoServer.fac.product.parse(prdID, name, type, price, color, inCatalog, imageURL),
-				quantity, storeID, salePercetage);
+		Product p = EchoServer.fac.product.parse(prdID, name, type, price, color, inCatalog, imageURL);
+		return new Stock(stckID, p, quantity, storeID, salePercetage);
 	}
 
 	

@@ -1,8 +1,8 @@
 package izhar.gui.controllers;
 
 import java.io.ByteArrayInputStream;
-import java.io.File;
 import java.io.IOException;
+import java.math.BigInteger;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -11,14 +11,12 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXButton.ButtonType;
 
 import common.Context;
-import common.MainClient;
 import de.jensd.fx.glyphs.materialicons.MaterialIcon;
 import de.jensd.fx.glyphs.materialicons.MaterialIconView;
 import entities.Product;
 import entities.ProductInOrder;
 import entities.Stock;
 import gui.controllers.ParentGUIController;
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -59,6 +57,10 @@ public abstract class ProductsPresentationGUIController implements Initializable
 	protected @FXML Spinner<Integer>[] spnShowQuantity;
 	protected @FXML Label[] lblTitleQuantity;
 	protected @FXML Label lblFinalPrice, lblTitleFPrice;
+	
+	/** Will be saved for the id which will be return to setPIOID.
+	 * Static for the use in the EventHandler*/
+	private static ProductInOrder pio;
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -211,8 +213,6 @@ public abstract class ProductsPresentationGUIController implements Initializable
 				return Color.DEEPPINK;
 			else if(prod.getColor().equals(entities.Product.Color.Yellow))
 				return Color.GOLD;
-			/*else if(prod.getColor().equals(entities.Product.Color.White))
-				return Color.web("#cccccc");*/
 			return Color.valueOf(prod.getColor().toString());
 		}
 		double[] color = new double[3];
@@ -222,40 +222,53 @@ public abstract class ProductsPresentationGUIController implements Initializable
 		return Color.color(color[0], color[1], color[2]);
 	}
 	
+	/**
+	 * 
+	 * @param p
+	 * @param price will indicate the product price - can be with or without sale.
+	 * <b><i>The price is without subscription</i></b>
+	 * @return
+	 */
 	protected EventHandler<ActionEvent> addToCart(Product p, Float price){
     	return new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
 				if(event.getSource() instanceof Button) {
-					Product prd = new Product(p);
+					Product prd = new Product(p);	//create new copy
 					prd.setPrice(price);
-					ProductInOrder pio = Context.order.containsProduct(prd);
+					pio = Context.order.containsProduct(prd);
+					
 					if(pio==null) {
 						pio = new ProductInOrder(prd, 1, Context.order.getOrderID());
 						if(Context.order.getProducts()==null)
 							Context.order.setProducts(new ArrayList<>());
 						Context.order.getProducts().add(pio);
 						try {
-							Context.fac.prodInOrder.add(pio, false);
+							Context.fac.prodInOrder.add(pio, true);
 						} catch (IOException e) {
 							System.err.println("Can't add product\n");
 							e.printStackTrace();
+							return;
 						}
 					}
 					else {
-						pio.addOneToQuantity();
-						
 						try {
+							pio.addOneToQuantity();
 							Context.fac.prodInOrder.updatePriceWithSubscription(Context.order,pio, Context.getUserAsCustomer());
 							Context.fac.prodInOrder.update(pio);
 						} catch (Exception e) {
 							System.err.println("Can't update product\n");
 							e.printStackTrace();
+							return;
 						}
 					}
-					//Context.mainScene.setMessage("Added");
+					Context.fac.order.calcFinalPriceOfOrder(Context.order);
 				}
 			}
 		};
     }
+	
+	public void setPIOID(BigInteger id) {
+		pio.setId(id);
+	}
 }

@@ -117,4 +117,14 @@ public class StockController extends ParentController implements IStock {
 			e2.printStackTrace();
 		}
 	}	
+	
+	public Stock getStockByProductFromStore(Store s, Product p) {
+		if(s!=null && s.getStock()!=null) {
+			for (Stock stc : s.getStock()) {
+				if(stc.getProduct() != null && stc.getProduct().getPrdID().equals(p.getPrdID()))
+					return stc;
+			}
+		}
+		return null;
+	}
 }

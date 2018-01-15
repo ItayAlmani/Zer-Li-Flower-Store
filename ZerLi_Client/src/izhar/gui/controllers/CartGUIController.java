@@ -35,11 +35,6 @@ public class CartGUIController extends ProductsPresentationGUIController {
 			}
 		}
 	}
-
-	public void noPaymentAccountErrMsg() {
-		// TODO - implement ViewCartGUI.noPaymentAccountErrMsg
-		throw new UnsupportedOperationException();
-	}
 	
 	private boolean isIfCartEmpty() {
 		if(products==null || products.size()==0 || products.get(0)==null)
@@ -118,29 +113,33 @@ public class CartGUIController extends ProductsPresentationGUIController {
 					Button btn = (Button)event.getSource();
 					int gridInx = (int) btn.getUserData();
 					Integer quantity = null;
-					
 					try {
 						quantity = spnShowQuantity[gridInx].getValue();
 					}catch (NumberFormatException e) {
 						Context.mainScene.setMessage("Quantity not number");
 						return;
 					}
+					
 					float oldFinalPrice = products.get(gridInx).getFinalPrice();
 					products.get(gridInx).setQuantity(quantity);
 					products.get(gridInx).setFinalPrice();
-					ordPrice=ordPrice-oldFinalPrice+products.get(gridInx).getFinalPrice();
-					setLblFinalPrice();
 					try {
 						Context.fac.prodInOrder.updatePriceOfPIO(products.get(gridInx));
-						lblShowPrice[gridInx].setText(((Float)products.get(gridInx).getFinalPrice()).toString() + "¤");
+						lblShowPrice[gridInx].setText(products.get(gridInx).getFinalPriceAsString());
+						ordPrice=ordPrice-oldFinalPrice+products.get(gridInx).getFinalPrice();
+						setLblFinalPrice();
+						Context.fac.order.calcFinalPriceOfOrder(Context.order);
+						if(quantity==0) {
+							products.remove(gridInx);
+							grids[gridInx] = new GridPane();
+							if(vbox.getChildren().contains(pagination))
+								vbox.getChildren().remove(pagination);
+				    		pagination  = new Pagination(products.size(), 0);
+							setPIOs(products);
+						}
 					} catch (IOException e) {
 						System.err.println("prodInOrder.updatePriceOfPIO query failed");
 						e.printStackTrace();
-					}
-					if(quantity==0) {
-						products.remove(gridInx);
-						grids[gridInx] = new GridPane();
-						setPIOs(products);
 					}
 				}
 			}
@@ -186,9 +185,5 @@ public class CartGUIController extends ProductsPresentationGUIController {
 				}
 			});
 		}
-	}
-
-	public void loadMainMenu() {
-		Context.mainScene.loadMainMenu();
 	}
 }
