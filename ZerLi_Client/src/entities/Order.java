@@ -250,4 +250,8 @@ public class Order implements Serializable {
 		else
 			return ((Float)finalPrice).toString()+ "¤";
 	}
+	public String toString()
+	{
+		return this.orderID.toString();
+	}
 }

@@ -20,6 +20,7 @@ import entities.PaymentAccount;
 import entities.Store;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -49,11 +50,12 @@ public class CancelOrderGUIController implements Initializable {
 				ArrayList<Order> paidOrders = new ArrayList<Order>();
 				if (ord != null && ord.isEmpty() == false) {
 					for (Order order : ord) 
-						if(order.getOrderStatus().equals(OrderStatus.Paid)==false)
+						if(order.getOrderStatus().equals(OrderStatus.Paid)==true)
 							paidOrders.add(order);
 					if(paidOrders.isEmpty()==false) {
 						cbsOrders.setItems(FXCollections.observableArrayList(paidOrders));
 						cbsOrders.setDisable(false);
+						
 						
 					}
 					else
@@ -73,6 +75,7 @@ public class CancelOrderGUIController implements Initializable {
 		PaymentAccount pa = Context.fac.paymentAccount.getPaymentAccountOfStore(
 				new Customer(cbsOrders.getValue().getCustomerID()).getPaymentAccounts(),
 				cbsOrders.getValue().getDelivery().getStore());
+		if(cbsOrders.getValue().getFinalPrice()!=0) {
 		if (Context.fac.order.differenceDeliveryTimeAndCurrent(cbsOrders.getValue().getDelivery())==Order.Refund.Full)
 		{
 			pa.setRefundAmount(pa.getRefundAmount()+cbsOrders.getValue().getFinalPrice());
@@ -85,7 +88,19 @@ public class CancelOrderGUIController implements Initializable {
 		}
 		else 
 			Context.mainScene.setMessage("Account isn't refunded");
+		}
+		else {
+			Context.mainScene.setMessage("Final order price is 0");
+		}
+		btnCancelOrder.setDisable(true);
 	}
-
+	public void orderSelected() {
+		Order ord = cbsOrders.getValue();
+		if(ord!=null) {
+			btnCancelOrder.setVisible(true);
+		
+	}
 	
+
+	}
 }
