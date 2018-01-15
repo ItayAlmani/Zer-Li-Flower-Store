@@ -31,7 +31,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 public class LoadGUIController {
-	protected @FXML Label lblMsg;
+	public @FXML Label lblMsg;
 	protected @FXML Pane paneOfScene;
 	protected Region homePane;
 	protected @FXML Label lblTitle;
@@ -51,6 +51,18 @@ public class LoadGUIController {
 	protected @FXML VBox hbCustServiceData, hbCustomer, hbOrders, hbCustomersInfo;
 
 	protected @FXML ImageView imgLogo1, imgLogo2;
+	
+	protected static String msgToClient = "";
+	
+	/** The string which will be use to show error message to the user.<br>
+ 	{@code errMsg = }{@value #errMsg}
+	 */
+	protected final static String errMsg =  "Error";
+	
+	/** The string which will be use to show success message to the user.<br>
+		{@code sucMsg = }{@value #sucMsg}
+	 */
+	protected final static String sucMsg =  "Success";
 	
 	public void loadProducts() {
 		loadGUI("UpdateCatalogGUI", false);
@@ -216,11 +228,13 @@ public class LoadGUIController {
 		double rangeMin = 0.05f, rangeMax = 0.6f;
 		for (int i = 0; i < color.length; i++)
 			color[i] = rangeMin + (rangeMax - rangeMin) * Math.random();
+		LoadGUIController.msgToClient=msg;
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
 				lblMsg.setTextFill(Color.color(color[0], color[1], color[2]));
-				lblMsg.setText(msg);
+				lblMsg.setText(LoadGUIController.msgToClient);
+				msgToClient="";
 			}
 		});
 	}

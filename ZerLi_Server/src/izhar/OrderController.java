@@ -14,6 +14,7 @@ import entities.Order.DeliveryType;
 import entities.Order.OrderStatus;
 import entities.Order.OrderType;
 import entities.Order.PayMethod;
+import entities.ProductInOrder;
 import entities.ShipmentDetails;
 import entities.Store;
 
@@ -277,8 +278,8 @@ public class OrderController extends ParentController{
 			return obj;
 		ArrayList<Object> ords = new ArrayList<>();
 		for (int i = 0; i < obj.size(); i += 11) {
-			BigInteger deliveryID = obj.get(i + 2) == null ? null: BigInteger.valueOf(Long.valueOf((int) obj.get(i + 2))),
-					shipmentID = obj.get(i + 4) == null ? null : BigInteger.valueOf(Long.valueOf((int) obj.get(i + 4)));
+			BigInteger deliveryID = obj.get(i + 2) == null ? null: BigInteger.valueOf((Integer) obj.get(i + 2)),
+					shipmentID = obj.get(i + 4) == null ? null : BigInteger.valueOf((Integer) obj.get(i + 4));
 			ords.add(parse(
 					BigInteger.valueOf((Integer) obj.get(i)),
 					BigInteger.valueOf((Integer) obj.get(i+1)),
@@ -300,19 +301,27 @@ public class OrderController extends ParentController{
 			Timestamp date, float price) throws Exception {
 		LocalDateTime ldtDate = date.toLocalDateTime();
 		DeliveryDetails dl = null;
-		if(deliveryType!=null) {
+		if(deliveryType!=null && deliveryType.isEmpty()==false) {
 			DeliveryType dt = DeliveryType.valueOf(deliveryType);
-			if(dt.equals(DeliveryType.Shipment) && shipmentID!=null)
-				dl = new ShipmentDetails(shipmentID);
+			if(dt.equals(DeliveryType.Shipment)) {
+				if(shipmentID!=null) {
+					dl = new ShipmentDetails(shipmentID);
+					//IMPLEMENT GET SHIPMENT FROM DB
+				}
+			}
 		}
-		else if(dl==null && deliveryID != null) {
-			ArrayList<Object> delsObj = EchoServer.fac.pickup.getDeliveryByID(deliveryID);
-			if(delsObj!=null && delsObj.size()==1 && delsObj.get(0) instanceof DeliveryDetails)
-				dl=(DeliveryDetails)delsObj.get(0);
-			else
-				throw new Exception();
+		if(dl==null) {
+			if(deliveryID != null) {
+				ArrayList<Object> delsObj = EchoServer.fac.pickup.getDeliveryByID(deliveryID);
+				if(delsObj!=null && delsObj.size()==1 && delsObj.get(0) instanceof DeliveryDetails)
+					dl=(DeliveryDetails)delsObj.get(0);
+				else {
+					System.err.println("No delivery");
+					throw new Exception();
+				}
+			}
 		}
-		return new Order(orderID, 
+		Order ord =  new Order(orderID, 
 				customerID, 
 				dl, 
 				type == null ? null : OrderType.valueOf(type),
@@ -322,5 +331,12 @@ public class OrderController extends ParentController{
 				orderStatus == null ? null : OrderStatus.valueOf(orderStatus), 
 				ldtDate, 
 				price);
+		ArrayList<ProductInOrder> pios = new ArrayList<>();
+		for (Object object : EchoServer.fac.prodInOrder.getPIOsByOrder(orderID)) {
+			if(object instanceof ProductInOrder)
+				pios.add((ProductInOrder)object);
+		}
+		ord.setProducts(pios);
+		return ord;
 	}
 }

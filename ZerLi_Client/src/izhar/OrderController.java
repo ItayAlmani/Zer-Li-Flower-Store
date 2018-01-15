@@ -6,6 +6,7 @@ import java.lang.reflect.Method;
 import java.math.BigInteger;
 import java.time.Duration;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.temporal.Temporal;
 import java.util.ArrayList;
 
@@ -82,7 +83,7 @@ public class OrderController extends ParentController implements IOrder {
 
 	@Override
 	public Refund differenceDeliveryTimeAndCurrent(DeliveryDetails delivery) {
-		Duration duration = Duration.between((Temporal) delivery.getDate(), LocalDate.now());
+		Duration duration = Duration.between(delivery.getDate(), LocalDateTime.now());
 		long diff_in_hours = Math.abs(duration.toHours());
 		if (diff_in_hours <= 1)
 			return Refund.No;
@@ -113,6 +114,12 @@ public class OrderController extends ParentController implements IOrder {
 		order.setFinalPrice(order.getFinalPrice()+ShipmentDetails.shipmentPrice);
 	}
 
+	public boolean isCancelable(Order order) {
+		return order.getOrderStatus().equals(OrderStatus.Paid) && 
+				order.getDelivery()!=null &&
+				order.getDelivery().getStore() != null &&
+				LocalDateTime.now().isBefore(order.getDelivery().getDate());
+	}
 //------------------------------------------------IN SERVER--------------------------------------------------------------------
 	
 	public void handleGet(ArrayList<Order> orders) {

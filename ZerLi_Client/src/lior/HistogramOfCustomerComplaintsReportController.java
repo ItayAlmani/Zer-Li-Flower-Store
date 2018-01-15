@@ -18,9 +18,10 @@ import entities.CustomerComplaintsReport;
 import entities.SatisfactionReport;
 import entities.Survey;
 import entities.Survey.SurveyType;
+import gui.controllers.ParentGUIController;
 import lior.interfaces.IHistogramOfCustomerComplaintsReportController;
 
-public class HistogramOfCustomerComplaintsReportController extends ParentController implements IHistogramOfCustomerComplaintsReportController {
+public class HistogramOfCustomerComplaintsReportController /*extends ParentController implements IHistogramOfCustomerComplaintsReportController */{
 
 	/*
 	private CustomerComplaintsReport[] cReports;
@@ -49,8 +50,8 @@ public class HistogramOfCustomerComplaintsReportController extends ParentControl
 				Context.askingCtrl.remove(0);
 			}
 			else {*/
-				m = Context.currentGUI.getClass().getMethod(methodName,ArrayList.class);
-				m.invoke(Context.currentGUI, cReports);
+				m = ParentGUIController.currentGUI.getClass().getMethod(methodName,ArrayList.class);
+				m.invoke(ParentGUIController.currentGUI, cReports);
 				cReports=null;
 			//}
 		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e1) {
@@ -63,6 +64,7 @@ public class HistogramOfCustomerComplaintsReportController extends ParentControl
 
 	}
 	
+	/*
 	@Override
 	public void ProduceHistogramOfCustomerComplaintsReport(LocalDate Reqdate, BigInteger storeID) {
 		int ind = 1;
@@ -72,10 +74,10 @@ public class HistogramOfCustomerComplaintsReportController extends ParentControl
 			ind = 0;
 		cReports[ind]=new CustomerComplaintsReport();
 		this.cReports[ind].setStoreID(storeID);
-		/*for (int i = 0; i < Product.ProductType.values().length; i++) {
+		for (int i = 0; i < Product.ProductType.values().length; i++) {
 			this.sReports[ind].addToCounterPerType(0);
 			this.oReports[ind].addToSumPerType(0f);
-		}*/
+		}
 		rDate=Reqdate;
 		Calendar c = Calendar.getInstance(); 
 		c.setTime(Date.from(rDate.atStartOfDay(ZoneId.systemDefault()).toInstant())); 
@@ -96,7 +98,7 @@ public class HistogramOfCustomerComplaintsReportController extends ParentControl
 	}
 	
 	public void setComplaints(ArrayList<Complaint> Complaints) {
-		/*int flag=0;
+		int flag=0;
 		int ind = 1;
 		if(this.cReports[0].getSurveys().size()==0/*||this.sReports[0].getSurveys().size()==null)
 			ind = 0;
@@ -133,7 +135,7 @@ public class HistogramOfCustomerComplaintsReportController extends ParentControl
 		this.sReports[ind].setFinalanswers(answers);
 		this.sReports[ind].setAverageTotanswer(totans/6);
 		ar1.add(this.sReports[ind]);
-		sendSatisfactionReports(ar1);*/
+		sendSatisfactionReports(ar1);
 	}
-
+	*/
 }

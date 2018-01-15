@@ -34,8 +34,6 @@ public class Context {
 	private static boolean needNewOrder=true;
 	public static ParentGUIController mainScene = null;
 	
-	
-
 	public static User getUser() {
 		return user;
 	}
@@ -43,6 +41,8 @@ public class Context {
 	public static void setUser(User newuser) {
 		try {
 			user = newuser;
+			user.setConnected(true);
+			Context.fac.user.update(user);
 			if(user.getPermissions().equals(UserType.Customer)) {
 					askingCtrl.add(Context.class.newInstance());
 					fac.customer.getCustomerByUser(user.getUserID());
@@ -51,8 +51,6 @@ public class Context {
 					user.getPermissions().equals(UserType.StoreManager)) {
 				askingCtrl.add(Context.class.newInstance());
 				Context.fac.storeWorker.getStoreWorkerByUser(user.getUserID());
-				
-				
 			} //all other user types
 			else if(ParentGUIController.currentGUI instanceof LogInGUIController)
 				((LogInGUIController)ParentGUIController.currentGUI).setUserConnected(Context.user);

@@ -8,8 +8,6 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import org.controlsfx.control.textfield.TextFields;
-import org.controlsfx.validation.ValidationSupport;
-import org.controlsfx.validation.Validator;
 
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
@@ -24,7 +22,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -33,8 +30,7 @@ public class LogInGUIController implements Initializable{
 	private @FXML JFXTextField txtUserName;
 	private @FXML JFXPasswordField txtPassword;
 	private @FXML Button btnLogIn;
-	private @FXML ImageView imgLogo, imgLogIn;
-	private String logoPath="/images/logos/img/logo3-0.png";
+	private @FXML ImageView imgLogo;
 	private boolean getAllUsers=true;
 	
 	public void logIn() {
@@ -77,8 +73,6 @@ public class LogInGUIController implements Initializable{
 						+ "Please disconnect before next login");
 				return;
 			}
-			user.setConnected(true);
-			Context.fac.user.update(user);
 			Context.setUser(user);
 			//Will load next gui if Context will call to setUserConnected()
 		}
