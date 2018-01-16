@@ -6,7 +6,11 @@ import java.util.ResourceBundle;
 
 import common.ClientController;
 import common.Context;
+import entities.Order;
+import entities.Store;
+import entities.User;
 import entities.User.UserType;
+import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -14,34 +18,41 @@ import javafx.scene.Scene;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import javafx.fxml.FXML;
-import de.jensd.fx.glyphs.materialicons.MaterialIconView;
 
+/**
+ * The Controller of {@code MainScene.fxml}. This controller handles the fxml itself.<br>
+ * The controller extends {@linkplain SetUpMainGUIController}
+ * @see {@linkplain SetUpMainGUIController}
+ * @author izhar
+ *
+ */
 public class ParentGUIController extends SetUpMainGUIController implements Initializable {
 	/** The current JavaFX stage <=> the window of the GUI */
 	public static Stage primaryStage;
 	
-	/** The current GUI. Used to deliver the answer from the <code>EchoServer</code>. */
+	/** The current GUI. Used to deliver the response from {@code EchoServer}. */
 	public static Object currentGUI = null;
 	
+	/** Will show {@link #errMsg} ({@value #errMsg}) to the user in {@link LoadGUIController#lblMsg} */
 	public void ShowErrorMsg() {
-		Platform.runLater(new Runnable() {
-			@Override
-			public void run() {
-				Context.mainScene.setMessage("Error");
-			}
-		});
+		if(LoadGUIController.msgToClient.isEmpty() || LoadGUIController.msgToClient.equals("")) {
+			LoadGUIController.msgToClient=errMsg;
+			Context.mainScene.setMessage(errMsg);
+		}
 	}
 
+	/** Will show {@link #sucMsg} ({@value #sucMsg}) to the user in {@link LoadGUIController#lblMsg}*/
 	public void ShowSuccessMsg() {
-		Platform.runLater(new Runnable() {
-			@Override
-			public void run() {
-				Context.mainScene.setMessage("Success");
-			}
-		});
+		if(LoadGUIController.msgToClient.isEmpty() || LoadGUIController.msgToClient.equals("")) {
+			LoadGUIController.msgToClient=sucMsg;
+			Context.mainScene.setMessage(sucMsg);
+		}
 	}
 
+	/**
+	 * After the log in will occur successfully, the menu will be adjusted appropriately.<br>
+	 * At the end, {@link #loadMainMenu()} will occur.
+	 */
 	public void logInSuccess() {
 		Platform.runLater(new Runnable() {
 			@Override
@@ -80,6 +91,7 @@ public class ParentGUIController extends SetUpMainGUIController implements Initi
 		loadMainMenu();
 	}
 
+	/** Will clear the message in {@link LoadGUIController#lblMsg}*/
 	protected void clearLblMsg() {
 		Platform.runLater(new Runnable() {
 			@Override
@@ -88,21 +100,28 @@ public class ParentGUIController extends SetUpMainGUIController implements Initi
 			}
 		});
 	}
-
+	
+	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		try {
 			setUpInit();
+			mainPane.getStylesheets().add(getClass().getResource("/gui/css/ParentCSS.css").toExternalForm());
+			DropShadow ds = new DropShadow(30, Color.web("#ffbb2d"));
+			menu.setEffect(ds);
+			setUpToolTips();
+			Context.mainScene = this;
+			currentGUI=this;
 		} catch (IOException e) {
 			e.printStackTrace();
+			ShowErrorMsg();
 		}
-		mainPane.getStylesheets().add(getClass().getResource("/gui/css/ParentCSS.css").toExternalForm());
-		DropShadow ds = new DropShadow(30, Color.web("#ffbb2d"));
-		menu.setEffect(ds);
-		setUpToolTips();
-		Context.mainScene = this;
-		currentGUI=this;
 	}
 	
+	/**
+	 * Invoked by {@link ClientController} when the {@link ParentGUIController} asked for
+	 * the status of the data base.
+	 * @param dbStatus indicates if the data base connected at the server side {@code (true)} or not {@code (false)}
+	 */
 	public void setDBStatus(Boolean dbStatus) {
 		Platform.runLater(()->{
 			if (isServerConnected() == true)
@@ -112,20 +131,27 @@ public class ParentGUIController extends SetUpMainGUIController implements Initi
 		});
 	}
 
+	/**
+	 * Checks if the {@code client} is connected to the {@code server}, and the {@code data base} connected too.
+	 * @return {@code true} if the {@code client} is connected to the {@code server}, and the {@code data base} connected
+	 * too, else {@code false} 
+	 */
 	private boolean isServerConnected() {
-		if (Context.clientConsole == null || Context.clientConsole.isConnected() == false
-				|| ClientController.dbConnected == false)
-			return false;
-		return true;
+		return Context.clientConsole != null && Context.clientConsole.isConnected() && ClientController.dbConnected;
 	}
 
+	/**
+	 * The function which will load the {@link Application}.<br>
+	 * @see {@link Application#start(Stage)}
+	 * @param stage the {@link Stage} of the {@link Application}
+	 * @throws IOException when can't invoke {@link FXMLLoader#load()}
+	 */
 	public void start(Stage stage) throws IOException {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/fxmls/MainScene.fxml"));
 		ParentGUIController.primaryStage=stage;
 		Scene scene = new Scene(loader.load());
 		stage.setTitle("ZerLi Flower Store");
 		stage.setScene(scene);
-		//stage.show();
 
 		try {
 			ClientController.connectToServer();
@@ -142,6 +168,10 @@ public class ParentGUIController extends SetUpMainGUIController implements Initi
 		}
 	}
 
+	/**
+	 * The {@link User} will disconnected from the {@link Application}, and the {@link Application}
+	 * will restart.
+	 */
 	public void logOut() {
 		try {
 			logOutUserInSystem();
@@ -151,46 +181,30 @@ public class ParentGUIController extends SetUpMainGUIController implements Initi
 		}
 	}
 
+	/**
+	 * Marks the {@link User} as connected, to prevent more Log Ins in other devices.
+	 */
 	public void logOutUserInSystem() {
 		if (Context.getUser() != null) {
 			Context.getUser().setConnected(false);
 			// set user as logged out
 			Context.fac.user.update(Context.getUser());
 		}
+		else {
+			ShowErrorMsg();
+			System.err.println("User not connected, but trying to Log Out\n");
+		}
 	}
 
+	/**
+	 * When {@link Store} in the {@link LoadGUIController#cbStores} is changed, the function will ask
+	 * for existing {@link Order} by {@code cbStores value}.<br>
+	 * Additionally, the function will invoke {@link LoadGUIController#loadMainMenu()}.
+	 */
 	public void getNewOrderByStore() {
 		if(cbStores.getValue()!=null) {
 			Context.askOrder(cbStores.getValue());
 			loadMainMenu();
     	}
 	}
-	
-	/* 
-	private Thread th = null;
-	protected Boolean lblMsgState = null, changed = false;
-	private Task<Void> lblMsgThread() {
-		return new Task<Void>() {
-			@Override
-			public Void call() throws InterruptedException {
-				while (true) {
-					Platform.runLater(new Runnable() {
-						@Override
-						public void run() {
-							 will change when Server sends answer 
-							if (changed == true && lblMsgState != null && lblMsg != null) {
-								if (lblMsgState == true) {
-									Context.mainScene.setMessage("Success");
-								} else if (lblMsgState == false) {
-									Context.mainScene.setMessage("Error");
-								}
-								changed = false;
-							}
-						}
-					});
-					Thread.sleep(1000);
-				}
-			}
-		};
-	}*/
 }

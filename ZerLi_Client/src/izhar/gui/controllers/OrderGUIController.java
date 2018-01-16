@@ -1,15 +1,11 @@
 package izhar.gui.controllers;
 
 import java.net.URL;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
 import common.Context;
 import entities.Order;
-import entities.Order.DeliveryType;
-import entities.ShipmentDetails;
 import gui.controllers.ParentGUIController;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -38,9 +34,9 @@ public class OrderGUIController implements Initializable {
 		lblPayment.setText(ord.getFinalPriceAsString());
 	}
 	
-	public void toMainMenu() {
-		/*Context.askOrder();*/
+	/*public void toMainMenu() {
+		Context.askOrder();
 		Context.mainScene.getNewOrderByStore();
 		Context.mainScene.loadMainMenu();
-	}
+	}*/
 }

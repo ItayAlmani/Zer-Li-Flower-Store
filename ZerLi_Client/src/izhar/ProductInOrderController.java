@@ -22,16 +22,16 @@ public class ProductInOrderController extends ParentController implements IProdu
 		if(order.getDelivery() != null && order.getDelivery().getStore() != null)
 			pa = Context.fac.paymentAccount.getPaymentAccountOfStore(
 					customer.getPaymentAccounts(), order.getDelivery().getStore());
-		if(pa!= null && pa.getSub() != null) {
+		if(pa!= null && pa.getSub() != null && pa.getSub().getSubType() != null) {
 			LocalDate date = pa.getSub().getSubDate();
 			SubscriptionType type = pa.getSub().getSubType();
 			if(type.equals(SubscriptionType.Monthly)) {
 				if(date.plusMonths(1).isBefore(LocalDate.now()))
-					pio.setFinalPrice(pio.getFinalPrice()*Subscription.getDiscountInPercent());
+					pio.setFinalPrice(pio.getFinalPrice()*(1-Subscription.getDiscountInPercent()));
 			}
 			else if(type.equals(SubscriptionType.Yearly)) {
 				if(date.plusYears(1).isBefore(LocalDate.now()))
-					pio.setFinalPrice(pio.getFinalPrice()*Subscription.getDiscountInPercent());
+					pio.setFinalPrice(pio.getFinalPrice()*(1-Subscription.getDiscountInPercent()));
 			}
 		}
 	}

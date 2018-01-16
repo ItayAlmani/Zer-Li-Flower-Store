@@ -40,7 +40,6 @@ public class Factory {
 
 	public SatisfactionReportController satisfactionReport = new SatisfactionReportController();
 	
-	public AdminController admin = new AdminController();
 	public PaymentAccountController paymentAccount = new PaymentAccountController();
 	public CreditCardController creditCard = new CreditCardController();
 }

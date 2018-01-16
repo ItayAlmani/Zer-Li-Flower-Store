@@ -19,6 +19,8 @@ public class Order implements Serializable {
 	private ArrayList<ProductInOrder> products;
 	private PayMethod paymentMethod;
 	
+	
+
 	public Order(OrderType type, OrderStatus orderStatus) {
 		super();
 		this.type = type;
@@ -247,5 +249,9 @@ public class Order implements Serializable {
 			return ((Integer)Math.round(finalPrice)).toString()+ "¤";
 		else
 			return ((Float)finalPrice).toString()+ "¤";
+	}
+	public String toString()
+	{
+		return this.orderID.toString();
 	}
 }
