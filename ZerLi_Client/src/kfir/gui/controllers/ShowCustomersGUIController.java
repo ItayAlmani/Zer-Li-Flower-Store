@@ -83,6 +83,13 @@ public class ShowCustomersGUIController implements Initializable  {
 				vboxPA.setVisible(true);
 			}
 		}
+		PaymentAccount pa = new PaymentAccount(BigInteger.ONE);
+		try {
+			pa.setStore(Context.getUserAsStoreWorker().getStore());
+		} catch (Exception e) {
+			Context.mainScene.loadMainMenu("You don't have permissions");
+			e.printStackTrace();
+		}
 	}
 
 	public void savePaymentAccount() 

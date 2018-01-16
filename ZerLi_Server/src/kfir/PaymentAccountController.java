@@ -76,11 +76,15 @@ public class PaymentAccountController extends ParentController{
 			cardsObj = EchoServer.fac.creditCard.getCreditCard(creditCardID);
 		else
 			cardsObj.add(null);
+		/*ArrayList<Subscription> subObjs = EchoServer.fac.sub.getSubByID(subscriptionID);
+		if(subObjs.size()!=1|| subObjs.get(0) instanceof Subscription == false ||)
+			throw new Exception();
+		*/
 		if(storesObj.size()==1) {
 			return new PaymentAccount(paID, CustomerID, 
 					(Store)storesObj.get(0),
 					(CreditCard)cardsObj.get(0), 
-					new Subscription(subscriptionID),
+					new Subscription(subscriptionID)/*(Subscription)subObjs.get(0)*/,
 					refund);
 		}
 		throw new Exception();
