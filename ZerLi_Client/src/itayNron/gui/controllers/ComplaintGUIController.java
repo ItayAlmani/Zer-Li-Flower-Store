@@ -182,15 +182,6 @@ public class ComplaintGUIController implements Initializable {
 		}
 	}
 
-	/**
-	 * 
-	 * @param txtComplaint
-	 */
-	public void attachComplaint(TextField txtComplaint) {
-		// TODO - implement ComplaintGUI.attachComplaint
-		throw new UnsupportedOperationException();
-	}
-
 	public void toggledRefund() {
 		txtRefundAmount.setVisible(tglRefund.isSelected());
 	}

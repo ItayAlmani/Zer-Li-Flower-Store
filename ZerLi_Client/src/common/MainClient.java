@@ -35,6 +35,7 @@ public class MainClient extends Application {
 	 *logoRelativePath = {@value}*/
 	public final static String logoRelativePath = "/images/logos/logo3.gif";
 	
+	
 	public static void main(String args[]) throws IOException {
 		launch(args);
 	} // end main

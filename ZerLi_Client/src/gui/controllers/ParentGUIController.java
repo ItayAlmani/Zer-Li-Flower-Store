@@ -23,8 +23,6 @@ import javafx.stage.Stage;
  * The Controller of {@code MainScene.fxml}. This controller handles the fxml itself.<br>
  * The controller extends {@linkplain SetUpMainGUIController}
  * @see {@linkplain SetUpMainGUIController}
- * @author izhar
- *
  */
 public class ParentGUIController extends SetUpMainGUIController implements Initializable {
 	/** The current JavaFX stage <=> the window of the GUI */
