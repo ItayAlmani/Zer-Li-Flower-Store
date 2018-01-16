@@ -31,7 +31,7 @@ public class SurveyReportGUIController implements Initializable
 	private @FXML VBox vboxVerbal;
 	private SurveyReport sr;
 
-	
+	//Clear lblMsg after error
 
 	/**
 	 * 
