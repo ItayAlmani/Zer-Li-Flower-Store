@@ -26,7 +26,6 @@ import javafx.stage.WindowEvent;
  	* <li>{@link #main(String[])}</li>
 	* <li>{@link Application#launch(String...)}</li>
  * </ul>
- * @author izhar
  */
 public class MainClient extends Application {
 	private Stage stage;
@@ -94,7 +93,6 @@ public class MainClient extends Application {
 		else {
 			if (Context.mainScene != null)
 				Context.mainScene.logOutUserInSystem();
-			//deleteAllImages();
 			if (Context.clientConsole != null)
 				Context.clientConsole.quit();
 		}

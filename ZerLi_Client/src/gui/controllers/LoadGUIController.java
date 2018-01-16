@@ -135,7 +135,7 @@ public class LoadGUIController {
 
 	private void addMediaPlayer() {
 		String musicFile = "Bana_Cut.mp3";
-		Media sound = new Media(getClass().getResource("/sound/").getPath()+musicFile);
+		Media sound = new Media(getClass().getResource("/sound/"+musicFile).getPath());
 		MediaPlayer mediaPlayer = new MediaPlayer(sound);
 		mediaPlayer.play();
 	}
@@ -174,7 +174,7 @@ public class LoadGUIController {
 				//ParentGUIController.primaryStage.getScene().getWindow().setHeight(menu.getHeight()+scenePane.getHeight()+100);
 			}
 
-			// addMediaPlayer();
+			 //addMediaPlayer();
 		} catch (IOException e1) {
 			System.err.println("Loader failed");
 			Platform.runLater(new Runnable() {
