@@ -39,14 +39,11 @@ public class StoreWorkerController extends ParentController{
 	}
 
 	@Override
-	public ArrayList<Object> add(ArrayList<Object> arr) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	public ArrayList<Object> add(ArrayList<Object> arr) throws Exception { 
+		return null;	}
 
 	@Override
 	public ArrayList<Object> update(Object obj) throws Exception {
-		// TODO Auto-generated method stub
 		return null;
 	}
 }
