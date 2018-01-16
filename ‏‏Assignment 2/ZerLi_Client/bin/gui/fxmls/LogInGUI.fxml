@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXPasswordField?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" spacing="10.0" stylesheets="@../css/ParentCSS.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kfir.gui.controllers.LogInGUIController">
+	<children>
+		<Label id="lblHeader" alignment="CENTER" contentDisplay="CENTER" styleClass="lblHeader" text="Zer Li Flower Store" textAlignment="CENTER" />
+		<ImageView fx:id="imgLogo" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+		<HBox alignment="CENTER" spacing="10.0">
+			<children>
+				<VBox alignment="CENTER" spacing="20.0">
+					<children>
+						<FontAwesomeIconView glyphName="USER" size="30px" styleClass="coloredIcon" />
+						<FontAwesomeIconView glyphName="LOCK" size="30px" styleClass="coloredIcon" />
+					</children>
+				</VBox>
+				<VBox alignment="CENTER" fillWidth="false" spacing="20.0">
+					<children>
+						<JFXTextField fx:id="txtUserName" focusColor="ORANGE" labelFloat="true" promptText="Enter user name" unFocusColor="BLACK" />
+						<JFXPasswordField fx:id="txtPassword" focusColor="ORANGE" labelFloat="true" promptText="Enter password" unFocusColor="BLACK" />
+					</children>
+				</VBox>
+			</children>
+		</HBox>
+		<JFXButton fx:id="btnLogIn" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" onAction="#logIn" ripplerFill="RED" styleClass="iconedButton" text=" " textAlignment="CENTER">
+         <graphic>
+      		<MaterialDesignIconView glyphName="LOGIN" onMouseClicked="#logIn" size="30px" styleClass="coloredIcon" />
+         </graphic>
+		</JFXButton>
+	</children>
+	<padding>
+		<Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+	</padding>
+</VBox>

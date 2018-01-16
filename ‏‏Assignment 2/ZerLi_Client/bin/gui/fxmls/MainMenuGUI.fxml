@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox alignment="CENTER" spacing="10.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controllers.MainMenuGUIController">
+   <children>
+      <Label alignment="CENTER" contentDisplay="CENTER" text="Welcome to ZerLi online flower store" textAlignment="CENTER" />
+   </children>
+</VBox>
