@@ -25,6 +25,7 @@ public class ProductInOrder implements Serializable  {
 	}
 	
 	public ProductInOrder(BigInteger id,Product product, BigInteger orderID, int quantity, float finalPrice) {
+		this.id=id;
 		this.product = product;
 		this.quantity = quantity;
 		this.finalPrice = finalPrice;
@@ -54,8 +55,11 @@ public class ProductInOrder implements Serializable  {
 		this.orderID = orderID;
 	}
 	
+	/** add 1 to quantity of the {@link ProductInOrder}, and updates the price
+	 */
 	public void addOneToQuantity() {
 		this.quantity++;
+		this.finalPrice+=this.getProduct().getPrice();
 	}
 
 	public Product getProduct() {

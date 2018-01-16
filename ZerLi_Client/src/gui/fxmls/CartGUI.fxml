@@ -16,7 +16,7 @@
             <Label fx:id="lblFinalPrice" minWidth="50.0" textAlignment="CENTER" textOverrun="CLIP" />
          </children>
       </HBox>
-      <JFXButton alignment="CENTER" buttonType="RAISED" mnemonicParsing="false" onAction="#createOrder" ripplerFill="ORANGE" text="Order Now!" textAlignment="CENTER" textFill="ORANGE" textOverrun="CLIP" wrapText="true">
+      <JFXButton fx:id="btnOrderNow" alignment="CENTER" buttonType="RAISED" mnemonicParsing="false" onAction="#createOrder" ripplerFill="ORANGE" text="Order Now!" textAlignment="CENTER" textFill="ORANGE" textOverrun="CLIP" wrapText="true">
          <graphic>
             <FontAwesomeIconView fill="ORANGE" fontSmoothingType="LCD" glyphName="SEND" size="15" textAlignment="CENTER">
                <font>

@@ -33,18 +33,12 @@ public class ParentGUIController extends SetUpMainGUIController implements Initi
 	
 	/** Will show {@link #errMsg} ({@value #errMsg}) to the user in {@link LoadGUIController#lblMsg} */
 	public void ShowErrorMsg() {
-		if(LoadGUIController.msgToClient.isEmpty() || LoadGUIController.msgToClient.equals("")) {
-			LoadGUIController.msgToClient=errMsg;
-			Context.mainScene.setMessage(errMsg);
-		}
+		Context.mainScene.setMessage(errMsg);
 	}
 
 	/** Will show {@link #sucMsg} ({@value #sucMsg}) to the user in {@link LoadGUIController#lblMsg}*/
 	public void ShowSuccessMsg() {
-		if(LoadGUIController.msgToClient.isEmpty() || LoadGUIController.msgToClient.equals("")) {
-			LoadGUIController.msgToClient=sucMsg;
-			Context.mainScene.setMessage(sucMsg);
-		}
+		Context.mainScene.setMessage(sucMsg);
 	}
 
 	/**
@@ -52,51 +46,47 @@ public class ParentGUIController extends SetUpMainGUIController implements Initi
 	 * At the end, {@link #loadMainMenu()} will occur.
 	 */
 	public void logInSuccess() {
-		Platform.runLater(new Runnable() {
-			@Override
-			public void run() {
-				menu.setVisible(true);
-				if(Context.getUser()!=null) {
-					UserType perm = Context.getUser().getPermissions();
-					switch (perm) {
-					case Customer:
-						setUpCustomerMenu();
-						break;
-					case StoreWorker:
-						setUpStoreWorkerMenu();
-						break;
-					case StoreManager:
-						setUpStoreManagerMenu();
-						break;
-					case ServiceExpert:
-						setUpServiceExpertMenu();
-						break;
-					case CustomerServiceWorker:
-						setUpCustomerServiceWorkerMenu();
-						break;
-					case ChainStoreWorker:
-						setUpChainStoreWorkerMenu();
-						break;
-					case ChainStoreManager:
-						setUpChainStoreManagerMenu();
-						break;
-					default:
-						break;
-					}
-				}
-			}
-		});
+		if(Platform.isFxApplicationThread())
+			setUpMenus();
+		Platform.runLater(()->setUpMenus());
 		loadMainMenu();
+	}
+	
+	private void setUpMenus() {
+		menu.setVisible(true);
+		if(Context.getUser()!=null) {
+			UserType perm = Context.getUser().getPermissions();
+			switch (perm) {
+			case Customer:
+				setUpCustomerMenu();
+				break;
+			case StoreWorker:
+				setUpStoreWorkerMenu();
+				break;
+			case StoreManager:
+				setUpStoreManagerMenu();
+				break;
+			case ServiceExpert:
+				setUpServiceExpertMenu();
+				break;
+			case CustomerServiceWorker:
+				setUpCustomerServiceWorkerMenu();
+				break;
+			case ChainStoreWorker:
+				setUpChainStoreWorkerMenu();
+				break;
+			case ChainStoreManager:
+				setUpChainStoreManagerMenu();
+				break;
+			default:
+				break;
+			}
+		}
 	}
 
 	/** Will clear the message in {@link LoadGUIController#lblMsg}*/
 	protected void clearLblMsg() {
-		Platform.runLater(new Runnable() {
-			@Override
-			public void run() {
-				Context.mainScene.setMessage("");
-			}
-		});
+		Context.mainScene.setMessage("");
 	}
 	
 	@Override
@@ -121,12 +111,10 @@ public class ParentGUIController extends SetUpMainGUIController implements Initi
 	 * @param dbStatus indicates if the data base connected at the server side {@code (true)} or not {@code (false)}
 	 */
 	public void setDBStatus(Boolean dbStatus) {
-		Platform.runLater(()->{
-			if (isServerConnected() == true)
-				loadGUI("LogInGUI", false);
-			else
-				loadConnectionGUI();
-		});
+		if (isServerConnected() == true)
+			loadGUI("LogInGUI", false);
+		else
+			loadConnectionGUI();
 	}
 
 	/**

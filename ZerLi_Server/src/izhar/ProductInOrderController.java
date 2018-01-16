@@ -39,8 +39,8 @@ public class ProductInOrderController extends ParentController{
 	}
 
 	public ArrayList<Object> getPIOsByOrder(BigInteger orderID) throws SQLException {
-		String query = "SELECT productInOrderID, prd.*,orderID, quantity, totalprice FROM" + 
-				"(" + 
+		String query = "SELECT prodInOrd.productInOrderID, prd.*,orderID, quantity, totalprice FROM" + 
+				" (" + 
 				"	SELECT ordCart.* FROM" + 
 				"	(" + 
 				"		SELECT crt.*" + 
@@ -49,8 +49,10 @@ public class ProductInOrderController extends ParentController{
 				"		where crt.orderID = '"+orderID+"'" + 
 				"	) AS ordCart" + 
 				"	JOIN product ON ordCart.productID=product.productID" + 
-				") AS prodInOrd, product prd" + 
-				" WHERE prodInOrd.productID = prd.productID AND prodInOrd.quantity>0";
+				" ) AS prodInOrd, product prd" + 
+				" WHERE prodInOrd.productID = prd.productID"
+				//+ " AND prodInOrd.quantity>0"
+				;
 		return handleGet(EchoServer.fac.dataBase.db.getQuery(query));
 	}
 	
@@ -96,15 +98,16 @@ public class ProductInOrderController extends ParentController{
 		if(obj==null) return null;
 		ArrayList<Object> prds = new ArrayList<>();
 		for (int i = 0; i < obj.size(); i += 11) {
-			prds.add(parse(BigInteger.valueOf(Long.valueOf((int)obj.get(i))),
-					(EchoServer.fac.product.parse(BigInteger.valueOf(Long.valueOf((int) obj.get(i+1))), 
-					(String) obj.get(i + 2), 
-					(String) obj.get(i + 3),
-					(float) obj.get(i + 4),
-					(String) obj.get(i + 5),
-					((int)obj.get(i + 6))!= 0,
-					(String)obj.get(i+7))
-					),BigInteger.valueOf(Long.valueOf((int)obj.get(i+8)))
+			prds.add(parse(BigInteger.valueOf((Integer)obj.get(i)),
+					(
+						EchoServer.fac.product.parse(BigInteger.valueOf((Integer) obj.get(i+1)), 
+						(String) obj.get(i + 2), 
+						(String) obj.get(i + 3),
+						(float) obj.get(i + 4),
+						(String) obj.get(i + 5),
+						((int)obj.get(i + 6))!= 0,
+						(String)obj.get(i+7))
+					),BigInteger.valueOf((Integer)obj.get(i+8))
 					,(int)obj.get(i+9),
 					(float)obj.get(i+10)
 					));

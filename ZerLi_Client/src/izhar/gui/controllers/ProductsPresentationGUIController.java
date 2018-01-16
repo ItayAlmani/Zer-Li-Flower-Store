@@ -178,7 +178,7 @@ public abstract class ProductsPresentationGUIController implements Initializable
 		btnFinalProduct[i] = new JFXButton(btnText);
 		btnFinalProduct[i].setButtonType(ButtonType.RAISED);
 		btnFinalProduct[i].setRipplerFill(Color.ORANGE);
-		btnFinalProduct[i].setUserData(i);
+		btnFinalProduct[i].setUserData(pio);
 		btnFinalProduct[i].setOnAction(btnHandler);
 		icnButtons[i] = new MaterialIconView(mi);
 		icnButtons[i].setSize("15");
@@ -195,6 +195,7 @@ public abstract class ProductsPresentationGUIController implements Initializable
 		grids[i].getChildren().addAll(components);
 		vbxProduct[i].setFillWidth(true);
 		vbxProduct[i].getChildren().add(btnFinalProduct[i]);
+		vbxProduct[i].setUserData(i);
 		vbxProduct[i].getStylesheets().add(getClass().getResource("/gui/css/ParentCSS.css").toExternalForm());
 		
 		components.clear();

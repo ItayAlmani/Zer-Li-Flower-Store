@@ -44,8 +44,9 @@ public class AssembleProductGUIController extends ProductsPresentationGUIControl
 	private HBox hxProds;
 	private ArrayList<Stock> stocks = new ArrayList<>(), stocksByType;
 	
-	//private ArrayList<Product> products, inConditionProds=new ArrayList<>();
-	
+	/**
+	 * 
+	 */
 	public void createForm() {		
 		cbType.valueProperty().addListener((obs,oldVal,newVal)->{
 			cbColor.setValue(null);
@@ -94,14 +95,9 @@ public class AssembleProductGUIController extends ProductsPresentationGUIControl
 		});
 	}
 	
-	public void typeSelected() {
-		
-	}
-	
-	public void back() {
-		Context.mainScene.loadMainMenu();
-	}
-	
+	/**
+	 * The function when the button {@link #btnSend} clicked.
+	 */
 	public void assembleProduct() {
 		ProductType type = cbType.getValue();
 		Color color = cbColor.getValue();
@@ -124,6 +120,8 @@ public class AssembleProductGUIController extends ProductsPresentationGUIControl
 				color=javafx.scene.paint.Color.valueOf(newVal.toString());
 			icnFlower.setFill(color);
 			cbColor.setFocusColor(color);
+			if(vbox.getChildren().contains(hxProds))
+				vbox.getChildren().remove(hxProds);
 		});
 		
 		rsPrice.setHighValue(40);

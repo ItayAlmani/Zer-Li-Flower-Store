@@ -11,6 +11,7 @@ import controllers.ParentController;
 import entities.CSMessage;
 import entities.CSMessage.MessageType;
 import entities.Product;
+import entities.ProductInOrder;
 import entities.Product.Color;
 import entities.Product.ProductType;
 import entities.Stock;
@@ -25,21 +26,21 @@ public class ProductController extends ParentController implements IProduct {
 		if(type!=null && priceStart!=null && priceEnd!=null) {
 			if(color==null) {
 				for (Stock s : stocks) {
-					if(s.getProduct().getType().equals(type)
+					Product p = s.getProduct();
+					if(p.getType().equals(type)
 							&& s.getPriceAfterSale()>=priceStart 
-							&& s.getPriceAfterSale()<=priceEnd) {
+							&& s.getPriceAfterSale()<=priceEnd)
 						inConditionProds.add(s);
-					}
 				}
 			}
 			else {
 				for (Stock s : stocks) {
-					if(s.getProduct().equals(type)
-							&& s.getPriceAfterSale()>=priceStart 
-							&& s.getPriceAfterSale()<=priceEnd) {
-						if(s.getProduct().getColor().equals(color))
+					Product p = s.getProduct();
+					if(p.getType().equals(type)
+						&& s.getPriceAfterSale()>=priceStart 
+						&& s.getPriceAfterSale()<=priceEnd
+						&& p.getColor().equals(color))
 							inConditionProds.add(s);
-					}
 				}
 			}
 		}

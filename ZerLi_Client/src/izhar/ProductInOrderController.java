@@ -49,16 +49,24 @@ public class ProductInOrderController extends ParentController implements IProdu
 		}
 		return null;
 	}
-	
-	private void saveProductsImages(ArrayList<ProductInOrder> pios) {
-		ArrayList<Product> prds = new ArrayList<>();
-		for (ProductInOrder pio : pios)
-			prds.add(pio.getProduct());
+		
+	/**
+	 * Creating new {@link ArrayList} of all {@link ProductInOrder}s where <code>{@link ProductInOrder#getQuantity()}>0</code>
+	 * @param prds the {@link ArrayList} of the {@link ProductInOrder}s
+	 * @return new {@link ArrayList} of all {@link ProductInOrder}s where <code>{@link ProductInOrder#getQuantity()}>0</code>
+	 */
+	public ArrayList<ProductInOrder> getPIOsNot0Quantity(ArrayList<ProductInOrder> prds) {
+		ArrayList<ProductInOrder> pios = new ArrayList<>();
+		if(prds==null || prds.isEmpty())
+			return null;
+		for (ProductInOrder pio : prds)
+			if(pio.getQuantity()>0)
+				pios.add(pio);
+		return pios;
 	}
 	
 	@Override
 	public void handleGet(ArrayList<ProductInOrder> pios) {
-		saveProductsImages(pios);
 		String methodName = "setPIOs";
 		Method m = null;
 		try {

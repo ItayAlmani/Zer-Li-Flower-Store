@@ -16,6 +16,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
@@ -51,8 +52,6 @@ public class LoadGUIController {
 	protected @FXML VBox hbCustServiceData, hbCustomer, hbOrders, hbCustomersInfo;
 
 	protected @FXML ImageView imgLogo1, imgLogo2;
-	
-	protected static String msgToClient = "";
 	
 	/** The string which will be use to show error message to the user.<br>
  	{@code errMsg = }{@value #errMsg}
@@ -145,12 +144,10 @@ public class LoadGUIController {
 			setServerUnavailable();
 			return;
 		}
-		Platform.runLater(new Runnable() {
-			@Override
-			public void run() {
-				changeScene(guiName, cssName);
-			}
-		});
+		if(Platform.isFxApplicationThread())
+			changeScene(guiName, cssName);
+		else
+			Platform.runLater(()->changeScene(guiName, cssName));
 	}
 
 	private void changeScene(String guiName, String cssName) {
@@ -164,25 +161,21 @@ public class LoadGUIController {
 			createScene(guiName, ParentGUIController.primaryStage);
 			ParentGUIController.primaryStage.show();
 			ParentGUIController.currentGUI=loader.getController();	//put the current scene as currentGUI
-			
-			if (ParentGUIController.primaryStage.getScene() != null) {
-				/*ParentGUIController.primaryStage.getScene().heightProperty().addListener((obs,oldHeight,newHeight)->{
+			Scene sce = ParentGUIController.primaryStage.getScene();
+			if (sce != null) {
+				/*sce.heightProperty().addListener((obs,oldHeight,newHeight)->{
 				    System.out.println("Height: " + newHeight);
 				});*/
-				ParentGUIController.primaryStage.getScene().getWindow().sizeToScene();
-				ParentGUIController.primaryStage.sizeToScene();
-				//ParentGUIController.primaryStage.getScene().getWindow().setHeight(menu.getHeight()+scenePane.getHeight()+100);
+				//ParentGUIController.primaryStage.sizeToScene();
+				if(sce.getWindow() != null)
+					sce.getWindow().sizeToScene();
+				//sce.getWindow().setHeight(menu.getHeight()+scenePane.getHeight()+100);
 			}
 
 			 //addMediaPlayer();
 		} catch (IOException e1) {
 			System.err.println("Loader failed");
-			Platform.runLater(new Runnable() {
-				@Override
-				public void run() {
-					Context.mainScene.setMessage("Loader failed");
-				}
-			});
+			Context.mainScene.setMessage("Loader failed");
 			e1.printStackTrace();
 		}
 	}
@@ -192,34 +185,28 @@ public class LoadGUIController {
 			setServerUnavailable();
 			return;
 		}
-		Platform.runLater(new Runnable() {
-			@Override
-			public void run() {
+		if(Platform.isFxApplicationThread()) {
+			String cssName = null;
+			if (withCSS == true)
+				cssName = guiName.split("GUI")[0] + "CSS";
+			changeScene(guiName, cssName);
+		}
+		else
+			Platform.runLater(()->{
 				String cssName = null;
 				if (withCSS == true)
 					cssName = guiName.split("GUI")[0] + "CSS";
 				changeScene(guiName, cssName);
-			}
-		});
+			});
 	}
 
 	public void loadMainMenu() {
-		Platform.runLater(new Runnable() {
-			@Override
-			public void run() {
-				loadGUI("MainMenuGUI", false);
-			}
-		});
+		loadGUI("MainMenuGUI", false);
 	}
 
 	public void loadMainMenu(String msg) {
-		Platform.runLater(new Runnable() {
-			@Override
-			public void run() {
-				loadGUI("MainMenuGUI", false);
-				setMessage(msg);
-			}
-		});
+		loadGUI("MainMenuGUI", false);
+		setMessage(msg);
 	}
 
 	public void setMessage(String msg) {
@@ -228,15 +215,36 @@ public class LoadGUIController {
 		double rangeMin = 0.05f, rangeMax = 0.6f;
 		for (int i = 0; i < color.length; i++)
 			color[i] = rangeMin + (rangeMax - rangeMin) * Math.random();
-		LoadGUIController.msgToClient=msg;
-		Platform.runLater(new Runnable() {
-			@Override
-			public void run() {
-				lblMsg.setTextFill(Color.color(color[0], color[1], color[2]));
-				lblMsg.setText(LoadGUIController.msgToClient);
-				msgToClient="";
+		Color c = Color.color(color[0], color[1], color[2]);
+		if(Platform.isFxApplicationThread())
+			showTextInLblMsg(msg,c);
+		else
+			Platform.runLater(()->showTextInLblMsg(msg,c));
+	}
+	
+	private void showTextInLblMsg(String msg, Color color) {
+		lblMsg.setTextFill(color);
+		String lmsg = lblMsg.getText();
+		if(msg==null)	msg="";
+		
+		//lblMsg not empty
+		if(!lmsg.isEmpty()) {
+			//if we have generic message
+			if(msg.equals(errMsg) || msg.equals(sucMsg)) {
+				String opp = msg.equals(errMsg)?sucMsg:errMsg;	//the opposite message from msg
+				//we will delete the opposite and then show the msg
+				if(lmsg.contains(opp)) {	
+					lblMsg.setText(lmsg.replaceAll("\\s*\\b"+opp+"\\b\\s*", msg));
+					return;
+				}
+				if(!lmsg.contains(msg))
+					lblMsg.setText(lmsg+".\t"+msg);
 			}
-		});
+			else if(!lmsg.toLowerCase().contains(msg.toLowerCase()))
+				lblMsg.setText(lmsg+".\t"+msg);
+		}
+		if(lmsg.isEmpty() || msg == null || msg.equals(""))
+			lblMsg.setText(msg);
 	}
 
 	public void setServerUnavailable() {
@@ -251,31 +259,38 @@ public class LoadGUIController {
 			}
 		});
 		changeScene("ConnectionConfigGUI", null);
+		loadConnectionGUI();
 	}
 
 	public void setServerAvailable() {
-		Platform.runLater(new Runnable() {
-			@Override
-			public void run() {
-				hbChangingIcons.setDisable(false);
-				if (Context.getUser() != null && Context.getUser().getPermissions().equals(UserType.Customer))
-					cbStores.setVisible(true);
-				menu.setVisible(false);
-				Context.mainScene.setMessage("");
-			}
+		Context.mainScene.setMessage("");
+		if(Platform.isFxApplicationThread()) {
+			menu.setVisible(false);
+			hbChangingIcons.setDisable(false);
+			if (Context.getUser() != null && Context.getUser().getPermissions().equals(UserType.Customer))
+				cbStores.setVisible(true);
+		}
+		Platform.runLater(()->{
+			menu.setVisible(false);
+			hbChangingIcons.setDisable(false);
+			if (Context.getUser() != null && Context.getUser().getPermissions().equals(UserType.Customer))
+				cbStores.setVisible(true);
 		});
 	}
 	
 	public void setServerAvailable(String msg) {
-		Platform.runLater(new Runnable() {
-			@Override
-			public void run() {
-				hbChangingIcons.setDisable(false);
-				if (Context.getUser() != null && Context.getUser().getPermissions().equals(UserType.Customer))
-					cbStores.setVisible(true);
-				menu.setVisible(false);
-				Context.mainScene.setMessage(msg);
-			}
+		Context.mainScene.setMessage(msg);
+		if(Platform.isFxApplicationThread()) {
+			menu.setVisible(false);
+			hbChangingIcons.setDisable(false);
+			if (Context.getUser() != null && Context.getUser().getPermissions().equals(UserType.Customer))
+				cbStores.setVisible(true);
+		}
+		Platform.runLater(()->{
+			menu.setVisible(false);
+			hbChangingIcons.setDisable(false);
+			if (Context.getUser() != null && Context.getUser().getPermissions().equals(UserType.Customer))
+				cbStores.setVisible(true);
 		});
 	}
 

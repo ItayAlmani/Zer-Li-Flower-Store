@@ -5,16 +5,11 @@ import java.util.ArrayList;
 
 import common.Context;
 import common.MainClient;
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
-import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView;
-import de.jensd.fx.glyphs.materialicons.MaterialIconView;
 import entities.Customer;
 import entities.PaymentAccount;
 import entities.Store;
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Tooltip;
 
@@ -34,16 +29,11 @@ public class SetUpMainGUIController extends LoadGUIController {
 			for (PaymentAccount pa : cust.getPaymentAccounts()) {
 				stores.add(pa.getStore());
 			}
-			Platform.runLater(new Runnable() {
-				@Override
-				public void run() {
-					cbStores.setItems(FXCollections.observableArrayList(stores));
-					cbStores.getSelectionModel().selectFirst();
-					ObservableList<Node> child = hbChangingIcons.getChildren();
-					child.clear();
-					child.add(hbCustomer);
-				}
-			});
+			cbStores.setItems(FXCollections.observableArrayList(stores));
+			cbStores.getSelectionModel().selectFirst();
+			ObservableList<Node> child = hbChangingIcons.getChildren();
+			child.clear();
+			child.add(hbCustomer);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -51,69 +41,39 @@ public class SetUpMainGUIController extends LoadGUIController {
 	}
 	
 	protected void setUpStoreWorkerMenu() {
-		Platform.runLater(new Runnable() {
-			@Override
-			public void run() {
-				ObservableList<Node> child = hbChangingIcons.getChildren();
-				child.clear();
-				child.addAll(hbCustServiceData,hbOrders);
-			}
-		});
+		ObservableList<Node> child = hbChangingIcons.getChildren();
+		child.clear();
+		child.addAll(hbCustServiceData,hbOrders);
 	}
 	
 	protected void setUpStoreManagerMenu() {
-		Platform.runLater(new Runnable() {
-			@Override
-			public void run() {
-				ObservableList<Node> child = hbChangingIcons.getChildren();
-				child.clear();
-				child.addAll(hbCustServiceData,hbOrders,hbCustomersInfo);
-			}
-		});
+		ObservableList<Node> child = hbChangingIcons.getChildren();
+		child.clear();
+		child.addAll(hbCustServiceData,hbOrders,hbCustomersInfo);
 	}
 	
 	protected void setUpServiceExpertMenu() {
-		Platform.runLater(new Runnable() {
-			@Override
-			public void run() {
-				ObservableList<Node> child = hbChangingIcons.getChildren();
-				child.clear();
-				child.addAll(hbCustServiceData,hbCustomersInfo);
-			}
-		});
+		ObservableList<Node> child = hbChangingIcons.getChildren();
+		child.clear();
+		child.addAll(hbCustServiceData,hbCustomersInfo);
 	}
 	
 	protected void setUpCustomerServiceWorkerMenu() {
-		Platform.runLater(new Runnable() {
-			@Override
-			public void run() {
-				ObservableList<Node> child = hbChangingIcons.getChildren();
-				child.clear();
-				child.addAll(hbCustServiceData,hbCustomersInfo);
-			}
-		});
+		ObservableList<Node> child = hbChangingIcons.getChildren();
+		child.clear();
+		child.addAll(hbCustServiceData,hbCustomersInfo);
 	}
 	
 	protected void setUpChainStoreWorkerMenu() {
-		Platform.runLater(new Runnable() {
-			@Override
-			public void run() {
-				ObservableList<Node> child = hbChangingIcons.getChildren();
-				child.clear();
-				child.addAll(hbCustServiceData,hbOrders,hbCustomersInfo);
-			}
-		});
+		ObservableList<Node> child = hbChangingIcons.getChildren();
+		child.clear();
+		child.addAll(hbCustServiceData,hbOrders,hbCustomersInfo);
 	}
 	
 	protected void setUpChainStoreManagerMenu() {
-		Platform.runLater(new Runnable() {
-			@Override
-			public void run() {
-				ObservableList<Node> child = hbChangingIcons.getChildren();
-				child.clear();
-				child.addAll(hbCustServiceData,hbOrders,hbCustomersInfo);
-			}
-		});
+		ObservableList<Node> child = hbChangingIcons.getChildren();
+		child.clear();
+		child.addAll(hbCustServiceData,hbOrders,hbCustomersInfo);
 	}
 
 	protected void setUpToolTips() {
