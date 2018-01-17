@@ -4,6 +4,7 @@
 <?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import com.jfoenix.controls.JFXToggleButton?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.ImageView?>
@@ -15,7 +16,7 @@
 
 <VBox fx:id="paneScene" alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" spacing="10.0" stylesheets="@../css/ParentCSS.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="izhar.gui.controllers.UpdateCatalogGUIController">
    <children>
-      <JFXComboBox id="cmbProducts" fx:id="cbProducts" onAction="#showProduct" promptText="Select product" />
+      <JFXComboBox id="cmbProducts" fx:id="cbStocks" onAction="#showProduct" promptText="Select product" />
       <VBox fx:id="paneItem" alignment="TOP_CENTER" spacing="20.0" visible="false">
          <children>
             <VBox alignment="TOP_CENTER" spacing="3.0">
@@ -30,7 +31,12 @@
                   <VBox alignment="TOP_CENTER" fillWidth="false" spacing="25.0">
                      <children>
                         <JFXTextField fx:id="txtName" alignment="CENTER" prefColumnCount="10" promptText="Product Name" />
-                        <JFXTextField fx:id="txtPrice" alignment="CENTER" prefColumnCount="10" promptText="Product Price" />
+                        <HBox alignment="CENTER">
+                           <children>
+                              <JFXTextField fx:id="txtPrice" alignment="CENTER" prefColumnCount="10" promptText="Product Price" />
+                              <FontAwesomeIconView fontSmoothingType="LCD" glyphName="SHEKEL" size="15" textAlignment="CENTER" />
+                           </children>
+                        </HBox>
                         <JFXToggleButton fx:id="tglInCatalog" onAction="#toggleChanged" text="Not in Catalog" textAlignment="CENTER" textFill="RED" textOverrun="CLIP" toggleColor="WHITE" toggleLineColor="ORANGE" unToggleColor="WHITE" unToggleLineColor="RED" wrapText="true" />
                      </children>
                   </VBox>
@@ -38,11 +44,12 @@
                      <children>
                         <JFXComboBox fx:id="cbColor" promptText="Product Color" />
                         <JFXComboBox fx:id="cbType" promptText="Product Type" />
-                        <JFXTextField fx:id="txtSale" alignment="CENTER" prefColumnCount="10" promptText="Sale Percentage">
-                           <VBox.margin>
-                              <Insets top="15.0" />
-                           </VBox.margin>
-                        </JFXTextField>
+                        <HBox fx:id="hbSale" alignment="CENTER">
+                           <children>
+                              <JFXTextField fx:id="txtSale" alignment="CENTER" prefColumnCount="10" promptText="Sale Percentage" />
+                              <FontAwesomeIconView fontSmoothingType="LCD" glyphName="PERCENT" size="15" textAlignment="CENTER" />
+                           </children>
+                        </HBox>
                      </children>
                   </VBox>
                </children>

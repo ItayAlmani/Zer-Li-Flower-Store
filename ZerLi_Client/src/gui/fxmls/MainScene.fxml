@@ -127,7 +127,7 @@
          <bottom>
             <TilePane alignment="BOTTOM_LEFT" hgap="30.0" prefColumns="3" prefRows="1">
                <children>
-                  <JFXComboBox fx:id="cbStores" focusColor="ORANGE" labelFloat="true" onAction="#getNewOrderByStore" promptText="Select store" unFocusColor="RED" visible="false">
+                  <JFXComboBox fx:id="cbStores" focusColor="ORANGE" labelFloat="true" onAction="#storeChanged" promptText="Select store" unFocusColor="RED" visible="false">
                      <TilePane.margin>
                         <Insets bottom="5.0" top="5.0" />
                      </TilePane.margin></JFXComboBox>

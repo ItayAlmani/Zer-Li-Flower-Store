@@ -58,6 +58,9 @@ public class OrderTimeGUIController implements Initializable {
 	private @FXML VBox vboxTime, vboxDateTime;
 	private @FXML JFXSlider sldMinutes, sldHours;
 	private @FXML JFXToggleButton tglPreOrder;
+	
+	private final static String immStr = "You chose immediate order",
+			preStr = "You chose pre order";
 
 	public void addTime() {
 		LocalDateTime date = null;
@@ -91,9 +94,7 @@ public class OrderTimeGUIController implements Initializable {
 	}
 
 	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-		ParentGUIController.currentGUI = this;
-		
+	public void initialize(URL location, ResourceBundle resources) {		
 		LocalTime now_time = LocalTime.now();
 		if(now_time.plusHours(3).getHour()>22 || 
 				LocalDateTime.now().plusHours(3).getDayOfMonth()>LocalDateTime.now().getDayOfMonth()) {
@@ -157,11 +158,11 @@ public class OrderTimeGUIController implements Initializable {
 
 	public void toggledPreOrder() {
 		if(tglPreOrder.isSelected()) {
-			tglPreOrder.setText("Switch for immediate order");
+			tglPreOrder.setText(preStr);
 			tglPreOrder.setTextFill(Color.ORANGE);
 		}
 		else {
-			tglPreOrder.setText("Switch for pre order");
+			tglPreOrder.setText(immStr);
 			tglPreOrder.setTextFill(Color.RED);
 		}
 		vboxDateTime.setVisible(tglPreOrder.isSelected());

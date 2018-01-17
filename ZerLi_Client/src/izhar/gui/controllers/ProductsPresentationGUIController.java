@@ -64,8 +64,22 @@ public abstract class ProductsPresentationGUIController implements Initializable
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		getProducts();
+		try {
+			if(Context.order!=null && 
+	    			Context.order.getDelivery()!=null && 
+	    			Context.order.getDelivery().getStore()!=null)
+				Context.fac.stock.getStockByStore(Context.order.getDelivery().getStore().getStoreID());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
+	
+	public void setStocks(ArrayList<Stock> stocks) {
+    	if(stocks!=null) {
+    		Context.order.getDelivery().getStore().setStock(stocks);
+    		getProducts();
+    	}
+    }
 	
 	protected abstract void getProducts();	
 	
@@ -132,6 +146,10 @@ public abstract class ProductsPresentationGUIController implements Initializable
 		ByteArrayInputStream bais = new ByteArrayInputStream(prd.getMybytearray());
 		imgImages[i] = new ImageView(new Image(bais));
 		imgImages[i].prefHeight(200);
+		imgImages[i].maxHeight(250);
+		imgImages[i].maxWidth(250);
+		imgImages[i].setFitHeight(200);
+		imgImages[i].setFitWidth(200);
 		try {
 			bais.close();
 			vbxProduct[i].getChildren().addAll(imgImages[i],grids[i]);

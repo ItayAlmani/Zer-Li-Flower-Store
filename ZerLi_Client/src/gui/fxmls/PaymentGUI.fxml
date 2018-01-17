@@ -58,7 +58,7 @@
             <Font name="System Bold" size="12.0" />
          </font>
       </Label>
-      <JFXButton fx:id="btnPay" alignment="CENTER" buttonType="RAISED" mnemonicParsing="false" onAction="#pay" ripplerFill="ORANGE" text="Pay" textAlignment="CENTER" textFill="ORANGE" textOverrun="CLIP" visible="false">
+      <JFXButton fx:id="btnPay" alignment="CENTER" buttonType="RAISED" mnemonicParsing="false" onAction="#pay" ripplerFill="ORANGE" text="Pay" textAlignment="CENTER" textFill="ORANGE" textOverrun="CLIP">
          <graphic>
             <MaterialDesignIconView fx:id="icnNext" fill="ORANGE" fontSmoothingType="LCD" glyphName="CUBE_SEND" size="15" textAlignment="CENTER">
                <font>

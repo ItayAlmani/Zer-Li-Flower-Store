@@ -1,5 +1,8 @@
 package izhar;
 
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -26,6 +29,21 @@ import izhar.interfaces.IProduct;
 
 public class ProductController extends ParentController implements IProduct {	
 //------------------------------------------------IN CLIENT--------------------------------------------------------------------
+	public byte[] insertImageToByteArr(File imgFile) throws Exception {
+		try {
+			byte[] mybytearray  = new byte [(int)imgFile.length()];
+			FileInputStream fis = new FileInputStream(imgFile);
+			BufferedInputStream bis = new BufferedInputStream(fis);			    
+			bis.read(mybytearray,0,mybytearray.length);
+			bis.close();
+			return mybytearray;
+		}catch (Exception e) {
+			System.err.println(imgFile.getName()+"\n");
+			e.printStackTrace();
+			throw e;
+		}
+	}
+	
 	public void updatePriceWithSubscription(Order order, Product p, Float price, Customer customer) {
 		PaymentAccount pa = null;
 		if(order.getDelivery() != null && order.getDelivery().getStore() != null)
@@ -74,9 +92,9 @@ public class ProductController extends ParentController implements IProduct {
 	@Override
 	public void update(Product p) throws IOException {
 		myMsgArr.clear();
-		myMsgArr.add(String.format(
-				"UPDATE product SET productName='%s' WHERE productID=%d;",p.getName(),p.getPrdID()));
-		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.UPDATE,myMsgArr));
+		myMsgArr.add(Thread.currentThread().getStackTrace()[1].getMethodName());
+		myMsgArr.add(p);
+		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.UPDATE,myMsgArr,Product.class));
 	}
 	
 	public void handleGet(ArrayList<Product> prds) {

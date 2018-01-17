@@ -16,9 +16,9 @@ public class OrderGUIController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		ParentGUIController.currentGUI = this;
 		Order ord = Context.order;
-		Context.order=null;
+		Context.order = null;
+		Context.mainScene.getNewOrderByStore(false);
 		
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
 		String formatDateTime = null;
@@ -26,19 +26,10 @@ public class OrderGUIController implements Initializable {
 			formatDateTime = ord.getDelivery().getDate().format(formatter);
 		else
 			formatDateTime = "TBD";
-
 		
 		lblOrderID.setText(ord.getOrderID().toString());
 		lblDelMethod.setText(ord.getDeliveryType().toString());
 		lblDelTime.setText(formatDateTime);
 		lblPayment.setText(ord.getFinalPriceAsString());
 	}
-
-	@FXML public void toMainMenu() {}
-	
-	/*public void toMainMenu() {
-		Context.askOrder();
-		Context.mainScene.getNewOrderByStore();
-		Context.mainScene.loadMainMenu();
-	}*/
 }

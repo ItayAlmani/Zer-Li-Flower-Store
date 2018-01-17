@@ -152,7 +152,8 @@ public class PaymentGUIController implements Initializable {
 		else
 			ord.setGreeting("");
 		try {
-			Context.fac.paymentAccount.update(pa);/////CHHHHHHHECCCCCCCCCk
+			Context.fac.paymentAccount.update(pa);
+			//Context.askingCtrl.add(Context.class);
 			Context.fac.order.add(ord,true);
 		} catch (IOException e) {
 			e.printStackTrace();
