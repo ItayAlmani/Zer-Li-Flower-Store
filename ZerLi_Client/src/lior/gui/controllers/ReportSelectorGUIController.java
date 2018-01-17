@@ -109,10 +109,6 @@ public class ReportSelectorGUIController implements Initializable {
 		paneSatisfactionReport2.setBorder(new Border(
 				new BorderStroke(Color.BLUE, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
 
-		/*cbTypePick1.getItems().add("Incomes Report");
-		cbTypePick1.getItems().add("Orders Report");
-		cbTypePick1.getItems().add("Client complaimnts histogram");
-		cbTypePick1.getItems().add("Satisfaction Report");*/
 		cbTypePick1.setItems(FXCollections.observableArrayList(ReportType.values()));
 		try {
 			Context.fac.store.getAllStores();
@@ -120,17 +116,9 @@ public class ReportSelectorGUIController implements Initializable {
 			e.printStackTrace();
 		}
 		if (Context.getUser().getPermissions().equals(User.UserType.ChainStoreManager)) {
-			/*cbTypePick2.getItems().add("Incomes Report");
-			cbTypePick2.getItems().add("Orders Report");
-			cbTypePick2.getItems().add("Client complaimnts histogram");
-			cbTypePick2.getItems().add("Satisfaction Report");*/
 			cbTypePick2.setItems(FXCollections.observableArrayList(ReportType.values()));
 			cbTypePick2.setVisible(true);
-			cbTypePick2.setVisible(true);
-			cbTypePick2.setVisible(true);
-			cbTypePick2.setVisible(true);
 			ToggleReport2.setVisible(true);
-			// ToggleReport2.set;
 		}
 
 	}
@@ -147,18 +135,12 @@ public class ReportSelectorGUIController implements Initializable {
 		if (cbTypePick1.getValue() != null && cbStorePick1.getValue() != null && DatePicker1.getValue() != null) {
 			LocalDate date = DatePicker1.getValue();
 			if (date.isBefore(LocalDate.now()) && cbStorePick1.getValue()!=null) {
-				/*for (int i = 0; i < this.stores.size(); i++) {
-					if (this.stores.get(i).getName().equals(this.cbStorePick1.getValue()))
-						n = this.stores.get(i).getStoreID();
-				}*/
-				BigInteger n = cbStorePick1.getValue().getStoreID();
-				if (this.cbTypePick1.getValue().equals(ReportType.Order)) {
+				n = cbStorePick1.getValue().getStoreID();
+				if (this.cbTypePick1.getValue().equals(ReportType.Order))
 					Context.fac.orderReport.initproduceOrderReport(date, n);
-				}
 
-				else if (cbTypePick1.getValue().equals(ReportType.Incomes)) {
+				else if (cbTypePick1.getValue().equals(ReportType.Incomes))
 					Context.fac.incomesReport.initProduceIncomesReport(date, n);
-				}
 
 				else if (cbTypePick1.getValue().equals(ReportType.CustomerComplaints)) {
 					// Context.fac.orderReport.produceOrderReport(date, 1);
@@ -172,11 +154,7 @@ public class ReportSelectorGUIController implements Initializable {
 						&& DatePicker2 != null) {
 					LocalDate date1 = DatePicker2.getValue();
 					if (date1.isBefore(LocalDate.now()) && cbStorePick2.getValue()!=null) {
-						/*for (int i = 0; i < this.stores.size(); i++) {
-							if (this.stores.get(i).getName().equals(this.cbStorePick2.getValue()))
-								n1 = this.stores.get(i).getStoreID();
-						}*/
-						BigInteger n1 = cbStorePick2.getValue().getStoreID();
+						n1 = cbStorePick2.getValue().getStoreID();
 						if (this.cbTypePick2.getValue().equals(ReportType.Order)) {
 							if (cbTypePick2.getValue().equals(cbTypePick1.getValue()) == false
 									|| date.equals(date1) == false
@@ -242,16 +220,8 @@ public class ReportSelectorGUIController implements Initializable {
 					cbStorePick1.setItems(FXCollections.observableArrayList(stores));
 				}
 			});
-			/*for (Store store : stores) {
-				if (Context.getUser().getUserID().equals(store.getManager().getUserID())) {
-					stores
-					break;
-				}
-			}*/
 		}
 		if (Context.getUser().getPermissions().equals(User.UserType.ChainStoreManager)) {
-			/*for (Store store : stores)
-				ar.add(store.getName());*/
 			Platform.runLater(new Runnable() {
 				@Override
 				public void run() {
@@ -269,7 +239,7 @@ public class ReportSelectorGUIController implements Initializable {
 			return;
 		OrderReport rep = oReports.get(0);
 		LocalDate date = DatePicker1.getValue();
-		if (rep.getStoreID().equals(n) && cbTypePick1.getValue().equals("Orders Report")
+		if (rep.getStoreID().equals(n) && cbTypePick1.getValue().equals(ReportType.Order)
 				&& date.equals(rep.getEnddate())) {
 			Platform.runLater(new Runnable() {
 				@Override
@@ -316,7 +286,7 @@ public class ReportSelectorGUIController implements Initializable {
 		IncomesReport rep = iReports.get(0);
 		LocalDate date = DatePicker1.getValue();
 		DateTimeFormatter formatters = DateTimeFormatter.ofPattern("dd/MM/uuuu");
-		if (rep.getStoreID().equals(n) && cbTypePick1.getValue().equals("Incomes Report")
+		if (rep.getStoreID().equals(n) && cbTypePick1.getValue().equals(ReportType.Incomes)
 				&& date.equals(rep.getEnddate())) {
 			Platform.runLater(new Runnable() {
 				@Override
@@ -353,7 +323,7 @@ public class ReportSelectorGUIController implements Initializable {
 
 		LocalDate date = DatePicker1.getValue();
 		DateTimeFormatter formatters = DateTimeFormatter.ofPattern("dd/MM/uuuu");
-		if (rep.getStoreID().equals(n) && cbTypePick1.getValue().equals("Satisfaction Report")
+		if (rep.getStoreID().equals(n) && cbTypePick1.getValue().equals(ReportType.Satisfaction)
 				&& date.equals(rep.getEnddate())) {
 			Platform.runLater(new Runnable() {
 				@Override
