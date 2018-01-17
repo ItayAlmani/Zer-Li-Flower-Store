@@ -183,14 +183,24 @@ public class ParentGUIController extends SetUpMainGUIController implements Initi
 	}
 
 	/**
-	 * When {@link Store} in the {@link LoadGUIController#cbStores} is changed, the function will ask
-	 * for existing {@link Order} by {@code cbStores value}.<br>
-	 * Additionally, the function will invoke {@link LoadGUIController#loadMainMenu()}.
+	 * the function asks for existing {@link Order} by {@code cbStores value}.<br>
+	 * Additionally, the function will invoke {@link LoadGUIController#loadMainMenu()}
+	 * by {@code loadHomePage}.
+	 * @param loadHomePage if true, {@link MainMenuGUIController} will be loaded.
 	 */
-	public void getNewOrderByStore() {
+	public void getNewOrderByStore(boolean loadHomePage) {
 		if(cbStores.getValue()!=null) {
 			Context.askOrder(cbStores.getValue());
-			loadMainMenu();
+			if(loadHomePage)
+				loadMainMenu();
     	}
+	}
+	
+	/**
+	 * When {@link Store} in the {@link LoadGUIController#cbStores} is changed, the function will
+	 * invoke {@link #getNewOrderByStore(boolean)}
+	 */
+	public void storeChanged() {
+		getNewOrderByStore(true);
 	}
 }

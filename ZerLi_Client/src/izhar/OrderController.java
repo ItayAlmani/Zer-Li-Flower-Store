@@ -121,8 +121,8 @@ public class OrderController extends ParentController implements IOrder {
 	public void getFinalPriceByPAT(PaymentAccount pa, Order order, Customer customer) throws IOException {
 		if(pa != null && pa.getRefundAmount() > 0 && order != null) {
 			if(pa.getRefundAmount() > order.getFinalPrice()) {
-				order.setFinalPrice(0f);
 				pa.setRefundAmount(pa.getRefundAmount()-order.getFinalPrice());
+				order.setFinalPrice(0f);
 			}
 			else {
 				order.setFinalPrice(order.getFinalPrice()-pa.getRefundAmount());

@@ -1,5 +1,6 @@
 package izhar.gui.controllers;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import com.jfoenix.controls.JFXComboBox;
@@ -25,7 +26,7 @@ public class CatalogGUIController extends ProductsPresentationGUIController {
     			Context.order.getDelivery()!=null && 
     			Context.order.getDelivery().getStore()!=null) {
     		this.stocks=Context.fac.stock.getInCatalogOnlyStock(Context.order.getDelivery().getStore().getStock());
-    		createCatalog();
+			createCatalog();
     	}
     	else
     		Context.mainScene.setMessage("Can't open catalog right now!");

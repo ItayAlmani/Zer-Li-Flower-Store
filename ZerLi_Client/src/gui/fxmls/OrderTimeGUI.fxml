@@ -4,7 +4,6 @@
 <?import com.jfoenix.controls.JFXDatePicker?>
 <?import com.jfoenix.controls.JFXSlider?>
 <?import com.jfoenix.controls.JFXToggleButton?>
-<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView?>
 <?import de.jensd.fx.glyphs.weathericons.WeatherIconView?>
 <?import javafx.scene.control.Label?>
@@ -16,7 +15,7 @@
    <children>
       <HBox alignment="CENTER_LEFT">
          <children>
-            <JFXToggleButton fx:id="tglPreOrder" onAction="#toggledPreOrder" size="12.0" styleClass="menuTitle" text="Switch for pre order" textAlignment="CENTER" textFill="RED" textOverrun="CLIP" toggleColor="WHITE" toggleLineColor="ORANGE" unToggleColor="WHITE" unToggleLineColor="RED" />
+            <JFXToggleButton fx:id="tglPreOrder" onAction="#toggledPreOrder" size="12.0" styleClass="menuTitle" text="You chose immediate order" textAlignment="CENTER" textFill="RED" textOverrun="CLIP" toggleColor="WHITE" toggleLineColor="ORANGE" unToggleColor="WHITE" unToggleLineColor="RED" />
          </children>
       </HBox>
       <VBox fx:id="vboxDateTime" alignment="CENTER" spacing="10.0" visible="false">

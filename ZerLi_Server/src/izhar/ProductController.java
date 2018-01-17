@@ -1,8 +1,11 @@
 package izhar;
 
 import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.math.BigInteger;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -10,6 +13,7 @@ import java.util.ArrayList;
 import common.EchoServer;
 import controllers.ParentController;
 import entities.Product;
+import entities.ProductInOrder;
 
 public class ProductController extends ParentController {	
 	
@@ -18,16 +22,26 @@ public class ProductController extends ParentController {
 	}
 	
 	private byte[] insertImageToByteArr(String fileName) {
+		File newFile = null;
 		try {
-			File newFile = new File(getClass().getResource("/images/"+fileName).getPath());
+			newFile = new File(getClass().getResource("/images/"+fileName).getPath());
+		}catch (NullPointerException e) {
+			try {
+				newFile = new File(System.getProperty("user.dir")+"\\images\\"+fileName);
+			}catch (NullPointerException e1) {
+				e1.printStackTrace();
+				return null;
+			}
+		}
+		try {
 			byte[] mybytearray  = new byte [(int)newFile.length()];
 			FileInputStream fis = new FileInputStream(newFile);
 			BufferedInputStream bis = new BufferedInputStream(fis);			    
+		
 			bis.read(mybytearray,0,mybytearray.length);
 			bis.close();
 			return mybytearray;
-		}catch (Exception e) {
-			System.err.println(fileName+"\n");
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		return null;
@@ -101,7 +115,30 @@ public class ProductController extends ParentController {
 	
 	@Override
 	public ArrayList<Object> update(Object obj) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		if(obj instanceof Product) {
+			Product p = (Product)obj;
+			File dir = new File(System.getProperty("user.dir")+"\\images\\");
+			if(dir.exists()==false)
+				dir.mkdir();
+			File f = new File(dir,p.getImageName());
+			FileOutputStream fos = new FileOutputStream(f.getAbsolutePath());
+			BufferedOutputStream bos = new BufferedOutputStream(fos);
+			bos.write(p.getMybytearray());
+			bos.close();
+			String query = String.format("UPDATE product"
+					+ " SET productName='%s',"
+					+ " productType='%s',"
+					+ " price='%f',"
+					+ " color='%s',"
+					+ " inCatalog='%s',"
+					+ " image='%s'"
+					+ " WHERE productID='%d'", p.getName(),p.getType().toString(),p.getPrice(),p.getColor().toString(),
+					p.isInCatalog()?"1":"0",p.getImageName(),p.getPrdID().intValue());
+			EchoServer.fac.dataBase.db.updateQuery(query);
+			myMsgArr.clear();
+			myMsgArr.add(true);
+			return myMsgArr;
+		}
+		throw new Exception();
 	}
 }

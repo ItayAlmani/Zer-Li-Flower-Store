@@ -29,8 +29,8 @@ public class Context {
 	
 	public static Factory fac = new Factory();
 	
-	private static User user;
-	public static Order order;
+	private static User user = null;
+	public static Order order = null;
 	private static boolean needNewOrder=true;
 	public static ParentGUIController mainScene = null;
 	
