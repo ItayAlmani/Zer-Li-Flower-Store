@@ -3,6 +3,7 @@ package izhar.gui.controllers;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.net.URL;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
@@ -68,7 +69,7 @@ public class AssembleProductGUIController extends ProductsPresentationGUIControl
 					stocksByType.add(s);
 				}
 			}
-			min=min!=0f?min-1:0f;
+			min=min!=0f?min:0f;
 			max++;
 			rsPrice.setMin(min.intValue());
 			rsPrice.setMax(max.intValue());
@@ -86,13 +87,15 @@ public class AssembleProductGUIController extends ProductsPresentationGUIControl
 				ptal.add(s.getProduct().getType());
 		}
 		
-		Platform.runLater(new Runnable() {
-			@Override
-			public void run() {
+		if(Platform.isFxApplicationThread()) {
+			cbType.setItems(FXCollections.observableArrayList(ptal));
+			btnSend.setDisable(false);
+		}
+		else
+			Platform.runLater(()->{
 				cbType.setItems(FXCollections.observableArrayList(ptal));
 				btnSend.setDisable(false);
-			}
-		});
+			});
 	}
 	
 	/**
@@ -104,11 +107,14 @@ public class AssembleProductGUIController extends ProductsPresentationGUIControl
 		Float min = Float.parseFloat(txtMinPrice.getText()), 
 				max =Float.parseFloat(txtMaxPrice.getText());
 		stocksByType=Context.fac.product.assembleProduct(type, min, max, color, this.stocks);
-		if(stocksByType.isEmpty()==false) {
+		if(stocksByType.isEmpty()==false)
 			initPage();
-		}
-		else
+		else {
+			if(vbox.getChildren().contains(hxProds))
+				vbox.getChildren().remove(hxProds);
+			initListeners();
 			Context.mainScene.setMessage("Can't assemble right now");
+		}
 	}
 	
 	private void initListeners() {
@@ -147,8 +153,8 @@ public class AssembleProductGUIController extends ProductsPresentationGUIControl
 				Context.mainScene.setMessage("Must enter only integers");
 			}
 		});
-		txtMinPrice.textProperty().addListener(e->Context.mainScene.setMessage(""));
-		txtMaxPrice.textProperty().addListener(e->Context.mainScene.setMessage(""));
+		txtMinPrice.textProperty().addListener(e->Context.mainScene.clearMsg());
+		txtMaxPrice.textProperty().addListener(e->Context.mainScene.clearMsg());
 		txtMaxPrice.textProperty().addListener((obs, oldval, newVal)->{
 			try {
 				rsPrice.setHighValue(Integer.parseInt(newVal));
@@ -168,19 +174,21 @@ public class AssembleProductGUIController extends ProductsPresentationGUIControl
 			setVBox(i, s,addToCart(s.getProduct(),s.getPriceAfterSale()));
 			i++;
 		}
-		Platform.runLater(new Runnable() {
-			@Override
-			public void run() {			
-				if(vbox.getChildren().contains(hxProds)==false)
-					vbox.getChildren().remove(hxProds);
-				hxProds = new HBox(5,pagination);
-				hxProds.setAlignment(Pos.TOP_CENTER);
-				vbox.getChildren().add(vbox.getChildren().size(),hxProds);
-				vbox.setAlignment(Pos.TOP_CENTER);
-				//ParentGUIController.primaryStage.getScene().getWindow().sizeToScene();
-				ParentGUIController.primaryStage.getScene().getWindow().setHeight(ParentGUIController.primaryStage.getMaxHeight());
-			}
-		});
+		if(Platform.isFxApplicationThread())
+			resetView();
+		else
+			Platform.runLater(()->resetView());
+	}
+	
+	private void resetView() {
+		if(vbox.getChildren().contains(hxProds)==false)
+			vbox.getChildren().remove(hxProds);
+		hxProds = new HBox(5,pagination);
+		hxProds.setAlignment(Pos.TOP_CENTER);
+		vbox.getChildren().add(vbox.getChildren().size(),hxProds);
+		vbox.setAlignment(Pos.TOP_CENTER);
+		//ParentGUIController.primaryStage.getScene().getWindow().sizeToScene();
+		ParentGUIController.primaryStage.getScene().getWindow().setHeight(ParentGUIController.primaryStage.getMaxHeight());
 	}
 
 	@Override

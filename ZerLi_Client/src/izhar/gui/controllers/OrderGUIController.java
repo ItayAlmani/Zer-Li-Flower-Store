@@ -33,6 +33,8 @@ public class OrderGUIController implements Initializable {
 		lblDelTime.setText(formatDateTime);
 		lblPayment.setText(ord.getFinalPriceAsString());
 	}
+
+	@FXML public void toMainMenu() {}
 	
 	/*public void toMainMenu() {
 		Context.askOrder();

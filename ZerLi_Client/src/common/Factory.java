@@ -42,4 +42,5 @@ public class Factory {
 	
 	public PaymentAccountController paymentAccount = new PaymentAccountController();
 	public CreditCardController creditCard = new CreditCardController();
+	public SubscriptionController subscription = new SubscriptionController();
 }

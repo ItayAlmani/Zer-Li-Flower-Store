@@ -6,10 +6,16 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.Serializable;
 import java.math.BigInteger;
+import java.text.DecimalFormat;
 
 import izhar.ProductController;
 
 public class Product implements Comparable<Product>, Serializable  {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7016145622425892901L;
+	
 	private BigInteger prdID;
 	private String name;
 	private ProductType type;
@@ -192,7 +198,8 @@ public class Product implements Comparable<Product>, Serializable  {
 	}
 	
 	public String getPriceAsString() {
-		return ((Float)getPrice()).toString() + "¤";
+		DecimalFormat df = new DecimalFormat("##.##");
+		return df.format(getPrice()) + "¤";
 	}
 
 	public byte[] getMybytearray() {

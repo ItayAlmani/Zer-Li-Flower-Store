@@ -80,8 +80,14 @@ public interface IOrder  {
 	 */
 	void getProductsInOrder(BigInteger orderID) throws IOException;
 	
-	
-	void updateFinalPriceByPAT(PaymentAccount pa, Order order) throws IOException;
+	/**
+	 * Updating {@link Order}'s price by {@link PaymentAccount#getRefundAmount()} if exists
+	 * @param pa
+	 * @param order
+	 * @param customer
+	 * @throws IOException
+	 */
+	void getFinalPriceByPAT(PaymentAccount pa, Order order, Customer customer) throws IOException;
 	
 	void getOrAddOrderInProcess(BigInteger customerID, Store store) throws IOException;
 

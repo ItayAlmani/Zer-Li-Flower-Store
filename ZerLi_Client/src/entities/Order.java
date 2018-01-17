@@ -2,11 +2,17 @@ package entities;
 
 import java.io.Serializable;
 import java.math.BigInteger;
+import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 
 public class Order implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1501306332839535896L;
+	
 	private BigInteger orderID;
 	private BigInteger customerID;
 	private DeliveryDetails delivery = null;
@@ -245,11 +251,10 @@ public class Order implements Serializable {
 	}
 	
 	public String getFinalPriceAsString() {
-		if(this.finalPrice == Math.round(finalPrice))
-			return ((Integer)Math.round(finalPrice)).toString()+ "¤";
-		else
-			return ((Float)finalPrice).toString()+ "¤";
+		DecimalFormat df = new DecimalFormat("##.##");
+		return df.format(getFinalPrice()) + "¤";
 	}
+	
 	public String toString()
 	{
 		return this.orderID.toString();

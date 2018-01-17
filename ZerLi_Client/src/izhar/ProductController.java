@@ -4,22 +4,37 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.math.BigInteger;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 import common.Context;
 import controllers.ParentController;
 import entities.CSMessage;
+import entities.Customer;
+import entities.Order;
+import entities.PaymentAccount;
 import entities.CSMessage.MessageType;
 import entities.Product;
 import entities.ProductInOrder;
 import entities.Product.Color;
 import entities.Product.ProductType;
+import entities.Subscription.SubscriptionType;
 import entities.Stock;
+import entities.Subscription;
 import gui.controllers.ParentGUIController;
 import izhar.interfaces.IProduct;
 
 public class ProductController extends ParentController implements IProduct {	
 //------------------------------------------------IN CLIENT--------------------------------------------------------------------
+	public void updatePriceWithSubscription(Order order, Product p, Float price, Customer customer) {
+		PaymentAccount pa = null;
+		if(order.getDelivery() != null && order.getDelivery().getStore() != null)
+			pa = Context.fac.paymentAccount.getPaymentAccountOfStore(
+					customer.getPaymentAccounts(), order.getDelivery().getStore());
+		if(pa!= null && pa.getSub() != null && pa.getSub().getSubType() != null)
+			p.setPrice(Context.fac.subscription.getPriceBySubscription(pa.getSub(), price));
+	} 
+	
 	@Override
 	public ArrayList<Stock> assembleProduct(ProductType type, Float priceStart, Float priceEnd, Color color, ArrayList<Stock> stocks) {
 		ArrayList<Stock> inConditionProds = new ArrayList<>();

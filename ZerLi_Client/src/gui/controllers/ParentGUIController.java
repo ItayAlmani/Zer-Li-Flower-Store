@@ -85,7 +85,7 @@ public class ParentGUIController extends SetUpMainGUIController implements Initi
 	}
 
 	/** Will clear the message in {@link LoadGUIController#lblMsg}*/
-	protected void clearLblMsg() {
+	public void clearMsg() {
 		Context.mainScene.setMessage("");
 	}
 	

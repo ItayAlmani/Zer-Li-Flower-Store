@@ -51,7 +51,6 @@ public class ProductInOrderController extends ParentController{
 				"	JOIN product ON ordCart.productID=product.productID" + 
 				" ) AS prodInOrd, product prd" + 
 				" WHERE prodInOrd.productID = prd.productID"
-				//+ " AND prodInOrd.quantity>0"
 				;
 		return handleGet(EchoServer.fac.dataBase.db.getQuery(query));
 	}

@@ -7,7 +7,6 @@ import java.math.BigInteger;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.temporal.Temporal;
 import java.util.ArrayList;
 
 import common.Context;
@@ -31,6 +30,43 @@ import izhar.interfaces.IOrder;
 
 public class OrderController extends ParentController implements IOrder {
 //------------------------------------------------IN CLIENT--------------------------------------------------------------------	
+	@SuppressWarnings("unused")
+	public ProductInOrder manageCart(Product p, Float price, ProductInOrder pio) {
+		Product prd = new Product(p);	//create new copy
+		Order ord = Context.order;
+		pio = Context.order.containsProduct(prd);
+		
+		if(pio==null) {
+			pio = new ProductInOrder(prd, 1, ord.getOrderID());
+			pio.getProduct().setPrice(price);
+			pio.setFinalPrice();
+			if(ord.getProducts()==null)
+				ord.setProducts(new ArrayList<>());
+			ord.getProducts().add(pio);
+			try {
+				Context.fac.prodInOrder.add(pio, true);
+			} catch (IOException e) {
+				System.err.println("Can't add product\n");
+				Context.mainScene.ShowErrorMsg();
+				return null;
+			}
+		}
+		else {
+			try {
+				pio.getProduct().setPrice(price);
+				pio.setFinalPrice();
+				pio.addOneToQuantity();
+				Context.fac.prodInOrder.update(pio);
+			} catch (Exception e) {
+				System.err.println("Can't update product\n");
+				Context.mainScene.ShowErrorMsg();
+				return null;
+			}
+		}
+		Context.fac.order.calcFinalPriceOfOrder(ord);
+		return pio;
+	}
+	
 	public void handleInsert(BigInteger id) {
 		String methodName = "setOrderID";
 		Method m = null;
@@ -62,25 +98,6 @@ public class OrderController extends ParentController implements IOrder {
 		return true;
 	}
 
-	public void updatePriceWithSubscription(Order order, Customer customer) {
-		PaymentAccount pa = null;
-		if(order.getDelivery() != null && order.getDelivery().getStore() != null)
-			pa = Context.fac.paymentAccount.getPaymentAccountOfStore(
-					customer.getPaymentAccounts(), order.getDelivery().getStore());
-		if(pa!= null && pa.getSub() != null) {
-			LocalDate date = pa.getSub().getSubDate();
-			SubscriptionType type = pa.getSub().getSubType();
-			if(type.equals(SubscriptionType.Monthly)) {
-				if(date.plusMonths(1).isBefore(LocalDate.now()))
-					order.setFinalPrice(order.getFinalPrice()*Subscription.getDiscountInPercent());
-			}
-			else if(type.equals(SubscriptionType.Yearly)) {
-				if(date.plusYears(1).isBefore(LocalDate.now()))
-					order.setFinalPrice(order.getFinalPrice()*Subscription.getDiscountInPercent());
-			}
-		}
-	}
-
 	@Override
 	public Refund differenceDeliveryTimeAndCurrent(DeliveryDetails delivery) {
 		Duration duration = Duration.between(delivery.getDate(), LocalDateTime.now());
@@ -101,11 +118,16 @@ public class OrderController extends ParentController implements IOrder {
 	}
 
 	@Override
-	public void updateFinalPriceByPAT(PaymentAccount pa, Order order) throws IOException {
+	public void getFinalPriceByPAT(PaymentAccount pa, Order order, Customer customer) throws IOException {
 		if(pa != null && pa.getRefundAmount() > 0 && order != null) {
-			order.setFinalPrice(order.getFinalPrice()-pa.getRefundAmount());
-			pa.setRefundAmount(0f);
-			Context.fac.paymentAccount.update(pa);
+			if(pa.getRefundAmount() > order.getFinalPrice()) {
+				order.setFinalPrice(0f);
+				pa.setRefundAmount(pa.getRefundAmount()-order.getFinalPrice());
+			}
+			else {
+				order.setFinalPrice(order.getFinalPrice()-pa.getRefundAmount());
+				pa.setRefundAmount(0f);
+			}
 		}
 	}
 

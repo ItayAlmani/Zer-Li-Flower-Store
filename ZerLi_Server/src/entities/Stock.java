@@ -2,8 +2,14 @@ package entities;
 
 import java.io.Serializable;
 import java.math.BigInteger;
+import java.text.DecimalFormat;
 
 public class Stock implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2076505342449438569L;
+	
 	private BigInteger id;
 	private Product product;
 	private int quantity;
@@ -79,7 +85,8 @@ public class Stock implements Serializable {
 	}
 	
 	public String getPriceAfterSaleAsString() {
-		return getPriceAfterSale().toString() + "¤";
+		DecimalFormat df = new DecimalFormat("##.##");
+		return df.format(getPriceAfterSale()) + "¤";
 	}
 	
 	@Override

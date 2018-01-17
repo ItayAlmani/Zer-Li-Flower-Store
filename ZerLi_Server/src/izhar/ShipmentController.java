@@ -4,10 +4,8 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 
 import common.EchoServer;
-import common.ServerController;
 import controllers.ParentController;
 import entities.DeliveryDetails;
-import entities.Order;
 import entities.ShipmentDetails;
 
 public class ShipmentController extends ParentController {
@@ -64,14 +62,44 @@ public class ShipmentController extends ParentController {
 	}
 
 	@Override
-	public ArrayList<Object> handleGet(ArrayList<Object> obj) {
-		// TODO Auto-generated method stub
-		return null;
+	public ArrayList<Object> handleGet(ArrayList<Object> obj) throws Exception {
+		if(obj == null) return null;
+		ArrayList<Object> ships = new ArrayList<>();
+		for (int i = 0; i < obj.size(); i += 7) {
+			ships.add(parse(
+					BigInteger.valueOf((Integer) obj.get(i)), 
+					BigInteger.valueOf((Integer) obj.get(i+1)), 
+					(String)obj.get(i+2),
+					(String)obj.get(i+3),
+					(String)obj.get(i+4),
+					(String)obj.get(i+5),
+					(String)obj.get(i+6)
+					));
+		}
+		return ships;
 	}
 
+	public ArrayList<Object> getShipmentByID(BigInteger shipmentID) throws Exception{
+		String query = "SELECT *" + 
+				" FROM shipmentdetails" + 
+				" WHERE shipmentID='"+shipmentID.toString()+"'";
+		return handleGet(EchoServer.fac.dataBase.db.getQuery(query));
+	}
+	
 	@Override
 	public ArrayList<Object> update(Object obj) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	public ShipmentDetails parse(BigInteger shipmentID, BigInteger deliveryID, String street,
+			String city, String postCode, String customerName, String phoneNumber) throws Exception {
+		ArrayList<Object> delObjs = EchoServer.fac.pickup.getDeliveryByID(deliveryID);
+		if(delObjs!=null && delObjs.size()==1 && delObjs.get(0) instanceof DeliveryDetails) {
+			return new ShipmentDetails(shipmentID, 
+					(DeliveryDetails)delObjs.get(0),
+					street, city, postCode, customerName, phoneNumber);
+		}
+		throw new Exception();
 	}
 }

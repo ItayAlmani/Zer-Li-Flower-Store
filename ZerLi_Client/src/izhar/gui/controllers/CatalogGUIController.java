@@ -40,8 +40,14 @@ public class CatalogGUIController extends ProductsPresentationGUIController {
     	int i = 0;
 		for (Stock stk : stocks) {
 			if(stk.getProduct().isInCatalog()) {
-				setVBox(i, stk,addToCart(stk.getProduct(),stk.getPriceAfterSale()));
-				i++;
+				try {
+					Context.fac.product.updatePriceWithSubscription(Context.order,stk.getProduct(), stk.getPriceAfterSale(), Context.getUserAsCustomer());
+					setVBox(i, stk,addToCart(stk.getProduct(),stk.getPriceAfterSale()));
+					i++;
+				} catch (Exception e) {
+					Context.mainScene.loadMainMenu("Your'e not customer");
+					return;
+				}
 			}
 		}
 		

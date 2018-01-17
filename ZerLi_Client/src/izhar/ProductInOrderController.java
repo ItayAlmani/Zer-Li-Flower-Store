@@ -16,28 +16,28 @@ import gui.controllers.ParentGUIController;
 import izhar.interfaces.IProductInOrder;
 
 public class ProductInOrderController extends ParentController implements IProductInOrder {	
-//------------------------------------------------IN CLIENT--------------------------------------------------------------------	
-	public void updatePriceWithSubscription(Order order, ProductInOrder pio, Customer customer) {
-		PaymentAccount pa = null;
-		if(order.getDelivery() != null && order.getDelivery().getStore() != null)
-			pa = Context.fac.paymentAccount.getPaymentAccountOfStore(
-					customer.getPaymentAccounts(), order.getDelivery().getStore());
-		if(pa!= null && pa.getSub() != null && pa.getSub().getSubType() != null) {
-			LocalDate date = pa.getSub().getSubDate();
-			SubscriptionType type = pa.getSub().getSubType();
-			if(type.equals(SubscriptionType.Monthly)) {
-				if(date.plusMonths(1).isBefore(LocalDate.now()))
-					pio.setFinalPrice(pio.getFinalPrice()*(1-Subscription.getDiscountInPercent()));
-			}
-			else if(type.equals(SubscriptionType.Yearly)) {
-				if(date.plusYears(1).isBefore(LocalDate.now()))
-					pio.setFinalPrice(pio.getFinalPrice()*(1-Subscription.getDiscountInPercent()));
-			}
-		}
-	}
-	
+//------------------------------------------------IN CLIENT--------------------------------------------------------------------		
 	public float calcFinalPrice(ProductInOrder p) {
 		return p.getQuantity()*p.getProduct().getPrice();
+	}
+	
+	public void updatePricesByStock(ArrayList<ProductInOrder> prds, Store store) throws Exception {
+		for (ProductInOrder pio : prds) {
+			boolean foundMatch = false;
+			for (Stock stk : store.getStock()) {
+				if(pio.getProduct().getPrdID().equals(stk.getProduct().getPrdID())) {
+					float priceBeforeChange = pio.getProduct().getPrice();
+					pio.getProduct().setPrice(stk.getPriceAfterSale());
+					//if the price changed, recalculate the final price of the pio
+					if(priceBeforeChange!=stk.getPriceAfterSale().floatValue())
+						pio.setFinalPrice();
+					foundMatch=true;
+					break;
+				}
+			}
+			if(!foundMatch)
+				throw new Exception(pio.getProduct().toString());
+		}
 	}
 	
 	public ProductInOrder getPIOFromArr(ArrayList<ProductInOrder> prods, Product prod) {
@@ -58,7 +58,7 @@ public class ProductInOrderController extends ParentController implements IProdu
 	public ArrayList<ProductInOrder> getPIOsNot0Quantity(ArrayList<ProductInOrder> prds) {
 		ArrayList<ProductInOrder> pios = new ArrayList<>();
 		if(prds==null || prds.isEmpty())
-			return null;
+			return pios;
 		for (ProductInOrder pio : prds)
 			if(pio.getQuantity()>0)
 				pios.add(pio);

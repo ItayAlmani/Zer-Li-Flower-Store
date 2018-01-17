@@ -64,7 +64,6 @@ public abstract class ProductsPresentationGUIController implements Initializable
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		ParentGUIController.currentGUI = this;
 		getProducts();
 	}
 	
@@ -125,7 +124,7 @@ public abstract class ProductsPresentationGUIController implements Initializable
 		else if(o instanceof ProductInOrder) {
 			pio = (ProductInOrder)o;
 			prd = pio.getProduct();
-			price=pio.getFinalPriceAsString();
+			price = pio.getFinalPriceAsString();
 			btnText="Update quantity";
 			mi = MaterialIcon.REPEAT;
 		}
@@ -231,45 +230,13 @@ public abstract class ProductsPresentationGUIController implements Initializable
 	 * @return
 	 */
 	protected EventHandler<ActionEvent> addToCart(Product p, Float price){
-    	return new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				if(event.getSource() instanceof Button) {
-					Product prd = new Product(p);	//create new copy
-					prd.setPrice(price);
-					pio = Context.order.containsProduct(prd);
-					
-					if(pio==null) {
-						pio = new ProductInOrder(prd, 1, Context.order.getOrderID());
-						if(Context.order.getProducts()==null)
-							Context.order.setProducts(new ArrayList<>());
-						Context.order.getProducts().add(pio);
-						try {
-							Context.fac.prodInOrder.add(pio, true);
-						} catch (IOException e) {
-							System.err.println("Can't add product\n");
-							e.printStackTrace();
-							return;
-						}
-					}
-					else {
-						try {
-							pio.addOneToQuantity();
-							Context.fac.prodInOrder.updatePriceWithSubscription(Context.order,pio, Context.getUserAsCustomer());
-							Context.fac.prodInOrder.update(pio);
-						} catch (Exception e) {
-							System.err.println("Can't update product\n");
-							e.printStackTrace();
-							return;
-						}
-					}
-					Context.fac.order.calcFinalPriceOfOrder(Context.order);
-				}
-			}
-		};
+    	return (event)->pio=Context.fac.order.manageCart(p, price, pio);
     }
 	
 	public void setPIOID(BigInteger id) {
-		pio.setId(id);
+		if(pio!=null)
+			pio.setId(id);
+		else
+			Context.mainScene.ShowErrorMsg();
 	}
 }

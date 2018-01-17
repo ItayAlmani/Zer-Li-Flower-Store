@@ -49,6 +49,5 @@
             <Label fx:id="lblPayment" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="3" />
          </children>
       </GridPane>
-      <Button mnemonicParsing="false" onAction="#toMainMenu" text="Go to main menu" />
    </children>
 </VBox>

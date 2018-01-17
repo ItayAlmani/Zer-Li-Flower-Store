@@ -305,8 +305,13 @@ public class OrderController extends ParentController{
 			DeliveryType dt = DeliveryType.valueOf(deliveryType);
 			if(dt.equals(DeliveryType.Shipment)) {
 				if(shipmentID!=null) {
-					dl = new ShipmentDetails(shipmentID);
-					//IMPLEMENT GET SHIPMENT FROM DB
+					ArrayList<Object> shipsObj = EchoServer.fac.shipment.getShipmentByID(shipmentID);
+					if(shipsObj!=null && shipsObj.size()==1 && shipsObj.get(0) instanceof ShipmentDetails)
+						dl=(DeliveryDetails)shipsObj.get(0);
+					else {
+						System.err.println("No shipment");
+						throw new Exception();
+					}
 				}
 			}
 		}

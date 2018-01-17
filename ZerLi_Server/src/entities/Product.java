@@ -1,15 +1,15 @@
 package entities;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.Serializable;
 import java.math.BigInteger;
-
-import izhar.ProductController;
+import java.text.DecimalFormat;
 
 public class Product implements Comparable<Product>, Serializable  {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7016145622425892901L;
+	
 	private BigInteger prdID;
 	private String name;
 	private ProductType type;
@@ -192,7 +192,8 @@ public class Product implements Comparable<Product>, Serializable  {
 	}
 	
 	public String getPriceAsString() {
-		return ((Float)getPrice()).toString() + "¤";
+		DecimalFormat df = new DecimalFormat("##.##");
+		return df.format(getPrice()) + "¤";
 	}
 
 	public byte[] getMybytearray() {

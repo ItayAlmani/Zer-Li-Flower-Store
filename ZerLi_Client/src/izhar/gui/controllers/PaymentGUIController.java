@@ -3,6 +3,7 @@ package izhar.gui.controllers;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.net.URL;
+import java.text.DecimalFormat;
 import java.util.Random;
 import java.util.ResourceBundle;
 
@@ -47,13 +48,13 @@ public class PaymentGUIController implements Initializable {
 	private @FXML FontAwesomeIconView icnCash;
 	private @FXML OctIconView icnCreditCard;
 	private @FXML MaterialDesignIconView icnNext;
-	private String priceBeforeDiscount;
+	private float priceBeforeDiscount;
+	private String priceBeforeDiscountStr;
+	private PaymentAccount pa;
 	
 	private String getFinalPriceAsStr(Float ordPrice) {
-    	if(ordPrice == Math.round(ordPrice))
-			return ((Integer)Math.round(ordPrice)).toString()+ "¤";
-		else
-			return ordPrice.toString()+ "¤";
+    	DecimalFormat df = new DecimalFormat("##.##");
+		return df.format(ordPrice) + "¤";
     }
 
 	public void selectedCreditCard() {
@@ -97,42 +98,45 @@ public class PaymentGUIController implements Initializable {
 		        text.setStyle("-fx-text-inner-color: blue;");
 		     }
 		});
-		Thread th = new Thread(new Runnable() {
-			@Override
-			public void run() {
-				double prog = 0;
+		billingProgress();	
+	}
+	
+	private void setByBillResponse(boolean billResponse) {
+		if(billResponse==false) {
+			btnPay.setDisable(true);
+			lblPayMsg.setText("Credit card denied - try again later or pay with cash");
+		}
+		else {
+			btnPay.setDisable(false);
+			lblPayMsg.setText("");
+			payWithCC();
+		}
+	}
+	
+	public void billingProgress() {
+		Thread th = new Thread(()->{
+			double prog = 0;
+			piBill.setProgress(prog);
+			while (prog < 1.0) {
+				double toAdd =0.3f * new Random().nextDouble(); 
+				if(prog+toAdd>=1.0)	prog=1;
+				else				prog+=toAdd;
 				piBill.setProgress(prog);
-				while (prog < 1.0) {
-					double toAdd =0.3f * new Random().nextDouble(); 
-					if(prog+toAdd>=1.0)	prog=1;
-					else				prog+=toAdd;
-					piBill.setProgress(prog);
-					try {
-						Thread.sleep(500);
-					} catch (InterruptedException e) {
-						System.err.println("Thread problem in PaymentGUI");
-						e.printStackTrace();
-					}
+				try {
+					Thread.sleep(500);
+				} catch (InterruptedException e) {
+					System.err.println("Thread problem in PaymentGUI");
+					e.printStackTrace();
 				}
-				boolean billResponse = true;
-				Platform.runLater(new Runnable() {
-					@Override
-					public void run() {
-						if(billResponse==false) {
-							btnPay.setDisable(true);
-							lblPayMsg.setText("Credit card denied - try again later or pay with cash");
-						}
-						else {
-							btnPay.setDisable(false);
-							lblPayMsg.setText("");
-							payWithCC();
-						}
-					}
-				});
 			}
+			boolean billResponse = true;
+			if(Platform.isFxApplicationThread())
+				setByBillResponse(billResponse);
+			else
+				Platform.runLater(()->setByBillResponse(billResponse));
 		});
 		th.setDaemon(true);
-		th.start();		
+		th.start();
 	}
 	
 	private void payWithCC() {
@@ -148,6 +152,7 @@ public class PaymentGUIController implements Initializable {
 		else
 			ord.setGreeting("");
 		try {
+			Context.fac.paymentAccount.update(pa);/////CHHHHHHHECCCCCCCCCk
 			Context.fac.order.add(ord,true);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -169,6 +174,7 @@ public class PaymentGUIController implements Initializable {
 	}
 
 	public void back() {
+		Context.order.setFinalPrice(priceBeforeDiscount);	//prevent double discount
 		Context.mainScene.loadGUI("OrderTimeGUI", false);
 	}
 
@@ -179,24 +185,32 @@ public class PaymentGUIController implements Initializable {
 		rbCredit.setToggleGroup(tGroup);
 		rbCash.setUserData("Cash");
 		rbCash.setToggleGroup(tGroup);
-		priceBeforeDiscount=Context.order.getFinalPriceAsString();
+		priceBeforeDiscountStr=Context.order.getFinalPriceAsString();
+		priceBeforeDiscount=Context.order.getFinalPrice();
 		Customer cust;
 		try {
 			cust = Context.getUserAsCustomer();
 			DeliveryDetails del = Context.order.getDelivery();
-			PaymentAccount pa = Context.fac.paymentAccount.getPaymentAccountOfStore(cust.getPaymentAccounts(), del.getStore());
-			Float refundAmount = pa.getRefundAmount(); 
+			pa = Context.fac.paymentAccount.getPaymentAccountOfStore(cust.getPaymentAccounts(), del.getStore());
+			Float refundAmount = pa.getRefundAmount();
+			Context.fac.order.getFinalPriceByPAT(pa, Context.order,Context.getUserAsCustomer());
 			if(refundAmount>0) {
-				Context.mainScene.setMessage("We have credit in the refund section");
-				lblFinalPrice.setText(priceBeforeDiscount + "-" + 
-						getFinalPriceAsStr(refundAmount) + "=" +
-						Context.order.getFinalPriceAsString());
+				if(refundAmount>Context.order.getFinalPrice()) {
+					Context.mainScene.setMessage("We have credit in the refund section");
+					lblFinalPrice.setText(priceBeforeDiscountStr + "-" + 
+							priceBeforeDiscountStr + "=" +
+							Context.order.getFinalPriceAsString());
+				}
+				else {
+					lblFinalPrice.setText(priceBeforeDiscountStr + "-" + 
+							getFinalPriceAsStr(refundAmount) + "=" +
+							Context.order.getFinalPriceAsString());
+				}
 			}
 			else
-				lblFinalPrice.setText(priceBeforeDiscount);
+				lblFinalPrice.setText(priceBeforeDiscountStr);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-
 }
