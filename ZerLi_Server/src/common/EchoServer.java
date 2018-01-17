@@ -7,6 +7,10 @@ import entities.CSMessage;
 import entities.CSMessage.MessageType;
 import ocsf.server.*;
 
+/**
+ * Port can be written in the command line as argument. Otherwise, the default port is 5555
+ *
+ */
 public class EchoServer extends AbstractServer {
 	// Class variables *************************************************
 
@@ -79,8 +83,14 @@ public class EchoServer extends AbstractServer {
 	 */
 	public static void main(String[] args) {
 		int port = DEFAULT_PORT;
-		if(args.length!=0)
-			port = Integer.parseInt(args[0]);
+		if(args.length!=0) {
+			try {
+				port = Integer.parseInt(args[0]);
+			}catch (NumberFormatException e) {
+				System.err.println(args[0] + " is not a number - enter number for port!");
+				System.exit(0);
+			}
+		}
 		EchoServer sv = new EchoServer(port);
 
 		try {
