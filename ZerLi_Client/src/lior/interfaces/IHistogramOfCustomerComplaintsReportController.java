@@ -1,9 +1,9 @@
 package lior.interfaces;
 
-import java.math.BigInteger;
+import java.io.IOException;
 import java.time.LocalDate;
 
-import interfaces.IParent;
+import entities.Store;
 
 public interface IHistogramOfCustomerComplaintsReportController {
 
@@ -13,5 +13,5 @@ public interface IHistogramOfCustomerComplaintsReportController {
 	 * @param storeID
 	 */
 
-	void ProduceHistogramOfCustomerComplaintsReport(LocalDate Reqdate, BigInteger storeID);
+	void produceHistogramOfCustomerComplaintsReport(LocalDate Reqdate, Store store) throws IOException;
 }

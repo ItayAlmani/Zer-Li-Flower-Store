@@ -12,6 +12,7 @@ import controllers.ParentController;
 import entities.Complaint;
 import entities.Customer;
 import entities.ProductInOrder;
+import entities.Store;
 import entities.Survey;
 import entities.Survey.SurveyType;
 import izhar.ProductController;
@@ -115,11 +116,11 @@ public class ComplaintController extends ParentController {
 	
 	public ArrayList<Object> getComplaintsByStore (Object obj) throws Exception
 	{
-		if(obj instanceof Complaint) {
-			Complaint comp = (Complaint)obj;
+		if(obj instanceof Store) {
+			Store store = (Store)obj;
 		String query = String.format(
-				"SELECT complaint.* FROM survey WHERE storeID = %d",
-				comp.getStoreID());
+				"SELECT * FROM complaint WHERE storeID = %d",
+				store.getStoreID());
 		return handleGet(EchoServer.fac.dataBase.db.getQuery(query));
 		}
 		else throw new SQLException();

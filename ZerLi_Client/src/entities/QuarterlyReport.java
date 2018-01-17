@@ -6,7 +6,7 @@ import java.util.Date;
 
 public abstract class QuarterlyReport implements Serializable {
 	public enum ReportType {
-		Order, Satisfaction, Quantity, Incomes, CustomerComplaints;
+		Order, Satisfaction, Incomes, CustomerComplaints;
 	}
 	
 	private ReportType Type;

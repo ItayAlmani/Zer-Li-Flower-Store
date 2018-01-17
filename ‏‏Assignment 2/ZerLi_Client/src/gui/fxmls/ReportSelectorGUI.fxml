@@ -7,6 +7,7 @@
 <?import javafx.scene.chart.BarChart?>
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.chart.StackedBarChart?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
@@ -116,18 +117,18 @@
             <Label fx:id="lblTotIncome1" layoutX="119.0" layoutY="112.0" text="Totincome" />
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="paneHistogram1" layoutX="16.0" layoutY="183.0" prefHeight="200.0" prefWidth="281.0" visible="false">
+      <AnchorPane fx:id="paneHistogram1" layoutX="4.0" layoutY="183.0" prefHeight="257.0" prefWidth="312.0">
          <children>
-            <BarChart fx:id="Barchart1" layoutX="-125.0" layoutY="-116.0" prefHeight="284.0" prefWidth="375.0" title="Histogram of customer complaints" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <StackedBarChart>
               <xAxis>
                 <CategoryAxis side="BOTTOM" />
               </xAxis>
               <yAxis>
                 <NumberAxis side="LEFT" />
               </yAxis>
-            </BarChart>
+            </StackedBarChart>
          </children></AnchorPane>
-      <AnchorPane fx:id="paneHistogram2" layoutX="310.0" layoutY="183.0" prefHeight="200.0" prefWidth="281.0" visible="false">
+      <AnchorPane fx:id="paneHistogram2" layoutX="302.0" layoutY="183.0" prefHeight="257.0" prefWidth="289.0" visible="false">
          <children>
             <BarChart fx:id="Barchart2" layoutX="-125.0" layoutY="-116.0" prefHeight="284.0" prefWidth="375.0" title="Histogram of customer complaints" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <xAxis>
