@@ -78,7 +78,10 @@ public class EchoServer extends AbstractServer {
 	 * @param args[0]	-	The port number to listen on. Defaults to 5555 if no argument is entered.
 	 */
 	public static void main(String[] args) {
-		EchoServer sv = new EchoServer(DEFAULT_PORT);
+		int port = DEFAULT_PORT;
+		if(args.length!=0)
+			port = Integer.parseInt(args[0]);
+		EchoServer sv = new EchoServer(port);
 
 		try {
 			sv.listen(); // Start listening for connections
