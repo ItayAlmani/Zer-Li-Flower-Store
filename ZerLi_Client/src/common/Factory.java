@@ -35,9 +35,7 @@ public class Factory {
 	
 	public OrderReportController orderReport = new OrderReportController();
 	public IncomesReportController incomesReport = new IncomesReportController();
-
 	public HistogramOfCustomerComplaintsReportController histogramReport = new HistogramOfCustomerComplaintsReportController();
-
 	public SatisfactionReportController satisfactionReport = new SatisfactionReportController();
 	
 	public PaymentAccountController paymentAccount = new PaymentAccountController();

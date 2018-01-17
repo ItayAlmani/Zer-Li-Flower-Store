@@ -15,12 +15,13 @@ import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXToggleButton;
 
 import common.Context;
+import entities.HistogramOfCustomerComplaintsReport;
 import entities.IncomesReport;
 import entities.OrderReport;
+import entities.QuarterlyReport.ReportType;
 import entities.SatisfactionReport;
 import entities.Store;
 import entities.User;
-import entities.QuarterlyReport.ReportType;
 import gui.controllers.ParentGUIController;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -30,6 +31,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.StackedBarChart;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Border;
@@ -44,6 +49,12 @@ public class ReportSelectorGUIController implements Initializable {
 
 	private ArrayList<Store> stores;
 	private BigInteger n, n1;
+	final static String isTreated = "is Treated";
+    final static String isNotTreated = "is Not Treated";
+    final static String isRefunded = "is Refunded";
+    final CategoryAxis xAxis = new CategoryAxis();
+    final NumberAxis yAxis = new NumberAxis();
+    
 
 	// Report1Pick variables
 	private @FXML JFXComboBox<ReportType> cbTypePick1, cbTypePick2;
@@ -72,7 +83,7 @@ public class ReportSelectorGUIController implements Initializable {
 	// Histogram Report General Variables
 	private @FXML AnchorPane paneHistogram1, paneHistogram2;
 	@SuppressWarnings("rawtypes")
-	private @FXML BarChart Barchart1, Barchart2;
+	private @FXML StackedBarChart Barchart1,Barchart2;
 	// Satisfaction Report General Variables
 	private @FXML AnchorPane paneSatisfactionReport1, paneSatisfactionReport2;
 	// Satisfaction Report 1 Variables
@@ -131,6 +142,8 @@ public class ReportSelectorGUIController implements Initializable {
 		paneIncomeReport2.setVisible(false);
 		paneSatisfactionReport1.setVisible(false);
 		paneSatisfactionReport2.setVisible(false);
+		paneHistogram1.setVisible(false);
+		paneHistogram2.setVisible(false);
 		int err = 0;
 		if (cbTypePick1.getValue() != null && cbStorePick1.getValue() != null && DatePicker1.getValue() != null) {
 			LocalDate date = DatePicker1.getValue();
@@ -143,7 +156,7 @@ public class ReportSelectorGUIController implements Initializable {
 					Context.fac.incomesReport.initProduceIncomesReport(date, n);
 
 				else if (cbTypePick1.getValue().equals(ReportType.CustomerComplaints)) {
-					// Context.fac.orderReport.produceOrderReport(date, 1);
+				    Context.fac.histogramReport.initproduceHistogramOfCustomerComplaintsReport(date, cbStorePick1.getValue());
 				} else if (cbTypePick1.getValue().equals(ReportType.Satisfaction)) {
 					Context.fac.satisfactionReport.initProduceSatisfactionReport(date, n);
 				}
@@ -177,8 +190,14 @@ public class ReportSelectorGUIController implements Initializable {
 									Context.fac.incomesReport.initProduceIncomesReport(date1, n1);
 							}
 						} else if (cbTypePick2.getValue().equals(ReportType.CustomerComplaints)) {
-							Context.mainScene.loadGUI("HistogramOfCustomerComplaintsFormGUI", false);
-							// Context.fac.orderReport.produceOrderReport(date1, n1);
+							if (cbTypePick2.getValue().equals(cbTypePick1.getValue()) == false
+									|| date.equals(date1) == false
+									|| cbStorePick1.getValue().equals(cbStorePick2.getValue()) == false) {
+								if (cbTypePick2.getValue().equals(cbTypePick1.getValue())) {
+									Context.fac.histogramReport.produceHistogramOfCustomerComplaintsReport(date1, cbStorePick2.getValue());
+								} else
+									Context.fac.histogramReport.initproduceHistogramOfCustomerComplaintsReport(date1, cbStorePick2.getValue());
+							}
 						}
 
 						else if (cbTypePick2.getValue().equals(ReportType.Satisfaction)) {
@@ -360,6 +379,59 @@ public class ReportSelectorGUIController implements Initializable {
 
 	}
 
+	
+	public void setHistogramOfCustomerComplaintsReports(ArrayList<HistogramOfCustomerComplaintsReport> ccReports) {
+		if (ccReports == null)
+			return;
+		HistogramOfCustomerComplaintsReport rep = ccReports.get(0);
+		LocalDate date = DatePicker1.getValue();
+		if (rep.getStoreID().equals(n) && cbTypePick1.getValue().equals(ReportType.CustomerComplaints)
+				&& date.equals(rep.getEnddate())) {
+			Platform.runLater(new Runnable() {
+				@SuppressWarnings({ "unchecked", "rawtypes" })
+				@Override
+				public void run() {
+					Barchart1.getXAxis().setLabel("Status");       
+					Barchart1.getYAxis().setLabel("Count");
+				    XYChart.Series series1 = new XYChart.Series();
+				    XYChart.Series series2 = new XYChart.Series();
+				    XYChart.Series series3 = new XYChart.Series();
+				    series1.setName("Is Treated");
+				    series1.getData().add(new XYChart.Data(isTreated, rep.getTreatedCnt()));
+				    series2.setName("Is Not Treated");
+				    series2.getData().add(new XYChart.Data(isNotTreated, rep.getNotTreatedCnt()));
+				    series3.setName("Is Refunded");  
+				    series3.getData().add(new XYChart.Data(isRefunded, rep.getRefundedCnt()));
+				    Barchart1.getData().clear();
+				    Barchart1.getData().addAll(series1, series2, series3);
+				}
+			});
+			paneHistogram1.setVisible(true);
+		} else {
+			Platform.runLater(new Runnable() {
+				@SuppressWarnings({ "rawtypes", "unchecked" })
+				@Override
+				public void run() {
+					Barchart2.getXAxis().setLabel("Status");       
+					Barchart2.getYAxis().setLabel("Count");
+				    XYChart.Series series1 = new XYChart.Series();
+				    XYChart.Series series2 = new XYChart.Series();
+				    XYChart.Series series3 = new XYChart.Series();
+				    series1.setName("Is Treated");
+				    series1.getData().add(new XYChart.Data(isTreated, rep.getTreatedCnt()));
+				    series2.setName("Is Not Treated");
+				    series2.getData().add(new XYChart.Data(isNotTreated, rep.getNotTreatedCnt()));
+				    series3.setName("Is Refunded");  
+				    series3.getData().add(new XYChart.Data(isRefunded, rep.getRefundedCnt()));
+				    Barchart2.getData().addAll(series1, series2, series3);
+				    Barchart2.getData().clear();
+				}
+			});
+			paneHistogram2.setVisible(true);
+		}
+
+	}
+	
 	public void hideReport2(ActionEvent event) {
 		if (!this.ToggleReport2.isSelected())
 			paneReport2.setVisible(false);
@@ -367,6 +439,9 @@ public class ReportSelectorGUIController implements Initializable {
 			paneReport2.setVisible(true);
 
 	}
+	
+	
+	
 
 	public void Backtomainmenuhandler(ActionEvent event) throws Exception {
 		Context.mainScene.loadMainMenu();
