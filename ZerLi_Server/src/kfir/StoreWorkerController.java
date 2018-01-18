@@ -38,14 +38,17 @@ public class StoreWorkerController extends ParentController{
 		for (int i = 0; i < obj.size(); i += 2) {
 			sw.add(parse(
 					BigInteger.valueOf((Integer)obj.get(i)),
-					(Store)(EchoServer.fac.store.getStoreByID(BigInteger.valueOf((Integer)obj.get(i))).get(0))));
+					BigInteger.valueOf((Integer)obj.get(i+1))));
 		}
 		return sw;
 	}
 	
-	public StoreWorker parse(BigInteger storeWorkerID, Store store)
+	public StoreWorker parse(BigInteger storeWorkerID, BigInteger storeID) throws Exception
 	{
-		return new StoreWorker(storeWorkerID,store);
+		ArrayList<Object> strObjs = EchoServer.fac.store.getStoreByID(storeID);
+		if(strObjs!=null && strObjs.size()==1 && strObjs.get(0) instanceof Store)
+			return new StoreWorker(storeWorkerID,(Store)strObjs.get(0));
+		throw new Exception();
 	}
 
 	@Override
