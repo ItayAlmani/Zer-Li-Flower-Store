@@ -11,7 +11,6 @@ import common.EchoServer;
 import controllers.*;
 import entities.*;
 import entities.CSMessage.MessageType;
-import entities.Store.StoreType;
 import izhar.ProductController;
 
 public class StoreController extends ParentController {
@@ -20,13 +19,12 @@ public class StoreController extends ParentController {
 	public ArrayList<Object> handleGet(ArrayList<Object> obj) throws Exception{
 		if(obj == null) return null;
 		ArrayList<Object> stores = new ArrayList<>();
-		for (int i = 0; i < obj.size(); i += 4)
+		for (int i = 0; i < obj.size(); i += 3)
 			stores.add(parse
 					(
 					BigInteger.valueOf(Long.valueOf((int) obj.get(i))), 
-					(String) obj.get(i + 2), 
 					BigInteger.valueOf((int)obj.get(i+1)),
-					(String) obj.get(i + 3))
+					(String) obj.get(i + 2))
 					);
 		return stores;
 	}
@@ -44,9 +42,9 @@ public class StoreController extends ParentController {
 			Store store = (Store)obj;
 			String query = String.format(
 				"UPDATE store " + 
-				" SET storeID=%d, managerID=%d,type=%s,name=%s" + 
+				" SET storeID=%d, managerID=%d,name=%s" + 
 				" WHERE storeID=%d",
-				store.getStoreID(),store.getManager().getUserID(),store.getType().toString(),store.getName());
+				store.getStoreID(),store.getManager().getUserID(),store.getName());
 			EchoServer.fac.dataBase.db.updateQuery(query);
 			myMsgArr.clear();
 			myMsgArr.add(true);
@@ -54,16 +52,6 @@ public class StoreController extends ParentController {
 		}
 		else
 			throw new Exception();
-	}
-
-	public ArrayList<Object> getAllPhysicalStores() throws Exception {
-		String query = "SELECT store.*" + 
-				"FROM store" + 
-				"WHERE store.type='Physical'";
-		ArrayList<Object> arr = handleGet(EchoServer.fac.dataBase.db.getQuery(query));
-		if(arr==null)
-			throw new SQLException("Error in Store Worker of Store(s)\n");
-		return arr;	
 	}
 	
 	public ArrayList<Object> getStoreByID(BigInteger storeID) throws Exception{
@@ -104,11 +92,11 @@ public class StoreController extends ParentController {
 		}
 	}
 	
-	public Store parse(BigInteger storeID, String type, BigInteger managerID, String name) throws Exception {
+	public Store parse(BigInteger storeID, BigInteger managerID, String name) throws Exception {
 		ArrayList<Object> strWrksObj = EchoServer.fac.storeWorker.getStoreWorkerByUser(managerID),
 				stocksObj = EchoServer.fac.stock.getStockByStore(storeID);
 		if(strWrksObj!=null && strWrksObj.size()==1) {
-			Store s =  new Store(storeID, name, StoreType.valueOf(type), (StoreWorker)strWrksObj.get(0));
+			Store s =  new Store(storeID, name, (StoreWorker)strWrksObj.get(0));
 			s.setStock(new ArrayList<>());
 			for (Object o : stocksObj) {
 				if(o instanceof Stock)

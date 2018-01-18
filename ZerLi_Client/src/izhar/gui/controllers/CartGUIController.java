@@ -7,6 +7,7 @@ import com.jfoenix.controls.JFXButton;
 
 import common.Context;
 import entities.Order;
+import entities.Product;
 import entities.ProductInOrder;
 import entities.Store;
 import javafx.application.Platform;
@@ -189,5 +190,11 @@ public class CartGUIController extends ProductsPresentationGUIController {
 			Context.mainScene.loadGUI("DeliveryGUI", false);
 		} else
 			Context.mainScene.setMessage("Cart is empty!");
+	}
+
+	@Override
+	protected void getProducts(ArrayList<Product> prds) {
+		// TODO Auto-generated method stub
+		
 	}
 }

@@ -11,14 +11,13 @@ import entities.Product;
 import entities.Stock;
 import entities.Store;
 import entities.StoreWorker;
-import entities.Store.StoreType;
 
 public class StoreWorkerController extends ParentController{
 
 	public ArrayList<Object> getStoreWorkerByUser(BigInteger userID) throws Exception {
 		myMsgArr.clear();
 		StoreWorker sw = new StoreWorker(userID);
-		sw.setStore(new Store(BigInteger.ONE, "Karmiel", StoreType.Physical, sw));
+		sw.setStore(new Store(BigInteger.ONE, "Karmiel", sw));
 		ArrayList<Stock> stocks = new ArrayList<>();
 		ArrayList<Object> prdsObj = EchoServer.fac.product.getAllProducts();
 		for (Object pObj : prdsObj) {

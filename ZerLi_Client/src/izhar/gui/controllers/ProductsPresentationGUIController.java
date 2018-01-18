@@ -13,6 +13,7 @@ import com.jfoenix.controls.JFXButton.ButtonType;
 import common.Context;
 import de.jensd.fx.glyphs.materialicons.MaterialIcon;
 import de.jensd.fx.glyphs.materialicons.MaterialIconView;
+import entities.PaymentAccount;
 import entities.Product;
 import entities.ProductInOrder;
 import entities.Stock;
@@ -65,13 +66,23 @@ public abstract class ProductsPresentationGUIController implements Initializable
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		try {
-			if(Context.order!=null && 
+			ArrayList<PaymentAccount> pas = Context.getUserAsCustomer().getPaymentAccounts();
+			if(pas != null && !pas.isEmpty() && Context.order!=null && 
 	    			Context.order.getDelivery()!=null && 
 	    			Context.order.getDelivery().getStore()!=null)
 				Context.fac.stock.getStockByStore(Context.order.getDelivery().getStore().getStoreID());
-		} catch (IOException e) {
+			else {
+				Context.fac.product.getProductsInCatalog();
+				Context.mainScene.setMessage("For creating an order, approach to a store and open payment account");
+			}
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public void setProducts(ArrayList<Product> prds) {
+		if(prds!=null)
+			getProducts(prds);
 	}
 	
 	public void setStocks(ArrayList<Stock> stocks) {
@@ -81,7 +92,8 @@ public abstract class ProductsPresentationGUIController implements Initializable
     	}
     }
 	
-	protected abstract void getProducts();	
+	protected abstract void getProducts();
+	protected abstract void getProducts(ArrayList<Product> prds);
 	
 	protected void initArrays(int size) {
 		components.clear();
@@ -120,7 +132,7 @@ public abstract class ProductsPresentationGUIController implements Initializable
 		ProductInOrder pio = null;
 		Stock stk = null;
 		String price = null, btnText = null, priceAfterSale = null;
-		MaterialIcon mi;
+		MaterialIcon mi = null;
 		
 		vbxProduct[i] = new VBox();
     	vbxProduct[i].setAlignment(Pos.CENTER);
@@ -141,6 +153,10 @@ public abstract class ProductsPresentationGUIController implements Initializable
 			price = pio.getFinalPriceAsString();
 			btnText="Update quantity";
 			mi = MaterialIcon.REPEAT;
+		}
+		else if(o instanceof Product) {
+			prd = (Product)o;
+			price = prd.getPriceAsString();
 		}
 		else return;
 		ByteArrayInputStream bais = new ByteArrayInputStream(prd.getMybytearray());
@@ -192,18 +208,20 @@ public abstract class ProductsPresentationGUIController implements Initializable
 		else
 			setComponent(lblShowPrice[i],1, j, i);
 		
-		btnFinalProduct[i] = new JFXButton(btnText);
-		btnFinalProduct[i].setButtonType(ButtonType.RAISED);
-		btnFinalProduct[i].setRipplerFill(Color.ORANGE);
-		btnFinalProduct[i].setUserData(pio);
-		btnFinalProduct[i].setOnAction(btnHandler);
-		icnButtons[i] = new MaterialIconView(mi);
-		icnButtons[i].setSize("15");
-		icnButtons[i].setFont(Font.font("Material Icons", 15));
-		icnButtons[i].setFill(Color.ORANGE);
-		btnFinalProduct[i].setGraphic(icnButtons[i]);
-		btnFinalProduct[i].setTextFill(Color.ORANGE);
-		btnFinalProduct[i].setFont(Font.font(15));
+		if(btnHandler!=null) {
+			btnFinalProduct[i] = new JFXButton(btnText);
+			btnFinalProduct[i].setButtonType(ButtonType.RAISED);
+			btnFinalProduct[i].setRipplerFill(Color.ORANGE);
+			btnFinalProduct[i].setUserData(pio);
+			btnFinalProduct[i].setOnAction(btnHandler);
+			icnButtons[i] = new MaterialIconView(mi);
+			icnButtons[i].setSize("15");
+			icnButtons[i].setFont(Font.font("Material Icons", 15));
+			icnButtons[i].setFill(Color.ORANGE);
+			btnFinalProduct[i].setGraphic(icnButtons[i]);
+			btnFinalProduct[i].setTextFill(Color.ORANGE);
+			btnFinalProduct[i].setFont(Font.font(15));
+		}
 		
 		for (Node node : components) {
 			GridPane.setHalignment(node, HPos.CENTER);
@@ -211,18 +229,14 @@ public abstract class ProductsPresentationGUIController implements Initializable
 		}
 		grids[i].getChildren().addAll(components);
 		vbxProduct[i].setFillWidth(true);
-		vbxProduct[i].getChildren().add(btnFinalProduct[i]);
+		if(btnHandler!=null)
+			vbxProduct[i].getChildren().add(btnFinalProduct[i]);
 		vbxProduct[i].setUserData(i);
 		vbxProduct[i].getStylesheets().add(getClass().getResource("/gui/css/ParentCSS.css").toExternalForm());
 		
 		components.clear();
 		
-		pagination.setPageFactory(new Callback<Integer, Node>() {
-            @Override
-            public Node call(Integer pageIndex) {
-            	return vbxProduct[pageIndex];
-            }
-		});
+		pagination.setPageFactory((pageIndex)->vbxProduct[pageIndex]);
 	}
 	
 	protected Color getRandomColor(Product prod) {

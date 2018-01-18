@@ -5,9 +5,6 @@ import java.math.BigInteger;
 import java.text.DecimalFormat;
 
 public class ProductInOrder implements Serializable  {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 6752719813371350105L;
 	
 	private BigInteger id;

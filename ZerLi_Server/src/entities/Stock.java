@@ -5,9 +5,7 @@ import java.math.BigInteger;
 import java.text.DecimalFormat;
 
 public class Stock implements Serializable {
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 2076505342449438569L;
 	
 	private BigInteger id;

@@ -204,4 +204,10 @@ public class AssembleProductGUIController extends ProductsPresentationGUIControl
     		Context.mainScene.setMessage("Can't open catalog right now!");
 		initListeners();
 	}
+
+	@Override
+	protected void getProducts(ArrayList<Product> prds) {
+		// TODO Auto-generated method stub
+		
+	}
 }

@@ -11,7 +11,6 @@ import controllers.ParentController;
 import entities.CSMessage;
 import entities.CSMessage.MessageType;
 import entities.Store;
-import entities.Store.StoreType;
 import entities.StoreWorker;
 import gui.controllers.ParentGUIController;
 import itayNron.interfaces.IStore;
@@ -54,22 +53,6 @@ public class StoreController extends ParentController implements IStore {
 		myMsgArr.add(Thread.currentThread().getStackTrace()[1].getMethodName());
 		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.SELECT,myMsgArr,Store.class));
 	}
-	
-	public ArrayList<Store> getOrdersOnlyStoresFromArrayList(ArrayList<Store> allStores){
-		ArrayList<Store> ordersOnly = new ArrayList<>();
-		for (Store store : allStores)
-			if(store.getType().equals(StoreType.OrdersOnly))
-				ordersOnly.add(store);
-		return ordersOnly;
-	}
-	
-	public ArrayList<Store> getPhysicalStoresFromArrayList(ArrayList<Store> allStores){
-		ArrayList<Store> physicals = new ArrayList<>();
-		for (Store store : allStores)
-			if(store.getType().equals(StoreType.Physical))
-				physicals.add(store);
-		return physicals;
-	}
 
 	@Override
 	public void update(Store store) throws IOException {
@@ -81,7 +64,7 @@ public class StoreController extends ParentController implements IStore {
 
 	@Override
 	public Store parse(BigInteger storeID, String type, BigInteger managerID, String name)  {
-		return new Store(storeID, name, StoreType.valueOf(type), new StoreWorker(managerID));
+		return new Store(storeID, name, new StoreWorker(managerID));
 		
 	}
 

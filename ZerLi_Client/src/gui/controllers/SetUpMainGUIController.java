@@ -12,6 +12,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.control.Tooltip;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 
 public class SetUpMainGUIController extends LoadGUIController {
 	protected void setUpInit() throws IOException {
@@ -26,54 +28,63 @@ public class SetUpMainGUIController extends LoadGUIController {
     	Customer cust;
 		try {
 			cust = Context.getUserAsCustomer();
-			for (PaymentAccount pa : cust.getPaymentAccounts()) {
+			for (PaymentAccount pa : cust.getPaymentAccounts())
 				stores.add(pa.getStore());
+			//Customer with no payment accounts
+			if(stores.isEmpty()) {
+				cbStores.setVisible(false);
+				ObservableList<Node> hbc = hbCustomer.getChildren();
+				hbc.clear();
+				if(!hbc.addAll(icnCatalog, icnAssemble))
+					System.err.println("Can't add icons");
 			}
-			cbStores.setItems(FXCollections.observableArrayList(stores));
-			cbStores.getSelectionModel().selectFirst();
+			else {
+				cbStores.setItems(FXCollections.observableArrayList(stores));
+				cbStores.getSelectionModel().selectFirst();
+				cbStores.setVisible(true);
+			}
 			ObservableList<Node> child = hbChangingIcons.getChildren();
 			child.clear();
-			child.add(hbCustomer);
+			child.add(paneCustomer);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		cbStores.setVisible(true);
 	}
 	
 	protected void setUpStoreWorkerMenu() {
 		ObservableList<Node> child = hbChangingIcons.getChildren();
 		child.clear();
-		child.addAll(hbCustServiceData,hbOrders);
+		child.addAll(paneCustServiceData,paneOrders);
 	}
 	
 	protected void setUpStoreManagerMenu() {
 		ObservableList<Node> child = hbChangingIcons.getChildren();
 		child.clear();
-		child.addAll(hbCustServiceData,hbOrders,hbCustomersInfo);
+		child.addAll(paneCustServiceData,paneOrders,paneCustomersInfo);
 	}
 	
 	protected void setUpServiceExpertMenu() {
 		ObservableList<Node> child = hbChangingIcons.getChildren();
 		child.clear();
-		child.addAll(hbCustServiceData,hbCustomersInfo);
+		child.addAll(paneCustServiceData,paneCustomersInfo);
 	}
 	
 	protected void setUpCustomerServiceWorkerMenu() {
 		ObservableList<Node> child = hbChangingIcons.getChildren();
 		child.clear();
-		child.addAll(hbCustServiceData,hbCustomersInfo);
+		child.addAll(paneCustServiceData,paneCustomersInfo);
 	}
 	
 	protected void setUpChainStoreWorkerMenu() {
 		ObservableList<Node> child = hbChangingIcons.getChildren();
 		child.clear();
-		child.addAll(hbCustServiceData,hbOrders,hbCustomersInfo);
+		child.addAll(paneCustServiceData,paneOrders,paneCustomersInfo);
 	}
 	
 	protected void setUpChainStoreManagerMenu() {
 		ObservableList<Node> child = hbChangingIcons.getChildren();
 		child.clear();
-		child.addAll(hbCustServiceData,hbOrders,hbCustomersInfo);
+		child.addAll(paneCustServiceData,paneOrders,paneCustomersInfo);
 	}
 
 	protected void setUpToolTips() {

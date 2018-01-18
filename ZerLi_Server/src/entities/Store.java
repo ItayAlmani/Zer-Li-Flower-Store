@@ -6,15 +6,9 @@ import java.util.ArrayList;
 
 public class Store implements Serializable  {
 	
-	public enum StoreType {
-		Physical,
-		OrdersOnly
-	}
-	
 	private BigInteger storeID;
 	private String name;
 	private ArrayList<Stock> stock = null;
-	private StoreType type;
 	private StoreWorker manager;
 	
 	public BigInteger getStoreID() {
@@ -30,15 +24,12 @@ public class Store implements Serializable  {
 	
 	
 	
-	public Store(BigInteger storeID, String name, StoreType type, StoreWorker manager) {
+	public Store(BigInteger storeID, String name, StoreWorker manager) {
 		super();
 		this.storeID = storeID;
 		this.name = name;
-		this.type = type;
 		this.manager = manager;
 	}
-
-
 	
 	public void setStoreID(BigInteger storeID) {
 		this.storeID = storeID;
@@ -49,12 +40,7 @@ public class Store implements Serializable  {
 	public void setStock(ArrayList<Stock> stock) {
 		this.stock = stock;
 	}
-	public StoreType getType() {
-		return type;
-	}
-	public void setType(StoreType type) {
-		this.type = type;
-	}
+	
 	public StoreWorker getManager() {
 		return manager;
 	}

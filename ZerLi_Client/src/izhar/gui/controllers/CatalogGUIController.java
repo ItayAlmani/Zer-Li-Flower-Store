@@ -1,25 +1,17 @@
 package izhar.gui.controllers;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
-import com.jfoenix.controls.JFXComboBox;
-
 import common.Context;
-import entities.Customer;
-import entities.PaymentAccount;
 import entities.Product;
 import entities.Stock;
-import entities.Store;
 import javafx.application.Platform;
-import javafx.collections.FXCollections;
-import javafx.fxml.FXML;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
 import javafx.scene.control.Pagination;
 
 public class CatalogGUIController extends ProductsPresentationGUIController {
 	private ArrayList<Stock> stocks = new ArrayList<>();
+	private ArrayList<Product> prds = null;
     
     protected void getProducts() {
     	if(Context.order!=null && 
@@ -28,29 +20,50 @@ public class CatalogGUIController extends ProductsPresentationGUIController {
     		this.stocks=Context.fac.stock.getInCatalogOnlyStock(Context.order.getDelivery().getStore().getStock());
 			createCatalog();
     	}
+    	else 
+    		Context.mainScene.setMessage("Can't open catalog right now!");
+	}
+    
+    protected void getProducts(ArrayList<Product> prds) {
+    	if(prds!=null && !prds.isEmpty()) {
+    		this.prds=prds;
+    		this.stocks=null;
+			createCatalog();
+    	}
     	else
     		Context.mainScene.setMessage("Can't open catalog right now!");
 	}
 
     public void createCatalog() {	
     	components.clear();
-		initArrays(stocks.size());
+    	int size = stocks!=null?stocks.size():(prds!=null?prds.size():0);
+		initArrays(size);
 		Pagination oldPag = pagination;
 		
-    	pagination  = new Pagination(stocks.size(), 0);
-    	int i = 0;
-		for (Stock stk : stocks) {
-			if(stk.getProduct().isInCatalog()) {
-				try {
-					Context.fac.product.updatePriceWithSubscription(Context.order,stk.getProduct(), stk.getPriceAfterSale(), Context.getUserAsCustomer());
-					setVBox(i, stk,addToCart(stk.getProduct(),stk.getPriceAfterSale()));
-					i++;
-				} catch (Exception e) {
-					Context.mainScene.loadMainMenu("Your'e not customer");
-					return;
+    	pagination  = new Pagination(size, 0);
+    	
+    	if(stocks!=null) {
+	    	int i = 0;
+			for (Stock stk : stocks) {
+				if(stk.getProduct().isInCatalog()) {
+					try {
+						Context.fac.product.updatePriceWithSubscription(Context.order,stk.getProduct(), stk.getPriceAfterSale(), Context.getUserAsCustomer());
+						setVBox(i, stk,addToCart(stk.getProduct(),stk.getPriceAfterSale()));
+						i++;
+					} catch (Exception e) {
+						Context.mainScene.loadMainMenu("Your'e not customer");
+						return;
+					}
 				}
 			}
-		}
+    	}
+    	else if(prds != null) {
+    		int i = 0;
+			for (Product p : prds) {
+				setVBox(i, p,null);
+				i++;
+			}
+    	}
 		
 		Platform.runLater(new Runnable() {
 			@Override

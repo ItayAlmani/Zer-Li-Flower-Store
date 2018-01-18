@@ -48,8 +48,8 @@ public class LoadGUIController {
 			icnProductsForm;
 	protected @FXML MaterialIconView icnUpdateOrder, icnManualTransaction, icnCancelOrder;
 	protected @FXML	FontAwesomeIconView icnUpdatePaymentAccount;
-	protected @FXML HBox hbIcons, hbChangingIcons; 
-	protected @FXML VBox hbCustServiceData, hbCustomer, hbOrders, hbCustomersInfo;
+	protected @FXML HBox hbIcons, hbChangingIcons, hbCustomer; 
+	protected @FXML VBox paneCustServiceData, paneCustomer, paneOrders, paneCustomersInfo;
 
 	protected @FXML ImageView imgLogo1, imgLogo2;
 	

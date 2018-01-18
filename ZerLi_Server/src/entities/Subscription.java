@@ -7,11 +7,8 @@ import java.util.Date;
 
 public class Subscription implements Serializable  {
 	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -7302493294431501041L;
-
+	
 	public enum SubscriptionType {
 		Monthly, Yearly
 	}

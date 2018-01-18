@@ -7,10 +7,8 @@ import java.util.Date;
 
 public class ShipmentDetails extends DeliveryDetails implements Serializable  {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -8820070792449376114L;
+	
 	private BigInteger shipmentID;
 	private String street;
 	private String city;

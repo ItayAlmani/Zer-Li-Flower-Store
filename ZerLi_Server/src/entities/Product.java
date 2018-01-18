@@ -96,7 +96,19 @@ public class Product implements Comparable<Product>, Serializable  {
 		this.inCatalog = inCatalog;
 	}
 
-	public Product(BigInteger prdID, String name, String type, float price, String color, boolean inCatalog,
+	public Product(BigInteger prdID, String name, String typeStr, float price, String colorStr, boolean inCatalog,
+			String imageName, byte[] mybytearray) {
+		this.prdID = prdID;
+		this.name = name;
+		this.setType(typeStr);
+		this.price = price;
+		this.setColor(colorStr);
+		this.inCatalog = inCatalog;
+		this.imageName = imageName;
+		this.mybytearray=mybytearray;
+	}
+	
+	public Product(BigInteger prdID, String name, ProductType type, float price, Color color, boolean inCatalog,
 			String imageName, byte[] mybytearray) {
 		this.prdID = prdID;
 		this.name = name;

@@ -54,10 +54,10 @@
                               </VBox>
                               <HBox fx:id="hbChangingIcons" alignment="CENTER">
                                  <children>
-                                    <VBox fx:id="hbCustomer" alignment="CENTER" spacing="5.0" styleClass="menuVBox">
+                                    <VBox fx:id="paneCustomer" alignment="CENTER" spacing="5.0" styleClass="menuVBox">
                                        <children>
                                           <Label styleClass="menuTitle" text="Products and cart" textAlignment="CENTER" textOverrun="CLIP" wrapText="true" />
-                                          <HBox alignment="CENTER" spacing="10.0">
+                                          <HBox fx:id="hbCustomer" alignment="CENTER" spacing="10.0">
                                              <children>
                                                 <MaterialDesignIconView fx:id="icnCart" fontSmoothingType="LCD" glyphName="CART" onMouseClicked="#loadCart" size="30.0" styleClass="coloredIcon" textAlignment="CENTER" />
                                                 <OctIconView fx:id="icnCatalog" fontSmoothingType="LCD" glyphName="BOOK" onMouseClicked="#loadCatalog" size="30" styleClass="coloredIcon" />
@@ -71,7 +71,7 @@
                                           </HBox>
                                        </children>
                                     </VBox>
-                                    <VBox fx:id="hbCustServiceData" alignment="CENTER" spacing="5.0" styleClass="menuVBox">
+                                    <VBox fx:id="paneCustServiceData" alignment="CENTER" spacing="5.0" styleClass="menuVBox">
                                        <children>
                                           <Label styleClass="menuTitle" text="Customer Services Data" textAlignment="CENTER" textOverrun="CLIP" wrapText="true" />
                                           <HBox alignment="CENTER" spacing="10.0">
@@ -84,7 +84,7 @@
                                           </HBox>
                                        </children>
                                     </VBox>
-                                    <VBox fx:id="hbOrders" alignment="CENTER" spacing="5.0" styleClass="menuVBox">
+                                    <VBox fx:id="paneOrders" alignment="CENTER" spacing="5.0" styleClass="menuVBox">
                                        <children>
                                           <Label styleClass="menuTitle" text="Orders" textAlignment="CENTER" textOverrun="CLIP" wrapText="true" />
                                           <HBox alignment="CENTER" spacing="10.0">
@@ -104,7 +104,7 @@
                                           </HBox>
                                        </children>
                                     </VBox>
-                                    <VBox fx:id="hbCustomersInfo" alignment="CENTER" spacing="5.0" styleClass="menuVBox">
+                                    <VBox fx:id="paneCustomersInfo" alignment="CENTER" spacing="5.0" styleClass="menuVBox">
                                        <children>
                                           <Label styleClass="menuTitle" text="Customers Information" textAlignment="CENTER" textOverrun="CLIP" wrapText="true" />
                                           <HBox alignment="CENTER" spacing="10.0">
@@ -131,10 +131,13 @@
                      <TilePane.margin>
                         <Insets bottom="5.0" top="5.0" />
                      </TilePane.margin></JFXComboBox>
-                  <Label fx:id="lblMsg" alignment="CENTER" contentDisplay="CENTER" minHeight="20.0" textAlignment="CENTER" textFill="RED" textOverrun="CLIP" wrapText="true" />
+                  <Label fx:id="lblMsg" alignment="CENTER" contentDisplay="CENTER" minHeight="20.0" textAlignment="CENTER" textFill="RED" textOverrun="CLIP" wrapText="true">
+                     <font>
+                        <Font size="18.0" />
+                     </font></Label>
                   <Label alignment="CENTER" contentDisplay="CENTER" minHeight="20.0" text="Hover above the icons for title" textAlignment="CENTER" textOverrun="CLIP" wrapText="true">
                      <font>
-                        <Font size="8.0" />
+                        <Font size="10.0" />
                      </font>
                   </Label>
                </children>
