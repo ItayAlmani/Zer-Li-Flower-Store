@@ -15,6 +15,8 @@ import gui.controllers.ParentGUIController;
 import entities.StoreWorker;
 
 public class StoreWorkerController extends ParentController{
+	
+	
 	public void getStoreWorkerByUser(BigInteger userID) throws IOException {
 		myMsgArr.clear();
 		myMsgArr.add(Thread.currentThread().getStackTrace()[1].getMethodName());
@@ -45,4 +47,5 @@ public class StoreWorkerController extends ParentController{
 			e2.printStackTrace();
 		}
 	}
+	
 }
