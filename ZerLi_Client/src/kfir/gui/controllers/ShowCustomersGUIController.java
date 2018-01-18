@@ -72,14 +72,18 @@ public class ShowCustomersGUIController implements Initializable  {
 		if(this.cust!=null) {
 			txtCustName.setText(this.cust.getFullName());
 			txtIdNUM.setText(this.cust.getPrivateID());
-			if(this.cust.getPaymentAccounts()==null)
+			ArrayList<PaymentAccount> pa = cust.getPaymentAccounts();
+			if(pa==null)
 				Context.mainScene.setMessage("Customer doesn't have an active Payment Account");
 			/*else if(this.cust.getPaymentAccounts().getCreditCard()!=null && 
 					this.cust.getPaymentAccounts().getCreditCard().getCcID()!=null) {
 				Context.mainScene.setMessage("Customer have already a Credit Card in data base");
 			}*/
 			else {
-				//txtCardNUM.setText(cust.getPaymentAccount().getCreditCard());
+				for(PaymentAccount acc : pa)
+				{
+					//Context.fac.store
+				}
 				vboxPA.setVisible(true);
 			}
 		}
