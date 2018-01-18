@@ -63,7 +63,8 @@ public class ClientController {
 							}
 			}
 		}
-		
+		if(msgType==null)
+			return;
 		/*------------------SELECT queries from DB------------------*/
 		if (msgType.equals(MessageType.SELECT) && c!=null) {
 			try {

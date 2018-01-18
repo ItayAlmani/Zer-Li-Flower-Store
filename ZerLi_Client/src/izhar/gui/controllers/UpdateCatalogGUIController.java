@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.net.URL;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
@@ -51,24 +52,48 @@ public class UpdateCatalogGUIController implements Initializable{
 	private JFXComboBox<Product> cbProducts = null;
 	private @FXML JFXComboBox<Color> cbColor;
 	private @FXML JFXComboBox<ProductType> cbType;
-	private @FXML JFXButton btnUpdate;
-	private @FXML JFXTextField txtID, txtName, txtPrice, txtSale;
+	private @FXML JFXButton btnUpdate, btnAdd;
+	private @FXML JFXTextField txtID, txtName, txtPrice, txtSale, txtQuantity;
 	private ArrayList<JFXTextField> textFields;
-	private @FXML VBox paneItem, paneScene;
-	private @FXML HBox hbSale;
+	private @FXML VBox paneItem, paneScene, vbChain, vbImg;
+	private @FXML HBox hbSale, hbStore, hbCBAndBtn;
 	private @FXML ImageView imgImage;
 	private @FXML JFXToggleButton tglInCatalog;
+	private @FXML Label lblClickImg;
 	private FileChooser fileChooser = new FileChooser();
 	private File imgFile = null;
+	private Product prdAdded = null;
+	
+	/** 
+	 * true <=> the add button clicked.<br>
+	 * false <=> a product selected from the combo box.
+	 */
+	private boolean is_new_stock;
+	
+	/** 
+	 * true <=> the add button clicked.<br>
+	 * false <=> a product selected from the combo box.
+	 */
+	private boolean is_product_for_add;
+	
+	/** if store worker/manager <=> true.<br>
+	 * if chain store worker/manager <=> false.
+	 */
+	private boolean isStoreWorker;
 	
 	public void setProductsInCB() {
 		User u = Context.getUser();
 		if(u.getPermissions().equals(UserType.StoreWorker) ||
 			u.getPermissions().equals(UserType.StoreManager)) {
+			isStoreWorker=true;
 			try {
 				/////////WAIT FOR GET STORE WORKER!!
 				StoreWorker sw = Context.getUserAsStoreWorker();
 				Store s = sw.getStore();
+				String title = "Update stock of store";
+				if(s!=null)
+					title += " "+s.getName();
+				Context.mainScene.setTitle(title);
 				if(s.getStock()!=null)
 					setItems(s.getStock(),cbStocks);
 				else
@@ -82,6 +107,7 @@ public class UpdateCatalogGUIController implements Initializable{
 		}
 		else if(u.getPermissions().equals(UserType.ChainStoreWorker) || 
 				u.getPermissions().equals(UserType.ChainStoreManager)) {
+			isStoreWorker = false;
 			if(Platform.isFxApplicationThread())
 				rearrangeComboBoxes();
 			else
@@ -96,17 +122,30 @@ public class UpdateCatalogGUIController implements Initializable{
 	}
 	
 	private void rearrangeComboBoxes() {
+		//Change from ComboBox of Stock to Products
 		cbProducts = new JFXComboBox<>();
-		int ind = paneScene.getChildren().indexOf(cbStocks);
-		paneScene.getChildren().add(ind, cbProducts);
+		int ind = hbCBAndBtn.getChildren().indexOf(cbStocks);
+		hbCBAndBtn.getChildren().add(ind, cbProducts);
 		cbProducts.setOnAction(cbStocks.getOnAction());
 		cbProducts.setPromptText(cbStocks.getPromptText());
-		paneScene.getChildren().remove(cbStocks);
+		hbCBAndBtn.getChildren().remove(cbStocks);
+		
+		btnUpdate.setOnAction((e)->{
+			try {
+				updateProd();
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
+		});
+		
 		cbStocks = null;
-		if(!paneItem.getChildren().remove(hbSale)) {
-			System.err.println("Can't remove txtSale");
-			hbSale.setVisible(false);
-		}
+		if(!paneItem.getChildren().remove(hbStore))
+			hbStore.setVisible(false);
+		vbChain.setDisable(false);
+		lblClickImg.setVisible(true);
+		vbImg.setDisable(false);
+		btnAdd.setVisible(true);
+		btnUpdate.setText("Send");
 	}
 	
 	public void setProducts(ArrayList<Product> prds) {
@@ -130,6 +169,8 @@ public class UpdateCatalogGUIController implements Initializable{
 	}
 	
 	public void showProduct(ActionEvent event) throws Exception {
+		is_product_for_add=false;
+		Context.mainScene.clearMsg();
 		if(event.getSource() != null && event.getSource().equals(cbStocks)) {
 			if(cbStocks.getValue()!=null)
 				loadStock(cbStocks.getValue());
@@ -144,10 +185,11 @@ public class UpdateCatalogGUIController implements Initializable{
 		if(s.getSalePercetage()!=null)
 			this.txtSale.setText(((Float)(s.getSalePercetage()*100)).toString());
 		else {
-			this.txtSale.setText("");
+			this.txtSale.setText("0");
 			Context.mainScene.ShowErrorMsg();
 			System.err.println("Sale percentage is null - write the StoreWorkerCtrl");
 		}
+		this.txtQuantity.setText(String.valueOf(s.getQuantity()));
 		loadProduct(s.getProduct());
 	}
 	
@@ -176,27 +218,55 @@ public class UpdateCatalogGUIController implements Initializable{
 		}
 	}
 	
+	public void updateStock() throws Exception {
+		Stock stk = this.cbStocks.getValue();
+		if(stk==null) {
+			Context.mainScene.ShowErrorMsg();
+			throw new Exception();
+		}
+		String saleStr = txtPrice.getText(), 
+				quStr = txtQuantity.getText();
+		Float sale;
+		Integer qu;
+		try {
+			if(saleStr == null || saleStr.isEmpty()) {
+				Context.mainScene.ShowErrorMsg();
+				throw new Exception();
+			}
+			else
+				sale = Float.parseFloat(saleStr);
+			
+			if(quStr == null || quStr.isEmpty()) {
+				Context.mainScene.ShowErrorMsg();
+				throw new Exception();
+			}
+			else
+				qu = Integer.parseInt(quStr);
+			
+			stk.setSalePercetage(sale);
+			stk.setQuantity(qu);
+			//========WAIT FOR KFIR STOREWORKER AND THEN CHECK!!!!!
+			Context.fac.stock.update(stk);
+		}catch (NumberFormatException e) {
+			Context.mainScene.setMessage("Sale % and quantity must be numbers");
+		}catch (IOException e) {
+			Context.mainScene.ShowErrorMsg();
+		}
+	}
+	
 	public void updateProd() throws Exception {
 		Context.mainScene.clearMsg();
-		boolean isStock;
 		Product p = null;
-		if(this.cbStocks != null) {
-			isStock = true;
-			Stock s = this.cbStocks.getValue();
-			if(s!=null)
-				p = s.getProduct();
-		}
-		else if(this.cbProducts != null) {
-			isStock = false;
+		if(is_product_for_add)	//asked to add new product
+			p = new Product();
+		else if(this.cbProducts != null)
 			p = this.cbProducts.getValue();
-		}
 		else {
 			Context.mainScene.ShowErrorMsg();
 			throw new Exception();
 		}
 		if(p!=null) {
 			String name = txtName.getText(), priceStr = txtPrice.getText(), saleStr = null;
-			if(isStock)		saleStr = txtPrice.getText();
 			Color color = cbColor.getValue();
 			ProductType type = cbType.getValue();
 			Boolean inCatalog = tglInCatalog.isSelected();
@@ -205,46 +275,58 @@ public class UpdateCatalogGUIController implements Initializable{
 					color != null && 
 					type != null && 
 					inCatalog != null) {
-				Float price = Float.parseFloat(priceStr), sale = null;
-				if(isStock){
-					if(saleStr == null || !saleStr.isEmpty()) {
-						Context.mainScene.ShowErrorMsg();
-						throw new Exception();
-					}
-					else
-						sale = Float.parseFloat(saleStr);
-				}
+				Float price = Float.parseFloat(priceStr);
 				try {
 					String imgName;
 					byte[] barr;
-					if(imgFile == null) {
+					
+					//a image already exists for the picture and hasn't changed
+					if(imgFile == null && p.getImageName() != null && p.getMybytearray() != null) {
 						imgName = p.getImageName();
 						barr = p.getMybytearray();
 					}
-					else {
+					else if(imgFile != null){
 						imgName=imgFile.getName();
 						barr = Context.fac.product.insertImageToByteArr(imgFile);
 					}
+					else {
+						Context.mainScene.clearMsg();
+						Context.mainScene.setMessage("Must choose picture");
+						return;
+					}
 					p = new Product(p.getPrdID(),
 							name, type, price, color, inCatalog, imgName, barr);
-					Context.fac.product.update(p);
-					
-					//============Do update for stock================
-					
-					//===============================================
+					if(is_product_for_add) {
+						Context.fac.product.add(p, true);
+						prdAdded = p;
+						cbProducts.getItems().add(p);
+					}
+					else
+						Context.fac.product.update(p);
 				}catch (NumberFormatException e) {
-					Context.mainScene.setMessage("Price and sale % must be decimal numbers");
+					Context.mainScene.setMessage("Price must be decimal numbers");
 				}
 			}
+			else {
+				Context.mainScene.clearMsg();
+				Context.mainScene.setMessage("Some fields are empty!");
+			}
+		}
+	}
+	
+	public void setProductID(BigInteger id) {
+		prdAdded.setPrdID(id);
+		Context.mainScene.setMessage(prdAdded + " added successfully");
+		try {
+			Context.fac.stock.addProductToAllStores(prdAdded);
+		} catch (IOException e) {
+			e.printStackTrace();
+			Context.mainScene.ShowErrorMsg();
 		}
 	}
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		initComboBoxes();
-	}
-	
-	private void initComboBoxes() {
 		cbType.setItems(FXCollections.observableArrayList(ProductType.values()));
 		cbColor.setItems(FXCollections.observableArrayList(Color.values()));
 		/*setComboBoxToCenter(cbType);
@@ -253,6 +335,7 @@ public class UpdateCatalogGUIController implements Initializable{
 		setTextFieldSizeToContent();
 		setProductsInCB();
 		tglInCatalog.selectedProperty().addListener((observable,oldValue,newValue)->toggleChanged());
+		fileChooser.setInitialDirectory(new File(System.getProperty("user.dir")+"\\src\\images\\logos\\"));
 	}
 	
 	private <T> void setComboBoxToCenter(JFXComboBox<T> cb) {
@@ -327,5 +410,20 @@ public class UpdateCatalogGUIController implements Initializable{
 		}
 		tglInCatalog.setText(text);
 		tglInCatalog.setTextFill(color);
+	}
+	
+	public void addProd() {
+		Context.mainScene.clearMsg();
+		is_product_for_add=true;
+		this.imgImage.setImage(null);
+		this.txtID.setText("");
+		this.txtName.setText("");
+		this.cbType.setValue(null);
+		this.cbColor.setValue(null);
+		this.txtPrice.setText("");
+		this.tglInCatalog.setSelected(false);
+		if(isStoreWorker)
+			this.txtSale.setText("");
+		paneItem.setVisible(true);
 	}
 }

@@ -125,6 +125,8 @@ public class LoadGUIController {
 			this.lblTitle.setText("Zer Li Flower Store");
 			return;
 		}
+		if(!this.lblTitle.getText().isEmpty())
+			return;
 		String[] splitSTR = guiName.split("GUI")[0].trim().split("(?=\\p{Upper})");
 		String title = "";
 		for (String string : splitSTR)
@@ -152,6 +154,7 @@ public class LoadGUIController {
 
 	private void changeScene(String guiName, String cssName) {
 		setMessage("");
+		setTitle("");
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/fxmls/" + guiName + ".fxml"));
 			homePane = loader.load();
@@ -294,4 +297,10 @@ public class LoadGUIController {
 		});
 	}
 
+	public void setTitle(String title) {
+		if(Platform.isFxApplicationThread())
+			lblTitle.setText(title);
+		else
+			Platform.runLater(()->lblTitle.setText(title));
+	}
 }

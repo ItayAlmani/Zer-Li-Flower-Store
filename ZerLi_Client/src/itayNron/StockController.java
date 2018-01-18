@@ -72,6 +72,13 @@ public class StockController extends ParentController implements IStock {
 		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.UPDATE,myMsgArr,Stock.class));
 	}
 	
+	public void update(Stock stock) throws IOException {
+		myMsgArr.clear();
+		myMsgArr.add(Thread.currentThread().getStackTrace()[1].getMethodName());
+		myMsgArr.add(stock);
+		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.UPDATE,myMsgArr,Stock.class));
+	}
+	
 	public void updateAfterCancellation(Order order) throws IOException {
 		myMsgArr.clear();
 		myMsgArr.add(Thread.currentThread().getStackTrace()[1].getMethodName());
@@ -126,5 +133,18 @@ public class StockController extends ParentController implements IStock {
 			}
 		}
 		return null;
+	}
+	
+	/**
+	 * The function will ask from the server to add {@code p} to all the stores
+	 * with {@code quantity = 0}
+	 * @param p the product to add to all the stores
+	 * @throws IOException 
+	 */
+	public void addProductToAllStores(Product p) throws IOException {
+		myMsgArr.clear();
+		myMsgArr.add(Thread.currentThread().getStackTrace()[1].getMethodName());
+		myMsgArr.add(p);
+		Context.clientConsole.handleMessageFromClientUI(new CSMessage(null,myMsgArr,Stock.class));
 	}
 }

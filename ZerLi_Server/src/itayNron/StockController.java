@@ -6,10 +6,12 @@ import java.util.ArrayList;
 
 import common.EchoServer;
 import controllers.ParentController;
+import entities.DeliveryDetails;
 import entities.Order;
 import entities.Product;
 import entities.ProductInOrder;
 import entities.Stock;
+import entities.Store;
 
 public class StockController extends ParentController {
 	
@@ -23,76 +25,71 @@ public class StockController extends ParentController {
 	}
 
 	public ArrayList<Object> update(Object obj) throws Exception {
-		if(obj instanceof Order) {
-			Order order = (Order)obj;
-			if(order.getProducts()!=null) {				
-				for (ProductInOrder productInOrder : order.getProducts()) {
-					int qu = productInOrder.getQuantity();
-					String str;
-					if(qu>0)
-						str = " - '"+qu+"'";
-					else
-						str = " + '"+(-1)*qu+"'";
-					String query = String.format(
-							" UPDATE stock" + 
-							" SET quantity=quantity %s" + 
-							" WHERE storeID="
-							+ "("
-							+	"SELECT storeID" + 
-							"	 FROM deliverydetails AS del," + 
-							"	 (" + 
-							"		SELECT deliveryID" + 
-							"        FROM orders" + 
-							"        WHERE orderID='94'" + 
-							"	 ) AS ords" + 
-							"	 WHERE del.deliveryID=ords.deliveryID AND stock.productID='6'"
-							+ ");",
-							str,
-							order.getOrderID(),
-							productInOrder.getProduct().getPrdID());
-					EchoServer.fac.dataBase.db.updateQuery(query);
-				}
-			}
-			else {
-				System.err.println("Corrupted order with ID = " + order.getOrderID());
-				throw new Exception();
-			}
+		if(obj instanceof Order)
+			updateByOrder((Order)obj);
+		else if(obj instanceof Stock)
+			updateByStock((Stock)obj);
+		else {
+			System.err.println("Error in StockController#update()");
+			throw new Exception();
 		}
 		myMsgArr.clear();
 		myMsgArr.add(true);
 		return myMsgArr;
 	}
 	
-	public ArrayList<Object> updateAfterCancellation(Object obj) throws Exception {
-		if(obj instanceof Order) {
-			Order order = (Order)obj;
-			ArrayList<Object> pios = EchoServer.fac.prodInOrder.getPIOsByOrder(order.getOrderID());
-			for (Object object : pios) {
-				if(object instanceof ProductInOrder == false) throw new Exception();
-				ProductInOrder productInOrder = (ProductInOrder)object;
+	private void updateByOrder(Order order) throws Exception {
+		if(order.getProducts()!=null) {				
+			for (ProductInOrder productInOrder : order.getProducts()) {
+				int qu = productInOrder.getQuantity();
+				String str;
+				if(qu>0)
+					str = " - '"+qu+"'";
+				else
+					str = " + '"+(-1)*qu+"'";
 				String query = String.format(
 						" UPDATE stock" + 
-						" SET quantity=quantity + '%d'" + 
+						" SET quantity=quantity %s" + 
 						" WHERE storeID="
 						+ "("
-							+ " SELECT storeID"
-							+ " FROM deliverydetails "
-							+ " WHERE orderID='%d' AND productID='%d'"
+						+	"SELECT storeID" + 
+						"	 FROM deliverydetails AS del," + 
+						"	 (" + 
+						"		SELECT deliveryID" + 
+						"        FROM orders" + 
+						"        WHERE orderID='94'" + 
+						"	 ) AS ords" + 
+						"	 WHERE del.deliveryID=ords.deliveryID AND stock.productID='6'"
 						+ ");",
-						productInOrder.getQuantity(),
+						str,
 						order.getOrderID(),
 						productInOrder.getProduct().getPrdID());
 				EchoServer.fac.dataBase.db.updateQuery(query);
 			}
 		}
-		myMsgArr.clear();
-		myMsgArr.add(true);
-		return myMsgArr;
+		throw new Exception();
+	}
+	
+	private void updateByStock(Stock stk) throws Exception {
+		String query = String.format(
+				"UPDATE stock"
+				+ " SET productID='%d',"
+				+ " storeID='%d',"
+				+ " quantity='%d',"
+				+ " salePercetage='%f'"
+				+ " WHERE stockID='%d'"
+				,stk.getProduct().getPrdID().intValue(),
+				stk.getStoreID().intValue(),
+				stk.getQuantity(),
+				stk.getSalePercetage().floatValue(),
+				stk.getId().intValue());
+		EchoServer.fac.dataBase.db.updateQuery(query);
+		throw new Exception();
 	}
 
 	@Override
 	public ArrayList<Object> handleGet(ArrayList<Object> obj) {
-		if(obj==null) return null;
+		if(obj==null) return new ArrayList<>();
 		ArrayList<Object> stocks = new ArrayList<>();
 		for (int i = 0; i < obj.size(); i += 11) {
 			stocks.add(parse(
@@ -123,7 +120,53 @@ public class StockController extends ParentController {
 	
 	@Override
 	public ArrayList<Object> add(ArrayList<Object> arr) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		if(arr!=null && arr.size()==2 && (
+				!(arr.get(0) instanceof Stock) ||
+				!(arr.get(1) instanceof Boolean)))
+			throw new Exception();
+		
+		Stock stk = (Stock)arr.get(0);
+		boolean isReturnNextID = (boolean)arr.get(1);
+		
+		String query = String.format(
+				"INSERT INTO stock (productID, storeID, quantity, salePercetage)"
+				+ " VALUES ('%d', '%d', '%d', '%f')",
+				stk.getProduct().getPrdID().intValue(),
+				stk.getStoreID().intValue(),
+				stk.getQuantity(),
+				stk.getSalePercetage().floatValue());
+		EchoServer.fac.dataBase.db.updateQuery(query);
+		
+		if(isReturnNextID) {
+			query = "SELECT Max(stockID) from stock";
+			myMsgArr =  EchoServer.fac.dataBase.db.getQuery(query);
+			if(myMsgArr!=null && myMsgArr.size()==1 && myMsgArr.get(0) instanceof Integer) {
+				myMsgArr.set(0, BigInteger.valueOf((Integer)myMsgArr.get(0)));
+			}
+			else throw new Exception();
+		}
+		else
+			myMsgArr.add(true);
+		return myMsgArr;
 	}	
+	
+	public ArrayList<Object> addProductToAllStores(Product p) throws Exception {
+		if(p==null)
+			throw new Exception();
+		ArrayList<Object> sObjs = EchoServer.fac.store.getAllStores();
+		if(sObjs == null || sObjs.isEmpty())	return new ArrayList<>();
+		for (Object o : sObjs) {
+			if(o instanceof Store) {
+				Stock s = new Stock(p, 0, ((Store)o).getStoreID());
+				s.setSalePercetage(0f);
+				myMsgArr.clear();
+				myMsgArr.add(s);
+				myMsgArr.add(false);
+				add(myMsgArr);
+			}
+		}
+		myMsgArr.clear();
+		myMsgArr.add(true);
+		return myMsgArr;
+	}
 }

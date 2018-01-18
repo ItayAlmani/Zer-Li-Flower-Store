@@ -13,7 +13,7 @@ import interfaces.IParent;
 
 public interface IProduct {
 	
-	void add(Product p) throws IOException;
+	void add(Product p, boolean getID) throws IOException;
 
 	void getProductByID(BigInteger prdID) throws IOException;
 	

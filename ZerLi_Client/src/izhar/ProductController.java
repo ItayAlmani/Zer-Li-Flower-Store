@@ -121,13 +121,37 @@ public class ProductController extends ParentController implements IProduct {
 		}
 	}
 	
+	public void handleInsert(BigInteger id) {
+		String methodName = "setProductID";
+		Method m = null;
+		try {
+			//a controller asked data, not GUI
+			if(Context.askingCtrl!=null && Context.askingCtrl.size()!=0) {
+				m = Context.askingCtrl.get(0).getClass().getMethod(methodName,BigInteger.class);
+				Object obj = Context.askingCtrl.get(0);
+				Context.askingCtrl.remove(0);
+				m.invoke(obj, id);
+			}
+			else {
+				m = ParentGUIController.currentGUI.getClass().getMethod(methodName,BigInteger.class);
+				m.invoke(ParentGUIController.currentGUI, id);
+			}
+		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e1) {
+			System.err.println("Couldn't invoke method '"+methodName+"'");
+			e1.printStackTrace();
+		} catch (NoSuchMethodException | SecurityException e2) {
+			System.err.println("No method called '"+methodName+"'");
+			e2.printStackTrace();
+		}
+	}
+	
 	@Override
-	public void add(Product p) throws IOException {
+	public void add(Product p, boolean getID) throws IOException {
 		myMsgArr.clear();
 		myMsgArr.add(Thread.currentThread().getStackTrace()[1].getMethodName());
 		ArrayList<Object> arr = new ArrayList<>();
 		arr.add(p);
-		arr.add(true);
+		arr.add(getID);
 		myMsgArr.add(arr);
 		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.INSERT, myMsgArr,Product.class));
 	}

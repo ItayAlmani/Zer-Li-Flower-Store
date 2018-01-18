@@ -5,6 +5,8 @@
 <?import com.jfoenix.controls.JFXTextField?>
 <?import com.jfoenix.controls.JFXToggleButton?>
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView?>
+<?import de.jensd.fx.glyphs.materialicons.MaterialIconView?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.ImageView?>
@@ -16,51 +18,83 @@
 
 <VBox fx:id="paneScene" alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" spacing="10.0" stylesheets="@../css/ParentCSS.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="izhar.gui.controllers.UpdateCatalogGUIController">
    <children>
-      <JFXComboBox id="cmbProducts" fx:id="cbStocks" onAction="#showProduct" promptText="Select product" />
+      <HBox fx:id="hbCBAndBtn" alignment="CENTER">
+         <children>
+            <JFXComboBox id="cmbProducts" fx:id="cbStocks" onAction="#showProduct" promptText="Select product" />
+            <JFXButton fx:id="btnAdd" buttonType="RAISED" mnemonicParsing="false" onAction="#addProd" ripplerFill="ORANGE" text="Add product" textAlignment="CENTER" textFill="ORANGE" textOverrun="CLIP" visible="false" wrapText="true">
+               <font>
+                  <Font size="15.0" />
+               </font>
+               <graphic>
+                  <MaterialIconView fill="ORANGE" fontSmoothingType="LCD" glyphName="ADD_BOX" size="15" textAlignment="CENTER">
+                     <font>
+                        <Font name="Material Icons" size="15.0" />
+                     </font>
+                  </MaterialIconView>
+               </graphic>
+            </JFXButton>
+         </children>
+      </HBox>
       <VBox fx:id="paneItem" alignment="TOP_CENTER" spacing="20.0" visible="false">
          <children>
-            <VBox alignment="TOP_CENTER" spacing="3.0">
+            <VBox fx:id="vbImg" alignment="TOP_CENTER" disable="true" spacing="3.0">
                <children>
                   <ImageView id="imgImage" fx:id="imgImage" fitHeight="150.0" fitWidth="200.0" onMouseClicked="#browseImage" pickOnBounds="true" preserveRatio="true" />
-                  <Label text="Click the image for browse" textAlignment="CENTER" textOverrun="CLIP" />
+                  <Label fx:id="lblClickImg" text="Click the image for browse" textAlignment="CENTER" textOverrun="CLIP" visible="false" />
                </children>
             </VBox>
             <JFXTextField fx:id="txtID" alignment="CENTER" disable="true" prefColumnCount="10" promptText="Product ID" />
-            <HBox alignment="CENTER_LEFT" spacing="30.0">
+            <VBox fx:id="vbChain" alignment="CENTER" disable="true">
                <children>
-                  <VBox alignment="TOP_CENTER" fillWidth="false" spacing="25.0">
+                  <HBox alignment="CENTER" spacing="30.0">
                      <children>
-                        <JFXTextField fx:id="txtName" alignment="CENTER" prefColumnCount="10" promptText="Product Name" />
-                        <HBox alignment="CENTER">
+                        <VBox alignment="TOP_CENTER" fillWidth="false" spacing="25.0">
                            <children>
-                              <JFXTextField fx:id="txtPrice" alignment="CENTER" prefColumnCount="10" promptText="Product Price" />
-                              <FontAwesomeIconView fontSmoothingType="LCD" glyphName="SHEKEL" size="15" textAlignment="CENTER" />
+                              <JFXTextField fx:id="txtName" alignment="CENTER" prefColumnCount="10" promptText="Product Name" />
+                              <HBox alignment="CENTER">
+                                 <children>
+                                    <JFXTextField fx:id="txtPrice" alignment="CENTER" prefColumnCount="10" promptText="Product Price" />
+                                    <FontAwesomeIconView fontSmoothingType="LCD" glyphName="SHEKEL" size="15" textAlignment="CENTER" />
+                                 </children>
+                              </HBox>
                            </children>
-                        </HBox>
-                        <JFXToggleButton fx:id="tglInCatalog" onAction="#toggleChanged" text="Not in Catalog" textAlignment="CENTER" textFill="RED" textOverrun="CLIP" toggleColor="WHITE" toggleLineColor="ORANGE" unToggleColor="WHITE" unToggleLineColor="RED" wrapText="true" />
+                        </VBox>
+                        <VBox alignment="TOP_CENTER" fillWidth="false" spacing="25.0">
+                           <children>
+                              <JFXComboBox fx:id="cbColor" promptText="Product Color" />
+                              <JFXComboBox fx:id="cbType" promptText="Product Type" />
+                           </children>
+                        </VBox>
                      </children>
-                  </VBox>
-                  <VBox alignment="TOP_CENTER" fillWidth="false" spacing="25.0">
+                  </HBox>
+                  <JFXToggleButton fx:id="tglInCatalog" onAction="#toggleChanged" text="Not in Catalog" textAlignment="CENTER" textFill="RED" textOverrun="CLIP" toggleColor="WHITE" toggleLineColor="ORANGE" unToggleColor="WHITE" unToggleLineColor="RED" wrapText="true" />
+               </children>
+            </VBox>
+            <HBox fx:id="hbStore" alignment="CENTER" spacing="30.0">
+               <children>
+                  <HBox fx:id="hbSale" alignment="CENTER">
                      <children>
-                        <JFXComboBox fx:id="cbColor" promptText="Product Color" />
-                        <JFXComboBox fx:id="cbType" promptText="Product Type" />
-                        <HBox fx:id="hbSale" alignment="CENTER">
-                           <children>
-                              <JFXTextField fx:id="txtSale" alignment="CENTER" prefColumnCount="10" promptText="Sale Percentage" />
-                              <FontAwesomeIconView fontSmoothingType="LCD" glyphName="PERCENT" size="15" textAlignment="CENTER" />
-                           </children>
-                        </HBox>
+                        <JFXTextField fx:id="txtSale" alignment="CENTER" prefColumnCount="10" promptText="Sale Percentage" />
+                        <FontAwesomeIconView fontSmoothingType="LCD" glyphName="PERCENT" size="15" textAlignment="CENTER" />
                      </children>
-                  </VBox>
+                  </HBox>
+                  <JFXTextField fx:id="txtQuantity" alignment="CENTER" prefColumnCount="10" promptText="Quantity in stock" />
                </children>
             </HBox>
+            <JFXButton id="btnUpdate" fx:id="btnUpdate" buttonType="RAISED" mnemonicParsing="false" onAction="#updateStock" ripplerFill="RED" text="Update Stock" textAlignment="CENTER" textFill="RED" textOverrun="CLIP" wrapText="true">
+               <font>
+                  <Font size="15.0" />
+               </font>
+               <graphic>
+                  <MaterialDesignIconView fill="RED" fontSmoothingType="LCD" glyphName="REPEAT" size="15" textAlignment="CENTER">
+                     <font>
+                        <Font name="Material Design Icons" size="15.0" />
+                     </font>
+                  </MaterialDesignIconView>
+               </graphic>
+            </JFXButton>
          </children>
       </VBox>
-      <JFXButton id="btnUpdate" fx:id="btnUpdate" buttonType="RAISED" mnemonicParsing="false" onAction="#updateProd" ripplerFill="ORANGE" text="Update" textAlignment="CENTER" textFill="ORANGE" textOverrun="CLIP" wrapText="true">
-         <font>
-            <Font size="15.0" />
-         </font>
-      </JFXButton>
    </children>
    <padding>
       <Insets top="20.0" />

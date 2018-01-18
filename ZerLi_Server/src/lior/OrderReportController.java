@@ -112,8 +112,6 @@ public class OrderReportController implements IOrderReportController {
 				indx = 4;
 			else if(pt.equals(Product.ProductType.Single))
 				indx = 5;
-			else if(pt.equals(Product.ProductType.Empty))
-				indx = 6;
 			else if(pt.equals(Product.ProductType.FlowerArrangment))
 				indx = 0;
 			else if(pt.equals(Product.ProductType.FloweringPlant))

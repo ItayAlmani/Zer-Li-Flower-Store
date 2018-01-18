@@ -4,6 +4,7 @@ import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.math.BigInteger;
@@ -13,7 +14,6 @@ import java.util.ArrayList;
 import common.EchoServer;
 import controllers.ParentController;
 import entities.Product;
-import entities.ProductInOrder;
 
 public class ProductController extends ParentController {	
 	
@@ -70,15 +70,17 @@ public class ProductController extends ParentController {
 			throw new Exception();
 		Product p = (Product)arr.get(0);
 		boolean isReturnNextID = (boolean)arr.get(1);
+		saveImageToProjectDir(p);
 		String res = "0";
 		if(p.isInCatalog())
 			res="1";
-		String query = "INSERT INTO orders (productName, productType, price, color, inCatalog)"
-				+ "VALUES ('" + p.getName() + "', '" 
-				+ p.getType().toString() + "', '"
+		String query = "INSERT INTO product (productName, productType, price, color, inCatalog, image)"
+				+ " VALUES ('" + p.getName() + "', '" 
+				+ p.getType().name() + "', '"
 				+ p.getPrice() + "', '"
-				+ p.getColor().toString() + "', '"
-				+ res + "')";
+				+ p.getColor().name() + "', '"
+				+ res + "', '"
+				+ p.getImageName() + "')";
 		EchoServer.fac.dataBase.db.updateQuery(query);
 		if(isReturnNextID) {
 			query="SELECT Max(productID) from product";
@@ -117,14 +119,7 @@ public class ProductController extends ParentController {
 	public ArrayList<Object> update(Object obj) throws Exception {
 		if(obj instanceof Product) {
 			Product p = (Product)obj;
-			File dir = new File(System.getProperty("user.dir")+"\\images\\");
-			if(dir.exists()==false)
-				dir.mkdir();
-			File f = new File(dir,p.getImageName());
-			FileOutputStream fos = new FileOutputStream(f.getAbsolutePath());
-			BufferedOutputStream bos = new BufferedOutputStream(fos);
-			bos.write(p.getMybytearray());
-			bos.close();
+			saveImageToProjectDir(p);
 			String query = String.format("UPDATE product"
 					+ " SET productName='%s',"
 					+ " productType='%s',"
@@ -132,7 +127,7 @@ public class ProductController extends ParentController {
 					+ " color='%s',"
 					+ " inCatalog='%s',"
 					+ " image='%s'"
-					+ " WHERE productID='%d'", p.getName(),p.getType().toString(),p.getPrice(),p.getColor().toString(),
+					+ " WHERE productID='%d'", p.getName(),p.getType().name(),p.getPrice(),p.getColor().name(),
 					p.isInCatalog()?"1":"0",p.getImageName(),p.getPrdID().intValue());
 			EchoServer.fac.dataBase.db.updateQuery(query);
 			myMsgArr.clear();
@@ -140,5 +135,27 @@ public class ProductController extends ParentController {
 			return myMsgArr;
 		}
 		throw new Exception();
+	}
+	
+	/**
+	 * create an folder called "images" (if not exists) to the project
+	 * directory, and saves there the picture.
+	 * @param p the product which includes all the details of the new picture.
+	 * @throws IOException
+	 * <ul>
+	 * 		<li>{@link FileOutputStream#FileOutputStream(String)} - file not exists at the path</li>
+	 * 		<li>{@link BufferedOutputStream#write(byte[])}</li>
+	 * 		<li>{@link BufferedOutputStream#close()}</li>
+	 * </ul>
+	 */
+	private void saveImageToProjectDir(Product p) throws IOException  {
+		File dir = new File(System.getProperty("user.dir")+"\\images\\");
+		if(dir.exists()==false)
+			dir.mkdir();
+		File f = new File(dir,p.getImageName());
+		FileOutputStream fos = new FileOutputStream(f.getAbsolutePath());
+		BufferedOutputStream bos = new BufferedOutputStream(fos);
+		bos.write(p.getMybytearray());
+		bos.close();
 	}
 }

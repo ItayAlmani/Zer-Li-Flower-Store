@@ -22,7 +22,6 @@ public class Product implements Comparable<Product>, Serializable  {
 	public enum ProductType {
 		Bouquet("Bouquet"),
 		Single("Single"), 
-		Empty("Empty"),
 		FlowerArrangment("Flower Arrangment"),
 		FloweringPlant("Flowering Plant"), 
 		BridalBouquet("Bridal Bouquet"),

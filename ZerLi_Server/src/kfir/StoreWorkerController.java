@@ -22,7 +22,7 @@ public class StoreWorkerController extends ParentController{
 		ArrayList<Stock> stocks = new ArrayList<>();
 		ArrayList<Object> prdsObj = EchoServer.fac.product.getAllProducts();
 		for (Object pObj : prdsObj) {
-			Stock s = new Stock((Product)pObj, 50,sw.getStore().getStoreID());
+			Stock s = new Stock((Product)pObj, (int) Math.round(Math.random()*100),sw.getStore().getStoreID());
 			stocks.add(s);
 		}
 		stocks.get(0).setSalePercetage(0.1f);
