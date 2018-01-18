@@ -1,6 +1,5 @@
 package lior;
 
-import java.math.BigInteger;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
@@ -10,27 +9,20 @@ import java.util.Date;
 import common.EchoServer;
 import entities.Complaint;
 import entities.HistogramOfCustomerComplaintsReport;
-import entities.Order;
-import entities.Order.OrderStatus;
-import entities.OrderReport;
-import entities.Product;
-import entities.Product.ProductType;
-import lior.interfaces.IHistogramOfCustomerCompaintsReportController;
-import lior.interfaces.IOrderReportController;
-import entities.ProductInOrder;
 import entities.Store;
+import lior.interfaces.IHistogramOfCustomerCompaintsReportController;
 
 public class HistogramOfCustomerComplaintsReportController implements IHistogramOfCustomerCompaintsReportController {
 	private HistogramOfCustomerComplaintsReport ccReport;
 	private LocalDate rDate, startDate;
 
 	/* (non-Javadoc)
-	 * @see lior.IOrderReportController#produceOrderReport(java.util.ArrayList)
+	 * @see lior.IHistogramOfCustomerCompaintsReportController
 	 */
 	@Override
 	public ArrayList<Object> produceHistogramOfCustomerComplaintsReport(ArrayList<Object> arr) throws Exception {
 		if(arr!=null && (arr.get(0) instanceof LocalDate == false) || arr.get(1) instanceof Store == false)
-			throw new Exception();
+			return null;
 		LocalDate date = (LocalDate)arr.get(0);
 		Store store = (Store)arr.get(1);
 		ccReport=new HistogramOfCustomerComplaintsReport();
@@ -47,8 +39,10 @@ public class HistogramOfCustomerComplaintsReportController implements IHistogram
 		this.ccReport.setEnddate(this.rDate);
 		return analyzeComplaints(EchoServer.fac.complaint.getComplaintsByStore(store));
 	}
-
-	private ArrayList<Object> analyzeComplaints(ArrayList<Object> objs) throws Exception{
+	/* (non-Javadoc)
+	 * @see lior.IHistogramOfCustomerCompaintsReportController
+	 */
+	public ArrayList<Object> analyzeComplaints(ArrayList<Object> objs) throws Exception{
 		ArrayList<Complaint> complaints= new ArrayList<>();
 		if(objs == null || objs.isEmpty())
 			throw new Exception();

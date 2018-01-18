@@ -13,8 +13,8 @@ import entities.Order.OrderStatus;
 import entities.OrderReport;
 import entities.Product;
 import entities.Product.ProductType;
-import lior.interfaces.IOrderReportController;
 import entities.ProductInOrder;
+import lior.interfaces.IOrderReportController;
 
 public class OrderReportController implements IOrderReportController {
 	private OrderReport oReport;
@@ -26,7 +26,9 @@ public class OrderReportController implements IOrderReportController {
 	@Override
 	public ArrayList<Object> produceOrderReport(ArrayList<Object> arr) throws Exception {
 		if(arr!=null && (arr.get(0) instanceof LocalDate == false) || arr.get(1) instanceof BigInteger == false)
-			throw new Exception();
+		{
+			return null;
+		}		 
 		LocalDate date = (LocalDate)arr.get(0);
 		BigInteger storeID = (BigInteger)arr.get(1);
 		oReport=new OrderReport();
@@ -45,7 +47,7 @@ public class OrderReportController implements IOrderReportController {
 		return analyzeOrders(EchoServer.fac.order.getAllOrdersByStoreID(storeID));
 	}
 
-	private ArrayList<Object> analyzeOrders(ArrayList<Object> objs) throws Exception{
+	public ArrayList<Object> analyzeOrders(ArrayList<Object> objs) throws Exception{
 		ArrayList<Order> orders= new ArrayList<>();
 		if(objs == null || objs.isEmpty())
 			throw new Exception();
@@ -79,7 +81,7 @@ public class OrderReportController implements IOrderReportController {
 		}
 	}
 
-	private void setPIOsInOrder(ArrayList<Object> objs) throws Exception{
+	public void setPIOsInOrder(ArrayList<Object> objs) throws Exception{
 		ArrayList<ProductInOrder> products= new ArrayList<>();
 		if(objs == null || objs.isEmpty())
 			throw new Exception();

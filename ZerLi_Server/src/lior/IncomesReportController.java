@@ -41,7 +41,7 @@ public class IncomesReportController implements IIncomesReportController {
 		return analyzeOrders(EchoServer.fac.order.getAllOrdersByStoreID(storeID));
 	}
 	
-	private ArrayList<Object> analyzeOrders(ArrayList<Object> objs) throws Exception{
+	public ArrayList<Object> analyzeOrders(ArrayList<Object> objs) throws Exception{
 		ArrayList<Order> orders= new ArrayList<>();
 		if(objs == null || objs.isEmpty())
 			throw new Exception();
@@ -75,7 +75,7 @@ public class IncomesReportController implements IIncomesReportController {
 		}
 	}
 	
-	private void setPIOsInOrder(ArrayList<Object> objs) throws Exception{
+	public void setPIOsInOrder(ArrayList<Object> objs) throws Exception{
 		ArrayList<ProductInOrder> products= new ArrayList<>();
 		if(objs == null || objs.isEmpty())
 			throw new Exception();
