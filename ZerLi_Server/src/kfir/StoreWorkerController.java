@@ -33,9 +33,20 @@ public class StoreWorkerController extends ParentController{
 	}
 
 	@Override
-	public ArrayList<Object> handleGet(ArrayList<Object> obj) {
-		// TODO Auto-generated method stub
-		return null;
+	public ArrayList<Object> handleGet(ArrayList<Object> obj) throws Exception {
+		if(obj == null) return null;
+		ArrayList<Object> sw = new ArrayList<>();
+		for (int i = 0; i < obj.size(); i += 2) {
+			sw.add(parse(
+					BigInteger.valueOf((Integer)obj.get(i)),
+					(Store)(EchoServer.fac.store.getStoreByID(BigInteger.valueOf((Integer)obj.get(i))).get(0))));
+		}
+		return sw;
+	}
+	
+	public StoreWorker parse(BigInteger storeWorkerID, Store store)
+	{
+		return new StoreWorker(storeWorkerID,store);
 	}
 
 	@Override
