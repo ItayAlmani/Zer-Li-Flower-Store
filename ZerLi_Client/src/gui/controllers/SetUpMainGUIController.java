@@ -78,13 +78,13 @@ public class SetUpMainGUIController extends LoadGUIController {
 	protected void setUpChainStoreWorkerMenu() {
 		ObservableList<Node> child = hbChangingIcons.getChildren();
 		child.clear();
-		child.addAll(paneCustServiceData,paneOrders,paneCustomersInfo);
+		child.addAll(paneCustServiceData,paneOrders);
 	}
 	
 	protected void setUpChainStoreManagerMenu() {
 		ObservableList<Node> child = hbChangingIcons.getChildren();
 		child.clear();
-		child.addAll(paneCustServiceData,paneOrders,paneCustomersInfo);
+		child.addAll(paneCustServiceData,paneOrders);
 	}
 
 	protected void setUpToolTips() {

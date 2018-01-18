@@ -15,16 +15,17 @@ import entities.CSMessage.MessageType;
 import izhar.ProductController;
 
 public class StoreController extends ParentController {
+	public boolean asked_to_get_store_by_manager = false;
 	
 	@Override
 	public ArrayList<Object> handleGet(ArrayList<Object> obj) throws Exception{
-		if(obj == null) return null;
+		if(obj == null) return new ArrayList<>();
 		ArrayList<Object> stores = new ArrayList<>();
 		for (int i = 0; i < obj.size(); i += 3)
 			stores.add(parse
 					(
-					BigInteger.valueOf(Long.valueOf((int) obj.get(i))), 
-					BigInteger.valueOf((int)obj.get(i+1)),
+					BigInteger.valueOf((Integer) obj.get(i)), 
+					BigInteger.valueOf((Integer)obj.get(i+1)),
 					(String) obj.get(i + 2))
 					);
 		return stores;
@@ -94,18 +95,25 @@ public class StoreController extends ParentController {
 	}
 	
 	public Store parse(BigInteger storeID, BigInteger managerID, String name) throws Exception {
-		ArrayList<Object> strWrksObj = EchoServer.fac.storeWorker.getStoreWorkerByUser(managerID),
-				stocksObj = EchoServer.fac.stock.getStockByStore(storeID);
-		if(strWrksObj!=null && strWrksObj.size()==1) {
-			Store s =  new Store(storeID, name, (StoreWorker)strWrksObj.get(0));
-			s.setStock(new ArrayList<>());
-			for (Object o : stocksObj) {
-				if(o instanceof Stock)
-					s.getStock().add((Stock)o);
-			}
-			return s;
+		Store s = null;
+		if(asked_to_get_store_by_manager == false) {
+			ArrayList<Object> strWrksObj = EchoServer.fac.storeWorker.getStoreWorkerByID(managerID);
+			if(strWrksObj!=null && strWrksObj.size()==1)
+				s =  new Store(storeID, name, (StoreWorker)strWrksObj.get(0));
+			else throw new SQLException();
 		}
-		else throw new SQLException();
+		else {
+			s = new Store(storeID, name);
+			asked_to_get_store_by_manager=false;
+		}
+		
+		ArrayList<Object> stocksObj = EchoServer.fac.stock.getStockByStore(storeID);
+		s.setStock(new ArrayList<>());
+		for (Object o : stocksObj) {
+			if(o instanceof Stock)
+				s.getStock().add((Stock)o);
+		}
+		return s;
 	}	
 	@Override
 	public ArrayList<Object> add(ArrayList<Object> arr) throws Exception {

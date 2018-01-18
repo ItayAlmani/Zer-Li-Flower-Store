@@ -5,6 +5,11 @@ import java.math.BigInteger;
 
 public class User implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3499885389112666673L;
+
 	public User() {
 		super();
 	}

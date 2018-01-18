@@ -32,6 +32,7 @@ public class StoreWorker extends User implements Serializable  {
 		this.storeWorkerID = storeWorkerID;
 		this.store = store;
 	}
+	
 	public StoreWorker(String privateID, String firstName, String lastName, String userName, String password, UserType permissions) {
 		super(privateID,firstName, lastName, userName, password, permissions);
 		// TODO Auto-generated constructor stub

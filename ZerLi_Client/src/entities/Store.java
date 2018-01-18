@@ -6,6 +6,11 @@ import java.util.ArrayList;
 
 public class Store implements Serializable  {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4414758722053651691L;
+	
 	private BigInteger storeID;
 	private String name;
 	private ArrayList<Stock> stock = null;
@@ -21,7 +26,10 @@ public class Store implements Serializable  {
 		this.storeID = storeID;
 	}
 	
-	
+	public Store(BigInteger storeID, String name) {
+		this.storeID = storeID;
+		this.name = name;
+	}
 	
 	
 	public Store(BigInteger storeID, String name, StoreWorker manager) {
