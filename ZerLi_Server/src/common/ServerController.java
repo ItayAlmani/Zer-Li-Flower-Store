@@ -110,6 +110,7 @@ public class ServerController {
 			meth = cls.getMethod(reqFuncName,parameter.getClass());
 			Object arr = meth.invoke(cls.newInstance(), parameter);
 			if(arr!=null && arr instanceof ArrayList) {
+				csMsg.getObjs().clear();
 				csMsg.setObjs((ArrayList<Object>)arr);
 			}
 			else
@@ -117,8 +118,10 @@ public class ServerController {
 		}catch (NoSuchMethodException e) {
 			meth = cls.getMethod(reqFuncName,Object.class);
 			Object arr = meth.invoke(cls.newInstance(), parameter);
-			if(arr!=null && arr instanceof ArrayList)
+			if(arr!=null && arr instanceof ArrayList) {
+				csMsg.getObjs().clear();
 				csMsg.setObjs((ArrayList<Object>) arr);
+			}
 			else
 				throw new Exception();
 		} catch (SecurityException |IllegalAccessException | IllegalArgumentException | InvocationTargetException | InstantiationException e) {

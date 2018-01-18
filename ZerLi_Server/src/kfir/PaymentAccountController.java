@@ -35,9 +35,15 @@ public class PaymentAccountController extends ParentController{
 		PaymentAccount pa = (PaymentAccount)arr.get(0);
 		boolean isReturnNextID = (boolean)arr.get(1);
 		String subStr = pa.getSub()==null?"NULL":"'"+pa.getSub().getSubID().toString()+"'";
-		String query = "INSERT INTO paymentaccount (customerID, creditcardID, subscriptionID, refundAmount)"
-				+ "VALUES ('" + pa.getCustomerID() + "'" + ", " + pa.getCreditCard().getCcID() + ", "+subStr+", '0');";
+		String query = "INSERT INTO paymentaccount (customerID, creditcardID, subscriptionID, storeID, refundAmount)"
+				+ " VALUES ('" 
+				+ pa.getCustomerID() + "'" 
+				+ ", '" + pa.getCreditCard().getCcID() 
+				+ "', "+subStr
+				+ ", '"+pa.getStore().getStoreID().toString()
+				+ "', "+"'0');";
 		EchoServer.fac.dataBase.db.updateQuery(query);
+		myMsgArr.clear();
 		if(isReturnNextID) {
 			query="SELECT Max(paymentAccountID) from paymentaccount";
 			myMsgArr =  EchoServer.fac.dataBase.db.getQuery(query);
@@ -51,7 +57,7 @@ public class PaymentAccountController extends ParentController{
 	}
 
 	public ArrayList<Object> handleGet(ArrayList<Object> obj) throws Exception{
-		if(obj == null) return null;
+		if(obj == null) return new ArrayList<>();
 		ArrayList<Object> acc = new ArrayList<>();
 		for (int i = 0; i < obj.size(); i += 6) {
 			BigInteger ccID = (Integer)obj.get(i + 2)==null?null:BigInteger.valueOf((Integer)obj.get(i + 2)),
@@ -76,15 +82,17 @@ public class PaymentAccountController extends ParentController{
 			cardsObj = EchoServer.fac.creditCard.getCreditCard(creditCardID);
 		else
 			cardsObj.add(null);
-		/*ArrayList<Subscription> subObjs = EchoServer.fac.sub.getSubByID(subscriptionID);
-		if(subObjs.size()!=1|| subObjs.get(0) instanceof Subscription == false ||)
+		ArrayList<Object> subObjs = EchoServer.fac.sub.getSubscriptionByID(subscriptionID);
+		Subscription sub = null;
+		if(subObjs == null)
 			throw new Exception();
-		*/
+		else if(subObjs.size()==1)
+			sub = (Subscription)subObjs.get(0);
 		if(storesObj.size()==1) {
 			return new PaymentAccount(paID, CustomerID, 
 					(Store)storesObj.get(0),
 					(CreditCard)cardsObj.get(0), 
-					new Subscription(subscriptionID)/*(Subscription)subObjs.get(0)*/,
+					sub,
 					refund);
 		}
 		throw new Exception();
@@ -104,7 +112,8 @@ public class PaymentAccountController extends ParentController{
 				+ " creditCardID='%d'"
 				+ ", storeID='%d'"
 				+ ", subscriptionID=%s"
-				+ ", refundAmount='%f' WHERE paymentAccountID='%d'",
+				+ ", refundAmount='%f'"
+				+ " WHERE paymentAccountID='%d'",
 				pa.getCustomerID(),
 				pa.getCreditCard().getCcID(),
 				pa.getStore().getStoreID(),

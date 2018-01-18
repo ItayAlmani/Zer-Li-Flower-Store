@@ -17,11 +17,11 @@ public class CreditCardController extends ParentController{
 		CreditCard cc = (CreditCard)arr.get(0);
 		boolean isReturnNextID = (boolean)arr.get(1);
 		String query = "INSERT INTO creditcard (number, validity, cvv)"
-				+ "VALUES ('" + cc.getCcNumber() + "'"
+				+ " VALUES ('" + cc.getCcNumber() + "'"
 				+ ", " + cc.getCcValidity() + ", '"
 				+ cc.getCcCVV()+"')";
 		EchoServer.fac.dataBase.db.updateQuery(query);
-		query ="SELECT creditcard.creditCardID FROM creditcard WHERE number='"+cc.getCcNumber()+"'";
+		query ="SELECT creditCardID FROM creditcard WHERE number='"+cc.getCcNumber()+"'";
 		if(isReturnNextID) {
 			myMsgArr =  EchoServer.fac.dataBase.db.getQuery(query);
 			if(myMsgArr!=null && myMsgArr.size()==1 && myMsgArr.get(0) instanceof Integer) {
@@ -41,7 +41,7 @@ public class CreditCardController extends ParentController{
 		ArrayList<Object> cards = new ArrayList<>();
 		for (int i = 0; i < obj.size(); i += 4) {
 			cards.add(parse(
-					BigInteger.valueOf(Long.valueOf((int) obj.get(i))),
+					BigInteger.valueOf((Integer) obj.get(i)),
 					(String) obj.get(i + 1),
 					(String) obj.get(i + 2),
 					(String)obj.get(i + 3)));
@@ -49,8 +49,8 @@ public class CreditCardController extends ParentController{
 		return cards;
 	}
 
-	public CreditCard parse(BigInteger valueOf,String ccNumber, String ccValidity, String ccCVV) {
-		return new CreditCard(valueOf,ccNumber, ccValidity, ccCVV);
+	public CreditCard parse(BigInteger id,String ccNumber, String ccValidity, String ccCVV) {
+		return new CreditCard(id,ccNumber, ccValidity, ccCVV);
 	}
 
 	
@@ -63,9 +63,9 @@ public class CreditCardController extends ParentController{
 	public ArrayList<Object> getCreditCard(BigInteger cardID)throws SQLException {
 		if(cardID==null)
 			return null;
-		String query ="SELECT cc.*" + 
-				" FROM creditcard AS cc, paymentaccount as pa" + 
-				" WHERE pa.creditCardID='"+cardID.toString()+"'";
+		String query ="SELECT *"
+				+ " FROM creditcard"
+				+ " WHERE creditCardID='"+cardID.toString()+"'";
 		return handleGet(EchoServer.fac.dataBase.db.getQuery(query));
 	}
 }

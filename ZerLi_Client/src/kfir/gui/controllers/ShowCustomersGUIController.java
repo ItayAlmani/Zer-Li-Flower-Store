@@ -6,14 +6,20 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXTextField;
+
 import common.Context;
 import entities.CreditCard;
 import entities.Customer;
 import entities.PaymentAccount;
 import entities.Product;
+import entities.Store;
 import entities.User;
 import gui.controllers.ParentGUIController;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -29,24 +35,44 @@ import javafx.scene.layout.VBox;
 public class ShowCustomersGUIController implements Initializable  {
 
 	private @FXML ComboBox<Customer> cbCustomers;
-	static Customer selcted;
 	
-	private @FXML TextField txtCardNUM;
-	private @FXML TextField txtIdNUM;
-	private @FXML TextField txtcardValidity;
-	private @FXML TextField txtcardCVV;
-	private @FXML Button Psave;
-	private @FXML Button Pback;
-	private @FXML Label lblMsg;
-	private Customer cust;
-	private @FXML TextField txtCustName;
-	@FXML VBox vboxPA;
+	private @FXML JFXTextField txtCardNUM, txtcardValidity, txtcardCVV;
+	private @FXML JFXTextField lblCustName, lblIdNUM;
+	private @FXML JFXButton btnSave;
+	private Customer cust = null;
+	private PaymentAccount pa = null;
+	private CreditCard cc = null;
+	private Store store = null;
+	
+	/** false <=> {@link PaymentAccount} need to be updated.<br>
+	 * true <=> {@link PaymentAccount} need to be created.*/
+	private boolean pa_need_to_be_updated = true;
+	
+	
+	private @FXML VBox vboxPA;
 	
 
 	public void initialize(URL location, ResourceBundle resources) {
-		ParentGUIController.currentGUI = this;
+		//Listener only digits
+		txtcardCVV.lengthProperty().addListener((observable,oldValue,newValue)-> {
+			if (newValue.intValue() > oldValue.intValue()) {
+				String ccvStr = txtcardCVV.getText();
+				char ch = ccvStr.charAt(oldValue.intValue());
+				// Check if the new character is the number or other's
+				if (!(ch >= '0' && ch <= '9')) {
+					// if it's not number then just setText to previous one
+					txtcardCVV.setText(ccvStr.substring(0, ccvStr.length() - 1));
+				}
+			}
+		});
+		
+		txtcardCVV.textProperty().addListener((observable,oldValue,newValue)-> {
+			if (txtcardCVV.getText().length() > 3) {
+				String s = txtcardCVV.getText().substring(0, 3);
+				txtcardCVV.setText(s);
+			}
+		});
 		getCustomerComboBox();
-		cbCustomers.setStyle("-fx-font-size:10");
 	}
 	
 	private void getCustomerComboBox() {
@@ -59,39 +85,69 @@ public class ShowCustomersGUIController implements Initializable  {
 	}
 	
 	public void setCustomers(ArrayList<Customer> customers) {
-		Platform.runLater(new Runnable() {
-			@Override
-			public void run() {
-				cbCustomers.setItems(FXCollections.observableArrayList(customers));
-			}
-		});
+		if(Platform.isFxApplicationThread())
+			cbCustomers.setItems(FXCollections.observableArrayList(customers));
+		else
+			Platform.runLater(()->cbCustomers.setItems(FXCollections.observableArrayList(customers)));
 	}
 
 	public void openPaymentAccount() {
-		this.cust= cbCustomers.getValue();
-		if(this.cust!=null) {
-			txtCustName.setText(this.cust.getFullName());
-			txtIdNUM.setText(this.cust.getPrivateID());
-			ArrayList<PaymentAccount> pa = cust.getPaymentAccounts();
-			if(pa==null)
-				Context.mainScene.setMessage("Customer doesn't have an active Payment Account");
-			/*else if(this.cust.getPaymentAccounts().getCreditCard()!=null && 
-					this.cust.getPaymentAccounts().getCreditCard().getCcID()!=null) {
-				Context.mainScene.setMessage("Customer have already a Credit Card in data base");
-			}*/
-			else {
-				for(PaymentAccount acc : pa)
-				{
-					//Context.fac.store
-				}
-				vboxPA.setVisible(true);
-			}
-		}
-		PaymentAccount pa = new PaymentAccount(BigInteger.ONE);
 		try {
-			pa.setStore(Context.getUserAsStoreWorker().getStore());
+			Context.mainScene.clearMsg();
+			this.cust= cbCustomers.getValue();
+			if(this.cust!=null) {
+				if(this.cust.getFullName() != null && !this.cust.getFullName().isEmpty()
+						&& this.cust.getPrivateID() != null && !this.cust.getPrivateID().isEmpty()) {
+					lblCustName.setText(this.cust.getFullName());
+					lblIdNUM.setText(this.cust.getPrivateID());
+					ArrayList<PaymentAccount> pas = cust.getPaymentAccounts();
+					this.store=Context.getUserAsStoreWorker().getStore();
+					if(pas==null || pas.isEmpty()) {
+						Context.mainScene.setMessage("Customer doesn't have an active Payment Account at all");
+						btnSave.setText("Add");
+						txtCardNUM.setText("");
+						txtcardValidity.setText("");
+						txtcardCVV.setText("");
+						btnSave.setVisible(true);
+						vboxPA.setVisible(true);
+						pa_need_to_be_updated = false;
+					}
+					else {
+						pa = Context.fac.paymentAccount.getPaymentAccountOfStore(cust.getPaymentAccounts(),store);
+						CreditCard cc = pa.getCreditCard();
+						if(pa!=null && cc!=null) {
+							//Have payment account at specific store
+							if(cc.getCcID()!=null && 
+									cc.getCcNumber()!=null && !cc.getCcNumber().isEmpty() &&
+									cc.getCcValidity()!=null && !cc.getCcValidity().isEmpty() &&
+									cc.getCcCVV()!=null && !cc.getCcCVV().isEmpty()) {
+								Context.mainScene.setMessage("Customer have already a Credit Card in data base");
+								txtCardNUM.setText(cc.getCcNumber());
+								txtcardValidity.setText(cc.getCcValidity());
+								txtcardCVV.setText(cc.getCcCVV());
+								pa_need_to_be_updated = true;
+								btnSave.setText("Update");
+							}
+							//ELSE
+							else {
+								txtCardNUM.setText("");
+								txtcardValidity.setText("");
+								txtcardCVV.setText("");
+								btnSave.setText("Add");
+								pa_need_to_be_updated = false;
+							}
+						}
+						btnSave.setVisible(true);
+						vboxPA.setVisible(true);
+					}
+				}
+				else
+					Context.mainScene.ShowErrorMsg();
+			}
+			else
+				vboxPA.setVisible(false);
 		} catch (Exception e) {
-			Context.mainScene.loadMainMenu("You don't have permissions");
+			Context.mainScene.ShowErrorMsg();
 			e.printStackTrace();
 		}
 	}
@@ -99,26 +155,38 @@ public class ShowCustomersGUIController implements Initializable  {
 	public void savePaymentAccount() 
 	{
 		try {
-			Context.fac.creditCard.add(new CreditCard(txtCardNUM.getText(),txtcardValidity.getText(),txtcardCVV.getText()),
-					true);
+			//============ADD INPUT CHECK : if(getText!=null && getText.isEmpty == false)
+			if(this.pa == null) {
+				this.pa = new PaymentAccount(this.cust.getCustomerID(),this.store);
+				
+				//=========CHECK CREDIT CARD EXISTANCE
+			}
+			this.cc=new CreditCard(txtCardNUM.getText(),txtcardValidity.getText(),txtcardCVV.getText());
+			Context.fac.creditCard.add(this.cc, true);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 	
-	public void setCredCardID(BigInteger id) {
-		for (PaymentAccount pa : this.cust.getPaymentAccounts()) {
-			pa.setCreditCard(new CreditCard(id));
-			try {
-				Context.fac.paymentAccount.update(pa);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+	public void setCredCardID(BigInteger id) throws IOException {
+		if(this.pa == null) {
+			Context.mainScene.ShowErrorMsg();
+			return;
 		}
+		this.cc.setCcID(id);
+		this.pa.setCreditCard(cc);
+		if(pa_need_to_be_updated == false)
+			Context.fac.paymentAccount.add(pa, false);
+		else
+			Context.fac.paymentAccount.update(pa);
+		if(Platform.isFxApplicationThread())
+			updateView();
+		else Platform.runLater(()->updateView());
 	}
-
-	@FXML public void back() {
-		Context.mainScene.loadMainMenu();
+	
+	private void updateView() {
+		cbCustomers.setValue(null);
+		if(pa_need_to_be_updated==false)
+			cust.addPaymentAccount(pa);		
 	}
-
 }

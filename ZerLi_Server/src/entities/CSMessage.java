@@ -58,7 +58,9 @@ public class CSMessage implements Serializable{
 	}
 
 	public void setObjs(ArrayList<Object> objs) {
-		this.objs = objs;
+		this.objs = new ArrayList<>();
+		for (Object o : objs)
+			this.objs.add(o);
 	}
 	
 	public Class<?> getClasz() {

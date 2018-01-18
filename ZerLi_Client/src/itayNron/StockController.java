@@ -24,7 +24,7 @@ public class StockController extends ParentController implements IStock {
 	public ArrayList<Stock> getInCatalogOnlyStock(ArrayList<Stock> stocks){
 		ArrayList<Stock> newStocks = new ArrayList<>();
 		for (Stock stk : stocks) {
-			if(stk.getProduct().isInCatalog())
+			if(stk.getProduct().isInCatalog() && stk.getQuantity()>0)
 				newStocks.add(stk);
 		}
 		return newStocks;

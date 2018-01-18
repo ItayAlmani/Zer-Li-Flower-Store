@@ -34,7 +34,7 @@ public class PaymentAccountController extends ParentController{
 		arr.add(pa);
 		arr.add(getID);
 		myMsgArr.add(arr);
-		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.UPDATE, myMsgArr, PaymentAccount.class));
+		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.INSERT, myMsgArr, PaymentAccount.class));
 	}
 
 	public void handleGet(ArrayList<PaymentAccount> pa) {
@@ -74,16 +74,47 @@ public class PaymentAccountController extends ParentController{
 		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.UPDATE, myMsgArr,PaymentAccount.class));
 	}
 	
-	public PaymentAccount getPaymentAccountOfStore(ArrayList<PaymentAccount> pas, Store store) throws NoSuchElementException,NullPointerException, IllegalArgumentException {
-		if(pas == null || store == null)
-			throw new NullPointerException("ArrayList named pas or Store named store is/are null");
-		if(pas.isEmpty())
-			throw new IllegalArgumentException("ArrayList named pas is empty");
+	/**
+	 * looks for {@link PaymentAccount} in the {@link ArrayList}, where the {@link PaymentAccount}
+	 * related to the specific {@link Store} and return it. If not exist, returns null.
+	 * @param pas
+	 * @param s
+	 * @return
+	 * @throws Exception 
+	 */
+	public PaymentAccount getPaymentAccountOfStore(ArrayList<PaymentAccount> pas, Store s) throws Exception {
+		if(pas == null || s == null) throw new Exception();
 		for (PaymentAccount pa : pas) {
-			if(pa.getStore()!=null && pa.getStore().getStoreID().equals(store.getStoreID()))
+			if(pa.getStore() == null || pa.getStore().getStoreID() == null || s.getStoreID() == null)
+				throw new Exception();
+			if(pa.getStore().getStoreID().intValue()==s.getStoreID().intValue())
 				return pa;
 		}
-		throw new NoSuchElementException("There is no Store with ID="+store.getStoreID()+"in this ArrayList");
+		return null;
+	}
+
+
+	public void handleInsert(BigInteger id) {
+		String methodName = "setPAid";
+		Method m = null;
+		try {
+			// a controller asked data, not GUI
+			if (Context.askingCtrl != null && Context.askingCtrl.size() != 0) {
+				m = Context.askingCtrl.get(0).getClass().getMethod(methodName, BigInteger.class);
+				Object ob = Context.askingCtrl.get(0);
+				Context.askingCtrl.remove(0);
+				m.invoke(ob, id);
+			} else {
+				m = ParentGUIController.currentGUI.getClass().getMethod(methodName, BigInteger.class);
+				m.invoke(ParentGUIController.currentGUI, id);
+			}
+		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e1) {
+			System.err.println("Couldn't invoke method '" + methodName + "'");
+			e1.printStackTrace();
+		} catch (NoSuchMethodException | SecurityException e2) {
+			System.err.println("No method called '" + methodName + "'");
+			e2.printStackTrace();
+		}
 	}
 
 }

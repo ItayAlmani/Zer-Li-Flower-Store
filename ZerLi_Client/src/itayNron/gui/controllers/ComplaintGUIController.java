@@ -168,6 +168,8 @@ public class ComplaintGUIController implements Initializable {
 						Context.mainScene.setMessage(e.getMessage());
 					else
 						Context.mainScene.setMessage("Amount must be float value");
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
 			}
 			else if(tglRefund.isSelected() && txtRefundAmount.getText().isEmpty()) {

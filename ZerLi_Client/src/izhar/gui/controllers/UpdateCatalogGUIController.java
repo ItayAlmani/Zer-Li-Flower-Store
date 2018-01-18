@@ -224,7 +224,7 @@ public class UpdateCatalogGUIController implements Initializable{
 			Context.mainScene.ShowErrorMsg();
 			throw new Exception();
 		}
-		String saleStr = txtPrice.getText(), 
+		String saleStr = txtSale.getText(), 
 				quStr = txtQuantity.getText();
 		Float sale;
 		Integer qu;
@@ -245,7 +245,6 @@ public class UpdateCatalogGUIController implements Initializable{
 			
 			stk.setSalePercetage(sale);
 			stk.setQuantity(qu);
-			//========WAIT FOR KFIR STOREWORKER AND THEN CHECK!!!!!
 			Context.fac.stock.update(stk);
 		}catch (NumberFormatException e) {
 			Context.mainScene.setMessage("Sale % and quantity must be numbers");

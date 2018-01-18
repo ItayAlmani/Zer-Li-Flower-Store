@@ -84,7 +84,6 @@ public class StockController extends ParentController {
 				stk.getSalePercetage().floatValue(),
 				stk.getId().intValue());
 		EchoServer.fac.dataBase.db.updateQuery(query);
-		throw new Exception();
 	}
 
 	@Override

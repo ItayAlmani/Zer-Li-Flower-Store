@@ -30,6 +30,7 @@ public class Factory {
 	public CreditCardController creditCard = new CreditCardController();
 	public ComplaintController complaint = new ComplaintController();	
 	public CustomerController customer = new CustomerController();
+	public SubscriptionController sub = new SubscriptionController();
 	
 	/*public OrderReportController orderReport = new OrderReportController();
 	public IncomesReportController incomesReport = new IncomesReportController();*/

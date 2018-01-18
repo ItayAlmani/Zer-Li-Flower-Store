@@ -17,6 +17,18 @@ public class Subscription implements Serializable  {
 	private SubscriptionType subType;
 	private LocalDate subDate;
 
+	public Subscription(BigInteger subID, SubscriptionType subType, LocalDate subDate) {
+		this.subID = subID;
+		this.subType = subType;
+		this.subDate = subDate;
+	}
+	
+	public Subscription(BigInteger subID, String subTypeStr, LocalDate subDate) {
+		this.subID = subID;
+		this.subType = SubscriptionType.valueOf(subTypeStr);
+		this.subDate = subDate;
+	}
+
 	/**
 	 * 
 	 * @param subType
