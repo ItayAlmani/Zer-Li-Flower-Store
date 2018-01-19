@@ -44,13 +44,23 @@ public class ProductController extends ParentController implements IProduct {
 		}
 	}
 	
-	public void updatePriceWithSubscription(Order order, Product p, Float price, Customer customer) throws Exception {
+	/**
+	 * 
+	 * @param order
+	 * @param p
+	 * @param price
+	 * @param customer
+	 * @return null if the no change because the {@link Subscription}
+	 * @throws Exception
+	 */
+	public Float getPriceWithSubscription(Order order, Product p, Float price, Customer customer) throws Exception {
 		PaymentAccount pa = null;
 		if(order.getDelivery() != null && order.getDelivery().getStore() != null)
 			pa = Context.fac.paymentAccount.getPaymentAccountOfStore(
 					customer.getPaymentAccounts(), order.getDelivery().getStore());
 		if(pa!= null && pa.getSub() != null && pa.getSub().getSubType() != null)
-			p.setPrice(Context.fac.sub.getPriceBySubscription(pa.getSub(), price));
+			return Context.fac.sub.getPriceBySubscription(pa.getSub(), price);
+		return null;
 	} 
 	
 	@Override

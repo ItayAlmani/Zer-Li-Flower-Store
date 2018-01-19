@@ -23,14 +23,14 @@ public class SubscriptionController extends ParentController {
 		LocalDate date = sub.getSubDate();
 		SubscriptionType type = sub.getSubType();
 		if(type.equals(SubscriptionType.Monthly)) {
-			if(date.plusMonths(1).isBefore(LocalDate.now()))
+			if(LocalDate.now().isBefore(date.plusMonths(1)) && date.isBefore(LocalDate.now()))
 				return (1-discount_in_percent_of_month/100f)*price;
 		}
 		else if(type.equals(SubscriptionType.Yearly)) {
-			if(date.plusYears(1).isBefore(LocalDate.now()))
+			if(LocalDate.now().isBefore(date.plusYears(1)) && date.isBefore(LocalDate.now()))
 				return (1-(1.5f*discount_in_percent_of_month)/100f)*price;
 		}
-		return price;
+		return null;
 	}
 	
 	public void getSubscriptionByID(BigInteger subID) throws IOException {
@@ -58,16 +58,18 @@ public class SubscriptionController extends ParentController {
 	}
 	
 	public boolean isSubValid(Subscription sub) {
+		
 		if(sub == null ||
 			sub.getSubDate() == null ||
 			sub.getSubType() == null)
 			throw new NullPointerException();
+		LocalDate date = sub.getSubDate();
 		if(sub.getSubType().equals(SubscriptionType.Monthly)) {
-			if(sub.getSubDate().plusMonths(1).isBefore(LocalDate.now()))
+			if(LocalDate.now().isBefore(date.plusMonths(1)) && date.isBefore(LocalDate.now()))
 				return false;
 		}
 		else if(sub.getSubType().equals(SubscriptionType.Yearly)) {
-			if(sub.getSubDate().plusYears(1).isBefore(LocalDate.now()))
+			if(LocalDate.now().isBefore(date.plusYears(1)) && date.isBefore(LocalDate.now()))
 				return false;
 		}
 		return true;

@@ -4,6 +4,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.net.URL;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
@@ -126,12 +127,12 @@ public abstract class ProductsPresentationGUIController implements Initializable
 		components.add(cmp);
     }
 	
-	protected void setVBox(int i,Object o, EventHandler<ActionEvent> btnHandler) {
+	protected void setVBox(int i,Object o, Float price_sub, EventHandler<ActionEvent> btnHandler) {
 		int j = i;
 		Product prd = null;
 		ProductInOrder pio = null;
 		Stock stk = null;
-		String price = null, btnText = null, priceAfterSale = null;
+		String price = null, btnText = null, price_pa_str = null, price_sub_str = null;
 		MaterialIcon mi = null;
 		
 		vbxProduct[i] = new VBox();
@@ -142,8 +143,10 @@ public abstract class ProductsPresentationGUIController implements Initializable
 			stk = (Stock)o;
 			prd = (Product)stk.getProduct();
 			price=prd.getPriceAsString();
+			if(price_sub != null)
+				price_sub_str = priceToStr(price_sub);
 			if(stk.getSalePercetage()!=0)
-				priceAfterSale=stk.getPriceAfterSaleAsString();
+				price_pa_str=stk.getPriceAfterSaleAsString();
 			btnText="Add to cart";
 			mi = MaterialIcon.ADD_SHOPPING_CART;
 		}
@@ -197,13 +200,30 @@ public abstract class ProductsPresentationGUIController implements Initializable
 		lblTitlePrice[i]=new Label("Price: ");
 		setComponent(lblTitlePrice[i] ,0, ++j, i);
 		lblShowPrice[i] = new Label(price);
-		if(priceAfterSale!=null) {
-			lblShowPrice[i].getStyleClass().add("strike");
-			Label curPrice = new Label(priceAfterSale);
-			curPrice.setTextFill(Color.BLUE);
-			HBox h = new HBox(5,lblShowPrice[i],curPrice);
-			h.setAlignment(Pos.CENTER);
-			setComponent(h,1, j, i);
+		if(price_pa_str!=null || price_sub_str != null) {
+			Label lblPricePA = null;
+			HBox h = null;
+			if(price_pa_str!=null) {
+				lblShowPrice[i].getStyleClass().add("strike");
+				lblPricePA = new Label(price_pa_str);
+				lblPricePA.setTextFill(Color.BLUE);
+				h = new HBox(5,lblShowPrice[i],lblPricePA);
+			}
+			if(price_sub_str != null) {
+				lblShowPrice[i].getStyleClass().add("strike");
+				if(lblPricePA!=null)
+					lblPricePA.getStyleClass().add("strike");
+				Label lblPriceSub = new Label(price_sub_str);
+				lblPriceSub.setTextFill(Color.GREEN);
+				if(h!=null)
+					h.getChildren().add(lblPriceSub);
+				else
+					h = new HBox(5,lblShowPrice[i],lblPriceSub);
+			}
+			if(h!=null) {
+				h.setAlignment(Pos.CENTER);
+				setComponent(h,1, j, i);
+			}
 		}
 		else
 			setComponent(lblShowPrice[i],1, j, i);
@@ -270,5 +290,10 @@ public abstract class ProductsPresentationGUIController implements Initializable
 			pio.setId(id);
 		else
 			Context.mainScene.ShowErrorMsg();
+	}
+	
+	protected String priceToStr(Float price) {
+		DecimalFormat df = new DecimalFormat("##.##");
+		return df.format(price) + "¤";
 	}
 }

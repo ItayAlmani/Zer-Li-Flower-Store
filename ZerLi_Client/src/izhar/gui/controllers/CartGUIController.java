@@ -96,7 +96,8 @@ public class CartGUIController extends ProductsPresentationGUIController {
 		if (notZeroPIOS != null && !notZeroPIOS.isEmpty()) {
 			cartEmpty = false;
 			for (ProductInOrder p : notZeroPIOS) {
-				setVBox(i, p, updateQuantity());
+				
+				setVBox(i, p, null, updateQuantity());
 				i++;
 			}
 		} else
@@ -114,7 +115,7 @@ public class CartGUIController extends ProductsPresentationGUIController {
 			else
 				Platform.runLater(() -> checkCartEmpty());
 		} else {
-			setLblFinalPrice();
+			lblFinalPrice.setText(priceToStr(ordPrice));
 			Context.mainScene.setMessage("");
 		}
 		if (!vbox.getChildren().contains(pagination))
@@ -144,7 +145,7 @@ public class CartGUIController extends ProductsPresentationGUIController {
 				Context.fac.prodInOrder.updatePriceOfPIO(pio);
 				lblShowPrice[gridInx].setText(pio.getFinalPriceAsString());
 				ordPrice = ordPrice - oldFinalPrice + pio.getFinalPrice();
-				setLblFinalPrice();
+				lblFinalPrice.setText(priceToStr(ordPrice));
 				Context.fac.order.calcFinalPriceOfOrder(Context.order);
 				if (quantity == 0) {
 					notZeroPIOS.remove(gridInx);
@@ -159,13 +160,6 @@ public class CartGUIController extends ProductsPresentationGUIController {
 				e.printStackTrace();
 			}
 		};
-	}
-
-	private void setLblFinalPrice() {
-		if (ordPrice == Math.round(ordPrice))
-			lblFinalPrice.setText(((Integer) Math.round(ordPrice)).toString() + "¤");
-		else
-			lblFinalPrice.setText(ordPrice.toString() + "¤");
 	}
 
 	private void initGrids(ArrayList<ProductInOrder> prds) {

@@ -27,7 +27,9 @@ public class ProductInOrderController extends ParentController implements IProdu
 			for (Stock stk : store.getStock()) {
 				if(pio.getProduct().getPrdID().equals(stk.getProduct().getPrdID())) {
 					float priceBeforeChange = pio.getProduct().getPrice();
-					pio.getProduct().setPrice(stk.getPriceAfterSale());
+					Float newPrice = Context.fac.product.getPriceWithSubscription(Context.order,stk.getProduct(), stk.getPriceAfterSale(), Context.getUserAsCustomer());
+					pio.getProduct().setPrice(
+							newPrice==null ? stk.getPriceAfterSale() : newPrice*(1-stk.getSalePercetage()));
 					//if the price changed, recalculate the final price of the pio
 					if(priceBeforeChange!=stk.getPriceAfterSale().floatValue())
 						pio.setFinalPrice();

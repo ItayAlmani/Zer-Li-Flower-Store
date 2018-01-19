@@ -107,8 +107,14 @@ public class AssembleProductGUIController extends ProductsPresentationGUIControl
 		Float min = Float.parseFloat(txtMinPrice.getText()), 
 				max =Float.parseFloat(txtMaxPrice.getText());
 		stocksByType=Context.fac.product.assembleProduct(type, min, max, color, this.stocks);
-		if(stocksByType.isEmpty()==false)
-			initPage();
+		if(stocksByType.isEmpty()==false) {
+			try {
+				initPage();
+			} catch (Exception e) {
+				Context.mainScene.ShowErrorMsg();
+				e.printStackTrace();
+			}
+		}
 		else {
 			if(vbox.getChildren().contains(hxProds))
 				vbox.getChildren().remove(hxProds);
@@ -164,14 +170,21 @@ public class AssembleProductGUIController extends ProductsPresentationGUIControl
 		});
 	}
 	
-	private void initPage() {
+	private void initPage() throws Exception {
 		components.clear();
 		initArrays(stocksByType.size());
     	
     	pagination  = new Pagination(stocksByType.size(), 0);
     	int i = 0;
-		for (Stock s : stocksByType) {
-			setVBox(i, s,addToCart(s.getProduct(),s.getPriceAfterSale()));
+		for (Stock stk : stocksByType) {
+			Float newPrice = Context.fac.product.getPriceWithSubscription(Context.order,stk.getProduct(), stk.getPriceAfterSale(), Context.getUserAsCustomer());
+			setVBox(i, 
+					stk,
+					newPrice==null?null:newPrice*(1-stk.getSalePercetage()),
+							addToCart(stk.getProduct(),
+									newPrice==null ? 
+											stk.getPriceAfterSale() :
+												newPrice*(1-stk.getSalePercetage())));
 			i++;
 		}
 		if(Platform.isFxApplicationThread())
@@ -201,7 +214,7 @@ public class AssembleProductGUIController extends ProductsPresentationGUIControl
     		createForm();
     	}
     	else
-    		Context.mainScene.setMessage("Can't open catalog right now!");
+    		Context.mainScene.setMessage("Can't show products right now!");
 		initListeners();
 	}
 

@@ -47,8 +47,14 @@ public class CatalogGUIController extends ProductsPresentationGUIController {
 			for (Stock stk : stocks) {
 				if(stk.getProduct().isInCatalog()) {
 					try {
-						Context.fac.product.updatePriceWithSubscription(Context.order,stk.getProduct(), stk.getPriceAfterSale(), Context.getUserAsCustomer());
-						setVBox(i, stk,addToCart(stk.getProduct(),stk.getPriceAfterSale()));
+						Float newPrice = Context.fac.product.getPriceWithSubscription(Context.order,stk.getProduct(), stk.getPriceAfterSale(), Context.getUserAsCustomer());
+						setVBox(i, 
+								stk,
+								newPrice==null?null:newPrice*(1-stk.getSalePercetage()),
+										addToCart(stk.getProduct(),
+												newPrice==null ? 
+														stk.getPriceAfterSale() :
+															newPrice*(1-stk.getSalePercetage())));
 						i++;
 					} catch (Exception e) {
 						Context.mainScene.loadMainMenu("Your'e not customer");
@@ -60,7 +66,7 @@ public class CatalogGUIController extends ProductsPresentationGUIController {
     	else if(prds != null) {
     		int i = 0;
 			for (Product p : prds) {
-				setVBox(i, p,null);
+				setVBox(i, p,null, null);
 				i++;
 			}
     	}
