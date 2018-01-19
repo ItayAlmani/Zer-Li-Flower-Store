@@ -7,12 +7,7 @@ import java.util.Date;
 
 public class Subscription implements Serializable  {
 	
-	private static final long serialVersionUID = -7302493294431501041L;
-	
-	public enum SubscriptionType {
-		Monthly, Yearly
-	}
-	
+	private static final long serialVersionUID = 20L;	
 	private BigInteger subID;
 	private SubscriptionType subType;
 	private LocalDate subDate;
@@ -60,6 +55,10 @@ public class Subscription implements Serializable  {
 
 	public void setSubDate(LocalDate subDate) {
 		this.subDate = subDate;
+	}
+	
+	public enum SubscriptionType {
+		Monthly, Yearly
 	}
 
 }

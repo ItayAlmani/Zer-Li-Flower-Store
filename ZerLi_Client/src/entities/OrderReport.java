@@ -6,6 +6,7 @@ import java.util.Date;
 
 public class OrderReport extends QuarterlyReport {
 
+	private static final long serialVersionUID = 10L;
 	private ArrayList<Order> orders = new ArrayList<>();
 	private ArrayList<Integer> counterPerType = new ArrayList<>();
 	private ArrayList<Float> sumPerType = new ArrayList<>();

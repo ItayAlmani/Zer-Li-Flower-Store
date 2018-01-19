@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import java.util.Date;
 
 public class Complaint implements Serializable {
+	private static final long serialVersionUID = 1L;
 
 	private BigInteger complaintID;
 	private String complaintReason;

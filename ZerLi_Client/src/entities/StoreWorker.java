@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.math.BigInteger;
 
 public class StoreWorker extends User implements Serializable  {
+	
+	private static final long serialVersionUID = 19L;
 	private BigInteger storeWorkerID;
 	private Store store;
 	

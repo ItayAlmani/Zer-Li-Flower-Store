@@ -9,10 +9,10 @@ import java.util.ArrayList;
 
 import com.mysql.jdbc.ResultSetMetaData;
 
-public class DataBase{
+public class DataBaseHandler{
 	public Connection con;
 
-	public DataBase(String dbUrl, String dbName, String dbUserName, String dbPassword) throws SQLException {
+	public DataBaseHandler(String dbUrl, String dbName, String dbUserName, String dbPassword) throws SQLException {
 		this.con = connectToDB(dbUrl, dbName, dbUserName, dbPassword);
 	}
 	

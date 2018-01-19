@@ -5,17 +5,18 @@ import java.math.BigInteger;
 
 public class PaymentAccount implements Serializable {
 
-	public PaymentAccount(Store store) {
-		super();
-		this.store = store;
-	}
-
+	private static final long serialVersionUID = 11L;
 	private BigInteger paID;
 	private BigInteger customerID;
 	private float refundAmount = 0f;
 	private CreditCard creditCard;
 	private Subscription sub = null;
 	private Store store;
+	
+	public PaymentAccount(Store store) {
+		super();
+		this.store = store;
+	}
 	
 	public PaymentAccount(BigInteger paID,BigInteger CustomerID, CreditCard creditCard, Subscription subscription,float refund) {
 		this.paID = paID;

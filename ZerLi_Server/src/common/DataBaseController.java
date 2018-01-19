@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class DataBaseController {
-	public DataBase db;
+	public DataBaseHandler db;
 	private String dbUrl_default = "localhost", dbName_default = "dbassignment2", dbUserName_default = "root",
 			dbPassword_default = "1234";
 
@@ -75,7 +75,7 @@ public class DataBaseController {
 	
 	private void updateDB(String[] dbData) throws SQLException {
 		String url = dbData[0], name = dbData[1], userName = dbData[2], password = dbData[3];
-		db = new DataBase(url, name, userName, password);
+		db = new DataBaseHandler(url, name, userName, password);
 		updateDefaults(dbData);
 	}
 	private void updateDB(String url, String name, String userName, String password) throws SQLException {

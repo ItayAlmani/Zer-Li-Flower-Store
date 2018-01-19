@@ -6,15 +6,12 @@ import java.time.LocalDate;
 
 public class Survey implements Serializable  {
 
+	private static final long serialVersionUID = 21L;
 	private BigInteger surveyID;
 	private float[] surveyAnswerers;
 	private LocalDate date;
 	private BigInteger storeID;
 	private SurveyType type;
-	
-	public Survey(float[] surveyAnswerers) {
-		this.surveyAnswerers=surveyAnswerers;
-	}
 	
 	public Survey(float[] surveyAnswerers, LocalDate date, BigInteger storeID, SurveyType type) {
 		super();
@@ -23,25 +20,15 @@ public class Survey implements Serializable  {
 		this.storeID = storeID;
 		this.type = type;
 	}
+	
 	public Survey(BigInteger surveyID,float[] surveyAnswerers, LocalDate date, BigInteger storeID, SurveyType type) {
-		super();
 		this.surveyID=surveyID;
 		this.surveyAnswerers = surveyAnswerers;
 		this.date = date;
 		this.storeID = storeID;
 		this.type = type;
 	}
-	public enum SurveyType{
-		Answer, Analyzes;
-	}
-
-	public Survey(float[] surveyAnswerers, LocalDate date, BigInteger storeID) {
-		super();
-		this.surveyAnswerers = surveyAnswerers;
-		this.date = date;
-		this.storeID = storeID;
-	}
-
+	
 	public float[] getSurveyAnswerers() {
 		return this.surveyAnswerers;
 	}
@@ -80,5 +67,9 @@ public class Survey implements Serializable  {
 
 	public void setType(SurveyType type) {
 		this.type = type;
+	}
+
+	public enum SurveyType{
+		Answer, Analyzes;
 	}
 }

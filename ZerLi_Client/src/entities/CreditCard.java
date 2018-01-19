@@ -5,6 +5,7 @@ import java.math.BigInteger;
 import java.util.Date;
 
 public class CreditCard implements Serializable {
+	private static final long serialVersionUID = 2L;
 
 	private BigInteger ccID;
 	private String ccNumber;

@@ -8,10 +8,7 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 
 public class Order implements Serializable {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1501306332839535896L;
+	private static final long serialVersionUID = 9L;
 	
 	private BigInteger orderID;
 	private BigInteger customerID;

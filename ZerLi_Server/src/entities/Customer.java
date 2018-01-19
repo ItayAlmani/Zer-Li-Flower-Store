@@ -5,6 +5,8 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 
 public class Customer extends User implements Serializable {
+	
+	private static final long serialVersionUID = 4L;
 	private BigInteger customerID;
 	private ArrayList<PaymentAccount> paymentAccounts = new ArrayList<>();
 	
@@ -12,16 +14,6 @@ public class Customer extends User implements Serializable {
 		super(user);
 		this.customerID = customerID;
 	}
-	public Customer (BigInteger customerID)
-	{
-		this.customerID=customerID;
-	}
-	public Customer(String privateID, String firstName, String lastName, String userName, String password, UserType permissions,
-			BigInteger customerID) {
-		super(privateID, firstName, lastName, userName, password, permissions);
-		this.customerID = customerID;
-	}
-	
 	
 	public void setUser(User user) {
 		setUserID(user.getUserID());
@@ -33,12 +25,6 @@ public class Customer extends User implements Serializable {
 		setPermissions(user.getPermissions());
 		setConnected(user.isConnected());
 		setActive(user.isActive());
-	}
-
-	public Customer(BigInteger customerID, String privateID, String firstName, String lastName, String userName, String password,
-			UserType permissions) {
-		super(privateID, firstName, lastName, userName, password, permissions);
-		this.customerID=customerID;
 	}
 
 	public BigInteger getCustomerID() {

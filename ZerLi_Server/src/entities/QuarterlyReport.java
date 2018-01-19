@@ -5,24 +5,24 @@ import java.math.BigInteger;
 import java.util.Date;
 
 public abstract class QuarterlyReport implements Serializable {
-	public enum ReportType {
-		Order, Satisfaction, Incomes, CustomerComplaints;
-	}
 	
-	private ReportType Type;
-	private Date ProductionDate;
+	private static final long serialVersionUID = 14L;
 	private int qReportID;
+	private ReportType type;
+	private Date productionDate;
 	
 	/** The date of the last month - will take the range of this date to 3 months back */
 	private Date ReportDate;
 	private BigInteger storeID;
 
+	
+	
 	public BigInteger getStoreID() {
 		return storeID;
 	}
 
 	public void setType(ReportType Type) {
-		this.Type = Type;
+		this.type = Type;
 	}
 
 	public void setReportDate(Date ReportDate) {
@@ -31,6 +31,10 @@ public abstract class QuarterlyReport implements Serializable {
 
 	public void setStoreID(BigInteger storeID) {
 		this.storeID = storeID;
+	}
+	
+	public enum ReportType {
+		Order, Satisfaction, Incomes, CustomerComplaints;
 	}
 
 }

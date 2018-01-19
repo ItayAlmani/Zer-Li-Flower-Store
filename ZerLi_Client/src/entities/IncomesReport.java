@@ -6,6 +6,7 @@ import java.util.Date;
 
 public class IncomesReport extends QuarterlyReport {
 
+	private static final long serialVersionUID = 8L;
 	private ArrayList<Order> orders=new ArrayList<>();
 	private double TotIncomes=-1;
 	private LocalDate Startdate;

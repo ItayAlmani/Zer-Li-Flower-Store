@@ -5,25 +5,13 @@ import java.math.BigInteger;
 
 public class PaymentAccount implements Serializable {
 
-	public PaymentAccount(Store store) {
-		super();
-		this.store = store;
-	}
-
+	private static final long serialVersionUID = 11L;
 	private BigInteger paID;
 	private BigInteger customerID;
 	private float refundAmount = 0f;
 	private CreditCard creditCard;
 	private Subscription sub = null;
 	private Store store;
-	
-	public PaymentAccount(BigInteger paID,BigInteger CustomerID, CreditCard creditCard, Subscription subscription,float refund) {
-		this.paID = paID;
-		this.customerID = CustomerID;
-		this.creditCard=creditCard;
-		this.sub=subscription;
-		this.refundAmount = refund;
-	}
 	
 	public PaymentAccount(BigInteger paID,BigInteger CustomerID,
 			Store store, CreditCard creditCard, Subscription subscription,float refund) {
@@ -33,21 +21,6 @@ public class PaymentAccount implements Serializable {
 		this.store=store;
 		this.sub=subscription;
 		this.refundAmount = refund;
-	}
-	
-	/*public enum PaymentAccountType {
-		Subscribed,
-		NonSubscribed
-	}*/
-
-	public PaymentAccount(BigInteger paID) {
-		super();
-		this.paID = paID;
-	}
-
-	public PaymentAccount(BigInteger customerID, Store store) {
-		this.customerID=customerID;
-		this.store=store;
 	}
 
 	public float getRefundAmount() {

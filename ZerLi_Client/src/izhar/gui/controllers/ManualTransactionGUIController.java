@@ -62,18 +62,10 @@ public class ManualTransactionGUIController implements Initializable {
 			order.setDelivery(new DeliveryDetails(order.getOrderID(), LocalDateTime.now(), true, Context.getUserAsStoreWorker().getStore()));
 			order.setDeliveryType(DeliveryType.Pickup);
 			Context.fac.order.add(order,false);
+			Context.fac.stock.update(Context.order);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}
-	
-	private void setUP() {
-		ArrayList<Customer> cust = new ArrayList<>();
-		cust.add(new Customer(new User(BigInteger.ONE, "314785270",
-				"Izhar", "Ananiev", "izharAn", "1234",
-				UserType.Customer), BigInteger.ONE));
-		cust.get(0).addPaymentAccount(new PaymentAccount(BigInteger.ONE));
-		setCustomers(cust);
 	}
 	
 	@Override
@@ -91,17 +83,13 @@ public class ManualTransactionGUIController implements Initializable {
 		vbox.setSpacing(5);
 		try {
 			Context.fac.stock.getStockByStore(BigInteger.ONE);
-			
-			//Context.fac.customer.getAllCustomers();
-			setUP();
+			Context.fac.customer.getAllCustomers();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 	
 	public void setProducts(ArrayList<Product> prds) {
-		//products=prds;
 		prdSet = new TreeSet<>(prds);
 		addNewHBox();
 	}
@@ -268,7 +256,7 @@ public class ManualTransactionGUIController implements Initializable {
 			order.setCustomerID(cbCustomers.getValue().getCustomerID());
 	}
 
-	@FXML public void paymentSelected() {
+	public void paymentSelected() {
 		cbPay=true;
 		if(cbCust && cbProd)
 			btnSend.setDisable(false);

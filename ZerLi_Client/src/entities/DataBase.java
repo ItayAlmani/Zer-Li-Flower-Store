@@ -1,11 +1,12 @@
 package entities;
 
-public class DataBase{
+import java.io.Serializable;
 
+public class DataBase implements Serializable{
+	private static final long serialVersionUID = 5L;
 	private String dbUrl,dbName, dbUserName, dbPassword;
 
 	public DataBase(String dbUrl, String dbName, String dbUserName, String dbPassword) {
-		super();
 		this.dbUrl = dbUrl;
 		this.dbName = dbName;
 		this.dbUserName = dbUserName;

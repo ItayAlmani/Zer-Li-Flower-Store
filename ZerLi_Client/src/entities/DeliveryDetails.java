@@ -6,6 +6,8 @@ import java.time.LocalDateTime;
 import java.util.Date;
 
 public class DeliveryDetails implements Serializable{	
+	
+	private static final long serialVersionUID = 6L;
 	private BigInteger deliveryID;
 	protected LocalDateTime date;
 	private Boolean isImmediate;

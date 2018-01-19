@@ -3,10 +3,10 @@ package entities;
 import java.io.Serializable;
 import java.math.BigInteger;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 public class Complaint implements Serializable {
-
+	
+	private static final long serialVersionUID = 1L;
 	private BigInteger complaintID;
 	private String complaintReason;
 	private Customer customer;
@@ -25,13 +25,6 @@ public class Complaint implements Serializable {
 		this.date = date;
 		this.isTreated = isTreated;
 		this.isRefunded = isRefunded;
-	}
-
-	public Complaint(String complaintReason, Customer customer, BigInteger storeID, LocalDateTime date) {
-		this.complaintReason = complaintReason;
-		this.customer = customer;
-		this.storeID = storeID;
-		this.date = date;
 	}
 
 	public String getComplaintReason() {

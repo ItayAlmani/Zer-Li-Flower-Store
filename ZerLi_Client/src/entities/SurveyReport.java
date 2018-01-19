@@ -8,6 +8,7 @@ import java.util.Date;
 
 public class SurveyReport implements Serializable {
 	
+	private static final long serialVersionUID = 22L;
 	private BigInteger surveyReportID;
 	private Survey surveyAnalyzes;
 	private String verbalReport;

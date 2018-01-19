@@ -5,6 +5,8 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 
 public class Customer extends User implements Serializable {
+	
+	private static final long serialVersionUID = 4L;
 	private BigInteger customerID;
 	private ArrayList<PaymentAccount> paymentAccounts = new ArrayList<>();
 	

@@ -5,8 +5,8 @@ import java.math.BigInteger;
 import java.text.DecimalFormat;
 
 public class ProductInOrder implements Serializable  {
-	private static final long serialVersionUID = 6752719813371350105L;
 	
+	private static final long serialVersionUID = 13L;
 	private BigInteger id;
 	private Product product;
 	private int quantity;
@@ -40,7 +40,7 @@ public class ProductInOrder implements Serializable  {
 	}
 	
 	/**
-	 * set finalPrice by quantity and Product price
+	 * set finalPrice by {@link #quantity} and the {@link #product}'s {@link Product#getPrice()}
 	 */
 	public void setFinalPrice() {
 		this.finalPrice =  quantity*product.getPrice();
@@ -92,5 +92,10 @@ public class ProductInOrder implements Serializable  {
 	public String getFinalPriceAsString() {
 		DecimalFormat df = new DecimalFormat("##.##");
 		return df.format(getFinalPrice()) + "¤";
+	}
+	
+	@Override
+	public String toString() {
+		return "Product: "+product.toString()+", Order: "+orderID;
 	}
 }

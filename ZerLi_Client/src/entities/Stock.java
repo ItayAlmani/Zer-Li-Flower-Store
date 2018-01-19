@@ -6,8 +6,7 @@ import java.text.DecimalFormat;
 
 public class Stock implements Serializable {
 	
-	private static final long serialVersionUID = 2076505342449438569L;
-	
+	private static final long serialVersionUID = 17L;
 	private BigInteger id;
 	private Product product;
 	private int quantity;

@@ -5,32 +5,7 @@ import java.math.BigInteger;
 
 public class User implements Serializable {
 	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 3499885389112666673L;
-
-	public User() {
-		super();
-	}
-	
-	public enum UserType {
-		Customer,
-		StoreManager,
-		ChainStoreWorker,
-		ChainStoreManager,
-		ServiceExpert,
-		CustomerServiceWorker,
-		StoreWorker
-	}
-	
-	public enum UserState {
-		Active,
-		Blocked,
-		LoggedIn,
-		LoggedOut
-	}
-	
+	private static final long serialVersionUID = 23L;	
 	private BigInteger userID;
 	private String privateID;
 	private String firstName;
@@ -40,6 +15,10 @@ public class User implements Serializable {
 	private UserType permissions;
 	private boolean isConnected;
 	private boolean isActive;
+	
+	public User() {
+		super();
+	}
 	
 	public User(BigInteger userID) {
 		super();
@@ -184,6 +163,16 @@ public class User implements Serializable {
 
 	public void setActive(boolean isActive) {
 		this.isActive = isActive;
+	}
+	
+	public enum UserType {
+		Customer,
+		StoreManager,
+		ChainStoreWorker,
+		ChainStoreManager,
+		ServiceExpert,
+		CustomerServiceWorker,
+		StoreWorker
 	}
 
 }

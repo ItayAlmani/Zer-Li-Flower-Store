@@ -3,22 +3,14 @@ package entities;
 import java.io.Serializable;
 import java.math.BigInteger;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 public class DeliveryDetails implements Serializable{	
+	
+	private static final long serialVersionUID = 6L;
 	private BigInteger deliveryID;
 	protected LocalDateTime date;
 	private Boolean isImmediate;
 	private Store store;
-
-	public DeliveryDetails() {
-		
-	}
-	
-	public DeliveryDetails(BigInteger deliveryID) {
-		super();
-		this.deliveryID = deliveryID;
-	}
 	
 	public DeliveryDetails(DeliveryDetails delivery) {
 		this.deliveryID = delivery.deliveryID;

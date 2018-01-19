@@ -8,8 +8,7 @@ public class Product implements Comparable<Product>, Serializable  {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -7016145622425892901L;
-	
+	private static final long serialVersionUID = 12L;
 	private BigInteger prdID;
 	private String name;
 	private ProductType type;

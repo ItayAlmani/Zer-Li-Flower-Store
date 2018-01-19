@@ -7,7 +7,8 @@ import java.util.ArrayList;
  * Not DB table -> no association class
  */
 public class SatisfactionReport extends QuarterlyReport {
-
+	
+	private static final long serialVersionUID = 15L;
 	private ArrayList<Survey> Surveys=new ArrayList<>();
 	private LocalDate Startdate;
 	private LocalDate Enddate;

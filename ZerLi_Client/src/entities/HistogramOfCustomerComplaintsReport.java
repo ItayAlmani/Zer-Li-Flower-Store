@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public class HistogramOfCustomerComplaintsReport extends QuarterlyReport {
 
-	
+	private static final long serialVersionUID = 7L;
 	private ArrayList<Complaint> complaints;
 	private int treatedCnt;
 	private int notTreatedCnt;

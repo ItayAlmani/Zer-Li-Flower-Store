@@ -6,6 +6,7 @@ import java.time.LocalDate;
 
 public class Survey implements Serializable  {
 
+	private static final long serialVersionUID = 21L;
 	private BigInteger surveyID;
 	private float[] surveyAnswerers;
 	private LocalDate date;
