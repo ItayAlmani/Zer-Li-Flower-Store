@@ -38,13 +38,26 @@ public class SurveyReportController extends ParentController
 		throw new Exception("Survey with this dates already exists!");
 	}
 	
+	/**
+	 * <p>
+	 * Function to insert surveyReport with data from DB and client side
+	 * </p>
+	 * @param sr - surveyReport object data which be inserted to DB
+	 * @throws Exception Context.clientConsole.handleMessageFromClientUI throws Exception
+	 */
 	public void insertSurveyReport(SurveyReport sr) throws Exception {
 		String query = "INSERT INTO surveyreport (surveyID, verbalReport,startDate,endDate)" 
 		+ " VALUES ('" + sr.getSurveyAnalyzes().getSurveyID()  
 		+ "','"+ sr.getVerbalReport()+ "','"+ sr.getStartDate()+ "','"+ sr.getEndDate()+"')";
 		EchoServer.fac.dataBase.db.updateQuery(query);		
 	}
-	
+	/**
+	 * <p>
+	 * Function to get the next ID for surveyReport object from DB
+	 * </p>
+	 * @return ID which used by the next surveyReport object that will be inserted to DB
+	 * @throws Exception Context.clientConsole.handleMessageFromClientUI throws Exception.
+	 */
 	private BigInteger getNextID() throws Exception {
 		String query="SELECT Max(surveyreportID) from surveyreport";
 		myMsgArr =  EchoServer.fac.dataBase.db.getQuery(query);
@@ -52,7 +65,14 @@ public class SurveyReportController extends ParentController
 			return BigInteger.valueOf((Integer)myMsgArr.get(0));
 		throw new Exception("Error SurveyReport add - no id");
 	}
-	
+	/**
+	 * <p>
+	 * Function to insert survey analyzes to surveyReport
+	 * </p>
+	 * @param survey - survey analyzes which be added to surveyReport
+	 * @return surveyReport object with survey analyzes
+	 * @throws Exception Context.clientConsole.handleMessageFromClientUI throws Exception.
+	 */
 	private BigInteger addSurveyWithSurveyReport(Survey survey) throws Exception {
 		try {
 			myMsgArr.clear();
@@ -68,7 +88,14 @@ public class SurveyReportController extends ParentController
 			throw e;
 		}
 	}
-	
+	/**
+	 * <p>
+	 * Function to check if surveyReport we want to insert is in the DB or not
+	 * </p>
+	 * @param sr - surveyReport object to check if exist in DB
+	 * @return true is exist, else false
+	 * @throws Exception Context.clientConsole.handleMessageFromClientUI throws Exception.
+	 */
 	private boolean surveyExists(SurveyReport sr) throws Exception {
 		String query= "SELECT * FROM surveyreport WHERE startDate='"+sr.getStartDate()+"'"+ "AND"
 				+ " endDate='"+sr.getEndDate()+"'";
@@ -90,7 +117,15 @@ public class SurveyReportController extends ParentController
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
+	/**
+	 * <p>
+	 * Function to create survey object of type analyzes. we want to analyze surveys by range of dates<br>
+	 * to be seen as table with all survey answers of the requested range of dates.
+	 * </p>
+	 * @param obj - survey objects to be analyzed by date
+	 * @return - generic object arrayList which will become survey object in type analyze.
+	 * @throws SQLException Context.clientConsole.handleMessageFromClientUI throws SQLException.
+	 */
 	public ArrayList<Object> analyzeSurveys(ArrayList<Object> obj) throws SQLException{
 		ArrayList<Object> arr = EchoServer.fac.survey.getSurveyByDates(obj);
 		if(arr==null || arr.isEmpty())
