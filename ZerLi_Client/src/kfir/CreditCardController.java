@@ -12,6 +12,7 @@ import entities.CSMessage;
 import entities.CSMessage.MessageType;
 import entities.CreditCard;
 import entities.Product;
+import entities.Subscription;
 import gui.controllers.ParentGUIController;
 
 public class CreditCardController extends ParentController {
@@ -32,7 +33,6 @@ public class CreditCardController extends ParentController {
 		try {
 			//a controller asked data, not GUI
 			if(Context.askingCtrl!=null && Context.askingCtrl.size()!=0) {
-				System.err.println("Asking ctrl in CCCtrl\n");
 				m = Context.askingCtrl.get(0).getClass().getMethod(methodName,ArrayList.class);
 				Object ob= Context.askingCtrl.get(0);  
 				Context.askingCtrl.remove(0);
@@ -51,10 +51,17 @@ public class CreditCardController extends ParentController {
 		}
 	}
 	
-	public void getCreditCard(BigInteger cardID)throws IOException {
+	public void getCreditCard(BigInteger cardID) throws IOException {
 		myMsgArr.clear();
 		myMsgArr.add(Thread.currentThread().getStackTrace()[1].getMethodName());
 		myMsgArr.add(cardID);
+		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.SELECT,myMsgArr,CreditCard.class));
+	}
+	
+	public void getCreditCardByNumber(String ccNum) throws IOException {
+		myMsgArr.clear();
+		myMsgArr.add(Thread.currentThread().getStackTrace()[1].getMethodName());
+		myMsgArr.add(ccNum);
 		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.SELECT,myMsgArr,CreditCard.class));
 	}
 	
@@ -80,5 +87,12 @@ public class CreditCardController extends ParentController {
 			System.err.println("No method called '"+methodName+"'");
 			e2.printStackTrace();
 		}
+	}
+	
+	public void update(CreditCard cc) throws IOException {
+		myMsgArr.clear();
+		myMsgArr.add(Thread.currentThread().getStackTrace()[1].getMethodName());
+		myMsgArr.add(cc);
+		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.UPDATE, myMsgArr,CreditCard.class));
 	}
 }

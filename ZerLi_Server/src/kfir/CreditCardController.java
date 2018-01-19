@@ -2,12 +2,14 @@ package kfir;
 
 import java.math.BigInteger;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 
 import common.EchoServer;
 import controllers.ParentController;
 import entities.CreditCard;
 import entities.Product;
+import entities.Subscription;
 
 public class CreditCardController extends ParentController{
 	
@@ -18,11 +20,12 @@ public class CreditCardController extends ParentController{
 		boolean isReturnNextID = (boolean)arr.get(1);
 		String query = "INSERT INTO creditcard (number, validity, cvv)"
 				+ " VALUES ('" + cc.getCcNumber() + "'"
-				+ ", " + cc.getCcValidity() + ", '"
+				+ ", '" + cc.getCcValidity() + "', '"
 				+ cc.getCcCVV()+"')";
 		EchoServer.fac.dataBase.db.updateQuery(query);
-		query ="SELECT creditCardID FROM creditcard WHERE number='"+cc.getCcNumber()+"'";
 		if(isReturnNextID) {
+			myMsgArr.clear();
+			query ="SELECT creditCardID FROM creditcard WHERE number='"+cc.getCcNumber()+"'";
 			myMsgArr =  EchoServer.fac.dataBase.db.getQuery(query);
 			if(myMsgArr!=null && myMsgArr.size()==1 && myMsgArr.get(0) instanceof Integer) {
 				BigInteger ccID= BigInteger.valueOf((Integer)myMsgArr.get(0));
@@ -37,7 +40,7 @@ public class CreditCardController extends ParentController{
 	
 	@Override
 	public ArrayList<Object> handleGet(ArrayList<Object> obj) {
-		if(obj==null) return null;
+		if(obj==null) return new ArrayList<>();
 		ArrayList<Object> cards = new ArrayList<>();
 		for (int i = 0; i < obj.size(); i += 4) {
 			cards.add(parse(
@@ -56,8 +59,19 @@ public class CreditCardController extends ParentController{
 	
 	@Override
 	public ArrayList<Object> update(Object obj) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		if(obj instanceof CreditCard) {
+			CreditCard cc = (CreditCard)obj;
+			String query=String.format(
+					"UPDATE creditcard"
+					+ " SET validity='%s', cvv='%s'"
+					+ " WHERE creditCardID='%d' and number='%s'",
+					cc.getCcValidity(), cc.getCcCVV(), cc.getCcID().intValue(), cc.getCcNumber());
+			EchoServer.fac.dataBase.db.updateQuery(query);
+			myMsgArr.clear();
+			myMsgArr.add(true);
+			return myMsgArr;
+		}
+		throw new Exception();
 	}
 	
 	public ArrayList<Object> getCreditCard(BigInteger cardID)throws SQLException {
@@ -66,6 +80,15 @@ public class CreditCardController extends ParentController{
 		String query ="SELECT *"
 				+ " FROM creditcard"
 				+ " WHERE creditCardID='"+cardID.toString()+"'";
+		return handleGet(EchoServer.fac.dataBase.db.getQuery(query));
+	}
+	
+	public ArrayList<Object> getCreditCardByNumber(String ccNum) throws SQLException {
+		if(ccNum==null)
+			return null;
+		String query ="SELECT *"
+				+ " FROM creditcard"
+				+ " WHERE number='"+ccNum+"'";
 		return handleGet(EchoServer.fac.dataBase.db.getQuery(query));
 	}
 }

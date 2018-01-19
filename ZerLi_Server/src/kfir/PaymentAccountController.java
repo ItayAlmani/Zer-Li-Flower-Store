@@ -41,7 +41,7 @@ public class PaymentAccountController extends ParentController{
 				+ ", '" + pa.getCreditCard().getCcID() 
 				+ "', "+subStr
 				+ ", '"+pa.getStore().getStoreID().toString()
-				+ "', "+"'0');";
+				+ "', '0');";
 		EchoServer.fac.dataBase.db.updateQuery(query);
 		myMsgArr.clear();
 		if(isReturnNextID) {
@@ -60,12 +60,11 @@ public class PaymentAccountController extends ParentController{
 		if(obj == null) return new ArrayList<>();
 		ArrayList<Object> acc = new ArrayList<>();
 		for (int i = 0; i < obj.size(); i += 6) {
-			BigInteger ccID = (Integer)obj.get(i + 2)==null?null:BigInteger.valueOf((Integer)obj.get(i + 2)),
-					subID = (Integer)obj.get(i + 4)==null?null:BigInteger.valueOf((Integer)obj.get(i + 3));
+			BigInteger subID = (Integer)obj.get(i + 4)==null?null:BigInteger.valueOf((Integer)obj.get(i + 4));
 			acc.add(parse(
 					BigInteger.valueOf((Integer)obj.get(i)),
 					BigInteger.valueOf((Integer)obj.get(i + 1)),
-					ccID,
+					BigInteger.valueOf((Integer)obj.get(i + 2)),
 					BigInteger.valueOf((Integer)obj.get(i + 3)),
 					subID, 
 					(float) obj.get(i + 5))
@@ -81,7 +80,7 @@ public class PaymentAccountController extends ParentController{
 		if(creditCardID!=null)
 			cardsObj = EchoServer.fac.creditCard.getCreditCard(creditCardID);
 		else
-			cardsObj.add(null);
+			throw new Exception();
 		ArrayList<Object> subObjs = EchoServer.fac.sub.getSubscriptionByID(subscriptionID);
 		Subscription sub = null;
 		if(subObjs == null)

@@ -115,7 +115,7 @@ public class LoadGUIController {
 	}
 
 	public void loadUpdatePaymentAccount() {
-		loadGUI("ShowCustomersGUI", false);
+		loadGUI("PaymentAccountManagmentGUI", false);
 	}
 
 	private void createScene(String guiName, Stage primaryStage) {

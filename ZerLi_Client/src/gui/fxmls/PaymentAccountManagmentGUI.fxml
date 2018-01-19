@@ -4,9 +4,12 @@
 <?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<VBox alignment="CENTER" spacing="20.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kfir.gui.controllers.ShowCustomersGUIController">
+<VBox alignment="CENTER" spacing="20.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kfir.gui.controllers.PaymentAccountManagmentGUIController">
    <children>
       <JFXComboBox fx:id="cbCustomers" onAction="#openPaymentAccount" promptText="Select customer">
          <VBox.margin>
@@ -15,10 +18,19 @@
          </JFXComboBox>
       <VBox fx:id="vboxPA" alignment="CENTER" spacing="15.0" visible="false">
          <children>
-            <JFXTextField fx:id="lblCustName" alignment="CENTER" disable="true" editable="false" promptText="Customer name" />
             <JFXTextField fx:id="lblIdNUM" alignment="CENTER" disable="true" editable="false" promptText="Customer ID" />
             <JFXTextField fx:id="txtCardNUM" alignment="CENTER" promptText="Enter card number" />
-            <JFXTextField fx:id="txtcardValidity" alignment="CENTER" promptText="Enter card validity" />
+            <HBox alignment="CENTER">
+               <children>
+                  <JFXTextField fx:id="txtMonth" alignment="CENTER" prefColumnCount="6" promptText="Month (MM)" />
+                  <Label text="/" textAlignment="CENTER" textOverrun="CLIP" wrapText="true">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Label>
+                  <JFXTextField fx:id="txtYear" alignment="CENTER" prefColumnCount="6" promptText="Year (YY)" />
+               </children>
+            </HBox>
             <JFXTextField fx:id="txtcardCVV" alignment="CENTER" promptText="Enter card CVV" />
             <JFXButton fx:id="btnSave" mnemonicParsing="false" onAction="#savePaymentAccount" text="Add" textAlignment="CENTER" textOverrun="CLIP" visible="false" />
          </children></VBox>
