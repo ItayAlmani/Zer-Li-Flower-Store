@@ -37,10 +37,10 @@ public class SatisfactionReportController implements ISatisfactionReportControll
 		return analyzeSurveys(EchoServer.fac.survey.getSurveyByDates(obj));
 	}
 
-	private ArrayList<Object> analyzeSurveys(ArrayList<Object> objs) throws Exception{
+	public ArrayList<Object> analyzeSurveys(ArrayList<Object> objs) throws Exception{
 		ArrayList<Survey> surveys= new ArrayList<>();
 		if(objs == null || objs.isEmpty())
-			throw new Exception();
+			return null;
 		for (Object o : objs) {
 			if(o instanceof Survey)
 				surveys.add((Survey)o);
@@ -55,6 +55,7 @@ public class SatisfactionReportController implements ISatisfactionReportControll
 					&& surveys.get(i).getType().equals(SurveyType.Answer)
 					)
 			{
+				flag=1;
 				ar.add(surveys.get(i));
 			}	
 		}
@@ -71,10 +72,10 @@ public class SatisfactionReportController implements ISatisfactionReportControll
 			totans+=answers[j];
 		}	
 		ArrayList<Object> ar1=new ArrayList<>();
-		this.sReport.setSurveys(ar);
-		this.sReport.setFinalanswers(answers);
-		this.sReport.setAverageTotanswer(totans/6);
 		if(flag==1) {
+			this.sReport.setSurveys(ar);
+			this.sReport.setFinalanswers(answers);
+			this.sReport.setAverageTotanswer(totans/6);
 			ar1.add(this.sReport);
 			return ar1;
 		}

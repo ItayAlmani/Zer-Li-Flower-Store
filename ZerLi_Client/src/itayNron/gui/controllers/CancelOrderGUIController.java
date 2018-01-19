@@ -2,30 +2,22 @@ package itayNron.gui.controllers;
 
 import java.io.IOException;
 import java.net.URL;
-import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
-import java.util.concurrent.FutureTask;
-
-import org.junit.internal.runners.model.EachTestNotifier;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 
 import common.ClientConsole;
 import common.Context;
-import entities.Customer;
 import entities.DeliveryDetails;
 import entities.Order;
 import entities.Order.OrderStatus;
-import entities.Order.OrderType;
 import entities.Order.Refund;
-import gui.controllers.ParentGUIController;
 import entities.PaymentAccount;
 import entities.ProductInOrder;
-import entities.Store;
+import gui.controllers.ParentGUIController;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -37,10 +29,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
-import javafx.scene.control.TextField;
 import javafx.stage.Modality;
-import javafx.stage.WindowEvent;
-import javafx.util.converter.LocalDateTimeStringConverter;
 
 public class CancelOrderGUIController implements Initializable {
 
@@ -60,7 +49,12 @@ public class CancelOrderGUIController implements Initializable {
 		}
 
 	}
-
+/**
+ * <p>
+ * Function to set untreated orders from DB into comboBox
+ * </p>
+ * @param ord - arrayList of orders to check if them can be canceled. in case they are, add them to comboBox
+ */
 	public void setOrders(ArrayList<Order> ord) {
 		Platform.runLater(new Runnable() {
 			@Override
@@ -112,6 +106,12 @@ public class CancelOrderGUIController implements Initializable {
 		}
 	};
 
+	/**
+	 * <p>
+	 * Function to able customer to cancel orders
+	 * </p>
+	 * @throws IOException Context.clientConsole.handleMessageFromClientUI throws IOException.
+	 */
 	public void cancelOrder() throws IOException {
 		cbsOrders.setDisable(true);
 		btnCancelOrder.setVisible(false);
@@ -163,6 +163,11 @@ public class CancelOrderGUIController implements Initializable {
 		}
 	}
 
+	/**
+	 * <p>
+	 * Function to enable the cancel button. <br>
+	 * If customer doesn't have orders to cancel or order hasn't been selected from comboBox,</br>don't enable the cancel button.
+	 */
 	public void orderSelected() {
 		if (cbsOrders.getValue() != null)
 			btnCancelOrder.setVisible(true);

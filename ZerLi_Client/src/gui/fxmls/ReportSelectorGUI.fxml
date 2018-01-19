@@ -115,7 +115,7 @@
             <Label fx:id="lblTotIncome1" layoutX="119.0" layoutY="112.0" text="Totincome" />
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="paneHistogram1" layoutX="16.0" layoutY="183.0" prefHeight="272.0" prefWidth="281.0" visible="false">
+      <AnchorPane fx:id="paneHistogram1" layoutX="16.0" layoutY="173.0" prefHeight="272.0" prefWidth="281.0" visible="false">
          <children>
             <StackedBarChart fx:id="Barchart1" animated="false" categoryGap="2.0" layoutX="-13.0" legendSide="RIGHT" prefHeight="272.0" prefWidth="294.0" title="Histogram of customer complaints" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="-13.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
               <xAxis>
@@ -126,9 +126,9 @@
               </yAxis>
             </StackedBarChart>
          </children></AnchorPane>
-      <AnchorPane fx:id="paneHistogram2" layoutX="310.0" layoutY="183.0" prefHeight="272.0" prefWidth="281.0" visible="false">
+      <AnchorPane fx:id="paneHistogram2" layoutX="310.0" layoutY="174.0" prefHeight="272.0" prefWidth="281.0" visible="false">
          <children>
-            <StackedBarChart fx:id="Barchart2" animated="false" categoryGap="2.0" legendSide="RIGHT" prefHeight="272.0" prefWidth="294.0" title="Histogram of customer complaints">
+            <StackedBarChart fx:id="Barchart2" animated="false" categoryGap="2.0" layoutY="-2.0" legendSide="RIGHT" prefHeight="272.0" prefWidth="294.0" title="Histogram of customer complaints">
                <xAxis>
                   <CategoryAxis side="BOTTOM" />
                </xAxis>

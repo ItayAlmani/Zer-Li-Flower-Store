@@ -30,7 +30,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
-import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.StackedBarChart;
@@ -49,6 +48,7 @@ public class ReportSelectorGUIController implements Initializable {
 
 	private ArrayList<Store> stores;
 	private BigInteger n, n1;
+	int err;
 	final static String isTreated = "is Treated";
     final static String isNotTreated = "is Not Treated";
     final static String isRefunded = "is Refunded";
@@ -119,6 +119,10 @@ public class ReportSelectorGUIController implements Initializable {
 				new BorderStroke(Color.FORESTGREEN, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
 		paneSatisfactionReport2.setBorder(new Border(
 				new BorderStroke(Color.BLUE, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+		paneHistogram1.setBorder(new Border(
+				new BorderStroke(Color.FORESTGREEN, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+		paneHistogram2.setBorder(new Border(
+				new BorderStroke(Color.BLUE, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
 
 		cbTypePick1.setItems(FXCollections.observableArrayList(ReportType.values()));
 		try {
@@ -136,15 +140,8 @@ public class ReportSelectorGUIController implements Initializable {
 
 	public void askforreportHandler(ActionEvent event) throws Exception {
 		Context.mainScene.setMessage("");
-		paneOrderReport1.setVisible(false);
-		paneOrderReport2.setVisible(false);
-		paneIncomeReport1.setVisible(false);
-		paneIncomeReport2.setVisible(false);
-		paneSatisfactionReport1.setVisible(false);
-		paneSatisfactionReport2.setVisible(false);
-		paneHistogram1.setVisible(false);
-		paneHistogram2.setVisible(false);
-		int err = 0;
+		resetall();
+		err = 0;
 		if (cbTypePick1.getValue() != null && cbStorePick1.getValue() != null && DatePicker1.getValue() != null) {
 			LocalDate date = DatePicker1.getValue();
 			if (date.isBefore(LocalDate.now()) && cbStorePick1.getValue()!=null) {
@@ -211,8 +208,16 @@ public class ReportSelectorGUIController implements Initializable {
 							}
 						}
 					}
-				} else
-					err++;
+					else
+					{
+							err++;
+					}	
+				} 
+				else
+				{
+					if(this.ToggleReport2.isSelected()==true)
+						err++;
+				}	
 			}
 			if (err == 1)
 				Context.mainScene.setMessage("Report 2 data incorrect");
@@ -221,7 +226,6 @@ public class ReportSelectorGUIController implements Initializable {
 			else if (err == 3)
 				Context.mainScene.setMessage("Report 1 and 2 data incorrect");
 		}
-		ToggleReport2.setVisible(false);
 	}
 
 	public void setStores(ArrayList<Store> stores) {
@@ -263,17 +267,13 @@ public class ReportSelectorGUIController implements Initializable {
 			Platform.runLater(new Runnable() {
 				@Override
 				public void run() {
-					lblFlowerArrcnt1
-							.setText(Integer.toString(rep.getCounterPerType().get(0) + rep.getCounterPerType().get(4)));
-					lblFlowerPlacnt1
-							.setText(Integer.toString(rep.getCounterPerType().get(1) + rep.getCounterPerType().get(5)));
-					lblBridalBoucnt1
-							.setText(Integer.toString(rep.getCounterPerType().get(2) + rep.getCounterPerType().get(6)));
+					lblFlowerArrcnt1.setText(Integer.toString(rep.getCounterPerType().get(0)));
+					lblFlowerPlacnt1.setText(Integer.toString(rep.getCounterPerType().get(1)));
+					lblBridalBoucnt1.setText(Integer.toString(rep.getCounterPerType().get(2)));
 					lblFlowerClucnt1.setText(rep.getCounterPerType().get(3).toString());
-
-					lblFlowerArrsum1.setText(Float.toString(rep.getSumPerType().get(0) + rep.getSumPerType().get(4)));
-					lblFlowerPlasum1.setText(Float.toString(rep.getSumPerType().get(1) + rep.getSumPerType().get(5)));
-					lblBridalBousum1.setText(Float.toString(rep.getSumPerType().get(2) + rep.getSumPerType().get(6)));
+					lblFlowerArrsum1.setText(Float.toString(rep.getSumPerType().get(0)));
+					lblFlowerPlasum1.setText(Float.toString(rep.getSumPerType().get(1)));
+					lblBridalBousum1.setText(Float.toString(rep.getSumPerType().get(2)));
 					lblFlowerClusum1.setText(rep.getSumPerType().get(3).toString());
 				}
 			});
@@ -281,17 +281,14 @@ public class ReportSelectorGUIController implements Initializable {
 		} else {
 			Platform.runLater(new Runnable() {
 				public void run() {
-					lblFlowerArrcnt2
-							.setText(Integer.toString(rep.getCounterPerType().get(0) + rep.getCounterPerType().get(4)));
-					lblFlowerPlacnt2
-							.setText(Integer.toString(rep.getCounterPerType().get(1) + rep.getCounterPerType().get(5)));
-					lblBridalBoucnt2
-							.setText(Integer.toString(rep.getCounterPerType().get(2) + rep.getCounterPerType().get(6)));
+					lblFlowerArrcnt2.setText(Integer.toString(rep.getCounterPerType().get(0)));
+					lblFlowerPlacnt2.setText(Integer.toString(rep.getCounterPerType().get(1)));
+					lblBridalBoucnt2.setText(Integer.toString(rep.getCounterPerType().get(2)));
 					lblFlowerClucnt2.setText(rep.getCounterPerType().get(3).toString());
 
-					lblFlowerArrsum2.setText(Float.toString(rep.getSumPerType().get(0) + rep.getSumPerType().get(4)));
-					lblFlowerPlasum2.setText(Float.toString(rep.getSumPerType().get(1) + rep.getSumPerType().get(5)));
-					lblBridalBousum2.setText(Float.toString(rep.getSumPerType().get(2) + rep.getSumPerType().get(6)));
+					lblFlowerArrsum2.setText(Float.toString(rep.getSumPerType().get(0)));
+					lblFlowerPlasum2.setText(Float.toString(rep.getSumPerType().get(1)));
+					lblBridalBousum2.setText(Float.toString(rep.getSumPerType().get(2)));
 					lblFlowerClusum2.setText(rep.getSumPerType().get(3).toString());
 				}
 			});
@@ -423,8 +420,8 @@ public class ReportSelectorGUIController implements Initializable {
 				    series2.getData().add(new XYChart.Data(isNotTreated, rep.getNotTreatedCnt()));
 				    series3.setName("Is Refunded");  
 				    series3.getData().add(new XYChart.Data(isRefunded, rep.getRefundedCnt()));
-				    Barchart2.getData().addAll(series1, series2, series3);
 				    Barchart2.getData().clear();
+				    Barchart2.getData().addAll(series1, series2, series3);
 				}
 			});
 			paneHistogram2.setVisible(true);
@@ -434,16 +431,30 @@ public class ReportSelectorGUIController implements Initializable {
 	
 	public void hideReport2(ActionEvent event) {
 		if (!this.ToggleReport2.isSelected())
+		{
 			paneReport2.setVisible(false);
+			cbTypePick2.setValue(null);
+			cbStorePick2.setValue(null);
+			err = 0;
+		}
 		else
 			paneReport2.setVisible(true);
 
 	}
 	
-	
-	
-
 	public void Backtomainmenuhandler(ActionEvent event) throws Exception {
 		Context.mainScene.loadMainMenu();
+	}
+	
+	public void resetall()
+	{
+		paneOrderReport1.setVisible(false);
+		paneOrderReport2.setVisible(false);
+		paneIncomeReport1.setVisible(false);
+		paneIncomeReport2.setVisible(false);
+		paneSatisfactionReport1.setVisible(false);
+		paneSatisfactionReport2.setVisible(false);
+		paneHistogram1.setVisible(false);
+		paneHistogram2.setVisible(false);
 	}
 }

@@ -38,12 +38,24 @@ public class SurveyReportGUIController implements Initializable
 	 * @param survey
 	 * @throws IOException 
 	 */
+	
+	/**
+	 * <p>
+	 * Funtcion to load analyzes of surveys in specific range of dates
+	 * </p>
+	 * @throws IOException Context.clientConsole.handleMessageFromClientUI throws IOException.
+	 */
 	@FXML public void loadSurveyAnalyzesToGUI() throws IOException {
 		Context.fac.surveyReport.analyzeSurveys(
 				dpDateStart.getValue().atStartOfDay(), dpDateEnd.getValue().atStartOfDay());
 	}
-	
-	@FXML public void sendSurveyReport(ActionEvent event) throws IOException
+	/**
+	 * <p>
+	 * Function to add new surveyReport to DB
+	 * </p>
+	 * @throws IOException Context.clientConsole.handleMessageFromClientUI throws IOException.
+	 */
+	@FXML public void sendSurveyReport() throws IOException
 	{
 		sr.setVerbalReport(txtVerbal.getText());
 		sr.getSurveyAnalyzes().setType(SurveyType.Analyzes);
@@ -78,17 +90,6 @@ public class SurveyReportGUIController implements Initializable
 			Context.mainScene.loadMainMenu("surveys is null");
 	}
 	
-	
-
-	/**
-	 * 
-	 * @param txtVerbalReport
-	 */
-	public void attachVerbalReport(TextArea txtVerbalReport)
-	{
-		txtVerbalReport.getText();
-		throw new UnsupportedOperationException();
-	}
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {		

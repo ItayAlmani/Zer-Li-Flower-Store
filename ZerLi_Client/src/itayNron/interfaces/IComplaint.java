@@ -8,31 +8,47 @@ import entities.Complaint;
 import interfaces.IParent;
 
 public interface IComplaint{
-
-	/**
-	 * 
-	 * @param complaint
-	 */
+/**
+ * <p>
+ * The function adds complaint object to DB
+ * </p>
+ * @param complaint - complaint object to be added to DB
+ * @param getCurrentID - boolean object to decide correct ID in server
+ * @throws IOException Context.clientConsole.handleMessageFromClientUI throws IOException.
+ */
 	void add(Complaint complaint, boolean getCurrentID) throws IOException;
 
 	/**
-	 * 
-	 * @param complaint
-	 * @throws IOException 
+	 * <p> Function to update complaint object in DB
+	 * </p>
+	 * @param complaint - complaint object to be updated in DB
+	 * @throws IOException - Context.clientConsole.handleMessageFromClientUI throws IOException.
 	 */
 	void update(Complaint complaint) throws IOException;
 
 	/**
-	 * 
-	 * @param storeid
-	 * @throws IOException 
+	 * <p>
+	 * Function to get all complaint objects from a requested store
+	 * </p>
+	 * @param storeid - Unique identifier storeID to draw all complaints from store with that specific ID
+	 * @throws IOException Context.clientConsole.handleMessageFromClientUI throws IOException.
 	 */
 	void getComplaintsByStore(BigInteger storeid) throws IOException;
-
+/**
+ * <p>
+ * Function to get all complaints object which didn't got treated
+ * </p>
+ * @throws IOException Context.clientConsole.handleMessageFromClientUI throws IOException.
+ */
 	void getNotTreatedComplaints() throws IOException;
 
 
-
+/**
+ * <p>
+ * Function to handle the information from the server, back to GUI
+ * </p>
+ * @param obj - generic object which casted according to this class type
+ */
 	void handleGet(ArrayList<Complaint> obj);
 
 }
