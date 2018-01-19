@@ -92,7 +92,11 @@ public class ReportSelectorGUIController implements Initializable {
 	// Satisfaction Report 2 Variables
 	private @FXML Label lblQ1Ans2, lblQ3Ans2, lblQ4Ans2, lblQ5Ans2, lblQ6Ans2, lblQ7Ans2, lblQ8Ans2, lblQ2Ans2,
 			lblQ10Ans2, lblQ9Ans2, lblTotans2, lblSatisfactionStartdate2, lblSatisfactionEnddate2;
-
+	/**
+	 * This function runs the process of displaying the report selector screen
+	 * @param stage - the stage that represents this screen
+	 * @throws IOException - loader.load() can throw an IOException
+	 */
 	public void start(Stage stage) throws IOException {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/fxmls/ReportMainGUI.fxml"));
 		Scene scene = new Scene(loader.load());
@@ -100,13 +104,17 @@ public class ReportSelectorGUIController implements Initializable {
 		stage.setScene(scene);
 		stage.show();
 	}
-
+	/**
+	 * The screen initialization function before it goes up.
+	 * Before the screen goes up, we update the Combo boxes, date menus, and the report types menu.
+	 * In addition, we choose what will be displayed to the user and according to the user type.
+	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		ParentGUIController.currentGUI = this;
 		DatePicker1.setValue(LocalDate.now().minusDays(1));
 		DatePicker2.setValue(LocalDate.now().minusDays(1));
-
+		//Select the section segmentation
 		paneOrderReport1.setBorder(new Border(
 				new BorderStroke(Color.FORESTGREEN, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
 		paneOrderReport2.setBorder(new Border(
@@ -123,7 +131,7 @@ public class ReportSelectorGUIController implements Initializable {
 				new BorderStroke(Color.FORESTGREEN, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
 		paneHistogram2.setBorder(new Border(
 				new BorderStroke(Color.BLUE, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
-
+		
 		cbTypePick1.setItems(FXCollections.observableArrayList(ReportType.values()));
 		try {
 			Context.fac.store.getAllStores();
@@ -137,7 +145,15 @@ public class ReportSelectorGUIController implements Initializable {
 		}
 
 	}
-
+	/**
+	 * This function is the heart of the report selection department.
+	 * In this function we will perform the selection of the report that the user requested and we will
+	 * send the request to the server and we will get the answer back, according to the user's selections
+	 * from the existing combo boxes.
+	 * Of course, there is a possibility that a chain store manager will be able to choose 2 reports at any time.
+	 * @param event - Represntes the event when confirm button pressed in report selector screen
+	 * @throws Exception - All calls to the server can create an exception
+	 */
 	public void askforreportHandler(ActionEvent event) throws Exception {
 		Context.mainScene.setMessage("");
 		resetall();
@@ -147,8 +163,15 @@ public class ReportSelectorGUIController implements Initializable {
 			if (date.isBefore(LocalDate.now()) && cbStorePick1.getValue()!=null) {
 				n = cbStorePick1.getValue().getStoreID();
 				if (this.cbTypePick1.getValue().equals(ReportType.Order))
-					Context.fac.orderReport.initproduceOrderReport(date, n);
-
+					if(!n.equals(-1))
+						Context.fac.orderReport.initproduceOrderReport(date, n);
+					/*else
+					{
+						for(int g=0;g<stores.size()-1;g++)
+						{
+							Context.fac.orderReport.initproduceOrderReport(date, stores.get(g).getStoreID());
+						}
+					}*/
 				else if (cbTypePick1.getValue().equals(ReportType.Incomes))
 					Context.fac.incomesReport.initProduceIncomesReport(date, n);
 
@@ -159,6 +182,8 @@ public class ReportSelectorGUIController implements Initializable {
 				}
 			} else
 				err = 2;
+			//Here is the part that checks if this user have the permission of chain store manager
+			//if there is it check if he choose another report to show.
 			if (Context.getUser().getPermissions().equals(User.UserType.ChainStoreManager)) {
 				if (this.cbStorePick2.getValue() != null && this.cbTypePick2.getValue() != null
 						&& DatePicker2 != null) {
@@ -227,7 +252,12 @@ public class ReportSelectorGUIController implements Initializable {
 				Context.mainScene.setMessage("Report 1 and 2 data incorrect");
 		}
 	}
-
+	/**
+	 * In this function we initialize the store selection menu.
+	 * A store manager will show only his store, while a chain manager will have all the stores.
+	 * @param stores - in the initialization we ask for the store list from the DB
+	 * its stored in stores arraylist and this is the input of this function
+	 */
 	public void setStores(ArrayList<Store> stores) {
 		if (Context.getUser().getPermissions().equals(User.UserType.StoreManager)) {
 			stores.clear();
@@ -248,6 +278,7 @@ public class ReportSelectorGUIController implements Initializable {
 			Platform.runLater(new Runnable() {
 				@Override
 				public void run() {
+					stores.add(new Store(BigInteger.valueOf(-1), "All Stores"));
 					cbStorePick1.setItems(FXCollections.observableArrayList(stores));
 					cbStorePick2.setItems(FXCollections.observableArrayList(stores));
 					cbStorePick2.setVisible(true);
@@ -256,46 +287,60 @@ public class ReportSelectorGUIController implements Initializable {
 		}
 		this.stores = stores;
 	}
-
+	/**
+	 * This function updates all the GUI components associated with the Orders report.
+	 * If necessary, it updates to 2 reports, of course, according to the user's permissions.
+	 * @param oReports - the answer that come back from the server,
+	 *  an OrderReport arraylist that include all information in the selected date range and specific store.
+	 */
 	public void setOrderReports(ArrayList<OrderReport> oReports) {
 		if (oReports == null)
 			return;
-		OrderReport rep = oReports.get(0);
-		LocalDate date = DatePicker1.getValue();
-		if (rep.getStoreID().equals(n) && cbTypePick1.getValue().equals(ReportType.Order)
-				&& date.equals(rep.getEnddate())) {
-			Platform.runLater(new Runnable() {
-				@Override
-				public void run() {
-					lblFlowerArrcnt1.setText(Integer.toString(rep.getCounterPerType().get(0)));
-					lblFlowerPlacnt1.setText(Integer.toString(rep.getCounterPerType().get(1)));
-					lblBridalBoucnt1.setText(Integer.toString(rep.getCounterPerType().get(2)));
-					lblFlowerClucnt1.setText(rep.getCounterPerType().get(3).toString());
-					lblFlowerArrsum1.setText(Float.toString(rep.getSumPerType().get(0)));
-					lblFlowerPlasum1.setText(Float.toString(rep.getSumPerType().get(1)));
-					lblBridalBousum1.setText(Float.toString(rep.getSumPerType().get(2)));
-					lblFlowerClusum1.setText(rep.getSumPerType().get(3).toString());
-				}
-			});
-			paneOrderReport1.setVisible(true);
-		} else {
-			Platform.runLater(new Runnable() {
-				public void run() {
-					lblFlowerArrcnt2.setText(Integer.toString(rep.getCounterPerType().get(0)));
-					lblFlowerPlacnt2.setText(Integer.toString(rep.getCounterPerType().get(1)));
-					lblBridalBoucnt2.setText(Integer.toString(rep.getCounterPerType().get(2)));
-					lblFlowerClucnt2.setText(rep.getCounterPerType().get(3).toString());
-
-					lblFlowerArrsum2.setText(Float.toString(rep.getSumPerType().get(0)));
-					lblFlowerPlasum2.setText(Float.toString(rep.getSumPerType().get(1)));
-					lblBridalBousum2.setText(Float.toString(rep.getSumPerType().get(2)));
-					lblFlowerClusum2.setText(rep.getSumPerType().get(3).toString());
-				}
-			});
-			paneOrderReport2.setVisible(true);
-		}
+		/*if(n.equals(-1))
+			setAllOrderReports(oReports);
+		else {*/
+			OrderReport rep = oReports.get(0);
+			LocalDate date = DatePicker1.getValue();
+			if (rep.getStoreID().equals(n) && cbTypePick1.getValue().equals(ReportType.Order)
+					&& date.equals(rep.getEnddate())) {
+				Platform.runLater(new Runnable() {
+					@Override
+					public void run() {
+						lblFlowerArrcnt1.setText(Integer.toString(rep.getCounterPerType().get(0)));
+						lblFlowerPlacnt1.setText(Integer.toString(rep.getCounterPerType().get(1)));
+						lblBridalBoucnt1.setText(Integer.toString(rep.getCounterPerType().get(2)));
+						lblFlowerClucnt1.setText(rep.getCounterPerType().get(3).toString());
+						lblFlowerArrsum1.setText(Float.toString(rep.getSumPerType().get(0)));
+						lblFlowerPlasum1.setText(Float.toString(rep.getSumPerType().get(1)));
+						lblBridalBousum1.setText(Float.toString(rep.getSumPerType().get(2)));
+						lblFlowerClusum1.setText(rep.getSumPerType().get(3).toString());
+					}
+				});
+				paneOrderReport1.setVisible(true);
+			} else {
+				Platform.runLater(new Runnable() {
+					public void run() {
+						lblFlowerArrcnt2.setText(Integer.toString(rep.getCounterPerType().get(0)));
+						lblFlowerPlacnt2.setText(Integer.toString(rep.getCounterPerType().get(1)));
+						lblBridalBoucnt2.setText(Integer.toString(rep.getCounterPerType().get(2)));
+						lblFlowerClucnt2.setText(rep.getCounterPerType().get(3).toString());
+	
+						lblFlowerArrsum2.setText(Float.toString(rep.getSumPerType().get(0)));
+						lblFlowerPlasum2.setText(Float.toString(rep.getSumPerType().get(1)));
+						lblBridalBousum2.setText(Float.toString(rep.getSumPerType().get(2)));
+						lblFlowerClusum2.setText(rep.getSumPerType().get(3).toString());
+					}
+				});
+				paneOrderReport2.setVisible(true);
+			}
+		//}
 	}
-
+	/**
+	 * This function updates all the GUI components associated with the Incomes report.
+	 * If necessary, it updates to 2 reports, of course, according to the user's permissions.
+	 * @param iReports - the answer that come back from the server,
+	 *  an IncomesReport arraylist that include all information in the selected date range and specific store.
+	 */
 	public void setIncomeReports(ArrayList<IncomesReport> iReports) {
 		if (iReports == null)
 			return;
@@ -331,7 +376,12 @@ public class ReportSelectorGUIController implements Initializable {
 		}
 
 	}
-
+	/**
+	 * This function updates all the GUI components associated with the Satisfaction report.
+	 * If necessary, it updates to 2 reports, of course, according to the user's permissions. 
+	 * @param sReports - the answer that come back from the server,
+	 *  an IncomesReport arraylist that include all information in the selected date range and specific store.
+	 */
 	public void setSatisfactionReports(ArrayList<SatisfactionReport> sReports) {
 		if (sReports == null)
 			return;
@@ -375,8 +425,13 @@ public class ReportSelectorGUIController implements Initializable {
 		}
 
 	}
-
-	
+	/**
+	 * This function updates all the GUI components associated with the Histograma report.
+	 * Part of it its the updating of the data into a stacked bar chart. 
+	 * If necessary, it updates to 2 reports, of course, according to the user's permissions.  
+	 * @param ccReports - the answer that come back from the server,
+	 *  an IncomesReport arraylist that include all information in the selected date range and specific store.
+	 */
 	public void setHistogramOfCustomerComplaintsReports(ArrayList<HistogramOfCustomerComplaintsReport> ccReports) {
 		if (ccReports == null)
 			return;
@@ -428,7 +483,12 @@ public class ReportSelectorGUIController implements Initializable {
 		}
 
 	}
-	
+	/**
+	 * 	This function controls the ToggleReport2 button which determines whether another report
+	 *  will be displayed.
+	 * This button will be displayed only to a chain store manager.
+	 * @param event - event represents the behavior when you press the ToggleReport2 button
+	 */
 	public void hideReport2(ActionEvent event) {
 		if (!this.ToggleReport2.isSelected())
 		{
@@ -441,11 +501,11 @@ public class ReportSelectorGUIController implements Initializable {
 			paneReport2.setVisible(true);
 
 	}
-	
-	public void Backtomainmenuhandler(ActionEvent event) throws Exception {
-		Context.mainScene.loadMainMenu();
-	}
-	
+
+	/**
+	 * This function clears the screen.
+	 * In effect, a window will not be created on a window.
+	 */
 	public void resetall()
 	{
 		paneOrderReport1.setVisible(false);
@@ -457,4 +517,33 @@ public class ReportSelectorGUIController implements Initializable {
 		paneHistogram1.setVisible(false);
 		paneHistogram2.setVisible(false);
 	}
+	
+/*	void setAllOrderReports(ArrayList<OrderReport> oReports) {
+		OrderReport rep=new OrderReport();
+		ArrayList<Integer> cType = new ArrayList<>();
+		int[] arr = new int[oReports.get(0).getCounterPerType().size()];
+		for(int i=0;i<oReports.get(0).getCounterPerType().size();i++)
+			arr[i]+=rep.getCounterPerType().get(i)+oReports.get(0).getCounterPerType().get(i);
+		for(int i=0;i<arr.length;i++)
+			cType.add(arr[i]);
+		rep.setCounterPerType(cType);
+		LocalDate date = DatePicker1.getValue();
+		if (rep.getStoreID().equals(n) && cbTypePick1.getValue().equals(ReportType.Order)
+				&& date.equals(rep.getEnddate())) {
+			Platform.runLater(new Runnable() {
+				@Override
+				public void run() {
+					lblFlowerArrcnt1.setText(Integer.toString(rep.getCounterPerType().get(0)));
+					lblFlowerPlacnt1.setText(Integer.toString(rep.getCounterPerType().get(1)));
+					lblBridalBoucnt1.setText(Integer.toString(rep.getCounterPerType().get(2)));
+					lblFlowerClucnt1.setText(rep.getCounterPerType().get(3).toString());
+					lblFlowerArrsum1.setText(Float.toString(rep.getSumPerType().get(0)));
+					lblFlowerPlasum1.setText(Float.toString(rep.getSumPerType().get(1)));
+					lblBridalBousum1.setText(Float.toString(rep.getSumPerType().get(2)));
+					lblFlowerClusum1.setText(rep.getSumPerType().get(3).toString());
+				}
+			});
+			paneOrderReport1.setVisible(true);
+		}
+	}*/
 }

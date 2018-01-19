@@ -30,7 +30,13 @@ public class StoreController extends ParentController {
 					);
 		return stores;
 	}
-	
+	/**
+	 * <p>
+	 * Function to get all stores from DB
+	 * </p>
+	 * @return generic object arrayList which will become store arrayList   
+	 * @throws Exception Context.clientConsole.handleMessageFromClientUI throws Exception.
+	 */
 	public ArrayList<Object> getAllStores() throws Exception   {
 		String query = "SELECT * FROM store";
 		ArrayList<Object> arr = handleGet(EchoServer.fac.dataBase.db.getQuery(query));
@@ -55,7 +61,14 @@ public class StoreController extends ParentController {
 		else
 			throw new Exception();
 	}
-	
+	/**
+	 * <p>
+	 * Function to get specific store by ID
+	 * </p>
+	 * @param storeID - unique identifier to pull store data by it
+	 * @return generic object arrayList which will become store object
+	 * @throws Exception Context.clientConsole.handleMessageFromClientUI throws Exception.
+	 */
 	public ArrayList<Object> getStoreByID(BigInteger storeID) throws Exception{
 		String query = "SELECT *" + 
 				" FROM store" + 
@@ -67,7 +80,13 @@ public class StoreController extends ParentController {
 		}
 		throw new Exception();
 	}
-
+/**
+ * <p>
+ * Function to get all stores with their stock
+ * </p>
+ * @return generic object arrayList which will become store object with her stock
+ * @throws Exception Context.clientConsole.handleMessageFromClientUI throws Exception.
+ */
 	public ArrayList<Object> getAllStoresWithStock() throws Exception{
 		ArrayList<Object> stores = getAllStores();
 		if(stores!=null && stores.isEmpty()==false) {
@@ -80,6 +99,13 @@ public class StoreController extends ParentController {
 		return stores;
 	}
 	
+	/**
+	 * <p>
+	 * Function to get stock object according to specific store
+	 * </p>
+	 * @param store - unique identifier of store to pull stock data from DB of it
+	 * @throws Exception Context.clientConsole.handleMessageFromClientUI throws Exception.
+	 */
 	private void getStockByStore(Store store) throws Exception{
 		if(store == null || store.getStoreID()==null)
 			throw new Exception();
@@ -93,7 +119,16 @@ public class StoreController extends ParentController {
 			}
 		}
 	}
-	
+	/**
+	 * <p>
+	 * Function to create new store object with data from DB
+	 * </p>
+	 * @param storeID - parameter for storeID field from DB
+	 * @param managerID - parameter for managerID field from DB
+	 * @param name - parameter for name field from DB
+	 * @return  new created store object filled with data from DB
+	 * @throws Exception Context.clientConsole.handleMessageFromClientUI throws Exception
+	 */
 	public Store parse(BigInteger storeID, BigInteger managerID, String name) throws Exception {
 		Store s = null;
 		if(asked_to_get_store_by_manager == false) {

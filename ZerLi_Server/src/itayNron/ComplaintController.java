@@ -59,6 +59,14 @@ public class ComplaintController extends ParentController {
 			throw e;
 		}
 	}
+	
+	/**
+	 * <p>
+	 * Function to insert with query complaint object to DB
+	 * </p>
+	 * @param comp - complaint object to be inserted to DB
+	 * @throws Exception Context.clientConsole.handleMessageFromClientUI throws IOException.
+	 */
 	public void insertComplaint(Complaint comp) throws Exception {
 		String treStr = comp.isTreated()==true?"1":"0",
 				refStr = comp.isRefunded()==true?"1":"0";
@@ -72,7 +80,13 @@ public class ComplaintController extends ParentController {
 				+ refStr+"')";
 		EchoServer.fac.dataBase.db.updateQuery(query);		
 	}
-	
+	/**
+	 * <p>
+	 * Function to get the next ID for complaint object from DB
+	 * </p>
+	 * @return ID which used by the next complaint object that will be inserted to DB
+	 * @throws Exception Context.clientConsole.handleMessageFromClientUI throws IOException.
+	 */
 	private BigInteger getNextID() throws Exception {
 		String query="SELECT Max(ComplaintID) from complaint";
 		myMsgArr =  EchoServer.fac.dataBase.db.getQuery(query);
@@ -108,12 +122,25 @@ public class ComplaintController extends ParentController {
 			throw new Exception();
 	}
 	
-	
+	/**
+	 * <p>
+	 * Function sends query about all not treated complaints from DB
+	 * </p>
+	 * @return generic object arrayList, eventually will be arrayList of complaints
+	 * @throws Exception Context.clientConsole.handleMessageFromClientUI throws IOException.
+	 */
 	public ArrayList<Object> getNotTreatedComplaints() throws Exception {
 		String query = "SELECT complaint.* FROM complaint WHERE complaint.isTreated='0'";
 		return handleGet(EchoServer.fac.dataBase.db.getQuery(query));
 	}
-	
+	/**
+	 * <p>
+	 * Function sends query to get all complaints by specific store
+	 * </p>
+	 * @param obj - generic object that identify the specific store
+	 * @return - generic object arrayList, eventually turn to arrayList of complaints
+	 * @throws Exception Context.clientConsole.handleMessageFromClientUI throws IOException.
+	 */
 	public ArrayList<Object> getComplaintsByStore (Object obj) throws Exception
 	{
 		if(obj instanceof Store) {
@@ -125,6 +152,21 @@ public class ComplaintController extends ParentController {
 		}
 		else throw new SQLException();
 	}
+	
+	/**
+	 * <p>
+	 * The function will get data of complaint object from server and fill the fields of it.
+	 * </p>
+	 * @param complaintID - parameter for complaintID field in object
+	 * @param customerID - parameter for customerID field in object
+	 * @param storeID - parameter for storeID field in object
+	 * @param complaintReason - parameter for complaintReason field in object
+	 * @param date - parameter for date field in object
+	 * @param isTreated - parameter for isTreated field in object
+	 * @param isRefunded - parameter for isRefunded field in object
+	 * @return new complaint object filled with data from DB
+	 * @throws Exception Context.clientConsole.handleMessageFromClientUI throws IOException.
+	 */
 	public Complaint parse(BigInteger complaintID,BigInteger customerID, BigInteger storeID,String complaintReason,Timestamp date,boolean isTreated,boolean isRefunded) throws Exception {
 		LocalDateTime ldtDate = date.toLocalDateTime();
 		ArrayList<Object> custObj = EchoServer.fac.customer.getCustomerByID(customerID);

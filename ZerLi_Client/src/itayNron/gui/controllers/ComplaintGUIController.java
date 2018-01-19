@@ -282,7 +282,7 @@ public class ComplaintGUIController implements Initializable {
 	}
 	 /**
 	  * <p>
-	  * Function to show all details of selected customer from comboBox
+	  * Function to show all details of selected customer from comboBox, from here we can treat the compalint.
 	  * </p>
 	  */
 	public void customerSelected() {

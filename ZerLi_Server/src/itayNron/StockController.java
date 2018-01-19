@@ -14,7 +14,14 @@ import entities.Stock;
 import entities.Store;
 
 public class StockController extends ParentController {
-	
+	/**
+	 * <p>
+	 * Function to get stock from specific store
+	 * </p>
+	 * @param storeID - unique identifier for store to get stock from it
+	 * @return generic object arrayList which will become arrayList of stock
+	 * @throws SQLException Context.clientConsole.handleMessageFromClientUI throws SQLException.
+	 */
 	public ArrayList<Object> getStockByStore(BigInteger storeID) throws SQLException {
 		String query =  "SELECT sto.stockID,product.*,sto.quantity,sto.storeID, salePercetage" + 
 				" FROM stock AS sto" + 
@@ -38,6 +45,13 @@ public class StockController extends ParentController {
 		return myMsgArr;
 	}
 	
+	/**
+	 * <p>
+	 * Function to update stock when making an order
+	 * </p>
+	 * @param order - order object to know how much products we need to remove from the stock
+	 * @throws Exception Context.clientConsole.handleMessageFromClientUI throws Exception.
+	 */
 	private void updateByOrder(Order order) throws Exception {
 		if(order.getProducts()!=null) {				
 			for (ProductInOrder productInOrder : order.getProducts()) {
@@ -70,6 +84,13 @@ public class StockController extends ParentController {
 		throw new Exception();
 	}
 	
+	/**
+	 * <p>
+	 * Function to update stock
+	 * </p>
+	 * @param stk - update stock according to stk details
+	 * @throws Exception Context.clientConsole.handleMessageFromClientUI throws Exception.
+	 */
 	private void updateByStock(Stock stk) throws Exception {
 		String query = String.format(
 				"UPDATE stock"
@@ -107,7 +128,23 @@ public class StockController extends ParentController {
 		}
 		return stocks;
 	}
-	
+	/**
+	 * <p>
+	 * Function to create new stock object according data received from DB
+	 * </p>
+	 * @param stckID - parameter for stckID field in object
+	 * @param prdID - parameter for prdID field in object
+	 * @param name - parameter for name field in object
+	 * @param type - parameter for type field in object
+	 * @param price - parameter for price field in object
+	 * @param color - parameter for color field in object
+	 * @param inCatalog - parameter for inCatalog field in object
+	 * @param imageURL - parameter for imageURL field in object
+	 * @param quantity - parameter for quantity field in object
+	 * @param storeID - parameter for storeID field in object
+	 * @param salePercetage - parameter for salePercetage field in object
+	 * @return new created stock object with data from DB
+	 */
 	public Stock parse(BigInteger stckID, 
 			BigInteger prdID, String name, String type, float price, 
 			String color, boolean inCatalog, String imageURL,
@@ -149,6 +186,14 @@ public class StockController extends ParentController {
 		return myMsgArr;
 	}	
 	
+	/**
+	 * <p>
+	 * Function to add specific product to all stores
+	 * </p>
+	 * @param p - specific product to be added to all stores in DB
+	 * @return true for success of adding, false for fail of adding
+	 * @throws Exception
+	 */
 	public ArrayList<Object> addProductToAllStores(Product p) throws Exception {
 		if(p==null)
 			throw new Exception();

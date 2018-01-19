@@ -66,7 +66,14 @@ public class SurveyController extends ParentController
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
+	/**
+	 * <p>
+	 * Function to get surveys by specific store
+	 * </p>
+	 * @param store - unique identifier store object from which we want surveys from
+	 * @return generic object arrayList which become survey arrayList
+	 * @throws SQLException Context.clientConsole.handleMessageFromClientUI throws SQLException
+	 */
 	public ArrayList<Object> getSurveyByStore(Store store) throws SQLException {
 		String query = String.format(
 				"SELECT survey.* FROM survey WHERE storeID = %d",
@@ -74,6 +81,14 @@ public class SurveyController extends ParentController
 		return handleGet(EchoServer.fac.dataBase.db.getQuery(query));
 	}
 	
+	/**
+	 * <p>
+	 * Function to get survey from all stores by range of dates
+	 * </p>
+	 * @param arr - start and end date of date range which we want survey from
+	 * @return generic object arrayList which will become survey arrayList
+	 * @throws SQLException Context.clientConsole.handleMessageFromClientUI throws SQLException
+	 */
 	public ArrayList<Object> getSurveyByDates(ArrayList<Object> arr) throws SQLException{
 		if(arr!=null && arr.size()==2 
 				&& arr.get(0) instanceof LocalDateTime && arr.get(1) instanceof LocalDateTime) {
@@ -86,6 +101,20 @@ public class SurveyController extends ParentController
 		else throw new SQLException("Must send ArrayList<Object> that contains 2 LocalDate in getSurveyByDates");
 	}
 	
+	/**
+	 * Function to create new survey object with data from DB
+	 * @param surveyID - parameter for surveyID field in object
+	 * @param storeID - parameter for storeID field in object
+	 * @param answer1 - parameter for answer1 field in object
+	 * @param answer2 - parameter for ansewr2 field in object
+	 * @param answer3 - parameter for answer3 field in object
+	 * @param answer4 - parameter for answer4 field in object
+	 * @param answer5 - parameter for answer5 field in object
+	 * @param answer6 - parameter for answer6 field in object
+	 * @param date - parameter for date field in object
+	 * @param type - parameter for type field in object
+	 * @return new created survey object with data from DB
+	 */
 	public Survey parse(BigInteger surveyID,BigInteger storeID, float answer1,float answer2,float answer3,float answer4,float answer5,float answer6, Timestamp date, String type) {
 		LocalDate ldtDate = date.toLocalDateTime().toLocalDate();
 		float[] answers = new float[6];
