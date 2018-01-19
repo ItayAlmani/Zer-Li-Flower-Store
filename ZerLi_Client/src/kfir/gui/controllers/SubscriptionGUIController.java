@@ -71,7 +71,7 @@ public class SubscriptionGUIController implements Initializable {
 							return;
 						}
 						else {
-							if(pa.getSub().getSubType())
+							//if(pa.getSub().getSubType())
 							vboxPA.setVisible(true);
 							btnSave.setVisible(true);
 						}
