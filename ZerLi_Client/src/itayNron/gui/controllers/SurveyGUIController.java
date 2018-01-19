@@ -34,7 +34,13 @@ public class SurveyGUIController implements Initializable {
 	private ObservableList<Float> list;
 	@FXML DatePicker dpDate;
 
-	@FXML public void sendSurvey(ActionEvent event) throws IOException {
+	/**
+	 * <p>
+	 * Function to send filled survey to DB
+	 * </p>
+	 * @throws IOException Context.clientConsole.handleMessageFromClientUI throws IOException.
+	 */
+	@FXML public void sendSurvey() throws IOException {
 		/*StoreWorker sw = Context.getUserAsStoreWorker();
 		if(sw == null)
 			return;*/

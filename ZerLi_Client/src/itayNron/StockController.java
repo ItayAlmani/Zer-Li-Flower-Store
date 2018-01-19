@@ -48,8 +48,10 @@ public class StockController extends ParentController implements IStock {
 		return newStocks;
 	}
 	
-	public Product checkStockByOrder(Order order, Store store) {
-		if(store.getStock()==null || store.getStock().size()==0) {
+	public Product checkStockByOrder(Order order, Store store) 
+	{
+		if(store.getStock()==null || store.getStock().size()==0) 
+		{
 			if(order.getProducts() != null && order.getProducts().size()>0)
 				return order.getProducts().get(0).getProduct();
 			return null;
@@ -76,13 +78,6 @@ public class StockController extends ParentController implements IStock {
 		myMsgArr.clear();
 		myMsgArr.add(Thread.currentThread().getStackTrace()[1].getMethodName());
 		myMsgArr.add(stock);
-		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.UPDATE,myMsgArr,Stock.class));
-	}
-	
-	public void updateAfterCancellation(Order order) throws IOException {
-		myMsgArr.clear();
-		myMsgArr.add(Thread.currentThread().getStackTrace()[1].getMethodName());
-		myMsgArr.add(order);
 		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.UPDATE,myMsgArr,Stock.class));
 	}
 	

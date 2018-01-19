@@ -14,22 +14,31 @@ import interfaces.IParent;
 public interface ISurvey{
 
 	/**
-	 * 
-	 * @param survey
+	 * <p>
+	 * Function to add new survey to DB
+	 * </p>
+	 * @param survey - new survey to add to DB
+	 * @throws IOException Context.clientConsole.handleMessageFromClientUI throws IOException.
 	 */
 	void add(Survey survey) throws IOException;
 
 	/**
-	 * 
-	 * @param store
+	 * <p>
+	 * Function to get all surveys from a specific store
+	 * </p>
+	 * @param store - store object to identify where to get surveys from
+	 * @throws IOException Context.clientConsole.handleMessageFromClientUI throws IOException.
 	 */
 	void getSurveyByStore(Store store) throws IOException;
 
-	/**
-	 * 
-	 * @param startDate
-	 * @param endDate
-	 */
+/**
+ * <p>
+ * Function to get all surveys from a specific range of dates
+ * </p>
+ * @param startDate - start date of date range
+ * @param endDate - end date of date range
+ * @throws IOException Context.clientConsole.handleMessageFromClientUI throws IOException.
+ */
 	void getSurveyByDates(LocalDate startDate, LocalDate endDate) throws IOException;
 
 }

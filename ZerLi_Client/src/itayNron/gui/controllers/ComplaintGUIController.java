@@ -59,6 +59,12 @@ public class ComplaintGUIController implements Initializable {
 	 */
 	private Boolean isNewComplaint = null;
 
+	/**
+	 * <p>
+	 * Function to able adding complaint in GUI
+	 * </p>
+	 * @throws IOException Context.clientConsole.handleMessageFromClientUI throws IOException.
+	 */
 	public void showAddComplaint() throws IOException {
 		isNewComplaint=true;
 		Context.mainScene.setMessage("");
@@ -73,7 +79,12 @@ public class ComplaintGUIController implements Initializable {
 		mainCh.add(ind,vbxAddComplaint);
 		ParentGUIController.primaryStage.getScene().getWindow().sizeToScene();
 	}
-
+/**
+ * <p>
+ * 
+ * </p>
+ * @throws IOException
+ */
 	public void showComplaint() throws IOException {
 		if(cbsComplaints.getValue()!=null) {
 			Context.mainScene.setMessage("");
@@ -99,6 +110,15 @@ public class ComplaintGUIController implements Initializable {
 		}
 	}
 
+
+	/**
+	 * <p>
+	 * This function checks if this complaint is new or we tread old complaint: <br>
+	 * 1. The first case, we created new complaint,the function will send it to the DB.<br>
+	 * 2. The second case, we treating old complaint and want to update it in DB.
+	 * </p>
+	 * @throws IOException
+	 */
 	@FXML
 	public void send() throws IOException {
 		if(isNewComplaint) {
@@ -184,6 +204,11 @@ public class ComplaintGUIController implements Initializable {
 		}
 	}
 
+	/**
+	 * <p>
+	 * Function to able option of refund,depends upon customer service worker decision.
+	 * </p>
+	 */
 	public void toggledRefund() {
 		txtRefundAmount.setVisible(tglRefund.isSelected());
 	}
@@ -200,7 +225,12 @@ public class ComplaintGUIController implements Initializable {
 		}
 		mainCh.removeAll(vbxAddComplaint,vbxComplaint,btnSend);
 	}
-
+/**
+ * <p>
+ * Function to set customers into comboBox 
+ * </p>
+ * @param cus - arrayList of customers to be added to comboBox from DB
+ */
 	public void setCustomers(ArrayList<Customer> cus) {
 		Platform.runLater(new Runnable() {
 			@Override
@@ -212,7 +242,12 @@ public class ComplaintGUIController implements Initializable {
 			}
 		});
 	}
-
+	/**
+	 * <p>
+	 * Function to set stores into comboBox 
+	 * </p>
+	 * @param cus - arrayList of stores to be added to comboBox from DB
+	 */
 	public void setStores(ArrayList<Store> stores) {
 		Platform.runLater(new Runnable() {
 			@Override
@@ -226,7 +261,12 @@ public class ComplaintGUIController implements Initializable {
 			}
 		});
 	}
-
+	/**
+	 * <p>
+	 * Function to set complaints into comboBox 
+	 * </p>
+	 * @param cus - arrayList of complaints to be added to comboBox from DB
+	 */
 	public void setComplaints(ArrayList<Complaint> complaints) {
 		Platform.runLater(new Runnable() {
 			@Override
@@ -240,7 +280,11 @@ public class ComplaintGUIController implements Initializable {
 			}
 		});
 	}
-	
+	 /**
+	  * <p>
+	  * Function to show all details of selected customer from comboBox
+	  * </p>
+	  */
 	public void customerSelected() {
 		Customer cust = cbsCustomer.getValue();
 		if(cust!=null) {
