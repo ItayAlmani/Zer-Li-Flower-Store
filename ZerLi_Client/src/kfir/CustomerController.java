@@ -24,10 +24,6 @@ import gui.controllers.ParentGUIController;
 import kfir.interfaces.ICustomer;
 
 public class CustomerController extends ParentController implements ICustomer {
-
-	public void getCustomer(BigInteger customerID) {
-		
-	}
 	
 	public void getCustomerByUser(BigInteger userID) throws IOException {
 		myMsgArr.clear();
@@ -73,11 +69,6 @@ public class CustomerController extends ParentController implements ICustomer {
 			System.err.println("No method called '"+methodName+"'");
 			e2.printStackTrace();
 		}
-	}
-
-	@Override
-	public void getCustomerByPrivateID(String privateID) throws IOException {
-				
 	}
 
 	@Override

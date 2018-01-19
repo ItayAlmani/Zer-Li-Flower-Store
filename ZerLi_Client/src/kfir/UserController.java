@@ -14,6 +14,7 @@ import controllers.ParentController;
 import entities.CSMessage;
 import entities.Customer;
 import entities.Order;
+import entities.Subscription;
 import entities.User;
 import entities.User.UserType;
 import gui.controllers.ParentGUIController;
@@ -48,9 +49,11 @@ public class UserController extends ParentController implements IUser {
 
 
 	@Override
-	public void update(User user) {
-		// TODO Auto-generated method stub!!!!!!!!!!!!!!!!!!!!!!!!!!
-		
+	public void update(User user) throws IOException {
+		myMsgArr.clear();
+		myMsgArr.add(Thread.currentThread().getStackTrace()[1].getMethodName());
+		myMsgArr.add(user);
+		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.UPDATE, myMsgArr,User.class));		
 	}
 
 	@Override
@@ -61,7 +64,7 @@ public class UserController extends ParentController implements IUser {
 	}
 	
 	@Override
-	public void getUser(User user) throws IOException {
+	public void getUserForLogIn(User user) throws IOException {
 		myMsgArr.clear();
 		myMsgArr.add(Thread.currentThread().getStackTrace()[1].getMethodName());
 		myMsgArr.add(user);

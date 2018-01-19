@@ -1,8 +1,8 @@
-package gui.controllers;
+package kfir.gui.controllers;
 
 import javafx.scene.control.TextField;
 
-public class UpdateUserGUI {
+public class UpdateUserGUIController {
 
 	private Object attribute;
 	private Object attribute2;

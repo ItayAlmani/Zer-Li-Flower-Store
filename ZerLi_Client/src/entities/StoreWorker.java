@@ -15,11 +15,14 @@ public class StoreWorker extends User implements Serializable  {
 	
 	public void setUser(User user) {
 		setUserID(user.getUserID());
+		setPrivateID(user.getPrivateID());
 		setFirstName(user.getFirstName());
 		setLastName(user.getLastName());
 		setUserName(user.getUserName());
 		setPassword(user.getPassword());
 		setPermissions(user.getPermissions());
+		setConnected(user.isConnected());
+		setActive(user.isActive());
 	}
 	
 	public StoreWorker(BigInteger storeWorkerID) {

@@ -41,8 +41,7 @@ public class Context {
 	public static void setUser(User newuser) {
 		try {
 			user = newuser;
-			user.setConnected(true);
-			Context.fac.user.update(user);
+			user.setConnected(true);			
 			if(user.getPermissions().equals(UserType.Customer)) {
 					askingCtrl.add(Context.class.newInstance());
 					fac.customer.getCustomerByUser(user.getUserID());

@@ -48,14 +48,11 @@ public class PaymentAccountManagmentGUIController implements Initializable  {
 		setTextFieldsListeners(txtMonth, 2);
 		setTextFieldsListeners(txtYear, 2);
 		setTextFieldsListeners(txtcardCVV, 3);
-		getCustomerComboBox();
-	}
-	
-	private void getCustomerComboBox() {
+		
 		try {
 			Context.fac.customer.getAllCustomers();
 		} catch (IOException e) {
-			System.err.println("ProdForm");
+			Context.mainScene.ShowErrorMsg();
 			e.printStackTrace();
 		}
 	}

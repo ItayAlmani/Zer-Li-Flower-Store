@@ -39,6 +39,7 @@ public class User implements Serializable {
 	private String password;
 	private UserType permissions;
 	private boolean isConnected;
+	private boolean isActive;
 	
 	public User(BigInteger userID) {
 		super();
@@ -65,7 +66,6 @@ public class User implements Serializable {
 
 	public User(BigInteger userID, String privateID, String firstName, String lastName, String userName, String password,
 			UserType permissions, boolean isConnected) {
-		super();
 		this.userID = userID;
 		this.privateID = privateID;
 		this.firstName = firstName;
@@ -78,7 +78,6 @@ public class User implements Serializable {
 	
 	public User(BigInteger userID, String privateID, String firstName, String lastName, String userName, String password,
 			UserType permissions) {
-		super();
 		this.userID = userID;
 		this.privateID = privateID;
 		this.firstName = firstName;
@@ -89,11 +88,23 @@ public class User implements Serializable {
 	}
 
 	public User(String userName, String password) {
-		super();
 		this.userName = userName;
 		this.password = password;
 	}
 	
+	public User(BigInteger userID, String privateID, String firstName, String lastName, String userName,
+			String password, UserType permissions, boolean isConnected, boolean isActive) {
+		this.userID = userID;
+		this.privateID = privateID;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.userName = userName;
+		this.password = password;
+		this.permissions = permissions;
+		this.isConnected = isConnected;
+		this.isActive = isActive;
+	}
+
 	public String getFullName() {
 		return getFirstName()+" "+getLastName();
 	}
@@ -165,6 +176,14 @@ public class User implements Serializable {
 	@Override
 	public String toString() {
 		return getUserName();
+	}
+
+	public boolean isActive() {
+		return isActive;
+	}
+
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
 	}
 
 }

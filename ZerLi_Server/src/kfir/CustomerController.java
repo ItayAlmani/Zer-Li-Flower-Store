@@ -52,10 +52,6 @@ public class CustomerController extends ParentController {
 	public Customer parse(BigInteger customerID, User user) {
 		return new Customer(user, customerID);
 	}
-	
-	public void getCustomerByPrivateID(String privateID) throws IOException {
-				
-	}
 
 	public ArrayList<Object> getAllCustomers() throws Exception {
 		String query = "SELECT * FROM customer";
@@ -88,26 +84,19 @@ public class CustomerController extends ParentController {
 				if(o instanceof PaymentAccount) {
 					PaymentAccount pa = (PaymentAccount)o;
 					cust.addPaymentAccount(pa);
-					//getCreCardOfPayAcc(pa);
 				}
 			}
 		}
 	}
 	
-	private void getCreCardOfPayAcc(PaymentAccount pa) throws SQLException {
-		ArrayList<Object> ccs = EchoServer.fac.creditCard.getCreditCard(pa.getCreditCard().getCcID());
-		if(ccs!=null && ccs.size()==1 && ccs.get(0) instanceof CreditCard) {
-			CreditCard cc = (CreditCard)ccs.get(0);
-			pa.setCreditCard(cc);
-		}
-	}
-	
+	/**Dummy function*/
 	@Override
 	public ArrayList<Object> add(ArrayList<Object> arr) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	/**Dummy function*/
 	@Override
 	public ArrayList<Object> update(Object obj) throws Exception {
 		// TODO Auto-generated method stub

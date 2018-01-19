@@ -22,15 +22,8 @@ public interface ICustomer{
 	 */
 	void getAllCustomers() throws IOException;
 
-	/**
-	 * 
-	 * @param customerID
-	 */
-	void getCustomer(BigInteger customerID);
 
 	void getCustomerByUser(BigInteger userID) throws IOException;
-	
-	void getCustomerByPrivateID(String privateID) throws IOException;
 
 	/**
 	 * 

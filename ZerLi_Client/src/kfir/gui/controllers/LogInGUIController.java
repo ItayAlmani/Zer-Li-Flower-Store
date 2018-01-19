@@ -43,7 +43,7 @@ public class LogInGUIController implements Initializable{
 		System.err.println("Go to LogInGUIController to enable data in login");
 		if(uName!=null && pass !=null) {
 			try {
-				Context.fac.user.getUser(new User(uName, pass));
+				Context.fac.user.getUserForLogIn(new User(uName, pass));
 			} catch (IOException e) {
 				Context.mainScene.ShowErrorMsg();
 				System.err.println("LogInGUI getUser failed");
@@ -53,24 +53,27 @@ public class LogInGUIController implements Initializable{
 	}
 	
 	public void setUsers(ArrayList<User> users) {
+		Context.mainScene.clearMsg();
 		if(getAllUsers==true) {
-			Platform.runLater(new Runnable() {
-		        @Override
-		        public void run() {
-		        	TextFields.bindAutoCompletion(txtUserName, users);
-		        }
-			});
+			if(Platform.isFxApplicationThread())
+				TextFields.bindAutoCompletion(txtUserName, users);
+			else Platform.runLater(()->TextFields.bindAutoCompletion(txtUserName, users));
 			getAllUsers=false;
 			return;
 		}
 		//User Name or Password are incorrect
-		if(users.size()==0)
+		if(users.isEmpty())
 			Context.mainScene.setMessage("User name or password are incorrect!");
-		else {
+		else if(users.size()==1){
 			User user = users.get(0);
 			if(user.isConnected()==true) {
 				Context.mainScene.setMessage("You are already connected at another device\n"
 						+ "Please disconnect before next login");
+				return;
+			}
+			else if(user.isActive()==false) {
+				Context.mainScene.setMessage("Your account isn't active.\n"
+						+ "Please approach to the store for details");
 				return;
 			}
 			Context.setUser(user);
@@ -79,41 +82,33 @@ public class LogInGUIController implements Initializable{
 	}
 	
 	public void setUserConnected(User user) {
-		user.setConnected(true);
-		Context.fac.user.update(user);
-		Context.mainScene.logInSuccess();
+		try {
+			user.setConnected(true);
+			Context.fac.user.update(user);
+			Context.mainScene.logInSuccess();
+		} catch (IOException e) {
+			Context.mainScene.ShowErrorMsg();
+			e.printStackTrace();
+		}
 	}
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		ParentGUIController.currentGUI = this;
-		
 		try {
+			ParentGUIController.currentGUI=this;
 			Context.fac.user.getAllUsers();
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
-		/*ValidationSupport validationSupport = new ValidationSupport();
-		validationSupport.registerValidator(txtUserName, Validator.createEmptyValidator("Text is required"));
-		validationSupport.validationResultProperty().addListener( (o, oldValue, newValue) ->
-        messageList.getItems().setAll(newValue.getMessages()));*/
-		try {
 			imgLogo.setImage(MainClient.getLogoAsImage());
+			setComponentSendOnEnter(Arrays.asList(new Node[] {txtUserName,txtPassword}));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		setComponentSendOnEnter(Arrays.asList(new Node[] {txtUserName,txtPassword}));
 	}
 	
 	private void setComponentSendOnEnter(List<Node> comp) {
 		for (Node node : comp) {
-			node.setOnKeyPressed(new EventHandler<KeyEvent>() {
-			    @Override
-			    public void handle(KeyEvent keyEvent) {
-			        if (keyEvent.getCode() == KeyCode.ENTER)  {
-			           logIn();
-			        }
-			    }
+			node.setOnKeyPressed((keyEvent)->{
+				if (keyEvent.getCode() == KeyCode.ENTER)
+		           logIn();
 			});
 		}
 	}

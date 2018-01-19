@@ -9,11 +9,11 @@ import interfaces.IParent;
 
 public interface IUser{
 	
-	void update(User user);
+	void update(User user) throws IOException;
 	
 	void getAllUsers() throws IOException;
 	
-	void getUser(User user) throws IOException;
+	void getUserForLogIn(User user) throws IOException;
 	
 	void getUser(BigInteger uID) throws IOException;
 }

@@ -53,9 +53,11 @@ public class StoreWorkerController extends ParentController{
 		throw new Exception();
 	}
 
+	/**Dummy function*/
 	@Override
 	public ArrayList<Object> add(ArrayList<Object> arr) throws Exception { 
-		return null;	}
+		return null;	
+	}
 
 	@Override
 	public ArrayList<Object> update(Object obj) throws Exception {

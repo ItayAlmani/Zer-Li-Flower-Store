@@ -100,7 +100,8 @@ public class SetUpMainGUIController extends LoadGUIController {
 		Tooltip.install(icnProductsForm, new Tooltip("Show products form"));
 		Tooltip.install(icnUpdateOrder, new Tooltip("Update order status"));
 		Tooltip.install(icnManualTransaction, new Tooltip("Manual transaction"));
-		Tooltip.install(icnUpdatePaymentAccount, new Tooltip("Update payment account"));
-		
+		Tooltip.install(icnUpdatePaymentAccount, new Tooltip("Manage payment account"));
+		Tooltip.install(icnSub, new Tooltip("Manage subscriptions"));
+		Tooltip.install(icnAccounts, new Tooltip("Manage User's accounts"));
 	}
 }

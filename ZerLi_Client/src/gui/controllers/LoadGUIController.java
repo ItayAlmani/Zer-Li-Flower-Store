@@ -46,8 +46,9 @@ public class LoadGUIController {
 	protected @FXML OctIconView icnCatalog, icnReportSelector;
 	protected @FXML MaterialDesignIconView icnLogOut, icnCart, icnAssemble, icnSurvey, icnSurveyReport, icnComplaints,
 			icnProductsForm;
-	protected @FXML MaterialIconView icnUpdateOrder, icnManualTransaction, icnCancelOrder;
-	protected @FXML	FontAwesomeIconView icnUpdatePaymentAccount;
+	protected @FXML MaterialIconView icnUpdateOrder, icnManualTransaction, icnCancelOrder, icnUpdatePaymentAccount,
+									icnSub;
+	protected @FXML	FontAwesomeIconView icnAccounts;
 	protected @FXML HBox hbIcons, hbChangingIcons, hbCustomer; 
 	protected @FXML VBox paneCustServiceData, paneCustomer, paneOrders, paneCustomersInfo;
 
@@ -117,6 +118,14 @@ public class LoadGUIController {
 	public void loadUpdatePaymentAccount() {
 		loadGUI("PaymentAccountManagmentGUI", false);
 	}
+	
+	public void loadSub() {
+		loadGUI("SubscriptionGUI", false);
+	}
+	
+	public void loadAccountsManage() {
+		loadGUI("AccountsManagmentGUI", false);
+	}
 
 	private void createScene(String guiName, Stage primaryStage) {
 		scenePane.getChildren().clear();
@@ -158,12 +167,12 @@ public class LoadGUIController {
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/fxmls/" + guiName + ".fxml"));
 			homePane = loader.load();
+			ParentGUIController.currentGUI=loader.getController();	//put the current scene as currentGUI
 			homePane.getStylesheets().add(getClass().getResource("/gui/css/ParentCSS.css").toExternalForm());
 			if (cssName != null)
 				homePane.getStylesheets().add(getClass().getResource("/gui/css/" + cssName + ".css").toExternalForm());
 			createScene(guiName, ParentGUIController.primaryStage);
 			ParentGUIController.primaryStage.show();
-			ParentGUIController.currentGUI=loader.getController();	//put the current scene as currentGUI
 			Scene sce = ParentGUIController.primaryStage.getScene();
 			if (sce != null) {
 				/*sce.heightProperty().addListener((obs,oldHeight,newHeight)->{

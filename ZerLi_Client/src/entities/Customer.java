@@ -32,6 +32,7 @@ public class Customer extends User implements Serializable {
 		setPassword(user.getPassword());
 		setPermissions(user.getPermissions());
 		setConnected(user.isConnected());
+		setActive(user.isActive());
 	}
 
 	public Customer(BigInteger customerID, String privateID, String firstName, String lastName, String userName, String password,
