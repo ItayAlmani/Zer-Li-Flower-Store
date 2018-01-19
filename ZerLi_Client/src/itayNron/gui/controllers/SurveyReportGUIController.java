@@ -41,7 +41,7 @@ public class SurveyReportGUIController implements Initializable
 	
 	/**
 	 * <p>
-	 * Funtcion to load analyzes of surveys in specific range of dates
+	 * Function to load analyzes of surveys in specific range of dates
 	 * </p>
 	 * @throws IOException Context.clientConsole.handleMessageFromClientUI throws IOException.
 	 */
