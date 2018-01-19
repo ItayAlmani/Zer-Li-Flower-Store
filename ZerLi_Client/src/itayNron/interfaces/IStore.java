@@ -43,11 +43,5 @@ public interface IStore {
 	 * @throws IOException Context.clientConsole.handleMessageFromClientUI throws IOException.
 	 */
 	void update(Store store) throws IOException;
-/**
- * <p>
- * Function to get all physical stores from DB
- * </p>
- * @throws IOException Context.clientConsole.handleMessageFromClientUI throws IOException.
- */
-	void getAllPhysicalStores() throws IOException;
+
 }

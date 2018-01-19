@@ -82,14 +82,15 @@ public class LogInGUIController implements Initializable{
 	}
 	
 	public void setUserConnected(User user) {
-		try {
+		/*try {
 			user.setConnected(true);
 			Context.fac.user.update(user);
-			Context.mainScene.logInSuccess();
 		} catch (IOException e) {
 			Context.mainScene.ShowErrorMsg();
 			e.printStackTrace();
-		}
+			return;
+		}*/
+		Context.mainScene.logInSuccess();
 	}
 	
 	@Override

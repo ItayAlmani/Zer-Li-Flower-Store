@@ -35,7 +35,7 @@ public class SubscriptionController extends ParentController {
 				"INSERT INTO subscription (type, date)"
 				+ " VALUES ('%s', '%s')",
 				sub.getSubType().name(),
-				(Timestamp.valueOf(sub.getSubDate().toString())).toString());
+				(Timestamp.valueOf(sub.getSubDate().atStartOfDay())).toString());
 		EchoServer.fac.dataBase.db.updateQuery(query);
 		myMsgArr.clear();
 		if(isReturnNextID) {
@@ -59,7 +59,7 @@ public class SubscriptionController extends ParentController {
 					+ " SET type='%s', date='%s'"
 					+ " WHERE subscriptionID='%d'",
 					sub.getSubType().name(),
-					(Timestamp.valueOf(sub.getSubDate().toString())).toString(),
+					(Timestamp.valueOf(sub.getSubDate().atStartOfDay())).toString(),
 					sub.getSubID().intValue());
 			EchoServer.fac.dataBase.db.updateQuery(query);
 			myMsgArr.clear();

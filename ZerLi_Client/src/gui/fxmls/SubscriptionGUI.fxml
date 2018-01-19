@@ -17,7 +17,7 @@
          <children>
             <JFXTextField fx:id="txtCustID" alignment="CENTER" disable="true" editable="false" promptText="Customer ID" />
             <JFXComboBox fx:id="cbSub" promptText="Subscription period" />
-            <JFXButton fx:id="btnSave" mnemonicParsing="false" onAction="#createSubscription" text="Add" textAlignment="CENTER" textOverrun="CLIP" visible="false" />
+            <JFXButton fx:id="btnSave" buttonType="RAISED" mnemonicParsing="false" onAction="#createSubscription" ripplerFill="ORANGE" text="Add" textAlignment="CENTER" textOverrun="CLIP" visible="false" wrapText="true" />
          </children></VBox>
    </children>
 </VBox>

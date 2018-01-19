@@ -1,7 +1,9 @@
 package kfir.gui.controllers;
 
 import java.io.IOException;
+import java.math.BigInteger;
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
@@ -10,9 +12,11 @@ import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 
 import common.Context;
+import entities.CreditCard;
 import entities.Customer;
 import entities.PaymentAccount;
 import entities.Store;
+import entities.Subscription;
 import entities.Subscription.SubscriptionType;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -30,6 +34,7 @@ public class SubscriptionGUIController implements Initializable {
 	private Customer cust = null;
 	private PaymentAccount pa = null;
 	private Store store = null;
+	private Subscription sub = null;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -53,6 +58,7 @@ public class SubscriptionGUIController implements Initializable {
 		try {
 			vboxPA.setVisible(false);
 			btnSave.setVisible(false);
+			cbSub.setValue(null);
 			Context.mainScene.clearMsg();
 			this.cust= cbCustomers.getValue();
 			if(this.cust!=null) {
@@ -71,7 +77,18 @@ public class SubscriptionGUIController implements Initializable {
 							return;
 						}
 						else {
-							//if(pa.getSub().getSubType())
+							this.sub=pa.getSub();
+							btnSave.setText("Add");
+							if(this.sub != null) {
+								if(this.sub.getSubType() != null)
+									cbSub.setValue(this.sub.getSubType());
+								else
+									Context.mainScene.ShowErrorMsg();
+								
+								//sub is valid
+								if(Context.fac.sub.isSubValid(this.sub))
+									btnSave.setText("Update");
+							}
 							vboxPA.setVisible(true);
 							btnSave.setVisible(true);
 						}
@@ -85,6 +102,40 @@ public class SubscriptionGUIController implements Initializable {
 	}
 	
 	public void createSubscription() {
-		
+		try {
+			SubscriptionType type = cbSub.getValue();
+			if(type == null) {
+				Context.mainScene.setMessage("Must select the subscription period");
+				return;
+			}
+			if(this.sub == null) {
+				this.sub = new Subscription(type);
+				Context.fac.sub.add(this.sub, true);
+			}
+			else {
+				//Nothing changed
+				if(this.sub.getSubDate().equals(LocalDate.now()) && this.sub.getSubType().equals(type))
+					return;
+				this.sub.setSubDate(LocalDate.now());
+				this.sub.setSubType(type);
+				Context.fac.sub.update(this.sub);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void setSubID(BigInteger id) {
+		this.sub.setSubID(id);
+		this.pa.setSub(this.sub);
+		try {
+			Context.fac.paymentAccount.update(pa);
+			if(Platform.isFxApplicationThread())
+				cbCustomers.setValue(null);
+			else Platform.runLater(()->cbCustomers.setValue(null));
+		} catch (IOException e) {
+			Context.mainScene.ShowErrorMsg();
+			e.printStackTrace();
+		}
 	}
 }

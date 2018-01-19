@@ -67,18 +67,4 @@ public class StoreController extends ParentController implements IStore {
 		return new Store(storeID, name, new StoreWorker(managerID));
 		
 	}
-
-	@Override
-	public void getAllPhysicalStores() throws IOException {
-		myMsgArr.clear();
-		myMsgArr.add(Thread.currentThread().getStackTrace()[1].getMethodName());
-		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.SELECT, myMsgArr, Store.class));
-		
-	}
-
-
-	
-	
-	
-
 }

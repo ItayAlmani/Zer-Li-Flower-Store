@@ -8,6 +8,7 @@ import java.util.Optional;
 import entities.Product;
 import gui.controllers.ParentGUIController;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.control.Alert;
@@ -93,6 +94,7 @@ public class MainClient extends Application {
 		else {
 			if (Context.mainScene != null)
 				Context.mainScene.logOutUserInSystem();
+			Platform.exit();
 			if (Context.clientConsole != null)
 				Context.clientConsole.quit();
 		}

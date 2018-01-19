@@ -124,7 +124,7 @@ public class LoadGUIController {
 	}
 	
 	public void loadAccountsManage() {
-		loadGUI("AccountsManagmentGUI", false);
+		loadGUI("UpdateUserGUI", false);
 	}
 
 	private void createScene(String guiName, Stage primaryStage) {

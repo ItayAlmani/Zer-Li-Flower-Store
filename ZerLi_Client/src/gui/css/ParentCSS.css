@@ -87,3 +87,10 @@ Pane{
 	-jfx-selected-color: orange;
 	-jfx-unselected-color: red;
 }
+
+.toggle-button{
+	-jfx-toggle-color: white;
+	-jfx-toggle-line-color: orange;
+	-jfx-untoggle-color: white;
+	-jfx-untoggle-line-color: red;
+}

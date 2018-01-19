@@ -13,6 +13,11 @@ public class StoreWorker extends User implements Serializable  {
 		this.store=store;
 	}
 	
+	public StoreWorker(User user,Store store) {
+		super(user);
+		this.store=store;
+	}
+	
 	public void setUser(User user) {
 		setUserID(user.getUserID());
 		setPrivateID(user.getPrivateID());

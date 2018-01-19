@@ -1,25 +1,17 @@
 package kfir;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.math.BigInteger;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.ResourceBundle;
 
 import common.Context;
 import controllers.ParentController;
 import entities.CSMessage;
-import entities.Customer;
-import entities.Order;
-import entities.Subscription;
-import entities.User;
-import entities.User.UserType;
-import gui.controllers.ParentGUIController;
-import javafx.scene.control.Tooltip;
 import entities.CSMessage.MessageType;
+import entities.User;
+import gui.controllers.ParentGUIController;
 import kfir.interfaces.IUser;
 
 public class UserController extends ParentController implements IUser {	

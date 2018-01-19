@@ -66,6 +66,7 @@ public class PaymentAccountManagmentGUIController implements Initializable  {
 
 	public void openPaymentAccount() {
 		try {
+			btnSave.setDisable(false);
 			Context.mainScene.clearMsg();
 			this.cust= cbCustomers.getValue();
 			if(this.cust!=null) {
@@ -119,9 +120,9 @@ public class PaymentAccountManagmentGUIController implements Initializable  {
 		btnSave.setText(btnText);
 	}
 	
-	public void savePaymentAccount() 
-	{
+	public void savePaymentAccount() {
 		try {
+			btnSave.setDisable(true);
 			String numStr = txtCardNUM.getText(), monthStr = txtMonth.getText(), 
 					yearStr = txtYear.getText(), cvvStr = txtcardCVV.getText();
 			if(numStr == null || numStr.isEmpty() || monthStr == null || monthStr.isEmpty() ||
@@ -165,20 +166,25 @@ public class PaymentAccountManagmentGUIController implements Initializable  {
 			Context.mainScene.setMessage("Error with credit card");
 	}
 	
-	public void setCredCardID(BigInteger id) throws IOException {
+	public void setCredCardID(BigInteger id){
 		if(this.pa == null) {
 			Context.mainScene.ShowErrorMsg();
 			return;
 		}
 		this.cc.setCcID(id);
 		this.pa.setCreditCard(cc);
-		if(pa_need_to_be_updated == false)
-			Context.fac.paymentAccount.add(pa, false);
-		else
-			Context.fac.paymentAccount.update(pa);
-		if(Platform.isFxApplicationThread())
-			updateView();
-		else Platform.runLater(()->updateView());
+		try {
+			if(pa_need_to_be_updated == false)
+				Context.fac.paymentAccount.add(pa, false);
+			else
+				Context.fac.paymentAccount.update(pa);
+			if(Platform.isFxApplicationThread())
+				updateView();
+			else Platform.runLater(()->updateView());
+		} catch (IOException e) {
+			Context.mainScene.ShowErrorMsg();
+			e.printStackTrace();
+		}
 	}
 	
 	private void updateView() {

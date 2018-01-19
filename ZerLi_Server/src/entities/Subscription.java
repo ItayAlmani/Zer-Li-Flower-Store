@@ -29,15 +29,12 @@ public class Subscription implements Serializable  {
 		this.subDate = subDate;
 	}
 
-	/**
-	 * 
-	 * @param subType
-	 */
 	public Subscription(SubscriptionType subType) {
+		this.subType = subType;
+		this.subDate = LocalDate.now();
 	}
 
 	public Subscription(BigInteger subID) {
-		super();
 		this.subID = subID;
 	}
 

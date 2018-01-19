@@ -79,6 +79,7 @@
                                                 <MaterialDesignIconView fx:id="icnSurveyReport" glyphName="CLIPBOARD_TEXT" onMouseClicked="#loadSurveyReport" size="30" styleClass="coloredIcon" />
                                                 <OctIconView fx:id="icnReportSelector" fontSmoothingType="LCD" glyphName="GRAPH" onMouseClicked="#loadReportSelector" size="30" styleClass="coloredIcon" textAlignment="CENTER" />
                                                 <MaterialDesignIconView fx:id="icnComplaints" fontSmoothingType="LCD" glyphName="ACCOUNT_ALERT" onMouseClicked="#loadComplaints" size="30" styleClass="coloredIcon" textAlignment="CENTER" />
+                                                <FontAwesomeIconView fx:id="icnAccounts" fontSmoothingType="LCD" glyphName="EDIT" onMouseClicked="#loadAccountsManage" size="30" styleClass="coloredIcon" textAlignment="CENTER" />
                                              </children>
                                           </HBox>
                                        </children>
@@ -118,7 +119,6 @@
                                                       <Font name="Material Icons" size="12.0" />
                                                    </font>
                                                 </MaterialIconView>
-                                                <FontAwesomeIconView fx:id="icnAccounts" fontSmoothingType="LCD" glyphName="EDIT" onMouseClicked="#loadAccountsManage" size="30" styleClass="coloredIcon" textAlignment="CENTER" />
                                              </children>
                                           </HBox>
                                        </children>
