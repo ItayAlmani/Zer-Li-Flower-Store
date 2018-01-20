@@ -2,12 +2,14 @@ package entities;
 
 import java.io.Serializable;
 import java.math.BigInteger;
+import java.text.DecimalFormat;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 
 public class Order implements Serializable {
-
-	private static final long serialVersionUID = 9L;	
+	private static final long serialVersionUID = 9L;
+	
 	private BigInteger orderID;
 	private BigInteger customerID;
 	private DeliveryDetails delivery = null;
@@ -20,10 +22,39 @@ public class Order implements Serializable {
 	private ArrayList<ProductInOrder> products;
 	private PayMethod paymentMethod;
 	
+	
+
+	public Order(OrderType type, OrderStatus orderStatus) {
+		super();
+		this.type = type;
+		this.orderStatus = orderStatus;
+	}
+
+	public Order(BigInteger customerID, OrderType type, OrderStatus orderStatus) {
+		super();
+		this.customerID = customerID;
+		this.type = type;
+		this.orderStatus = orderStatus;
+	}
+
+	public Order(BigInteger customerID, OrderType type) {
+		super();
+		this.customerID = customerID;
+		this.type = type;
+	}
+
 	public Order() {
-		finalPrice=0f;
+		finalPrice=0;
 		products = new ArrayList<>();
 		date = LocalDateTime.now();
+	}
+	
+	public Order(BigInteger customerID, ArrayList<ProductInOrder> products) {
+		super();
+		this.customerID = customerID;
+		this.type = OrderType.InfoSystem;
+		this.orderStatus = OrderStatus.InProcess;
+		this.products = products;
 	}
 
 	public Order(BigInteger orderID, BigInteger customerID, DeliveryDetails delivery, OrderType type,
@@ -40,6 +71,40 @@ public class Order implements Serializable {
 		this.orderStatus = orderStatus;
 		this.date = date;
 		this.finalPrice=finalPrice;
+	}
+	
+	public Order(Integer customerID) {
+		this();
+		this.customerID=BigInteger.valueOf(customerID);
+	}
+
+	public Order(BigInteger orderID) {
+		this();
+		this.orderID = orderID;
+	}
+
+	public Order(BigInteger orderID, BigInteger customerID, OrderType type, PayMethod paymentMethod,
+			String greeting, OrderStatus orderStatus, LocalDateTime date, float finalPrice) {
+		super();
+		this.orderID = orderID;
+		this.customerID = customerID;
+		this.type = type;
+		this.paymentMethod=paymentMethod;
+		this.greeting = greeting;
+		this.orderStatus = orderStatus;
+		this.date = date;
+		this.finalPrice=finalPrice;
+	}
+
+	public Order(BigInteger orderID, BigInteger customerID, OrderType type, String greeting, OrderStatus orderStatus,
+			LocalDateTime date) {
+		super();
+		this.orderID = orderID;
+		this.customerID = customerID;
+		this.type = type;
+		this.greeting = greeting;
+		this.orderStatus = orderStatus;
+		this.date = date;
 	}
 
 	public BigInteger getOrderID() {
@@ -109,7 +174,6 @@ public class Order implements Serializable {
 	public float getFinalPrice() {
 		return finalPrice;
 	}
-	
 	public void setFinalPrice(float finalPrice) {
 		this.finalPrice = finalPrice;
 	}
@@ -129,20 +193,19 @@ public class Order implements Serializable {
 		this.finalPrice=0f;
 		setFinalPrice();
 	}
-
-
-	public PayMethod getPaymentMethod() {
-		return paymentMethod;
-	}
-
-	public void setPaymentMethod(PayMethod paymentMethod) {
-		this.paymentMethod = paymentMethod;
+	
+	public void addToFinalPrice(float amount) {
+		this.finalPrice+=amount;
 	}
 	
-	@Override
-	public String toString()
-	{
-		return this.orderID.toString();
+	public ProductInOrder containsProduct(Product p) {
+		if(products==null)
+			return null;
+		for (ProductInOrder productInOrder : products) {
+			if(productInOrder.getProduct().getPrdID()==p.getPrdID())
+				return productInOrder;
+		}
+		return null;
 	}
 	
 	public enum OrderStatus {
@@ -174,5 +237,23 @@ public class Order implements Serializable {
 		Cash,
 		Refund,
 		RefundAndCreditCard
+	}
+
+	public PayMethod getPaymentMethod() {
+		return paymentMethod;
+	}
+
+	public void setPaymentMethod(PayMethod paymentMethod) {
+		this.paymentMethod = paymentMethod;
+	}
+	
+	public String getFinalPriceAsString() {
+		DecimalFormat df = new DecimalFormat("##.##");
+		return df.format(getFinalPrice()) + "¤";
+	}
+	
+	public String toString()
+	{
+		return this.orderID.toString();
 	}
 }

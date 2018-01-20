@@ -92,8 +92,6 @@ public class PaymentAccountController extends ParentController{
 		}
 		return null;
 	}
-
-
 	public void handleInsert(BigInteger id) {
 		String methodName = "setPAid";
 		Method m = null;

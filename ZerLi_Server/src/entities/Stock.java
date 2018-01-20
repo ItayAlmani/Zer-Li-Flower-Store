@@ -2,8 +2,9 @@ package entities;
 
 import java.io.Serializable;
 import java.math.BigInteger;
+import java.text.DecimalFormat;
 
-public class Stock implements Serializable {
+public class Stock implements Comparable<Stock>, Serializable {
 	
 	private static final long serialVersionUID = 17L;
 	private BigInteger id;
@@ -11,6 +12,14 @@ public class Stock implements Serializable {
 	private int quantity;
 	private BigInteger storeID;
 	private Float salePercetage;
+	
+	public Stock(BigInteger id, Product product, int quantity, BigInteger storeID) {
+		super();
+		this.id=id;
+		this.product = product;
+		this.quantity = quantity;
+		this.storeID = storeID;
+	}
 	
 	public Stock(BigInteger id, Product product, int quantity, BigInteger storeID, Float salePercetage) {
 		super();
@@ -68,8 +77,22 @@ public class Stock implements Serializable {
 		this.salePercetage = salePercetage;
 	}
 	
+	public Float getPriceAfterSale() {
+		return (Float)(product.getPrice()*(1-salePercetage));
+	}
+	
+	public String getPriceAfterSaleAsString() {
+		DecimalFormat df = new DecimalFormat("##.##");
+		return df.format(getPriceAfterSale()) + "¤";
+	}
+	
 	@Override
 	public String toString() {
 		return product.toString();
+	}
+
+	@Override
+	public int compareTo(Stock o) {
+		return getProduct().compareTo(o.getProduct());
 	}
 }

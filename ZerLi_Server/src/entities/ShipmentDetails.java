@@ -2,6 +2,8 @@ package entities;
 
 import java.io.Serializable;
 import java.math.BigInteger;
+import java.time.LocalDateTime;
+import java.util.Date;
 
 public class ShipmentDetails extends DeliveryDetails implements Serializable  {
 
@@ -12,6 +14,27 @@ public class ShipmentDetails extends DeliveryDetails implements Serializable  {
 	private String postCode;
 	private String customerName;
 	private String phoneNumber;
+	
+	public ShipmentDetails(BigInteger shipmentID) {
+		super();
+		this.shipmentID=shipmentID;
+	}
+	
+	public ShipmentDetails(BigInteger deliveryID, BigInteger shipmentID) {
+		super(deliveryID);
+		this.shipmentID=shipmentID;
+	}
+
+	public ShipmentDetails(DeliveryDetails del,
+			String street, String city, String postCode, String customerName,
+			String phoneNumber) {
+		super(del);
+		this.street = street;
+		this.city = city;
+		this.postCode = postCode;
+		this.customerName = customerName;
+		this.phoneNumber = phoneNumber;
+	}
 	
 	public ShipmentDetails(BigInteger shipmentID, DeliveryDetails del,
 			String street, String city, String postCode, String customerName,
@@ -24,6 +47,8 @@ public class ShipmentDetails extends DeliveryDetails implements Serializable  {
 		this.customerName = customerName;
 		this.phoneNumber = phoneNumber;
 	}
+
+	public final static float shipmentPrice = 20.0f; 
 
 	public void setStreet(String street) {
 		this.street = street;
@@ -45,6 +70,16 @@ public class ShipmentDetails extends DeliveryDetails implements Serializable  {
 		this.phoneNumber = phoneNumber;
 	}
 
+	public ShipmentDetails(BigInteger deliveryID, LocalDateTime date, boolean isImmediate, Store store, 
+			String[] address, String customerName, String phoneNumber) {
+		super(deliveryID, date, isImmediate, store);
+		this.street = address[0];
+		this.city = address[1];
+		this.postCode = address[2];
+		this.customerName = customerName;
+		this.phoneNumber = phoneNumber;
+	}
+
 	public String getStreet() {
 		return street;
 	}
@@ -63,6 +98,10 @@ public class ShipmentDetails extends DeliveryDetails implements Serializable  {
 
 	public String getPhoneNumber() {
 		return phoneNumber;
+	}
+
+	public static float getShipmentprice() {
+		return shipmentPrice;
 	}
 
 	public BigInteger getShipmentID() {

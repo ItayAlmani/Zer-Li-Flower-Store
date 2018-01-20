@@ -5,6 +5,9 @@ import java.math.BigInteger;
 import java.text.DecimalFormat;
 
 public class Product implements Comparable<Product>, Serializable  {
+	/**
+	 * 
+	 */
 	private static final long serialVersionUID = 12L;
 	private BigInteger prdID;
 	private String name;
@@ -15,6 +18,83 @@ public class Product implements Comparable<Product>, Serializable  {
 	private String imageName;
 	private byte[] mybytearray = null;
 
+	public enum ProductType {
+		Bouquet("Bouquet"),
+		Single("Single"), 
+		FlowerArrangment("Flower Arrangment"),
+		FloweringPlant("Flowering Plant"), 
+		BridalBouquet("Bridal Bouquet"),
+		FlowersCluster("Flowers Cluster");
+		private final String name;
+		
+		private ProductType(String name) {
+	        this.name = name;
+	    }
+		
+		@Override
+		public String toString() {
+			return name;
+		}
+	}
+
+	public enum Color {
+		White, Yellow, Red, Gray, Purple, Blue, Green, Black, Orange, Brown, Pink, Colorfull;
+	}
+
+	public Product() {
+	}
+
+	public Product(BigInteger prdID, String name) {
+		super();
+		this.prdID = prdID;
+		this.name = name;
+	}
+
+	public Product(BigInteger prdID, String name, ProductType type) {
+		super();
+		this.prdID = prdID;
+		this.name = name;
+		this.type = type;
+	}
+
+	public Product(BigInteger prdID, String name, ProductType type, float price, Color color, boolean inCatalog) {
+		super();
+		this.prdID = prdID;
+		this.name = name;
+		this.type = type;
+		this.price = price;
+		this.color = color;
+		this.inCatalog = inCatalog;
+	}
+	
+	public Product(Product p) {
+		this.prdID = p.prdID;
+		this.name = p.name;
+		this.type = p.type;
+		this.price = p.price;
+		this.color = p.color;
+		this.inCatalog = p.inCatalog;
+		this.imageName = p.imageName;
+		this.mybytearray = p.mybytearray;
+	}
+
+	public Product(BigInteger prdID, String name, String type) {
+		super();
+		this.prdID = prdID;
+		this.name = name;
+		this.setType(type);
+	}
+
+	public Product(BigInteger prdID, String name, String type, float price, String color, boolean inCatalog) {
+		super();
+		this.prdID = prdID;
+		this.name = name;
+		this.setType(type);
+		this.price = price;
+		this.setColor(color);
+		this.inCatalog = inCatalog;
+	}
+
 	public Product(BigInteger prdID, String name, String typeStr, float price, String colorStr, boolean inCatalog,
 			String imageName, byte[] mybytearray) {
 		this.prdID = prdID;
@@ -22,6 +102,18 @@ public class Product implements Comparable<Product>, Serializable  {
 		this.setType(typeStr);
 		this.price = price;
 		this.setColor(colorStr);
+		this.inCatalog = inCatalog;
+		this.imageName = imageName;
+		this.mybytearray=mybytearray;
+	}
+	
+	public Product(BigInteger prdID, String name, ProductType type, float price, Color color, boolean inCatalog,
+			String imageName, byte[] mybytearray) {
+		this.prdID = prdID;
+		this.name = name;
+		this.setType(type);
+		this.price = price;
+		this.setColor(color);
 		this.inCatalog = inCatalog;
 		this.imageName = imageName;
 		this.mybytearray=mybytearray;
@@ -108,6 +200,11 @@ public class Product implements Comparable<Product>, Serializable  {
 	public int compareTo(Product o) {
 		return getPrdID().compareTo(o.getPrdID());
 	}
+	
+	public String getPriceAsString() {
+		DecimalFormat df = new DecimalFormat("##.##");
+		return df.format(getPrice()) + "¤";
+	}
 
 	public byte[] getMybytearray() {
 		return mybytearray;
@@ -115,28 +212,5 @@ public class Product implements Comparable<Product>, Serializable  {
 
 	public void setMybytearray(byte[] mybytearray) {
 		this.mybytearray = mybytearray;
-	}
-	
-	public enum ProductType {
-		Bouquet("Bouquet"),
-		Single("Single"), 
-		FlowerArrangment("Flower Arrangment"),
-		FloweringPlant("Flowering Plant"), 
-		BridalBouquet("Bridal Bouquet"),
-		FlowersCluster("Flowers Cluster");
-		private final String name;
-		
-		private ProductType(String name) {
-	        this.name = name;
-	    }
-		
-		@Override
-		public String toString() {
-			return name;
-		}
-	}
-
-	public enum Color {
-		White, Yellow, Red, Gray, Purple, Blue, Green, Black, Orange, Brown, Pink, Colorfull;
 	}
 }

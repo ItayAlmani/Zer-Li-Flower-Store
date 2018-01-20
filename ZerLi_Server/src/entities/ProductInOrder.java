@@ -2,6 +2,7 @@ package entities;
 
 import java.io.Serializable;
 import java.math.BigInteger;
+import java.text.DecimalFormat;
 
 public class ProductInOrder implements Serializable  {
 	
@@ -11,6 +12,20 @@ public class ProductInOrder implements Serializable  {
 	private int quantity;
 	private BigInteger orderID;
 	private float finalPrice;
+	
+	public ProductInOrder(Product product, int quantity, BigInteger orderID) {
+		this.product = product;
+		this.quantity = quantity;
+		this.orderID = orderID;
+		setFinalPrice();
+	}
+
+	public ProductInOrder(BigInteger id,Product product, BigInteger orderID, int quantity) {
+		this.product = product;
+		this.quantity = quantity;
+		this.orderID=orderID;
+		setFinalPrice();
+	}
 	
 	public ProductInOrder(BigInteger id,Product product, BigInteger orderID, int quantity, float finalPrice) {
 		this.id=id;
@@ -23,6 +38,13 @@ public class ProductInOrder implements Serializable  {
 	public float getFinalPrice() {
 		return finalPrice;
 	}
+	
+	/**
+	 * set finalPrice by {@link #quantity} and the {@link #product}'s {@link Product#getPrice()}
+	 */
+	public void setFinalPrice() {
+		this.finalPrice =  quantity*product.getPrice();
+	}
 
 	public void setFinalPrice(float finalPrice) {
 		this.finalPrice = finalPrice;
@@ -34,6 +56,13 @@ public class ProductInOrder implements Serializable  {
 
 	public void setOrderID(BigInteger orderID) {
 		this.orderID = orderID;
+	}
+	
+	/** add 1 to quantity of the {@link ProductInOrder}, and updates the price
+	 */
+	public void addOneToQuantity() {
+		this.quantity++;
+		this.finalPrice+=this.getProduct().getPrice();
 	}
 
 	public Product getProduct() {
@@ -58,6 +87,11 @@ public class ProductInOrder implements Serializable  {
 
 	public void setId(BigInteger id) {
 		this.id = id;
+	}
+	
+	public String getFinalPriceAsString() {
+		DecimalFormat df = new DecimalFormat("##.##");
+		return df.format(getFinalPrice()) + "¤";
 	}
 	
 	@Override

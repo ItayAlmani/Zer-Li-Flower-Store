@@ -92,14 +92,14 @@ public class CustomerController extends ParentController {
 	
 	@Override
 	public ArrayList<Object> add(ArrayList<Object> arr) throws Exception {
-		if(arr!=null && (arr.get(0) instanceof BigInteger == false) || arr.get(1) instanceof Boolean == false)
+		if(arr!=null && (arr.get(0) instanceof Customer == false) || arr.get(1) instanceof Boolean == false)
 			throw new Exception();
-		BigInteger userID = BigInteger.valueOf((Integer) arr.get(0));
+		Customer cust = (Customer) arr.get(0);
 		boolean isReturnNextID = (boolean)arr.get(1);
 		String query = String.format(
 				"INSERT INTO customer (userID)"
 				+ " VALUES ('%d')",
-				userID);
+				cust.getUserID());
 		EchoServer.fac.dataBase.db.updateQuery(query);
 		myMsgArr.clear();
 		if(isReturnNextID) {
@@ -120,14 +120,16 @@ public class CustomerController extends ParentController {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
-	public ArrayList<Object> delete(Customer cust) throws Exception{
-		String query=String.format("DELETE FROM customer"
-				+ " WHERE userID='%d'",
-				cust.getUserID());
-		EchoServer.fac.dataBase.db.updateQuery(query);
-		myMsgArr.clear();
-		myMsgArr.add(true);
-		return myMsgArr;		
+	public ArrayList<Object> delete(ArrayList<Object> obj) throws Exception{
+		if(obj.get(0) instanceof BigInteger && obj.size()==1) {
+			BigInteger userID = (BigInteger)obj.get(0);
+			String query=String.format("DELETE FROM customer WHERE userID='%d'",userID);
+			EchoServer.fac.dataBase.db.updateQuery(query);
+			myMsgArr.clear();
+			myMsgArr.add(true);
+			return myMsgArr;		
+		}
+		else
+			throw new Exception();
 	}
 }

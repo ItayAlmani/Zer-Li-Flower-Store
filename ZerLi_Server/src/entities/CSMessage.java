@@ -32,6 +32,20 @@ public class CSMessage implements Serializable{
 	
 	/**To know what casting to do - the class of the responded object(s)*/
 	private Class<?> clasz = null;
+	
+	public CSMessage(MessageType type, ArrayList<Object> objs) {
+		super();
+		this.type = type;
+		this.objs = objs;
+		this.clasz=null;
+	}
+	
+	public CSMessage(MessageType type, ArrayList<Object> objs, Class<?> clasz) {
+		super();
+		this.type = type;
+		this.objs = objs;
+		this.clasz=clasz;
+	}
 
 	public MessageType getType() {
 		return type;

@@ -78,20 +78,22 @@ public class CustomerController extends ParentController implements ICustomer {
 		myMsgArr.add(Thread.currentThread().getStackTrace()[1].getMethodName());
 		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.SELECT,myMsgArr,Customer.class));
 	}
-	public void add(BigInteger userID, boolean getID) throws Exception {
+	public void add(Customer cust, boolean getID) throws Exception {
 		myMsgArr.clear();
 		myMsgArr.add(Thread.currentThread().getStackTrace()[1].getMethodName());
 		ArrayList<Object> arr = new ArrayList<>();
-		arr.add(userID);
+		arr.add(cust);
 		arr.add(getID);
 		myMsgArr.add(arr);
 		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.INSERT, myMsgArr, Customer.class));
 	}
 
-	public void delete(Customer cust) throws Exception {
+	public void delete(BigInteger userID) throws Exception {
 		myMsgArr.clear();
 		myMsgArr.add(Thread.currentThread().getStackTrace()[1].getMethodName());
-		myMsgArr.add(cust);
+		ArrayList<Object> arr = new ArrayList<>();
+		arr.add(userID);
+		myMsgArr.add(arr);
 		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.UPDATE, myMsgArr, Customer.class));
 	}
 }

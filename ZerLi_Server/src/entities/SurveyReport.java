@@ -2,7 +2,9 @@ package entities;
 
 import java.io.Serializable;
 import java.math.BigInteger;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 public class SurveyReport implements Serializable {
 	
@@ -16,6 +18,16 @@ public class SurveyReport implements Serializable {
 	public SurveyReport(Survey surveyAnalyzes) {
 		super();
 		this.surveyAnalyzes = surveyAnalyzes;
+	}
+
+	public SurveyReport (BigInteger id,Survey surveyAnalyzes, String verbalReport, LocalDateTime startDate,
+			LocalDateTime endDate) 
+	{
+		this.surveyReportID=id;
+		this.surveyAnalyzes=surveyAnalyzes;
+		this.verbalReport=verbalReport;
+		this.startDate=startDate;
+		this.endDate=endDate;
 	}
 
 	public LocalDateTime getStartDate() {
@@ -49,6 +61,8 @@ public class SurveyReport implements Serializable {
 	public void setVerbalReport(String verbalReport) {
 		this.verbalReport = verbalReport;
 	}
+
+	
 
 	public BigInteger getSurveyReportID() {
 		return surveyReportID;

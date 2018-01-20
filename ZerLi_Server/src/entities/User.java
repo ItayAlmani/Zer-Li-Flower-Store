@@ -42,6 +42,34 @@ public class User implements Serializable {
 		this.password = password;
 		this.permissions = permissions;
 	}
+
+	public User(BigInteger userID, String privateID, String firstName, String lastName, String userName, String password,
+			UserType permissions, boolean isConnected) {
+		this.userID = userID;
+		this.privateID = privateID;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.userName = userName;
+		this.password = password;
+		this.permissions = permissions;
+		this.isConnected=isConnected;
+	}
+	
+	public User(BigInteger userID, String privateID, String firstName, String lastName, String userName, String password,
+			UserType permissions) {
+		this.userID = userID;
+		this.privateID = privateID;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.userName = userName;
+		this.password = password;
+		this.permissions = permissions;
+	}
+
+	public User(String userName, String password) {
+		this.userName = userName;
+		this.password = password;
+	}
 	
 	public User(BigInteger userID, String privateID, String firstName, String lastName, String userName,
 			String password, UserType permissions, boolean isConnected, boolean isActive) {
