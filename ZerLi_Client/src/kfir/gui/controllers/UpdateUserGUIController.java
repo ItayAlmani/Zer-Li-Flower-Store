@@ -33,6 +33,7 @@ public class UpdateUserGUIController implements Initializable{
 	@FXML JFXToggleButton tglActive;
 	private User user = null;
 	private StoreWorker sw = null;
+	private Customer cust = null;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -128,8 +129,20 @@ public class UpdateUserGUIController implements Initializable{
 						e.printStackTrace();
 					}
 				}
-				else
-					cbStores.setVisible(true);
+			if(perm.equals(UserType.Customer)) {
+				//Is already Store worker/manager
+				if(user.getPermissions().equals(perm)) {
+					try {
+						Context.fac.customer.getCustomerByUser(user.getUserID());
+					}
+					catch (IOException e) {
+						Context.mainScene.ShowErrorMsg();
+						e.printStackTrace();
+					}
+				}
+			}
+			else
+				cbStores.setVisible(true);
 			}
 			else if(perm.equals(UserType.StoreManager))
 				cbStores.setVisible(true);
@@ -177,6 +190,15 @@ public class UpdateUserGUIController implements Initializable{
 		});
 	}
 	
+	public void setCustomers(ArrayList<Customer> custs)
+	{
+		if(custs == null || custs.size() != 1) {
+			Context.mainScene.ShowErrorMsg();
+			return;
+		}
+		this.cust=custs.get(0);
+	}
+	
 	public void toggleChanged() {
 		if(tglActive.isSelected()) {
 			tglActive.setText("Active");
@@ -207,12 +229,12 @@ public class UpdateUserGUIController implements Initializable{
 			if(oldperm.equals(newperm) == false) {
 				//==========================================================
 				if(oldperm.equals(p_cus)) {
-					Context.fac.customer.delete(user.getUserID());
-					System.out.println("now i am "+oldperm+" -> delete");
+					Context.fac.customer.delete(cust);
+					//System.out.println("now i am "+oldperm+" -> delete");
 				}
 				else if(oldperm.equals(p_sw)) {
-					//Context.fac.storeWorker.delete(user.getUserID());
-					System.out.println("now i am "+oldperm+" -> delete");
+					Context.fac.storeWorker.delete(user.getUserID());
+					//System.out.println("now i am "+oldperm+" -> delete");
 				}
 				//==========================================================
 				

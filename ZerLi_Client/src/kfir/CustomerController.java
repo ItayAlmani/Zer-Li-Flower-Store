@@ -78,7 +78,6 @@ public class CustomerController extends ParentController implements ICustomer {
 		myMsgArr.add(Thread.currentThread().getStackTrace()[1].getMethodName());
 		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.SELECT,myMsgArr,Customer.class));
 	}
-
 	public void add(BigInteger userID, boolean getID) throws Exception {
 		myMsgArr.clear();
 		myMsgArr.add(Thread.currentThread().getStackTrace()[1].getMethodName());
@@ -89,11 +88,11 @@ public class CustomerController extends ParentController implements ICustomer {
 		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.INSERT, myMsgArr, Customer.class));
 	}
 
-	public void delete(BigInteger userID) throws Exception {
+	public void delete(Customer cust) throws Exception {
 		myMsgArr.clear();
 		myMsgArr.add(Thread.currentThread().getStackTrace()[1].getMethodName());
 		ArrayList<Object> arr = new ArrayList<>();
-		arr.add(userID);
+		arr.add(cust);
 		myMsgArr.add(arr);
 		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.UPDATE, myMsgArr, Customer.class));
 	}

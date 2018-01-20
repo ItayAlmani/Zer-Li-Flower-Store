@@ -90,7 +90,6 @@ public class CustomerController extends ParentController {
 		}
 	}
 	
-	/**Dummy function*/
 	@Override
 	public ArrayList<Object> add(ArrayList<Object> arr) throws Exception {
 		if(arr!=null && (arr.get(0) instanceof BigInteger == false) || arr.get(1) instanceof Boolean == false)
@@ -123,11 +122,11 @@ public class CustomerController extends ParentController {
 	}
 	
 	public ArrayList<Object> delete(Object obj) throws Exception{
-		if(obj instanceof BigInteger) {
-			BigInteger userID = (BigInteger)obj;
+		if(obj instanceof Customer) {
+			Customer cust = (Customer)obj;
 		String query=String.format("DELTE FROM customer,"
 				+ " WHERE userID='%d'",
-				userID);
+				cust.getUserID());
 		EchoServer.fac.dataBase.db.updateQuery(query);
 		myMsgArr.clear();
 		myMsgArr.add(true);
