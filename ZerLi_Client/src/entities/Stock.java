@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.math.BigInteger;
 import java.text.DecimalFormat;
 
-public class Stock implements Serializable {
+public class Stock implements Comparable<Stock>, Serializable {
 	
 	private static final long serialVersionUID = 17L;
 	private BigInteger id;
@@ -89,5 +89,10 @@ public class Stock implements Serializable {
 	@Override
 	public String toString() {
 		return product.toString();
+	}
+
+	@Override
+	public int compareTo(Stock o) {
+		return getProduct().compareTo(o.getProduct());
 	}
 }

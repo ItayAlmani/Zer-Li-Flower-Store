@@ -91,9 +91,7 @@ public class CustomerController extends ParentController implements ICustomer {
 	public void delete(Customer cust) throws Exception {
 		myMsgArr.clear();
 		myMsgArr.add(Thread.currentThread().getStackTrace()[1].getMethodName());
-		ArrayList<Object> arr = new ArrayList<>();
-		arr.add(cust);
-		myMsgArr.add(arr);
+		myMsgArr.add(cust);
 		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.UPDATE, myMsgArr, Customer.class));
 	}
 }

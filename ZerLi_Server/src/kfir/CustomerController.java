@@ -121,17 +121,13 @@ public class CustomerController extends ParentController {
 		return null;
 	}
 	
-	public ArrayList<Object> delete(Object obj) throws Exception{
-		if(obj instanceof Customer) {
-			Customer cust = (Customer)obj;
-		String query=String.format("DELTE FROM customer,"
+	public ArrayList<Object> delete(Customer cust) throws Exception{
+		String query=String.format("DELETE FROM customer"
 				+ " WHERE userID='%d'",
 				cust.getUserID());
 		EchoServer.fac.dataBase.db.updateQuery(query);
 		myMsgArr.clear();
 		myMsgArr.add(true);
 		return myMsgArr;		
-		}
-		else throw new Exception();
 	}
 }

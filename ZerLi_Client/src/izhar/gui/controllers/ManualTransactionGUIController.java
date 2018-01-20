@@ -6,6 +6,7 @@ import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.ResourceBundle;
 import java.util.SortedSet;
@@ -43,6 +44,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Control;
 import javafx.scene.control.Spinner;
+import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
@@ -59,8 +61,8 @@ public class ManualTransactionGUIController implements Initializable {
 	public class ProductInComboBox{
 		public Spinner<Integer> s;
 		public HBox hbox;
-		public ComboBox<Product> cb;
-		public ProductInComboBox(Spinner<Integer> s, HBox hbox, ComboBox<Product> cb) {
+		public ComboBox<Stock> cb;
+		public ProductInComboBox(Spinner<Integer> s, HBox hbox, ComboBox<Stock> cb) {
 			this.s = s;
 			this.hbox = hbox;
 			this.cb=cb;
@@ -70,8 +72,8 @@ public class ManualTransactionGUIController implements Initializable {
 	private @FXML Button btnSend;
 	private @FXML VBox vbox;
 	private ObservableList<Customer> custList;
-	private static SortedSet<Product> prdSet;
-	private static ArrayList<ComboBox<Product>> comboBoxs = new ArrayList<>();
+	private static SortedSet<Stock> prdSet;
+	private static ArrayList<ComboBox<Stock>> comboBoxs = new ArrayList<>();
 	private @FXML ComboBox<Customer> cbCustomers;
 	private @FXML ComboBox<PayMethod> cbPayMethod;
 	private Order order = Context.order;
@@ -103,9 +105,11 @@ public class ManualTransactionGUIController implements Initializable {
 			Context.fac.customer.getAllCustomers();
 			
 			prdSet = new TreeSet<>();
-			for (Stock stock : s.getStock())
-				if(stock.getProduct() != null && stock.getQuantity()>0)
-					prdSet.add(stock.getProduct());
+			for (Stock stock : s.getStock()) {
+				if(stock.getProduct() != null && stock.getQuantity()>0) {
+					prdSet.add(stock);
+				}
+			}
 			addNewHBox();
 		} catch (Exception e) {
 			Context.mainScene.ShowErrorMsg();
@@ -120,24 +124,27 @@ public class ManualTransactionGUIController implements Initializable {
 	
 	public void addNewHBox() {
 		HBox hbox = new HBox(5);
-		TreeSet<Product> newSet = new TreeSet<Product>(prdSet);
-		ComboBox<Product> cb = new ComboBox<>(FXCollections.observableArrayList(newSet));
-		cb.setUserData(newSet);
+		TreeSet<Stock> newSet = new TreeSet<Stock>(prdSet);
+		ComboBox<Stock> cb = new ComboBox<>(FXCollections.observableArrayList(newSet));
 		cb.setPrefHeight(Control.USE_COMPUTED_SIZE);
 		cb.setPrefWidth(Control.USE_COMPUTED_SIZE);
+		cb.setId(String.valueOf(comboBoxs.size()));
 		comboBoxs.add(cb);
+		for (int i = comboBoxs.size()-1; i >=1 ; i--)
+			comboBoxs.get(i).setUserData(comboBoxs.get(i-1));
+		comboBoxs.get(0).setUserData(cb);
+
+		/*if(comboBoxs.size() == 2)
+			cb.setUserData(comboBoxs.get(0));
+		else if(comboBoxs.size() > 2)
+			cb.setUserData(comboBoxs.get(comboBoxs.size()-2));*/
 		
-		Spinner<Integer> sp = new Spinner<>(0, Integer.MAX_VALUE, 1);
-		sp.setDisable(true);
-		sp.setPrefWidth(50);
-		sp.setPrefHeight(Control.USE_COMPUTED_SIZE);
-		sp.setUserData(cb);
+		Spinner<Integer> sp = null;
 		
 		hbox.setPrefHeight(Control.USE_COMPUTED_SIZE);
 		hbox.setPrefWidth(Control.USE_COMPUTED_SIZE);
-		hbox.getChildren().addAll(cb,sp);
+		hbox.getChildren().addAll(cb);
 		ProductInComboBox picb = new ProductInComboBox(sp, hbox, cb);
-		addSpinHanlders(picb);
 		addCBEventsHandlers(picb);
 		
 		if(Platform.isFxApplicationThread())
@@ -148,127 +155,136 @@ public class ManualTransactionGUIController implements Initializable {
 	/** will become true at the moment : comBox.getValue().equals(observable.getValue()) == true */
 	private	boolean search_started = false;
 	private int ind = -1;
+	private static int changeCnt = 0;
 	
-	private void addCBEventsHandlers(ProductInComboBox picb) {
-		picb.cb.setOnAction((event)->{
-			if(prdSet.size()==0) return;
-			for (ComboBox<Product> comBox : comboBoxs)
-				if(comBox.getValue()==null)
-					return;
-			addNewHBox();
+	private void addCBEventsHandlers(ProductInComboBox picb) {		
+		picb.cb.valueProperty().addListener((observable,oldValue,newValue)-> {
+			if(newValue != null && picb.s == null) {
+				picb.s = new Spinner<>(0, newValue.getQuantity(), 1);
+				picb.s.setId(picb.cb.getId());
+				picb.s.setPrefWidth(50);
+				picb.s.setPrefHeight(Control.USE_COMPUTED_SIZE);
+				picb.s.setUserData(picb.cb);
+				picb.hbox.getChildren().addAll(picb.s);
+				addSpinHanlders(picb);
+			}
 		});
 		
+		
 		picb.cb.getSelectionModel().selectedItemProperty().addListener((observable,oldValue,newValue)-> {
-			if(picb.s.isDisable()==false)
-				return;
 			//if combo box value changed
 			if(newValue != null && newValue.equals(oldValue)==false) {
-				if(oldValue!=null)	prdSet.add(oldValue);
-				if(newValue!=null)	prdSet.remove(newValue);
-				//boolean i_is_0 = true;
-				for (int i = 0; i < comboBoxs.size() && i!=ind; i=(++i)%comboBoxs.size()) {
-					ComboBox<Product> comBox = comboBoxs.get(i);
-					//The comboBox itself
-					if(observable.getValue().equals(comBox.getValue())) {
-						if(ind==-1)
-							ind=i;
-						else {
-							ind=-1;
-							break;
-						}
-						/*if(search_started) {
-							search_started = false;
-							break;
-						}
-						else if(i!=0)//if(i_is_0 && i==comboBoxs.size()-2)
-							search_started = true;*/
-						i=(++i)%comboBoxs.size();
-						comBox = comboBoxs.get(i);
-						/*do {
-							
-						}while(comBox.getValue()==null && i!=ind);*/
-						
-						if(i == ind && observable.getValue().equals(comBox.getValue())) {
-							/*search_started = false;
-							break;*/
-							ind=-1;
-							break;
-						}
-						
-						TreeSet<Product> set = new TreeSet<>();
-						for (Iterator<Product> iterator = comBox.getItems().iterator(); iterator.hasNext();) {
-							Product product = (Product) iterator.next();
-							set.add(product);
-						}
-						if(oldValue!=null)	set.add(oldValue);
-						if(newValue!=null)	set.remove(newValue);
-						comBox.setUserData(set);
-						Product selected = comBox.getValue();
-						comBox.setValue(null);
-						comBox.setItems(FXCollections.observableArrayList(set));
-						comBox.setValue(selected);
-						break;
-					}
-					//i_is_0=false;
+				ComboBox<Stock> comBox = (ComboBox<Stock>) picb.cb.getUserData();
+				if(comBox == null || picb.cb.equals(comBox) || picb.cb.getId().equals(comBox.getId())) {
+					setNewData(oldValue, newValue);
+					return;
 				}
-				picb.s.setDisable(false);
+				ObservableList<Stock> newArr = FXCollections.observableArrayList(comBox.getItems());
+				if(oldValue!=null && !newArr.contains(oldValue))
+					newArr.add(oldValue);
+				if(newValue!=null && newArr.contains(newValue))		
+					newArr.remove(newValue);
+				FXCollections.sort(newArr);
+				changeCnt=0;
+				comBox.setItems(newArr);
 				cbProd=true;
 				if(cbPay && cbCust)
 					btnSend.setDisable(false);
 				ProductInOrder pio = Context.fac.prodInOrder.getPIOFromArr(
-						order.getProducts(), observable.getValue());
-				if(pio!=null) {
-					if(picb.s.getValue().equals(0)) {
-						order.getProducts().remove(pio);
-					}
-					else
-						pio.setQuantity(picb.s.getValue());
-				}
-				else if(observable.getValue() != null) {
-					pio = new ProductInOrder(observable.getValue(),
-							picb.s.getValue(), order.getOrderID());
-					order.getProducts().add(pio);
-				}
-			}
-        });
-	}
-	
-	private void addSpinHanlders(ProductInComboBox picb) {
-		picb.s.valueProperty().addListener((observable,oldValue,newValue)-> {
-			if(newValue != null && newValue.equals(oldValue)==false) {
-				@SuppressWarnings("unchecked")
-				ComboBox<Product> cb = (ComboBox<Product>)picb.s.getUserData();
-				ProductInOrder pio = Context.fac.prodInOrder.getPIOFromArr(
-						order.getProducts(), cb.getValue());
+						order.getProducts(), observable.getValue().getProduct());
 				if(pio!=null) {
 					if(picb.s.getValue().equals(0))
 						order.getProducts().remove(pio);
 					else
 						pio.setQuantity(picb.s.getValue());
 				}
-				else if(cb.getValue() != null) {
-					pio = new ProductInOrder(cb.getValue(),
+				else if(observable.getValue() != null) {
+					pio = new ProductInOrder(observable.getValue().getProduct(),
 							picb.s.getValue(), order.getOrderID());
 					order.getProducts().add(pio);
 				}
-				if(newValue.equals(0)) {
-					vbox.getChildren().remove(picb.hbox);
-					if(prdSet.contains(cb.getValue())==false)
-						prdSet.add(cb.getValue());
-					Product toAdd = cb.getValue();
-					comboBoxs.remove(cb);
-					for (ComboBox<Product> comBox : comboBoxs) {
-						@SuppressWarnings("unchecked")
-						TreeSet<Product> set = (TreeSet<Product>)comBox.getUserData();
-						if(toAdd!=null) set.add(toAdd);
-						comBox.setUserData(set);
-						if(Platform.isFxApplicationThread())
-							comBox.setItems(FXCollections.observableArrayList(set));
-						else Platform.runLater(()->comBox.setItems(FXCollections.observableArrayList(set)));
+				setNewData(oldValue, newValue);
+			}
+        });
+		
+		
+		picb.cb.itemsProperty().addListener(new ChangeListener<ObservableList<Stock>>() {
+			@Override
+			public void changed(ObservableValue<? extends ObservableList<Stock>> observable,
+					ObservableList<Stock> oldValue, ObservableList<Stock> newValue) {
+				if(changeCnt >= comboBoxs.size()) {
+					changeCnt=0;
+					return;
+				}
+				changeCnt++;
+				if(oldValue.equals(newValue))
+					return;
+				ComboBox<Stock> cb = (ComboBox<Stock>) picb.cb.getUserData();
+				if(cb == null || picb.cb.equals(cb) || picb.cb.getId().equals(cb.getId()))	return;
+				ObservableList<Stock> newArr = FXCollections.observableArrayList((ArrayList<Stock>)(new ArrayList<Stock>(newValue).clone()));
+				if(cb.getValue()!=null)
+					newArr.add(cb.getValue());
+				if(picb.cb.getValue()!=null)
+					newArr.remove(picb.cb.getValue());
+				FXCollections.sort(newArr);
+				if(cb.getItems().equals(newArr)==false)
+					cb.setItems(newArr);
+			}
+		});
+	}
+	
+	private void setNewData(Stock oldValue, Stock newValue) {
+		if(oldValue!=null)	
+			prdSet.add(oldValue);
+		if(newValue!=null)	prdSet.remove(newValue);
+		if(prdSet.isEmpty()==false) {
+			boolean to_add = true;
+			for (ComboBox<Stock> cb : comboBoxs)
+				if(cb.getValue()==null) {
+					to_add=false;
+					break;
+				}
+			if(to_add)	
+				addNewHBox();
+		}
+	}
+	
+	private void addSpinHanlders(ProductInComboBox picb) {
+		picb.s.valueProperty().addListener(new ChangeListener<Integer>() {
+			@Override
+			public void changed(ObservableValue<? extends Integer> observable, Integer oldValue, Integer newValue) {
+				if(newValue != null && newValue.equals(oldValue)==false) {
+					ComboBox<Stock> cb = (ComboBox<Stock>)picb.cb.getUserData();
+					ProductInOrder pio = Context.fac.prodInOrder.getPIOFromArr(
+							order.getProducts(), picb.cb.getValue().getProduct());
+					if(pio!=null) {
+						if(picb.s.getValue().equals(0))
+							order.getProducts().remove(pio);
+						else
+							pio.setQuantity(picb.s.getValue());
 					}
-					if(comboBoxs.size()==1 && comboBoxs.get(0).getValue()==null) {
-						cbProd=false;
-						btnSend.setDisable(true);							
+					else if(picb.cb.getValue() != null) {
+						pio = new ProductInOrder(picb.cb.getValue().getProduct(),
+								picb.s.getValue(), order.getOrderID());
+						order.getProducts().add(pio);
+					}
+					if(newValue.equals(0)) {
+						vbox.getChildren().remove(picb.hbox);
+						if(prdSet.contains(picb.cb.getValue())==false)
+							prdSet.add(picb.cb.getValue());
+						Stock toAdd = picb.cb.getValue();
+						comboBoxs.remove(picb.cb);
+						if(cb == null /*|| picb.cb.equals(cb)*/)	return;
+						ObservableList<Stock> newArr = FXCollections.observableArrayList(cb.getItems());
+						if(toAdd!=null && !newArr.contains(toAdd))	
+							newArr.add(toAdd);
+						FXCollections.sort(newArr);
+						changeCnt=0;
+						cb.setItems(newArr);
+						if(comboBoxs.size()==1 && comboBoxs.get(0).getValue()==null) {
+							cbProd=false;
+							btnSend.setDisable(true);				
+						}
 					}
 				}
 			}
