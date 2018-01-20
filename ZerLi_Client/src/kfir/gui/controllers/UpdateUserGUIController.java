@@ -230,17 +230,14 @@ public class UpdateUserGUIController implements Initializable{
 				//==========================================================
 				if(oldperm.equals(p_cus)) {
 					Context.fac.customer.delete(cust);
-					//System.out.println("now i am "+oldperm+" -> delete");
 				}
 				else if(oldperm.equals(p_sw)) {
 					Context.fac.storeWorker.delete(user.getUserID());
-					//System.out.println("now i am "+oldperm+" -> delete");
 				}
 				//==========================================================
 				
 				if(newperm.equals(p_cus)) {
 					Context.fac.customer.add(user.getUserID(), false);
-					System.out.println("now i am "+newperm+" -> add");
 				}
 				else if(newperm.equals(p_sw) || newperm.equals(p_sm)) {
 					if(cbStores.getValue() == null) {
@@ -263,7 +260,6 @@ public class UpdateUserGUIController implements Initializable{
 						System.out.println(oldManager.getFullName() + " now is worker at "+ oldManager.getStore());
 					}
 					Context.fac.storeWorker.add(sw, false);
-					System.out.println("now i am "+newperm+" -> add");
 				}
 			}
 			//same permission
