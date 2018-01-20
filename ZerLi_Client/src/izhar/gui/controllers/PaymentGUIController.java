@@ -153,7 +153,6 @@ public class PaymentGUIController implements Initializable {
 			ord.setGreeting("");
 		try {
 			Context.fac.paymentAccount.update(pa);
-			//Context.askingCtrl.add(Context.class);
 			Context.fac.order.add(ord,true);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -167,11 +166,7 @@ public class PaymentGUIController implements Initializable {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-		loadNextWindow();
-	}
-	
-	public void loadNextWindow() {
-		Context.mainScene.loadGUI("OrderGUI", false);
+			Context.mainScene.loadGUI("OrderGUI", false);
 	}
 
 	public void back() {

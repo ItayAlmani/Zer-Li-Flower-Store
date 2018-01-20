@@ -58,9 +58,9 @@ public class StockController extends ParentController {
 				int qu = productInOrder.getQuantity();
 				String str;
 				if(qu>0)
-					str = " - '"+qu+"'";
+					str = "- "+qu;
 				else
-					str = " + '"+(-1)*qu+"'";
+					str = "+ "+(-1)*qu;
 				String query = String.format(
 						" UPDATE stock" + 
 						" SET quantity=quantity %s" + 
