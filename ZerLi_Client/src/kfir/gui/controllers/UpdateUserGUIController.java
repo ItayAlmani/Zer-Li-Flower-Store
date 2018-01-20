@@ -207,7 +207,7 @@ public class UpdateUserGUIController implements Initializable{
 			if(oldperm.equals(newperm) == false) {
 				//==========================================================
 				if(oldperm.equals(p_cus)) {
-					//Context.fac.customer.delete(user.getUserID());
+					Context.fac.customer.delete(user.getUserID());
 					System.out.println("now i am "+oldperm+" -> delete");
 				}
 				else if(oldperm.equals(p_sw)) {
@@ -265,7 +265,7 @@ public class UpdateUserGUIController implements Initializable{
 			user.setActive(isAct);
 			Context.fac.user.update(user);
 			}
-		catch (IOException e) {
+		catch (Exception e) {
 			Context.mainScene.ShowErrorMsg();
 			e.printStackTrace();
 		}

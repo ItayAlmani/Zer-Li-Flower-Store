@@ -121,4 +121,18 @@ public class CustomerController extends ParentController {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	public ArrayList<Object> delete(Object obj) throws Exception{
+		if(obj instanceof BigInteger) {
+			BigInteger userID = (BigInteger)obj;
+		String query=String.format("DELTE FROM customer,"
+				+ " WHERE userID='%d'",
+				userID);
+		EchoServer.fac.dataBase.db.updateQuery(query);
+		myMsgArr.clear();
+		myMsgArr.add(true);
+		return myMsgArr;		
+		}
+		else throw new Exception();
+	}
 }

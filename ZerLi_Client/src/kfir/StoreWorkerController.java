@@ -73,6 +73,5 @@ public class StoreWorkerController extends ParentController{
 		arr.add(userID);
 		myMsgArr.add(arr);
 		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.UPDATE, myMsgArr, StoreWorker.class));
-	}
-	
+	}	
 }

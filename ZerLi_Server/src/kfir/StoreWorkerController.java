@@ -100,12 +100,9 @@ public class StoreWorkerController extends ParentController{
 	public ArrayList<Object> delete(Object obj) throws Exception{
 		if(obj instanceof BigInteger) {
 			BigInteger userID = (BigInteger)obj;
-		String query=String.format("UPDATE storeworker SET userID='%d',"
-				+ ", storeID='%d'"
-				+ " WHERE storeWorkerID='%d'",
-				userID.getUserID(),
-				userID.getStore().getStoreID(),
-				userID.getStoreWorkerID());
+		String query=String.format("DELTE FROM storeworker,"
+				+ " WHERE userID='%d'",
+				userID);
 		EchoServer.fac.dataBase.db.updateQuery(query);
 		myMsgArr.clear();
 		myMsgArr.add(true);
