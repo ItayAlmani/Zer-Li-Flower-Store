@@ -252,12 +252,10 @@ public class UpdateUserGUIController implements Initializable{
 						StoreWorker oldManager = newStore.getManager();
 						newStore.setManager(sw);
 						Context.fac.store.update(newStore);
-						System.out.println("now i'm a manager of the store "+ newStore.getName());
 						
 						//old store manager became store worker
 						oldManager.setPermissions(p_sw);
 						Context.fac.user.update(oldManager);
-						System.out.println(oldManager.getFullName() + " now is worker at "+ oldManager.getStore());
 					}
 					Context.fac.storeWorker.add(sw, false);
 				}
