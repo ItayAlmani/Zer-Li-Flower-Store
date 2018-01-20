@@ -199,7 +199,7 @@ public class UpdateUserGUIController implements Initializable{
 			Context.mainScene.setMessage("Nothing changed because the data is the same");
 			return;
 		}
-		//try {
+		try {
 			UserType p_cus = UserType.Customer, p_sw = UserType.StoreWorker, p_sm = UserType.StoreManager,
 					oldperm = user.getPermissions();
 			
@@ -217,7 +217,7 @@ public class UpdateUserGUIController implements Initializable{
 				//==========================================================
 				
 				if(newperm.equals(p_cus)) {
-					//Context.fac.customer.add(user.getUserID());
+					Context.fac.customer.add(user.getUserID(), false);
 					System.out.println("now i am "+newperm+" -> add");
 				}
 				else if(newperm.equals(p_sw) || newperm.equals(p_sm)) {
@@ -232,15 +232,15 @@ public class UpdateUserGUIController implements Initializable{
 					if(newperm.equals(p_sm)) {
 						StoreWorker oldManager = newStore.getManager();
 						newStore.setManager(sw);
-						//Context.fac.store.update(newStore);
+						Context.fac.store.update(newStore);
 						System.out.println("now i'm a manager of the store "+ newStore.getName());
 						
 						//old store manager became store worker
 						oldManager.setPermissions(p_sw);
-						//Context.fac.user.update(oldManager);
+						Context.fac.user.update(oldManager);
 						System.out.println(oldManager.getFullName() + " now is worker at "+ oldManager.getStore());
 					}
-					//Context.fac.storeWorker.add(sw);
+					Context.fac.storeWorker.add(sw, false);
 					System.out.println("now i am "+newperm+" -> add");
 				}
 			}
@@ -256,18 +256,18 @@ public class UpdateUserGUIController implements Initializable{
 					//store changed
 					if(newStore.getStoreID().intValue()!=old_sid) {
 						sw.setStore(newStore);
-						//Context.fac.storeWorker.update(sw);
+						Context.fac.storeWorker.update(sw);
 						System.out.println("now my store is "+ newStore.getName());
 					}
 				}
 			}
 			user.setPermissions(newperm);
 			user.setActive(isAct);
-			//Context.fac.user.update(user);
-			/*}
+			Context.fac.user.update(user);
+			}
 		catch (IOException e) {
 			Context.mainScene.ShowErrorMsg();
 			e.printStackTrace();
-		}*/
+		}
 	}
 }

@@ -11,6 +11,7 @@ import controllers.ParentController;
 import entities.CreditCard;
 import entities.Customer;
 import entities.PaymentAccount;
+import entities.StoreWorker;
 import entities.User;
 
 public class CustomerController extends ParentController {
@@ -92,8 +93,26 @@ public class CustomerController extends ParentController {
 	/**Dummy function*/
 	@Override
 	public ArrayList<Object> add(ArrayList<Object> arr) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		if(arr!=null && (arr.get(0) instanceof BigInteger == false) || arr.get(1) instanceof Boolean == false)
+			throw new Exception();
+		BigInteger userID = BigInteger.valueOf((Integer) arr.get(0));
+		boolean isReturnNextID = (boolean)arr.get(1);
+		String query = String.format(
+				"INSERT INTO customer (userID)"
+				+ " VALUES ('%d')",
+				userID);
+		EchoServer.fac.dataBase.db.updateQuery(query);
+		myMsgArr.clear();
+		if(isReturnNextID) {
+			query="SELECT Max(customerID) from customer";
+			myMsgArr =  EchoServer.fac.dataBase.db.getQuery(query);
+			if(myMsgArr!=null && myMsgArr.size()==1 && myMsgArr.get(0) instanceof Integer)
+				myMsgArr.set(0, BigInteger.valueOf((Integer)myMsgArr.get(0)));
+			else throw new Exception();
+		}
+		else
+			myMsgArr.add(true);
+		return myMsgArr;
 	}
 
 	/**Dummy function*/

@@ -10,6 +10,7 @@ import common.Context;
 import controllers.ParentController;
 import entities.CSMessage;
 import entities.Customer;
+import entities.PaymentAccount;
 import entities.CSMessage.MessageType;
 import gui.controllers.ParentGUIController;
 import entities.StoreWorker;
@@ -46,6 +47,32 @@ public class StoreWorkerController extends ParentController{
 			System.err.println("No method called '"+methodName+"'");
 			e2.printStackTrace();
 		}
+	}
+	
+	public void update(StoreWorker sw) throws IOException {
+		myMsgArr.clear();
+		myMsgArr.add(Thread.currentThread().getStackTrace()[1].getMethodName());
+		myMsgArr.add(sw);
+		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.UPDATE, myMsgArr,StoreWorker.class));
+	}
+	
+	public void add(StoreWorker sw, boolean getID) throws IOException {
+		myMsgArr.clear();
+		myMsgArr.add(Thread.currentThread().getStackTrace()[1].getMethodName());
+		ArrayList<Object> arr = new ArrayList<>();
+		arr.add(sw);
+		arr.add(getID);
+		myMsgArr.add(arr);
+		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.INSERT, myMsgArr, StoreWorker.class));
+	}
+
+	public void delete(BigInteger userID) throws Exception {
+		myMsgArr.clear();
+		myMsgArr.add(Thread.currentThread().getStackTrace()[1].getMethodName());
+		ArrayList<Object> arr = new ArrayList<>();
+		arr.add(userID);
+		myMsgArr.add(arr);
+		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.UPDATE, myMsgArr, StoreWorker.class));
 	}
 	
 }

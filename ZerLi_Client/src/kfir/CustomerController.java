@@ -17,6 +17,7 @@ import entities.Order;
 import entities.Order.Refund;
 import entities.PaymentAccount;
 import entities.Product;
+import entities.StoreWorker;
 import entities.Subscription;
 import entities.Subscription.SubscriptionType;
 import entities.User;
@@ -76,5 +77,15 @@ public class CustomerController extends ParentController implements ICustomer {
 		myMsgArr.clear();
 		myMsgArr.add(Thread.currentThread().getStackTrace()[1].getMethodName());
 		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.SELECT,myMsgArr,Customer.class));
+	}
+
+	public void add(BigInteger userID, boolean getID) throws Exception {
+		myMsgArr.clear();
+		myMsgArr.add(Thread.currentThread().getStackTrace()[1].getMethodName());
+		ArrayList<Object> arr = new ArrayList<>();
+		arr.add(userID);
+		arr.add(getID);
+		myMsgArr.add(arr);
+		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.INSERT, myMsgArr, Customer.class));
 	}
 }

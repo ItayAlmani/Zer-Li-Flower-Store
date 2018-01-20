@@ -2,6 +2,7 @@ package kfir;
 
 import java.math.BigInteger;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 
 import common.EchoServer;
@@ -52,15 +53,64 @@ public class StoreWorkerController extends ParentController{
 		}
 		throw new Exception();
 	}
-
-	/**Dummy function*/
+	
 	@Override
 	public ArrayList<Object> add(ArrayList<Object> arr) throws Exception { 
-		return null;	
+		if(arr!=null && (arr.get(0) instanceof StoreWorker == false) || arr.get(1) instanceof Boolean == false)
+			throw new Exception();
+		StoreWorker sw = (StoreWorker)arr.get(0);
+		boolean isReturnNextID = (boolean)arr.get(1);
+		String query = String.format(
+				"INSERT INTO storeworker (userID, storeID)"
+				+ " VALUES ('%d', '%d')",
+				sw.getUserID(),
+				sw.getStore().getStoreID());
+		EchoServer.fac.dataBase.db.updateQuery(query);
+		myMsgArr.clear();
+		if(isReturnNextID) {
+			query="SELECT Max(storeWorkerID) from storeWorker";
+			myMsgArr =  EchoServer.fac.dataBase.db.getQuery(query);
+			if(myMsgArr!=null && myMsgArr.size()==1 && myMsgArr.get(0) instanceof Integer)
+				myMsgArr.set(0, BigInteger.valueOf((Integer)myMsgArr.get(0)));
+			else throw new Exception();
+		}
+		else
+			myMsgArr.add(true);
+		return myMsgArr;	
 	}
 
 	@Override
 	public ArrayList<Object> update(Object obj) throws Exception {
-		return null;
+		if(obj instanceof StoreWorker) {
+			StoreWorker sw = (StoreWorker)obj;
+		String query=String.format("UPDATE storeworker SET userID='%d',"
+				+ ", storeID='%d'"
+				+ " WHERE storeWorkerID='%d'",
+				sw.getUserID(),
+				sw.getStore().getStoreID(),
+				sw.getStoreWorkerID());
+		EchoServer.fac.dataBase.db.updateQuery(query);
+		myMsgArr.clear();
+		myMsgArr.add(true);
+		return myMsgArr;		
+		}
+		else throw new Exception();
+	}
+	
+	public ArrayList<Object> delete(Object obj) throws Exception{
+		if(obj instanceof BigInteger) {
+			BigInteger userID = (BigInteger)obj;
+		String query=String.format("UPDATE storeworker SET userID='%d',"
+				+ ", storeID='%d'"
+				+ " WHERE storeWorkerID='%d'",
+				userID.getUserID(),
+				userID.getStore().getStoreID(),
+				userID.getStoreWorkerID());
+		EchoServer.fac.dataBase.db.updateQuery(query);
+		myMsgArr.clear();
+		myMsgArr.add(true);
+		return myMsgArr;		
+		}
+		else throw new Exception();
 	}
 }
