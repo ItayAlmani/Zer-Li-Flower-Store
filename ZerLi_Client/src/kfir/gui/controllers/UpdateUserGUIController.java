@@ -234,15 +234,29 @@ public class UpdateUserGUIController implements Initializable{
 				if(oldperm.equals(p_cus)) {
 					Context.fac.customer.delete(this.cust.getUserID());
 				}
-				else if(oldperm.equals(p_sw)) {
-					Context.fac.storeWorker.delete(user.getUserID());
+				else if(oldperm.equals(p_sw)){
+					if(newperm.equals(p_sm)) {
+						try {
+							this.newStore = cbStores.getValue();
+							this.newStore.setManager(this.sw);
+							this.sw.setStore(newStore);
+							Context.fac.storeWorker.update(this.sw);
+							Context.fac.store.update(newStore);
+						} catch (IOException e) {
+							Context.mainScene.ShowErrorMsg();
+							e.printStackTrace();
+						}
+					}
+					else
+						Context.fac.storeWorker.delete(user.getUserID());
 				}
 				//==========================================================
 				
 				if(newperm.equals(p_cus)) {
-					Context.fac.customer.add(user.getUserID(), false);
+					Customer newCust = new Customer(this.user, null);
+					Context.fac.customer.add(newCust, false);
 				}
-				else if(newperm.equals(p_sw) || newperm.equals(p_sm)) {
+				else if(newperm.equals(p_sw) || (oldperm.equals(p_cus) && newperm.equals(p_sm))) {
 					if(cbStores.getValue() == null) {
 						Context.mainScene.ShowErrorMsg();
 						return;
