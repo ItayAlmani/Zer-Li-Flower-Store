@@ -45,14 +45,16 @@ public class StoreController extends ParentController {
 		return arr;
 	}
 	
+	@Override
 	public ArrayList<Object> update(Object obj) throws Exception {
 		if(obj instanceof Store) {
 			Store store = (Store)obj;
 			String query = String.format(
-				"UPDATE store " + 
-				" SET storeID=%d, managerID=%d,name=%s" + 
-				" WHERE storeID=%d",
-				store.getStoreID(),store.getManager().getUserID(),store.getName());
+				"UPDATE store" + 
+				" SET managerID='%d'"
+				+ ",name='%s'"
+				+ " WHERE storeID='%d'",
+				store.getManager().getStoreWorkerID(),store.getName(),store.getStoreID());
 			EchoServer.fac.dataBase.db.updateQuery(query);
 			myMsgArr.clear();
 			myMsgArr.add(true);

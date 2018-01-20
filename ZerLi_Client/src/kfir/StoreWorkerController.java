@@ -73,5 +73,28 @@ public class StoreWorkerController extends ParentController{
 		arr.add(userID);
 		myMsgArr.add(arr);
 		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.UPDATE, myMsgArr, StoreWorker.class));
-	}	
+	}
+	
+	public void handleInsert(BigInteger id) {
+		String methodName = "setSWid";
+		Method m = null;
+		try {
+			// a controller asked data, not GUI
+			if (Context.askingCtrl != null && Context.askingCtrl.size() != 0) {
+				m = Context.askingCtrl.get(0).getClass().getMethod(methodName, BigInteger.class);
+				Object ob = Context.askingCtrl.get(0);
+				Context.askingCtrl.remove(0);
+				m.invoke(ob, id);
+			} else {
+				m = ParentGUIController.currentGUI.getClass().getMethod(methodName, BigInteger.class);
+				m.invoke(ParentGUIController.currentGUI, id);
+			}
+		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e1) {
+			System.err.println("Couldn't invoke method '" + methodName + "'");
+			e1.printStackTrace();
+		} catch (NoSuchMethodException | SecurityException e2) {
+			System.err.println("No method called '" + methodName + "'");
+			e2.printStackTrace();
+		}
+	}
 }

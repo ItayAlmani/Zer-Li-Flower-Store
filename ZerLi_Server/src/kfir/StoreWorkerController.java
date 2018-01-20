@@ -97,17 +97,15 @@ public class StoreWorkerController extends ParentController{
 		else throw new Exception();
 	}
 	
-	public ArrayList<Object> delete(Object obj) throws Exception{
-		if(obj instanceof BigInteger) {
-			BigInteger userID = (BigInteger)obj;
-		String query=String.format("DELTE FROM storeworker,"
-				+ " WHERE userID='%d'",
-				userID);
-		EchoServer.fac.dataBase.db.updateQuery(query);
-		myMsgArr.clear();
-		myMsgArr.add(true);
-		return myMsgArr;		
-		}
+	public ArrayList<Object> delete(ArrayList<Object> obj) throws Exception{
+		if(obj.get(0) instanceof BigInteger && obj.size()==1) {
+			BigInteger userID = (BigInteger)obj.get(0);
+			String query=String.format("DELETE FROM `storeworker` WHERE `userID`='%d';",userID);
+			EchoServer.fac.dataBase.db.updateQuery(query);
+			myMsgArr.clear();
+			myMsgArr.add(true);
+			return myMsgArr;		
+		}		
 		else throw new Exception();
 	}
 }

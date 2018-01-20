@@ -1,6 +1,7 @@
 package kfir.gui.controllers;
 
 import java.io.IOException;
+import java.math.BigInteger;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -34,6 +35,7 @@ public class UpdateUserGUIController implements Initializable{
 	private User user = null;
 	private StoreWorker sw = null;
 	private Customer cust = null;
+	private Store newStore=null;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -129,7 +131,9 @@ public class UpdateUserGUIController implements Initializable{
 						e.printStackTrace();
 					}
 				}
+			}
 			if(perm.equals(UserType.Customer)) {
+				cbStores.setVisible(false);
 				//Is already Store worker/manager
 				if(user.getPermissions().equals(perm)) {
 					try {
@@ -143,13 +147,12 @@ public class UpdateUserGUIController implements Initializable{
 			}
 			else
 				cbStores.setVisible(true);
-			}
+		}
 			else if(perm.equals(UserType.StoreManager))
 				cbStores.setVisible(true);
 			else	
 				cbStores.setVisible(false);
 		}
-	}
 	
 	public void setStoreWorkers(ArrayList<StoreWorker> sws) {
 		if(sws == null || sws.size() != 1 || sws.get(0).getStore() == null) {
@@ -229,7 +232,7 @@ public class UpdateUserGUIController implements Initializable{
 			if(oldperm.equals(newperm) == false) {
 				//==========================================================
 				if(oldperm.equals(p_cus)) {
-					Context.fac.customer.delete(cust);
+					Context.fac.customer.delete(this.cust.getUserID());
 				}
 				else if(oldperm.equals(p_sw)) {
 					Context.fac.storeWorker.delete(user.getUserID());
@@ -244,20 +247,19 @@ public class UpdateUserGUIController implements Initializable{
 						Context.mainScene.ShowErrorMsg();
 						return;
 					}
-					Store newStore = cbStores.getValue();
+					this.newStore = cbStores.getValue();
 					sw = new StoreWorker(user, newStore);
+					Context.fac.storeWorker.add(sw, true);
 					
 					//new store manager of the store
 					if(newperm.equals(p_sm)) {
 						StoreWorker oldManager = newStore.getManager();
 						newStore.setManager(sw);
-						Context.fac.store.update(newStore);
 						
 						//old store manager became store worker
 						oldManager.setPermissions(p_sw);
 						Context.fac.user.update(oldManager);
 					}
-					Context.fac.storeWorker.add(sw, false);
 				}
 			}
 			//same permission
@@ -273,7 +275,6 @@ public class UpdateUserGUIController implements Initializable{
 					if(newStore.getStoreID().intValue()!=old_sid) {
 						sw.setStore(newStore);
 						Context.fac.storeWorker.update(sw);
-						System.out.println("now my store is "+ newStore.getName());
 					}
 				}
 			}
@@ -282,6 +283,16 @@ public class UpdateUserGUIController implements Initializable{
 			Context.fac.user.update(user);
 			}
 		catch (Exception e) {
+			Context.mainScene.ShowErrorMsg();
+			e.printStackTrace();
+		}
+	}
+	
+	public void setSWid(BigInteger swID){
+		this.sw.setStoreWorkerID(swID);
+		try {
+			Context.fac.store.update(newStore);
+		} catch (IOException e) {
 			Context.mainScene.ShowErrorMsg();
 			e.printStackTrace();
 		}
