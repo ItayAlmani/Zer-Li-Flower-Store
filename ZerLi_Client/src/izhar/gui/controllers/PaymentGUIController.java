@@ -20,6 +20,7 @@ import entities.DeliveryDetails;
 import entities.Order;
 import entities.PaymentAccount;
 import entities.Order.OrderStatus;
+import entities.Order.PayMethod;
 import gui.controllers.ParentGUIController;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -29,6 +30,7 @@ import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
@@ -48,51 +50,55 @@ public class PaymentGUIController implements Initializable {
 	private @FXML FontAwesomeIconView icnCash;
 	private @FXML OctIconView icnCreditCard;
 	private @FXML MaterialDesignIconView icnNext;
-	private float priceBeforeDiscount;
-	private String priceBeforeDiscountStr;
+	private @FXML HBox panePaySelect;
 	private PaymentAccount pa;
+	private Float price_before_disc, price_after_disc, refund_before_disc, refund_after_disc;
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		tGroup = new ToggleGroup();
 		rbCredit.setToggleGroup(tGroup);
 		rbCash.setToggleGroup(tGroup);
-		priceBeforeDiscountStr=Context.order.getFinalPriceAsString();
-		priceBeforeDiscount=Context.order.getFinalPrice();
+		price_before_disc=Context.order.getFinalPrice();
 		Customer cust;
 		try {
 			cust = Context.getUserAsCustomer();
 			DeliveryDetails del = Context.order.getDelivery();
 			pa = Context.fac.paymentAccount.getPaymentAccountOfStore(cust.getPaymentAccounts(), del.getStore());
-			Float refundAmount = pa.getRefundAmount();
-			Float priceAfterPAT = Context.fac.order.getFinalPriceByPAT(pa, Context.order,Context.getUserAsCustomer());
-			if(refundAmount>0) {
-				if(refundAmount>Context.order.getFinalPrice()) {
-					Context.mainScene.setMessage("We have credit in the refund section");
-					lblFinalPrice.setText(priceBeforeDiscountStr + "-" + 
-							priceBeforeDiscountStr + "=" +
-							Context.order.getFinalPriceAsString());
+			this.refund_before_disc = pa.getRefundAmount();
+			this.price_after_disc = Context.fac.order.getFinalPriceByPAT(pa, Context.order,Context.getUserAsCustomer());
+			if(refund_before_disc>0) {
+				if(refund_before_disc>price_after_disc) {
+					lblFinalPrice.setText(priceToString(price_before_disc) + "-" + 
+							priceToString(price_before_disc) + "=" +
+							priceToString(price_after_disc));
+					refund_after_disc = refund_before_disc-price_before_disc;
+					Context.order.setPaymentMethod(PayMethod.Refund);
+					panePaySelect.setVisible(false);
 				}
 				else {
-					lblFinalPrice.setText(priceBeforeDiscountStr + "-" + 
-							getFinalPriceAsStr(refundAmount) + "=" +
-							Context.order.getFinalPriceAsString());
+					lblFinalPrice.setText(priceToString(price_before_disc) + "-" + 
+							priceToString(refund_before_disc) + "=" +
+							priceToString(price_after_disc));
+					refund_after_disc = 0f;
 				}
+				Context.mainScene.setMessage("You got "+priceToString(refund_after_disc) + " refund left");
 			}
 			else
-				lblFinalPrice.setText(priceBeforeDiscountStr);
+				lblFinalPrice.setText(priceToString(price_before_disc));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 	
-	private String getFinalPriceAsStr(Float ordPrice) {
+	private String priceToString(Float price) {
     	DecimalFormat df = new DecimalFormat("##.##");
-		return df.format(ordPrice) + "¤";
+		return df.format(price) + "¤";
     }
 
 	public void selectedCreditCard() {
 		lblPayMsg.setText("");
+		lblPayMsg.setUnderline(false);
 		btnPay.setText("Pay Now!");
 		icnNext.setGlyphName(MaterialDesignIcon.CUBE_SEND.toString());
 		
@@ -106,7 +112,9 @@ public class PaymentGUIController implements Initializable {
 	}
 
 	public void selectedCash() {
-		lblPayMsg.setText("Order won't be complete until payment");
+		//lblPayMsg.setText("Order won't be complete until payment");
+		lblPayMsg.setText("Don't forget to pay!");
+		lblPayMsg.setUnderline(true);
 		btnPay.setText("Next");
 		icnNext.setGlyphName(MaterialDesignIcon.ARROW_RIGHT_BOLD_CIRCLE.toString());
 		
@@ -117,11 +125,12 @@ public class PaymentGUIController implements Initializable {
 		icnCash.setFill(cashColor);
 		rbCash.setTextFill(cashColor);
 		piBill.setVisible(false);
+		btnPay.setOnAction((event)->pay());
 		btnPay.setDisable(false);
 		btnPay.setVisible(true);
 	}
 
-	public void pay() {
+	public void payWithCC() {
 		piBill.setVisible(true);
 		lblPayMsg.setText("Billing - waiting for confiramtion");
 		piBill.progressProperty().addListener((ov, oldValue, newValue) -> {
@@ -143,7 +152,7 @@ public class PaymentGUIController implements Initializable {
 		else {
 			btnPay.setDisable(false);
 			lblPayMsg.setText("");
-			payWithCC();
+			pay();
 		}
 	}
 	
@@ -173,18 +182,35 @@ public class PaymentGUIController implements Initializable {
 		th.start();
 	}
 	
-	private void payWithCC() {
+	private void pay() {
 		Order ord = Context.order;
-		if(tGroup.getSelectedToggle().equals(rbCredit)) {
-			ord.setOrderStatus(OrderStatus.Paid);
-			ord.setPaymentMethod(entities.Order.PayMethod.CreditCard);
+		//if not all the price paid with refund
+		if(ord.getPaymentMethod().equals(PayMethod.Refund)==false) {
+			if(tGroup.getSelectedToggle().equals(rbCredit)) {
+				ord.setOrderStatus(OrderStatus.Paid);
+				//if part of the price removed because refund, and the rest paid with Credit Card
+				if(refund_before_disc>0)
+					Context.order.setPaymentMethod(PayMethod.RefundAndCreditCard);
+				else
+					ord.setPaymentMethod(PayMethod.CreditCard);
+			}
+			else if(tGroup.getSelectedToggle().equals(rbCash)) {
+				//if part of the price removed because refund, and the rest paid with Cash
+				if(refund_before_disc>0)
+					Context.order.setPaymentMethod(PayMethod.RefundAndCash);
+				else
+					ord.setPaymentMethod(PayMethod.Cash);
+				//ord.setOrderStatus(OrderStatus.WaitingForCashPayment);
+			}
 		}
-		else if(tGroup.getSelectedToggle().equals(rbCash))
-			ord.setOrderStatus(OrderStatus.WaitingForCashPayment);
 		if(txtGreeting.getText().isEmpty()==false)
 			ord.setGreeting(txtGreeting.getText());
 		else
 			ord.setGreeting("");
+		if(refund_before_disc!=0f) {
+			pa.setRefundAmount(refund_after_disc);
+			ord.setFinalPrice(price_after_disc);
+		}
 		try {
 			Context.fac.paymentAccount.update(pa);
 			Context.fac.order.add(ord,true);
@@ -194,17 +220,17 @@ public class PaymentGUIController implements Initializable {
 	}
 	
 	public void setOrderID(BigInteger id) {
-			try {
-				if(Context.order!=null && Context.order.getOrderID()!=null)
-					Context.fac.stock.update(Context.order);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			Context.mainScene.loadGUI("OrderGUI", false);
+		/*try {
+			if(Context.order!=null && Context.order.getOrderID()!=null)
+				Context.fac.stock.update(Context.order);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}*/
+		Context.mainScene.loadGUI("OrderGUI", false);
 	}
 
 	public void back() {
-		Context.order.setFinalPrice(priceBeforeDiscount);	//prevent double discount
+		Context.order.setFinalPrice(price_before_disc);	//prevent double discount
 		Context.mainScene.loadGUI("OrderTimeGUI", false);
 	}
 }

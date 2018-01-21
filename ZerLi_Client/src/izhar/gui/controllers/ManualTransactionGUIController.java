@@ -5,16 +5,13 @@ import java.math.BigInteger;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Iterator;
 import java.util.ResourceBundle;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 
-import common.ClientController;
 import common.Context;
 import entities.Customer;
 import entities.DeliveryDetails;
@@ -23,28 +20,20 @@ import entities.Order.DeliveryType;
 import entities.Order.OrderStatus;
 import entities.Order.OrderType;
 import entities.Order.PayMethod;
-import entities.PaymentAccount;
 import entities.Product;
 import entities.ProductInOrder;
 import entities.Stock;
 import entities.Store;
-import entities.User;
-import entities.User.UserType;
 import gui.controllers.ParentGUIController;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Control;
 import javafx.scene.control.Spinner;
-import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
@@ -61,21 +50,21 @@ public class ManualTransactionGUIController implements Initializable {
 	public class ProductInComboBox{
 		public Spinner<Integer> s;
 		public HBox hbox;
-		public ComboBox<Stock> cb;
-		public ProductInComboBox(Spinner<Integer> s, HBox hbox, ComboBox<Stock> cb) {
+		public JFXComboBox<Stock> cb;
+		public ProductInComboBox(Spinner<Integer> s, HBox hbox, JFXComboBox<Stock> cb) {
 			this.s = s;
 			this.hbox = hbox;
 			this.cb=cb;
 		}
 	}
 	
-	private @FXML Button btnSend;
+	private @FXML JFXButton btnSend;
 	private @FXML VBox vbox;
 	private ObservableList<Customer> custList;
 	private static SortedSet<Stock> prdSet;
-	private static ArrayList<ComboBox<Stock>> comboBoxs = new ArrayList<>();
-	private @FXML ComboBox<Customer> cbCustomers;
-	private @FXML ComboBox<PayMethod> cbPayMethod;
+	private static ArrayList<JFXComboBox<Stock>> comboBoxs = new ArrayList<>();
+	private @FXML JFXComboBox<Customer> cbCustomers;
+	private @FXML JFXComboBox<PayMethod> cbPayMethod;
 	private Order order = Context.order;
 	
 	private boolean cbCust = false, cbPay = false, cbProd = false;
@@ -125,7 +114,7 @@ public class ManualTransactionGUIController implements Initializable {
 	public void addNewHBox() {
 		HBox hbox = new HBox(5);
 		TreeSet<Stock> newSet = new TreeSet<Stock>(prdSet);
-		ComboBox<Stock> cb = new ComboBox<>(FXCollections.observableArrayList(newSet));
+		JFXComboBox<Stock> cb = new JFXComboBox<>(FXCollections.observableArrayList(newSet));
 		cb.setPrefHeight(Control.USE_COMPUTED_SIZE);
 		cb.setPrefWidth(Control.USE_COMPUTED_SIZE);
 		cb.setId(String.valueOf(comboBoxs.size()));
@@ -146,10 +135,11 @@ public class ManualTransactionGUIController implements Initializable {
 		hbox.getChildren().addAll(cb);
 		ProductInComboBox picb = new ProductInComboBox(sp, hbox, cb);
 		addCBEventsHandlers(picb);
-		
-		if(Platform.isFxApplicationThread())
+		if(Platform.isFxApplicationThread()) {
 			vbox.getChildren().add(vbox.getChildren().size()-1,hbox);
-		else Platform.runLater(()->vbox.getChildren().add(vbox.getChildren().size()-1,hbox));
+			vbox.setSpacing(15);
+		}
+		else Platform.runLater(()->{vbox.getChildren().add(vbox.getChildren().size()-1,hbox);vbox.setSpacing(15);});
 	}
 
 	/** will become true at the moment : comBox.getValue().equals(observable.getValue()) == true */
@@ -174,7 +164,7 @@ public class ManualTransactionGUIController implements Initializable {
 		picb.cb.getSelectionModel().selectedItemProperty().addListener((observable,oldValue,newValue)-> {
 			//if combo box value changed
 			if(newValue != null && newValue.equals(oldValue)==false) {
-				ComboBox<Stock> comBox = (ComboBox<Stock>) picb.cb.getUserData();
+				JFXComboBox<Stock> comBox = (JFXComboBox<Stock>) picb.cb.getUserData();
 				if(comBox == null || picb.cb.equals(comBox) || picb.cb.getId().equals(comBox.getId())) {
 					setNewData(oldValue, newValue);
 					return;
@@ -219,7 +209,7 @@ public class ManualTransactionGUIController implements Initializable {
 				changeCnt++;
 				if(oldValue.equals(newValue))
 					return;
-				ComboBox<Stock> cb = (ComboBox<Stock>) picb.cb.getUserData();
+				JFXComboBox<Stock> cb = (JFXComboBox<Stock>) picb.cb.getUserData();
 				if(cb == null || picb.cb.equals(cb) || picb.cb.getId().equals(cb.getId()))	return;
 				ObservableList<Stock> newArr = FXCollections.observableArrayList((ArrayList<Stock>)(new ArrayList<Stock>(newValue).clone()));
 				if(cb.getValue()!=null)
@@ -239,7 +229,7 @@ public class ManualTransactionGUIController implements Initializable {
 		if(newValue!=null)	prdSet.remove(newValue);
 		if(prdSet.isEmpty()==false) {
 			boolean to_add = true;
-			for (ComboBox<Stock> cb : comboBoxs)
+			for (JFXComboBox<Stock> cb : comboBoxs)
 				if(cb.getValue()==null) {
 					to_add=false;
 					break;
@@ -254,7 +244,7 @@ public class ManualTransactionGUIController implements Initializable {
 			@Override
 			public void changed(ObservableValue<? extends Integer> observable, Integer oldValue, Integer newValue) {
 				if(newValue != null && newValue.equals(oldValue)==false) {
-					ComboBox<Stock> cb = (ComboBox<Stock>)picb.cb.getUserData();
+					JFXComboBox<Stock> cb = (JFXComboBox<Stock>)picb.cb.getUserData();
 					ProductInOrder pio = Context.fac.prodInOrder.getPIOFromArr(
 							order.getProducts(), picb.cb.getValue().getProduct());
 					if(pio!=null) {

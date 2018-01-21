@@ -15,7 +15,9 @@ import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.effect.DropShadow;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
@@ -135,7 +137,10 @@ public class ParentGUIController extends SetUpMainGUIController implements Initi
 	public void start(Stage stage) throws IOException {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/fxmls/MainScene.fxml"));
 		ParentGUIController.primaryStage=stage;
-		Scene scene = new Scene(loader.load());
+		ScrollPane root = loader.load();
+		root.getStylesheets().add(getClass().getResource("/gui/css/ParentCSS.css").toExternalForm());
+		Scene scene = new Scene(root);
+		scene.getStylesheets().add(getClass().getResource("/gui/css/ParentCSS.css").toExternalForm());
 		stage.setTitle("ZerLi Flower Store");
 		stage.setScene(scene);
 
@@ -143,6 +148,7 @@ public class ParentGUIController extends SetUpMainGUIController implements Initi
 			ClientController.connectToServer();
 			if (Context.clientConsole != null && Context.clientConsole.isConnected() == true) {
 				try {
+					//will return the answer to ParentGUIController.setDBStatus()
 					Context.fac.dataBase.getDBStatus();
 				} catch (IOException e) {
 					System.err.println("Can't get data base status");
@@ -161,6 +167,7 @@ public class ParentGUIController extends SetUpMainGUIController implements Initi
 	public void logOut() {
 		try {
 			logOutUserInSystem();
+			primaryStage.close();
 			this.start(primaryStage);
 		} catch (IOException e) {
 			e.printStackTrace();

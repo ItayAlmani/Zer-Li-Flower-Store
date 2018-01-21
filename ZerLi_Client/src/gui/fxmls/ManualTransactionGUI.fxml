@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox fx:id="vbox" alignment="CENTER" prefHeight="300.0" prefWidth="300.0" spacing="10.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="izhar.gui.controllers.ManualTransactionGUIController">
+<VBox fx:id="vbox" alignment="CENTER" spacing="20.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="izhar.gui.controllers.ManualTransactionGUIController">
    <children>
-      <ComboBox fx:id="cbCustomers" onAction="#customerSelected" promptText="Choose customer" />
-      <ComboBox fx:id="cbPayMethod" onAction="#paymentSelected" promptText="Choose payment method" />
-      <Button fx:id="btnSend" disable="true" mnemonicParsing="false" onAction="#sendNewOrder" text="Add new order" />
+      <JFXComboBox fx:id="cbCustomers" onAction="#customerSelected" promptText="Choose customer" />
+      <JFXComboBox fx:id="cbPayMethod" onAction="#paymentSelected" promptText="Choose payment method" />
+      <JFXButton fx:id="btnSend" disable="true" mnemonicParsing="false" onAction="#sendNewOrder" ripplerFill="ORANGE" text="Add new order" textAlignment="CENTER" textOverrun="CLIP" wrapText="true" />
    </children>
+   <padding>
+      <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+   </padding>
 </VBox>

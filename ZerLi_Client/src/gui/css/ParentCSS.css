@@ -29,6 +29,12 @@
 	-fx-font-size: 30.0;
 }
 
+.lblColoredIcon{
+	-fx-text-fill: linear-gradient(to top right,#ff6d08 0%, RED 44.63%, #fff700 100%);
+	-fx-font-family: "Bauhaus 93";
+	-fx-font-size: 12.0;
+}
+
 .coloredIcon{
 	-fx-fill: linear-gradient(to top right,#ff6d08 0%, RED 44.63%, #fff700 100%);
 	-glyph-size: 30.0;
@@ -36,10 +42,6 @@
 
 .menu-button{
 	-fx-background-color: linear-gradient(to top right,#ff6d08 0%, RED 44.63%, #fff700 100%);
-}
-
-Pane{
-	-fx-padding: 5 5 5 5;
 }
 
 .tooltip{
@@ -93,4 +95,23 @@ Pane{
 	-jfx-toggle-line-color: orange;
 	-jfx-untoggle-color: white;
 	-jfx-untoggle-line-color: red;
+}
+
+.spinner .increment-arrow-button,
+.spinner .decrement-arrow-button {
+    -fx-body-color: orange;
+}
+
+.spinner .increment-arrow-button:hover,
+.spinner .decrement-arrow-button:hover {
+    /* interpolate color between yellow and red based on first color brightness */
+    -fx-body-color: ladder(#444, orange 0%, red 100%);
+}
+
+.spinner .increment-arrow-button:hover:pressed,
+.spinner .decrement-arrow-button:hover:pressed,
+.spinner .increment-arrow-button:pressed,
+.spinner .decrement-arrow-button:pressed {
+    /* interpolate color between yellow and red based on first color brightness */
+    -fx-body-color: ladder(#AAA, orange 0%, red 100%);
 }

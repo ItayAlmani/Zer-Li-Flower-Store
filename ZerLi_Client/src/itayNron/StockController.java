@@ -130,6 +130,14 @@ public class StockController extends ParentController implements IStock {
 		return null;
 	}
 	
+	public Stock getStockByProductByStocks(ArrayList<Stock> stocks, Product p) {
+		for (Stock stc : stocks) {
+			if(stc.getProduct() != null && stc.getProduct().getPrdID().equals(p.getPrdID()))
+				return stc;
+		}
+		return null;
+	}
+	
 	/**
 	 * The function will ask from the server to add {@code p} to all the stores
 	 * with {@code quantity = 0}

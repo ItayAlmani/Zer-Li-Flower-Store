@@ -22,6 +22,7 @@ import entities.PaymentAccount;
 import entities.Product;
 import entities.ProductInOrder;
 import entities.ShipmentDetails;
+import entities.Stock;
 import entities.Store;
 import entities.Subscription;
 import entities.Subscription.SubscriptionType;
@@ -31,7 +32,7 @@ import izhar.interfaces.IOrder;
 public class OrderController extends ParentController implements IOrder {
 //------------------------------------------------IN CLIENT--------------------------------------------------------------------	
 	@SuppressWarnings("unused")
-	public ProductInOrder manageCart(Product p, Float price, ProductInOrder pio) {
+	public ProductInOrder manageCart(Product p, Float price, ProductInOrder pio, Stock stock) {
 		Product prd = new Product(p);	//create new copy
 		Order ord = Context.order;
 		pio = Context.order.containsProduct(prd);
@@ -45,6 +46,9 @@ public class OrderController extends ParentController implements IOrder {
 			ord.getProducts().add(pio);
 			try {
 				Context.fac.prodInOrder.add(pio, true);
+				//Auto update of stock
+				stock.setQuantity(stock.getQuantity()-1);
+				Context.fac.stock.update(stock);
 			} catch (IOException e) {
 				System.err.println("Can't add product\n");
 				Context.mainScene.ShowErrorMsg();

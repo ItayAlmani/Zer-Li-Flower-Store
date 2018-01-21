@@ -9,19 +9,18 @@ import common.Context;
 import entities.Order;
 import entities.Product;
 import entities.ProductInOrder;
+import entities.Stock;
 import entities.Store;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Pagination;
 import javafx.scene.control.Spinner;
 import javafx.scene.layout.GridPane;
-import javafx.util.Callback;
 
 public class CartGUIController extends ProductsPresentationGUIController {
 	public static ArrayList<ProductInOrder> allPIOS, notZeroPIOS;
@@ -76,8 +75,6 @@ public class CartGUIController extends ProductsPresentationGUIController {
 	public static boolean firstPagination = false;
 
 	public void setPIOs(ArrayList<ProductInOrder> prds) {
-		if (firstPagination == true)
-			firstPagination = false;
 		try {
 			Context.fac.prodInOrder.updatePricesByStock(prds, store);
 		} catch (Exception e) {
@@ -86,19 +83,30 @@ public class CartGUIController extends ProductsPresentationGUIController {
 			return;
 		}
 		Context.order.setProducts(prds);
-		initGrids(prds);
+		
 		int i = 0;
-		if (pagination == null) {
-			pagination = new Pagination(notZeroPIOS.size(), 0);
-			firstPagination = true;
-		}
+		initGrids(prds);
 		ordPrice = Context.order.getFinalPrice();
 		if (notZeroPIOS != null && !notZeroPIOS.isEmpty()) {
 			cartEmpty = false;
 			for (ProductInOrder p : notZeroPIOS) {
-				
-				setVBox(i, p, null, updateQuantity());
-				i++;
+				Float newPrice;
+				Stock stk;
+				try {
+					stk = Context.fac.stock.getStockByProductFromStore(store, p.getProduct());
+					if(stk == null) {
+						System.err.println("Stock is null");
+						continue;
+					}
+					newPrice = Context.fac.product.getPriceWithSubscription(Context.order,stk.getProduct(), stk.getPriceAfterSale(), Context.getUserAsCustomer());
+					setVBox(i, p, 
+							newPrice==null?null:newPrice*(1-stk.getSalePercetage()), 
+							updateQuantity(stk));
+					i++;
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		} else
 			cartEmpty = true;
@@ -121,11 +129,10 @@ public class CartGUIController extends ProductsPresentationGUIController {
 		if (!vbox.getChildren().contains(pagination))
 			vbox.getChildren().add(0, pagination);
 		vbox.setAlignment(Pos.CENTER);
-		// vbox.getScene().getWindow().sizeToScene();
 		vbox.getStylesheets().add(getClass().getResource("/gui/css/ParentCSS.css").toExternalForm());
 	}
 
-	private EventHandler<ActionEvent> updateQuantity() {
+	private EventHandler<ActionEvent> updateQuantity(Stock stock) {
 		return (event) -> {
 			Button btn = (Button) event.getSource();
 			ProductInOrder pio = (ProductInOrder) btn.getUserData();
@@ -139,6 +146,7 @@ public class CartGUIController extends ProductsPresentationGUIController {
 			}
 
 			float oldFinalPrice = pio.getFinalPrice();
+			int quantity_before_change = pio.getQuantity();
 			pio.setQuantity(quantity);
 			pio.setFinalPrice();
 			try {
@@ -155,6 +163,8 @@ public class CartGUIController extends ProductsPresentationGUIController {
 					pagination = new Pagination(notZeroPIOS.size(), 0);
 					setPIOs(allPIOS);
 				}
+				stock.setQuantity(stock.getQuantity()+quantity_before_change-quantity);
+				Context.fac.stock.update(stock);
 			} catch (IOException e) {
 				System.err.println("prodInOrder.updatePriceOfPIO query failed");
 				e.printStackTrace();
@@ -162,6 +172,7 @@ public class CartGUIController extends ProductsPresentationGUIController {
 		};
 	}
 
+	@SuppressWarnings("unchecked")
 	private void initGrids(ArrayList<ProductInOrder> prds) {
 		components.clear();
 		allPIOS = prds;
@@ -173,6 +184,14 @@ public class CartGUIController extends ProductsPresentationGUIController {
 		/* The quantity of all products */
 		spnShowQuantity = new Spinner[notZeroPIOS.size()];
 
+		if (firstPagination == true)
+			firstPagination = false;
+		
+		if (pagination == null) {
+			pagination = new Pagination(notZeroPIOS.size(), 0);
+			firstPagination = true;
+		}
+		
 		initArrays(notZeroPIOS.size());
 	}
 

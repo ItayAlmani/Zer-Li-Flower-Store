@@ -64,12 +64,14 @@ public class MainClient extends Application {
 		Rectangle2D primScreenBounds = Screen.getPrimary().getVisualBounds();
         primaryStage.setX((primScreenBounds.getWidth() - primaryStage.getWidth()) / 2);
         primaryStage.setY(0);
+        primaryStage.setHeight(primScreenBounds.getMaxY());
         primaryStage.setMaxHeight(primScreenBounds.getMaxY());
+        primaryStage.setMaximized(true);
         //primaryStage.resizableProperty().setValue(Boolean.FALSE);
 		
 		primaryStage.getIcons().add(getLogoAsImage());
 		
-        primaryStage.show();
+        //primaryStage.show();
 	}
 
 	/**

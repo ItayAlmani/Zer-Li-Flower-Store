@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="ALWAYS" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" pannable="true" styleClass="mainScene" vbarPolicy="ALWAYS" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controllers.ParentGUIController">
+<ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="ALWAYS" pannable="true" styleClass="mainScene" vbarPolicy="ALWAYS" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controllers.ParentGUIController">
    <content>
       <BorderPane fx:id="mainPane" styleClass="mainScene">
          <center>
@@ -24,7 +24,10 @@
                </opaqueInsets>
                <children>
                   <Label id="lblHeader" fx:id="lblTitle" alignment="CENTER" contentDisplay="CENTER" styleClass="lblHeader" textAlignment="CENTER" textOverrun="CLIP" wrapText="true" />
-                  <HBox fx:id="scenePane" alignment="TOP_CENTER" fillHeight="false" />
+                  <HBox fx:id="scenePane" alignment="TOP_CENTER" fillHeight="false">
+                     <padding>
+                        <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                     </padding></HBox>
                </children>
                <BorderPane.margin>
                   <Insets top="15.0" />
@@ -45,8 +48,19 @@
                                     <Label />
                                     <HBox alignment="CENTER" spacing="10.0">
                                        <children>
-                                          <MaterialDesignIconView fontSmoothingType="LCD" glyphName="HOME" onMouseClicked="#loadMainMenu" size="30" styleClass="coloredIcon" textAlignment="CENTER" />
-                                          <MaterialDesignIconView fx:id="icnLogOut" fontSmoothingType="LCD" glyphName="LOGOUT" onMouseClicked="#logOut" size="30.0" styleClass="coloredIcon" textAlignment="CENTER" />
+                                          <Label contentDisplay="TOP" graphicTextGap="0.0" onMouseClicked="#loadMainMenu" styleClass="lblColoredIcon" text="Home" textAlignment="CENTER" textOverrun="CLIP">
+                                             <graphic>
+                                                <MaterialDesignIconView fontSmoothingType="LCD" glyphName="HOME" size="30" styleClass="coloredIcon" textAlignment="CENTER" />
+                                             </graphic>
+                                             <font>
+                                                <Font name="Bauhaus 93" size="12.0" />
+                                             </font>
+                                          </Label>
+                                          <Label contentDisplay="TOP" graphicTextGap="0.0" onMouseClicked="#logOut" styleClass="lblColoredIcon" text="Log Out" textAlignment="CENTER" textOverrun="CLIP" wrapText="true">
+                                             <graphic>
+                                                <MaterialDesignIconView fx:id="icnLogOut" fontSmoothingType="LCD" glyphName="LOGOUT" size="30.0" styleClass="coloredIcon" textAlignment="CENTER" />
+                                             </graphic>
+                                          </Label>
                                        </children>
                                     </HBox>
                                  </children>
@@ -58,14 +72,30 @@
                                           <Label styleClass="menuTitle" text="Products and cart" textAlignment="CENTER" textOverrun="CLIP" wrapText="true" />
                                           <HBox fx:id="hbCustomer" alignment="CENTER" spacing="10.0">
                                              <children>
-                                                <MaterialDesignIconView fx:id="icnCart" fontSmoothingType="LCD" glyphName="CART" onMouseClicked="#loadCart" size="30.0" styleClass="coloredIcon" textAlignment="CENTER" />
-                                                <OctIconView fx:id="icnCatalog" fontSmoothingType="LCD" glyphName="BOOK" onMouseClicked="#loadCatalog" size="30" styleClass="coloredIcon" />
-                                                <MaterialDesignIconView fx:id="icnAssemble" fontSmoothingType="LCD" glyphName="FLOWER" onMouseClicked="#loadAssembleProduct" size="30" styleClass="coloredIcon" />
-                                                <MaterialIconView fx:id="icnCancelOrder" fontSmoothingType="LCD" glyphName="CANCEL" onMouseClicked="#loadCancelOrder" size="30" styleClass="coloredIcon" textAlignment="CENTER">
-                                                   <font>
-                                                      <Font name="Material Icons" size="12.0" />
-                                                   </font>
-                                                </MaterialIconView>
+                                                <Label contentDisplay="TOP" graphicTextGap="0.0" styleClass="lblColoredIcon" text="Cart" textAlignment="CENTER" textOverrun="CLIP" wrapText="true">
+                                                   <graphic>
+                                                      <MaterialDesignIconView fx:id="icnCart" fontSmoothingType="LCD" glyphName="CART" onMouseClicked="#loadCart" size="30.0" styleClass="coloredIcon" textAlignment="CENTER" />
+                                                   </graphic>
+                                                </Label>
+                                                <Label contentDisplay="TOP" graphicTextGap="0.0" onMouseClicked="#loadCatalog" styleClass="lblColoredIcon" text="Catalog" textAlignment="CENTER" textOverrun="CLIP" wrapText="true">
+                                                   <graphic>
+                                                      <OctIconView fx:id="icnCatalog" fontSmoothingType="LCD" glyphName="BOOK" size="30" styleClass="coloredIcon" />
+                                                   </graphic>
+                                                </Label>
+                                                <Label contentDisplay="TOP" graphicTextGap="0.0" onMouseClicked="#loadAssembleProduct" styleClass="lblColoredIcon" text="Assemble" textAlignment="CENTER" textOverrun="CLIP" wrapText="true">
+                                                   <graphic>
+                                                      <MaterialDesignIconView fx:id="icnAssemble" fontSmoothingType="LCD" glyphName="FLOWER" size="30" styleClass="coloredIcon" />
+                                                   </graphic>
+                                                </Label>
+                                                <Label contentDisplay="TOP" graphicTextGap="0.0" maxWidth="70.0" onMouseClicked="#loadCancelOrder" styleClass="lblColoredIcon" text="Cancel Order" textAlignment="CENTER" textOverrun="CLIP" wrapText="true">
+                                                   <graphic>
+                                                      <MaterialIconView fx:id="icnCancelOrder" fontSmoothingType="LCD" glyphName="CANCEL" size="30" styleClass="coloredIcon" textAlignment="CENTER">
+                                                         <font>
+                                                            <Font name="Material Icons" size="12.0" />
+                                                         </font>
+                                                      </MaterialIconView>
+                                                   </graphic>
+                                                </Label>
                                              </children>
                                           </HBox>
                                        </children>
@@ -75,11 +105,31 @@
                                           <Label styleClass="menuTitle" text="Customer Services Data" textAlignment="CENTER" textOverrun="CLIP" wrapText="true" />
                                           <HBox alignment="CENTER" spacing="10.0">
                                              <children>
-                                                <MaterialDesignIconView fx:id="icnSurvey" fontSmoothingType="LCD" glyphName="CLIPBOARD_CHECK" onMouseClicked="#loadSurvey" size="30" styleClass="coloredIcon" textAlignment="CENTER" />
-                                                <MaterialDesignIconView fx:id="icnSurveyReport" glyphName="CLIPBOARD_TEXT" onMouseClicked="#loadSurveyReport" size="30" styleClass="coloredIcon" />
-                                                <OctIconView fx:id="icnReportSelector" fontSmoothingType="LCD" glyphName="GRAPH" onMouseClicked="#loadReportSelector" size="30" styleClass="coloredIcon" textAlignment="CENTER" />
-                                                <MaterialDesignIconView fx:id="icnComplaints" fontSmoothingType="LCD" glyphName="ACCOUNT_ALERT" onMouseClicked="#loadComplaints" size="30" styleClass="coloredIcon" textAlignment="CENTER" />
-                                                <FontAwesomeIconView fx:id="icnAccounts" fontSmoothingType="LCD" glyphName="EDIT" onMouseClicked="#loadAccountsManage" size="30" styleClass="coloredIcon" textAlignment="CENTER" />
+                                                <Label contentDisplay="TOP" graphicTextGap="0.0" styleClass="lblColoredIcon" text="Survey" textAlignment="CENTER" textOverrun="CLIP" wrapText="true">
+                                                   <graphic>
+                                                      <MaterialDesignIconView fx:id="icnSurvey" fontSmoothingType="LCD" glyphName="CLIPBOARD_CHECK" onMouseClicked="#loadSurvey" size="30" styleClass="coloredIcon" textAlignment="CENTER" />
+                                                   </graphic>
+                                                </Label>
+                                                <Label contentDisplay="TOP" graphicTextGap="0.0" onMouseClicked="#loadSurveyReport" styleClass="lblColoredIcon" text="Survey Report" textAlignment="CENTER" textOverrun="CLIP" wrapText="true">
+                                                   <graphic>
+                                                      <MaterialDesignIconView fx:id="icnSurveyReport" glyphName="CLIPBOARD_TEXT" size="30" styleClass="coloredIcon" />
+                                                   </graphic>
+                                                </Label>
+                                                <Label contentDisplay="TOP" graphicTextGap="0.0" maxWidth="70.0" onMouseClicked="#loadReportSelector" styleClass="lblColoredIcon" text="Report Selector" textAlignment="CENTER" textOverrun="CLIP" wrapText="true">
+                                                   <graphic>
+                                                      <OctIconView fx:id="icnReportSelector" fontSmoothingType="LCD" glyphName="GRAPH" size="30" styleClass="coloredIcon" textAlignment="CENTER" />
+                                                   </graphic>
+                                                </Label>
+                                                <Label contentDisplay="TOP" graphicTextGap="0.0" onMouseClicked="#loadComplaints" styleClass="lblColoredIcon" text="Complaints" textAlignment="CENTER" textOverrun="CLIP" wrapText="true">
+                                                   <graphic>
+                                                      <MaterialDesignIconView fx:id="icnComplaints" fontSmoothingType="LCD" glyphName="ACCOUNT_ALERT" size="30" styleClass="coloredIcon" textAlignment="CENTER" />
+                                                   </graphic>
+                                                </Label>
+                                                <Label contentDisplay="TOP" graphicTextGap="0.0" maxWidth="50.0" onMouseClicked="#loadAccountsManage" styleClass="lblColoredIcon" text="Users Accounts" textAlignment="CENTER" textOverrun="CLIP" wrapText="true">
+                                                   <graphic>
+                                                      <FontAwesomeIconView fx:id="icnAccounts" fontSmoothingType="LCD" glyphName="EDIT" size="30" styleClass="coloredIcon" textAlignment="CENTER" />
+                                                   </graphic>
+                                                </Label>
                                              </children>
                                           </HBox>
                                        </children>
@@ -89,17 +139,29 @@
                                           <Label styleClass="menuTitle" text="Orders" textAlignment="CENTER" textOverrun="CLIP" wrapText="true" />
                                           <HBox alignment="CENTER" spacing="10.0">
                                              <children>
-                                                <MaterialIconView fx:id="icnUpdateOrder" glyphName="EDIT" onMouseClicked="#loadUpdateOrder" size="30" styleClass="coloredIcon">
-                                                   <font>
-                                                      <Font name="Material Icons" size="12.0" />
-                                                   </font>
-                                                </MaterialIconView>
-                                                <MaterialIconView fx:id="icnManualTransaction" fontSmoothingType="LCD" glyphName="SHOPPING_BASKET" onMouseClicked="#loadManualTransaction" size="30" styleClass="coloredIcon" textAlignment="CENTER">
-                                                   <font>
-                                                      <Font name="Material Icons" size="12.0" />
-                                                   </font>
-                                                </MaterialIconView>
-                                                <MaterialDesignIconView fx:id="icnProductsForm" fontSmoothingType="LCD" glyphName="FLOWER" onMouseClicked="#loadProducts" size="30" styleClass="coloredIcon" />
+                                                <Label contentDisplay="TOP" graphicTextGap="0.0" maxWidth="70.0" onMouseClicked="#loadUpdateOrder" prefHeight="65.0" styleClass="lblColoredIcon" text="Update Order Status" textAlignment="CENTER" textOverrun="CLIP" wrapText="true">
+                                                   <graphic>
+                                                      <MaterialIconView fx:id="icnUpdateOrder" glyphName="EDIT" size="30" styleClass="coloredIcon">
+                                                         <font>
+                                                            <Font name="Material Icons" size="12.0" />
+                                                         </font>
+                                                      </MaterialIconView>
+                                                   </graphic>
+                                                </Label>
+                                                <Label contentDisplay="TOP" graphicTextGap="0.0" maxWidth="70.0" onMouseClicked="#loadManualTransaction" styleClass="lblColoredIcon" text="Manual Order" textAlignment="CENTER" textOverrun="CLIP" wrapText="true">
+                                                   <graphic>
+                                                      <MaterialIconView fx:id="icnManualTransaction" fontSmoothingType="LCD" glyphName="SHOPPING_BASKET" size="30" styleClass="coloredIcon" textAlignment="CENTER">
+                                                         <font>
+                                                            <Font name="Material Icons" size="12.0" />
+                                                         </font>
+                                                      </MaterialIconView>
+                                                   </graphic>
+                                                </Label>
+                                                <Label contentDisplay="TOP" graphicTextGap="0.0" maxWidth="70.0" styleClass="lblColoredIcon" text="Update Catalog" textAlignment="CENTER" textOverrun="CLIP" wrapText="true">
+                                                   <graphic>
+                                                      <MaterialDesignIconView fx:id="icnProductsForm" fontSmoothingType="LCD" glyphName="FLOWER" onMouseClicked="#loadProducts" size="30" styleClass="coloredIcon" />
+                                                   </graphic>
+                                                </Label>
                                              </children>
                                           </HBox>
                                        </children>
@@ -109,16 +171,24 @@
                                           <Label styleClass="menuTitle" text="Customers Information" textAlignment="CENTER" textOverrun="CLIP" wrapText="true" />
                                           <HBox alignment="CENTER" spacing="10.0">
                                              <children>
-                                                <MaterialIconView fx:id="icnUpdatePaymentAccount" fontSmoothingType="LCD" glyphName="ACCOUNT_BALANCE_WALLET" onMouseClicked="#loadUpdatePaymentAccount" size="30" styleClass="coloredIcon" textAlignment="CENTER">
-                                                   <font>
-                                                      <Font name="Material Icons" size="12.0" />
-                                                   </font>
-                                                </MaterialIconView>
-                                                <MaterialIconView fx:id="icnSub" fontSmoothingType="LCD" glyphName="SUBSCRIPTIONS" onMouseClicked="#loadSub" size="30" styleClass="coloredIcon" textAlignment="CENTER">
-                                                   <font>
-                                                      <Font name="Material Icons" size="12.0" />
-                                                   </font>
-                                                </MaterialIconView>
+                                                <Label contentDisplay="TOP" graphicTextGap="0.0" maxWidth="70.0" onMouseClicked="#loadUpdatePaymentAccount" styleClass="lblColoredIcon" text="Payment Account" textAlignment="CENTER" textOverrun="CLIP" wrapText="true">
+                                                   <graphic>
+                                                      <MaterialIconView fx:id="icnUpdatePaymentAccount" fontSmoothingType="LCD" glyphName="ACCOUNT_BALANCE_WALLET" size="30" styleClass="coloredIcon" textAlignment="CENTER">
+                                                         <font>
+                                                            <Font name="Material Icons" size="12.0" />
+                                                         </font>
+                                                      </MaterialIconView>
+                                                   </graphic>
+                                                </Label>
+                                                <Label contentDisplay="TOP" graphicTextGap="0.0" onMouseClicked="#loadSub" styleClass="lblColoredIcon" text="Subscription" textAlignment="CENTER" textOverrun="CLIP" wrapText="true">
+                                                   <graphic>
+                                                      <MaterialIconView fx:id="icnSub" fontSmoothingType="LCD" glyphName="SUBSCRIPTIONS" size="30" styleClass="coloredIcon" textAlignment="CENTER">
+                                                         <font>
+                                                            <Font name="Material Icons" size="12.0" />
+                                                         </font>
+                                                      </MaterialIconView>
+                                                   </graphic>
+                                                </Label>
                                              </children>
                                           </HBox>
                                        </children>

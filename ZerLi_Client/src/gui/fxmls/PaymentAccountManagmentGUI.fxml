@@ -33,6 +33,7 @@
             </HBox>
             <JFXTextField fx:id="txtcardCVV" alignment="CENTER" promptText="Enter card CVV" />
             <JFXButton fx:id="btnSave" buttonType="RAISED" mnemonicParsing="false" onAction="#savePaymentAccount" ripplerFill="ORANGE" text="Add" textAlignment="CENTER" textOverrun="CLIP" visible="false" wrapText="true" />
-         </children></VBox>
+         </children>
+         </VBox>
    </children>
 </VBox>

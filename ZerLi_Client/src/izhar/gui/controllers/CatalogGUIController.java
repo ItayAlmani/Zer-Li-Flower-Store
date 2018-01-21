@@ -8,10 +8,9 @@ import entities.Stock;
 import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.control.Pagination;
+import javafx.scene.layout.HBox;
 
 public class CatalogGUIController extends ProductsPresentationGUIController {
-	private ArrayList<Stock> stocks = new ArrayList<>();
-	private ArrayList<Product> prds = null;
     
     protected void getProducts() {
     	if(Context.order!=null && 
@@ -37,10 +36,10 @@ public class CatalogGUIController extends ProductsPresentationGUIController {
     public void createCatalog() {	
     	components.clear();
     	int size = stocks!=null?stocks.size():(prds!=null?prds.size():0);
-		initArrays(size);
-		Pagination oldPag = pagination;
 		
+    	final Pagination oldPag = pagination;		
     	pagination  = new Pagination(size, 0);
+    	initArrays(size);
     	
     	if(stocks!=null) {
 	    	int i = 0;
@@ -54,7 +53,7 @@ public class CatalogGUIController extends ProductsPresentationGUIController {
 										addToCart(stk.getProduct(),
 												newPrice==null ? 
 														stk.getPriceAfterSale() :
-															newPrice*(1-stk.getSalePercetage())));
+															newPrice*(1-stk.getSalePercetage()), stk));
 						i++;
 					} catch (Exception e) {
 						Context.mainScene.loadMainMenu("Your'e not customer");
@@ -71,21 +70,21 @@ public class CatalogGUIController extends ProductsPresentationGUIController {
 			}
     	}
 		
-		Platform.runLater(new Runnable() {
-			@Override
-			public void run() {
-				int pagInd;
-				if(vbox.getChildren().contains(oldPag)) {
-					vbox.getChildren().remove(oldPag);
-					pagInd = vbox.getChildren().size()-1;
-				}
-				else
-					pagInd = vbox.getChildren().size();
-				vbox.getChildren().add(pagInd,pagination);
-				
-				vbox.setAlignment(Pos.CENTER);
-				vbox.getScene().getWindow().sizeToScene();
-			}
-		});
+		if(Platform.isFxApplicationThread())
+			updateView(oldPag);
+		else
+			Platform.runLater(()->updateView(oldPag));
 	}
+    
+    private void updateView(Pagination oldPag) {
+    	int pagInd;
+		if(vbox.getChildren().contains(oldPag)) {
+			vbox.getChildren().remove(oldPag);
+			pagInd = vbox.getChildren().size()-1;
+		}
+		else
+			pagInd = vbox.getChildren().size();
+		vbox.getChildren().add(pagInd,pagination);
+		vbox.setAlignment(Pos.CENTER);
+    }
 }

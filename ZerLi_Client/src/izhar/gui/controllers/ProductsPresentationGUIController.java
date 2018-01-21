@@ -5,8 +5,11 @@ import java.io.IOException;
 import java.math.BigInteger;
 import java.net.URL;
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.text.ParsePosition;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.function.UnaryOperator;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXButton.ButtonType;
@@ -31,6 +34,9 @@ import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.control.Pagination;
 import javafx.scene.control.Spinner;
+import javafx.scene.control.SpinnerValueFactory;
+import javafx.scene.control.TextFormatter;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
@@ -41,7 +47,10 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.util.Callback;
+import javafx.util.StringConverter;
+import javafx.util.converter.IntegerStringConverter;
 
 public abstract class ProductsPresentationGUIController implements Initializable {
 	protected @FXML Pagination pagination = null;
@@ -64,8 +73,12 @@ public abstract class ProductsPresentationGUIController implements Initializable
 	 * Static for the use in the EventHandler*/
 	private static ProductInOrder pio;
 	
+	protected ArrayList<Stock> stocks = new ArrayList<>();
+	protected ArrayList<Product> prds = null;
+	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		ParentGUIController.currentGUI=this;
 		try {
 			ArrayList<PaymentAccount> pas = Context.getUserAsCustomer().getPaymentAccounts();
 			if(pas != null && !pas.isEmpty() && Context.order!=null && 
@@ -87,7 +100,9 @@ public abstract class ProductsPresentationGUIController implements Initializable
 	}
 	
 	public void setStocks(ArrayList<Stock> stocks) {
-    	if(stocks!=null) {
+		if(stocks!=null) {
+			if(this.stocks==null || this.stocks.isEmpty())
+				this.stocks=stocks;
     		Context.order.getDelivery().getStore().setStock(stocks);
     		getProducts();
     	}
@@ -111,6 +126,8 @@ public abstract class ProductsPresentationGUIController implements Initializable
 		
 		icnButtons = new MaterialIconView[size];
 		vbxProduct = new VBox[size];
+		
+		pagination.setPageFactory((pageIndex)->vbxProduct[pageIndex]);
 	}
 	
 	/**
@@ -192,8 +209,11 @@ public abstract class ProductsPresentationGUIController implements Initializable
 		if(pio!=null) {
 			lblTitleQuantity[i]=new Label("Quantity: ");
 			setComponent(lblTitleQuantity[i] ,0, ++j, i);
-			spnShowQuantity[i] = new Spinner<>(0, Integer.MAX_VALUE, (Integer)pio.getQuantity());
-			spnShowQuantity[i].setPrefWidth(Control.USE_COMPUTED_SIZE);
+			Stock s = Context.fac.stock.getStockByProductByStocks(stocks, pio.getProduct());
+			Integer maxVal = Integer.MAX_VALUE;
+			if(s!=null)
+				maxVal=s.getQuantity()+pio.getQuantity();
+			spnShowQuantity[i]=setSpinnerOnlyNumbers(spnShowQuantity[i], maxVal, (Integer)pio.getQuantity());
 			setComponent(spnShowQuantity[i],1, j, i);
 		}
 		
@@ -205,15 +225,19 @@ public abstract class ProductsPresentationGUIController implements Initializable
 			HBox h = null;
 			if(price_pa_str!=null) {
 				lblShowPrice[i].getStyleClass().add("strike");
+				lblShowPrice[i].setTooltip(new Tooltip("Original price"));
 				lblPricePA = new Label(price_pa_str);
+				lblPricePA.setTooltip(new Tooltip("Price after store sale"));
 				lblPricePA.setTextFill(Color.BLUE);
 				h = new HBox(5,lblShowPrice[i],lblPricePA);
 			}
 			if(price_sub_str != null) {
 				lblShowPrice[i].getStyleClass().add("strike");
+				lblShowPrice[i].setTooltip(new Tooltip("Original price"));
 				if(lblPricePA!=null)
 					lblPricePA.getStyleClass().add("strike");
 				Label lblPriceSub = new Label(price_sub_str);
+				lblPriceSub.setTooltip(new Tooltip("Price after subscription discount"));
 				lblPriceSub.setTextFill(Color.GREEN);
 				if(h!=null)
 					h.getChildren().add(lblPriceSub);
@@ -255,8 +279,6 @@ public abstract class ProductsPresentationGUIController implements Initializable
 		vbxProduct[i].getStylesheets().add(getClass().getResource("/gui/css/ParentCSS.css").toExternalForm());
 		
 		components.clear();
-		
-		pagination.setPageFactory((pageIndex)->vbxProduct[pageIndex]);
 	}
 	
 	protected Color getRandomColor(Product prod) {
@@ -279,10 +301,11 @@ public abstract class ProductsPresentationGUIController implements Initializable
 	 * @param p
 	 * @param price will indicate the product price - can be with or without sale.
 	 * <b><i>The price is without subscription</i></b>
+	 * @param stock the stock which contains the {@link Product}. Will be used for check and update specific stock 
 	 * @return
 	 */
-	protected EventHandler<ActionEvent> addToCart(Product p, Float price){
-    	return (event)->pio=Context.fac.order.manageCart(p, price, pio);
+	protected EventHandler<ActionEvent> addToCart(Product p, Float price, Stock stock){
+    	return (event)->pio=Context.fac.order.manageCart(p, price, pio, stock);
     }
 	
 	public void setPIOID(BigInteger id) {
@@ -295,5 +318,58 @@ public abstract class ProductsPresentationGUIController implements Initializable
 	protected String priceToStr(Float price) {
 		DecimalFormat df = new DecimalFormat("##.##");
 		return df.format(price) + "¤";
+	}
+	
+	private Spinner<Integer> setSpinnerOnlyNumbers(Spinner<Integer> spinner, Integer maxVal, Integer currVal) {
+		// get a localized format for parsing
+		NumberFormat format = NumberFormat.getIntegerInstance();
+		UnaryOperator<TextFormatter.Change> filter = c -> {
+		    if (c.isContentChange()) {
+		        ParsePosition parsePosition = new ParsePosition(0);
+		        // NumberFormat evaluates the beginning of the text
+		        format.parse(c.getControlNewText(), parsePosition);
+		        if (parsePosition.getIndex() == 0 ||
+		                parsePosition.getIndex() < c.getControlNewText().length()) {
+		            // reject parsing the complete text failed
+		            return null;
+		        }
+		    }
+		    return c;
+		};
+		TextFormatter<Integer> priceFormatter = new TextFormatter<Integer>(
+		        new IntegerStringConverter(), currVal, filter);
+
+		if(spinner == null)
+			spinner = new Spinner<>();
+		spinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(
+		        0, maxVal, currVal));
+		spinner.setEditable(true);
+		spinner.getEditor().setTextFormatter(priceFormatter);
+		spinner.setPrefWidth(Control.USE_COMPUTED_SIZE);
+		
+		spinner.getStyleClass().add(Spinner.STYLE_CLASS_SPLIT_ARROWS_VERTICAL);
+		spinner.getEditor().setAlignment(Pos.CENTER);
+		final Spinner<Integer> finalSpin = spinner;
+		// useage in client code
+		spinner.focusedProperty().addListener((s, ov, nv) -> {
+		    if (nv) return;
+		    //intuitive method on textField, has no effect, though
+		    //spinner.getEditor().commitValue(); 
+		    commitEditorText(finalSpin);
+		});
+		return spinner;
+	}
+	
+	private <T> void commitEditorText(Spinner<T> spinner) {
+	    if (!spinner.isEditable()) return;
+	    String text = spinner.getEditor().getText();
+	    SpinnerValueFactory<T> valueFactory = spinner.getValueFactory();
+	    if (valueFactory != null) {
+	        StringConverter<T> converter = valueFactory.getConverter();
+	        if (converter != null) {
+	            T value = converter.fromString(text);
+	            valueFactory.setValue(value);
+	        }
+	    }
 	}
 }

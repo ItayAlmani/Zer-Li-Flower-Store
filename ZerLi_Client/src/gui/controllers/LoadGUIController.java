@@ -108,7 +108,7 @@ public class LoadGUIController {
 	}
 
 	public void loadAssembleProduct() {
-		loadGUI("AssembleProductGUI", false);
+		loadGUI("AssembleProductGUI", "ProductsPresentationCSS");
 	}
 
 	public void loadComplaints() {
@@ -179,8 +179,8 @@ public class LoadGUIController {
 				    System.out.println("Height: " + newHeight);
 				});*/
 				//ParentGUIController.primaryStage.sizeToScene();
-				if(sce.getWindow() != null)
-					sce.getWindow().sizeToScene();
+				/*if(sce.getWindow() != null)
+					sce.getWindow().sizeToScene();*/
 				//sce.getWindow().setHeight(menu.getHeight()+scenePane.getHeight()+100);
 			}
 
@@ -197,19 +197,15 @@ public class LoadGUIController {
 			setServerUnavailable();
 			return;
 		}
-		if(Platform.isFxApplicationThread()) {
-			String cssName = null;
-			if (withCSS == true)
-				cssName = guiName.split("GUI")[0] + "CSS";
+		String cssName = null;
+		if (withCSS == true)
+			cssName = guiName.split("GUI")[0] + "CSS";
+		if(Platform.isFxApplicationThread())
 			changeScene(guiName, cssName);
+		else {
+			final String cssFinalName = cssName;
+			Platform.runLater(()->changeScene(guiName, cssFinalName));
 		}
-		else
-			Platform.runLater(()->{
-				String cssName = null;
-				if (withCSS == true)
-					cssName = guiName.split("GUI")[0] + "CSS";
-				changeScene(guiName, cssName);
-			});
 	}
 
 	public void loadMainMenu() {

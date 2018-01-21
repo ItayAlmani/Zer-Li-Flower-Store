@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 
 import common.Context;
@@ -18,12 +19,11 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.ComboBox;
 import javafx.scene.layout.VBox;
 
 public class PaymentAccountManagmentGUIController implements Initializable  {
 
-	private @FXML ComboBox<Customer> cbCustomers;
+	private @FXML JFXComboBox<Customer> cbCustomers;
 	
 	private @FXML JFXTextField txtCardNUM, txtMonth ,txtYear, txtcardCVV;
 	private @FXML JFXTextField lblIdNUM;

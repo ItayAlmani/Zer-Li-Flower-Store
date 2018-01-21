@@ -81,7 +81,8 @@ public class StockController extends ParentController {
 				EchoServer.fac.dataBase.db.updateQuery(query);
 			}
 		}
-		throw new Exception();
+		else
+			throw new Exception();
 	}
 	
 	/**
@@ -113,8 +114,8 @@ public class StockController extends ParentController {
 		ArrayList<Object> stocks = new ArrayList<>();
 		for (int i = 0; i < obj.size(); i += 11) {
 			stocks.add(parse(
-					BigInteger.valueOf(Long.valueOf((int)obj.get(i))),
-					BigInteger.valueOf(Long.valueOf((int)obj.get(i + 1))),
+					BigInteger.valueOf((Integer)obj.get(i)),
+					BigInteger.valueOf((Integer)obj.get(i+1)),
 					(String) obj.get(i + 2), 
 					(String) obj.get(i + 3),
 					(float) obj.get(i + 4),
@@ -122,7 +123,7 @@ public class StockController extends ParentController {
 					((int)obj.get(i + 6))!= 0,
 					(String)obj.get(i+7),
 					(int)obj.get(i + 8),
-					BigInteger.valueOf(Long.valueOf((int)obj.get(i + 9))),
+					BigInteger.valueOf((Integer)obj.get(i+9)),
 					(Float)obj.get(i+10)
 					));
 		}

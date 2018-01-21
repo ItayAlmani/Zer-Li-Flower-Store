@@ -236,7 +236,8 @@ public class Order implements Serializable {
 		CreditCard,
 		Cash,
 		Refund,
-		RefundAndCreditCard
+		RefundAndCreditCard,
+		RefundAndCash
 	}
 
 	public PayMethod getPaymentMethod() {

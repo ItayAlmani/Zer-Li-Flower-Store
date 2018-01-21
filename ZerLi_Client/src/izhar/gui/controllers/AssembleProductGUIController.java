@@ -171,20 +171,19 @@ public class AssembleProductGUIController extends ProductsPresentationGUIControl
 	}
 	
 	private void initPage() throws Exception {
-		components.clear();
-		initArrays(stocksByType.size());
-    	
+		components.clear();    	
     	pagination  = new Pagination(stocksByType.size(), 0);
+    	initArrays(stocksByType.size());
     	int i = 0;
 		for (Stock stk : stocksByType) {
 			Float newPrice = Context.fac.product.getPriceWithSubscription(Context.order,stk.getProduct(), stk.getPriceAfterSale(), Context.getUserAsCustomer());
 			setVBox(i, 
 					stk,
 					newPrice==null?null:newPrice*(1-stk.getSalePercetage()),
-							addToCart(stk.getProduct(),
-									newPrice==null ? 
-											stk.getPriceAfterSale() :
-												newPrice*(1-stk.getSalePercetage())));
+						addToCart(stk.getProduct(),
+							newPrice==null ? 
+								stk.getPriceAfterSale() :
+								newPrice*(1-stk.getSalePercetage()), stk));
 			i++;
 		}
 		if(Platform.isFxApplicationThread())
@@ -200,8 +199,6 @@ public class AssembleProductGUIController extends ProductsPresentationGUIControl
 		hxProds.setAlignment(Pos.TOP_CENTER);
 		vbox.getChildren().add(vbox.getChildren().size(),hxProds);
 		vbox.setAlignment(Pos.TOP_CENTER);
-		//ParentGUIController.primaryStage.getScene().getWindow().sizeToScene();
-		ParentGUIController.primaryStage.getScene().getWindow().setHeight(ParentGUIController.primaryStage.getMaxHeight());
 	}
 
 	@Override

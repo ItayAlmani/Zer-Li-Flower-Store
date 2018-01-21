@@ -6,7 +6,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-import org.controlsfx.control.textfield.TextFields;
+import com.jfoenix.controls.JFXComboBox;
+import com.jfoenix.controls.JFXTextField;
 
 import common.Context;
 import entities.Customer;
@@ -15,22 +16,16 @@ import entities.Order.OrderStatus;
 import entities.Order.PayMethod;
 import entities.User.UserType;
 import gui.controllers.ParentGUIController;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 
 public class UpdateOrderStatusGUIController implements Initializable {
 
-	private @FXML Button btnSend, btnUpdate;
-	private @FXML ComboBox<OrderStatus> cbOrderStatus;
-	private @FXML ComboBox<BigInteger> cbOrderIDs;
-	private @FXML TextField txtPrivateID;
+	private @FXML JFXComboBox<OrderStatus> cbOrderStatus;
+	private @FXML JFXComboBox<BigInteger> cbOrderIDs;
+	private @FXML JFXTextField txtPrivateID;
 	private @FXML VBox vboxComboBox;
 	private ArrayList<Order> orders = null;
 	private Order selctedOrd = null;
@@ -102,7 +97,7 @@ public class UpdateOrderStatusGUIController implements Initializable {
 		}
 	}
 
-	@FXML public void updateOrderStatus() {
+	public void updateOrderStatus() {
 		if(cbOrderStatus.getValue()==null)
 			return;
 		if(originStatusWaitForCash==true && cbOrderStatus.getValue().equals(OrderStatus.Paid))
