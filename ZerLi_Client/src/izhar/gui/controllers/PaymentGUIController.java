@@ -52,6 +52,40 @@ public class PaymentGUIController implements Initializable {
 	private String priceBeforeDiscountStr;
 	private PaymentAccount pa;
 	
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		tGroup = new ToggleGroup();
+		rbCredit.setToggleGroup(tGroup);
+		rbCash.setToggleGroup(tGroup);
+		priceBeforeDiscountStr=Context.order.getFinalPriceAsString();
+		priceBeforeDiscount=Context.order.getFinalPrice();
+		Customer cust;
+		try {
+			cust = Context.getUserAsCustomer();
+			DeliveryDetails del = Context.order.getDelivery();
+			pa = Context.fac.paymentAccount.getPaymentAccountOfStore(cust.getPaymentAccounts(), del.getStore());
+			Float refundAmount = pa.getRefundAmount();
+			Float priceAfterPAT = Context.fac.order.getFinalPriceByPAT(pa, Context.order,Context.getUserAsCustomer());
+			if(refundAmount>0) {
+				if(refundAmount>Context.order.getFinalPrice()) {
+					Context.mainScene.setMessage("We have credit in the refund section");
+					lblFinalPrice.setText(priceBeforeDiscountStr + "-" + 
+							priceBeforeDiscountStr + "=" +
+							Context.order.getFinalPriceAsString());
+				}
+				else {
+					lblFinalPrice.setText(priceBeforeDiscountStr + "-" + 
+							getFinalPriceAsStr(refundAmount) + "=" +
+							Context.order.getFinalPriceAsString());
+				}
+			}
+			else
+				lblFinalPrice.setText(priceBeforeDiscountStr);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 	private String getFinalPriceAsStr(Float ordPrice) {
     	DecimalFormat df = new DecimalFormat("##.##");
 		return df.format(ordPrice) + "¤";
@@ -145,7 +179,7 @@ public class PaymentGUIController implements Initializable {
 			ord.setOrderStatus(OrderStatus.Paid);
 			ord.setPaymentMethod(entities.Order.PayMethod.CreditCard);
 		}
-		else
+		else if(tGroup.getSelectedToggle().equals(rbCash))
 			ord.setOrderStatus(OrderStatus.WaitingForCashPayment);
 		if(txtGreeting.getText().isEmpty()==false)
 			ord.setGreeting(txtGreeting.getText());
@@ -172,41 +206,5 @@ public class PaymentGUIController implements Initializable {
 	public void back() {
 		Context.order.setFinalPrice(priceBeforeDiscount);	//prevent double discount
 		Context.mainScene.loadGUI("OrderTimeGUI", false);
-	}
-
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-		tGroup = new ToggleGroup();
-		rbCredit.setUserData("CreditCard");
-		rbCredit.setToggleGroup(tGroup);
-		rbCash.setUserData("Cash");
-		rbCash.setToggleGroup(tGroup);
-		priceBeforeDiscountStr=Context.order.getFinalPriceAsString();
-		priceBeforeDiscount=Context.order.getFinalPrice();
-		Customer cust;
-		try {
-			cust = Context.getUserAsCustomer();
-			DeliveryDetails del = Context.order.getDelivery();
-			pa = Context.fac.paymentAccount.getPaymentAccountOfStore(cust.getPaymentAccounts(), del.getStore());
-			Float refundAmount = pa.getRefundAmount();
-			Context.fac.order.getFinalPriceByPAT(pa, Context.order,Context.getUserAsCustomer());
-			if(refundAmount>0) {
-				if(refundAmount>Context.order.getFinalPrice()) {
-					Context.mainScene.setMessage("We have credit in the refund section");
-					lblFinalPrice.setText(priceBeforeDiscountStr + "-" + 
-							priceBeforeDiscountStr + "=" +
-							Context.order.getFinalPriceAsString());
-				}
-				else {
-					lblFinalPrice.setText(priceBeforeDiscountStr + "-" + 
-							getFinalPriceAsStr(refundAmount) + "=" +
-							Context.order.getFinalPriceAsString());
-				}
-			}
-			else
-				lblFinalPrice.setText(priceBeforeDiscountStr);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
 }

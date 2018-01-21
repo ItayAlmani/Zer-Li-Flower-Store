@@ -85,9 +85,10 @@ public interface IOrder  {
 	 * @param pa
 	 * @param order
 	 * @param customer
+	 * @return TODO
 	 * @throws IOException
 	 */
-	void getFinalPriceByPAT(PaymentAccount pa, Order order, Customer customer) throws IOException;
+	Float getFinalPriceByPAT(PaymentAccount pa, Order order, Customer customer) throws IOException;
 	
 	void getOrAddOrderInProcess(BigInteger customerID, Store store) throws IOException;
 
