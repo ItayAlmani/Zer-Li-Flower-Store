@@ -84,7 +84,7 @@ public class StoreWorkerController extends ParentController{
 		if(obj instanceof StoreWorker) {
 			StoreWorker sw = (StoreWorker)obj;
 		String query=String.format("UPDATE storeworker SET userID='%d',"
-				+ ", storeID='%d'"
+				+ " storeID='%d'"
 				+ " WHERE storeWorkerID='%d'",
 				sw.getUserID(),
 				sw.getStore().getStoreID(),

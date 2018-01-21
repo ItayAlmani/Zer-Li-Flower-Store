@@ -80,8 +80,7 @@ public class UserController extends ParentController {
 					+ " permissions='%s',"
 					+ " isConnected=%b,"
 					+ " isActive=%b"
-					+ " WHERE userID='%d'"
-					+ " AND privateID='%s'",
+					+ " WHERE userID='%d'",
 					user.getFirstName(),user.getLastName(),user.getUserName(),user.getPassword(),
 					user.getPermissions().name(),user.isConnected(),user.isActive(),
 					user.getUserID().intValue(),user.getPrivateID());

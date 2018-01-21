@@ -32,10 +32,11 @@ public class UpdateUserGUIController implements Initializable{
 	@FXML JFXComboBox<UserType> cbPermissions;
 	@FXML JFXComboBox<Store> cbStores;
 	@FXML JFXToggleButton tglActive;
-	private User user = null;
+	private User user = null, old_user=null;
+	User old_user_to_update=null;
 	private StoreWorker sw = null;
-	private Customer cust = null;
 	private Store newStore=null;
+	private Customer cust=null;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -57,9 +58,32 @@ public class UpdateUserGUIController implements Initializable{
 			Context.mainScene.ShowErrorMsg();
 			return;
 		}
-		if(Platform.isFxApplicationThread())
-			cbUsers.setItems(FXCollections.observableArrayList(users));
-		else Platform.runLater(()->cbUsers.setItems(FXCollections.observableArrayList(users)));
+		else {
+			if(Platform.isFxApplicationThread()) {
+				if(users.size()==1){
+					old_user_to_update = users.get(0);
+				}
+				else
+					cbUsers.setItems(FXCollections.observableArrayList(users));
+			}
+			else Platform.runLater(new Runnable() {
+				@Override
+				public void run() {
+					if(users.size()==1){
+						old_user_to_update = users.get(0);
+						old_user_to_update.setPermissions(UserType.StoreWorker);
+						try {
+							Context.fac.user.update(old_user_to_update);
+						} catch (IOException e) {
+							Context.mainScene.ShowErrorMsg();
+							e.printStackTrace();
+						}
+					}
+					else
+						cbUsers.setItems(FXCollections.observableArrayList(users));
+				}	
+			});
+		}
 	}
 	
 	public void setStores(ArrayList<Store> stores) {
@@ -73,6 +97,9 @@ public class UpdateUserGUIController implements Initializable{
 	}
 	
 	public void userSelected() {
+		if(this.user != null) {
+			old_user = this.user;
+		}
 		this.user = cbUsers.getValue();
 		paneUDet.setVisible(false);
 		if(user != null){
@@ -95,6 +122,11 @@ public class UpdateUserGUIController implements Initializable{
 			tglActive.setSelected(isAct);
 			cbPermissions.setValue(perm);
 			paneUDet.setVisible(true);
+			if(old_user!=null) {
+				if(old_user.equals(user)==false) {
+					permissionChanged();
+				}
+			}
 		}
 	}
 	
@@ -112,7 +144,10 @@ public class UpdateUserGUIController implements Initializable{
 	public void permissionChanged() {
 		UserType perm = cbPermissions.getValue();
 		if(!user.getPermissions().equals(UserType.StoreManager) &&
-				!user.getPermissions().equals(UserType.ChainStoreManager)) {
+				!user.getPermissions().equals(UserType.ChainStoreManager)&&
+				!user.getPermissions().equals(UserType.Customer)&&
+				!user.getPermissions().equals(UserType.ServiceExpert)&&
+				!user.getPermissions().equals(UserType.CustomerServiceWorker)) {
 			cbPermissions.setDisable(false);
 			cbStores.setDisable(false);
 		}
@@ -120,8 +155,16 @@ public class UpdateUserGUIController implements Initializable{
 			cbPermissions.setDisable(true);
 			cbStores.setDisable(true);
 		}
+		if(user.getPermissions().equals(UserType.StoreWorker)) {
+			cbPermissions.setItems(FXCollections.observableArrayList(UserType.StoreManager,
+					UserType.StoreWorker,UserType.ChainStoreWorker));;
+		}
+		if(user.getPermissions().equals(UserType.ChainStoreWorker)) {
+			cbPermissions.setItems(FXCollections.observableArrayList(UserType.StoreManager,
+					UserType.StoreWorker,UserType.ChainStoreWorker));;
+		}
 		if(perm!=null) { 
-			if(perm.equals(UserType.StoreWorker)) {
+			if(perm.equals(UserType.StoreWorker) || perm.equals(UserType.StoreManager) ) {
 				//Is already Store worker/manager
 				if(user.getPermissions().equals(perm)) {
 					try {
@@ -131,10 +174,11 @@ public class UpdateUserGUIController implements Initializable{
 						e.printStackTrace();
 					}
 				}
+				cbStores.setVisible(true);
 			}
 			if(perm.equals(UserType.Customer)) {
 				cbStores.setVisible(false);
-				//Is already Store worker/manager
+				//Is already Customer
 				if(user.getPermissions().equals(perm)) {
 					try {
 						Context.fac.customer.getCustomerByUser(user.getUserID());
@@ -145,14 +189,12 @@ public class UpdateUserGUIController implements Initializable{
 					}
 				}
 			}
-			else
-				cbStores.setVisible(true);
-		}
-			else if(perm.equals(UserType.StoreManager))
-				cbStores.setVisible(true);
-			else	
+			if(user.getPermissions().equals(UserType.ChainStoreManager) || perm.equals(UserType.ChainStoreManager)
+					|| perm.equals(UserType.ChainStoreWorker) || perm.equals(UserType.CustomerServiceWorker) ){
 				cbStores.setVisible(false);
-		}
+			}
+		}	
+	}
 	
 	public void setStoreWorkers(ArrayList<StoreWorker> sws) {
 		if(sws == null || sws.size() != 1 || sws.get(0).getStore() == null) {
@@ -221,59 +263,57 @@ public class UpdateUserGUIController implements Initializable{
 			return;
 		}
 		if(user.getPermissions().equals(newperm) && user.isActive()==isAct) {
-			Context.mainScene.setMessage("Nothing changed because the data is the same");
-			return;
+			if(newperm.equals(UserType.StoreWorker) && cbStores.getValue().equals(this.sw.getStore()))
+			{
+				Context.mainScene.setMessage("Nothing changed because the data is the same");
+				return;
+			}
 		}
 		try {
-			final UserType p_cus = UserType.Customer, p_sw = UserType.StoreWorker, p_sm = UserType.StoreManager,
+			final UserType  p_sw = UserType.StoreWorker, p_sm = UserType.StoreManager,p_Csw=UserType.ChainStoreWorker, p_Csm=UserType.ChainStoreManager,
 					oldperm = user.getPermissions();
-			
 			//the permissions haven't changed
 			if(oldperm.equals(newperm) == false) {
-				//==========================================================
-				if(oldperm.equals(p_cus)) {
-					Context.fac.customer.delete(this.cust.getUserID());
-				}
-				else if(oldperm.equals(p_sw)){
-					if(newperm.equals(p_sm)) {
-						try {
-							this.newStore = cbStores.getValue();
+				if(newperm.equals(p_sm)) {
+					if(cbStores.getValue() == null) {
+						Context.mainScene.ShowErrorMsg();
+						return;
+					}
+					this.newStore = cbStores.getValue();
+					StoreWorker oldManager = newStore.getManager();
+					Context.fac.user.getUser(oldManager.getUserID());
+						if(oldperm.equals(p_sw))
+						{
 							this.newStore.setManager(this.sw);
 							this.sw.setStore(newStore);
 							Context.fac.storeWorker.update(this.sw);
 							Context.fac.store.update(newStore);
-						} catch (IOException e) {
-							Context.mainScene.ShowErrorMsg();
-							e.printStackTrace();
 						}
-					}
-					else
-						Context.fac.storeWorker.delete(user.getUserID());
+						else {
+						sw = new StoreWorker(user, newStore);
+						Context.fac.storeWorker.add(sw, false);
+						this.newStore.setManager(sw);
+						}	
 				}
-				//==========================================================
-				
-				if(newperm.equals(p_cus)) {
-					Customer newCust = new Customer(this.user, null);
-					Context.fac.customer.add(newCust, false);
-				}
-				else if(newperm.equals(p_sw) || (oldperm.equals(p_cus) && newperm.equals(p_sm))) {
+				if(newperm.equals(p_sw)) {
 					if(cbStores.getValue() == null) {
 						Context.mainScene.ShowErrorMsg();
 						return;
 					}
 					this.newStore = cbStores.getValue();
 					sw = new StoreWorker(user, newStore);
-					Context.fac.storeWorker.add(sw, true);
-					
-					//new store manager of the store
-					if(newperm.equals(p_sm)) {
-						StoreWorker oldManager = newStore.getManager();
-						newStore.setManager(sw);
-						
-						//old store manager became store worker
-						oldManager.setPermissions(p_sw);
-						Context.fac.user.update((User)oldManager);
+					Context.fac.storeWorker.add(sw, false);
+				}
+				if(newperm.equals(p_Csw)) {
+					if(cbStores.getValue() == null) {
+						Context.mainScene.ShowErrorMsg();
+						return;
 					}
+					if(oldperm.equals(p_sw))
+					{
+						Context.fac.storeWorker.delete(this.sw.getUserID());;
+					}
+					this.newStore = cbStores.getValue();
 				}
 			}
 			//same permission
@@ -295,6 +335,7 @@ public class UpdateUserGUIController implements Initializable{
 			user.setPermissions(newperm);
 			user.setActive(isAct);
 			Context.fac.user.update(user);
+			Context.mainScene.loadMainMenu();
 			}
 		catch (Exception e) {
 			Context.mainScene.ShowErrorMsg();
