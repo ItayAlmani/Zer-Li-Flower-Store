@@ -95,6 +95,7 @@ public class EchoServer extends AbstractServer {
 
 		try {
 			sv.listen(); // Start listening for connections
+			fac.setComplaintController();
 		} catch (Exception ex) {
 			System.out.println("ERROR - Could not listen for clients!");
 			ex.printStackTrace();

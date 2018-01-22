@@ -167,7 +167,7 @@ public class ParentGUIController extends SetUpMainGUIController implements Initi
 	public void logOut() {
 		try {
 			logOutUserInSystem();
-			primaryStage.close();
+			primaryStage.hide();
 			this.start(primaryStage);
 		} catch (IOException e) {
 			e.printStackTrace();

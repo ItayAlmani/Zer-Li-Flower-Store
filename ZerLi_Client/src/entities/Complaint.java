@@ -2,8 +2,11 @@ package entities;
 
 import java.io.Serializable;
 import java.math.BigInteger;
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class Complaint implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -15,6 +18,7 @@ public class Complaint implements Serializable {
 	private boolean isTreated = false;
 	private boolean isRefunded = false;
 	private BigInteger storeID;
+	private boolean isAnswered24Hours = true;
 
 	public Complaint(BigInteger complaintID, Customer customer,BigInteger storeID,String complaintReason, LocalDateTime date,
 			boolean isTreated, boolean isRefunded) {
@@ -103,5 +107,17 @@ public class Complaint implements Serializable {
 	@Override
 	public String toString() {
 		return "Customer: "+customer.toString() +". Complaint Reason:" + complaintReason;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+	public boolean isAnswered24Hours() {
+		return isAnswered24Hours;
+	}
+
+	public void setAnswered24Hours(boolean isAnswered24Hours) {
+		this.isAnswered24Hours = isAnswered24Hours;
 	}
 }

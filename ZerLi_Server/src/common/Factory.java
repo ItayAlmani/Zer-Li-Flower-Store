@@ -28,17 +28,11 @@ public class Factory {
 	public UserController user = new UserController();
 	public PaymentAccountController paymentAccount = new PaymentAccountController();
 	public CreditCardController creditCard = new CreditCardController();
-	public ComplaintController complaint = new ComplaintController();	
+	public ComplaintController complaint;	
 	public CustomerController customer = new CustomerController();
 	public SubscriptionController sub = new SubscriptionController();
 	
-	/*public OrderReportController orderReport = new OrderReportController();
-	public IncomesReportController incomesReport = new IncomesReportController();*/
-	
-	/*public AdminController admin = new AdminController();
-	
-	public HistogramOfCustomerComplaintsReportController histogramReport = new HistogramOfCustomerComplaintsReportController();
-	
-	
-	public SatisfactionReportController satisfactionReport = new SatisfactionReportController();*/
+	public void setComplaintController() {
+		complaint = new ComplaintController();
+	}
 }
