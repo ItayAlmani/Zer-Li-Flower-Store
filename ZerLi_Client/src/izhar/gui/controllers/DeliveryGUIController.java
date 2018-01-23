@@ -44,34 +44,9 @@ public class DeliveryGUIController implements Initializable {
 	private @FXML JFXRadioButton rbShipment, rbPickup;
 	private @FXML VBox vboxForm, paneShipment;
 	private @FXML MaterialDesignIconView icnPickup, icnShipment;
-	private ValidationSupport validSupp, v2;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		validSupp = new ValidationSupport();
-		Validator<String> strValid = 
-			(Control c, String newValue) -> {
-				return ValidationResult.fromMessageIf(c, 
-						/*c.getId() + */" Can't be empty", 
-						Severity.ERROR, 
-						newValue==null || newValue.trim().isEmpty());
-			};
-			Validator<Boolean> boolValid = 
-				(Control c, Boolean newValue) ->
-					ValidationResult.fromErrorIf( c, "Checkbox should be checked", !newValue)
-					;
-		//validSupp.registerValidator(rbPickup, true, boolValid);
-					CustomTextField tf = new CustomTextField();
-					ValidationDecoration iconDecorator = new GraphicValidationDecoration();
-			        ValidationDecoration cssDecorator = new StyleClassValidationDecoration();
-			        ValidationDecoration compoundDecorator = new CompoundValidationDecoration(cssDecorator, iconDecorator);
-			        validSupp.setValidationDecorator(compoundDecorator);
-		validSupp.registerValidator(tf, true, strValid);
-		vboxForm.getChildren().add(tf);
-		//v2=new ValidationSupport();
-		//v2.setErrorDecorationEnabled(true);
-		//v2.registerValidator(txtCity, true, strValid);
-		//validSupp.registerValidator(txtCity, true, strValid);
 		
 		addTextLimiter(txtPhoneAreaCode, 3);
 		addTextLimiter(txtPhonePost, 7);
@@ -117,21 +92,12 @@ public class DeliveryGUIController implements Initializable {
 			Context.order.setDeliveryType(DeliveryType.Pickup);
 		} else { // Shipment
 			//Check if all correct
-			if(validSupp.isInvalid()) {
-				Context.mainScene.setMessage("One or more fields are incorrect");
-				return;
-			}
 			ShipmentDetails ship = new ShipmentDetails(del, txtStreet.getText(), txtCity.getText(),
 					txtPostCode.getText(), txtName.getText(),
 					txtPhoneAreaCode.getText() + "-" + txtPhonePost.getText());
 			Context.order.setDelivery(ship);
 			Context.order.setDeliveryType(DeliveryType.Shipment);
-			try {
-				Context.fac.order.updatePriceWithShipment(Context.order);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			Context.fac.order.updatePriceWithShipment(Context.order);
 		}
 		Context.mainScene.loadGUI("OrderTimeGUI", false);
 	}

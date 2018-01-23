@@ -1,11 +1,6 @@
 package izhar.gui.controllers;
 
-import java.io.IOException;
-import java.math.BigInteger;
-import java.net.URL;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.ResourceBundle;
 
 import org.controlsfx.control.RangeSlider;
 
@@ -16,23 +11,16 @@ import com.jfoenix.controls.JFXTextField;
 import common.Context;
 import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView;
 import entities.Product;
-import entities.Stock;
 import entities.Product.Color;
 import entities.Product.ProductType;
-import gui.controllers.ParentGUIController;
+import entities.Stock;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
-import javafx.scene.control.Button;
 import javafx.scene.control.Pagination;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 
 public class AssembleProductGUIController extends ProductsPresentationGUIController implements Initializable{
 

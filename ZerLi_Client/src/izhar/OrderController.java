@@ -45,6 +45,7 @@ public class OrderController extends ParentController implements IOrder {
 				ord.setProducts(new ArrayList<>());
 			ord.getProducts().add(pio);
 			try {
+				Context.mainScene.setMenuPaneDisable(true);
 				Context.fac.prodInOrder.add(pio, true);
 				//Auto update of stock
 				stock.setQuantity(stock.getQuantity()-1);
@@ -139,7 +140,7 @@ public class OrderController extends ParentController implements IOrder {
 	}
 
 	@Override
-	public void updatePriceWithShipment(Order order) throws IOException {
+	public void updatePriceWithShipment(Order order) {
 		order.setFinalPrice(order.getFinalPrice()+ShipmentDetails.shipmentPrice);
 	}
 

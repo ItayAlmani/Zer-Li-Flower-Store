@@ -91,6 +91,8 @@ public class ManualTransactionGUIController implements Initializable {
 				return;
 			}
 			
+			//set disable until answer
+			Context.mainScene.setMenuPaneDisable(true);
 			Context.fac.customer.getAllCustomers();
 			
 			prdSet = new TreeSet<>();
@@ -105,11 +107,6 @@ public class ManualTransactionGUIController implements Initializable {
 			e.printStackTrace();
 		}
 	}
-	
-	/*public void setProducts(ArrayList<Product> prds) {
-		prdSet = new TreeSet<>(prds);
-		addNewHBox();
-	}*/
 	
 	public void addNewHBox() {
 		HBox hbox = new HBox(5);
@@ -283,6 +280,7 @@ public class ManualTransactionGUIController implements Initializable {
 
 	public void setCustomers(ArrayList<Customer> customers) {
 		custList = FXCollections.observableArrayList(customers);
+		Context.mainScene.setMenuPaneDisable(false);
 		if(Platform.isFxApplicationThread()) {
 			cbCustomers.setItems(custList);
 			cbCustomers.setPromptText("Choose customer");

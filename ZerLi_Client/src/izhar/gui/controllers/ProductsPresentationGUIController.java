@@ -29,7 +29,6 @@ import javafx.fxml.Initializable;
 import javafx.geometry.HPos;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
 import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.control.Pagination;
@@ -47,8 +46,6 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import javafx.scene.text.Text;
-import javafx.util.Callback;
 import javafx.util.StringConverter;
 import javafx.util.converter.IntegerStringConverter;
 
@@ -83,9 +80,12 @@ public abstract class ProductsPresentationGUIController implements Initializable
 			ArrayList<PaymentAccount> pas = Context.getUserAsCustomer().getPaymentAccounts();
 			if(pas != null && !pas.isEmpty() && Context.order!=null && 
 	    			Context.order.getDelivery()!=null && 
-	    			Context.order.getDelivery().getStore()!=null)
+	    			Context.order.getDelivery().getStore()!=null) {
+				Context.mainScene.setMenuPaneDisable(true);
 				Context.fac.stock.getStockByStore(Context.order.getDelivery().getStore().getStoreID());
+			}
 			else {
+				Context.mainScene.setMenuPaneDisable(true);
 				Context.fac.product.getProductsInCatalog();
 				Context.mainScene.setMessage("For creating an order, approach to a store and open payment account");
 			}
@@ -95,11 +95,13 @@ public abstract class ProductsPresentationGUIController implements Initializable
 	}
 	
 	public void setProducts(ArrayList<Product> prds) {
+		Context.mainScene.setMenuPaneDisable(false);
 		if(prds!=null)
 			getProducts(prds);
 	}
 	
 	public void setStocks(ArrayList<Stock> stocks) {
+		Context.mainScene.setMenuPaneDisable(false);
 		if(stocks!=null) {
 			if(this.stocks==null || this.stocks.isEmpty())
 				this.stocks=stocks;
@@ -309,6 +311,7 @@ public abstract class ProductsPresentationGUIController implements Initializable
     }
 	
 	public void setPIOID(BigInteger id) {
+		Context.mainScene.setMenuPaneDisable(false);
 		if(pio!=null)
 			pio.setId(id);
 		else

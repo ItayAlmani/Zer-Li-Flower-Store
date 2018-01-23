@@ -55,7 +55,6 @@ public class ParentGUIController extends SetUpMainGUIController implements Initi
 	}
 	
 	private void setUpMenus() {
-		menu.setVisible(true);
 		if(Context.getUser()!=null) {
 			UserType perm = Context.getUser().getPermissions();
 			switch (perm) {
@@ -83,6 +82,7 @@ public class ParentGUIController extends SetUpMainGUIController implements Initi
 			default:
 				break;
 			}
+			menu.setVisible(true);
 		}
 	}
 

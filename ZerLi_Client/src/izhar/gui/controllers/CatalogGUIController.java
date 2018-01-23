@@ -8,7 +8,6 @@ import entities.Stock;
 import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.control.Pagination;
-import javafx.scene.layout.HBox;
 
 public class CatalogGUIController extends ProductsPresentationGUIController {
     

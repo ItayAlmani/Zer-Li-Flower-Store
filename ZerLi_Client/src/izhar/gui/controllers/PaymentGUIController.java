@@ -43,7 +43,7 @@ public class PaymentGUIController implements Initializable {
 
 	private @FXML JFXRadioButton rbCredit, rbCash;
 	private @FXML Label lblPayMsg, lblFinalPrice;
-	private @FXML JFXButton btnPay;
+	private @FXML JFXButton btnPay, btnBack;
 	private @FXML JFXProgressBar piBill;
 	private @FXML JFXTextArea txtGreeting;
 	private @FXML ToggleGroup tGroup;
@@ -213,6 +213,9 @@ public class PaymentGUIController implements Initializable {
 		}
 		try {
 			Context.fac.paymentAccount.update(pa);
+			
+			Context.mainScene.setMenuPaneDisable(true);
+			btnBack.setDisable(true);
 			Context.fac.order.add(ord,true);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -226,6 +229,8 @@ public class PaymentGUIController implements Initializable {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}*/
+		Context.mainScene.setMenuPaneDisable(false);
+		btnBack.setDisable(false);
 		Context.mainScene.loadGUI("OrderGUI", false);
 	}
 
