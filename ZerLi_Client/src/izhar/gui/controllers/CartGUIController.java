@@ -45,6 +45,7 @@ public class CartGUIController extends ProductsPresentationGUIController {
 				setPIOs(ord.getProducts());
 			else {
 				try {
+					Context.mainScene.setMenuPaneDisable(true);
 					Context.fac.prodInOrder.getPIOsByOrder(ord.getOrderID());
 				} catch (IOException e) {
 					System.err.println("View Catalog");
@@ -75,6 +76,7 @@ public class CartGUIController extends ProductsPresentationGUIController {
 	public static boolean firstPagination = false;
 
 	public void setPIOs(ArrayList<ProductInOrder> prds) {
+		Context.mainScene.setMenuPaneDisable(false);
 		try {
 			Context.fac.prodInOrder.updatePricesByStock(prds, store);
 		} catch (Exception e) {

@@ -4,10 +4,9 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import common.Context;
-import entities.Customer;
 import entities.User;
-import javafx.fxml.Initializable;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 
 public class MainMenuGUIController implements Initializable{

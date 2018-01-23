@@ -8,6 +8,7 @@ import common.MainClient;
 import entities.Customer;
 import entities.PaymentAccount;
 import entities.Store;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
@@ -103,5 +104,11 @@ public class SetUpMainGUIController extends LoadGUIController {
 		Tooltip.install(icnUpdatePaymentAccount, new Tooltip("Manage payment account"));
 		Tooltip.install(icnSub, new Tooltip("Manage subscriptions"));
 		Tooltip.install(icnAccounts, new Tooltip("Manage User's accounts"));
+	}
+	
+	public void setMenuPaneDisable(boolean disable) {
+		if(Platform.isFxApplicationThread())
+			menu.setDisable(disable);
+		else Platform.runLater(()->menu.setDisable(disable));
 	}
 }
