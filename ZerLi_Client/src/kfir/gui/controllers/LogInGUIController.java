@@ -53,6 +53,7 @@ public class LogInGUIController implements Initializable{
 	}
 	
 	public void setUsers(ArrayList<User> users) {
+		Context.mainScene.setMenuPaneDisable(false);
 		Context.mainScene.clearMsg();
 		if(getAllUsers==true) {
 			if(Platform.isFxApplicationThread())
@@ -97,6 +98,7 @@ public class LogInGUIController implements Initializable{
 	public void initialize(URL location, ResourceBundle resources) {
 		try {
 			ParentGUIController.currentGUI=this;
+			Context.mainScene.setMenuPaneDisable(true);
 			Context.fac.user.getAllUsers();
 			imgLogo.setImage(MainClient.getLogoAsImage());
 			setComponentSendOnEnter(Arrays.asList(new Node[] {txtUserName,txtPassword}));

@@ -21,6 +21,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
@@ -36,7 +37,7 @@ public class LoadGUIController {
 	protected @FXML ImageView imgCart, imgLogOut;
 	protected @FXML VBox menu;
 	protected @FXML BorderPane mainPane;
-	protected @FXML HBox scenePane;
+	protected @FXML HBox scenePane, panePA, paneNoPA;
 	protected @FXML MenuButton menuCustomers;
 	protected @FXML JFXComboBox<Store> cbStores;
 
@@ -169,9 +170,10 @@ public class LoadGUIController {
 			if (cssName != null)
 				homePane.getStylesheets().add(getClass().getResource("/gui/css/" + cssName + ".css").toExternalForm());
 			createScene(guiName, ParentGUIController.primaryStage);
-			ParentGUIController.primaryStage.show();
-			Scene sce = ParentGUIController.primaryStage.getScene();
-			if (sce != null) {
+			if(ParentGUIController.primaryStage.isShowing()==false)
+				ParentGUIController.primaryStage.show();
+			//Scene sce = ParentGUIController.primaryStage.getScene();
+			//if (sce != null) {
 				/*sce.heightProperty().addListener((obs,oldHeight,newHeight)->{
 				    System.out.println("Height: " + newHeight);
 				});*/
@@ -179,7 +181,7 @@ public class LoadGUIController {
 				/*if(sce.getWindow() != null)
 					sce.getWindow().sizeToScene();*/
 				//sce.getWindow().setHeight(menu.getHeight()+scenePane.getHeight()+100);
-			}
+			//}
 
 			 //addMediaPlayer();
 		} catch (IOException e1) {

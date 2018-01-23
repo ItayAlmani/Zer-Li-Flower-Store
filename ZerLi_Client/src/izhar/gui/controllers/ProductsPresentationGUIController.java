@@ -128,8 +128,8 @@ public abstract class ProductsPresentationGUIController implements Initializable
 		
 		icnButtons = new MaterialIconView[size];
 		vbxProduct = new VBox[size];
-		
-		pagination.setPageFactory((pageIndex)->vbxProduct[pageIndex]);
+		if(size>0)
+			pagination.setPageFactory((pageIndex)->vbxProduct[pageIndex]);
 	}
 	
 	/**

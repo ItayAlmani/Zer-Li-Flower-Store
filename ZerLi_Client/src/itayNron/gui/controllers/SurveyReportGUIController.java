@@ -9,9 +9,7 @@ import java.util.ResourceBundle;
 import common.Context;
 import entities.Survey.SurveyType;
 import entities.SurveyReport;
-import gui.controllers.ParentGUIController;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -30,15 +28,6 @@ public class SurveyReportGUIController implements Initializable
 	private @FXML TextArea txtVerbal;
 	private @FXML VBox vboxVerbal;
 	private SurveyReport sr;
-
-	//Clear lblMsg after error
-
-	/**
-	 * 
-	 * @param survey
-	 * @throws IOException 
-	 */
-	
 	/**
 	 * <p>
 	 * Function to load analyzes of surveys in specific range of dates
@@ -46,6 +35,7 @@ public class SurveyReportGUIController implements Initializable
 	 * @throws IOException Context.clientConsole.handleMessageFromClientUI throws IOException.
 	 */
 	@FXML public void loadSurveyAnalyzesToGUI() throws IOException {
+		Context.mainScene.setMenuPaneDisable(true);
 		Context.fac.surveyReport.analyzeSurveys(
 				dpDateStart.getValue().atStartOfDay(), dpDateEnd.getValue().atStartOfDay());
 	}
@@ -65,7 +55,9 @@ public class SurveyReportGUIController implements Initializable
 		Context.fac.surveyReport.add(sr, false);
 	}
 	
+	
 	public void setSurveyReports(ArrayList<SurveyReport> surveys) {
+		Context.mainScene.setMenuPaneDisable(false);
 		if(surveys!=null && surveys.size()!=0&&surveys.get(0)!=null) {
 			this.sr = surveys.get(0);
 			if(sr.getSurveyAnalyzes()!=null) {
@@ -95,11 +87,5 @@ public class SurveyReportGUIController implements Initializable
 	public void initialize(URL location, ResourceBundle resources) {		
 		dpDateStart.setValue(LocalDate.now());
 		dpDateEnd.setValue(LocalDate.now());
-		/*l1.setText("");
-		l2.setText("");
-		l3.setText("");
-		l4.setText("");
-		l5.setText("");
-		l6.setText("");*/
 	}
 }

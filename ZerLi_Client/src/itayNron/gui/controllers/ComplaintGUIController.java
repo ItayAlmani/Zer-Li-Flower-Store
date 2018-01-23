@@ -53,6 +53,10 @@ public class ComplaintGUIController implements Initializable {
 	private @FXML JFXTextField txtRefundAmount;
 	private ObservableList<Node> mainCh;
 	
+	/**if all setXXX functions called counters*/
+	private int sets_invoked_cnt = 0,
+			sets_needed_cnt = 0;
+	
 	/**
 	 * if {@code true}, {@code btnSend} clicked for adding new complaint.<br>
 	 * else ({@code false}), {@code btnSend} clicked for  answering about a complaint
@@ -67,7 +71,7 @@ public class ComplaintGUIController implements Initializable {
 	 */
 	public void showAddComplaint() throws IOException {
 		isNewComplaint=true;
-		Context.mainScene.setMessage("");
+		Context.mainScene.clearMsg();
 		if(mainCh.contains(vbxComplaint))
 			mainCh.remove(vbxComplaint);
 		int ind = mainCh.size();
@@ -77,7 +81,6 @@ public class ComplaintGUIController implements Initializable {
 			ind--;
 		cbsComplaints.setValue(null);
 		mainCh.add(ind,vbxAddComplaint);
-		ParentGUIController.primaryStage.getScene().getWindow().sizeToScene();
 	}
 /**
  * <p>
@@ -106,7 +109,6 @@ public class ComplaintGUIController implements Initializable {
 			lblStoreName.setText(c.getStoreID().toString());
 			lblComplaintDate.setText(conv.toString(c.getDate().toLocalDate()));
 			lblCompReason.setText(c.getComplaintReason());
-			ParentGUIController.primaryStage.getScene().getWindow().sizeToScene();
 		}
 	}
 
@@ -121,6 +123,7 @@ public class ComplaintGUIController implements Initializable {
 	 */
 	@FXML
 	public void send() throws IOException {
+		Context.mainScene.clearMsg();
 		if(isNewComplaint) {
 			boolean isMissing = false;
 			if(complaintReason.getText()==null || complaintReason.getText().isEmpty()) {
@@ -217,14 +220,25 @@ public class ComplaintGUIController implements Initializable {
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		mainCh=mainPane.getChildren();
 		try {
+			Context.mainScene.setMenuPaneDisable(true);
+			sets_needed_cnt++;
 			Context.fac.customer.getAllCustomers();
+			sets_needed_cnt++;
 			Context.fac.store.getAllStores();
+			sets_needed_cnt++;	
 			Context.fac.complaint.getNotTreatedComplaints();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		mainCh.removeAll(vbxAddComplaint,vbxComplaint,btnSend);
 	}
+	
+	private void checkIfNeedDisableFalse() {
+		sets_invoked_cnt++;
+		if(sets_needed_cnt==sets_invoked_cnt)
+			Context.mainScene.setMenuPaneDisable(false);
+	}
+	
 /**
  * <p>
  * Function to set customers into comboBox 
@@ -232,6 +246,7 @@ public class ComplaintGUIController implements Initializable {
  * @param cus - arrayList of customers to be added to comboBox from DB
  */
 	public void setCustomers(ArrayList<Customer> cus) {
+		checkIfNeedDisableFalse();
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
@@ -249,6 +264,7 @@ public class ComplaintGUIController implements Initializable {
 	 * @param cus - arrayList of stores to be added to comboBox from DB
 	 */
 	public void setStores(ArrayList<Store> stores) {
+		checkIfNeedDisableFalse();
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
@@ -268,6 +284,7 @@ public class ComplaintGUIController implements Initializable {
 	 * @param cus - arrayList of complaints to be added to comboBox from DB
 	 */
 	public void setComplaints(ArrayList<Complaint> complaints) {
+		checkIfNeedDisableFalse();
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {

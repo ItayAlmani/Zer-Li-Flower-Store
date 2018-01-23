@@ -65,9 +65,7 @@ public class SurveyGUIController implements Initializable {
 	}
 	
 	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-		ParentGUIController.currentGUI = this;
-		
+	public void initialize(URL location, ResourceBundle resources) {		
 		cbs = new ChoiceBox[]{cb1,cb2,cb3,cb4,cb5,cb6};
 		ArrayList<Float> ar = new ArrayList<>();
 		

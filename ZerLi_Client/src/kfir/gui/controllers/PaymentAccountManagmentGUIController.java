@@ -50,6 +50,7 @@ public class PaymentAccountManagmentGUIController implements Initializable  {
 		setTextFieldsListeners(txtcardCVV, 3);
 		
 		try {
+			Context.mainScene.setMenuPaneDisable(true);
 			Context.fac.customer.getAllCustomers();
 		} catch (IOException e) {
 			Context.mainScene.ShowErrorMsg();
@@ -58,6 +59,7 @@ public class PaymentAccountManagmentGUIController implements Initializable  {
 	}
 	
 	public void setCustomers(ArrayList<Customer> customers) {
+		Context.mainScene.setMenuPaneDisable(false);
 		if(Platform.isFxApplicationThread())
 			cbCustomers.setItems(FXCollections.observableArrayList(customers));
 		else
@@ -135,6 +137,7 @@ public class PaymentAccountManagmentGUIController implements Initializable  {
 			if(this.pa == null)
 				this.pa = new PaymentAccount(this.cust.getCustomerID(),this.store);
 			this.cc=new CreditCard(numStr,monthStr+"/"+yearStr,cvvStr);
+			Context.mainScene.setMenuPaneDisable(true);
 			Context.fac.creditCard.getCreditCardByNumber(numStr);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -142,9 +145,11 @@ public class PaymentAccountManagmentGUIController implements Initializable  {
 	}
 	
 	public void setCards(ArrayList<CreditCard> ccs) {
+		Context.mainScene.setMenuPaneDisable(false);
 		//this credit card doesn't exist
 		if(ccs==null || ccs.isEmpty()) {
 			try {
+				Context.mainScene.setMenuPaneDisable(true);
 				Context.fac.creditCard.add(this.cc, true);
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -167,6 +172,7 @@ public class PaymentAccountManagmentGUIController implements Initializable  {
 	}
 	
 	public void setCredCardID(BigInteger id){
+		Context.mainScene.setMenuPaneDisable(false);
 		if(this.pa == null) {
 			Context.mainScene.ShowErrorMsg();
 			return;
@@ -188,9 +194,9 @@ public class PaymentAccountManagmentGUIController implements Initializable  {
 	}
 	
 	private void updateView() {
-		cbCustomers.setValue(null);
 		if(pa_need_to_be_updated==false)
 			cust.addPaymentAccount(pa);		
+		cbCustomers.setValue(null);
 	}
 	
 	/**

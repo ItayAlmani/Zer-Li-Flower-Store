@@ -203,8 +203,11 @@ public class CartGUIController extends ProductsPresentationGUIController {
 			Context.fac.order.calcFinalPriceOfOrder(Context.order);
 
 			Context.mainScene.loadGUI("DeliveryGUI", false);
-		} else
+		} 
+		else {
+			Context.mainScene.setMenuPaneDisable(false);
 			Context.mainScene.setMessage("Cart is empty!");
+		}
 	}
 
 	@Override

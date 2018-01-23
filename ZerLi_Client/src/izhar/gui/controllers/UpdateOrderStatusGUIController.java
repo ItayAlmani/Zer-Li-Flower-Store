@@ -13,8 +13,6 @@ import common.Context;
 import entities.Customer;
 import entities.Order;
 import entities.Order.OrderStatus;
-import entities.Order.PayMethod;
-import entities.User.UserType;
 import gui.controllers.ParentGUIController;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -29,7 +27,6 @@ public class UpdateOrderStatusGUIController implements Initializable {
 	private @FXML VBox vboxComboBox;
 	private ArrayList<Order> orders = null;
 	private Order selctedOrd = null;
-	private boolean originStatusWaitForCash = false;
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -40,36 +37,32 @@ public class UpdateOrderStatusGUIController implements Initializable {
 		cbOrderStatus.setItems(FXCollections.observableArrayList(al));
 	}
 
-	@FXML public void searchCustomer() {
+	public void searchCustomer() {
+		//=========NEEDED!!!========
 		/*try {
-			Context.askingCtrl.add(this);
+			Context.mainScene.setMenuPaneDisable(true);
 			Context.fac.customer.getCustomerByPrivateID(txtPrivateID.getText());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}*/
-		
-		//TEST -TAKE DOWN
-		Customer cust = new Customer(BigInteger.ONE,"314785270", 
-				"Izhar", "Ananiev", "izharAn", "1234", UserType.Customer);
-		ArrayList<Customer> customers = new ArrayList<>();
-		customers.add(cust);
-		setCustomers(customers);
 	}
 	
 	public void setCustomers(ArrayList<Customer> customers) {
+		Context.mainScene.setMenuPaneDisable(false);
 		if(customers!=null && customers.isEmpty()==false) {
 			try {
-				Context.askingCtrl.add(this);
+				Context.mainScene.setMenuPaneDisable(false);
 				Context.fac.order.getOrdersByCustomerID(customers.get(0).getCustomerID());
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
+				Context.mainScene.ShowErrorMsg();
 				e.printStackTrace();
 			}
 		}
 	}
 	
 	public void setOrders(ArrayList<Order> orders) {
+		Context.mainScene.setMenuPaneDisable(false);
 		if(orders != null && orders.isEmpty()==false) {
 			this.orders=orders;
 			ArrayList<BigInteger> al = new ArrayList<>();
@@ -80,7 +73,7 @@ public class UpdateOrderStatusGUIController implements Initializable {
 		vboxComboBox.setVisible(true);
 	}
 
-	@FXML public void loadOrderStatus() {
+	public void loadOrderStatus() {
 		BigInteger ordID = cbOrderIDs.getValue();
 		selctedOrd = null;
 		for (Order order : orders) {
@@ -90,8 +83,6 @@ public class UpdateOrderStatusGUIController implements Initializable {
 			}
 		}
 		if(selctedOrd!=null) {
-			if(selctedOrd.getOrderStatus().equals(OrderStatus.WaitingForCashPayment))
-				originStatusWaitForCash=true;
 			cbOrderStatus.setValue(selctedOrd.getOrderStatus());
 			cbOrderStatus.setVisible(true);
 		}
@@ -100,8 +91,6 @@ public class UpdateOrderStatusGUIController implements Initializable {
 	public void updateOrderStatus() {
 		if(cbOrderStatus.getValue()==null)
 			return;
-		if(originStatusWaitForCash==true && cbOrderStatus.getValue().equals(OrderStatus.Paid))
-			selctedOrd.setPaymentMethod(PayMethod.Cash);
 		selctedOrd.setOrderStatus(OrderStatus.valueOf(cbOrderStatus.getValue().toString()));
 		try {
 			if(Context.getUserAsStoreWorker()!=null)
@@ -109,6 +98,7 @@ public class UpdateOrderStatusGUIController implements Initializable {
 			Context.fac.order.update(selctedOrd);
 		} catch (Exception e) {
 			e.printStackTrace();
+			Context.mainScene.ShowErrorMsg();
 		}
 	}
 }

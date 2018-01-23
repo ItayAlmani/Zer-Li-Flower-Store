@@ -13,8 +13,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.control.Tooltip;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
 
 public class SetUpMainGUIController extends LoadGUIController {
 	protected void setUpInit() throws IOException {
@@ -36,7 +34,7 @@ public class SetUpMainGUIController extends LoadGUIController {
 				cbStores.setVisible(false);
 				ObservableList<Node> hbc = hbCustomer.getChildren();
 				hbc.clear();
-				if(!hbc.addAll(icnCatalog, icnAssemble))
+				if(!hbc.add(paneNoPA))
 					System.err.println("Can't add icons");
 			}
 			else {

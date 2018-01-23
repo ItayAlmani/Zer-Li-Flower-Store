@@ -31,7 +31,7 @@ public class Context {
 	
 	private static User user = null;
 	public static Order order = null;
-	private static boolean needNewOrder=true;
+	private static boolean needNewOrder = true;
 	public static ParentGUIController mainScene = null;
 	
 	public static User getUser() {

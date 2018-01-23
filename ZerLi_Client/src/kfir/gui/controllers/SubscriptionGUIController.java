@@ -18,6 +18,7 @@ import entities.PaymentAccount;
 import entities.Store;
 import entities.Subscription;
 import entities.Subscription.SubscriptionType;
+import gui.controllers.ParentGUIController;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -38,8 +39,10 @@ public class SubscriptionGUIController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		ParentGUIController.currentGUI=this;
 		cbSub.setItems(FXCollections.observableArrayList(SubscriptionType.values()));
 		try {
+			Context.mainScene.setMenuPaneDisable(true);
 			Context.fac.customer.getAllCustomers();
 		} catch (IOException e) {
 			Context.mainScene.ShowErrorMsg();
@@ -48,6 +51,7 @@ public class SubscriptionGUIController implements Initializable {
 	}
 	
 	public void setCustomers(ArrayList<Customer> customers) {
+		Context.mainScene.setMenuPaneDisable(false);
 		if(Platform.isFxApplicationThread())
 			cbCustomers.setItems(FXCollections.observableArrayList(customers));
 		else
@@ -110,6 +114,7 @@ public class SubscriptionGUIController implements Initializable {
 			}
 			if(this.sub == null) {
 				this.sub = new Subscription(type);
+				Context.mainScene.setMenuPaneDisable(true);
 				Context.fac.sub.add(this.sub, true);
 			}
 			else {
@@ -126,6 +131,7 @@ public class SubscriptionGUIController implements Initializable {
 	}
 	
 	public void setSubID(BigInteger id) {
+		Context.mainScene.setMenuPaneDisable(false);
 		this.sub.setSubID(id);
 		this.pa.setSub(this.sub);
 		try {

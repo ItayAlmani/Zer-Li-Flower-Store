@@ -37,23 +37,38 @@ public class UpdateUserGUIController implements Initializable{
 	private StoreWorker sw = null;
 	private Store newStore=null;
 	private Customer cust=null;
+	
+	/**if all setXXX functions called counters*/
+	private int sets_invoked_cnt = 0,
+			sets_needed_cnt = 0;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		try {
 			ParentGUIController.currentGUI=this;
 			tglActive.selectedProperty().addListener((ob,oldVal,newVal)->toggleChanged());
+			Context.mainScene.setMenuPaneDisable(true);
+			sets_needed_cnt++;
 			Context.fac.user.getAllUsers();
+			sets_needed_cnt++;
 			Context.fac.store.getAllStores();
 			cbPermissions.setItems(FXCollections.observableArrayList(UserType.values()));
 		} catch (IOException e) {
 			Context.mainScene.ShowErrorMsg();
 			e.printStackTrace();
 		}
-		
+	}
+	
+	private void checkIfNeedDisableFalse() {
+		sets_invoked_cnt++;
+		if(sets_needed_cnt==sets_invoked_cnt) {
+			Context.mainScene.setMenuPaneDisable(false);
+			sets_needed_cnt=sets_invoked_cnt=0;
+		}
 	}
 	
 	public void setUsers(ArrayList<User> users) {
+		checkIfNeedDisableFalse();
 		if(users == null || users.isEmpty()) {
 			Context.mainScene.ShowErrorMsg();
 			return;
@@ -87,6 +102,7 @@ public class UpdateUserGUIController implements Initializable{
 	}
 	
 	public void setStores(ArrayList<Store> stores) {
+		checkIfNeedDisableFalse();
 		if(stores == null || stores.isEmpty()) {
 			Context.mainScene.ShowErrorMsg();
 			return;
@@ -168,6 +184,8 @@ public class UpdateUserGUIController implements Initializable{
 				//Is already Store worker/manager
 				if(user.getPermissions().equals(perm)) {
 					try {
+						Context.mainScene.setMenuPaneDisable(true);
+						sets_needed_cnt++;
 						Context.fac.storeWorker.getStoreWorkerByUser(user.getUserID());
 					} catch (IOException e) {
 						Context.mainScene.ShowErrorMsg();
@@ -181,6 +199,8 @@ public class UpdateUserGUIController implements Initializable{
 				//Is already Customer
 				if(user.getPermissions().equals(perm)) {
 					try {
+						Context.mainScene.setMenuPaneDisable(true);
+						sets_needed_cnt++;
 						Context.fac.customer.getCustomerByUser(user.getUserID());
 					}
 					catch (IOException e) {
@@ -197,6 +217,7 @@ public class UpdateUserGUIController implements Initializable{
 	}
 	
 	public void setStoreWorkers(ArrayList<StoreWorker> sws) {
+		checkIfNeedDisableFalse();
 		if(sws == null || sws.size() != 1 || sws.get(0).getStore() == null) {
 			Context.mainScene.ShowErrorMsg();
 			return;
@@ -237,6 +258,7 @@ public class UpdateUserGUIController implements Initializable{
 	
 	public void setCustomers(ArrayList<Customer> custs)
 	{
+		checkIfNeedDisableFalse();
 		if(custs == null || custs.size() != 1) {
 			Context.mainScene.ShowErrorMsg();
 			return;

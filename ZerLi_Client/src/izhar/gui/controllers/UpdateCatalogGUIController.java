@@ -113,6 +113,7 @@ public class UpdateCatalogGUIController implements Initializable{
 			else
 				Platform.runLater(()->rearrangeComboBoxes());
 			try {
+				Context.mainScene.setMenuPaneDisable(true);
 				Context.fac.product.getAllProducts();
 			} catch (IOException e) {
 				Context.mainScene.ShowErrorMsg();
@@ -149,6 +150,7 @@ public class UpdateCatalogGUIController implements Initializable{
 	}
 	
 	public void setProducts(ArrayList<Product> prds) {
+		Context.mainScene.setMenuPaneDisable(false);
 		if(prds!=null)
 			setItems(prds,cbProducts);
 		else
@@ -183,7 +185,8 @@ public class UpdateCatalogGUIController implements Initializable{
 	
 	public void loadStock(Stock s) {
 		if(s.getSalePercetage()!=null)
-			this.txtSale.setText(((Float)(s.getSalePercetage()*100)).toString());
+			
+			this.txtSale.setText(new DecimalFormat("##.##").format(s.getSalePercetage()*100f));
 		else {
 			this.txtSale.setText("0");
 			Context.mainScene.ShowErrorMsg();
@@ -233,8 +236,10 @@ public class UpdateCatalogGUIController implements Initializable{
 				Context.mainScene.ShowErrorMsg();
 				throw new Exception();
 			}
-			else
+			else {
 				sale = Float.parseFloat(saleStr);
+				sale/=100f;
+			}
 			
 			if(quStr == null || quStr.isEmpty()) {
 				Context.mainScene.ShowErrorMsg();
@@ -296,6 +301,7 @@ public class UpdateCatalogGUIController implements Initializable{
 					p = new Product(p.getPrdID(),
 							name, type, price, color, inCatalog, imgName, barr);
 					if(is_product_for_add) {
+						Context.mainScene.setMenuPaneDisable(true);
 						Context.fac.product.add(p, true);
 						prdAdded = p;
 						cbProducts.getItems().add(p);
@@ -314,6 +320,7 @@ public class UpdateCatalogGUIController implements Initializable{
 	}
 	
 	public void setProductID(BigInteger id) {
+		Context.mainScene.setMenuPaneDisable(false);
 		prdAdded.setPrdID(id);
 		Context.mainScene.setMessage(prdAdded + " added successfully");
 		try {

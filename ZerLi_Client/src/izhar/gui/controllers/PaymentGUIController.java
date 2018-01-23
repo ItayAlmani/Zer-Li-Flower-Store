@@ -68,7 +68,7 @@ public class PaymentGUIController implements Initializable {
 			this.refund_before_disc = pa.getRefundAmount();
 			this.price_after_disc = Context.fac.order.getFinalPriceByPAT(pa, Context.order,Context.getUserAsCustomer());
 			if(refund_before_disc>0) {
-				if(refund_before_disc>price_after_disc) {
+				if(refund_before_disc>price_before_disc) {
 					lblFinalPrice.setText(priceToString(price_before_disc) + "-" + 
 							priceToString(price_before_disc) + "=" +
 							priceToString(price_after_disc));
@@ -185,9 +185,11 @@ public class PaymentGUIController implements Initializable {
 	private void pay() {
 		Order ord = Context.order;
 		//if not all the price paid with refund
-		if(ord.getPaymentMethod().equals(PayMethod.Refund)==false) {
+		if(ord!=null && 
+				(ord.getPaymentMethod() == null || 
+				ord.getPaymentMethod() != null && 
+				ord.getPaymentMethod().equals(PayMethod.Refund)==false)) {
 			if(tGroup.getSelectedToggle().equals(rbCredit)) {
-				ord.setOrderStatus(OrderStatus.Paid);
 				//if part of the price removed because refund, and the rest paid with Credit Card
 				if(refund_before_disc>0)
 					Context.order.setPaymentMethod(PayMethod.RefundAndCreditCard);
@@ -200,9 +202,9 @@ public class PaymentGUIController implements Initializable {
 					Context.order.setPaymentMethod(PayMethod.RefundAndCash);
 				else
 					ord.setPaymentMethod(PayMethod.Cash);
-				//ord.setOrderStatus(OrderStatus.WaitingForCashPayment);
 			}
 		}
+		ord.setOrderStatus(OrderStatus.Paid);
 		if(txtGreeting.getText().isEmpty()==false)
 			ord.setGreeting(txtGreeting.getText());
 		else

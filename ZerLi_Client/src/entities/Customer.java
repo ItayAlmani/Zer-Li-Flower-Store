@@ -52,6 +52,8 @@ public class Customer extends User implements Serializable {
 	}
 	
 	public void addPaymentAccount(PaymentAccount pa) {
+		if(this.paymentAccounts==null)
+			this.paymentAccounts=new ArrayList<>();
 		this.paymentAccounts.add(pa);
 	}
 

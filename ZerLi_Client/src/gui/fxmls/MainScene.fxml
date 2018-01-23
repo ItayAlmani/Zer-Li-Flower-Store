@@ -72,30 +72,38 @@
                                           <Label styleClass="menuTitle" text="Products and cart" textAlignment="CENTER" textOverrun="CLIP" wrapText="true" />
                                           <HBox fx:id="hbCustomer" alignment="CENTER" spacing="10.0">
                                              <children>
-                                                <Label contentDisplay="TOP" graphicTextGap="0.0" styleClass="lblColoredIcon" text="Cart" textAlignment="CENTER" textOverrun="CLIP" wrapText="true">
-                                                   <graphic>
-                                                      <MaterialDesignIconView fx:id="icnCart" fontSmoothingType="LCD" glyphName="CART" onMouseClicked="#loadCart" size="30.0" styleClass="coloredIcon" textAlignment="CENTER" />
-                                                   </graphic>
-                                                </Label>
-                                                <Label contentDisplay="TOP" graphicTextGap="0.0" onMouseClicked="#loadCatalog" styleClass="lblColoredIcon" text="Catalog" textAlignment="CENTER" textOverrun="CLIP" wrapText="true">
-                                                   <graphic>
-                                                      <OctIconView fx:id="icnCatalog" fontSmoothingType="LCD" glyphName="BOOK" size="30" styleClass="coloredIcon" />
-                                                   </graphic>
-                                                </Label>
-                                                <Label contentDisplay="TOP" graphicTextGap="0.0" onMouseClicked="#loadAssembleProduct" styleClass="lblColoredIcon" text="Assemble" textAlignment="CENTER" textOverrun="CLIP" wrapText="true">
-                                                   <graphic>
-                                                      <MaterialDesignIconView fx:id="icnAssemble" fontSmoothingType="LCD" glyphName="FLOWER" size="30" styleClass="coloredIcon" />
-                                                   </graphic>
-                                                </Label>
-                                                <Label contentDisplay="TOP" graphicTextGap="0.0" maxWidth="70.0" onMouseClicked="#loadCancelOrder" styleClass="lblColoredIcon" text="Cancel Order" textAlignment="CENTER" textOverrun="CLIP" wrapText="true">
-                                                   <graphic>
-                                                      <MaterialIconView fx:id="icnCancelOrder" fontSmoothingType="LCD" glyphName="CANCEL" size="30" styleClass="coloredIcon" textAlignment="CENTER">
-                                                         <font>
-                                                            <Font name="Material Icons" size="12.0" />
-                                                         </font>
-                                                      </MaterialIconView>
-                                                   </graphic>
-                                                </Label>
+                                                <HBox fx:id="panePA" alignment="CENTER" spacing="10.0">
+                                                   <children>
+                                                      <Label contentDisplay="TOP" graphicTextGap="0.0" styleClass="lblColoredIcon" text="Cart" textAlignment="CENTER" textOverrun="CLIP" wrapText="true">
+                                                         <graphic>
+                                                            <MaterialDesignIconView fx:id="icnCart" fontSmoothingType="LCD" glyphName="CART" onMouseClicked="#loadCart" size="30.0" styleClass="coloredIcon" textAlignment="CENTER" />
+                                                         </graphic>
+                                                      </Label>
+                                                      <Label contentDisplay="TOP" graphicTextGap="0.0" maxWidth="70.0" onMouseClicked="#loadCancelOrder" styleClass="lblColoredIcon" text="Cancel Order" textAlignment="CENTER" textOverrun="CLIP" wrapText="true">
+                                                         <graphic>
+                                                            <MaterialIconView fx:id="icnCancelOrder" fontSmoothingType="LCD" glyphName="CANCEL" size="30" styleClass="coloredIcon" textAlignment="CENTER">
+                                                               <font>
+                                                                  <Font name="Material Icons" size="12.0" />
+                                                               </font>
+                                                            </MaterialIconView>
+                                                         </graphic>
+                                                      </Label>
+                                                   </children>
+                                                </HBox>
+                                                <HBox fx:id="paneNoPA" alignment="CENTER" spacing="10.0">
+                                                   <children>
+                                                      <Label contentDisplay="TOP" graphicTextGap="0.0" onMouseClicked="#loadCatalog" styleClass="lblColoredIcon" text="Catalog" textAlignment="CENTER" textOverrun="CLIP" wrapText="true">
+                                                         <graphic>
+                                                            <OctIconView fx:id="icnCatalog" fontSmoothingType="LCD" glyphName="BOOK" size="30" styleClass="coloredIcon" />
+                                                         </graphic>
+                                                      </Label>
+                                                      <Label contentDisplay="TOP" graphicTextGap="0.0" onMouseClicked="#loadAssembleProduct" styleClass="lblColoredIcon" text="Assemble" textAlignment="CENTER" textOverrun="CLIP" wrapText="true">
+                                                         <graphic>
+                                                            <MaterialDesignIconView fx:id="icnAssemble" fontSmoothingType="LCD" glyphName="FLOWER" size="30" styleClass="coloredIcon" />
+                                                         </graphic>
+                                                      </Label>
+                                                   </children>
+                                                </HBox>
                                              </children>
                                           </HBox>
                                        </children>

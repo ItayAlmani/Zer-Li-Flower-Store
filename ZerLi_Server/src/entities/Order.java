@@ -212,8 +212,7 @@ public class Order implements Serializable {
 		InProcess,
 		Delivered,
 		Canceled,
-		Paid,
-		WaitingForCashPayment
+		Paid
 	}
 	
 	public enum OrderType {

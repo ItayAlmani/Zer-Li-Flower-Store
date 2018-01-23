@@ -41,6 +41,7 @@ public class CancelOrderGUIController implements Initializable {
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		btnCancelOrder.setOnAction(confirmCancelOrderEventHandler);
 		try {
+			Context.mainScene.setMenuPaneDisable(true);
 			Context.fac.order.getOrdersByCustomerID(Context.getUserAsCustomer().getCustomerID());
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -56,6 +57,7 @@ public class CancelOrderGUIController implements Initializable {
  * @param ord - arrayList of orders to check if them can be canceled. in case they are, add them to comboBox
  */
 	public void setOrders(ArrayList<Order> ord) {
+		Context.mainScene.setMenuPaneDisable(false);
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {

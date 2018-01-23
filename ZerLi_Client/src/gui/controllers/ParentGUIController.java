@@ -145,15 +145,20 @@ public class ParentGUIController extends SetUpMainGUIController implements Initi
 		stage.setScene(scene);
 
 		try {
-			ClientController.connectToServer();
-			if (Context.clientConsole != null && Context.clientConsole.isConnected() == true) {
-				try {
-					//will return the answer to ParentGUIController.setDBStatus()
-					Context.fac.dataBase.getDBStatus();
-				} catch (IOException e) {
-					System.err.println("Can't get data base status");
+			if (Context.clientConsole == null || Context.clientConsole.isConnected() == false || 
+					isServerConnected() == false) {
+				ClientController.connectToServer();
+				if (Context.clientConsole != null && Context.clientConsole.isConnected() == true) {
+					try {
+						//will return the answer to ParentGUIController.setDBStatus()
+						Context.fac.dataBase.getDBStatus();
+					} catch (IOException e) {
+						System.err.println("Can't get data base status");
+					}
 				}
 			}
+			else
+				setDBStatus(null);
 		} catch (IOException e) {
 			System.err.println("Connecting to server failed!!");
 			((ParentGUIController)loader.getController()).setServerUnavailable();
@@ -165,13 +170,11 @@ public class ParentGUIController extends SetUpMainGUIController implements Initi
 	 * will restart.
 	 */
 	public void logOut() {
-		try {
-			logOutUserInSystem();
-			primaryStage.hide();
-			this.start(primaryStage);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		logOutUserInSystem();
+		primaryStage.hide();
+		menu.setVisible(false);
+		cbStores.setVisible(false);
+		setDBStatus(null);
 	}
 
 	/**
