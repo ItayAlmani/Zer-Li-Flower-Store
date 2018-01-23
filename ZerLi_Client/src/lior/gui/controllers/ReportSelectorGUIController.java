@@ -164,7 +164,7 @@ public class ReportSelectorGUIController implements Initializable {
 			if (date.isBefore(LocalDate.now()) && cbStorePick1.getValue()!=null) {
 				n = cbStorePick1.getValue().getStoreID();
 				if (this.cbTypePick1.getValue().equals(ReportType.Order))
-					if(!n.equals(-1))
+					//if(!n.equals(-1))
 						Context.fac.orderReport.initproduceOrderReport(date, n);
 					/*else
 					{
@@ -175,12 +175,10 @@ public class ReportSelectorGUIController implements Initializable {
 					}*/
 				else if (cbTypePick1.getValue().equals(ReportType.Incomes))
 					Context.fac.incomesReport.initProduceIncomesReport(date, n);
-
-				else if (cbTypePick1.getValue().equals(ReportType.CustomerComplaints)) {
+				else if (cbTypePick1.getValue().equals(ReportType.CustomerComplaints))
 				    Context.fac.histogramReport.initproduceHistogramOfCustomerComplaintsReport(date, cbStorePick1.getValue());
-				} else if (cbTypePick1.getValue().equals(ReportType.Satisfaction)) {
+				else if (cbTypePick1.getValue().equals(ReportType.Satisfaction))
 					Context.fac.satisfactionReport.initProduceSatisfactionReport(date, n);
-				}
 			} else
 				err = 2;
 			//Here is the part that checks if this user have the permission of chain store manager
@@ -208,7 +206,7 @@ public class ReportSelectorGUIController implements Initializable {
 									|| date.equals(date1) == false
 									|| cbStorePick1.getValue().equals(cbStorePick2.getValue()) == false) {
 								if (cbTypePick2.getValue().equals(cbTypePick1.getValue())) {
-									Context.fac.incomesReport.ProduceIncomesReport(date1, n1);
+									//Context.fac.incomesReport.ProduceIncomesReport(date1, n1);
 								} else
 									Context.fac.incomesReport.initProduceIncomesReport(date1, n1);
 							}

@@ -19,7 +19,7 @@ public class IncomesReportController extends ParentController implements IIncome
 	
 	public void initProduceIncomesReport(LocalDate date, BigInteger storeID) throws IOException
 	{
-		ProduceIncomesReport(date, storeID);
+		getIncomesReport(date, storeID);
 	}
 	
 	public void handleGet(ArrayList<IncomesReport> iReports) {
@@ -39,7 +39,7 @@ public class IncomesReportController extends ParentController implements IIncome
 	}
 
 	
-	public void ProduceIncomesReport(LocalDate date, BigInteger storeID) throws IOException {
+	public void getIncomesReport(LocalDate date, BigInteger storeID) throws IOException {
 		myMsgArr.clear();
 		myMsgArr.add(Thread.currentThread().getStackTrace()[1].getMethodName());
 		ArrayList<Object> arr = new ArrayList<>();

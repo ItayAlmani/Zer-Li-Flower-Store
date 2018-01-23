@@ -1,5 +1,7 @@
 package lior.interfaces;
 
+import java.math.BigInteger;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public interface IIncomesReportController {
@@ -16,7 +18,7 @@ public interface IIncomesReportController {
 	 * @throws Exception -because {@link ProduceIncomesReport} calls to
 	 * {@link analyzeOrders}
 	 */
-	ArrayList<Object> ProduceIncomesReport(ArrayList<Object> arr) throws Exception;
+	ArrayList<Object> getIncomesReport(ArrayList<Object> arr) throws Exception;
 	/**
 	 * <p> This function takes the information from the server and processes it into a report
 	 *  with all the data associated with it, and returns the report to the client.
@@ -33,5 +35,12 @@ public interface IIncomesReportController {
 	 * @throws Exception - if there is no data that returns from the server (DB)
 	 */
 	void setPIOsInOrder(ArrayList<Object> objs) throws Exception;
+	
+	
+	
+	ArrayList<Object> update(Object obj) throws Exception;
+	ArrayList<Object> ProduceIncomesReport(LocalDate date, BigInteger storeID) throws Exception;
+	ArrayList<Object> handleGet(ArrayList<Object> obj);
+	ArrayList<Object> add(ArrayList<Object> arr) throws Exception;
 
 }
