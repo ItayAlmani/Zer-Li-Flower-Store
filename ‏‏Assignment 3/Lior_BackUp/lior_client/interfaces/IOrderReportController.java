@@ -17,7 +17,7 @@ public interface IOrderReportController{
 	 * @param storeID - The storeID of the store that the report was created for. 
 	 * @throws IOException - Context.clientConsole.handleMessageFromClientUI throws IOException.
 	 */
-	void getOrderReport(LocalDate date, BigInteger storeID) throws IOException;
+	void produceOrderReport(LocalDate date, BigInteger storeID) throws IOException;
 	/**
 	 *<p>
 	 * This function is designed to prevent two requests of the same type from being overridden.

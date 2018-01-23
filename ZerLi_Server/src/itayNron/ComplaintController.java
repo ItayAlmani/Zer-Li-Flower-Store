@@ -17,6 +17,7 @@ import entities.Store;
 
 
 public class ComplaintController extends ParentController {	
+	
 	public ComplaintController() {
 		ArrayList<Object> comObj;
 		try {
@@ -31,7 +32,7 @@ public class ComplaintController extends ParentController {
 	public void setComplaintTimer(final Complaint c) {
 		final long period_in_minutes = Long.valueOf(60*24)-Duration.between(c.getDate(), LocalDateTime.now()).toMinutes();
 
-		//exactly 24 hours passed
+		//24 or more hours passed
 		if(period_in_minutes<0) {
 			c.setAnswered24Hours(false);
     		try {
@@ -41,9 +42,10 @@ public class ComplaintController extends ParentController {
 			}
     		return;
 		}
-				
+		
+		//24 hours not passed
 		Timer timer = new Timer();
-		TimerTask t = new TimerTask () {
+		TimerTask task = new TimerTask () {
 		    @Override
 		    public void run () {
 		    	ArrayList<Object> cObj;
@@ -54,17 +56,17 @@ public class ComplaintController extends ParentController {
 			    		return;
 			    	}
 			    	Complaint c2 = (Complaint)cObj.get(0);
+			    	//not treated
 			    	if(c2.isTreated()==false) {
 			    		c2.setAnswered24Hours(false);
 			    		update(c2);
 			    	}
-			    	System.out.println(c2.getComplaintID() + " timer finished");
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 		    }
 		};
-		timer.schedule(t, 1000*60*period_in_minutes);
+		timer.schedule(task, 1000*60*period_in_minutes);
 	}
 	
 	private ArrayList<Object> getComplaintById(BigInteger complaintID) throws Exception {

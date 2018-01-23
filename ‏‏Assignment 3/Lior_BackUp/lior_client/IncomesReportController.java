@@ -11,23 +11,23 @@ import common.Context;
 import controllers.ParentController;
 import entities.CSMessage;
 import entities.CSMessage.MessageType;
-import entities.OrderReport;
+import entities.IncomesReport;
 import gui.controllers.ParentGUIController;
-import lior.interfaces.IOrderReportController;
+import lior.interfaces.IIncomesReportController;
 
-public class OrderReportController extends ParentController implements IOrderReportController {
+public class IncomesReportController extends ParentController implements IIncomesReportController {
 	
-	public void initproduceOrderReport(LocalDate date, BigInteger storeID) throws IOException{
-		getOrderReport(date, storeID);
+	public void initProduceIncomesReport(LocalDate date, BigInteger storeID) throws IOException
+	{
+		ProduceIncomesReport(date, storeID);
 	}
 	
-	public void handleGet(ArrayList<OrderReport> oReports) {
-		String methodName = "setOrderReports";
+	public void handleGet(ArrayList<IncomesReport> iReports) {
+		String methodName = "setIncomeReports";
 		Method m = null;
 		try {
 				m = ParentGUIController.currentGUI.getClass().getMethod(methodName,ArrayList.class);
-				m.invoke(ParentGUIController.currentGUI, oReports);
-				oReports=null;
+				m.invoke(ParentGUIController.currentGUI, iReports);
 		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e1) {
 			System.err.println("Couldn't invoke method '"+methodName+"'");
 			e1.printStackTrace();
@@ -38,14 +38,15 @@ public class OrderReportController extends ParentController implements IOrderRep
 
 	}
 
-	@Override
-	public void getOrderReport(LocalDate date, BigInteger storeID) throws IOException {
+	
+	public void ProduceIncomesReport(LocalDate date, BigInteger storeID) throws IOException {
 		myMsgArr.clear();
 		myMsgArr.add(Thread.currentThread().getStackTrace()[1].getMethodName());
 		ArrayList<Object> arr = new ArrayList<>();
 		arr.add(date);
 		arr.add(storeID);
 		myMsgArr.add(arr);
-		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.SELECT, myMsgArr, OrderReport.class));
+		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.SELECT, myMsgArr, IncomesReport.class));
 	}
+
 }

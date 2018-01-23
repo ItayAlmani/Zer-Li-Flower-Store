@@ -56,12 +56,11 @@ public class IncomesReportController implements IIncomesReportController {
 			Date date = Date.from(orders.get(i).getDate().atZone(ZoneId.systemDefault()).toInstant());
 			if(date.after(Date.from(this.iReport.getEnddate().atStartOfDay(ZoneId.systemDefault()).toInstant()))==false&&
 					date.after(Date.from(this.iReport.getStartdate().atStartOfDay(ZoneId.systemDefault()).toInstant()))
+					&& orders.get(i).getOrderStatus().equals(OrderStatus.Paid)
 					)
 			{
 				flag=1;
-				if(orders.get(i).getOrderStatus().equals(OrderStatus.Paid) ||
-						orders.get(i).getOrderStatus().equals(OrderStatus.Canceled))
-					setPIOsInOrder(EchoServer.fac.prodInOrder.getPIOsByOrder(orders.get(i).getOrderID()));
+				setPIOsInOrder(EchoServer.fac.prodInOrder.getPIOsByOrder(orders.get(i).getOrderID()));
 			}	
 		}
 		if(flag==1) {

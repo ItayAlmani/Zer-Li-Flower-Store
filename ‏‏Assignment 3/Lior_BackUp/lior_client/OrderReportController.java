@@ -18,7 +18,7 @@ import lior.interfaces.IOrderReportController;
 public class OrderReportController extends ParentController implements IOrderReportController {
 	
 	public void initproduceOrderReport(LocalDate date, BigInteger storeID) throws IOException{
-		getOrderReport(date, storeID);
+		produceOrderReport(date, storeID);
 	}
 	
 	public void handleGet(ArrayList<OrderReport> oReports) {
@@ -39,7 +39,7 @@ public class OrderReportController extends ParentController implements IOrderRep
 	}
 
 	@Override
-	public void getOrderReport(LocalDate date, BigInteger storeID) throws IOException {
+	public void produceOrderReport(LocalDate date, BigInteger storeID) throws IOException {
 		myMsgArr.clear();
 		myMsgArr.add(Thread.currentThread().getStackTrace()[1].getMethodName());
 		ArrayList<Object> arr = new ArrayList<>();

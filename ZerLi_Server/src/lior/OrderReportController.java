@@ -1,131 +1,149 @@
 package lior;
 
 import java.math.BigInteger;
+import java.sql.Timestamp;
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
+import java.util.HashMap;
 
 import common.EchoServer;
+import controllers.ParentController;
 import entities.Order;
 import entities.Order.OrderStatus;
 import entities.OrderReport;
-import entities.Product;
 import entities.Product.ProductType;
 import entities.ProductInOrder;
 import lior.interfaces.IOrderReportController;
 
-public class OrderReportController implements IOrderReportController {
+public class OrderReportController extends ParentController implements IOrderReportController {
 	private OrderReport oReport;
-	private LocalDate rDate, startDate;
 
-	/* (non-Javadoc)
-	 * @see lior.IOrderReportController#produceOrderReport(java.util.ArrayList)
-	 */
-	@Override
-	public ArrayList<Object> produceOrderReport(ArrayList<Object> arr) throws Exception {
-		if(arr!=null && (arr.get(0) instanceof LocalDate == false) || arr.get(1) instanceof BigInteger == false)
-		{
+	public ArrayList<Object> getOrderReport(ArrayList<Object> arr) throws Exception {
+		if(arr!=null && (arr.get(0) instanceof LocalDate == false) || arr.get(1) instanceof BigInteger == false){
 			return null;
-		}		 
+		}
+		//=====CHANGE DATE TO THE END OF THE QUARTER======
 		LocalDate date = (LocalDate)arr.get(0);
 		BigInteger storeID = (BigInteger)arr.get(1);
-		oReport=new OrderReport();
+		String query = String.format(
+				"SELECT *"
+				+ " FROM orderreport "
+				+ " WHERE storeID='%d'"
+				+ " AND endOfQuarterDate='%s'",
+					storeID.intValue(),
+					Timestamp.valueOf(date.atStartOfDay()).toString());
+		ArrayList<Object> orObjs = handleGet(EchoServer.fac.dataBase.db.getQuery(query));
+		if(orObjs == null)	throw new Exception();
+		if(orObjs.size()==1 && orObjs.get(0) instanceof OrderReport)
+			return orObjs;
+		else if(orObjs.isEmpty())
+			return produceOrderReport(date, storeID);
+		throw new Exception();
+	}
+	
+	@Override
+	public ArrayList<Object> produceOrderReport(LocalDate date, BigInteger storeID) throws Exception {
+		oReport=new OrderReport(date,storeID);
 		this.oReport.setStoreID(storeID);
-		for (int i = 0; i < Product.ProductType.values().length; i++) {
-			this.oReport.addToCounterPerType(0);
-			this.oReport.addToSumPerType(0f);
+		for (ProductType pt : ProductType.values()) {
+			this.oReport.addToCounterPerType(pt,0);
+			this.oReport.addToSumPerType(pt,0f);
 		}
-		rDate=date;
-		Calendar c = Calendar.getInstance(); 
-		c.setTime(Date.from(rDate.atStartOfDay(ZoneId.systemDefault()).toInstant())); 
-		c.add(Calendar.MONTH, -3);
-		startDate = c.getTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-		this.oReport.setStartdate(this.startDate);
-		this.oReport.setEnddate(this.rDate);
 		return analyzeOrders(EchoServer.fac.order.getAllOrdersByStoreID(storeID));
 	}
 
 	public ArrayList<Object> analyzeOrders(ArrayList<Object> objs) throws Exception{
 		ArrayList<Order> orders= new ArrayList<>();
-		if(objs == null || objs.isEmpty())
+		if(objs == null)
 			throw new Exception();
+		if(objs.isEmpty()) {
+			ArrayList<Object> ar = new ArrayList<>();
+			ar.add(this.oReport);
+			add(ar);
+			return ar;
+		}
 		for (Object o : objs) {
 			if(o instanceof Order)
 				orders.add((Order)o);
 		}
-		int flag=0;
-		this.oReport.setOrders(orders);
-		for(int i=0;i<orders.size();i++)
-		{
-			Date date = Date.from(orders.get(i).getDate().atZone(ZoneId.systemDefault()).toInstant());
-			if(date.after(Date.from(this.oReport.getEnddate().atStartOfDay(ZoneId.systemDefault()).toInstant()))==false&&
-					date.after(Date.from(this.oReport.getStartdate().atStartOfDay(ZoneId.systemDefault()).toInstant()))
-					&& orders.get(i).getOrderStatus().equals(OrderStatus.Paid)
-					)
-			{
-				flag=1;
+		for(int i=0;i<orders.size();i++){
+			LocalDate start = oReport.getEndOfQuarterDate().minusMonths(3).plusDays(1), 
+					end =oReport.getEndOfQuarterDate(),
+					ordDate = orders.get(i).getDate().toLocalDate();
+			if(ordDate.isAfter(end)==false && ordDate.isBefore(start)==false){
+				if(orders.get(i).getOrderStatus().equals(OrderStatus.Paid) ||
+						orders.get(i).getOrderStatus().equals(OrderStatus.Canceled))
 				setPIOsInOrder(EchoServer.fac.prodInOrder.getPIOsByOrder(orders.get(i).getOrderID()));
 			}	
 		}
-		if(flag==1) {
-			ArrayList<Object> ar = new ArrayList<>();
-			ar.add(this.oReport);
-			return ar;
-		}
-		else {
-			ArrayList<Object> ar = new ArrayList<>();
-			ar.add(this.oReport);
-			return ar;
-		}
+		ArrayList<Object> ar = new ArrayList<>();
+		ar.add(this.oReport);
+		add(ar);
+		return ar;
 	}
 
 	public void setPIOsInOrder(ArrayList<Object> objs) throws Exception{
-		ArrayList<ProductInOrder> products= new ArrayList<>();
-		if(objs == null || objs.isEmpty())
-			throw new Exception();
-		for (Object o : objs) {
-			if(o instanceof ProductInOrder)
-				products.add((ProductInOrder)o);
-		}
-		if(EchoServer.fac.prodInOrder.isAllPIOsFromSameOrder(products)==false)
-			throw new Exception();
-		ArrayList<Order> orders = this.oReport.getOrders();
-		ArrayList<Integer> cntType = this.oReport.getCounterPerType();
-		ArrayList<Float> sumType = this.oReport.getSumPerType();
+		HashMap<ProductType, Integer> cntType = this.oReport.getCounterPerType();
+		HashMap<ProductType, Float> sumType = this.oReport.getSumPerType();
 		
-		Order myOrder = null;
-		for (Order ord : orders) {
-			if(ord.getOrderID().equals(products.get(0).getOrderID())) {
-				myOrder = ord;
-				break;
+		for (Object pioObj : objs) {
+			if(pioObj instanceof ProductInOrder) {
+				ProductInOrder pio = (ProductInOrder)pioObj;
+				ProductType pt = pio.getProduct().getType();
+				cntType.put(pt, cntType.get(pt)+pio.getQuantity());
+				sumType.put(pt, sumType.get(pt)+pio.getFinalPrice());
 			}
 		}
-		if(myOrder==null)
-			throw new Exception();
-		myOrder.setProducts(products);
-		
-		for(int j=0;j<products.size();j++)
-		{
-			ProductType pt = products.get(j).getProduct().getType();
-			int indx = -1;
-			if(pt.equals(Product.ProductType.Bouquet))
-				indx = 4;
-			else if(pt.equals(Product.ProductType.Single))
-				indx = 5;
-			else if(pt.equals(Product.ProductType.FlowerArrangment))
-				indx = 0;
-			else if(pt.equals(Product.ProductType.FloweringPlant))
-				indx = 1;
-			else if(pt.equals(Product.ProductType.FlowersCluster))
-				indx = 3;
-			else if(pt.equals(Product.ProductType.BridalBouquet))
-				indx = 2;
-			cntType.set(indx, cntType.get(indx)+1);
-			sumType.set(indx, sumType.get(indx)+products.get(j).getFinalPrice());
+	}
+
+	@Override
+	public ArrayList<Object> handleGet(ArrayList<Object> obj){
+		if (obj == null || obj.size()<5)
+			return new ArrayList<>();
+		ArrayList<Object> ors = new ArrayList<>();
+		BigInteger storeID = BigInteger.valueOf((Integer) obj.get(0));
+		LocalDate endDate = ((Timestamp) obj.get(1)).toLocalDateTime().toLocalDate();
+		OrderReport or = new OrderReport(endDate,storeID);
+		ors.add(or);
+		for (int i = 0; i < obj.size(); i += 5) {
+			parse(	or,
+					(String) obj.get(i + 2),
+					(Integer) obj.get(i + 3),
+					(Float) obj.get(i + 4)
+				);
 		}
-		this.oReport.setCounterPerType(cntType);
-		this.oReport.setSumPerType(sumType);
+		return ors;
+	}
+
+	private void parse(OrderReport or, String productType, Integer quantity, Float totalPrice) {
+		ProductType pt = ProductType.valueOf(productType);
+		or.addToCounterPerType(pt, quantity);
+		or.addToSumPerType(pt, totalPrice);
+	}
+
+	@Override
+	public ArrayList<Object> add(ArrayList<Object> arr) throws Exception {
+		if(arr==null || arr.isEmpty() || arr.get(0) instanceof OrderReport == false )
+			throw new Exception();
+		OrderReport or = (OrderReport)arr.get(0);
+		ArrayList<String> queries = new ArrayList<>();
+		for (ProductType pt : or.getCounterPerType().keySet()) {
+			queries.add(String.format(
+					"INSERT INTO orderreport"
+					+ " (storeID, endOfQuarterDate, productType, quantity, totalPrice)"
+					+ " VALUES ('%d', '%s', '%s', '%d', '%f');",
+					or.getStoreID(),
+					Timestamp.valueOf(or.getEndOfQuarterDate().atStartOfDay()).toString(),
+					pt,
+					or.getCounterPerType().get(pt),
+					or.getSumPerType().get(pt)));
+		}
+		EchoServer.fac.dataBase.db.insertWithBatch(queries);
+		return null;
+	}
+
+	@Override
+	public ArrayList<Object> update(Object obj) throws Exception {
+		return null;
 	}
 }

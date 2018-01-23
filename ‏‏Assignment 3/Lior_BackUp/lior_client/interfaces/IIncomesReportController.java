@@ -5,9 +5,9 @@ import java.math.BigInteger;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-import entities.OrderReport;
+import entities.IncomesReport;
 
-public interface IOrderReportController{
+public interface IIncomesReportController {
 
 	/**
 	 *<p>
@@ -17,22 +17,22 @@ public interface IOrderReportController{
 	 * @param storeID - The storeID of the store that the report was created for. 
 	 * @throws IOException - Context.clientConsole.handleMessageFromClientUI throws IOException.
 	 */
-	void getOrderReport(LocalDate date, BigInteger storeID) throws IOException;
+	void ProduceIncomesReport(LocalDate date, BigInteger storeID) throws IOException;
 	/**
 	 *<p>
 	 * This function is designed to prevent two requests of the same type from being overridden.
-		It simply resets the parameters and calls for {@link produceOrderReport}
+		It simply resets the parameters and calls for {@link ProduceIncomesReport}
 	   </p> 
-	   @see produceOrderReport
+	   @see ProduceIncomesReport
 	 * @param date - The date that the quarter will be calculate, this date minus 3 months.
 	 * @param storeID - The store that the report was created for. 
 	 * @throws IOException - Context.clientConsole.handleMessageFromClientUI throws IOException.
 	 */
-	void initproduceOrderReport(LocalDate date, BigInteger storeID) throws IOException;
+	void initProduceIncomesReport(LocalDate date, BigInteger storeID) throws IOException;
 	/**
 	 * This function is intended to receive the data from the server and send them to the appropriate GUI class
-	 * in this situation it will sent to {@link setOrderReports} in ReportSelectorGUIController
-	 * @param oReports - Arraylist of Order reports that back from the server
+	 * in this situation it will sent to {@link setIncomeReports} in ReportSelectorGUIController
+	 * @param iReports - Arraylist of Incomes report that back from the server
 	 */
-	void handleGet(ArrayList<OrderReport> oReports);
+	void handleGet(ArrayList<IncomesReport> iReports);
 }

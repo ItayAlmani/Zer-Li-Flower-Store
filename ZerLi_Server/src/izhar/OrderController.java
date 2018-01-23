@@ -275,7 +275,7 @@ public class OrderController extends ParentController{
 
 	public ArrayList<Object> handleGet(ArrayList<Object> obj) throws Exception {
 		if (obj == null)
-			return obj;
+			return new ArrayList<>();
 		ArrayList<Object> ords = new ArrayList<>();
 		for (int i = 0; i < obj.size(); i += 11) {
 			BigInteger deliveryID = obj.get(i + 2) == null ? null: BigInteger.valueOf((Integer) obj.get(i + 2)),

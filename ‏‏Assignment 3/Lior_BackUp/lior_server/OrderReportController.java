@@ -8,39 +8,45 @@ import java.util.Calendar;
 import java.util.Date;
 
 import common.EchoServer;
-import entities.IncomesReport;
 import entities.Order;
 import entities.Order.OrderStatus;
-import lior.interfaces.IIncomesReportController;
+import entities.OrderReport;
+import entities.Product;
+import entities.Product.ProductType;
 import entities.ProductInOrder;
+import lior.interfaces.IOrderReportController;
 
-public class IncomesReportController implements IIncomesReportController {
-	private IncomesReport iReport;
+public class OrderReportController implements IOrderReportController {
+	private OrderReport oReport;
 	private LocalDate rDate, startDate;
-	int ind;
-	
+
 	/* (non-Javadoc)
-	 * @see lior.IIncomesReportController#ProduceIncomesReport(java.util.ArrayList)
+	 * @see lior.IOrderReportController#produceOrderReport(java.util.ArrayList)
 	 */
 	@Override
-	public ArrayList<Object> ProduceIncomesReport(ArrayList<Object> arr) throws Exception {
+	public ArrayList<Object> produceOrderReport(ArrayList<Object> arr) throws Exception {
 		if(arr!=null && (arr.get(0) instanceof LocalDate == false) || arr.get(1) instanceof BigInteger == false)
-			throw new Exception();
+		{
+			return null;
+		}		 
 		LocalDate date = (LocalDate)arr.get(0);
 		BigInteger storeID = (BigInteger)arr.get(1);
-		iReport=new IncomesReport();
-		this.iReport.setStoreID(storeID);
-		iReport.setTotIncomes(0);
+		oReport=new OrderReport();
+		this.oReport.setStoreID(storeID);
+		for (int i = 0; i < Product.ProductType.values().length; i++) {
+			this.oReport.addToCounterPerType(0);
+			this.oReport.addToSumPerType(0f);
+		}
 		rDate=date;
 		Calendar c = Calendar.getInstance(); 
 		c.setTime(Date.from(rDate.atStartOfDay(ZoneId.systemDefault()).toInstant())); 
 		c.add(Calendar.MONTH, -3);
 		startDate = c.getTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-		this.iReport.setStartdate(this.startDate);
-		this.iReport.setEnddate(this.rDate);
+		this.oReport.setStartdate(this.startDate);
+		this.oReport.setEnddate(this.rDate);
 		return analyzeOrders(EchoServer.fac.order.getAllOrdersByStoreID(storeID));
 	}
-	
+
 	public ArrayList<Object> analyzeOrders(ArrayList<Object> objs) throws Exception{
 		ArrayList<Order> orders= new ArrayList<>();
 		if(objs == null || objs.isEmpty())
@@ -50,32 +56,31 @@ public class IncomesReportController implements IIncomesReportController {
 				orders.add((Order)o);
 		}
 		int flag=0;
-		this.iReport.setOrders(orders);
+		this.oReport.setOrders(orders);
 		for(int i=0;i<orders.size();i++)
 		{
 			Date date = Date.from(orders.get(i).getDate().atZone(ZoneId.systemDefault()).toInstant());
-			if(date.after(Date.from(this.iReport.getEnddate().atStartOfDay(ZoneId.systemDefault()).toInstant()))==false&&
-					date.after(Date.from(this.iReport.getStartdate().atStartOfDay(ZoneId.systemDefault()).toInstant()))
+			if(date.after(Date.from(this.oReport.getEnddate().atStartOfDay(ZoneId.systemDefault()).toInstant()))==false&&
+					date.after(Date.from(this.oReport.getStartdate().atStartOfDay(ZoneId.systemDefault()).toInstant()))
+					&& orders.get(i).getOrderStatus().equals(OrderStatus.Paid)
 					)
 			{
 				flag=1;
-				if(orders.get(i).getOrderStatus().equals(OrderStatus.Paid) ||
-						orders.get(i).getOrderStatus().equals(OrderStatus.Canceled))
-					setPIOsInOrder(EchoServer.fac.prodInOrder.getPIOsByOrder(orders.get(i).getOrderID()));
+				setPIOsInOrder(EchoServer.fac.prodInOrder.getPIOsByOrder(orders.get(i).getOrderID()));
 			}	
 		}
 		if(flag==1) {
 			ArrayList<Object> ar = new ArrayList<>();
-			ar.add(this.iReport);
+			ar.add(this.oReport);
 			return ar;
 		}
 		else {
 			ArrayList<Object> ar = new ArrayList<>();
-			ar.add(this.iReport);
+			ar.add(this.oReport);
 			return ar;
 		}
 	}
-	
+
 	public void setPIOsInOrder(ArrayList<Object> objs) throws Exception{
 		ArrayList<ProductInOrder> products= new ArrayList<>();
 		if(objs == null || objs.isEmpty())
@@ -86,14 +91,9 @@ public class IncomesReportController implements IIncomesReportController {
 		}
 		if(EchoServer.fac.prodInOrder.isAllPIOsFromSameOrder(products)==false)
 			throw new Exception();
-		for (Order order : this.iReport.getOrders()) {
-			if(order.getOrderID().equals(products.get(0).getOrderID())) {
-				ind=0;
-				break;
-			}
-		}
-		ArrayList<Order> orders = this.iReport.getOrders();
-		double Totalincomessum=iReport.getTotIncomes();
+		ArrayList<Order> orders = this.oReport.getOrders();
+		ArrayList<Integer> cntType = this.oReport.getCounterPerType();
+		ArrayList<Float> sumType = this.oReport.getSumPerType();
 		
 		Order myOrder = null;
 		for (Order ord : orders) {
@@ -108,8 +108,24 @@ public class IncomesReportController implements IIncomesReportController {
 		
 		for(int j=0;j<products.size();j++)
 		{
-			Totalincomessum+=products.get(j).getFinalPrice();
+			ProductType pt = products.get(j).getProduct().getType();
+			int indx = -1;
+			if(pt.equals(Product.ProductType.Bouquet))
+				indx = 4;
+			else if(pt.equals(Product.ProductType.Single))
+				indx = 5;
+			else if(pt.equals(Product.ProductType.FlowerArrangment))
+				indx = 0;
+			else if(pt.equals(Product.ProductType.FloweringPlant))
+				indx = 1;
+			else if(pt.equals(Product.ProductType.FlowersCluster))
+				indx = 3;
+			else if(pt.equals(Product.ProductType.BridalBouquet))
+				indx = 2;
+			cntType.set(indx, cntType.get(indx)+1);
+			sumType.set(indx, sumType.get(indx)+products.get(j).getFinalPrice());
 		}
-		this.iReport.setTotIncomes(Totalincomessum);
+		this.oReport.setCounterPerType(cntType);
+		this.oReport.setSumPerType(sumType);
 	}
 }

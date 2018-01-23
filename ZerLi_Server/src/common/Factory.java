@@ -1,13 +1,29 @@
 package common;
-import controllers.*;
-import itayNron.*;
-import izhar.*;
-import kfir.*;
+import itayNron.ComplaintController;
+import itayNron.StockController;
+import itayNron.StoreController;
+import itayNron.SurveyController;
+import itayNron.SurveyReportController;
+import izhar.OrderController;
+import izhar.PickupController;
+import izhar.ProductController;
+import izhar.ProductInOrderController;
+import izhar.ShipmentController;
+import kfir.CreditCardController;
+import kfir.CustomerController;
+import kfir.PaymentAccountController;
+import kfir.StoreWorkerController;
+import kfir.SubscriptionController;
+import kfir.UserController;
+import lior.HistogramOfCustomerComplaintsReportController;
+import lior.IncomesReportController;
+import lior.OrderReportController;
+import lior.QuarterlyReportController;
+import lior.SatisfactionReportController;
 
 /**
  * Will have all the controllers.
  * Will manage them by being static, but them will be non-static classes
- * @author izhar
  *
  */
 public class Factory {	
@@ -31,6 +47,12 @@ public class Factory {
 	public ComplaintController complaint;	
 	public CustomerController customer = new CustomerController();
 	public SubscriptionController sub = new SubscriptionController();
+	
+	public QuarterlyReportController qurReport = new QuarterlyReportController();
+	public OrderReportController ordReport = new OrderReportController();
+	public IncomesReportController incReport = new IncomesReportController();
+	public HistogramOfCustomerComplaintsReportController hisReport = new HistogramOfCustomerComplaintsReportController();
+	public SatisfactionReportController satReport = new SatisfactionReportController();
 	
 	public void setComplaintController() {
 		complaint = new ComplaintController();

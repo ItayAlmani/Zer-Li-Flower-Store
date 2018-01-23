@@ -40,6 +40,29 @@ public class DataBaseHandler{
 		stmt = con.createStatement();
 		stmt.executeUpdate(query);
 	}
+	
+	public void insertWithBatch(ArrayList<String> queries) throws SQLException {
+		Statement stmt = null;
+		try{
+		      stmt = con.createStatement();
+		      con.setAutoCommit(false);
+		      for (String s : queries) {
+		    	  stmt.addBatch(s);
+		      }
+		      stmt.executeBatch();
+		      con.commit();
+		      con.setAutoCommit(true);
+/*		      if(stmt!=null)
+		    	  stmt.close();*/
+		}catch(Exception e){
+		      e.printStackTrace();
+		      con.rollback();
+		      con.setAutoCommit(true);
+/*		      if(stmt!=null)
+		    	  stmt.close();*/
+		      throw e;
+		}
+	}
 
 	private Connection connectToDB(String dbUrl, String dbName, String dbUserName, String dbPassword) throws SQLException {
 		Connection conn = null;

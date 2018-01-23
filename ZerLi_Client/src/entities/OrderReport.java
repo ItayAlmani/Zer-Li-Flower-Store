@@ -1,68 +1,45 @@
 package entities;
 
+import java.math.BigInteger;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.HashMap;
+
+import entities.Product.ProductType;
 
 public class OrderReport extends QuarterlyReport {
 
 	private static final long serialVersionUID = 10L;
-	private ArrayList<Order> orders = new ArrayList<>();
-	private ArrayList<Integer> counterPerType = new ArrayList<>();
-	private ArrayList<Float> sumPerType = new ArrayList<>();
-	private LocalDate Startdate;//=new LocalDate();
-	private LocalDate Enddate;//=new LocalDate(qReportID, qReportID, qReportID);
-
-	public ArrayList<Order> getOrders() {
-		return this.orders;
+	
+	private HashMap<ProductType, Integer> counterPerType = new HashMap<>();
+	private HashMap<ProductType, Float> sumPerType = new HashMap<>();
+	
+	
+	public OrderReport(LocalDate endOfQuarterDate, BigInteger storeID) {
+		super(endOfQuarterDate, storeID);
 	}
 
-	public void setCounterPerType(ArrayList<Integer> counterPerType) {
+	public void setCounterPerType(HashMap<ProductType, Integer> counterPerType) {
 		this.counterPerType = counterPerType;
 	}
 	
-	public void setSumPerType(ArrayList<Float> sumPerType) {
+	public void setSumPerType(HashMap<ProductType, Float> sumPerType) {
 		this.sumPerType = sumPerType;
 	}
 
-	public ArrayList<Integer> getCounterPerType() {
+	public HashMap<ProductType, Integer> getCounterPerType() {
 		return counterPerType;
 	}
 
-	public ArrayList<Float> getSumPerType() {
+	public HashMap<ProductType, Float> getSumPerType() {
 		return sumPerType;
 	}
-
-	public void setOrders(ArrayList<Order> order) {
-		this.orders = order;
-	}
 	
-	public void addToOrders(Order order) {
-		this.orders.add(order);
-	}
-	
-	public void addToCounterPerType(Integer cnt) {
-		this.counterPerType.add(cnt);
+	public void addToCounterPerType(ProductType type,Integer cnt) {
+		this.counterPerType.put(type, cnt);
 	}
 
-	public void addToSumPerType(Float sum) {
-		this.sumPerType.add(sum);
+	public void addToSumPerType(ProductType type,Float sum) {
+		this.sumPerType.put(type, sum);
 	}
-	
-	public LocalDate getStartdate() {
-		return Startdate;
-	}
-
-	public void setStartdate(LocalDate startdate) {
-		Startdate = startdate;
-	}
-
-	public LocalDate getEnddate() {
-		return Enddate;
-	}
-
-	public void setEnddate(LocalDate enddate) {
-		Enddate = enddate;
-	}
-	
 }
