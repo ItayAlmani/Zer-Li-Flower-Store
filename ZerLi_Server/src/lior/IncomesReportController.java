@@ -3,20 +3,14 @@ package lior;
 import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
 
 import common.EchoServer;
 import entities.IncomesReport;
 import entities.Order;
-import entities.OrderReport;
 import entities.Order.OrderStatus;
-import entities.Product.ProductType;
-import lior.interfaces.IIncomesReportController;
 import entities.ProductInOrder;
+import lior.interfaces.IIncomesReportController;
 
 public class IncomesReportController implements IIncomesReportController {
 	private IncomesReport iReport;
@@ -49,6 +43,8 @@ public class IncomesReportController implements IIncomesReportController {
 	@Override
 	public ArrayList<Object> ProduceIncomesReport(LocalDate date, BigInteger storeID) throws Exception {
 		iReport=new IncomesReport(date,storeID);
+		this.iReport.setEnddate(date);
+		this.iReport.setStartdate(date.minusMonths(3).plusDays(1));
 		this.iReport.setStoreID(storeID);
 		this.iReport.setTotIncomes(0);
 		return analyzeOrders(EchoServer.fac.order.getAllOrdersByStoreID(storeID));
@@ -97,23 +93,24 @@ public class IncomesReportController implements IIncomesReportController {
 
 	@Override
 	public ArrayList<Object> handleGet(ArrayList<Object> obj){
-		if (obj == null || obj.size()<4)
+		if (obj == null || obj.size()<3)
 			return new ArrayList<>();
 		ArrayList<Object> irs = new ArrayList<>();
 		BigInteger storeID = BigInteger.valueOf((Integer) obj.get(0));
 		LocalDate endDate = ((Timestamp) obj.get(1)).toLocalDateTime().toLocalDate();
 		IncomesReport ir = new IncomesReport(endDate,storeID);
+		ir.setEnddate(endDate);
+		ir.setStartdate(endDate.minusMonths(3).plusDays(1));
 		irs.add(ir);
-		for (int i = 0; i < obj.size(); i += 5) {
+		for (int i = 0; i < obj.size(); i += 3) {
 			parse(	ir,
-					(Integer) obj.get(i + 2),
-					(Double) obj.get(i + 3)
+					(Double) obj.get(i + 2)
 				);
 		}
 		return irs;
 	}
 
-	private void parse(IncomesReport ir,Integer OrderID, Double totalPrice) {
+	private void parse(IncomesReport ir,Double totalPrice) {
 		ir.setTotIncomes(ir.getTotIncomes()+totalPrice);
 	}
 
@@ -123,16 +120,13 @@ public class IncomesReportController implements IIncomesReportController {
 			throw new Exception();
 		IncomesReport ir = (IncomesReport)arr.get(0);
 		ArrayList<String> queries = new ArrayList<>();
-		for (Order or : ir.getOrders()) {
-			queries.add(String.format(
-					"INSERT INTO incomesreport"
-					+ " (storeID, endOfQuarterDate, orderID,totalPrice)"
-					+ " VALUES ('%d', '%s', '%s', '%d', '%lf');",
-					ir.getStoreID(),
-					Timestamp.valueOf(ir.getEndOfQuarterDate().atStartOfDay()).toString(),
-					or.getOrderID(),
-					ir.getTotIncomes()));
-		}
+		queries.add(String.format(
+				"INSERT INTO incomesreport"
+				+ " (storeID, endOfQuarterDate,totalPrice)"
+				+ " VALUES ('%d', '%s','%f');",
+				ir.getStoreID(),
+				Timestamp.valueOf(ir.getEndOfQuarterDate().atStartOfDay()).toString(),
+				ir.getTotIncomes()));
 		EchoServer.fac.dataBase.db.insertWithBatch(queries);
 		return null;
 	}

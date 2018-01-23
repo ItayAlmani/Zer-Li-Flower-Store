@@ -134,7 +134,7 @@ public class OrderReportController extends ParentController implements IOrderRep
 					+ " VALUES ('%d', '%s', '%s', '%d', '%f');",
 					or.getStoreID(),
 					Timestamp.valueOf(or.getEndOfQuarterDate().atStartOfDay()).toString(),
-					pt,
+					pt.name(),
 					or.getCounterPerType().get(pt),
 					or.getSumPerType().get(pt)));
 		}

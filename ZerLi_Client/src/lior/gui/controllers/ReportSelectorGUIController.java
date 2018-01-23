@@ -194,7 +194,7 @@ public class ReportSelectorGUIController implements Initializable {
 									|| date.equals(date1) == false
 									|| cbStorePick1.getValue().equals(cbStorePick2.getValue()) == false) {
 								if (cbTypePick2.getValue().equals(cbTypePick1.getValue())) {
-									Context.fac.orderReport.getOrderReport(date1, n1);
+									Context.fac.orderReport.initproduceOrderReport(date1, n1);
 								} else
 									Context.fac.orderReport.initproduceOrderReport(date1, n1);
 							}
@@ -206,7 +206,7 @@ public class ReportSelectorGUIController implements Initializable {
 									|| date.equals(date1) == false
 									|| cbStorePick1.getValue().equals(cbStorePick2.getValue()) == false) {
 								if (cbTypePick2.getValue().equals(cbTypePick1.getValue())) {
-									//Context.fac.incomesReport.ProduceIncomesReport(date1, n1);
+									Context.fac.incomesReport.initProduceIncomesReport(date1, n1);
 								} else
 									Context.fac.incomesReport.initProduceIncomesReport(date1, n1);
 							}
@@ -226,7 +226,7 @@ public class ReportSelectorGUIController implements Initializable {
 									|| date.equals(date1) == false
 									|| cbStorePick1.getValue().equals(cbStorePick2.getValue()) == false) {
 								if (cbTypePick2.getValue().equals(cbTypePick1.getValue())) {
-									Context.fac.satisfactionReport.ProduceSatisfactionReport(date1, n1);
+									Context.fac.satisfactionReport.initProduceSatisfactionReport(date1, n1);
 								} else
 									Context.fac.satisfactionReport.initProduceSatisfactionReport(date1, n1);
 							}
@@ -319,15 +319,14 @@ public class ReportSelectorGUIController implements Initializable {
 			} else {
 				Platform.runLater(new Runnable() {
 					public void run() {
-						lblFlowerArrcnt2.setText(Integer.toString(rep.getCounterPerType().get(0)));
-						lblFlowerPlacnt2.setText(Integer.toString(rep.getCounterPerType().get(1)));
-						lblBridalBoucnt2.setText(Integer.toString(rep.getCounterPerType().get(2)));
-						lblFlowerClucnt2.setText(rep.getCounterPerType().get(3).toString());
-	
-						lblFlowerArrsum2.setText(Float.toString(rep.getSumPerType().get(0)));
-						lblFlowerPlasum2.setText(Float.toString(rep.getSumPerType().get(1)));
-						lblBridalBousum2.setText(Float.toString(rep.getSumPerType().get(2)));
-						lblFlowerClusum2.setText(rep.getSumPerType().get(3).toString());
+						lblFlowerArrcnt2.setText(Integer.toString(rep.getCounterPerType().get(ProductType.FlowerArrangment)));
+						lblFlowerPlacnt2.setText(Integer.toString(rep.getCounterPerType().get(ProductType.FloweringPlant)));
+						lblBridalBoucnt2.setText(Integer.toString(rep.getCounterPerType().get(ProductType.BridalBouquet)));
+						lblFlowerClucnt2.setText(rep.getCounterPerType().get(ProductType.FlowersCluster).toString());
+						lblFlowerArrsum2.setText(Float.toString(rep.getSumPerType().get(ProductType.FlowerArrangment)));
+						lblFlowerPlasum2.setText(Float.toString(rep.getSumPerType().get(ProductType.FloweringPlant)));
+						lblBridalBousum2.setText(Float.toString(rep.getSumPerType().get(ProductType.BridalBouquet)));
+						lblFlowerClusum2.setText(rep.getSumPerType().get(ProductType.FlowersCluster).toString());
 					}
 				});
 				paneOrderReport2.setVisible(true);
