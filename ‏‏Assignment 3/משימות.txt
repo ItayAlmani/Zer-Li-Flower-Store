@@ -1,0 +1,35 @@
+כפיר:
+	* אחרי הוספת PA, יש לעדכן
+iNr:
+	* לשנות בCOMPLAINTS, שהSTORENAME יופיע ולא הID.
+	* להוסיף לCOMPLAINTS, לשמור את עובד שירות הלקוחות שהוסיף את התלונה+לכל עובד יכול לטפל רק בתלונות שהוא הוסיף - WHERE USERID=Context.getUser().getID()
+	* אחרי שנוספה תלונה, צריך להוסיף אותה אל ה-CB של התלונות
+	* cancel order לא מחזירה את הREFUND הנכון + הrefundAmount החדש דורס הנוכחי (צריך לעשות currentRefund+= ולא currRefund=)
+יזהר:
+	* ##אם שולם CASH, לסמן כ-PAID## + הICON והBTN לא משתנים
+	* לסדר את עניין ה-disable של ה-menu
+	* לסדר את המחירים של ה-SLIDER ב-ASSEMBLE + בASSEMBLE לסדר את הSLIDER לפי הטווח לאחר SUB
+	* בטעינת הCART מחדש, אם שונה המחיר (בגלל הנחה חדשה לדוגמא), אוטומטית מתעדכן המסד
+	* לבדוק בORDER TIME את הSLIDERS + לסדר שיהיו הפרשי רבע שעה בדקות
+	* אם ישאר החיוב על ההזמנה כמו שהוא - להסביר את: מחיר הזמנה - REFUND AMOUNT = מחיר לאחר REFUND AMOUNT
+	* אם לא משלם בכלל בגלל REFUND (מחיר = 0), להוריד את הPROGGRESSBAR של חיוב האשראי
+	* ??למה יש delivery אחד ריק ואז אחד לא ריק??
+
+?? - שאלה
+** משימה
+## הושלם
+
+לסדר manual tran עם הוספה וגם main order
+אם יש בGUI קונטרולר, בפונקציה initialize, בקשה של אובייקטים מהסרבר (getUsers,getStores...), צריך לעשות בפונקציה: currentGUI=this
+**להחזיר את העדכון של המסד בהתחברות והתנתקות**
+להוסיף בדיקת REFUND גם בMANUAL
+ManualTrans - לאפשר רק לבעלי חשבון תשלום => פתרון HASHMAP
+0.5V---------לסדר - מה קורה אם עברו GUI לפני שהגיעה תשובה (לדוגמא בבקשת ORDER בMAIN) => 1. BOOL כל עוד FALSE	2. disable	
+להוסיף בדיקות אם INPUT ריק
+*******להוריד השלמה של USERNAME + אם נלחץ ENTER, אוטומטית izharAn
+*******להוסיף customer.getCustomerByPrivateID() לCUSTOMER
+להוריד את כל האפשרויות של BOUQETE וSINGEL
+ב-ASSEMBLE בלי PA, לתקן שלא נשלפים מוצרים
+לסדר תפריט לפי PERMISSIONS
+??האם יכולים להיות 2 דוחות עם תאריכים חופפים (נניח אחד מתחיל ב22/01 והשני ב21/01)??
+??האם יש הצטברות של כסף שנגבה חודשית??
