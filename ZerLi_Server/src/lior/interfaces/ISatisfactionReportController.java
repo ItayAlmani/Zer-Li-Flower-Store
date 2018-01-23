@@ -1,5 +1,7 @@
 package lior.interfaces;
 
+import java.math.BigInteger;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public interface ISatisfactionReportController {
@@ -16,7 +18,7 @@ public interface ISatisfactionReportController {
 	 * @throws Exception -because {@link ProduceSatisfactionReport} calls to
 	 * {@link analyzeSurveys}
 	 */
-	ArrayList<Object> ProduceSatisfactionReport(ArrayList<Object> arr) throws Exception;
+	ArrayList<Object> ProduceSatisfactionReport(LocalDate date, BigInteger storeID) throws Exception;
 	/**
 	 * <p> This function takes the information from the server and processes it into a report
 	 *  with all the data associated with it, and returns the report to the client.
@@ -26,5 +28,10 @@ public interface ISatisfactionReportController {
 	 * @throws Exception - if there is no data that returns from the server (DB)
 	 */
 	ArrayList<Object> analyzeSurveys(ArrayList<Object> objs) throws Exception;
+	
+	ArrayList<Object> getSatisfactionReport(ArrayList<Object> arr) throws Exception;
+	ArrayList<Object> update(Object obj) throws Exception;
+	ArrayList<Object> add(ArrayList<Object> arr) throws Exception;
+	ArrayList<Object> handleGet(ArrayList<Object> obj);
 
 }

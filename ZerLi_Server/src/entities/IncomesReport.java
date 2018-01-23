@@ -1,5 +1,6 @@
 package entities;
 
+import java.math.BigInteger;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
@@ -11,6 +12,10 @@ public class IncomesReport extends QuarterlyReport {
 	private double TotIncomes=-1;
 	private LocalDate Startdate;
 	private LocalDate Enddate;
+	
+	public IncomesReport(LocalDate endOfQuarterDate, BigInteger storeID) {
+		super(endOfQuarterDate, storeID);
+	}
 
 	public LocalDate getStartdate() {
 		return Startdate;

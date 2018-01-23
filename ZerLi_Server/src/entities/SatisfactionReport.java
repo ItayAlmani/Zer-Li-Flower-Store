@@ -1,5 +1,6 @@
 package entities;
 
+import java.math.BigInteger;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -14,6 +15,10 @@ public class SatisfactionReport extends QuarterlyReport {
 	private LocalDate Enddate;
 	private float[] finalanswers;
 	private float AverageTotanswer;
+	
+	public SatisfactionReport(LocalDate endOfQuarterDate, BigInteger storeID) {
+		super(endOfQuarterDate, storeID);
+	}
 	
 	public float getAverageTotanswer() {
 		return AverageTotanswer;
