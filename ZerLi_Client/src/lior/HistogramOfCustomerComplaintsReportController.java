@@ -18,7 +18,7 @@ import lior.interfaces.IHistogramOfCustomerComplaintsReportController;
 public class HistogramOfCustomerComplaintsReportController extends ParentController implements IHistogramOfCustomerComplaintsReportController{
 
 	public void initproduceHistogramOfCustomerComplaintsReport(LocalDate date, Store store) throws IOException{
-		produceHistogramOfCustomerComplaintsReport(date, store);
+		getHistogramOfCustomerComplaintsReport(date, store);
 	}
 	
 	public void handleGet(ArrayList<HistogramOfCustomerComplaintsReport> ccReports) {
@@ -39,7 +39,7 @@ public class HistogramOfCustomerComplaintsReportController extends ParentControl
 	}
 	
 	@Override
-	public void produceHistogramOfCustomerComplaintsReport(LocalDate Reqdate, Store store) throws IOException {
+	public void getHistogramOfCustomerComplaintsReport(LocalDate Reqdate, Store store) throws IOException {
 		myMsgArr.clear();
 		myMsgArr.add(Thread.currentThread().getStackTrace()[1].getMethodName());
 		ArrayList<Object> arr = new ArrayList<>();
