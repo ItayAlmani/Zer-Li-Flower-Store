@@ -6,13 +6,14 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 import common.EchoServer;
+import controllers.ParentController;
 import entities.IncomesReport;
 import entities.Order;
 import entities.Order.OrderStatus;
 import entities.ProductInOrder;
 import lior.interfaces.IIncomesReportController;
 
-public class IncomesReportController implements IIncomesReportController {
+public class IncomesReportController extends ParentController implements IIncomesReportController {
 	private IncomesReport iReport;
 	
 	public ArrayList<Object> getIncomesReport(ArrayList<Object> arr) throws Exception {
@@ -135,4 +136,5 @@ public class IncomesReportController implements IIncomesReportController {
 	public ArrayList<Object> update(Object obj) throws Exception {
 		return null;
 	}
+
 }
