@@ -1,5 +1,6 @@
 package entities;
 
+import java.math.BigInteger;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -12,6 +13,11 @@ public class HistogramOfCustomerComplaintsReport extends QuarterlyReport {
 	private int refundedCnt;
 	private LocalDate Startdate;//=new LocalDate();
 	private LocalDate Enddate;//=new LocalDate(qReportID, qReportID, qReportID);
+	
+	public HistogramOfCustomerComplaintsReport(LocalDate date,BigInteger storeid)
+	{
+		super(date,storeid);
+	}
 
 	public ArrayList<Complaint> getComplaints() {
 		return complaints;

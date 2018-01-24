@@ -215,7 +215,7 @@ public class ReportSelectorGUIController implements Initializable {
 									|| date.equals(date1) == false
 									|| cbStorePick1.getValue().equals(cbStorePick2.getValue()) == false) {
 								if (cbTypePick2.getValue().equals(cbTypePick1.getValue())) {
-									Context.fac.histogramReport.produceHistogramOfCustomerComplaintsReport(date1, cbStorePick2.getValue());
+									Context.fac.histogramReport.initproduceHistogramOfCustomerComplaintsReport(date1, cbStorePick2.getValue());
 								} else
 									Context.fac.histogramReport.initproduceHistogramOfCustomerComplaintsReport(date1, cbStorePick2.getValue());
 							}

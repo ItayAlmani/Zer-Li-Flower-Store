@@ -33,7 +33,7 @@ public class QuarterlyReportController {
 							EchoServer.fac.ordReport.produceOrderReport(LocalDate.now(), ((Store) obj).getStoreID());
 							EchoServer.fac.incReport.ProduceIncomesReport(LocalDate.now(), ((Store) obj).getStoreID());
 							EchoServer.fac.hisReport.produceHistogramOfCustomerComplaintsReport(LocalDate.now(),
-									((Store) obj).getStoreID());
+									((Store) obj));
 							EchoServer.fac.satReport.ProduceSatisfactionReport(LocalDate.now(),
 									((Store) obj).getStoreID());
 						}

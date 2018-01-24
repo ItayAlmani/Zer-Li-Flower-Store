@@ -1,6 +1,9 @@
 package lior.interfaces;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
+
+import entities.Store;
 
 public interface IHistogramOfCustomerCompaintsReportController {
 	
@@ -18,7 +21,7 @@ public interface IHistogramOfCustomerCompaintsReportController {
 	 * @throws Exception -because {@link produceHistogramOfCustomerComplaintsReport} calls to
 	 * {@link analyzeComplaints}
 	 */
-	ArrayList<Object> produceHistogramOfCustomerComplaintsReport(ArrayList<Object> arr) throws Exception;
+	//ArrayList<Object> produceHistogramOfCustomerComplaintsReport(ArrayList<Object> arr) throws Exception;
 	/**
 	 * <p> This function takes the information from the server and processes it into a report
 	 *  with all the data associated with it, and returns the report to the client.</p>
@@ -27,5 +30,13 @@ public interface IHistogramOfCustomerCompaintsReportController {
 	 * @throws Exception - if there is no data that returns from the server (DB)
 	 */
 	ArrayList<Object> analyzeComplaints(ArrayList<Object> objs) throws Exception;
+	
+	ArrayList<Object> getHistogramOfCustomerComplaintsReport(ArrayList<Object> arr) throws Exception;
+	ArrayList<Object> produceHistogramOfCustomerComplaintsReport(LocalDate date, Store store) throws Exception;
+	ArrayList<Object> handleGet(ArrayList<Object> obj);
+	ArrayList<Object> add(ArrayList<Object> arr) throws Exception;
+	ArrayList<Object> update(Object obj) throws Exception;
+	
+	
 
 }
