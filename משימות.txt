@@ -1,10 +1,12 @@
 כפיר:
 	* אחרי הוספת PA, יש לעדכן
 iNr:
-	* לשנות בCOMPLAINTS, שהSTORENAME יופיע ולא הID.
-	* להוסיף לCOMPLAINTS, לשמור את עובד שירות הלקוחות שהוסיף את התלונה+לכל עובד יכול לטפל רק בתלונות שהוא הוסיף - WHERE USERID=Context.getUser().getID()
-	* אחרי שנוספה תלונה, צריך להוסיף אותה אל ה-CB של התלונות
-	* cancel order לא מחזירה את הREFUND הנכון + הrefundAmount החדש דורס הנוכחי (צריך לעשות currentRefund+= ולא currRefund=)
+	V לשנות בCOMPLAINTS, שהSTORENAME יופיע ולא הID.
+	V להוסיף לCOMPLAINTS, לשמור את עובד שירות הלקוחות שהוסיף את התלונה
+	Vלכל עובד יכול לטפל רק בתלונות שהוא הוסיף - WHERE USERID=Context.getUser().getID()
+	*להפוך את CSW לFK
+	V אחרי שנוספה תלונה, צריך להוסיף אותה אל ה-CB של התלונות
+	 cancel order V לא מחזירה את הREFUND הנכון + הrefundAmount החדש דורס הנוכחי (צריך לעשות currentRefund+= ולא currRefund=)
 יזהר:
 	* ##אם שולם CASH, לסמן כ-PAID## + הICON והBTN לא משתנים
 	* לסדר את עניין ה-disable של ה-menu

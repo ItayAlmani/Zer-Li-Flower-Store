@@ -4,11 +4,20 @@ import java.io.Serializable;
 import java.math.BigInteger;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class Complaint implements Serializable {
+	public BigInteger getCswID() {
+		return cswID;
+	}
+
+	public void setCswID(BigInteger cswID) {
+		this.cswID = cswID;
+	}
+
 	private static final long serialVersionUID = 1L;
 
 	private BigInteger complaintID;
@@ -19,9 +28,10 @@ public class Complaint implements Serializable {
 	private boolean isRefunded = false;
 	private BigInteger storeID;
 	private boolean isAnswered24Hours = true;
+	private BigInteger cswID;
 
 	public Complaint(BigInteger complaintID, Customer customer,BigInteger storeID,String complaintReason, LocalDateTime date,
-			boolean isTreated, boolean isRefunded, boolean isAnswered24Hours) {
+			boolean isTreated, boolean isRefunded,boolean isAnswered24Hours, BigInteger cswID) {
 		super();
 		this.complaintID = complaintID;
 		this.customer = customer;
@@ -31,13 +41,15 @@ public class Complaint implements Serializable {
 		this.isTreated = isTreated;
 		this.isRefunded = isRefunded;
 		this.isAnswered24Hours=isAnswered24Hours;
+		this.cswID = cswID;
 	}
 
-	public Complaint(String complaintReason, Customer customer, BigInteger storeID, LocalDateTime date) {
+	public Complaint(String complaintReason, Customer customer, BigInteger storeID, LocalDateTime date,BigInteger cswID) {
 		this.complaintReason = complaintReason;
 		this.customer = customer;
 		this.storeID = storeID;
 		this.date = date;
+		this.cswID=cswID;
 	}
 
 	public String getComplaintReason() {
@@ -107,7 +119,8 @@ public class Complaint implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Customer: "+customer.toString() +". Complaint Reason:" + complaintReason;
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
+		return "Customer: "+customer.toString() +". Date: " + date.format(formatter);
 	}
 
 	public static long getSerialversionuid() {

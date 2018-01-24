@@ -8,13 +8,13 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import common.EchoServer;
+import controllers.ParentController;
 import entities.Complaint;
 import entities.HistogramOfCustomerComplaintsReport;
-import entities.SatisfactionReport;
 import entities.Store;
 import lior.interfaces.IHistogramOfCustomerCompaintsReportController;
 
-public class HistogramOfCustomerComplaintsReportController implements IHistogramOfCustomerCompaintsReportController {
+public class HistogramOfCustomerComplaintsReportController extends ParentController implements IHistogramOfCustomerCompaintsReportController {
 	private HistogramOfCustomerComplaintsReport ccReport;
 	
 	public ArrayList<Object> getHistogramOfCustomerComplaintsReport(ArrayList<Object> arr) throws Exception {

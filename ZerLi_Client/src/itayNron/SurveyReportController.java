@@ -29,10 +29,6 @@ public class SurveyReportController extends ParentController implements ISurveyR
 		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.INSERT, myMsgArr,SurveyReport.class));
 	}
 
-	public void getSurveyReportsByStore(int storeid) {
-		
-	}
-	
 	public void handleGet(ArrayList<SurveyReport> surveys) {
 		String methodName = "setSurveyReports";
 		Method m = null;

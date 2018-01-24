@@ -17,7 +17,7 @@ public interface IOrder  {
 	void add(Order order, boolean getNextID) throws IOException;
 
 	/**
-	 * asks the server to update the <code>Order</code>'s <code>status</code> attribute
+	 * asks the server to update the {@link Order}'s <code>status</code> attribute
 	 * to be <b>canceled</b>
 	 * @param order - the object with the <code>orderID</code>
 	 */

@@ -1,24 +1,25 @@
 package lior;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import common.EchoServer;
-import entities.Complaint;
 import entities.Store;
+import lior.interfaces.IQuarterlyReportController;
 
-public class QuarterlyReportController {
+public class QuarterlyReportController implements IQuarterlyReportController {
 	private static Timer timer;
 	private static LocalDate nextDate;
 
 	// Production
+	/* (non-Javadoc)
+	 * @see lior.IQuarterlyReportController#setAutoProductionTimer()
+	 */
+	@Override
 	public void setAutoProductionTimer() {
 		timer = new Timer(true);
 
