@@ -55,6 +55,7 @@ public class EchoServer extends AbstractServer {
 					arr.add(e.getMessage());
 				else if(e.getCause()!=null && e.getCause().getMessage()!=null)
 					arr.add("Error - " + e.getCause().getMessage());
+				System.err.println(e.getCause().getStackTrace());
 				csMsg.setType(MessageType.Exception);
 				client.sendToClient(csMsg);
 			}

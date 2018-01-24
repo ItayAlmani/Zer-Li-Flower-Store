@@ -341,7 +341,7 @@ public class UpdateCatalogGUIController implements Initializable{
 		setTextFieldSizeToContent();
 		setProductsInCB();
 		tglInCatalog.selectedProperty().addListener((observable,oldValue,newValue)->toggleChanged());
-		fileChooser.setInitialDirectory(new File(System.getProperty("user.dir")+"\\src\\images\\logos\\"));
+		//fileChooser.setInitialDirectory(new File(System.getProperty("user.dir")+"//src//images\\logos\\"));
 	}
 	
 	private <T> void setComboBoxToCenter(JFXComboBox<T> cb) {
@@ -403,7 +403,7 @@ public class UpdateCatalogGUIController implements Initializable{
         imgFile = fileChooser.showOpenDialog(ParentGUIController.primaryStage);
         if(imgFile != null) {
         	this.imgImage.setImage(new Image("file:"+imgFile.getAbsolutePath()));
-        	fileChooser.setInitialDirectory(imgFile.getParentFile());
+        	//fileChooser.setInitialDirectory(imgFile.getParentFile());
         }
 	}
 	

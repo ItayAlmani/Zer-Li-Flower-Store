@@ -71,46 +71,6 @@ public class ProductController extends ParentController {
 		}
 		return null;
 	}
-	
-	private byte[] setBlobIntoPrepState(PreparedStatement ps, String fileName) throws Exception {
-		File newFile = null;
-		boolean useInStream = true;
-		try {
-			newFile = new File(getClass().getResource("/images/"+fileName).getPath());
-		}catch (NullPointerException e) {
-			try {
-				newFile = new File(System.getProperty("user.dir")+"//images//"+fileName);
-				useInStream = false;
-			}catch (NullPointerException e1) {
-				e1.printStackTrace();
-				throw e1;
-			}
-		}
-		try {
-			byte[] mybytearray  = new byte [(int)newFile.length()];
-			BufferedInputStream bis = null;
-			FileInputStream fis = null;
-			if(useInStream==true)
-				bis = new BufferedInputStream(getClass().getResourceAsStream("/images/"+fileName));
-			else {
-				fis = new FileInputStream(newFile);
-				bis = new BufferedInputStream(fis);
-			}
-			if(bis != null) {
-				bis.read(mybytearray,0,mybytearray.length);
-				bis.close();
-				ByteArrayInputStream bais = new ByteArrayInputStream(mybytearray);
-				ps.setBinaryStream(7, bais, mybytearray.length);
-				bais.close();
-				if(fis!=null)
-					fis.close();
-			}
-			return mybytearray;
-		} catch (IOException | SQLException e) {
-			e.printStackTrace();
-			throw e;
-		}
-	}
 
 	@Override
 	public ArrayList<Object> handleGet(ArrayList<Object> obj) throws Exception {
@@ -148,7 +108,9 @@ public class ProductController extends ParentController {
 		pst.setString(4, p.getColor().name());
 		pst.setInt(5, p.isInCatalog()?1:0);
 		pst.setString(6, p.getImageName());
-		setBlobIntoPrepState(pst, p.getImageName());
+		ByteArrayInputStream bais = new ByteArrayInputStream(p.getMybytearray());
+		pst.setBinaryStream(7, bais, p.getMybytearray().length);
+		bais.close();
 		pst.executeUpdate();
 		if(isReturnNextID) {
 			query="SELECT Max(productID) from product";
@@ -205,7 +167,10 @@ public class ProductController extends ParentController {
 			pst.setString(4, p.getColor().name());
 			pst.setInt(5, p.isInCatalog()?1:0);
 			pst.setString(6, p.getImageName());
-			setBlobIntoPrepState(pst, p.getImageName());
+			//byte[] barr=insertImageToByteArr(p.getImageName());
+			ByteArrayInputStream bais = new ByteArrayInputStream(p.getMybytearray());
+			pst.setBinaryStream(7, bais, p.getMybytearray().length);
+			bais.close();
 			pst.setInt(8, p.getPrdID().intValue());
 			pst.executeUpdate();
 			myMsgArr.clear();
