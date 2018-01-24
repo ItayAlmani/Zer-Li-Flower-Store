@@ -1,24 +1,21 @@
 package common;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.PrintStream;
-import java.nio.channels.FileChannel;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class DataBaseController {
 	public DataBaseHandler db;
-	private String dbUrl_default = "localhost", dbName_default = "dbassignment2", dbUserName_default = "root",
+	private String dbUrl_default = "localhost",
+			dbName_default = "dbassignment2",
+			dbUserName_default = "root",
 			dbPassword_default = "1234";
 
 	private final String dbTextFileName = "DataBaseAddress.txt";
-	private final String txtBinPath = getClass().getResource("").getPath()+dbTextFileName;
-	private final String txtSrcPath = System.getProperty("user.dir") + "//src//common//" + dbTextFileName;
+	private final String txtLocalPath = EchoServer.tempPath + dbTextFileName;
 
 	public ArrayList<Object> getDBData() {
 		ArrayList<Object> objArr = new ArrayList<>();
@@ -60,17 +57,20 @@ public class DataBaseController {
 	}
 
 	private void writeNewDBDataIntoTxt() throws IOException {
-		File fBin = new File(txtBinPath);
-		if (fBin.exists() == false) // Create a new file if doesn't exists yet
-			fBin.createNewFile();
-		PrintStream output = new PrintStream(fBin);
+		File fTempDir = new File(EchoServer.tempPath);
+		if(fTempDir.exists() == false)
+			fTempDir.mkdir();
+		File fInput = new File(txtLocalPath);
+		if (fInput.exists() == false) // Create a new file if doesn't exists yet
+			fInput.createNewFile();
+		PrintStream output = new PrintStream(fInput);
 		output.flush();// flush whole txt file
 		output.println("Url: " + dbUrl_default);
 		output.println("Name: " + dbName_default);
 		output.println("UserName: " + dbUserName_default);
 		output.println("Password: " + dbPassword_default);
 		output.close();
-		copyFiles(false);
+		//copyFiles(false);
 	}
 	
 	private void updateDB(String[] dbData) throws SQLException {
@@ -92,9 +92,12 @@ public class DataBaseController {
 	public void connectToDB() {
 		int dbSuccessFlag = 0; // will be 1 if updateDB(args) succeeded
 		try {
-			copyFiles(true);
-			InputStream is = getClass().getResourceAsStream(dbTextFileName);
-			Scanner scnr = new Scanner(is);
+			File fInput = new File(txtLocalPath);
+			if(fInput.exists()==false) {
+				getDataFromDefault();
+				return;
+			}
+			Scanner scnr = new Scanner(fInput);
 			scnr.useDelimiter("\\w");
 			String[] dbData = new String[4];
 			for (int i = 0; i < 4 && scnr.hasNextLine(); i++) {
@@ -102,7 +105,6 @@ public class DataBaseController {
 				dbData[i] = tempSplit[tempSplit.length - 1];
 			}
 			scnr.close();
-			is.close();
 			updateDB(dbData);
 			writeNewDBDataIntoTxt();
 			dbSuccessFlag = 1;
@@ -112,49 +114,20 @@ public class DataBaseController {
 			System.err.println("Default Data Base data is wrong!\nGo to EchoServer to fix it!\n");
 		}
 		if (dbSuccessFlag == 0) { // db data corrupted
-			try {
-				updateDB(dbUrl_default, dbName_default, dbName_default, dbPassword_default);
-				EchoServer.fac.setComplaintController();
-				EchoServer.fac.qurReport.setAutoProductionTimer();
-			} catch (SQLException  e) {
-				db = null;
-				System.err.println(
-						"DataBaseAddress.txt data is corrupted, or the process is.\nGo to EchoServer for the process\n");
-				System.err.println("No DataBase connection!!\n");
-			}
+			getDataFromDefault();
 		}
 	}
 	
-	/**
-	 * 
-	 * @param srcToBin - if <code>true</code>, will copy the txt file from src to bin, else from bin to src
-	 */
-	private void copyFiles(boolean srcToBin) {
+	private void getDataFromDefault() {
 		try {
-			File fBin = new File(txtBinPath);
-			File fSrc = new File(txtSrcPath);
-			if (fSrc.exists() == false)
-				return;
-			if(fBin.exists()==false)
-				fBin.createNewFile();
-			FileChannel sourceChannel = null;
-			FileChannel destChannel = null;
-			try {
-				if(srcToBin) {
-					sourceChannel = new FileInputStream(fSrc).getChannel();
-					destChannel = new FileOutputStream(fBin).getChannel();
-				}
-				else {
-					sourceChannel = new FileInputStream(fBin).getChannel();
-					destChannel = new FileOutputStream(fSrc).getChannel();
-				}
-				destChannel.transferFrom(sourceChannel, 0, sourceChannel.size());
-			} finally {
-				sourceChannel.close();
-				destChannel.close();
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
+			updateDB(dbUrl_default, dbName_default, dbName_default, dbPassword_default);
+			EchoServer.fac.setComplaintController();
+			EchoServer.fac.qurReport.setAutoProductionTimer();
+		} catch (SQLException  e) {
+			db = null;
+			System.err.println(
+					"DataBaseAddress.txt data is corrupted, or the process is.\nGo to EchoServer for the process\n");
+			System.err.println("No DataBase connection!!\n");
 		}
 	}
 }

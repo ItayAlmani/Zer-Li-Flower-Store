@@ -1,13 +1,12 @@
 package izhar;
 
 import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.math.BigInteger;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -17,17 +16,34 @@ import entities.Product;
 
 public class ProductController extends ParentController {	
 	
-	public Product parse(BigInteger prdID, String name, String type, float price, String color, boolean inCatalog, String imageURL){
-		return new Product(prdID, name, type,price,color,inCatalog, imageURL, insertImageToByteArr(imageURL));
+	public Product parse(BigInteger prdID,
+			String name,
+			String type,
+			float price, String color, boolean inCatalog, String imageURL,
+			byte[] byteArr) throws Exception{
+		if(byteArr.length == 0) {
+			Product p = new Product(prdID, name, type,price,color,inCatalog, imageURL, insertImageToByteArr(imageURL));
+			try {
+				update(p);
+				return p;
+			} catch (Exception e) {
+				e.printStackTrace();
+				throw e;
+			}
+		}
+		else
+			return new Product(prdID, name, type,price,color,inCatalog, imageURL, byteArr);
 	}
 	
 	private byte[] insertImageToByteArr(String fileName) {
 		File newFile = null;
+		boolean useInStream = true;
 		try {
 			newFile = new File(getClass().getResource("/images/"+fileName).getPath());
 		}catch (NullPointerException e) {
 			try {
-				newFile = new File(System.getProperty("user.dir")+"\\images\\"+fileName);
+				newFile = new File(System.getProperty("user.dir")+"//images//"+fileName);
+				useInStream = false;
 			}catch (NullPointerException e1) {
 				e1.printStackTrace();
 				return null;
@@ -35,33 +51,82 @@ public class ProductController extends ParentController {
 		}
 		try {
 			byte[] mybytearray  = new byte [(int)newFile.length()];
-			FileInputStream fis = new FileInputStream(newFile);
-			BufferedInputStream bis = new BufferedInputStream(fis);			    
-		
-			bis.read(mybytearray,0,mybytearray.length);
-			bis.close();
-			System.out.println("The array size is "+mybytearray.length);
+			BufferedInputStream bis = null;
+			FileInputStream fis = null;
+			if(useInStream==true)
+				bis = new BufferedInputStream(getClass().getResourceAsStream("/images/"+fileName));
+			else {
+				fis = new FileInputStream(newFile);
+				bis = new BufferedInputStream(fis);
+			}
+			if(bis != null) {
+				bis.read(mybytearray,0,mybytearray.length);
+				bis.close();
+				if(fis!=null)
+					fis.close();
+			}
 			return mybytearray;
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		return null;
 	}
+	
+	private byte[] setBlobIntoPrepState(PreparedStatement ps, String fileName) throws Exception {
+		File newFile = null;
+		boolean useInStream = true;
+		try {
+			newFile = new File(getClass().getResource("/images/"+fileName).getPath());
+		}catch (NullPointerException e) {
+			try {
+				newFile = new File(System.getProperty("user.dir")+"//images//"+fileName);
+				useInStream = false;
+			}catch (NullPointerException e1) {
+				e1.printStackTrace();
+				throw e1;
+			}
+		}
+		try {
+			byte[] mybytearray  = new byte [(int)newFile.length()];
+			BufferedInputStream bis = null;
+			FileInputStream fis = null;
+			if(useInStream==true)
+				bis = new BufferedInputStream(getClass().getResourceAsStream("/images/"+fileName));
+			else {
+				fis = new FileInputStream(newFile);
+				bis = new BufferedInputStream(fis);
+			}
+			if(bis != null) {
+				bis.read(mybytearray,0,mybytearray.length);
+				bis.close();
+				ByteArrayInputStream bais = new ByteArrayInputStream(mybytearray);
+				ps.setBinaryStream(7, bais, mybytearray.length);
+				bais.close();
+				if(fis!=null)
+					fis.close();
+			}
+			return mybytearray;
+		} catch (IOException | SQLException e) {
+			e.printStackTrace();
+			throw e;
+		}
+	}
 
 	@Override
-	public ArrayList<Object> handleGet(ArrayList<Object> obj) {
+	public ArrayList<Object> handleGet(ArrayList<Object> obj) throws Exception {
 		if(obj==null) return null;
 		ArrayList<Object> prds = new ArrayList<>();
-		for (int i = 0; i < obj.size(); i += 7)
+		for (int i = 0; i < obj.size(); i += 8)
 				prds.add(parse(
-						BigInteger.valueOf(Long.valueOf((int) obj.get(i))), 
+						BigInteger.valueOf((Integer) obj.get(i)), 
 						(String) obj.get(i + 1), 
 						(String) obj.get(i + 2),
 						(float) obj.get(i + 3),
 						(String) obj.get(i + 4),
 						((int)obj.get(i + 5))!= 0,
-						(String)obj.get(i+6))
-						);
+						(String)obj.get(i+6),
+						(byte[])obj.get(i+7)
+						));
 		return prds;
 	}
 
@@ -71,18 +136,20 @@ public class ProductController extends ParentController {
 			throw new Exception();
 		Product p = (Product)arr.get(0);
 		boolean isReturnNextID = (boolean)arr.get(1);
-		saveImageToProjectDir(p);
-		String res = "0";
-		if(p.isInCatalog())
-			res="1";
-		String query = "INSERT INTO product (productName, productType, price, color, inCatalog, image)"
-				+ " VALUES ('" + p.getName() + "', '" 
-				+ p.getType().name() + "', '"
-				+ p.getPrice() + "', '"
-				+ p.getColor().name() + "', '"
-				+ res + "', '"
-				+ p.getImageName() + "')";
-		EchoServer.fac.dataBase.db.updateQuery(query);
+
+		PreparedStatement pst;
+		String query="INSERT INTO product (productName, productType, price, color, inCatalog, image, imageBlob)"
+				+ " VALUES (?, ?, ?, ?, ?, ?, ?)";
+		pst=EchoServer.fac.dataBase.db.con.prepareStatement(query);
+
+		pst.setString(1, p.getName());
+		pst.setString(2, p.getType().name());
+		pst.setFloat(3, p.getPrice());
+		pst.setString(4, p.getColor().name());
+		pst.setInt(5, p.isInCatalog()?1:0);
+		pst.setString(6, p.getImageName());
+		setBlobIntoPrepState(pst, p.getImageName());
+		pst.executeUpdate();
 		if(isReturnNextID) {
 			query="SELECT Max(productID) from product";
 			myMsgArr =  EchoServer.fac.dataBase.db.getQuery(query);
@@ -96,22 +163,22 @@ public class ProductController extends ParentController {
 		return myMsgArr;
 	}
 
-	public ArrayList<Object> getProductByID(BigInteger prdID) throws SQLException {
+	public ArrayList<Object> getProductByID(BigInteger prdID) throws Exception {
 		String query = "SELECT * FROM product WHERE productID = '"+prdID+"';";
 		return handleGet(EchoServer.fac.dataBase.db.getQuery(query));
 	}
 	
-	public ArrayList<Object> getAllProducts() throws SQLException {
+	public ArrayList<Object> getAllProducts() throws Exception {
 		String query = "SELECT * FROM product";
 		return handleGet(EchoServer.fac.dataBase.db.getQuery(query));
 	}
 	
-	public ArrayList<Object> getProductsInCatalog() throws SQLException{
+	public ArrayList<Object> getProductsInCatalog() throws Exception{
 		String query = "SELECT * FROM product WHERE inCatalog='1'";
 		return handleGet(EchoServer.fac.dataBase.db.getQuery(query));
 	}
 
-	public ArrayList<Object> getAllProductsNotInCatalog() throws SQLException{
+	public ArrayList<Object> getAllProductsNotInCatalog() throws Exception{
 		String query = "SELECT * FROM product WHERE inCatalog='0'";
 		return handleGet(EchoServer.fac.dataBase.db.getQuery(query));
 	}
@@ -120,43 +187,31 @@ public class ProductController extends ParentController {
 	public ArrayList<Object> update(Object obj) throws Exception {
 		if(obj instanceof Product) {
 			Product p = (Product)obj;
-			saveImageToProjectDir(p);
-			String query = String.format("UPDATE product"
-					+ " SET productName='%s',"
-					+ " productType='%s',"
-					+ " price='%f',"
-					+ " color='%s',"
-					+ " inCatalog='%s',"
-					+ " image='%s'"
-					+ " WHERE productID='%d'", p.getName(),p.getType().name(),p.getPrice(),p.getColor().name(),
-					p.isInCatalog()?"1":"0",p.getImageName(),p.getPrdID().intValue());
-			EchoServer.fac.dataBase.db.updateQuery(query);
+			PreparedStatement pst;
+			String query="UPDATE product"
+					+ " SET productName=?,"
+					+ " productType=?,"
+					+ " price=?,"
+					+ " color=?,"
+					+ " inCatalog=?,"
+					+ " image=?,"
+					+ " imageBlob=?"
+					+ " WHERE productID=?";
+			pst=EchoServer.fac.dataBase.db.con.prepareStatement(query);
+
+			pst.setString(1, p.getName());
+			pst.setString(2, p.getType().name());
+			pst.setFloat(3, p.getPrice());
+			pst.setString(4, p.getColor().name());
+			pst.setInt(5, p.isInCatalog()?1:0);
+			pst.setString(6, p.getImageName());
+			setBlobIntoPrepState(pst, p.getImageName());
+			pst.setInt(8, p.getPrdID().intValue());
+			pst.executeUpdate();
 			myMsgArr.clear();
 			myMsgArr.add(true);
 			return myMsgArr;
 		}
 		throw new Exception();
-	}
-	
-	/**
-	 * create an folder called "images" (if not exists) to the project
-	 * directory, and saves there the picture.
-	 * @param p the product which includes all the details of the new picture.
-	 * @throws IOException
-	 * <ul>
-	 * 		<li>{@link FileOutputStream#FileOutputStream(String)} - file not exists at the path</li>
-	 * 		<li>{@link BufferedOutputStream#write(byte[])}</li>
-	 * 		<li>{@link BufferedOutputStream#close()}</li>
-	 * </ul>
-	 */
-	private void saveImageToProjectDir(Product p) throws IOException  {
-		File dir = new File(System.getProperty("user.dir")+"\\images\\");
-		if(dir.exists()==false)
-			dir.mkdir();
-		File f = new File(dir,p.getImageName());
-		FileOutputStream fos = new FileOutputStream(f.getAbsolutePath());
-		BufferedOutputStream bos = new BufferedOutputStream(fos);
-		bos.write(p.getMybytearray());
-		bos.close();
 	}
 }

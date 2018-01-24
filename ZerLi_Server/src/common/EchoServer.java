@@ -17,6 +17,9 @@ public class EchoServer extends AbstractServer {
 	/**The default port to listen on.*/
 	final public static int DEFAULT_PORT = 5555;
 	
+	public final static String projectPath = System.getProperty("user.dir") + "//";
+	public final static String tempPath = projectPath + "temp//";
+	
 	final public static Factory fac = new Factory();
 	
 	// Constructors ****************************************************
