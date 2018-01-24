@@ -44,14 +44,6 @@ public interface IOrder  {
 
 	public void getOrdersWaitingForPaymentByCustomerID(BigInteger customerID) throws IOException;
 	
-	
-	/**
-	 * adds the shipment's price to the final price of the order 
-	 * (in cart there is the final price)
-	 * @param order - the order which price needs to be updated
-	 */
-	void updatePriceWithShipment(Order order) throws IOException;
-	
 	/**
 	 * parsing the data into new Order object
 	 * @param orderID		-	the order's ID

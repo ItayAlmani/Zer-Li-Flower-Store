@@ -31,10 +31,14 @@ public class OrderController extends ParentController{
 		order.setDate(LocalDateTime.now());
 		try {
 			if (order.getDeliveryType() != null) {
-				order.getDelivery().setDeliveryID(addPickupWithOrder(order.getDelivery()));
+				
+				//update first the delivery in db
+				updatePickupWithOrderInDB(order.getDelivery());
 				if (order.getDeliveryType().equals(DeliveryType.Shipment)
 						&& order.getDelivery() instanceof ShipmentDetails) {
 					ShipmentDetails ship = (ShipmentDetails) order.getDelivery();
+					
+					//add first the shipment to db
 					ship.setShipmentID(addShipmentWithOrder(ship));
 				}
 			}
@@ -58,15 +62,12 @@ public class OrderController extends ParentController{
 		}
 	}
 
-	private BigInteger addPickupWithOrder(DeliveryDetails del) throws Exception {
+	private void updatePickupWithOrderInDB(DeliveryDetails del) throws Exception {
 		try {
 			myMsgArr.clear();
 			myMsgArr.add(del);
 			myMsgArr.add(true);
-			myMsgArr = EchoServer.fac.pickup.add(myMsgArr);
-			if (myMsgArr.get(0) instanceof BigInteger)
-				return (BigInteger) myMsgArr.get(0);
-			throw new Exception("addPickupWithOrder() error\n");
+			myMsgArr = EchoServer.fac.pickup.update(del);
 		} catch (Exception e) {
 			System.err.println(e.getMessage());
 			e.printStackTrace();
@@ -209,6 +210,14 @@ public class OrderController extends ParentController{
 		return handleGet(EchoServer.fac.dataBase.db.getQuery(query));
 	}
 
+	public ArrayList<Object> getCancelableOrdersByCustomerID(BigInteger customerID) throws Exception {
+		String query = "SELECT ord.*"
+				+	" FROM orders AS ord, deliverydetails AS del"
+				+	" WHERE customerID='" + customerID + "' AND ord.status='Paid'" + 
+					"	AND ord.deliveryID=del.deliveryID AND curdate() < del.date";
+		return handleGet(EchoServer.fac.dataBase.db.getQuery(query));
+	}
+	
 	public ArrayList<Object> getOrAddOrderInProcess(ArrayList<Object> arr) throws Exception {
 		if(arr!=null && (arr.get(0) instanceof BigInteger == false) || arr.get(1) instanceof Store == false)
 			throw new Exception();

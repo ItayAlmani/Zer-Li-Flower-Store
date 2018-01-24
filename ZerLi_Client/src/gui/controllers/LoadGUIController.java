@@ -2,6 +2,7 @@ package gui.controllers;
 
 import java.io.IOException;
 
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 
 import common.Context;
@@ -33,11 +34,11 @@ public class LoadGUIController {
 	public @FXML Label lblMsg;
 	protected @FXML Pane paneOfScene;
 	protected Region homePane;
-	protected @FXML Label lblTitle;
+	protected @FXML Label lblTitle, lblUserWelcome;
 	protected @FXML ImageView imgCart, imgLogOut;
 	protected @FXML VBox menu;
 	protected @FXML BorderPane mainPane;
-	protected @FXML HBox scenePane, panePA, paneNoPA;
+	protected @FXML HBox scenePane, panePA, paneNoPA, paneStore, paneStrManager, hbCustomer, hbChangingIcons, hbIcons;
 	protected @FXML MenuButton menuCustomers;
 	protected @FXML JFXComboBox<Store> cbStores;
 
@@ -47,8 +48,9 @@ public class LoadGUIController {
 	protected @FXML MaterialIconView icnUpdateOrder, icnManualTransaction, icnCancelOrder, icnUpdatePaymentAccount,
 									icnSub;
 	protected @FXML	FontAwesomeIconView icnAccounts;
-	protected @FXML HBox hbIcons, hbChangingIcons, hbCustomer; 
-	protected @FXML VBox paneCustServiceData, paneCustomer, paneOrders, paneCustomersInfo;
+	protected @FXML VBox paneCustServiceData, paneOrders, paneCustomersInfo;
+	
+	protected @FXML JFXButton btnReportSelector, btnSurveyReport, btnComplaints, btnUpdateCatalog, btnUpdateUsers;
 
 	protected @FXML ImageView imgLogo1, imgLogo2;
 	

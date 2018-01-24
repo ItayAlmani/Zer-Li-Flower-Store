@@ -68,12 +68,6 @@ public class UpdateCatalogGUIController implements Initializable{
 	 * true <=> the add button clicked.<br>
 	 * false <=> a product selected from the combo box.
 	 */
-	private boolean is_new_stock;
-	
-	/** 
-	 * true <=> the add button clicked.<br>
-	 * false <=> a product selected from the combo box.
-	 */
 	private boolean is_product_for_add;
 	
 	/** if store worker/manager <=> true.<br>
@@ -270,7 +264,7 @@ public class UpdateCatalogGUIController implements Initializable{
 			throw new Exception();
 		}
 		if(p!=null) {
-			String name = txtName.getText(), priceStr = txtPrice.getText(), saleStr = null;
+			String name = txtName.getText(), priceStr = txtPrice.getText();
 			Color color = cbColor.getValue();
 			ProductType type = cbType.getValue();
 			Boolean inCatalog = tglInCatalog.isSelected();
@@ -335,45 +329,9 @@ public class UpdateCatalogGUIController implements Initializable{
 	public void initialize(URL location, ResourceBundle resources) {
 		cbType.setItems(FXCollections.observableArrayList(ProductType.values()));
 		cbColor.setItems(FXCollections.observableArrayList(Color.values()));
-		/*setComboBoxToCenter(cbType);
-		setComboBoxToCenter(cbColor);
-		setComboBoxToCenter(cbProducts);*/
 		setTextFieldSizeToContent();
 		setProductsInCB();
 		tglInCatalog.selectedProperty().addListener((observable,oldValue,newValue)->toggleChanged());
-		fileChooser.setInitialDirectory(new File(System.getProperty("user.dir")+"\\src\\images\\logos\\"));
-	}
-	
-	private <T> void setComboBoxToCenter(JFXComboBox<T> cb) {
-		cb.setButtonCell(new ListCell<T>() {
-		    @Override
-		    public void updateItem(T item, boolean empty) {
-		        super.updateItem(item, empty);
-		        if (item != null) {
-		            setText(item.toString());
-		            setAlignment(Pos.CENTER);
-		            Insets old = getPadding();
-		            setPadding(new Insets(old.getTop(), 0, old.getBottom(), 0));
-		        }
-		    }
-		});
-		
-		cb.setCellFactory(new Callback<ListView<T>, ListCell<T>>() {
-		    @Override
-		    public ListCell<T> call(ListView<T> list) {
-		        return new ListCell<T>() {
-		            @Override
-		            public void updateItem(T item, boolean empty) {
-		                super.updateItem(item, empty);
-		                if (item != null) {
-		                    setText(item.toString());
-		                    setAlignment(Pos.CENTER);
-		                    setPadding(new Insets(3, 3, 3, 0));
-		                }
-		            }
-		        };
-		    }
-		});
 	}
 	
 	private void setTextFieldSizeToContent() {
@@ -403,7 +361,7 @@ public class UpdateCatalogGUIController implements Initializable{
         imgFile = fileChooser.showOpenDialog(ParentGUIController.primaryStage);
         if(imgFile != null) {
         	this.imgImage.setImage(new Image("file:"+imgFile.getAbsolutePath()));
-        	fileChooser.setInitialDirectory(imgFile.getParentFile());
+        	//fileChooser.setInitialDirectory(imgFile.getParentFile());
         }
 	}
 	
@@ -419,8 +377,19 @@ public class UpdateCatalogGUIController implements Initializable{
 	}
 	
 	public void addProd() {
-		Context.mainScene.clearMsg();
+		clearAllControls();
 		is_product_for_add=true;
+		paneItem.setVisible(true);
+	}
+	
+	private void clearAllControls() {
+		Context.mainScene.clearMsg();
+		cbColor.setValue(null);
+		if(cbProducts != null)
+			cbProducts.setValue(null);
+		else if(cbStocks != null)
+			cbStocks.setValue(null);
+		cbType.setValue(null);
 		this.imgImage.setImage(null);
 		this.txtID.setText("");
 		this.txtName.setText("");
@@ -430,6 +399,5 @@ public class UpdateCatalogGUIController implements Initializable{
 		this.tglInCatalog.setSelected(false);
 		if(isStoreWorker)
 			this.txtSale.setText("");
-		paneItem.setVisible(true);
 	}
 }

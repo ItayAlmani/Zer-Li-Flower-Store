@@ -26,13 +26,15 @@ public class ClientController {
 	public static int DEFAULT_PORT = 5555;
 	
 	/** The default host of the server */
-	public static String DEFAULT_HOST="localhost1";
+	public static String DEFAULT_HOST="localhost";
 	
 	public static boolean dbConnected = false;
 	
 	/** The text file name which contains the server's details: host and port */
 	private final static String serverTxtFileName="ServerAddress.txt";
-	private final static String txtBinPath = ClientController.class.getResource(serverTxtFileName).getPath();
+	private final static String projectPath = System.getProperty("user.dir") + "//";
+	private final static String tempPath = projectPath + "temp//";
+	private final static String txtLocalPath = tempPath + serverTxtFileName;
 	
 	/**
 	 * Analyzes the <code>csMsg</code> and calling to the suitable function which parse
@@ -160,9 +162,17 @@ public class ClientController {
 	public static void connectToServer() throws IOException{
 		int serSuccessFlag = 0;		//will be 1 if updateDB(args) succeeded
 		try {
-			Scanner scnr = null;
-			InputStream is = ClientController.class.getResourceAsStream(serverTxtFileName);
-			scnr = new Scanner(is);
+			File fInput = new File(txtLocalPath);
+			if(fInput.exists()==false) {
+				try {
+					Context.clientConsole = new ClientConsole(DEFAULT_HOST,DEFAULT_PORT);
+				} catch (IOException e) {
+					System.err.println("Context->Default Server data is wrong!\n");
+					throw e;
+				}
+				return;
+			}
+			Scanner scnr = new Scanner(fInput);
 			scnr.useDelimiter("\\w");
 			String[] args = new String[2];
 			for(int i = 0;i<2 && scnr.hasNextLine();i++) {
@@ -170,7 +180,6 @@ public class ClientController {
 				args[i]= tempSplit[tempSplit.length-1];
 			}
 			scnr.close();
-			is.close();
 			Context.clientConsole = new ClientConsole(args[0],Integer.parseInt(args[1]));
 			System.out.println("Client connected to server!\n");
 			
@@ -230,10 +239,13 @@ public class ClientController {
 	 * @throws IOException - will be thrown when the .txt file not found
 	 */
 	private static void writeNewServerDataIntoTxt() throws IOException {
-		File f = new File(txtBinPath);
-		if (f.exists() == false) //Create a new file if doesn't exists yet
-			f.createNewFile();
-		PrintStream output = new PrintStream(f);
+		File fTempDir = new File(tempPath);
+		if(fTempDir.exists() == false)
+			fTempDir.mkdir();
+		File fInput = new File(txtLocalPath);
+		if (fInput.exists() == false) // Create a new file if doesn't exists yet
+			fInput.createNewFile();
+		PrintStream output = new PrintStream(fInput);
 		output.flush();//flush whole txt file
 		output.println("Host: "+DEFAULT_HOST);
 		output.println("Port: "+DEFAULT_PORT);

@@ -43,6 +43,7 @@ public class ConnectionConfigGUIController implements Initializable{
 	}
 	
 	public void updateServer() {
+		Context.mainScene.clearMsg();
 		if(txtHost.getText().equals("")==false)
 			host=txtHost.getText();
 		if(txtPort.getText().equals("")==false)
@@ -61,6 +62,7 @@ public class ConnectionConfigGUIController implements Initializable{
 	}
 	
 	public void updateDB(ActionEvent event) {
+		Context.mainScene.clearMsg();
 		if(txtUrl.getText().equals("")==false)		//if the field is empty
 			dbUrl=txtUrl.getText();
 		
