@@ -44,6 +44,7 @@ import javafx.scene.layout.BorderWidths;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import javafx.scene.control.ProgressIndicator;
 
 public class ReportSelectorGUIController implements Initializable {
 
@@ -93,6 +94,7 @@ public class ReportSelectorGUIController implements Initializable {
 	// Satisfaction Report 2 Variables
 	private @FXML Label lblQ1Ans2, lblQ3Ans2, lblQ4Ans2, lblQ5Ans2, lblQ6Ans2, lblQ7Ans2, lblQ8Ans2, lblQ2Ans2,
 			lblQ10Ans2, lblQ9Ans2, lblTotans2, lblSatisfactionStartdate2, lblSatisfactionEnddate2;
+	@FXML ProgressIndicator prglb;
 	/**
 	 * This function runs the process of displaying the report selector screen
 	 * @param stage - the stage that represents this screen
@@ -299,6 +301,7 @@ public class ReportSelectorGUIController implements Initializable {
 			setAllOrderReports(oReports);
 		else {*/
 			OrderReport rep = oReports.get(0);
+			prglb.setVisible(true);
 			LocalDate date = DatePicker1.getValue();
 			if (rep.getStoreID().equals(n) && cbTypePick1.getValue().equals(ReportType.Order)
 					&& date.equals(rep.getEndOfQuarterDate())) {
@@ -315,6 +318,7 @@ public class ReportSelectorGUIController implements Initializable {
 						lblFlowerClusum1.setText(rep.getSumPerType().get(ProductType.FlowersCluster).toString());
 					}
 				});
+				prglb.setVisible(false);
 				paneOrderReport1.setVisible(true);
 			} else {
 				Platform.runLater(new Runnable() {

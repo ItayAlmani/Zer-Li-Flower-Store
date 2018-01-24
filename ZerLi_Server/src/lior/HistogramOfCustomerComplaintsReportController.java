@@ -33,7 +33,7 @@ public class HistogramOfCustomerComplaintsReportController implements IHistogram
 					Timestamp.valueOf(date.atStartOfDay()).toString());
 		ArrayList<Object> inObjs = handleGet(EchoServer.fac.dataBase.db.getQuery(query));
 		if(inObjs == null)	throw new Exception();
-		if(inObjs.size()==1 && inObjs.get(0) instanceof SatisfactionReport)
+		if(inObjs.size()==1 && inObjs.get(0) instanceof HistogramOfCustomerComplaintsReport)
 			return inObjs;
 		else if(inObjs.isEmpty())
 			return produceHistogramOfCustomerComplaintsReport(date, store);
@@ -53,9 +53,7 @@ public class HistogramOfCustomerComplaintsReportController implements IHistogram
 		this.ccReport.setNotTreatedCnt(0);
 		this.ccReport.setRefundedCnt(0);
 		this.ccReport.setTreatedCnt(0);
-		ArrayList<Object> obj=new ArrayList<>();
-		obj.add(store);
-		return analyzeComplaints(EchoServer.fac.complaint.getComplaintsByStore(obj));
+		return analyzeComplaints(EchoServer.fac.complaint.getComplaintsByStore(store));
 	}
 	/* (non-Javadoc)
 	 * @see lior.IHistogramOfCustomerCompaintsReportController
@@ -100,7 +98,7 @@ public class HistogramOfCustomerComplaintsReportController implements IHistogram
 	
 	@Override
 	public ArrayList<Object> handleGet(ArrayList<Object> obj){
-		if (obj == null || obj.size()<4)
+		if (obj == null || obj.size()<5)
 			return new ArrayList<>();
 		ArrayList<Object> hrs = new ArrayList<>();
 		BigInteger storeID = BigInteger.valueOf((Integer) obj.get(0));
@@ -108,19 +106,21 @@ public class HistogramOfCustomerComplaintsReportController implements IHistogram
 		HistogramOfCustomerComplaintsReport hr = new HistogramOfCustomerComplaintsReport(endDate,storeID);
 		hr.setEnddate(endDate);
 		hr.setStartdate(endDate.minusMonths(3).plusDays(1));
-		for (int i = 0; i < obj.size(); i += 4) {
+		for (int i = 0; i < obj.size(); i += 5) {
 			parse(	hr,
 					(Integer) obj.get(i + 2),
-					(Integer) obj.get(i + 3)
+					(Integer) obj.get(i + 3),
+					(Integer) obj.get(i + 4)
 				);
 		}
 		hrs.add(hr);
 		return hrs;
 	}
 	
-	private void parse(HistogramOfCustomerComplaintsReport hr,Integer Trtcnt,Integer rfndcnt) {
+	private void parse(HistogramOfCustomerComplaintsReport hr,Integer Trtcnt,Integer rfndcnt,Integer NotTrtcnt) {
 		hr.setTreatedCnt(Trtcnt);
 		hr.setRefundedCnt(rfndcnt);
+		hr.setNotTreatedCnt(NotTrtcnt);
 	}
 
 	@Override
@@ -131,11 +131,11 @@ public class HistogramOfCustomerComplaintsReportController implements IHistogram
 		ArrayList<String> queries = new ArrayList<>();
 		queries.add(String.format(
 				"INSERT INTO histogramreport"
-				+ " (storeID, endOfQuarterDate,Treatedcnt,Refundedcnt)"
-				+ " VALUES ('%d', '%s','%d','%d');",
+				+ " (storeID, endOfQuarterDate,Treatedcnt,Refundedcnt,NotTreatedcnt)"
+				+ " VALUES ('%d', '%s','%d','%d',%d);",
 				hr.getStoreID(),
 				Timestamp.valueOf(hr.getEndOfQuarterDate().atStartOfDay()).toString(),
-				hr.getTreatedCnt(),hr.getRefundedCnt()));
+				hr.getTreatedCnt(),hr.getRefundedCnt(),hr.getNotTreatedCnt()));
 		EchoServer.fac.dataBase.db.insertWithBatch(queries);
 		return null;
 	}

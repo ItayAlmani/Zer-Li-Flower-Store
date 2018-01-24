@@ -8,6 +8,7 @@
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.chart.StackedBarChart?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressIndicator?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
@@ -196,5 +197,6 @@
             <Label fx:id="lblSatisfactionEnddate2" layoutX="209.0" layoutY="55.0" text="EndDate" />
          </children>
       </AnchorPane>
+      <ProgressIndicator fx:id="prglb" layoutX="113.0" layoutY="275.0" progress="0.0" visible="false" />
    </children>
 </AnchorPane>
