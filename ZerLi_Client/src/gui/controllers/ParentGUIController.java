@@ -20,6 +20,10 @@ import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import javafx.fxml.FXML;
+import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
+import com.jfoenix.controls.JFXButton;
 
 /**
  * The Controller of {@code MainScene.fxml}. This controller handles the fxml itself.<br>
@@ -57,6 +61,7 @@ public class ParentGUIController extends SetUpMainGUIController implements Initi
 	private void setUpMenus() {
 		if(Context.getUser()!=null) {
 			UserType perm = Context.getUser().getPermissions();
+			setWelcomeLabel(perm,Context.getUser().getFullName());
 			switch (perm) {
 			case Customer:
 				setUpCustomerMenu();
@@ -211,7 +216,7 @@ public class ParentGUIController extends SetUpMainGUIController implements Initi
 	 * When {@link Store} in the {@link LoadGUIController#cbStores} is changed, the function will
 	 * invoke {@link #getNewOrderByStore(boolean)}
 	 */
-	public void storeChanged() {
+	@FXML public void storeChanged() {
 		getNewOrderByStore(true);
 	}
 }

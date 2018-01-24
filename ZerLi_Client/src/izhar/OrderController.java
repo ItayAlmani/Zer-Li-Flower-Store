@@ -139,11 +139,6 @@ public class OrderController extends ParentController implements IOrder {
 		return null;
 	}
 
-	@Override
-	public void updatePriceWithShipment(Order order) {
-		order.setFinalPrice(order.getFinalPrice()+ShipmentDetails.shipmentPrice);
-	}
-
 	public boolean isCancelable(Order order) {
 		return order.getOrderStatus().equals(OrderStatus.Paid) && 
 				order.getDelivery()!=null &&
@@ -231,6 +226,13 @@ public class OrderController extends ParentController implements IOrder {
 	
 	@Override
 	public void getOrdersByCustomerID(BigInteger customerID) throws IOException {
+		myMsgArr.clear();
+		myMsgArr.add(Thread.currentThread().getStackTrace()[1].getMethodName());
+		myMsgArr.add(customerID);
+		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.SELECT, myMsgArr, Order.class));
+	}
+	
+	public void getCancelableOrdersByCustomerID(BigInteger customerID) throws IOException {
 		myMsgArr.clear();
 		myMsgArr.add(Thread.currentThread().getStackTrace()[1].getMethodName());
 		myMsgArr.add(customerID);

@@ -8,6 +8,7 @@ import common.MainClient;
 import entities.Customer;
 import entities.PaymentAccount;
 import entities.Store;
+import entities.User.UserType;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -15,11 +16,21 @@ import javafx.scene.Node;
 import javafx.scene.control.Tooltip;
 
 public class SetUpMainGUIController extends LoadGUIController {
+	
+	/** the first String will be the permission, and the seconed is the full name*/
+	private final static String welcome_message = "Welcome %s %s"; 
+	
 	protected void setUpInit() throws IOException {
 		ObservableList<Node> child = hbChangingIcons.getChildren();
 		child.clear();
 		imgLogo1.setImage(MainClient.getLogoAsImage());
 		imgLogo2.setImage(MainClient.getLogoAsImage());
+	}
+	
+	protected void setWelcomeLabel(UserType perm, String user_full_name) {
+		if(Platform.isFxApplicationThread())
+			lblUserWelcome.setText(String.format(welcome_message, perm.toString(),user_full_name));
+		else Platform.runLater(()->lblUserWelcome.setText(String.format(welcome_message, perm.toString(),user_full_name)));
 	}
 	
 	protected void setUpCustomerMenu() {
@@ -44,7 +55,7 @@ public class SetUpMainGUIController extends LoadGUIController {
 			}
 			ObservableList<Node> child = hbChangingIcons.getChildren();
 			child.clear();
-			child.add(paneCustomer);
+			child.add(hbCustomer);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -53,37 +64,37 @@ public class SetUpMainGUIController extends LoadGUIController {
 	protected void setUpStoreWorkerMenu() {
 		ObservableList<Node> child = hbChangingIcons.getChildren();
 		child.clear();
-		child.addAll(paneCustServiceData,paneOrders);
+		child.addAll(paneStore);
 	}
 	
 	protected void setUpStoreManagerMenu() {
 		ObservableList<Node> child = hbChangingIcons.getChildren();
 		child.clear();
-		child.addAll(paneCustServiceData,paneOrders,paneCustomersInfo);
+		child.addAll(paneStore, paneStrManager, btnReportSelector, btnUpdateCatalog);
 	}
 	
 	protected void setUpServiceExpertMenu() {
 		ObservableList<Node> child = hbChangingIcons.getChildren();
 		child.clear();
-		child.addAll(paneCustServiceData,paneCustomersInfo);
+		child.addAll(btnSurveyReport);
 	}
 	
 	protected void setUpCustomerServiceWorkerMenu() {
 		ObservableList<Node> child = hbChangingIcons.getChildren();
 		child.clear();
-		child.addAll(paneCustServiceData,paneCustomersInfo);
+		child.addAll(btnComplaints);
 	}
 	
 	protected void setUpChainStoreWorkerMenu() {
 		ObservableList<Node> child = hbChangingIcons.getChildren();
 		child.clear();
-		child.addAll(paneCustServiceData,paneOrders);
+		child.addAll(btnUpdateCatalog, btnUpdateUsers);
 	}
 	
 	protected void setUpChainStoreManagerMenu() {
 		ObservableList<Node> child = hbChangingIcons.getChildren();
 		child.clear();
-		child.addAll(paneCustServiceData,paneOrders);
+		child.addAll(btnReportSelector, btnUpdateCatalog, btnUpdateUsers);
 	}
 
 	protected void setUpToolTips() {
@@ -105,8 +116,11 @@ public class SetUpMainGUIController extends LoadGUIController {
 	}
 	
 	public void setMenuPaneDisable(boolean disable) {
-		if(Platform.isFxApplicationThread())
+		if(Platform.isFxApplicationThread()) {
 			menu.setDisable(disable);
-		else Platform.runLater(()->menu.setDisable(disable));
+		}
+		else Platform.runLater(()->{
+			menu.setDisable(disable);
+		});
 	}
 }

@@ -19,6 +19,8 @@ import entities.Customer;
 import entities.DeliveryDetails;
 import entities.Order;
 import entities.PaymentAccount;
+import entities.ShipmentDetails;
+import entities.Order.DeliveryType;
 import entities.Order.OrderStatus;
 import entities.Order.PayMethod;
 import gui.controllers.ParentGUIController;
@@ -30,6 +32,7 @@ import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.Tooltip;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -64,9 +67,17 @@ public class PaymentGUIController implements Initializable {
 		try {
 			cust = Context.getUserAsCustomer();
 			DeliveryDetails del = Context.order.getDelivery();
-			pa = Context.fac.paymentAccount.getPaymentAccountOfStore(cust.getPaymentAccounts(), del.getStore());
+			pa = Context.fac.paymentAccount.getPaymentAccountOfStore(cust.getPaymentAccounts(),
+					del.getStore());
 			this.refund_before_disc = pa.getRefundAmount();
-			this.price_after_disc = Context.fac.order.getFinalPriceByPAT(pa, Context.order,Context.getUserAsCustomer());
+			this.price_after_disc = Context.fac.order.getFinalPriceByPAT(pa,
+					Context.order,
+					Context.getUserAsCustomer());
+			//add delivery price after the discounts
+			if(Context.order.getDeliveryType().equals(DeliveryType.Shipment)) {
+				price_before_disc+=ShipmentDetails.shipmentPrice;
+				this.price_after_disc+=ShipmentDetails.shipmentPrice;
+			}
 			if(refund_before_disc>0) {
 				if(refund_before_disc>price_before_disc) {
 					lblFinalPrice.setText(priceToString(price_before_disc) + "-" + 
@@ -75,6 +86,7 @@ public class PaymentGUIController implements Initializable {
 					refund_after_disc = refund_before_disc-price_before_disc;
 					Context.order.setPaymentMethod(PayMethod.Refund);
 					panePaySelect.setVisible(false);
+					btnPay.setOnAction(e->pay());
 				}
 				else {
 					lblFinalPrice.setText(priceToString(price_before_disc) + "-" + 
@@ -82,6 +94,7 @@ public class PaymentGUIController implements Initializable {
 							priceToString(price_after_disc));
 					refund_after_disc = 0f;
 				}
+				lblFinalPrice.setTooltip(new Tooltip("Price before refund amount - current refund amount = price to pay"));
 				Context.mainScene.setMessage("You got "+priceToString(refund_after_disc) + " refund left");
 			}
 			else
@@ -102,6 +115,8 @@ public class PaymentGUIController implements Initializable {
 		btnPay.setText("Pay Now!");
 		icnNext.setGlyphName(MaterialDesignIcon.CUBE_SEND.toString());
 		
+		btnPay.setOnAction(e->payWithCC());
+		
 		Paint ccColor = Color.ORANGE, cashColor = Color.RED;
 		icnCreditCard.setFill(ccColor);
 		rbCredit.setTextFill(ccColor);
@@ -112,11 +127,9 @@ public class PaymentGUIController implements Initializable {
 	}
 
 	public void selectedCash() {
-		//lblPayMsg.setText("Order won't be complete until payment");
 		lblPayMsg.setText("Don't forget to pay!");
 		lblPayMsg.setUnderline(true);
-		btnPay.setText("Next");
-		icnNext.setGlyphName(MaterialDesignIcon.ARROW_RIGHT_BOLD_CIRCLE.toString());
+		btnPay.setOnAction(e->pay());
 		
 		Paint ccColor = Color.RED, cashColor = Color.ORANGE;
 		icnCreditCard.setFill(ccColor);
@@ -213,6 +226,8 @@ public class PaymentGUIController implements Initializable {
 			pa.setRefundAmount(refund_after_disc);
 			ord.setFinalPrice(price_after_disc);
 		}
+		else
+			ord.setFinalPrice(price_before_disc);
 		try {
 			Context.fac.paymentAccount.update(pa);
 			
@@ -225,12 +240,6 @@ public class PaymentGUIController implements Initializable {
 	}
 	
 	public void setOrderID(BigInteger id) {
-		/*try {
-			if(Context.order!=null && Context.order.getOrderID()!=null)
-				Context.fac.stock.update(Context.order);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}*/
 		Context.mainScene.setMenuPaneDisable(false);
 		btnBack.setDisable(false);
 		Context.mainScene.loadGUI("OrderGUI", false);

@@ -42,7 +42,7 @@ public class CancelOrderGUIController implements Initializable {
 		btnCancelOrder.setOnAction(confirmCancelOrderEventHandler);
 		try {
 			Context.mainScene.setMenuPaneDisable(true);
-			Context.fac.order.getOrdersByCustomerID(Context.getUserAsCustomer().getCustomerID());
+			Context.fac.order.getCancelableOrdersByCustomerID(Context.getUserAsCustomer().getCustomerID());
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -58,21 +58,19 @@ public class CancelOrderGUIController implements Initializable {
  */
 	public void setOrders(ArrayList<Order> ord) {
 		Context.mainScene.setMenuPaneDisable(false);
+		/*ArrayList<Order> ords = new ArrayList<Order>();
+		if (ord != null && ord.isEmpty() == false) {
+			for (Order order : ord)
+				if (Context.fac.order.isCancelable(order))
+					ords.add(order);
+		} */
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
-				ArrayList<Order> ords = new ArrayList<Order>();
-				if (ord != null && ord.isEmpty() == false) {
-					for (Order order : ord)
-						if (Context.fac.order.isCancelable(order))
-							ords.add(order);
-					if (ords.isEmpty() == false) {
-						paidOrders = FXCollections.observableArrayList(ords);
-						cbsOrders.setItems(paidOrders);
-						cbsOrders.setDisable(false);
-					} 
-					else
-						Context.mainScene.setMessage("No orders to cancel");
+				if (ord.isEmpty() == false) {
+					paidOrders = FXCollections.observableArrayList(ord);
+					cbsOrders.setItems(paidOrders);
+					cbsOrders.setDisable(false);
 				} 
 				else
 					Context.mainScene.setMessage("No orders to cancel");
