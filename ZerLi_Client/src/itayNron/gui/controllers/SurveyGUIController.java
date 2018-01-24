@@ -36,9 +36,9 @@ public class SurveyGUIController implements Initializable {
 
 	/**
 	 * <p>
-	 * Function to send filled survey to DB
+	 * Function to send filled {@link Survey} to DB
 	 * </p>
-	 * @throws IOException Context.clientConsole.handleMessageFromClientUI throws IOException.
+	 * @throws IOException 
 	 */
 	@FXML public void sendSurvey() throws IOException {
 		/*StoreWorker sw = Context.getUserAsStoreWorker();

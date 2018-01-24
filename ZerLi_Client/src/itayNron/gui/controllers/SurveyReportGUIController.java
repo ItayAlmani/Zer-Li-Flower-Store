@@ -32,7 +32,7 @@ public class SurveyReportGUIController implements Initializable
 	 * <p>
 	 * Function to load analyzes of surveys in specific range of dates
 	 * </p>
-	 * @throws IOException Context.clientConsole.handleMessageFromClientUI throws IOException.
+	 * @throws IOException 
 	 */
 	@FXML public void loadSurveyAnalyzesToGUI() throws IOException {
 		Context.mainScene.setMenuPaneDisable(true);
@@ -43,7 +43,7 @@ public class SurveyReportGUIController implements Initializable
 	 * <p>
 	 * Function to add new surveyReport to DB
 	 * </p>
-	 * @throws IOException Context.clientConsole.handleMessageFromClientUI throws IOException.
+	 * @throws IOException 
 	 */
 	@FXML public void sendSurveyReport() throws IOException
 	{
@@ -55,7 +55,10 @@ public class SurveyReportGUIController implements Initializable
 		Context.fac.surveyReport.add(sr, false);
 	}
 	
-	
+	/**
+	 * 
+	 * @param surveys
+	 */
 	public void setSurveyReports(ArrayList<SurveyReport> surveys) {
 		Context.mainScene.setMenuPaneDisable(false);
 		if(surveys!=null && surveys.size()!=0&&surveys.get(0)!=null) {

@@ -37,9 +37,10 @@ public interface IComplaint{
 	void getComplaintsByStore(BigInteger storeID) throws IOException;
 /**
  * Function to get all complaints object which didn't got treated
+ * @param cswID TODO
  * @throws IOException Context.clientConsole.handleMessageFromClientUI throws IOException.
  */
-	void getNotTreatedComplaints() throws IOException;
+	void getNotTreatedComplaints(BigInteger cswID) throws IOException;
 
 
 /**

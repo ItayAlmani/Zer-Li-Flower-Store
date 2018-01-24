@@ -51,10 +51,9 @@ public class CancelOrderGUIController implements Initializable {
 
 	}
 /**
- * <p>
  * Function to set untreated orders from DB into comboBox
- * </p>
- * @param ord - arrayList of orders to check if them can be canceled. in case they are, add them to comboBox
+
+ * @param ord - arrayList of orders to check if they can be canceled. in case they are, add them to comboBox
  */
 	public void setOrders(ArrayList<Order> ord) {
 		Context.mainScene.setMenuPaneDisable(false);
@@ -109,9 +108,7 @@ public class CancelOrderGUIController implements Initializable {
 	};
 
 	/**
-	 * <p>
-	 * Function to able customer to cancel orders
-	 * </p>
+	 * Function to able {@link Customer} to cancel {@link Order}
 	 * @throws IOException Context.clientConsole.handleMessageFromClientUI throws IOException.
 	 */
 	public void cancelOrder() throws IOException {
@@ -152,9 +149,10 @@ public class CancelOrderGUIController implements Initializable {
 				Context.fac.paymentAccount.update(pa);
 			cbsOrders.setValue(null);
 			paidOrders.remove(ord);
+			Context.mainScene.setMessage(msg);
 			if (paidOrders.isEmpty() == false) {
 				cbsOrders.setDisable(false);
-				Context.mainScene.setMessage(msg);
+			
 			}
 			else
 				Context.mainScene.setMessage("No orders to cancel");
@@ -166,9 +164,8 @@ public class CancelOrderGUIController implements Initializable {
 	}
 
 	/**
-	 * <p>
-	 * Function to enable the cancel button. <br>
-	 * If customer doesn't have orders to cancel or order hasn't been selected from comboBox,</br>don't enable the cancel button.
+	 * Function to enable the <b>cancel</b> button. <br>
+	 * If {@link Customer} doesn't have {@link Order}s to cancel or {@link Order} hasn't been selected from {@link comboBox} ,</br>don't enable the cancel button.
 	 */
 	public void orderSelected() {
 		if (cbsOrders.getValue() != null)
