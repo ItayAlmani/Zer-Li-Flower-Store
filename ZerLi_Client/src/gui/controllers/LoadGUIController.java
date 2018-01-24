@@ -192,7 +192,8 @@ public class LoadGUIController {
 	}
 
 	public void loadGUI(String guiName, boolean withCSS) {
-		if (Context.clientConsole == null || Context.clientConsole.isConnected() == false) {
+		if (guiName != null && guiName.equals("ConnectionConfigGUI")==false &&
+				(Context.clientConsole == null || Context.clientConsole.isConnected() == false)) {
 			setServerUnavailable();
 			return;
 		}
@@ -265,7 +266,7 @@ public class LoadGUIController {
 				Context.mainScene.setMessage("Connection failed");
 			}
 		});
-		changeScene("ConnectionConfigGUI", null);
+		//changeScene("ConnectionConfigGUI", null);
 		loadConnectionGUI();
 	}
 

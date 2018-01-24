@@ -106,12 +106,16 @@ public class DataBaseController {
 			updateDB(dbData);
 			writeNewDBDataIntoTxt();
 			dbSuccessFlag = 1;
+			EchoServer.fac.setComplaintController();
+			EchoServer.fac.qurReport.setAutoProductionTimer();
 		} catch (SQLException | IOException e) {
 			System.err.println("Default Data Base data is wrong!\nGo to EchoServer to fix it!\n");
 		}
 		if (dbSuccessFlag == 0) { // db data corrupted
 			try {
 				updateDB(dbUrl_default, dbName_default, dbName_default, dbPassword_default);
+				EchoServer.fac.setComplaintController();
+				EchoServer.fac.qurReport.setAutoProductionTimer();
 			} catch (SQLException  e) {
 				db = null;
 				System.err.println(

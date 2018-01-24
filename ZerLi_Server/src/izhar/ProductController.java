@@ -40,6 +40,7 @@ public class ProductController extends ParentController {
 		
 			bis.read(mybytearray,0,mybytearray.length);
 			bis.close();
+			System.out.println("The array size is "+mybytearray.length);
 			return mybytearray;
 		} catch (IOException e) {
 			e.printStackTrace();

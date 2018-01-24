@@ -26,7 +26,7 @@ public class ClientController {
 	public static int DEFAULT_PORT = 5555;
 	
 	/** The default host of the server */
-	public static String DEFAULT_HOST="localhost";
+	public static String DEFAULT_HOST="localhost1";
 	
 	public static boolean dbConnected = false;
 	
