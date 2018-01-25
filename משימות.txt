@@ -4,18 +4,19 @@ iNr:
 	V לשנות בCOMPLAINTS, שהSTORENAME יופיע ולא הID.
 	V להוסיף לCOMPLAINTS, לשמור את עובד שירות הלקוחות שהוסיף את התלונה
 	Vלכל עובד יכול לטפל רק בתלונות שהוא הוסיף - WHERE USERID=Context.getUser().getID()
-	*להפוך את CSW לFK
+	Vלהפוך את CSW לFK
 	V אחרי שנוספה תלונה, צריך להוסיף אותה אל ה-CB של התלונות
 	 cancel order V לא מחזירה את הREFUND הנכון + הrefundAmount החדש דורס הנוכחי (צריך לעשות currentRefund+= ולא currRefund=)
 יזהר:
-	* ##אם שולם CASH, לסמן כ-PAID## + הICON והBTN לא משתנים
-	* לסדר את עניין ה-disable של ה-menu
+	V אם שולם CASH, לסמן כ-PAID + הICON והBTN לא משתנים
+	V לסדר את עניין ה-disable של ה-menu
 	* לסדר את המחירים של ה-SLIDER ב-ASSEMBLE + בASSEMBLE לסדר את הSLIDER לפי הטווח לאחר SUB
-	* בטעינת הCART מחדש, אם שונה המחיר (בגלל הנחה חדשה לדוגמא), אוטומטית מתעדכן המסד
+	* ??לא זוכר למה?? בטעינת הCART מחדש, אם שונה המחיר (בגלל הנחה חדשה לדוגמא), אוטומטית מתעדכן המסד
 	* לבדוק בORDER TIME את הSLIDERS + לסדר שיהיו הפרשי רבע שעה בדקות
-	* אם ישאר החיוב על ההזמנה כמו שהוא - להסביר את: מחיר הזמנה - REFUND AMOUNT = מחיר לאחר REFUND AMOUNT
-	* אם לא משלם בכלל בגלל REFUND (מחיר = 0), להוריד את הPROGGRESSBAR של חיוב האשראי
-	* ??למה יש delivery אחד ריק ואז אחד לא ריק??
+	V אם ישאר החיוב על ההזמנה כמו שהוא - להסביר את: מחיר הזמנה - REFUND AMOUNT = מחיר לאחר REFUND AMOUNT
+	V אם לא משלם בכלל בגלל REFUND (מחיר = 0), להוריד את הPROGGRESSBAR של חיוב האשראי
+	V למה יש delivery אחד ריק ואז אחד לא ריק
+	V לסדר שבUPDATECATALOG אם נבחר מוצר, ואז נלחץ ADD, לעשות SETVALUE(NULL)
 
 ?? - שאלה
 ** משימה
