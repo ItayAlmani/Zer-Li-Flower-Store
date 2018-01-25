@@ -6,12 +6,13 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 import common.EchoServer;
+import controllers.ParentController;
 import entities.SatisfactionReport;
 import entities.Survey;
 import entities.Survey.SurveyType;
 import lior.interfaces.ISatisfactionReportController;
 
-public class SatisfactionReportController implements ISatisfactionReportController {
+public class SatisfactionReportController extends ParentController implements ISatisfactionReportController {
 	private SatisfactionReport sReport;
 	
 	public ArrayList<Object> getSatisfactionReport(ArrayList<Object> arr) throws Exception {

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXComboBox?>
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView?>
@@ -37,7 +38,6 @@
          <top>
             <VBox fx:id="menu" alignment="TOP_CENTER" styleClass="menu" visible="false" BorderPane.alignment="CENTER">
                <children>
-                  <HBox alignment="CENTER" />
                   <HBox alignment="CENTER" spacing="10.0">
                      <children>
                         <ImageView fx:id="imgLogo1" fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true" />
@@ -45,162 +45,141 @@
                            <children>
                               <VBox alignment="CENTER">
                                  <children>
-                                    <Label />
+                                    <Label fx:id="lblUserWelcome" />
                                     <HBox alignment="CENTER" spacing="10.0">
                                        <children>
-                                          <Label contentDisplay="TOP" graphicTextGap="0.0" onMouseClicked="#loadMainMenu" styleClass="lblColoredIcon" text="Home" textAlignment="CENTER" textOverrun="CLIP">
+                                          <JFXButton buttonType="RAISED" contentDisplay="TOP" graphicTextGap="0.0" onAction="#loadMainMenu" ripplerFill="ORANGE" styleClass="lblColoredIcon" text="Home" textAlignment="CENTER" textOverrun="CLIP">
                                              <graphic>
                                                 <MaterialDesignIconView fontSmoothingType="LCD" glyphName="HOME" size="30" styleClass="coloredIcon" textAlignment="CENTER" />
                                              </graphic>
                                              <font>
                                                 <Font name="Bauhaus 93" size="12.0" />
                                              </font>
-                                          </Label>
-                                          <Label contentDisplay="TOP" graphicTextGap="0.0" onMouseClicked="#logOut" styleClass="lblColoredIcon" text="Log Out" textAlignment="CENTER" textOverrun="CLIP" wrapText="true">
+                                          </JFXButton>
+                                          <JFXButton buttonType="RAISED" contentDisplay="TOP" graphicTextGap="0.0" onAction="#logOut" ripplerFill="ORANGE" styleClass="lblColoredIcon" text="Log Out" textAlignment="CENTER" textOverrun="CLIP">
                                              <graphic>
                                                 <MaterialDesignIconView fx:id="icnLogOut" fontSmoothingType="LCD" glyphName="LOGOUT" size="30.0" styleClass="coloredIcon" textAlignment="CENTER" />
                                              </graphic>
-                                          </Label>
+                                          </JFXButton>
                                        </children>
                                     </HBox>
                                  </children>
+                                 <HBox.margin>
+                                    <Insets right="20.0" />
+                                 </HBox.margin>
                               </VBox>
                               <HBox fx:id="hbChangingIcons" alignment="CENTER">
                                  <children>
-                                    <VBox fx:id="paneCustomer" alignment="CENTER" spacing="5.0" styleClass="menuVBox">
+                                    <HBox fx:id="hbCustomer" alignment="CENTER" spacing="10.0">
                                        <children>
-                                          <Label styleClass="menuTitle" text="Products and cart" textAlignment="CENTER" textOverrun="CLIP" wrapText="true" />
-                                          <HBox fx:id="hbCustomer" alignment="CENTER" spacing="10.0">
+                                          <HBox fx:id="panePA" alignment="CENTER" spacing="10.0">
                                              <children>
-                                                <HBox fx:id="panePA" alignment="CENTER" spacing="10.0">
-                                                   <children>
-                                                      <Label contentDisplay="TOP" graphicTextGap="0.0" styleClass="lblColoredIcon" text="Cart" textAlignment="CENTER" textOverrun="CLIP" wrapText="true">
-                                                         <graphic>
-                                                            <MaterialDesignIconView fx:id="icnCart" fontSmoothingType="LCD" glyphName="CART" onMouseClicked="#loadCart" size="30.0" styleClass="coloredIcon" textAlignment="CENTER" />
-                                                         </graphic>
-                                                      </Label>
-                                                      <Label contentDisplay="TOP" graphicTextGap="0.0" maxWidth="70.0" onMouseClicked="#loadCancelOrder" styleClass="lblColoredIcon" text="Cancel Order" textAlignment="CENTER" textOverrun="CLIP" wrapText="true">
-                                                         <graphic>
-                                                            <MaterialIconView fx:id="icnCancelOrder" fontSmoothingType="LCD" glyphName="CANCEL" size="30" styleClass="coloredIcon" textAlignment="CENTER">
-                                                               <font>
-                                                                  <Font name="Material Icons" size="12.0" />
-                                                               </font>
-                                                            </MaterialIconView>
-                                                         </graphic>
-                                                      </Label>
-                                                   </children>
-                                                </HBox>
-                                                <HBox fx:id="paneNoPA" alignment="CENTER" spacing="10.0">
-                                                   <children>
-                                                      <Label contentDisplay="TOP" graphicTextGap="0.0" onMouseClicked="#loadCatalog" styleClass="lblColoredIcon" text="Catalog" textAlignment="CENTER" textOverrun="CLIP" wrapText="true">
-                                                         <graphic>
-                                                            <OctIconView fx:id="icnCatalog" fontSmoothingType="LCD" glyphName="BOOK" size="30" styleClass="coloredIcon" />
-                                                         </graphic>
-                                                      </Label>
-                                                      <Label contentDisplay="TOP" graphicTextGap="0.0" onMouseClicked="#loadAssembleProduct" styleClass="lblColoredIcon" text="Assemble" textAlignment="CENTER" textOverrun="CLIP" wrapText="true">
-                                                         <graphic>
-                                                            <MaterialDesignIconView fx:id="icnAssemble" fontSmoothingType="LCD" glyphName="FLOWER" size="30" styleClass="coloredIcon" />
-                                                         </graphic>
-                                                      </Label>
-                                                   </children>
-                                                </HBox>
-                                             </children>
-                                          </HBox>
-                                       </children>
-                                    </VBox>
-                                    <VBox fx:id="paneCustServiceData" alignment="CENTER" spacing="5.0" styleClass="menuVBox">
-                                       <children>
-                                          <Label styleClass="menuTitle" text="Customer Services Data" textAlignment="CENTER" textOverrun="CLIP" wrapText="true" />
-                                          <HBox alignment="CENTER" spacing="10.0">
-                                             <children>
-                                                <Label contentDisplay="TOP" graphicTextGap="0.0" styleClass="lblColoredIcon" text="Survey" textAlignment="CENTER" textOverrun="CLIP" wrapText="true">
+                                             <JFXButton buttonType="RAISED" contentDisplay="TOP" graphicTextGap="0.0" onAction="#loadCart" ripplerFill="ORANGE" styleClass="lblColoredIcon" text="Cart" textAlignment="CENTER" textOverrun="CLIP">
                                                    <graphic>
-                                                      <MaterialDesignIconView fx:id="icnSurvey" fontSmoothingType="LCD" glyphName="CLIPBOARD_CHECK" onMouseClicked="#loadSurvey" size="30" styleClass="coloredIcon" textAlignment="CENTER" />
+                                                      <MaterialDesignIconView fx:id="icnCart" fontSmoothingType="LCD" glyphName="CART" size="30.0" styleClass="coloredIcon" textAlignment="CENTER" />
                                                    </graphic>
-                                                </Label>
-                                                <Label contentDisplay="TOP" graphicTextGap="0.0" onMouseClicked="#loadSurveyReport" styleClass="lblColoredIcon" text="Survey Report" textAlignment="CENTER" textOverrun="CLIP" wrapText="true">
+                                                </JFXButton>
+                                                <JFXButton buttonType="RAISED" contentDisplay="TOP" graphicTextGap="0.0" onAction="#loadCancelOrder" ripplerFill="ORANGE" styleClass="lblColoredIcon" text="Cancel Order" textAlignment="CENTER" textOverrun="CLIP">
                                                    <graphic>
-                                                      <MaterialDesignIconView fx:id="icnSurveyReport" glyphName="CLIPBOARD_TEXT" size="30" styleClass="coloredIcon" />
-                                                   </graphic>
-                                                </Label>
-                                                <Label contentDisplay="TOP" graphicTextGap="0.0" maxWidth="70.0" onMouseClicked="#loadReportSelector" styleClass="lblColoredIcon" text="Report Selector" textAlignment="CENTER" textOverrun="CLIP" wrapText="true">
-                                                   <graphic>
-                                                      <OctIconView fx:id="icnReportSelector" fontSmoothingType="LCD" glyphName="GRAPH" size="30" styleClass="coloredIcon" textAlignment="CENTER" />
-                                                   </graphic>
-                                                </Label>
-                                                <Label contentDisplay="TOP" graphicTextGap="0.0" onMouseClicked="#loadComplaints" styleClass="lblColoredIcon" text="Complaints" textAlignment="CENTER" textOverrun="CLIP" wrapText="true">
-                                                   <graphic>
-                                                      <MaterialDesignIconView fx:id="icnComplaints" fontSmoothingType="LCD" glyphName="ACCOUNT_ALERT" size="30" styleClass="coloredIcon" textAlignment="CENTER" />
-                                                   </graphic>
-                                                </Label>
-                                                <Label contentDisplay="TOP" graphicTextGap="0.0" maxWidth="50.0" onMouseClicked="#loadAccountsManage" styleClass="lblColoredIcon" text="Users Accounts" textAlignment="CENTER" textOverrun="CLIP" wrapText="true">
-                                                   <graphic>
-                                                      <FontAwesomeIconView fx:id="icnAccounts" fontSmoothingType="LCD" glyphName="EDIT" size="30" styleClass="coloredIcon" textAlignment="CENTER" />
-                                                   </graphic>
-                                                </Label>
-                                             </children>
-                                          </HBox>
-                                       </children>
-                                    </VBox>
-                                    <VBox fx:id="paneOrders" alignment="CENTER" spacing="5.0" styleClass="menuVBox">
-                                       <children>
-                                          <Label styleClass="menuTitle" text="Orders" textAlignment="CENTER" textOverrun="CLIP" wrapText="true" />
-                                          <HBox alignment="CENTER" spacing="10.0">
-                                             <children>
-                                                <Label contentDisplay="TOP" graphicTextGap="0.0" maxWidth="70.0" onMouseClicked="#loadUpdateOrder" prefHeight="65.0" styleClass="lblColoredIcon" text="Update Order Status" textAlignment="CENTER" textOverrun="CLIP" wrapText="true">
-                                                   <graphic>
-                                                      <MaterialIconView fx:id="icnUpdateOrder" glyphName="EDIT" size="30" styleClass="coloredIcon">
+                                                      <MaterialIconView fx:id="icnCancelOrder" fontSmoothingType="LCD" glyphName="CANCEL" size="30" styleClass="coloredIcon" textAlignment="CENTER">
                                                          <font>
                                                             <Font name="Material Icons" size="12.0" />
                                                          </font>
                                                       </MaterialIconView>
                                                    </graphic>
-                                                </Label>
-                                                <Label contentDisplay="TOP" graphicTextGap="0.0" maxWidth="70.0" onMouseClicked="#loadManualTransaction" styleClass="lblColoredIcon" text="Manual Order" textAlignment="CENTER" textOverrun="CLIP" wrapText="true">
-                                                   <graphic>
-                                                      <MaterialIconView fx:id="icnManualTransaction" fontSmoothingType="LCD" glyphName="SHOPPING_BASKET" size="30" styleClass="coloredIcon" textAlignment="CENTER">
-                                                         <font>
-                                                            <Font name="Material Icons" size="12.0" />
-                                                         </font>
-                                                      </MaterialIconView>
-                                                   </graphic>
-                                                </Label>
-                                                <Label contentDisplay="TOP" graphicTextGap="0.0" maxWidth="70.0" styleClass="lblColoredIcon" text="Update Catalog" textAlignment="CENTER" textOverrun="CLIP" wrapText="true">
-                                                   <graphic>
-                                                      <MaterialDesignIconView fx:id="icnProductsForm" fontSmoothingType="LCD" glyphName="FLOWER" onMouseClicked="#loadProducts" size="30" styleClass="coloredIcon" />
-                                                   </graphic>
-                                                </Label>
+                                                </JFXButton>
                                              </children>
                                           </HBox>
-                                       </children>
-                                    </VBox>
-                                    <VBox fx:id="paneCustomersInfo" alignment="CENTER" spacing="5.0" styleClass="menuVBox">
-                                       <children>
-                                          <Label styleClass="menuTitle" text="Customers Information" textAlignment="CENTER" textOverrun="CLIP" wrapText="true" />
-                                          <HBox alignment="CENTER" spacing="10.0">
+                                          <HBox fx:id="paneNoPA" alignment="CENTER" spacing="10.0">
                                              <children>
-                                                <Label contentDisplay="TOP" graphicTextGap="0.0" maxWidth="70.0" onMouseClicked="#loadUpdatePaymentAccount" styleClass="lblColoredIcon" text="Payment Account" textAlignment="CENTER" textOverrun="CLIP" wrapText="true">
+                                             <JFXButton buttonType="RAISED" contentDisplay="TOP" graphicTextGap="0.0" onAction="#loadCatalog" ripplerFill="ORANGE" styleClass="lblColoredIcon" text="Catalog" textAlignment="CENTER" textOverrun="CLIP">
                                                    <graphic>
-                                                      <MaterialIconView fx:id="icnUpdatePaymentAccount" fontSmoothingType="LCD" glyphName="ACCOUNT_BALANCE_WALLET" size="30" styleClass="coloredIcon" textAlignment="CENTER">
-                                                         <font>
-                                                            <Font name="Material Icons" size="12.0" />
-                                                         </font>
-                                                      </MaterialIconView>
+                                                      <OctIconView fx:id="icnCatalog" fontSmoothingType="LCD" glyphName="BOOK" size="30" styleClass="coloredIcon" />
                                                    </graphic>
-                                                </Label>
-                                                <Label contentDisplay="TOP" graphicTextGap="0.0" onMouseClicked="#loadSub" styleClass="lblColoredIcon" text="Subscription" textAlignment="CENTER" textOverrun="CLIP" wrapText="true">
+                                                </JFXButton>
+                                                <JFXButton buttonType="RAISED" contentDisplay="TOP" graphicTextGap="0.0" onAction="#loadAssembleProduct" ripplerFill="ORANGE" styleClass="lblColoredIcon" text="Assemble" textAlignment="CENTER" textOverrun="CLIP">
                                                    <graphic>
-                                                      <MaterialIconView fx:id="icnSub" fontSmoothingType="LCD" glyphName="SUBSCRIPTIONS" size="30" styleClass="coloredIcon" textAlignment="CENTER">
-                                                         <font>
-                                                            <Font name="Material Icons" size="12.0" />
-                                                         </font>
-                                                      </MaterialIconView>
+                                                      <MaterialDesignIconView fx:id="icnAssemble" fontSmoothingType="LCD" glyphName="FLOWER" size="30" styleClass="coloredIcon" />
                                                    </graphic>
-                                                </Label>
+                                                </JFXButton>
                                              </children>
                                           </HBox>
                                        </children>
-                                    </VBox>
+                                    </HBox>
+                                    <HBox fx:id="paneStore" alignment="CENTER" spacing="10.0">
+                                       <children>
+                                       <JFXButton buttonType="RAISED" contentDisplay="TOP" graphicTextGap="0.0" onAction="#loadManualTransaction" ripplerFill="ORANGE" styleClass="lblColoredIcon" text="Manual Order" textAlignment="CENTER" textOverrun="CLIP">
+                                             <graphic>
+                                                <MaterialIconView fx:id="icnManualTransaction" fontSmoothingType="LCD" glyphName="SHOPPING_BASKET" size="30" styleClass="coloredIcon" textAlignment="CENTER">
+                                                   <font>
+                                                      <Font name="Material Icons" size="12.0" />
+                                                   </font>
+                                                </MaterialIconView>
+                                             </graphic>
+                                          </JFXButton>
+                                          <JFXButton buttonType="RAISED" contentDisplay="TOP" graphicTextGap="0.0" onAction="#loadSurvey" ripplerFill="ORANGE" styleClass="lblColoredIcon" text="Survey" textAlignment="CENTER" textOverrun="CLIP">
+                                             <graphic>
+                                                <MaterialDesignIconView fx:id="icnSurvey" fontSmoothingType="LCD" glyphName="CLIPBOARD_CHECK" size="30" styleClass="coloredIcon" textAlignment="CENTER" />
+                                             </graphic>
+                                          </JFXButton>
+                                          <JFXButton buttonType="RAISED" contentDisplay="TOP" graphicTextGap="0.0" onAction="#loadUpdateOrder" ripplerFill="ORANGE" styleClass="lblColoredIcon" text="Update Order Status" textAlignment="CENTER" textOverrun="CLIP">
+                                             <graphic>
+                                                <MaterialIconView fx:id="icnUpdateOrder" glyphName="EDIT" size="30" styleClass="coloredIcon">
+                                                   <font>
+                                                      <Font name="Material Icons" size="12.0" />
+                                                   </font>
+                                                </MaterialIconView>
+                                             </graphic>
+                                          </JFXButton>
+                                       </children>
+                                    </HBox>
+                                    <HBox fx:id="paneStrManager" alignment="CENTER" spacing="10.0">
+                                       <children>
+                                       <JFXButton buttonType="RAISED" contentDisplay="TOP" graphicTextGap="0.0" onAction="#loadUpdatePaymentAccount" ripplerFill="ORANGE" styleClass="lblColoredIcon" text="Payment Account" textAlignment="CENTER" textOverrun="CLIP">
+                                             <graphic>
+                                                <MaterialIconView fx:id="icnUpdatePaymentAccount" fontSmoothingType="LCD" glyphName="ACCOUNT_BALANCE_WALLET" size="30" styleClass="coloredIcon" textAlignment="CENTER">
+                                                   <font>
+                                                      <Font name="Material Icons" size="12.0" />
+                                                   </font>
+                                                </MaterialIconView>
+                                             </graphic>
+                                          </JFXButton>
+                                          <JFXButton buttonType="RAISED" contentDisplay="TOP" graphicTextGap="0.0" onAction="#loadSub" ripplerFill="ORANGE" styleClass="lblColoredIcon" text="Subscription" textAlignment="CENTER" textOverrun="CLIP">
+                                             <graphic>
+                                                <MaterialIconView fx:id="icnSub" fontSmoothingType="LCD" glyphName="SUBSCRIPTIONS" size="30" styleClass="coloredIcon" textAlignment="CENTER">
+                                                   <font>
+                                                      <Font name="Material Icons" size="12.0" />
+                                                   </font>
+                                                </MaterialIconView>
+                                             </graphic>
+                                          </JFXButton>
+                                       </children>
+                                    </HBox>
+                                    <JFXButton fx:id="btnReportSelector" buttonType="RAISED" contentDisplay="TOP" graphicTextGap="0.0" onAction="#loadReportSelector" ripplerFill="ORANGE" styleClass="lblColoredIcon" text="Report Selector" textAlignment="CENTER" textOverrun="CLIP">
+                                       <graphic>
+                                          <OctIconView fx:id="icnReportSelector" fontSmoothingType="LCD" glyphName="GRAPH" size="30" styleClass="coloredIcon" textAlignment="CENTER" />
+                                       </graphic>
+                                    </JFXButton>
+                                    <JFXButton fx:id="btnSurveyReport" buttonType="RAISED" contentDisplay="TOP" graphicTextGap="0.0" onAction="#loadSurveyReport" ripplerFill="ORANGE" styleClass="lblColoredIcon" text="Survey Report" textAlignment="CENTER" textOverrun="CLIP">
+                                       <graphic>
+                                          <MaterialDesignIconView fx:id="icnSurveyReport" glyphName="CLIPBOARD_TEXT" size="30" styleClass="coloredIcon" />
+                                       </graphic>
+                                    </JFXButton>
+                                    <JFXButton fx:id="btnComplaints" buttonType="RAISED" contentDisplay="TOP" graphicTextGap="0.0" onAction="#loadComplaints" ripplerFill="ORANGE" styleClass="lblColoredIcon" text="Complaints" textAlignment="CENTER" textOverrun="CLIP">
+                                       <graphic>
+                                          <MaterialDesignIconView fx:id="icnComplaints" fontSmoothingType="LCD" glyphName="ACCOUNT_ALERT" size="30" styleClass="coloredIcon" textAlignment="CENTER" />
+                                       </graphic>
+                                    </JFXButton>
+                                    <JFXButton fx:id="btnUpdateCatalog" buttonType="RAISED" contentDisplay="TOP" graphicTextGap="0.0" onAction="#loadProducts" ripplerFill="ORANGE" styleClass="lblColoredIcon" text="Update Catalog" textAlignment="CENTER" textOverrun="CLIP">
+                                       <graphic>
+                                          <MaterialDesignIconView fx:id="icnProductsForm" fontSmoothingType="LCD" glyphName="FLOWER" size="30" styleClass="coloredIcon" />
+                                       </graphic>
+                                    </JFXButton>
+                                    <JFXButton fx:id="btnUpdateUsers" buttonType="RAISED" contentDisplay="TOP" graphicTextGap="0.0" onAction="#loadAccountsManage" ripplerFill="ORANGE" styleClass="lblColoredIcon" text="Users Accounts" textAlignment="CENTER" textOverrun="CLIP">
+                                       <graphic>
+                                          <FontAwesomeIconView fx:id="icnAccounts" fontSmoothingType="LCD" glyphName="EDIT" size="30" styleClass="coloredIcon" textAlignment="CENTER" />
+                                       </graphic>
+                                    </JFXButton>
                                  </children>
                               </HBox>
                            </children>

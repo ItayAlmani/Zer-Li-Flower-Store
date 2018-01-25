@@ -97,7 +97,6 @@ public class DeliveryGUIController implements Initializable {
 					txtPhoneAreaCode.getText() + "-" + txtPhonePost.getText());
 			Context.order.setDelivery(ship);
 			Context.order.setDeliveryType(DeliveryType.Shipment);
-			Context.fac.order.updatePriceWithShipment(Context.order);
 		}
 		Context.mainScene.loadGUI("OrderTimeGUI", false);
 	}

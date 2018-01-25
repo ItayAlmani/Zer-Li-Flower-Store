@@ -76,6 +76,14 @@ public class ComplaintController extends ParentController {
 		return handleGet(EchoServer.fac.dataBase.db.getQuery(query));
 	}
 	
+	/*private ArrayList<Object> getComplaintByCswID(BigInteger cswID) throws Exception
+	{
+		String query = String.format(
+				"SELECT * FROM complaint WHERE cswID = %d",
+				cswID);
+		return handleGet(EchoServer.fac.dataBase.db.getQuery(query));
+	}*/
+	
 	/**
 	 * <p>
 	 * Function sends query about all not treated complaints from DB
@@ -92,7 +100,7 @@ public class ComplaintController extends ParentController {
 	public ArrayList<Object> handleGet(ArrayList<Object> obj) throws Exception {
 		if(obj == null) return new ArrayList<>();
 		ArrayList<Object> comp = new ArrayList<>();
-		for (int i = 0; i < obj.size(); i += 8)
+		for (int i = 0; i < obj.size(); i += 9)
 			comp.add(parse
 					(
 					BigInteger.valueOf((Integer) obj.get(i)), 
@@ -102,7 +110,8 @@ public class ComplaintController extends ParentController {
 					(Timestamp) obj.get(i + 4),
 					(Boolean)obj.get(i+5),
 					(Boolean)obj.get(i+6),
-					(Boolean)obj.get(i+7)
+					(Boolean)obj.get(i+7),
+					BigInteger.valueOf((Integer)obj.get(i+8))
 					));
 		return comp;
 		
@@ -139,7 +148,7 @@ public class ComplaintController extends ParentController {
 	 * @throws Exception Context.clientConsole.handleMessageFromClientUI throws IOException.
 	 */
 	public void insertComplaint(Complaint comp) throws Exception {
-		String query = "INSERT INTO complaint (customerID, storeID,complaintReason,date,isTreated,isRefunded,isAnswered24Hours)" 
+		String query = "INSERT INTO complaint (customerID, storeID,complaintReason,date,isTreated,isRefunded,isAnswered24Hours,cswID)" 
 		+ " VALUES ('" 
 				+ comp.getCustomer().getCustomerID().toString() + "','"
 				+ comp.getStoreID().toString()+ "','"
@@ -147,7 +156,8 @@ public class ComplaintController extends ParentController {
 				+ Timestamp.valueOf(comp.getDate())+ "',"
 				+ comp.isTreated()+ ","
 				+ comp.isRefunded()+ ","
-				+ comp.isAnswered24Hours()+")";
+				+ comp.isAnswered24Hours()+",'"
+				+ comp.getCswID()+"')";
 		EchoServer.fac.dataBase.db.updateQuery(query);		
 	}
 	/**
@@ -176,7 +186,8 @@ public class ComplaintController extends ParentController {
 					+ " date='%s',"
 					+ " isTreated=%b,"
 					+ " isRefunded=%b,"
-					+ " isAnswered24Hours=%b"
+					+ " isAnswered24Hours=%b,"
+					+ " cswID=%d"
 					+ " WHERE complaintID='%d'" , 
 			comp.getCustomer().getCustomerID(),
 			comp.getStoreID(),
@@ -185,6 +196,7 @@ public class ComplaintController extends ParentController {
 			comp.isTreated(),
 			comp.isRefunded(),
 			comp.isAnswered24Hours(),
+			comp.getCswID(),
 			comp.getComplaintID());
 			EchoServer.fac.dataBase.db.updateQuery(query);
 			myMsgArr.clear();
@@ -202,8 +214,10 @@ public class ComplaintController extends ParentController {
 	 * @return generic object arrayList, eventually will be arrayList of complaints
 	 * @throws Exception Context.clientConsole.handleMessageFromClientUI throws IOException.
 	 */
-	public ArrayList<Object> getNotTreatedComplaints() throws Exception {
-		String query = "SELECT * FROM complaint WHERE isTreated=false";
+	public ArrayList<Object> getNotTreatedComplaints(BigInteger cswID) throws Exception {
+		String query =String.format(("SELECT * FROM complaint WHERE isTreated=false AND cswID='%d'"),
+			cswID);	
+				
 		return handleGet(EchoServer.fac.dataBase.db.getQuery(query));
 	}
 	/**
@@ -240,13 +254,13 @@ public class ComplaintController extends ParentController {
 	 * @return new complaint object filled with data from DB
 	 * @throws Exception Context.clientConsole.handleMessageFromClientUI throws IOException.
 	 */
-	public Complaint parse(BigInteger complaintID,BigInteger customerID, BigInteger storeID,String complaintReason,Timestamp date,boolean isTreated,boolean isRefunded, boolean isAnswered24Hours) throws Exception {
+	public Complaint parse(BigInteger complaintID,BigInteger customerID, BigInteger storeID,String complaintReason,Timestamp date,boolean isTreated,boolean isRefunded, boolean isAnswered24Hours,BigInteger cswID) throws Exception {
 		LocalDateTime ldtDate = date.toLocalDateTime();
 		ArrayList<Object> custObj = EchoServer.fac.customer.getCustomerByID(customerID);
 		if(custObj==null || custObj.size()!=1 || custObj.get(0) instanceof Customer == false)
-			throw new Exception("Ani? Ata");
+			throw new Exception();
 		
-		return new Complaint(complaintID,(Customer)custObj.get(0),storeID,complaintReason,ldtDate,isTreated,isRefunded,isAnswered24Hours);
+		return new Complaint(complaintID,(Customer)custObj.get(0),storeID,complaintReason,ldtDate,isTreated,isRefunded,isAnswered24Hours,cswID);
 	}
 
 }

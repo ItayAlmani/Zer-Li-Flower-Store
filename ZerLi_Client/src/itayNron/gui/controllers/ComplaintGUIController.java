@@ -1,6 +1,7 @@
 package itayNron.gui.controllers;
 
 import java.io.IOException;
+import java.math.BigInteger;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -52,7 +53,9 @@ public class ComplaintGUIController implements Initializable {
 	private @FXML JFXToggleButton tglRefund;
 	private @FXML JFXTextField txtRefundAmount;
 	private ObservableList<Node> mainCh;
-	
+	private ArrayList<Store> storeArr;
+	private ArrayList<Customer> custArr;
+	private Complaint comp;
 	/**if all setXXX functions called counters*/
 	private int sets_invoked_cnt = 0,
 			sets_needed_cnt = 0;
@@ -67,9 +70,8 @@ public class ComplaintGUIController implements Initializable {
 	 * <p>
 	 * Function to able adding complaint in GUI
 	 * </p>
-	 * @throws IOException Context.clientConsole.handleMessageFromClientUI throws IOException.
 	 */
-	public void showAddComplaint() throws IOException {
+	public void showAddComplaint()   {
 		isNewComplaint=true;
 		Context.mainScene.clearMsg();
 		if(mainCh.contains(vbxComplaint))
@@ -84,7 +86,7 @@ public class ComplaintGUIController implements Initializable {
 	}
 /**
  * <p>
- * 
+ * Function to show untreated complaint details
  * </p>
  * @throws IOException
  */
@@ -105,8 +107,13 @@ public class ComplaintGUIController implements Initializable {
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
 			LocalDateStringConverter conv = new LocalDateStringConverter(formatter, null);
 			Complaint c = cbsComplaints.getValue();
+			String storeName=null;
+			for (Store store : storeArr) {
+				if (store.getStoreID().equals(c.getStoreID()))
+					storeName=store.getName();
+			}
 			lblCustomerName.setText(c.getCustomer().toString());
-			lblStoreName.setText(c.getStoreID().toString());
+			lblStoreName.setText(storeName);
 			lblComplaintDate.setText(conv.toString(c.getDate().toLocalDate()));
 			lblCompReason.setText(c.getComplaintReason());
 		}
@@ -115,7 +122,7 @@ public class ComplaintGUIController implements Initializable {
 
 	/**
 	 * <p>
-	 * This function checks if this complaint is new or we tread old complaint: <br>
+	 * This function checks if this {@link Complaint} is new or we tread old complaint: <br>
 	 * 1. The first case, we created new complaint,the function will send it to the DB.<br>
 	 * 2. The second case, we treating old complaint and want to update it in DB.
 	 * </p>
@@ -145,11 +152,16 @@ public class ComplaintGUIController implements Initializable {
 				Context.mainScene.setMessage("One or more fields are missing");
 				return;
 			}
-			Complaint comp = new Complaint(complaintReason.getText(),
+			comp = new Complaint(complaintReason.getText(),
 					cbsCustomer.getValue(),
 					cbsStore.getValue().getStoreID(),
-					LocalDateTime.now());
-			Context.fac.complaint.add(comp, false);
+					LocalDateTime.now(),Context.getUser().getUserID());
+			Context.fac.complaint.add(comp, true);
+			cbsCustomer.setValue(null);
+			cbsStore.setValue(null);
+			complaintReason.clear();
+			if(mainCh.contains(vbxAddComplaint))
+				mainCh.remove(vbxAddComplaint);
 		}
 		else {
 			boolean isUpdateComp=true;
@@ -160,6 +172,7 @@ public class ComplaintGUIController implements Initializable {
 				return;
 			}
 			comp.setIsTreated(true);
+			cbsComplaints.getItems().remove(cbsComplaints.getValue());
 			if(tglRefund.isSelected()&&
 					txtRefundAmount.getText().isEmpty()==false)
 			{
@@ -185,6 +198,7 @@ public class ComplaintGUIController implements Initializable {
 					}
 					pa.setRefundAmount(pa.getRefundAmount()+refAmount);
 					Context.fac.paymentAccount.update(pa);
+					cbsComplaints.getItems().remove(cbsComplaints.getValue());
 				}catch (NumberFormatException e){
 					isUpdateComp=false;
 					if(e.getMessage()!=null && e.getMessage().isEmpty()==false)
@@ -202,9 +216,20 @@ public class ComplaintGUIController implements Initializable {
 			if(isUpdateComp)
 				Context.fac.complaint.update(comp);
 			
-			
-			
 		}
+		
+		tglRefund.setSelected(false);
+		txtRefundAmount.clear();
+		txtRefundAmount.setVisible(false);
+		if(mainCh.contains(vbxComplaint))
+			mainCh.remove(vbxComplaint);
+	}
+	/**
+	 * Function to add new complaint to combo box
+	 */
+	public void setComplaintID(BigInteger id) {
+		comp.setComplaintID(id);
+		cbsComplaints.getItems().add(comp);
 	}
 
 	/**
@@ -226,7 +251,7 @@ public class ComplaintGUIController implements Initializable {
 			sets_needed_cnt++;
 			Context.fac.store.getAllStores();
 			sets_needed_cnt++;	
-			Context.fac.complaint.getNotTreatedComplaints();
+			Context.fac.complaint.getNotTreatedComplaints(Context.getUser().getUserID());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -246,12 +271,17 @@ public class ComplaintGUIController implements Initializable {
  * @param cus - arrayList of customers to be added to comboBox from DB
  */
 	public void setCustomers(ArrayList<Customer> cus) {
+		
 		checkIfNeedDisableFalse();
+		custArr = new ArrayList<Customer>();
+		for (Customer cust : cus)
+			if (cust.getPaymentAccounts()!=null&&!cust.getPaymentAccounts().isEmpty())
+				custArr.add(cust);	
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
 				if (cus != null && cus.isEmpty() == false)
-					cbsCustomer.setItems(FXCollections.observableArrayList(cus));
+					cbsCustomer.setItems(FXCollections.observableArrayList(custArr));
 				else
 					Context.mainScene.ShowErrorMsg();
 			}
@@ -261,10 +291,11 @@ public class ComplaintGUIController implements Initializable {
 	 * <p>
 	 * Function to set stores into comboBox 
 	 * </p>
-	 * @param cus - arrayList of stores to be added to comboBox from DB
+	 * @param stores - arrayList of stores to be added to comboBox from DB
 	 */
 	public void setStores(ArrayList<Store> stores) {
 		checkIfNeedDisableFalse();
+		storeArr=stores;
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
@@ -281,7 +312,7 @@ public class ComplaintGUIController implements Initializable {
 	 * <p>
 	 * Function to set complaints into comboBox 
 	 * </p>
-	 * @param cus - arrayList of complaints to be added to comboBox from DB
+	 * @param complaints - arrayList of complaints to be added to comboBox from DB
 	 */
 	public void setComplaints(ArrayList<Complaint> complaints) {
 		checkIfNeedDisableFalse();
@@ -299,10 +330,12 @@ public class ComplaintGUIController implements Initializable {
 	}
 	 /**
 	  * <p>
-	  * Function to show all details of selected customer from comboBox, from here we can treat the compalint.
+	  * Function to show all details of selected customer from comboBox,
+	  * from here we can treat the compalint.
 	  * </p>
 	  */
 	public void customerSelected() {
+		Context.mainScene.clearMsg();
 		Customer cust = cbsCustomer.getValue();
 		if(cust!=null) {
 			ObservableList<Store> stores = cbsStore.getItems();

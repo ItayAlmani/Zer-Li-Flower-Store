@@ -38,7 +38,7 @@ public class ProductInOrderController extends ParentController{
 		return myMsgArr;
 	}
 
-	public ArrayList<Object> getPIOsByOrder(BigInteger orderID) throws SQLException {
+	public ArrayList<Object> getPIOsByOrder(BigInteger orderID) throws Exception {
 		String query = "SELECT prodInOrd.productInOrderID, prd.*,orderID, quantity, totalprice FROM" + 
 				" (" + 
 				"	SELECT ordCart.* FROM" + 
@@ -93,22 +93,24 @@ public class ProductInOrderController extends ParentController{
 
 	
 	@Override
-	public ArrayList<Object> handleGet(ArrayList<Object> obj) {
+	public ArrayList<Object> handleGet(ArrayList<Object> obj) throws Exception {
 		if(obj==null) return null;
 		ArrayList<Object> prds = new ArrayList<>();
-		for (int i = 0; i < obj.size(); i += 11) {
+		for (int i = 0; i < obj.size(); i += 12) {
 			prds.add(parse(BigInteger.valueOf((Integer)obj.get(i)),
-					(
-						EchoServer.fac.product.parse(BigInteger.valueOf((Integer) obj.get(i+1)), 
+					EchoServer.fac.product.parse(
+						BigInteger.valueOf((Integer) obj.get(i+1)), 
 						(String) obj.get(i + 2), 
 						(String) obj.get(i + 3),
 						(float) obj.get(i + 4),
 						(String) obj.get(i + 5),
 						((int)obj.get(i + 6))!= 0,
-						(String)obj.get(i+7))
-					),BigInteger.valueOf((Integer)obj.get(i+8))
-					,(int)obj.get(i+9),
-					(float)obj.get(i+10)
+						(String)obj.get(i+7),
+						(byte[])obj.get(i+8)
+					)
+					,BigInteger.valueOf((Integer)obj.get(i+9))
+					,(int)obj.get(i+10),
+					(float)obj.get(i+11)
 					));
 		}
 		return prds;

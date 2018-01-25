@@ -20,6 +20,7 @@ import lior.IncomesReportController;
 import lior.OrderReportController;
 import lior.QuarterlyReportController;
 import lior.SatisfactionReportController;
+import lior.interfaces.IQuarterlyReportController;
 
 /**
  * Will have all the controllers.
@@ -48,7 +49,7 @@ public class Factory {
 	public CustomerController customer = new CustomerController();
 	public SubscriptionController sub = new SubscriptionController();
 	
-	public QuarterlyReportController qurReport = new QuarterlyReportController();
+	public IQuarterlyReportController qurReport = new QuarterlyReportController();
 	public OrderReportController ordReport = new OrderReportController();
 	public IncomesReportController incReport = new IncomesReportController();
 	public HistogramOfCustomerComplaintsReportController hisReport = new HistogramOfCustomerComplaintsReportController();

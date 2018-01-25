@@ -1,5 +1,6 @@
 package itayNron;
 
+import java.io.ByteArrayInputStream;
 import java.math.BigInteger;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -20,9 +21,9 @@ public class StockController extends ParentController {
 	 * </p>
 	 * @param storeID - unique identifier for store to get stock from it
 	 * @return generic object arrayList which will become arrayList of stock
-	 * @throws SQLException Context.clientConsole.handleMessageFromClientUI throws SQLException.
+	 * @throws Exception 
 	 */
-	public ArrayList<Object> getStockByStore(BigInteger storeID) throws SQLException {
+	public ArrayList<Object> getStockByStore(BigInteger storeID) throws Exception {
 		String query =  "SELECT sto.stockID,product.*,sto.quantity,sto.storeID, salePercetage" + 
 				" FROM stock AS sto" + 
 				" JOIN product ON sto.productID=product.productID" + 
@@ -109,10 +110,10 @@ public class StockController extends ParentController {
 	}
 
 	@Override
-	public ArrayList<Object> handleGet(ArrayList<Object> obj) {
+	public ArrayList<Object> handleGet(ArrayList<Object> obj) throws Exception {
 		if(obj==null) return new ArrayList<>();
 		ArrayList<Object> stocks = new ArrayList<>();
-		for (int i = 0; i < obj.size(); i += 11) {
+		for (int i = 0; i < obj.size(); i += 12) {
 			stocks.add(parse(
 					BigInteger.valueOf((Integer)obj.get(i)),
 					BigInteger.valueOf((Integer)obj.get(i+1)),
@@ -122,9 +123,10 @@ public class StockController extends ParentController {
 					(String) obj.get(i + 5),
 					((int)obj.get(i + 6))!= 0,
 					(String)obj.get(i+7),
-					(int)obj.get(i + 8),
-					BigInteger.valueOf((Integer)obj.get(i+9)),
-					(Float)obj.get(i+10)
+					(byte[])obj.get(i+8),
+					(int)obj.get(i + 9),
+					BigInteger.valueOf((Integer)obj.get(i+10)),
+					(Float)obj.get(i+11)
 					));
 		}
 		return stocks;
@@ -145,12 +147,13 @@ public class StockController extends ParentController {
 	 * @param storeID - parameter for storeID field in object
 	 * @param salePercetage - parameter for salePercetage field in object
 	 * @return new created stock object with data from DB
+	 * @throws Exception 
 	 */
 	public Stock parse(BigInteger stckID, 
 			BigInteger prdID, String name, String type, float price, 
-			String color, boolean inCatalog, String imageURL,
-			int quantity, BigInteger storeID, Float salePercetage){
-		Product p = EchoServer.fac.product.parse(prdID, name, type, price, color, inCatalog, imageURL);
+			String color, boolean inCatalog, String imageURL, byte[] byteArr,
+			int quantity, BigInteger storeID, Float salePercetage) throws Exception{
+		Product p = EchoServer.fac.product.parse(prdID, name, type, price, color, inCatalog, imageURL, byteArr);
 		return new Stock(stckID, p, quantity, storeID, salePercetage);
 	}
 

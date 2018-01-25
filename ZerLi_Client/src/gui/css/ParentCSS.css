@@ -115,3 +115,7 @@
     /* interpolate color between yellow and red based on first color brightness */
     -fx-body-color: ladder(#AAA, orange 0%, red 100%);
 }
+
+VBox:disabled, VBox:disabled > * {
+  -fx-opacity: 1.0 ;
+}

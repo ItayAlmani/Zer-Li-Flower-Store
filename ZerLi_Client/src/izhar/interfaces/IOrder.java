@@ -17,7 +17,7 @@ public interface IOrder  {
 	void add(Order order, boolean getNextID) throws IOException;
 
 	/**
-	 * asks the server to update the <code>Order</code>'s <code>status</code> attribute
+	 * asks the server to update the {@link Order}'s <code>status</code> attribute
 	 * to be <b>canceled</b>
 	 * @param order - the object with the <code>orderID</code>
 	 */
@@ -43,14 +43,6 @@ public interface IOrder  {
 	public void getAllOrdersByStoreID(BigInteger storeID) throws IOException;
 
 	public void getOrdersWaitingForPaymentByCustomerID(BigInteger customerID) throws IOException;
-	
-	
-	/**
-	 * adds the shipment's price to the final price of the order 
-	 * (in cart there is the final price)
-	 * @param order - the order which price needs to be updated
-	 */
-	void updatePriceWithShipment(Order order) throws IOException;
 	
 	/**
 	 * parsing the data into new Order object
