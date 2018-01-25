@@ -17,7 +17,7 @@ import javafx.scene.control.Tooltip;
 
 public class SetUpMainGUIController extends LoadGUIController {
 	
-	/** the first String will be the permission, and the seconed is the full name*/
+	/** the first String will be the permission, and the second is the full name*/
 	private final static String welcome_message = "Welcome %s %s"; 
 	
 	protected void setUpInit() throws IOException {
