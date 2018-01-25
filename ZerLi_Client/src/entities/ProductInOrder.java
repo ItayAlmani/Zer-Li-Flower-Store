@@ -4,7 +4,9 @@ import java.io.Serializable;
 import java.math.BigInteger;
 import java.text.DecimalFormat;
 
-public class ProductInOrder implements Serializable  {
+import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
+
+public class ProductInOrder extends RecursiveTreeObject<ProductInOrder> implements Serializable  {
 	
 	private static final long serialVersionUID = 13L;
 	private BigInteger id;

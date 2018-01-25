@@ -126,6 +126,22 @@ public class LoadGUIController {
 	public void loadAccountsManage() {
 		loadGUI("UpdateUserGUI", false);
 	}
+	
+	public void loadOrderTime() {
+		loadGUI("OrderTimeGUI", false);
+	}
+	
+	public void loadPayment() {
+		loadGUI("PaymentGUI", false);
+	}
+	
+	public void loadDelivery() {
+		loadGUI("DeliveryGUI", false);
+	}
+	
+	public void loadOrderDetails() {
+		loadGUI("OrderGUI", false);
+	}
 
 	private void createScene(String guiName, Stage primaryStage) {
 		scenePane.getChildren().clear();

@@ -60,11 +60,11 @@ public class OrderTimeGUIController implements Initializable {
 			Context.order.getDelivery().setImmediate(true);
 		}
 		Context.order.getDelivery().setDate(date);
-		Context.mainScene.loadGUI("PaymentGUI", false);
+		Context.mainScene.loadPayment();
 	}
 
 	public void back() {
-		Context.mainScene.loadGUI("DeliveryGUI", false);
+		Context.mainScene.loadDelivery();
 	}
 
 	@Override

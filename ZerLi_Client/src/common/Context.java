@@ -14,6 +14,7 @@ import entities.StoreWorker;
 import entities.User;
 import entities.User.UserType;
 import gui.controllers.ParentGUIController;
+import izhar.gui.controllers.ManualTransactionGUIController;
 import kfir.gui.controllers.LogInGUIController;
 
 /** The class which holds the data of each client. 
@@ -81,11 +82,32 @@ public class Context {
 		throw new Exception("User isn't Store Worker or Store Manager");
 	}
 	
+	/**
+	 * ask an InProcess {@link Order} for current {@link Customer}
+	 * @param store where the {@link Order} being made
+	 */
 	public static void askOrder(Store store) {
 		if(user instanceof Customer) {
 			try {
 				askingCtrl.add(Context.class.newInstance());
 				fac.order.getOrAddOrderInProcess(((Customer)user).getCustomerID(), store);
+			} catch (IOException | InstantiationException | IllegalAccessException e) {
+				System.err.println("getOrderInProcess() not working in Context\n");
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	/**
+	 * ask an InProcess {@link Order} for {@link ManualTransactionGUIController} - by {@link StoreWorker}
+	 * @param customerID the {@link Customer#getCustomerID()} which the order's is his/her
+	 * @param store where the {@link Order} being made
+	 */
+	public static void askOrder(BigInteger customerID, Store store) {
+		if(user instanceof StoreWorker) {
+			try {
+				askingCtrl.add(Context.class.newInstance());
+				fac.order.getOrAddOrderInProcess(customerID, store);
 			} catch (IOException | InstantiationException | IllegalAccessException e) {
 				System.err.println("getOrderInProcess() not working in Context\n");
 				e.printStackTrace();

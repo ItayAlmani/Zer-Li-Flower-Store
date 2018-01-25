@@ -188,6 +188,13 @@ public class Order implements Serializable {
 		return products;
 	}
 	
+	public void addPIOToProducts(ProductInOrder pio) {
+		if(products==null)
+			products=new ArrayList<>();
+		products.add(pio);
+		setFinalPrice();
+	}
+	
 	public void setProducts(ArrayList<ProductInOrder> products) {
 		this.products = products;
 		this.finalPrice=0f;

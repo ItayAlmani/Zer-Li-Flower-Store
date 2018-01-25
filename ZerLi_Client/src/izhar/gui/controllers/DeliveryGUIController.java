@@ -98,7 +98,7 @@ public class DeliveryGUIController implements Initializable {
 			Context.order.setDelivery(ship);
 			Context.order.setDeliveryType(DeliveryType.Shipment);
 		}
-		Context.mainScene.loadGUI("OrderTimeGUI", false);
+		Context.mainScene.loadOrderTime();
 	}
 
 	private void addTextLimiter(JFXTextField tf, final int maxLength) {

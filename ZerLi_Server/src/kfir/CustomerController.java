@@ -21,6 +21,13 @@ public class CustomerController extends ParentController {
 		return getAllCustomersData(handleGet(EchoServer.fac.dataBase.db.getQuery(query)));
 	}
 	
+	public ArrayList<Object> getAllCustomersOfStore(BigInteger storeID) throws Exception {
+		String query = String.format("SELECT c.*\n" + 
+				"FROM customer AS c, paymentaccount AS p\n" + 
+				"WHERE p.customerID=c.customerID AND p.storeID='%d'", storeID);
+		return getAllCustomersData(handleGet(EchoServer.fac.dataBase.db.getQuery(query)));
+	}
+	
 	public ArrayList<Object> getCustomerByID(BigInteger customerID) throws Exception {
 		String query = "SELECT * FROM customer WHERE customerID='"+customerID+"'";
 		return getAllCustomersData(handleGet(EchoServer.fac.dataBase.db.getQuery(query)));

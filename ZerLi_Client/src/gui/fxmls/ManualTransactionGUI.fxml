@@ -2,14 +2,28 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import com.jfoenix.controls.JFXTreeTableView?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.TreeTableView?>
 <?import javafx.scene.layout.VBox?>
 
 <VBox fx:id="vbox" alignment="CENTER" spacing="20.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="izhar.gui.controllers.ManualTransactionGUIController">
    <children>
-      <JFXComboBox fx:id="cbCustomers" onAction="#customerSelected" promptText="Choose customer" />
-      <JFXComboBox fx:id="cbPayMethod" onAction="#paymentSelected" promptText="Choose payment method" />
-      <JFXButton fx:id="btnSend" disable="true" mnemonicParsing="false" onAction="#sendNewOrder" ripplerFill="ORANGE" text="Add new order" textAlignment="CENTER" textOverrun="CLIP" wrapText="true" />
+      <JFXComboBox fx:id="cbCustomers" disable="true" onAction="#customerSelected" promptText="Choose customer" />
+      <VBox fx:id="paneProducts" alignment="TOP_CENTER" fillWidth="false" spacing="5.0" visible="false">
+         <children>
+            <JFXTextField fx:id="txtFilter" alignment="CENTER" promptText="Filter by name" />
+            <JFXTreeTableView fx:id="ttvProducts" editable="true">
+               <columnResizePolicy>
+                  <TreeTableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+               </columnResizePolicy></JFXTreeTableView>
+            <JFXButton fx:id="btnSend" buttonType="RAISED" disable="true" mnemonicParsing="false" onAction="#sendNewOrder" ripplerFill="ORANGE" text="Add new order" textAlignment="CENTER" textOverrun="CLIP" wrapText="true" />
+         </children>
+         <padding>
+            <Insets top="15.0" />
+         </padding>
+      </VBox>
    </children>
    <padding>
       <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />

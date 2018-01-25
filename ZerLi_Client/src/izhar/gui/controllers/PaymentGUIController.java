@@ -7,40 +7,34 @@ import java.text.DecimalFormat;
 import java.util.Random;
 import java.util.ResourceBundle;
 
-import org.controlsfx.glyphfont.FontAwesome.Glyph;
-
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXProgressBar;
 import com.jfoenix.controls.JFXRadioButton;
 import com.jfoenix.controls.JFXTextArea;
 
 import common.Context;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIcon;
+import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView;
+import de.jensd.fx.glyphs.octicons.OctIconView;
 import entities.Customer;
 import entities.DeliveryDetails;
 import entities.Order;
-import entities.PaymentAccount;
-import entities.ShipmentDetails;
 import entities.Order.DeliveryType;
 import entities.Order.OrderStatus;
 import entities.Order.PayMethod;
-import gui.controllers.ParentGUIController;
+import entities.PaymentAccount;
+import entities.ShipmentDetails;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
-import javafx.scene.control.ProgressIndicator;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
-import de.jensd.fx.glyphs.octicons.OctIconView;
-import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIcon;
-import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView;
 
 public class PaymentGUIController implements Initializable {
 
@@ -57,6 +51,12 @@ public class PaymentGUIController implements Initializable {
 	private PaymentAccount pa;
 	private Float price_before_disc, price_after_disc, refund_before_disc, refund_after_disc;
 	
+	/**
+	 * when it's manual order/transaction <=> cust_in_manual_order != null
+	 */
+	public static Customer cust_in_manual_order = null;
+	private boolean is_manual_order = false;
+	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		tGroup = new ToggleGroup();
@@ -65,14 +65,24 @@ public class PaymentGUIController implements Initializable {
 		price_before_disc=Context.order.getFinalPrice();
 		Customer cust;
 		try {
-			cust = Context.getUserAsCustomer();
+			//if this is manual order
+			if(cust_in_manual_order!=null) {
+				cust=cust_in_manual_order;
+				cust_in_manual_order=null;
+				is_manual_order=true;
+			}
+			else {
+				cust = Context.getUserAsCustomer();
+				is_manual_order=false;
+			}
+			
 			DeliveryDetails del = Context.order.getDelivery();
 			pa = Context.fac.paymentAccount.getPaymentAccountOfStore(cust.getPaymentAccounts(),
 					del.getStore());
 			this.refund_before_disc = pa.getRefundAmount();
 			this.price_after_disc = Context.fac.order.getFinalPriceByPAT(pa,
 					Context.order,
-					Context.getUserAsCustomer());
+					cust);
 			//add delivery price after the discounts
 			if(Context.order.getDeliveryType().equals(DeliveryType.Shipment)) {
 				price_before_disc+=ShipmentDetails.shipmentPrice;
@@ -217,7 +227,9 @@ public class PaymentGUIController implements Initializable {
 					ord.setPaymentMethod(PayMethod.Cash);
 			}
 		}
-		ord.setOrderStatus(OrderStatus.Paid);
+		//Won't be null if it's payment for manual order
+		if(ord.getOrderStatus()==null)
+			ord.setOrderStatus(OrderStatus.Paid);
 		if(txtGreeting.getText().isEmpty()==false)
 			ord.setGreeting(txtGreeting.getText());
 		else
@@ -242,11 +254,14 @@ public class PaymentGUIController implements Initializable {
 	public void setOrderID(BigInteger id) {
 		Context.mainScene.setMenuPaneDisable(false);
 		btnBack.setDisable(false);
-		Context.mainScene.loadGUI("OrderGUI", false);
+		Context.mainScene.loadOrderDetails();
 	}
 
 	public void back() {
 		Context.order.setFinalPrice(price_before_disc);	//prevent double discount
-		Context.mainScene.loadGUI("OrderTimeGUI", false);
+		if(is_manual_order)
+			Context.mainScene.loadManualTransaction();
+		else
+			Context.mainScene.loadOrderTime();
 	}
 }

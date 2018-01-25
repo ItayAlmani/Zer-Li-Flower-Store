@@ -202,7 +202,7 @@ public class CartGUIController extends ProductsPresentationGUIController {
 			Context.order.setProducts(allPIOS);
 			Context.fac.order.calcFinalPriceOfOrder(Context.order);
 
-			Context.mainScene.loadGUI("DeliveryGUI", false);
+			Context.mainScene.loadDelivery();
 		} 
 		else {
 			Context.mainScene.setMenuPaneDisable(false);

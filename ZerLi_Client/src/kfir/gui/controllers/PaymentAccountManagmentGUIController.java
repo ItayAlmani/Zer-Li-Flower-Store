@@ -51,6 +51,7 @@ public class PaymentAccountManagmentGUIController implements Initializable  {
 		
 		try {
 			Context.mainScene.setMenuPaneDisable(true);
+			cbCustomers.setDisable(true);
 			Context.fac.customer.getAllCustomers();
 		} catch (IOException e) {
 			Context.mainScene.ShowErrorMsg();
@@ -60,10 +61,15 @@ public class PaymentAccountManagmentGUIController implements Initializable  {
 	
 	public void setCustomers(ArrayList<Customer> customers) {
 		Context.mainScene.setMenuPaneDisable(false);
-		if(Platform.isFxApplicationThread())
+		if(Platform.isFxApplicationThread()) {
 			cbCustomers.setItems(FXCollections.observableArrayList(customers));
+			cbCustomers.setDisable(false);
+		}
 		else
-			Platform.runLater(()->cbCustomers.setItems(FXCollections.observableArrayList(customers)));
+			Platform.runLater(()->{
+				cbCustomers.setItems(FXCollections.observableArrayList(customers));
+				cbCustomers.setDisable(false);
+			});
 	}
 
 	public void openPaymentAccount() {
@@ -82,8 +88,8 @@ public class PaymentAccountManagmentGUIController implements Initializable  {
 					}
 					else {
 						pa = Context.fac.paymentAccount.getPaymentAccountOfStore(cust.getPaymentAccounts(),store);
-						CreditCard cc = pa.getCreditCard();
-						if(pa!=null && cc!=null) {
+						if(pa!=null && pa.getCreditCard()!=null) {
+							CreditCard cc = pa.getCreditCard();
 							String numStr = cc.getCcNumber(), monthStr = cc.getCcValidity().split("/")[0], 
 									yearStr = cc.getCcValidity().split("/")[1],
 									cvvStr = cc.getCcCVV();

@@ -72,7 +72,6 @@ public class DataBaseController extends ParentController {
 	/**
 	 * Sending the <code>DataBase</code> data (which is in ArrayList) to the correct GUI.
 	 * @param db - the information of the new <code>DataBase</code>.
-	 * @throws IOException - thrown when sending to Server failed.
 	 */
 	public void sendDBData(ArrayList<String> dbData) {
 		String methodName = "setDBData";
