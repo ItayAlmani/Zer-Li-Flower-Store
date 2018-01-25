@@ -3,7 +3,9 @@ package izhar;
 import java.math.BigInteger;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 
 import common.EchoServer;
@@ -262,10 +264,27 @@ public class OrderController extends ParentController{
 		throw new Exception();
 	}
 
-	public ArrayList<Object> getAllOrdersByStoreID(BigInteger storeID) throws Exception {
-		String query = "SELECT ord.*" + 
-				" FROM orders AS ord, deliverydetails AS del" + 
-				" WHERE del.deliveryID=ord.deliveryID AND del.storeID='"+storeID+"'";
+	/**
+	 * asks the server for all the <code>Order</code>s by <code>storeID</code>
+	 * @param storeID	- the parameter to find the <code>Order</code>s
+	 * @param startDate	- the first day of the quarter	(01.MM.YY)
+	 * @param endDate 	- the last day of the quarter	(31.MM+3.YY)
+	 */
+	public ArrayList<Object> getOrdersForReportByStoreID(BigInteger storeID, LocalDate startDate, LocalDate endDate) throws Exception {
+		String query = String.format("SELECT ord.*\n" + 
+				" FROM orders AS ord, deliverydetails AS del, shipmentdetails AS sh\n" + 
+				" WHERE\n" + 
+				"	(\n" + 
+				"		del.deliveryID=ord.deliveryID\n" + 
+				"		OR\n" + 
+				"		ord.shipmentID=sh.shipmentID AND sh.deliveryID=del.deliveryID\n" + 
+				"    )\n" + 
+				"    AND del.storeID='%d'\n" + 
+				"    AND ord.date>='%s' AND ord.date<='%s'\n" + 
+				"    AND (ord.status='Paid' OR ord.status='Canceled');"
+				, storeID,
+				(Timestamp.valueOf(startDate.atStartOfDay())).toString(),
+				(Timestamp.valueOf(endDate.atTime(LocalTime.of(23, 59, 59)))).toString());
 		return handleGet(EchoServer.fac.dataBase.db.getQuery(query));
 	}
 
@@ -305,6 +324,21 @@ public class OrderController extends ParentController{
 		return ords;
 	}
 
+	
+	/**
+	 * parsing the data into new Order object
+	 * @param orderID		-	the order's ID
+	 * @param customerID	-	the customer who made the order's ID
+	 * @param deliveryID	-	the delivery's details's ID
+	 * @param type			-	the type of order by the ENUM
+	 * @param greeting		-	the greeting which can be attached to the order
+	 * @param deliveryType	-	the delivery type by the ENUM
+	 * @param orderStatus	-	the order's status by the ENUm
+	 * @param date			-	the order's date
+	 * @param price TODO
+	 * @param payMethod
+	 * @return new object created by the data above
+	 */
 	public Order parse(BigInteger orderID, BigInteger customerID, BigInteger deliveryID, String payMethod,
 			BigInteger shipmentID, String type, String greeting, String deliveryType, String orderStatus,
 			Timestamp date, float price) throws Exception {

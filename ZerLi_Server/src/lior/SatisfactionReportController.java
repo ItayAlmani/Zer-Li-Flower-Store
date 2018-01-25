@@ -33,7 +33,7 @@ public class SatisfactionReportController extends ParentController implements IS
 		if(inObjs.size()==1 && inObjs.get(0) instanceof SatisfactionReport)
 			return inObjs;
 		else if(inObjs.isEmpty())
-			return ProduceSatisfactionReport(date, storeID);
+			return produceSatisfactionReport(date, storeID);
 		throw new Exception();
 	}
 
@@ -41,7 +41,7 @@ public class SatisfactionReportController extends ParentController implements IS
 	 * @see lior.ISatisfactionReport#ProduceSatisfactionReport(java.util.ArrayList)
 	 */
 	@Override
-	public ArrayList<Object> ProduceSatisfactionReport(LocalDate date, BigInteger storeID) throws Exception {
+	public ArrayList<Object> produceSatisfactionReport(LocalDate date, BigInteger storeID) throws Exception {
 		sReport=new SatisfactionReport(date,storeID);
 		this.sReport.setStoreID(storeID);
 		this.sReport.setStartdate(date.minusMonths(3).plusDays(1));

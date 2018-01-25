@@ -6,7 +6,7 @@ import java.text.DecimalFormat;
 
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 
-public class ProductInOrder extends RecursiveTreeObject<ProductInOrder> implements Serializable  {
+public class ProductInOrder extends RecursiveTreeObject<ProductInOrder> implements Comparable<Product>,Serializable  {
 	
 	private static final long serialVersionUID = 13L;
 	private BigInteger id;
@@ -35,6 +35,10 @@ public class ProductInOrder extends RecursiveTreeObject<ProductInOrder> implemen
 		this.quantity = quantity;
 		this.finalPrice = finalPrice;
 		this.orderID=orderID;
+	}
+
+	public ProductInOrder() {
+		// TODO Auto-generated constructor stub
 	}
 
 	public float getFinalPrice() {
@@ -99,5 +103,19 @@ public class ProductInOrder extends RecursiveTreeObject<ProductInOrder> implemen
 	@Override
 	public String toString() {
 		return "Product: "+product.toString()+", Order: "+orderID;
+	}
+
+	@Override
+	public int compareTo(Product o) {
+		return this.getProduct().compareTo(o);
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if(obj instanceof ProductInOrder)
+			return this.product.compareTo(((ProductInOrder)obj).product)==0;
+		else if(obj instanceof Product)
+			return this.product.compareTo((Product)obj)==0;
+		else return super.equals(obj);
 	}
 }

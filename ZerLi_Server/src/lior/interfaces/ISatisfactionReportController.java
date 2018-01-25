@@ -17,7 +17,7 @@ public interface ISatisfactionReportController {
 	 * @throws Exception -because this function calls to
 	 * {@link analyzeComplaints}
 	 */
-	ArrayList<Object> ProduceSatisfactionReport(LocalDate date, BigInteger storeID) throws Exception;
+	ArrayList<Object> produceSatisfactionReport(LocalDate date, BigInteger storeID) throws Exception;
 	/**
 	 * <p> This function takes the information from the server and processes it into a report
 	 *  with all the data associated with it, and returns the report to the client.

@@ -49,7 +49,9 @@ public class OrderReportController extends ParentController implements IOrderRep
 			this.oReport.addToCounterPerType(pt,0);
 			this.oReport.addToSumPerType(pt,0f);
 		}
-		return analyzeOrders(EchoServer.fac.order.getAllOrdersByStoreID(storeID));
+		LocalDate start = oReport.getEndOfQuarterDate().minusMonths(3).plusDays(1), 
+				end =oReport.getEndOfQuarterDate();
+		return analyzeOrders(EchoServer.fac.order.getOrdersForReportByStoreID(storeID, start, end));
 	}
 
 	public ArrayList<Object> analyzeOrders(ArrayList<Object> objs) throws Exception{
@@ -63,10 +65,12 @@ public class OrderReportController extends ParentController implements IOrderRep
 			return ar;
 		}
 		for (Object o : objs) {
-			if(o instanceof Order)
+			if(o instanceof Order) {
 				orders.add((Order)o);
+				setPIOsInOrder(EchoServer.fac.prodInOrder.getPIOsByOrder(((Order)o).getOrderID()));
+			}
 		}
-		for(int i=0;i<orders.size();i++){
+		/*for(int i=0;i<orders.size();i++){
 			LocalDate start = oReport.getEndOfQuarterDate().minusMonths(3).plusDays(1), 
 					end =oReport.getEndOfQuarterDate(),
 					ordDate = orders.get(i).getDate().toLocalDate();
@@ -75,7 +79,7 @@ public class OrderReportController extends ParentController implements IOrderRep
 						orders.get(i).getOrderStatus().equals(OrderStatus.Canceled))
 				setPIOsInOrder(EchoServer.fac.prodInOrder.getPIOsByOrder(orders.get(i).getOrderID()));
 			}	
-		}
+		}*/
 		ArrayList<Object> ar = new ArrayList<>();
 		ar.add(this.oReport);
 		add(ar);

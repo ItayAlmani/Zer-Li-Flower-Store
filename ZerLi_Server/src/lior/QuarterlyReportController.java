@@ -32,10 +32,10 @@ public class QuarterlyReportController implements IQuarterlyReportController {
 						ArrayList<Object> strObj = EchoServer.fac.store.getAllStores();
 						for (Object obj : strObj) {
 							EchoServer.fac.ordReport.produceOrderReport(LocalDate.now(), ((Store) obj).getStoreID());
-							EchoServer.fac.incReport.ProduceIncomesReport(LocalDate.now(), ((Store) obj).getStoreID());
+							EchoServer.fac.incReport.produceIncomesReport(LocalDate.now(), ((Store) obj).getStoreID());
 							EchoServer.fac.hisReport.produceHistogramOfCustomerComplaintsReport(LocalDate.now(),
 									((Store) obj));
-							EchoServer.fac.satReport.ProduceSatisfactionReport(LocalDate.now(),
+							EchoServer.fac.satReport.produceSatisfactionReport(LocalDate.now(),
 									((Store) obj).getStoreID());
 						}
 						nextDate=nextDate.plusMonths(3);

@@ -239,12 +239,5 @@ public class OrderController extends ParentController implements IOrder {
 		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.SELECT, myMsgArr, Order.class));
 	}
 
-	@Override
-	public void getAllOrdersByStoreID(BigInteger storeID) throws IOException {
-		myMsgArr.clear();
-		myMsgArr.add(Thread.currentThread().getStackTrace()[1].getMethodName());
-		myMsgArr.add(storeID);
-		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.SELECT, myMsgArr, Order.class));
-	}
 //--------------------------------------------------------------------------------------------------------------------
 }

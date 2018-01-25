@@ -9,6 +9,7 @@ import entities.Product;
 import entities.Product.Color;
 import entities.Product.ProductType;
 import entities.Stock;
+import entities.Subscription;
 import interfaces.IParent;
 
 public interface IProduct {
@@ -28,9 +29,10 @@ public interface IProduct {
 	 * @param priceEnd
 	 * @param color
 	 * @param stocks TODO
+	 * @param sub TODO
 	 * @return TODO
 	 */
-	ArrayList<Stock> assembleProduct(ProductType type, Float priceStart, Float priceEnd, Color color, ArrayList<Stock> stocks);
+	ArrayList<Stock> assembleProduct(ProductType type, Float priceStart, Float priceEnd, Color color, ArrayList<Stock> stocks, Subscription sub);
 	
 	public void getProductsInCatalog() throws IOException;
 	

@@ -36,34 +36,7 @@ public interface IOrder  {
 	 */
 	void update(Order order) throws IOException;
 
-	/**
-	 * asks the server for all the <code>Order</code>s by <code>storeID</code>
-	 * @param storeID - the parameter to find the <code>Order</code>s
-	 */
-	public void getAllOrdersByStoreID(BigInteger storeID) throws IOException;
-
 	public void getOrdersWaitingForPaymentByCustomerID(BigInteger customerID) throws IOException;
-	
-	/**
-	 * parsing the data into new Order object
-	 * @param orderID		-	the order's ID
-	 * @param customerID	-	the customer who made the order's ID
-	 * @param deliveryID	-	the delivery's details's ID
-	 * @param transactionID	-	the transaction of the whole order's ID
-	 * @param type			-	the type of order by the ENUM
-	 * @param greeting		-	the greeting which can be attached to the order
-	 * @param deliveryType	-	the delivery type by the ENUM
-	 * @param orderStatus	-	the order's status by the ENUm
-	 * @param date			-	the order's date
-	 * @param price TODO
-	 * @param cartID		-	the cart which contains all the products in order ID
-	 * @return new object created by the data above
-	 */
-/*	Order parse(BigInteger orderID, BigInteger customerID, BigInteger deliveryID, String payMethodID, BigInteger shipmentID, String type,
-			String greeting, String deliveryType, String orderStatus, Timestamp date, float price);*/
-	/*Order parse(BigInteger orderID, BigInteger customerID, BigInteger deliveryID, String payMethod,
-			BigInteger shipmentID, String type, String greeting, String deliveryType, String orderStatus,
-			Timestamp date, float price);*/
 	
 	/**
 	 * asks from server an Order with orderid=<code>orderID</code>

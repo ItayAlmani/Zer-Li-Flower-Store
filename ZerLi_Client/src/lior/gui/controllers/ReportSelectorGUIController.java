@@ -6,8 +6,10 @@ import java.net.URL;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.Month;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.ResourceBundle;
 
 import com.jfoenix.controls.JFXButton;
@@ -28,6 +30,7 @@ import gui.controllers.ParentGUIController;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -120,9 +123,17 @@ public class ReportSelectorGUIController implements Initializable {
 			cbqurtertemp.add(i);
 		cbQuarter1.setItems(FXCollections.observableArrayList(cbqurtertemp));
 		cbQuarter2.setItems(FXCollections.observableArrayList(cbqurtertemp));
+		
+		int start_year = LocalDate.now().getYear();
+		
+		//if no quarter finished this year
+		if(getQuarterNumberByNow()==1)
+			start_year--;//without current year
+		
 		cbqurtertemp.clear();
-		for(int i=1985;i<=2018;i++)
-			cbqurtertemp.add(i);
+		for(int i = start_year; i>=LocalDate.now().minusYears(40).getYear(); i--)
+			cbqurtertemp.add(i);			
+		
 		cbYear1.setItems(FXCollections.observableArrayList(cbqurtertemp));
 		cbYear2.setItems(FXCollections.observableArrayList(cbqurtertemp));
 		//Select the section segmentation
@@ -176,15 +187,7 @@ public class ReportSelectorGUIController implements Initializable {
 			if (date.isBefore(LocalDate.now()) && cbStorePick1.getValue()!=null) {
 				n = cbStorePick1.getValue().getStoreID();
 				if (this.cbTypePick1.getValue().equals(ReportType.Order))
-					//if(!n.equals(-1))
-						Context.fac.orderReport.initproduceOrderReport(date, n);
-					/*else
-					{
-						for(int g=0;g<stores.size()-1;g++)
-						{
-							Context.fac.orderReport.initproduceOrderReport(date, stores.get(g).getStoreID());
-						}
-					}*/
+					Context.fac.orderReport.initproduceOrderReport(date, n);
 				else if (cbTypePick1.getValue().equals(ReportType.Incomes))
 					Context.fac.incomesReport.initProduceIncomesReport(date, n);
 				else if (cbTypePick1.getValue().equals(ReportType.CustomerComplaints))
@@ -551,5 +554,51 @@ public class ReportSelectorGUIController implements Initializable {
 			return LocalDate.of(year, Month.DECEMBER, 31);
 		return null;
 	}
+	
+	/**
+	 * The {@link EventHandler} of both the onAction of {@link #cbYear1} and {@link #cbYear2}
+	 * @param event - the {@link ActionEvent} of the {@link EventHandler}
+	 */
+	public void yearSelected(ActionEvent event) {
+		JFXComboBox<Integer> src = null, cbq = null;
+		//which combo box invoked the handler
+		if(event.getSource().equals(cbYear1)) {
+			src = cbYear1;
+			cbq=cbQuarter1;
+		}
+		else if(event.getSource().equals(cbYear2)) {
+			src=cbYear2;
+			cbq=cbQuarter2;
+		}
+		//if current year chosen
+		if(src.getValue()!=null && src.getValue().equals(LocalDate.now().getYear())) {
+			ArrayList<Integer> cbQurterTemp= new ArrayList<>();
+			//getQuarterNumberByNow() won't be at this point 1 never
+			//because we prevented it by removing current year if getQuarterNumberByNow()==1
+			for(int i=getQuarterNumberByNow()+1;i<=4;i++)
+				cbQurterTemp.add(i);
+			cbq.setItems(FXCollections.observableArrayList(cbQurterTemp));
+		}
+	}
 
+	/**
+	 * checks what quarter are we at
+	 * @return the quarter number (int between 1-4)
+	 */
+	private int getQuarterNumberByNow() {
+		int year = LocalDate.now().getYear();
+		LocalDate now = LocalDate.now(),
+				fstQ = LocalDate.of(year, 1, 1),
+				sndQ = LocalDate.of(year, 4, 1),
+				trdQ = LocalDate.of(year, 7, 1),
+				frtQ = LocalDate.of(year, 10, 1);
+		if (now.isAfter(fstQ.minusDays(1)) && now.isBefore(sndQ))
+			return 1;
+		else if (now.isAfter(sndQ.minusDays(1)) && now.isBefore(trdQ))
+			return 2;
+		else if (now.isAfter(trdQ.minusDays(1)) && now.isBefore(frtQ))
+			return 3;
+		else
+			return 4;
+	}
 }

@@ -45,7 +45,7 @@ public interface IIncomesReportController {
 	 * @throws Exception -because this function calls to
 	 * {@link analyzeComplaints}
 	 */
-	ArrayList<Object> ProduceIncomesReport(LocalDate date, BigInteger storeID) throws Exception;
+	ArrayList<Object> produceIncomesReport(LocalDate date, BigInteger storeID) throws Exception;
 	/**
 	 * <p> A function that get objects from the DB and calls parse after parse it pushes
 	 *  the data back as a report </p>

@@ -216,7 +216,13 @@ public class ParentGUIController extends SetUpMainGUIController implements Initi
 	 * When {@link Store} in the {@link LoadGUIController#cbStores} is changed, the function will
 	 * invoke {@link #getNewOrderByStore(boolean)}
 	 */
-	@FXML public void storeChanged() {
+	public void storeChanged() {
 		getNewOrderByStore(true);
+	}
+	
+	public Store getCurrentStore() throws Exception {
+		if(Context.getUser().getPermissions().equals(UserType.Customer))
+			return cbStores.getValue();
+		throw new Exception();
 	}
 }

@@ -15,6 +15,8 @@ import com.jfoenix.controls.JFXTimePicker;
 import com.jfoenix.controls.JFXToggleButton;
 
 import common.Context;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.DateCell;
@@ -28,106 +30,114 @@ public class OrderTimeGUIController implements Initializable {
 
 	private @FXML JFXButton btnSend, btnBack;
 	private @FXML JFXDatePicker dpDate;
-	private @FXML JFXTimePicker tpTime;
 	private @FXML VBox vboxTime, vboxDateTime;
 	private @FXML JFXSlider sldMinutes, sldHours;
 	private @FXML JFXToggleButton tglPreOrder;
+	private LocalDateTime date;
 	
 	private final static String immStr = "You chose immediate order",
 			preStr = "You chose pre order";
-
-	public void addTime() {
-		LocalDateTime date = null;
-		
-		if(tglPreOrder.isSelected()) {
-			date = dpDate.getValue().atStartOfDay();
-			date=date.plusHours(((Double)sldHours.getValue()).longValue());
-			date=date.plusMinutes(((Double)sldMinutes.getValue()).longValue());
-			Context.order.getDelivery().setImmediate(false);
-		}
-		else {
-			Context.order.getDelivery().setImmediate(true);
-			date = LocalDateTime.now();
-			//if 3 hours from now are before 22:00
-			if(date.plusHours(3).minusMinutes(1).toLocalDate().isAfter(date.toLocalDate())==false
-					&& date.toLocalTime().plusHours(3).plusMinutes(-1).isBefore(LocalTime.of(21, 59)))
-				date=date.plusHours(3).plusMinutes(-1);
-			else {
-				LocalDate new_date = date.toLocalDate().plusDays(1);
-				LocalTime new_time = LocalTime.of(7, 00);
-				date = LocalDateTime.of(new_date, new_time);
-			}
-			Context.order.getDelivery().setImmediate(true);
-		}
-		Context.order.getDelivery().setDate(date);
-		Context.mainScene.loadPayment();
-	}
-
-	public void back() {
-		Context.mainScene.loadDelivery();
-	}
+	
+	private boolean now_plus3_is_in_working_hours;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {		
-		LocalTime now_time = LocalTime.now();
-		if(now_time.plusHours(3).getHour()>22 || 
-				LocalDateTime.now().plusHours(3).getDayOfMonth()>LocalDateTime.now().getDayOfMonth()) {
+		LocalDateTime now_dt = LocalDateTime.now(), nowDT_plus3 = now_dt.plusHours(3);
+		selectedHours();
+		sldMinutes.valueProperty().addListener((obs,ov,nv)->{
+			if(nv != null)
+				date=date.withMinute(nv.intValue());
+		});
+		sldMinutes.setValue(0);
+		sldHours.setValue(7);
+		//if now is not working hours - between 22:00 to 07:00 day after that
+		if(nowDT_plus3.isAfter(LocalDateTime.of(LocalDate.now(),LocalTime.of(22, 00))) ||
+				nowDT_plus3.isBefore(LocalDateTime.of(LocalDate.now(),LocalTime.of(7, 00)))) {
+			now_plus3_is_in_working_hours=false;
 			dpDate.setDayCellFactory(picker -> new DateCell() {
 	            @Override
 	            public void updateItem(LocalDate date, boolean empty) {
 	                super.updateItem(date, empty);
+	                //disable today and every date before
 	                setDisable(empty || date.isBefore(LocalDate.now()) || date.equals(LocalDate.now()));
 	            }
 	        });
 		}
 		else {
+			now_plus3_is_in_working_hours=true;
 			dpDate.setDayCellFactory(picker -> new DateCell() {
 	            @Override
 	            public void updateItem(LocalDate date, boolean empty) {
 	                super.updateItem(date, empty);
+	                //disable today
 	                setDisable(empty || date.isBefore(LocalDate.now()));
 	            }
 	        });
 		}
 	}
 	
-	public void selectedDate() {
-		Context.order.getDelivery().setDate(dpDate.getValue().atStartOfDay());
-		LocalTime now_time = LocalTime.now();
-		LocalDate reqDate = dpDate.getValue(), now_date = LocalDate.now();
+	public void addTime() {
+		LocalDateTime dt = null, 
+				nowDT = LocalDateTime.now(), 
+				nowDT_plus3 = nowDT.plusHours(3);
 		
-		ArrayList<LocalTime> al = new ArrayList<>();
-		
-		//The order is for today
-		if(now_date.compareTo(reqDate)==0) {
-			if(now_time.compareTo(LocalTime.of(22, 00))<=0) { //delivery until 22:00
-				sldHours.setMin(now_time.plusHours(3).getHour());
-				for (LocalTime i = LocalTime.of(now_time.plusHours(3).getHour(), now_time.truncatedTo(ChronoUnit.MINUTES).getMinute()); i.isBefore(LocalTime.of(21, 45)); i=i.plusMinutes(15))
-					al.add(i);
-			}
+		if(tglPreOrder.isSelected()) {
+			dt = date;
+			Context.order.getDelivery().setImmediate(false);
 		}
 		else {
-			sldHours.setMin(7);
-			for (LocalTime i = LocalTime.of(7, 00); i.isBefore(LocalTime.of(22, 00)); i=i.plusHours(1))
-				al.add(i);
+			Context.order.getDelivery().setImmediate(true);
+			//if 3 hours from now are before 22:00
+			if(nowDT_plus3.isBefore(LocalDateTime.of(LocalDate.now(), LocalTime.of(22, 00))))
+				dt=nowDT_plus3;
+			else {
+				LocalDate new_date = LocalDate.now().plusDays(1);
+				LocalTime new_time = LocalTime.of(7, 00);
+				dt = LocalDateTime.of(new_date, new_time);
+			}
+			Context.order.getDelivery().setImmediate(true);
 		}
+		Context.order.getDelivery().setDate(dt);
+		Context.mainScene.loadPayment();
+	}
+
+	public void back() {
+		Context.mainScene.loadDelivery();
+	}
+	
+	public void selectedDate() {
+		date=dpDate.getValue().atStartOfDay();
+		LocalTime now_time = LocalTime.now();
+		LocalDate now_date = LocalDate.now(),
+				reqDate = dpDate.getValue();
+		
+		//The order is for today and 3 hours from now store still works
+		if(now_date.equals(reqDate) && now_plus3_is_in_working_hours)
+			sldHours.setMin((double)now_time.plusHours(3).getHour());
+		else
+			sldHours.setMin(7f);
 		sldHours.setValue(sldHours.getMin());
 		vboxTime.setVisible(true);
 		sldHours.setVisible(true);
 	}
 
 	public void selectedHours() {
-		LocalTime now_time = LocalTime.now();
+		sldHours.valueProperty().addListener((obs,ov,nv)->{
+			if(nv != null)
+				date=date.withHour(nv.intValue());
+			LocalTime now_time = LocalTime.now();
 
-		//if now hours+3 chosen
-		Integer val = ((Double)sldHours.getValue()).intValue();
-		Integer hour = now_time.getHour()+3;
-		if(val.equals(hour))
-			sldMinutes.setMin(now_time.getMinute()+1);
-		else
-			sldMinutes.setMin(0);
-		sldMinutes.setValue(sldMinutes.getMin());
-		sldMinutes.setVisible(true);
+			//if now hours+3 chosen
+			int val = nv.intValue();
+			int hour = now_time.getHour()+3;
+			if(val==hour) {
+				sldMinutes.setMin(now_time.getMinute());
+				sldMinutes.setValue(now_time.getMinute());
+			}
+			else
+				sldMinutes.setMin(0);
+			sldMinutes.setVisible(true);	
+		});
 	}
 
 	public void toggledPreOrder() {

@@ -64,24 +64,22 @@ public class ProductController extends ParentController implements IProduct {
 	} 
 	
 	@Override
-	public ArrayList<Stock> assembleProduct(ProductType type, Float priceStart, Float priceEnd, Color color, ArrayList<Stock> stocks) {
+	public ArrayList<Stock> assembleProduct(ProductType type, Float priceStart, Float priceEnd, Color color, ArrayList<Stock> stocks, Subscription sub) {
 		ArrayList<Stock> inConditionProds = new ArrayList<>();
 		if(type!=null && priceStart!=null && priceEnd!=null) {
 			if(color==null) {
 				for (Stock s : stocks) {
+					Float price = sub!=null?Context.fac.sub.getPriceBySubscription(sub, s.getPriceAfterSale()):s.getPriceAfterSale();
 					Product p = s.getProduct();
-					if(p.getType().equals(type)
-							&& s.getPriceAfterSale()>=priceStart 
-							&& s.getPriceAfterSale()<=priceEnd)
+					if(p.getType().equals(type) && price>=priceStart && price<=priceEnd)
 						inConditionProds.add(s);
 				}
 			}
 			else {
 				for (Stock s : stocks) {
 					Product p = s.getProduct();
-					if(p.getType().equals(type)
-						&& s.getPriceAfterSale()>=priceStart 
-						&& s.getPriceAfterSale()<=priceEnd
+					Float price = sub!=null?Context.fac.sub.getPriceBySubscription(sub, s.getPriceAfterSale()):s.getPriceAfterSale();
+					if(p.getType().equals(type) && price>=priceStart && price<=priceEnd
 						&& p.getColor().equals(color))
 							inConditionProds.add(s);
 				}

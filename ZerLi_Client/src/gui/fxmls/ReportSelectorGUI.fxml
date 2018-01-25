@@ -31,8 +31,8 @@
             </Label>
             <JFXComboBox fx:id="cbStorePick2" focusColor="ORANGE" labelFloat="true" layoutX="49.0" layoutY="34.0" maxHeight="25.0" maxWidth="88.0" prefHeight="25.0" prefWidth="88.0" promptText="Store" unFocusColor="RED" />
             <JFXComboBox fx:id="cbTypePick2" focusColor="ORANGE" labelFloat="true" layoutX="165.0" layoutY="34.0" maxHeight="25.0" maxWidth="95.0" prefHeight="25.0" prefWidth="95.0" promptText="Type" unFocusColor="RED" />
-            <JFXComboBox fx:id="cbQuarter2" focusColor="ORANGE" layoutX="49.0" layoutY="78.0" prefHeight="25.0" prefWidth="88.0" promptText="Quarter" unFocusColor="RED" />
-            <JFXComboBox fx:id="cbYear2" focusColor="ORANGE" layoutX="165.0" layoutY="77.0" prefHeight="25.0" prefWidth="95.0" promptText="Year" unFocusColor="RED" />
+            <JFXComboBox fx:id="cbYear2" focusColor="ORANGE" layoutX="46.0" layoutY="78.0" onAction="#yearSelected" prefHeight="25.0" prefWidth="95.0" promptText="Year" unFocusColor="RED" />
+            <JFXComboBox fx:id="cbQuarter2" focusColor="ORANGE" layoutX="169.0" layoutY="78.0" prefHeight="25.0" prefWidth="88.0" promptText="Quarter" unFocusColor="RED" />
          </children>
       </AnchorPane>
       <AnchorPane fx:id="paneOrderReport1" layoutX="4.0" layoutY="174.0" prefHeight="218.0" prefWidth="274.0" visible="false">
@@ -198,7 +198,7 @@
       </AnchorPane>
       <JFXSpinner fx:id="Spinner1" layoutX="126.0" layoutY="234.0" visible="false" />
       <JFXSpinner fx:id="Spinner2" layoutX="426.0" layoutY="234.0" visible="false" />
-      <JFXComboBox fx:id="cbQuarter1" focusColor="ORANGE" layoutX="26.0" layoutY="91.0" prefHeight="25.0" prefWidth="88.0" promptText="Quarter" unFocusColor="RED" />
-      <JFXComboBox fx:id="cbYear1" focusColor="ORANGE" layoutX="142.0" layoutY="93.0" prefHeight="25.0" prefWidth="95.0" promptText="Year" unFocusColor="RED" />
+      <JFXComboBox fx:id="cbQuarter1" focusColor="ORANGE" layoutX="145.0" layoutY="91.0" prefHeight="25.0" prefWidth="88.0" promptText="Quarter" unFocusColor="RED" />
+      <JFXComboBox fx:id="cbYear1" focusColor="ORANGE" layoutX="25.0" layoutY="91.0" onAction="#yearSelected" prefHeight="25.0" prefWidth="95.0" promptText="Year" unFocusColor="RED" />
    </children>
 </AnchorPane>

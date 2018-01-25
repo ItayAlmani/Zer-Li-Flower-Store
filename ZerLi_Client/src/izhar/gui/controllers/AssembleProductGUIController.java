@@ -1,6 +1,7 @@
 package izhar.gui.controllers;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.controlsfx.control.RangeSlider;
 
@@ -10,10 +11,12 @@ import com.jfoenix.controls.JFXTextField;
 
 import common.Context;
 import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView;
+import entities.PaymentAccount;
 import entities.Product;
 import entities.Product.Color;
 import entities.Product.ProductType;
 import entities.Stock;
+import entities.Subscription;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -24,6 +27,12 @@ import javafx.scene.layout.HBox;
 
 public class AssembleProductGUIController extends ProductsPresentationGUIController implements Initializable{
 
+	protected class CollectionByType{
+		protected ArrayList<Stock> stocks = new ArrayList<>();
+		protected Integer min = null, max = null;
+		protected ArrayList<Color> cal = new ArrayList<>();
+	}
+	
 	private @FXML JFXComboBox<ProductType> cbType;
 	private @FXML JFXComboBox<Color> cbColor;
 	private @FXML RangeSlider rsPrice;
@@ -31,49 +40,69 @@ public class AssembleProductGUIController extends ProductsPresentationGUIControl
 	private @FXML MaterialDesignIconView icnFlower;
 	private @FXML JFXButton btnSend;
 	private HBox hxProds;
-	private ArrayList<Stock> stocks = new ArrayList<>(), stocksByType;
+	private ArrayList<Stock> stocksAfterAssemble;
+	private HashMap<ProductType, CollectionByType> stockByType = new HashMap<>();
+	private Subscription sub = null;
 	
 	/**
 	 * 
 	 */
-	public void createForm() {		
+	public void createForm() {	
 		cbType.valueProperty().addListener((obs,oldVal,newVal)->{
+			CollectionByType cbt = stockByType.get(newVal);
 			cbColor.setValue(null);
 			cbColor.getItems().clear();
-			stocksByType=new ArrayList<>();
 			if(vbox.getChildren().contains(hxProds))
 				vbox.getChildren().remove(hxProds);
-			Float min = stocks.get(0).getPriceAfterSale(), max=0f;
-			ArrayList<Color> cal = new ArrayList<>();
-			for (Stock s : stocks) {
-				if(s.getProduct().getType().equals(newVal)&& s.getProduct().getColor()!=null &&
-						s.getProduct().getColor().equals(Color.Colorfull)==false &&
-						cal.contains(s.getProduct().getColor())==false) {
-					cal.add(s.getProduct().getColor());
-					if(s.getPriceAfterSale()<min)
-						min=s.getPriceAfterSale();
-					if(s.getPriceAfterSale()>max)
-						max=s.getPriceAfterSale();
-					stocksByType.add(s);
-				}
-			}
-			min=min!=0f?min:0f;
-			max++;
-			rsPrice.setMin(min.intValue());
-			rsPrice.setMax(max.intValue());
-			rsPrice.setHighValue(max.intValue());
-			rsPrice.setLowValue(min.intValue());
-			Integer ticks = ((Integer)((Float)((max-min)/10f)).intValue());
-			ticks=ticks>0?ticks:1;
-			rsPrice.setMajorTickUnit(++ticks);
-			rsPrice.setMinorTickCount(ticks);
-			cbColor.setItems(FXCollections.observableArrayList(cal));
+			rsPrice.setMin(cbt.min);
+			rsPrice.setMax(cbt.max);
+			rsPrice.setHighValue(cbt.max);
+			rsPrice.setLowValue(cbt.min);
+			rsPrice.setMajorTickUnit(4);
+			rsPrice.setMinorTickCount(3);
+			cbColor.setItems(FXCollections.observableArrayList(cbt.cal));
 		});
-		ArrayList<ProductType> ptal = new ArrayList<>();
-		for (Stock s : stocksByType) {
-			if(ptal.contains(s.getProduct().getType())==false)
-				ptal.add(s.getProduct().getType());
+		
+		for (Stock s : stocks) {
+			//The key for all the assemble
+			ProductType type = s.getProduct().getType();
+			
+			if(s.getProduct().getColor()!=null &&
+					s.getProduct().getColor().equals(Color.Colorfull)==false) {
+				
+				//if it's the first Product with this type, add it to the Map
+				if(stockByType.containsKey(type)==false)
+					stockByType.put(type, new CollectionByType());
+				
+				CollectionByType cbt = stockByType.get(type);
+				if(cbt.cal.contains(s.getProduct().getColor())==false)
+					cbt.cal.add(s.getProduct().getColor());
+				
+				Float price_to_compare = s.getPriceAfterSale();
+				ArrayList<PaymentAccount> pas;
+				PaymentAccount pa;
+				try {
+					pas = Context.getUserAsCustomer().getPaymentAccounts();
+					pa = Context.fac.paymentAccount.getPaymentAccountOfStore(pas,Context.mainScene.getCurrentStore());
+					if(pa==null)
+						throw new Exception();
+				} catch (Exception e) {
+					e.printStackTrace();
+					Context.mainScene.loadMainMenu("Error");
+					return;
+				}
+				this.sub=pa.getSub();
+				if(sub != null)
+					price_to_compare = Context.fac.sub.getPriceBySubscription(pa.getSub(), price_to_compare);
+				if(cbt.min==null || cbt.min>price_to_compare.intValue())
+					cbt.min=price_to_compare.intValue();
+				if(cbt.max==null || cbt.max<price_to_compare+1)
+					cbt.max = price_to_compare.intValue()+1;
+				cbt.stocks.add(s);
+				System.out.println(s.getProduct()+" "+ price_to_compare.intValue());
+			}
 		}
+		ArrayList<ProductType> ptal = new ArrayList<>(stockByType.keySet());
 		
 		if(Platform.isFxApplicationThread()) {
 			cbType.setItems(FXCollections.observableArrayList(ptal));
@@ -94,8 +123,8 @@ public class AssembleProductGUIController extends ProductsPresentationGUIControl
 		Color color = cbColor.getValue();
 		Float min = Float.parseFloat(txtMinPrice.getText()), 
 				max =Float.parseFloat(txtMaxPrice.getText());
-		stocksByType=Context.fac.product.assembleProduct(type, min, max, color, this.stocks);
-		if(stocksByType.isEmpty()==false) {
+		stocksAfterAssemble=Context.fac.product.assembleProduct(type, min, max, color, stockByType.get(type).stocks, this.sub);
+		if(stocksAfterAssemble.isEmpty()==false) {
 			try {
 				initPage();
 			} catch (Exception e) {
@@ -160,18 +189,15 @@ public class AssembleProductGUIController extends ProductsPresentationGUIControl
 	
 	private void initPage() throws Exception {
 		components.clear();    	
-    	pagination  = new Pagination(stocksByType.size(), 0);
-    	initArrays(stocksByType.size());
+    	pagination  = new Pagination(stocksAfterAssemble.size(), 0);
+    	initArrays(stocksAfterAssemble.size());
     	int i = 0;
-		for (Stock stk : stocksByType) {
+		for (Stock stk : stocksAfterAssemble) {
 			Float newPrice = Context.fac.product.getPriceWithSubscription(Context.order,stk.getProduct(), stk.getPriceAfterSale(), Context.getUserAsCustomer());
 			setVBox(i, 
 					stk,
-					newPrice==null?null:newPrice*(1-stk.getSalePercetage()),
-						addToCart(stk.getProduct(),
-							newPrice==null ? 
-								stk.getPriceAfterSale() :
-								newPrice*(1-stk.getSalePercetage()), stk));
+					newPrice,
+					addToCart(stk.getProduct(),newPrice==null?stk.getPriceAfterSale():newPrice, stk));
 			i++;
 		}
 		if(Platform.isFxApplicationThread())
@@ -195,7 +221,7 @@ public class AssembleProductGUIController extends ProductsPresentationGUIControl
 		if(Context.order!=null && 
     			Context.order.getDelivery()!=null && 
     			Context.order.getDelivery().getStore()!=null) {
-			stocksByType=this.stocks=Context.fac.stock.getNotInCatalogOnlyStock(Context.order.getDelivery().getStore().getStock());
+			stocksAfterAssemble=this.stocks=Context.fac.stock.getNotInCatalogOnlyStock(Context.order.getDelivery().getStore().getStock());
     		createForm();
     	}
     	else

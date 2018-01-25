@@ -19,8 +19,6 @@ public class Product implements Comparable<Product>, Serializable  {
 	private byte[] mybytearray = null;
 
 	public enum ProductType {
-		Bouquet("Bouquet"),
-		Single("Single"), 
 		FlowerArrangment("Flower Arrangment"),
 		FloweringPlant("Flowering Plant"), 
 		BridalBouquet("Bridal Bouquet"),

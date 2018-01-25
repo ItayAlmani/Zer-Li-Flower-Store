@@ -119,3 +119,13 @@
 VBox:disabled, VBox:disabled > * {
   -fx-opacity: 1.0 ;
 }
+
+.jfx-slider {
+    -jfx-default-thumb: orange;
+    -jfx-default-track: red;
+}
+
+.jfx-slider .animated-thumb,
+.jfx-slider .animated-thumb:min{
+	-fx-background-color: orange;
+}

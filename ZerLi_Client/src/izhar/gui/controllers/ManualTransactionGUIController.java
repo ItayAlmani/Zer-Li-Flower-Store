@@ -8,6 +8,8 @@ import java.util.ResourceBundle;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXButton.ButtonType;
 import com.jfoenix.controls.JFXComboBox;
+import com.jfoenix.controls.JFXSlider;
+import com.jfoenix.controls.JFXSpinner;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXTreeTableColumn;
 import com.jfoenix.controls.JFXTreeTableView;
@@ -113,8 +115,19 @@ public class ManualTransactionGUIController implements Initializable {
 	private void setup() {
 		root.getChildren().clear();
 		for (Stock s : store.getStock()) {
+			int qua = 0;
+			float price = 0f;
 			s.getProduct().setPrice(s.getPriceAfterSale());
-			createItem(root, s, 0, 0f);
+			if(Context.order!=null) {
+				ProductInOrder pio = new ProductInOrder();
+				pio.setProduct(s.getProduct());
+				int ind;
+				if((ind = Context.order.getProducts().indexOf(pio))!=-1) {
+					qua=Context.order.getProducts().get(ind).getQuantity();
+					price=Context.order.getProducts().get(ind).getFinalPrice();
+				}
+			}
+			createItem(root, s, qua, price);
 		}
 	}
 
@@ -214,6 +227,8 @@ public class ManualTransactionGUIController implements Initializable {
 							ProductInOrder pio = getTreeTableView().getTreeItem(getIndex()).getValue();
 							pio.setQuantity(0);
 							pio.setFinalPrice();
+							if(order.getProducts().indexOf(pio)!=-1)
+								order.getProducts().remove(order.getProducts().indexOf(pio));
 							ttvProducts.refresh();
 						}
 					});
@@ -230,12 +245,10 @@ public class ManualTransactionGUIController implements Initializable {
 		Context.mainScene.setMenuPaneDisable(false);
 		if (Platform.isFxApplicationThread()) {
 			cbCustomers.setItems(custList);
-			//cbCustomers.setPromptText("Choose customer");
 			cbCustomers.setDisable(false);
 		} else {
 			Platform.runLater(() -> {
 				cbCustomers.setItems(custList);
-				//cbCustomers.setPromptText("Choose customer");
 				cbCustomers.setDisable(false);
 			});
 		}
@@ -244,6 +257,8 @@ public class ManualTransactionGUIController implements Initializable {
 	/** the onAction handler of {@link #cbCustomers} */
 	public void customerSelected() {
 		paneProducts.setVisible(false);
+		JFXSpinner spn = new JFXSpinner();
+		vbox.getChildren().add(vbox.getChildren().indexOf(paneProducts),spn);
 		if (cbCustomers.getValue() == null)
 			return;
 		Customer c = cbCustomers.getValue();
@@ -253,23 +268,20 @@ public class ManualTransactionGUIController implements Initializable {
 		}
 
 		// Thread that waits until the order returns from Server
-		Thread t = new Thread(new Runnable() {
-			@Override
-			public void run() {
-				while (Context.order == null) {
-					try {
-						Thread.sleep(1000);
-					} catch (InterruptedException e) {}
-				}
-				order = Context.order;
-				btnSend.setDisable(false);
-				if (cbCustomers.getValue() != null && cbCustomers.getValue().getCustomerID() != null)
-					order.setCustomerID(cbCustomers.getValue().getCustomerID());
-				paneProducts.setVisible(true);
-				setup();
+		Platform.runLater(()->{
+			while (Context.order == null) {
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {}
 			}
+			order = Context.order;
+			btnSend.setDisable(false);
+			if (cbCustomers.getValue() != null && cbCustomers.getValue().getCustomerID() != null)
+				order.setCustomerID(cbCustomers.getValue().getCustomerID());
+			setup();
+			paneProducts.setVisible(true);
+			vbox.getChildren().remove(spn);
 		});
-		t.start();
 	}
 
 	/** the onAction handler of {@link #btnSend} */

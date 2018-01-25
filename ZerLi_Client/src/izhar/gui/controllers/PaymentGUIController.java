@@ -228,7 +228,7 @@ public class PaymentGUIController implements Initializable {
 			}
 		}
 		//Won't be null if it's payment for manual order
-		if(ord.getOrderStatus()==null)
+		if(ord.getOrderStatus().equals(OrderStatus.InProcess))
 			ord.setOrderStatus(OrderStatus.Paid);
 		if(txtGreeting.getText().isEmpty()==false)
 			ord.setGreeting(txtGreeting.getText());
