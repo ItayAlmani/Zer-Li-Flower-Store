@@ -1,5 +1,7 @@
 package kfir.gui.controllers;
 
+import java.awt.Button;
+import java.awt.TextField;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.net.URL;
@@ -9,16 +11,17 @@ import java.util.ResourceBundle;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
-
 import common.Context;
 import entities.CreditCard;
 import entities.Customer;
+import entities.DataBase;
 import entities.PaymentAccount;
 import entities.Store;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.ComboBox;
 import javafx.scene.layout.VBox;
 
 public class PaymentAccountManagmentGUIController implements Initializable  {
@@ -36,13 +39,13 @@ public class PaymentAccountManagmentGUIController implements Initializable  {
 	private static String EMPTY_STR = "";
 	
 	/** false <=> {@link PaymentAccount} need to be updated.<br>
-	 * true <=> {@link PaymentAccount} need to be created.*/
+	 * true <=> {@link PaymentAccount} need to be created*/
 	private boolean pa_need_to_be_updated = true;
 	
 	
 	private @FXML VBox vboxPA;
 	
-
+	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		setTextFieldsListeners(txtCardNUM, 16);
 		setTextFieldsListeners(txtMonth, 2);
@@ -59,6 +62,11 @@ public class PaymentAccountManagmentGUIController implements Initializable  {
 		}
 	}
 	
+	/**
+	 * Function get {@link ArrayList} of {@link Customer}s from {@link DataBase} and
+	 * set them in the {@link ComboBox}
+	 * @param customers - {@link ArrayList} from {@link DataBase}
+	 */
 	public void setCustomers(ArrayList<Customer> customers) {
 		Context.mainScene.setMenuPaneDisable(false);
 		if(Platform.isFxApplicationThread()) {
@@ -72,6 +80,12 @@ public class PaymentAccountManagmentGUIController implements Initializable  {
 			});
 	}
 
+	/**
+	 *Function check if the selected {@link Customer} have a exist {@link PaymentAccount}
+	 *<p>
+	 *if YES - show his details in the {@link TextField}
+	 *if NO - show an appropriate message 
+	 */
 	public void openPaymentAccount() {
 		try {
 			btnSave.setDisable(false);
@@ -119,6 +133,9 @@ public class PaymentAccountManagmentGUIController implements Initializable  {
 		}
 	}
 	
+	/**
+	 * Function set text in the {@link TextField}s and in the {@link Button}
+	 */
 	private void setTextInTF(String num, String month, String year, String cvv, boolean pa_to_update, String btnText) {
 		txtCardNUM.setText(num);
 		txtMonth.setText(month);
@@ -128,6 +145,11 @@ public class PaymentAccountManagmentGUIController implements Initializable  {
 		btnSave.setText(btnText);
 	}
 	
+	/**
+	 * Function get input from {@link TextField}s
+	 * <p>
+	 * check if the input is correct and create new {@link PaymentAccount} for the selected {@link Customer}
+	 */
 	public void savePaymentAccount() {
 		try {
 			btnSave.setDisable(true);
@@ -150,6 +172,12 @@ public class PaymentAccountManagmentGUIController implements Initializable  {
 		}
 	}
 	
+	/**
+	 *Function get {@link ArrayList} of {@link CreditCard} from DB
+	 * <p>
+	 * and attach the new {@link CreditCard} to the selected {@link Customer}'s {@link PaymentAccount}
+	 * @param ccs - {@link ArrayList} of {@link CreditCard}
+	 */
 	public void setCards(ArrayList<CreditCard> ccs) {
 		Context.mainScene.setMenuPaneDisable(false);
 		//this credit card doesn't exist
@@ -177,6 +205,10 @@ public class PaymentAccountManagmentGUIController implements Initializable  {
 			Context.mainScene.setMessage("Error with credit card");
 	}
 	
+	/**
+	 *Function get the new {@link CreditCard} id and attach it to the {@link Customer}'s {@link PaymentAccount}
+	 * @param id - new {@link CreditCard} ID
+	 */
 	public void setCredCardID(BigInteger id){
 		Context.mainScene.setMenuPaneDisable(false);
 		if(this.pa == null) {
@@ -199,6 +231,10 @@ public class PaymentAccountManagmentGUIController implements Initializable  {
 		}
 	}
 	
+	/**
+	 * Function attach the new {@link PaymentAccount} to the selected {@link Customer}
+	 * and update the View
+	 */
 	private void updateView() {
 		if(pa_need_to_be_updated==false)
 			cust.addPaymentAccount(pa);		
@@ -206,9 +242,9 @@ public class PaymentAccountManagmentGUIController implements Initializable  {
 	}
 	
 	/**
-	 * 
-	 * @param tf
-	 * @param maxLength the maximum length of value. if equals -1, no limit.
+	 * function check if the {@link TextField} input is valid
+	 * @param tf - {@link TextField} given
+	 * @param maxLength -  the maximum length of value. if equals -1, no limit.
 	 */
 	private void setTextFieldsListeners(JFXTextField tf, int maxLength) {
 		//Listener only digits
