@@ -15,9 +15,12 @@ import entities.Order;
 import entities.ProductInOrder;
 import entities.Store;
 
-public class PickupController extends ParentController {
+public class PickupController extends ParentController implements IPickupController {
 	private String isImm,dateStr;
 	
+	/* (non-Javadoc)
+	 * @see izhar.IPickupController#add(java.util.ArrayList)
+	 */
 	@Override
 	public ArrayList<Object> add(ArrayList<Object> arr) throws Exception {
 		if(arr!=null && arr.size()==2 &&
@@ -57,6 +60,9 @@ public class PickupController extends ParentController {
 			dateStr = "'"+(Timestamp.valueOf(del.getDate())).toString()+"'";
 	}
 
+	/* (non-Javadoc)
+	 * @see izhar.IPickupController#update(java.lang.Object)
+	 */
 	@Override
 	public ArrayList<Object> update(Object obj) throws Exception {
 		if (obj instanceof DeliveryDetails) {
@@ -83,6 +89,10 @@ public class PickupController extends ParentController {
 			throw new Exception();
 	}
 	
+	/* (non-Javadoc)
+	 * @see izhar.IPickupController#getDeliveryByID(java.math.BigInteger)
+	 */
+	@Override
 	public ArrayList<Object> getDeliveryByID(BigInteger deliveryID) throws Exception{
 		String query = "SELECT *" + 
 				" FROM deliverydetails" + 
@@ -90,6 +100,9 @@ public class PickupController extends ParentController {
 		return handleGet(EchoServer.fac.dataBase.db.getQuery(query));
 	}
 	
+	/* (non-Javadoc)
+	 * @see izhar.IPickupController#handleGet(java.util.ArrayList)
+	 */
 	@Override
 	public ArrayList<Object> handleGet(ArrayList<Object> obj) throws Exception {
 		if(obj == null) return null;
@@ -105,6 +118,10 @@ public class PickupController extends ParentController {
 		return dels;
 	}
 	
+	/* (non-Javadoc)
+	 * @see izhar.IPickupController#parse(java.math.BigInteger, java.math.BigInteger, java.time.LocalDateTime, java.lang.Boolean)
+	 */
+	@Override
 	public DeliveryDetails parse(BigInteger deliveryID, BigInteger storeID, LocalDateTime date, Boolean isImmediate) throws Exception {
 		ArrayList<Object> storesObj = EchoServer.fac.store.getStoreByID(storeID);
 		if(storesObj!=null && storesObj.size()==1 && storesObj.get(0) instanceof Store) {

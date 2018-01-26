@@ -18,6 +18,7 @@ import kfir.interfaces.ICustomer;
 
 public class CustomerController extends ParentController implements ICustomer {
 	
+	@Override
 	public void getCustomerByUser(BigInteger userID) throws IOException {
 		myMsgArr.clear();
 		myMsgArr.add(Thread.currentThread().getStackTrace()[1].getMethodName());
@@ -25,21 +26,18 @@ public class CustomerController extends ParentController implements ICustomer {
 		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.SELECT,myMsgArr,Customer.class));
 	}
 	
+	@Override
 	public boolean billCreditCardOfCustomer(Customer customer, float amount) {
 		//return billCard(customer.getPaymentAccount().getCreditCard(), amount);
 		return new Random().nextBoolean();
 	}
 
-	/**
-	 * Suppose to be external function - the billing is external
-	 * @param cc
-	 * @param amount
-	 * @return
-	 */
+	@Override
 	public boolean billCard(CreditCard cc, float amount) {
 		return new Random().nextBoolean();
 	}
 
+	@Override
 	public void handleGet(ArrayList<Customer> customers) {
 		String methodName = "setCustomers";
 		Method m = null;
@@ -71,6 +69,7 @@ public class CustomerController extends ParentController implements ICustomer {
 		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.SELECT,myMsgArr,Customer.class));
 	}
 	
+	@Override
 	public void getAllCustomersOfStore(BigInteger storeID) throws IOException {
 		myMsgArr.clear();
 		myMsgArr.add(Thread.currentThread().getStackTrace()[1].getMethodName());
@@ -78,6 +77,7 @@ public class CustomerController extends ParentController implements ICustomer {
 		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.SELECT,myMsgArr,Customer.class));
 	}
 	
+	@Override
 	public void add(Customer cust, boolean getID) throws Exception {
 		myMsgArr.clear();
 		myMsgArr.add(Thread.currentThread().getStackTrace()[1].getMethodName());
@@ -88,6 +88,7 @@ public class CustomerController extends ParentController implements ICustomer {
 		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.INSERT, myMsgArr, Customer.class));
 	}
 
+	@Override
 	public void delete(BigInteger userID) throws Exception {
 		myMsgArr.clear();
 		myMsgArr.add(Thread.currentThread().getStackTrace()[1].getMethodName());
@@ -97,6 +98,7 @@ public class CustomerController extends ParentController implements ICustomer {
 		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.UPDATE, myMsgArr, Customer.class));
 	}
 	
+	@Override
 	public void getCustomerByID(BigInteger custID) throws Exception {
 		myMsgArr.clear();
 		myMsgArr.add(Thread.currentThread().getStackTrace()[1].getMethodName());

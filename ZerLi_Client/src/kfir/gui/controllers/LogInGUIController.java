@@ -17,14 +17,12 @@ import common.MainClient;
 import entities.User;
 import gui.controllers.ParentGUIController;
 import javafx.application.Platform;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 public class LogInGUIController implements Initializable{
 	
 	private @FXML JFXTextField txtUserName;

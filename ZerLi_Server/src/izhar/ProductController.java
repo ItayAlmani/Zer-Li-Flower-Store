@@ -7,15 +7,18 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 import common.EchoServer;
 import controllers.ParentController;
 import entities.Product;
 
-public class ProductController extends ParentController {	
+public class ProductController extends ParentController implements IProductController {	
 	
+	/* (non-Javadoc)
+	 * @see izhar.IProductController#parse(java.math.BigInteger, java.lang.String, java.lang.String, float, java.lang.String, boolean, java.lang.String, byte[])
+	 */
+	@Override
 	public Product parse(BigInteger prdID,
 			String name,
 			String type,
@@ -72,6 +75,9 @@ public class ProductController extends ParentController {
 		return null;
 	}
 
+	/* (non-Javadoc)
+	 * @see izhar.IProductController#handleGet(java.util.ArrayList)
+	 */
 	@Override
 	public ArrayList<Object> handleGet(ArrayList<Object> obj) throws Exception {
 		if(obj==null) return null;
@@ -90,6 +96,9 @@ public class ProductController extends ParentController {
 		return prds;
 	}
 
+	/* (non-Javadoc)
+	 * @see izhar.IProductController#add(java.util.ArrayList)
+	 */
 	@Override
 	public ArrayList<Object> add(ArrayList<Object> arr) throws Exception {
 		if(arr!=null && (arr.get(0) instanceof Product == false) || arr.get(1) instanceof Boolean == false)
@@ -125,26 +134,45 @@ public class ProductController extends ParentController {
 		return myMsgArr;
 	}
 
+	/* (non-Javadoc)
+	 * @see izhar.IProductController#getProductByID(java.math.BigInteger)
+	 */
+	@Override
 	public ArrayList<Object> getProductByID(BigInteger prdID) throws Exception {
 		String query = "SELECT * FROM product WHERE productID = '"+prdID+"';";
 		return handleGet(EchoServer.fac.dataBase.db.getQuery(query));
 	}
 	
+	/* (non-Javadoc)
+	 * @see izhar.IProductController#getAllProducts()
+	 */
+	@Override
 	public ArrayList<Object> getAllProducts() throws Exception {
 		String query = "SELECT * FROM product";
 		return handleGet(EchoServer.fac.dataBase.db.getQuery(query));
 	}
 	
+	/* (non-Javadoc)
+	 * @see izhar.IProductController#getProductsInCatalog()
+	 */
+	@Override
 	public ArrayList<Object> getProductsInCatalog() throws Exception{
 		String query = "SELECT * FROM product WHERE inCatalog='1'";
 		return handleGet(EchoServer.fac.dataBase.db.getQuery(query));
 	}
 
+	/* (non-Javadoc)
+	 * @see izhar.IProductController#getAllProductsNotInCatalog()
+	 */
+	@Override
 	public ArrayList<Object> getAllProductsNotInCatalog() throws Exception{
 		String query = "SELECT * FROM product WHERE inCatalog='0'";
 		return handleGet(EchoServer.fac.dataBase.db.getQuery(query));
 	}
 	
+	/* (non-Javadoc)
+	 * @see izhar.IProductController#update(java.lang.Object)
+	 */
 	@Override
 	public ArrayList<Object> update(Object obj) throws Exception {
 		if(obj instanceof Product) {

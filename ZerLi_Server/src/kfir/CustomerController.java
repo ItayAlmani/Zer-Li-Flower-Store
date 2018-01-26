@@ -10,14 +10,17 @@ import entities.CreditCard;
 import entities.Customer;
 import entities.PaymentAccount;
 import entities.User;
+import kfir.interfaces.ICustomer;
 
-public class CustomerController extends ParentController {
+public class CustomerController extends ParentController implements ICustomer {
 	
+	@Override
 	public ArrayList<Object> getCustomerByUser(BigInteger userID) throws Exception {
 		String query = "SELECT * FROM customer WHERE userID='"+userID+"'";
 		return getAllCustomersData(handleGet(EchoServer.fac.dataBase.db.getQuery(query)));
 	}
 	
+	@Override
 	public ArrayList<Object> getAllCustomersOfStore(BigInteger storeID) throws Exception {
 		String query = String.format("SELECT c.*\n" + 
 				"FROM customer AS c, paymentaccount AS p\n" + 
@@ -25,16 +28,19 @@ public class CustomerController extends ParentController {
 		return getAllCustomersData(handleGet(EchoServer.fac.dataBase.db.getQuery(query)));
 	}
 	
+	@Override
 	public ArrayList<Object> getCustomerByID(BigInteger customerID) throws Exception {
 		String query = "SELECT * FROM customer WHERE customerID='"+customerID+"'";
 		return getAllCustomersData(handleGet(EchoServer.fac.dataBase.db.getQuery(query)));
 	}
 	
+	@Override
 	public boolean billCreditCardOfCustomer(Customer customer, float amount) {
 		//return billCard(customer.getPaymentAccount().getCreditCard(), amount);
 		return new Random().nextBoolean();
 	}
 
+	@Override
 	//Suppose to be external function - the billing is external
 	public boolean billCard(CreditCard cc, float amount) {
 		return new Random().nextBoolean();
@@ -54,15 +60,23 @@ public class CustomerController extends ParentController {
 		return customers;
 	}
 
+	@Override
 	public Customer parse(BigInteger customerID, User user) {
 		return new Customer(user, customerID);
 	}
 
+	@Override
 	public ArrayList<Object> getAllCustomers() throws Exception {
 		String query = "SELECT * FROM customer";
 		return getAllCustomersData(handleGet(EchoServer.fac.dataBase.db.getQuery(query)));
 	}
 	
+	/**
+	 * get all {@link User} data for the given {@link Customer}s in the {@link ArrayList}
+	 * @param customers - {@link ArrayList} of {@link Customer}s
+	 * @return - {@link ArrayList} of {@link Customer} with all {@link User} data
+	 * @throws Exception
+	 */
 	private ArrayList<Object> getAllCustomersData(ArrayList<Object> customers) throws Exception {
 		for (Object object : customers) {
 			if(object instanceof Customer) {
@@ -73,6 +87,11 @@ public class CustomerController extends ParentController {
 		return customers;
 	}
 
+	/**
+	 * 
+	 * @param cust
+	 * @throws Exception
+	 */
 	private void getUsersByCustomer(Customer cust) throws Exception{
 		ArrayList<Object> users = EchoServer.fac.user.getUser(cust.getUserID());
 		if(users!=null && users.size()==1 && users.get(0) instanceof User) {
@@ -82,6 +101,11 @@ public class CustomerController extends ParentController {
 		}
 	}
 	
+	/**
+	 * ask from DataBase to select the {@link PaymentAccount} of the given {@link Customer}
+	 * @param cust
+	 * @throws Exception
+	 */
 	private void getPayAccOfCustomer(Customer cust) throws Exception{
 		ArrayList<Object> pas = EchoServer.fac.paymentAccount.getPayAccount(cust.getCustomerID());
 		if(pas!=null && pas.isEmpty()==false) {
@@ -123,17 +147,5 @@ public class CustomerController extends ParentController {
 	public ArrayList<Object> update(Object obj) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
-	}
-	public ArrayList<Object> delete(ArrayList<Object> obj) throws Exception{
-		if(obj.get(0) instanceof BigInteger && obj.size()==1) {
-			BigInteger userID = (BigInteger)obj.get(0);
-			String query=String.format("DELETE FROM customer WHERE userID='%d'",userID);
-			EchoServer.fac.dataBase.db.updateQuery(query);
-			myMsgArr.clear();
-			myMsgArr.add(true);
-			return myMsgArr;		
-		}
-		else
-			throw new Exception();
 	}
 }

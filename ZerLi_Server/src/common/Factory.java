@@ -5,6 +5,10 @@ import itayNron.StoreController;
 import itayNron.SurveyController;
 import itayNron.SurveyReportController;
 import izhar.IOrder;
+import izhar.IPickupController;
+import izhar.IProductController;
+import izhar.IProductInOrderController;
+import izhar.IShipmentController;
 import izhar.OrderController;
 import izhar.PickupController;
 import izhar.ProductController;
@@ -32,7 +36,7 @@ public class Factory {
 	public DataBaseController dataBase = new DataBaseController();
 
 	public PickupController pickup = new PickupController();
-	public IOrder order = new OrderController();
+	public OrderController order = new OrderController();
 	public ProductInOrderController prodInOrder = new ProductInOrderController();
 	public ShipmentController shipment = new ShipmentController();
 	public ProductController product = new ProductController();
@@ -50,7 +54,7 @@ public class Factory {
 	public CustomerController customer = new CustomerController();
 	public SubscriptionController sub = new SubscriptionController();
 	
-	public IQuarterlyReportController qurReport = new QuarterlyReportController();
+	public QuarterlyReportController qurReport = new QuarterlyReportController();
 	public OrderReportController ordReport = new OrderReportController();
 	public IncomesReportController incReport = new IncomesReportController();
 	public HistogramOfCustomerComplaintsReportController hisReport = new HistogramOfCustomerComplaintsReportController();

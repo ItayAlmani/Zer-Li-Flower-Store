@@ -15,6 +15,8 @@ import gui.controllers.ParentGUIController;
 import kfir.interfaces.IUser;
 
 public class UserController extends ParentController implements IUser {	
+	
+	@Override
 	public void handleGet(ArrayList<User> users) {
 		String methodName = "setUsers";
 		Method m = null;

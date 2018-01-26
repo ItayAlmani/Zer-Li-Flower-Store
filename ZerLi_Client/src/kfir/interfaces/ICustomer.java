@@ -6,28 +6,78 @@ import java.util.ArrayList;
 
 import entities.CreditCard;
 import entities.Customer;
-import entities.Order;
-import entities.PaymentAccount;
-import entities.Subscription;
+import entities.Store;
 import entities.User;
-import entities.Order.Refund;
-import entities.Subscription.SubscriptionType;
-import interfaces.IParent;
 
 public interface ICustomer{
 
 	/**
-	 * asks from db all customers with all User details - names, privateID...
+	 *asks from DataBase all customers with all User details - names, privateID...
 	 * @throws IOException 
 	 */
 	void getAllCustomers() throws IOException;
-
-
+	
+	/**
+	 * asks from DatatBase to select the specific {@link Customer} where his {@link User} ID is the param
+	 * @param userID
+	 * @throws IOException
+	 */
 	void getCustomerByUser(BigInteger userID) throws IOException;
 
 	/**
-	 * 
-	 * @param customer
+	 * bill {@link Customer}'s {@link CreditCard} according to the amount given
+	 * @param customer, amount
+	 * @return success status
 	 */
 	boolean billCreditCardOfCustomer(Customer customer, float amount);
+	
+	/**
+	 * bill {@link CreditCard} according to the amount given
+	 * @param cc
+	 * @param amount
+	 * @return success status
+	 */
+	public boolean billCard(CreditCard cc, float amount);
+	
+	/**
+	 * Function handle the information from the server, back to (GUI / asking controller)
+	 * </p>
+	 * @param customers after parse
+	 */
+	public void handleGet(ArrayList<Customer> customers);
+		
+	/**
+	 * asks from DataBase all {@link Customer}s in the specific {@link Store} 
+	 * @param storeID
+	 * @throws IOException
+	 */
+	public void getAllCustomersOfStore(BigInteger storeID) throws IOException;
+
+	/**
+	 * add new {@link Customer} to the DataBase
+	 * @param cust - new {@link Customer} to add
+	 * @param getID - boolean to know if function need to return new {@link Customer}'s ID
+	 * @throws Exception
+	 */
+	public void add(Customer cust, boolean getID) throws Exception;
+	
+	/**
+	 * delete {@link Customer} from DataBase
+	 * @param userID
+	 * @throws Exception
+	 */
+	public void delete(BigInteger userID) throws Exception;
+	
+	/**
+	 * ask from DataBase the specific {@link Customer} with the given ID
+	 * @param custID
+	 * @throws Exception
+	 */
+	public void getCustomerByID(BigInteger custID) throws Exception;
+
+
+
+
+
+
 }
