@@ -75,11 +75,6 @@ public class HistogramOfCustomerComplaintsReportController extends ParentControl
 		this.ccReport.setComplaints(complaints);
 		for(int i=0;i<complaints.size();i++)
 		{
-			Date date = Date.from(complaints.get(i).getDate().atZone(ZoneId.systemDefault()).toInstant());
-			if(date.after(Date.from(this.ccReport.getEnddate().atStartOfDay(ZoneId.systemDefault()).toInstant()))==false&&
-					date.after(Date.from(this.ccReport.getStartdate().atStartOfDay(ZoneId.systemDefault()).toInstant()))
-					)
-			{
 				if(complaints.get(i).isTreated())
 				{
 					this.ccReport.setTreatedCnt(this.ccReport.getTreatedCnt()+1);
@@ -88,7 +83,6 @@ public class HistogramOfCustomerComplaintsReportController extends ParentControl
 				}
 				else
 					this.ccReport.setNotTreatedCnt(this.ccReport.getNotTreatedCnt()+1);
-			}	
 		}
 			ArrayList<Object> ar = new ArrayList<>();
 			ar.add(this.ccReport);
