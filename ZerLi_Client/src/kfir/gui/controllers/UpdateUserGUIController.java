@@ -1,5 +1,6 @@
 package kfir.gui.controllers;
 
+import java.awt.TextField;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.net.URL;
@@ -21,6 +22,8 @@ import entities.StoreWorker;
 import entities.User;
 import entities.User.UserType;
 import gui.controllers.ParentGUIController;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
@@ -59,6 +62,7 @@ public class UpdateUserGUIController implements Initializable{
 		}
 	}
 	
+	
 	private void checkIfNeedDisableFalse() {
 		sets_invoked_cnt++;
 		if(sets_needed_cnt==sets_invoked_cnt) {
@@ -67,6 +71,11 @@ public class UpdateUserGUIController implements Initializable{
 		}
 	}
 	
+	/**
+	 * Function get {@link ArrayList} of {@link User}, check if he valid
+	 * <p> set the {@link User}s in the {@link ComboBox} or save the specific {@link User} to update
+	 * @param users - {@link ArrayList} of {@link User} from DB
+	 */
 	public void setUsers(ArrayList<User> users) {
 		checkIfNeedDisableFalse();
 		if(users == null || users.isEmpty()) {
@@ -101,6 +110,11 @@ public class UpdateUserGUIController implements Initializable{
 		}
 	}
 	
+	/**
+	 * Function get {@link ArrayList} of {@link Store}, check if he is valid
+	 * and set the {@link Store}s in the {@link ComboBox}
+	 * @param stores - {@link ArrayList} of {@link Store} from DB
+	 */
 	public void setStores(ArrayList<Store> stores) {
 		checkIfNeedDisableFalse();
 		if(stores == null || stores.isEmpty()) {
@@ -112,6 +126,10 @@ public class UpdateUserGUIController implements Initializable{
 		else Platform.runLater(()->cbStores.setItems(FXCollections.observableArrayList(stores)));
 	}
 	
+	/**
+	 * Function check the selected {@link User} data and if it's valid
+	 * show his data in the {@link TextField}s 
+	 */
 	public void userSelected() {
 		if(this.user != null) {
 			old_user = this.user;
@@ -146,6 +164,11 @@ public class UpdateUserGUIController implements Initializable{
 		}
 	}
 	
+	/**
+	 * Function get Array of {@link Object} and check if his data is valid
+	 * @param oarr - {@link Object}[]
+	 * @return True/False
+	 */
 	private boolean isDataValid(Object[] oarr) {
 		for (Object o : oarr) {
 			if(o == null)
@@ -157,6 +180,9 @@ public class UpdateUserGUIController implements Initializable{
 		return true;
 	}
 	
+	/**
+	 * Function the {@link User} that selected permission and update the view accordingly
+	 */
 	public void permissionChanged() {
 		UserType perm = cbPermissions.getValue();
 		if(!user.getPermissions().equals(UserType.StoreManager) &&
@@ -216,6 +242,11 @@ public class UpdateUserGUIController implements Initializable{
 		}	
 	}
 	
+	/**
+	 * Function get {@link ArrayList} of {@link StoreWorker}, check if he is valid
+	 * and set the {@link StoreWorker} permission and {@link Store} in the {@link ComboBox}s
+	 * @param sws - {@link ArrayList} of {@link StoreWorker} from DB
+	 */
 	public void setStoreWorkers(ArrayList<StoreWorker> sws) {
 		checkIfNeedDisableFalse();
 		if(sws == null || sws.size() != 1 || sws.get(0).getStore() == null) {
@@ -256,6 +287,11 @@ public class UpdateUserGUIController implements Initializable{
 		});
 	}
 	
+	/**
+	 * Function get {@link ArrayList} of {@link Customer}, check if he is valid
+	 * and set the {@link Customer} for this specific class
+	 * @param custs - {@link ArrayList} of {@link Customer} from DB
+	 */
 	public void setCustomers(ArrayList<Customer> custs)
 	{
 		checkIfNeedDisableFalse();
@@ -266,6 +302,10 @@ public class UpdateUserGUIController implements Initializable{
 		this.cust=custs.get(0);
 	}
 	
+	/**
+	 *Function check if the {@link User} is Active and change the {@link ToggleButton} style
+	 *accordingly
+	 */
 	public void toggleChanged() {
 		if(tglActive.isSelected()) {
 			tglActive.setText("Active");
@@ -277,6 +317,10 @@ public class UpdateUserGUIController implements Initializable{
 		}
 	}
 	
+	/**
+	 *Function check the changes in the {@link User} permission ,his activation and update the DB
+	 * <p> If there are no changes - an appropriate message appears
+	 */
 	public void updateUser() {
 		UserType newperm = cbPermissions.getValue();
 		boolean isAct = tglActive.isSelected();
@@ -365,6 +409,11 @@ public class UpdateUserGUIController implements Initializable{
 		}
 	}
 	
+	/**
+	 *Function get the new {@link StoreWorker} id 
+	 *<p>attach it to the new {@link StoreWorker} and update his {@link Store}
+	 * @param id - new {@link StoreWorker} ID
+	 */
 	public void setSWid(BigInteger swID){
 		this.sw.setStoreWorkerID(swID);
 		try {
