@@ -149,7 +149,9 @@ public class StoreController extends ParentController {
 				s.getStock().add((Stock)o);
 		}
 		return s;
-	}	
+	}
+	
+	
 	@Override
 	public ArrayList<Object> add(ArrayList<Object> arr) throws Exception {
 		// TODO Auto-generated method stub

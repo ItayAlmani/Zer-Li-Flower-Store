@@ -8,8 +8,9 @@ import java.util.ArrayList;
 import common.EchoServer;
 import controllers.ParentController;
 import entities.Subscription;
+import kfir.interfaces.ISubscription;
 
-public class SubscriptionController extends ParentController {
+public class SubscriptionController extends ParentController implements ISubscription {
 
 	@Override
 	public ArrayList<Object> handleGet(ArrayList<Object> obj) throws Exception {
@@ -69,10 +70,12 @@ public class SubscriptionController extends ParentController {
 		throw new Exception();
 	}
 	
+	@Override
 	public Subscription parse(BigInteger subID, String type, LocalDate date) throws Exception {
 		return new Subscription(subID,type,date);
 	}
 	
+	@Override
 	public ArrayList<Object> getSubscriptionByID(BigInteger subID) throws Exception {
 		String query = "SELECT * FROM subscription WHERE subscriptionID='" + subID + "'";
 		return handleGet(EchoServer.fac.dataBase.db.getQuery(query));

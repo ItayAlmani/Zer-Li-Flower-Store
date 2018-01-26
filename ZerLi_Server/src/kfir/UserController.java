@@ -2,16 +2,14 @@ package kfir;
 
 import java.math.BigInteger;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.util.ArrayList;
-
 import common.EchoServer;
 import controllers.ParentController;
-import entities.Subscription;
 import entities.User;
 import entities.User.UserType;
+import kfir.interfaces.IUser;
 
-public class UserController extends ParentController {
+public class UserController extends ParentController implements IUser {
 
 	@Override
 	public ArrayList<Object> handleGet(ArrayList<Object> obj) {

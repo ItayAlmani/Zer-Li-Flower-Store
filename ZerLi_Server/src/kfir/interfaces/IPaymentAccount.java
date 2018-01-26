@@ -1,58 +1,54 @@
 package kfir.interfaces;
 
-import java.io.IOException;
 import java.math.BigInteger;
 import java.util.ArrayList;
 
 import entities.Customer;
 import entities.PaymentAccount;
-import entities.Store;
 
 public interface IPaymentAccount {
 	
 	/**
-	 * add new {@link PaymentAccount} to DataBase
-	 * @param pa - new {@link PaymentAccount} to add
-	 * @param getID - boolean to know if to return the new {@link PaymentAccount}'s ID
-	 * @throws IOException
+	 * add new {@link PaymentAccount} to the DataBase
+	 * @param arr - {@link ArrayList} that contain the {@link PaymentAccount} to add
+	 * @throws Exception
 	 */
-	public void add(PaymentAccount pa, boolean getID) throws IOException;
+	public ArrayList<Object> add(ArrayList<Object> arr) throws Exception;
 
 	/**
-	 * handle the information from the server, back to (GUI / asking controller)
-	 * </p>
-	 * @param pa - {@link PaymentAccount}s after parse
+	 * handle the information from the server send to the pars function, and than back to client
+	 * @param obj - {@link ArrayList} of field from DB
+	 * @throws Exception
 	 */
-	public void handleGet(ArrayList<PaymentAccount> pa);
+	public ArrayList<Object> handleGet(ArrayList<Object> obj) throws Exception;
+
+	/**
+	  *<p>
+	 *create new {@link PaymentAccount} object with data from DB
+	 * <p>
+	 * @param paID - parameter for AccountId field from DB
+	 * @param CustomerID - parameter for CustomerId field from DB
+	 * @param creditCardID - parameter for CardId field from DB
+	 * @param storeID - parameter for StoerId field from DB
+	 * @param subscriptionID - parameter for subscriptionID field from DB
+	 * @param refund - parameter for refund field from DB
+	 * @return {@link PaymentAccount}
+	 * @throws Exception
+	 */
+	public PaymentAccount parse(BigInteger paID, BigInteger CustomerID, BigInteger creditCardID,
+			BigInteger storeID, BigInteger subscriptionID, float refund) throws Exception;
 
 	/**
 	 * ask from DataBase to select the {@link PaymentAccount} of the given {@link Customer}
 	 * @param custID
-	 * @throws IOException
+	 * @throws Exception
 	 */
-	public void getPayAccount(BigInteger custID) throws IOException;
-	
-	/**
-	 * update exist {@link PaymentAccount} in DataBase
-	 * @param paymentAccount - {@link PaymentAccount} to update
-	 * @throws IOException
-	 */
-	public void update(PaymentAccount paymentAccount) throws IOException;
-	
-	/**
-	 * looks for {@link PaymentAccount} in the {@link ArrayList}, where the {@link PaymentAccount}
-	 * related to the specific {@link Store} and return it. If not exist, returns null.
-	 * @param pas
-	 * @param s
-	 * @return
-	 * @throws Exception 
-	 */
-	public PaymentAccount getPaymentAccountOfStore(ArrayList<PaymentAccount> pas, Store s) throws Exception;
-	
-	/**
-	 * handle the information from the server with the new {@link PaymentAccount}'s ID returned
-	 * @param id
-	 */
-	public void handleInsert(BigInteger id);
+	public ArrayList<Object> getPayAccount(BigInteger custID) throws Exception;
 
+	/**
+	 * update exist {@link PaymentAccount} details in DataBase
+	 * @param obj - {@link PaymentAccount} to update
+	 * @throws Exception
+	 */
+	public ArrayList<Object> update(Object obj) throws Exception;
 }

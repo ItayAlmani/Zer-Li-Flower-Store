@@ -1,26 +1,24 @@
 package kfir;
 
 import java.math.BigInteger;
-import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 
 import common.EchoServer;
 import controllers.ParentController;
-import entities.PaymentAccount;
-import entities.Product;
-import entities.Stock;
 import entities.Store;
 import entities.StoreWorker;
 import entities.User;
+import kfir.interfaces.IStoreWorker;
 
-public class StoreWorkerController extends ParentController{
+public class StoreWorkerController extends ParentController implements IStoreWorker{
 
+	@Override
 	public ArrayList<Object> getStoreWorkerByUser(BigInteger userID) throws Exception {
 		String query = "SELECT * FROM storeworker WHERE userID='"+userID+"'";
 		return handleGet(EchoServer.fac.dataBase.db.getQuery(query));
 	}
 	
+	@Override
 	public ArrayList<Object> getStoreWorkerByID(BigInteger swID) throws Exception {
 		String query = "SELECT * FROM storeworker WHERE storeWorkerID='"+swID+"'";
 		return handleGet(EchoServer.fac.dataBase.db.getQuery(query));
@@ -39,6 +37,7 @@ public class StoreWorkerController extends ParentController{
 		return sw;
 	}
 	
+	@Override
 	public StoreWorker parse(BigInteger storeWorkerID, BigInteger userID, BigInteger storeID) throws Exception
 	{
 		EchoServer.fac.store.asked_to_get_store_by_manager=true;
@@ -97,6 +96,7 @@ public class StoreWorkerController extends ParentController{
 		else throw new Exception();
 	}
 	
+	@Override
 	public ArrayList<Object> delete(ArrayList<Object> obj) throws Exception{
 		if(obj.get(0) instanceof BigInteger && obj.size()==1) {
 			BigInteger userID = (BigInteger)obj.get(0);

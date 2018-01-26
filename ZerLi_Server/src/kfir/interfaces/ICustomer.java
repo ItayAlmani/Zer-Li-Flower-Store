@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import entities.CreditCard;
 import entities.Customer;
+import entities.Order;
 import entities.Store;
 import entities.User;
 
@@ -15,14 +16,13 @@ public interface ICustomer{
 	 *asks from DataBase all customers with all User details - names, privateID...
 	 * @throws IOException 
 	 */
-	void getAllCustomers() throws IOException;
-	
+	public ArrayList<Object> getAllCustomers() throws Exception;	
 	/**
-	 * asks from DatatBase to select the specific {@link Customer} where his {@link User} ID is the param
+	 * asks from DatatBase to select the specific {@link Customer} with the given {@link User}'s ID 
 	 * @param userID
 	 * @throws IOException
 	 */
-	void getCustomerByUser(BigInteger userID) throws IOException;
+	public ArrayList<Object> getCustomerByUser(BigInteger userID) throws Exception;
 
 	/**
 	 * bill {@link Customer}'s {@link CreditCard} according to the amount given
@@ -33,48 +33,52 @@ public interface ICustomer{
 	
 	/**
 	 * bill {@link CreditCard} according to the amount given
-	 * @param cc
-	 * @param amount
+	 * @param cc - {@link Customer}'s {@link CreditCard}
+	 * @param amount - {@link Order} price
 	 * @return success status
 	 */
 	public boolean billCard(CreditCard cc, float amount);
 	
 	/**
-	 * Function handle the information from the server, back to (GUI / asking controller)
+	 * handle the information from the server send to the pars function, and than back to client
 	 * </p>
-	 * @param customers after parse
+	 * @param obj - {@link ArrayList} of fields from DB
 	 */
-	public void handleGet(ArrayList<Customer> customers);
-		
+	public ArrayList<Object> handleGet(ArrayList<Object> obj);		
 	/**
 	 * asks from DataBase all {@link Customer}s in the specific {@link Store} 
 	 * @param storeID
 	 * @throws IOException
 	 */
-	public void getAllCustomersOfStore(BigInteger storeID) throws IOException;
+	public ArrayList<Object> getAllCustomersOfStore(BigInteger storeID) throws Exception;
 
 	/**
 	 * add new {@link Customer} to the DataBase
-	 * @param cust - new {@link Customer} to add
-	 * @param getID - boolean to know if function need to return new {@link Customer}'s ID
+	 * @param arr - {@link ArrayList} that contain the {@link Customer} to add
 	 * @throws Exception
 	 */
-	public void add(Customer cust, boolean getID) throws Exception;
-	
-	/**
-	 * delete {@link Customer} from DataBase
-	 * @param userID
-	 * @throws Exception
-	 */
-	public void delete(BigInteger userID) throws Exception;
-	
+	public ArrayList<Object> add(ArrayList<Object> arr) throws Exception;	
+
 	/**
 	 * ask from DataBase the specific {@link Customer} with the given ID
-	 * @param custID
+	 * @param customerID
 	 * @throws Exception
 	 */
-	public void getCustomerByID(BigInteger custID) throws Exception;
+	public ArrayList<Object> getCustomerByID(BigInteger customerID) throws Exception;
+	
+	/**
+	  *<p>
+	 * create new {@link Customer} object with data from DB
+	 * <p>
+	 * @param customerID  - parameter for custID field from DB
+	 * @param user  - parameter for {@link User} field from DB
+	 * @return {@link Customer}
+	 */
+	public Customer parse(BigInteger customerID, User user);
+	
 
+	
+	
 
 
 

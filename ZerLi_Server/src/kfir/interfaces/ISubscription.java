@@ -1,55 +1,50 @@
 package kfir.interfaces;
 
-import java.io.IOException;
 import java.math.BigInteger;
-
-import entities.Customer;
-import entities.Order;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import entities.Subscription;
 
 public interface ISubscription {
-	
+
 	/**
-	 * return {@link Customer}'s {@link Order} price according to his {@link Subscription}
-	 * @param sub - {@link Customer}'s {@link Subscription}
-	 * @param price - {@link Order} price
-	 * @return the final price
+	 * handle the information from the server send to the pars function, and than back to client
+	 * @param obj - {@link ArrayList} of field from DB
+	 * @throws Exception
 	 */
-	public Float getPriceBySubscription(Subscription sub, Float price);
-	
-	/**
-	 * ask from DataBase to select the {@link Subscription} according to his ID
-	 * @param subID
-	 * @throws IOException
-	 */
-	public void getSubscriptionByID(BigInteger subID) throws IOException;
-	
-	/**
-	 * update exist {@link Subscription} in DataBase
-	 * @param sub - {@link Subscription} to update
-	 * @throws IOException
-	 */
-	public void update(Subscription sub) throws IOException;
+	public ArrayList<Object> handleGet(ArrayList<Object> obj) throws Exception;
 	
 	/**
 	 * add new {@link Subscription} to DataBase
-	 * @param sub - new {@link Subscription} to add
-	 * @param getID - boolean to know if to return the new {@link Subscription}'s ID
-	 * @throws IOException
+	 * @param arr - {@link ArrayList} that contain the {@link Subscription} to add
+	 * @throws Exception
 	 */
-	public void add(Subscription sub, boolean getID) throws IOException;
+	public ArrayList<Object> add(ArrayList<Object> arr) throws Exception;
 	
 	/**
-	 * check if the given {@link Subscription} is valid
-	 * @param sub - {@link Subscription} to check
-	 * @return True/False according to {@link Subscription}'s Validation
+	 * update exist {@link Subscription} details in DataBase
+	 * @param obj - {@link Subscription} to update
+	 * @throws Exception
 	 */
-	public boolean isSubValid(Subscription sub);
+	public ArrayList<Object> update(Object obj) throws Exception;
 	
 	/**
-	 * handle the information from the server with the new {@link Subscription}'s ID returned
-	 * @param id
+	 *<p>
+	 *create new {@link Subscription} object with data from DB
+	 * <p>
+	 * @param subID - parameter for subID field from DB
+	 * @param type - parameter for type field from DB
+	 * @param date - parameter for date field from DB
+	 * @return {@link Subscription}
+	 * @throws Exception
 	 */
-	public void handleInsert(BigInteger id);
-
+	public Subscription parse(BigInteger subID, String type, LocalDate date) throws Exception;
+	
+	/**
+	 * ask from DataBase to select the {@link Subscription} with the given {@link Subscription} ID
+	 * @param subID
+	 * @return
+	 * @throws Exception
+	 */
+	public ArrayList<Object> getSubscriptionByID(BigInteger subID) throws Exception;
 }

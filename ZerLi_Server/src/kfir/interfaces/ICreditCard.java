@@ -11,20 +11,27 @@ public interface ICreditCard {
 	
 	/**
 	 * add new {@link CreditCard} to the DataBase
-	 * @param cc - new {@link CreditCard} to add
-	 * @param getNextID - boolean to know if to return the new {@link CreditCard}'s ID
-	 * @throws IOException
+	 * @param arr - {@link ArrayList} that contain the {@link CreditCard} to add
+	 * @throws Exception
 	 */
 	public ArrayList<Object> add(ArrayList<Object> arr) throws Exception;
 	
+	/**
+	 *<p>
+	 *create new {@link CreditCard} object with data from DB
+	 * <p>
+	 * @param id - parameter for CardId field from DB
+	 * @param ccNumber -parameter for CardNumber field from DB
+	 * @param ccValidity - parameter for CardValidity field from DB
+	 * @param ccCVV - parameter for CardCvv field from DB
+	 * @return {@link CreditCard}
+	 */
 	public CreditCard parse(BigInteger id,String ccNumber, String ccValidity, String ccCVV);
 
-	
-	
 	/**
-	 * handle the information from the server, back to (GUI / asking controller)
-	 * </p>
-	 * @param cards after parse
+	 * handle the information from the server send to the pars function, and than back to client
+	 * @param obj - {@link ArrayList} of field from DB
+	 * @throws Exception
 	 */
 	public ArrayList<Object> handleGet(ArrayList<Object> obj);
 	
@@ -44,8 +51,8 @@ public interface ICreditCard {
 	
 	
 	/**
-	 * update {@link CreditCard} details in DataBase
-	 * @param cc - {@link CreditCard} to update
+	 * update exist {@link CreditCard} details in DataBase
+	 * @param obj - {@link CreditCard} to update
 	 * @throws IOException
 	 */
 	public ArrayList<Object> update(Object obj) throws Exception;
