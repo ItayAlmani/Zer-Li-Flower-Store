@@ -13,14 +13,6 @@ import entities.CSMessage;
 import entities.CSMessage.MessageType;
 import entities.CreditCard;
 import entities.Customer;
-import entities.Order;
-import entities.Order.Refund;
-import entities.PaymentAccount;
-import entities.Product;
-import entities.StoreWorker;
-import entities.Subscription;
-import entities.Subscription.SubscriptionType;
-import entities.User;
 import gui.controllers.ParentGUIController;
 import kfir.interfaces.ICustomer;
 
@@ -103,5 +95,12 @@ public class CustomerController extends ParentController implements ICustomer {
 		arr.add(userID);
 		myMsgArr.add(arr);
 		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.UPDATE, myMsgArr, Customer.class));
+	}
+	
+	public void getCustomerByID(BigInteger custID) throws Exception {
+		myMsgArr.clear();
+		myMsgArr.add(Thread.currentThread().getStackTrace()[1].getMethodName());
+		myMsgArr.add(custID);
+		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.SELECT,myMsgArr,Customer.class));	
 	}
 }

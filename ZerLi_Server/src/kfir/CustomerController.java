@@ -1,8 +1,6 @@
 package kfir;
 
-import java.io.IOException;
 import java.math.BigInteger;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -11,7 +9,6 @@ import controllers.ParentController;
 import entities.CreditCard;
 import entities.Customer;
 import entities.PaymentAccount;
-import entities.StoreWorker;
 import entities.User;
 
 public class CustomerController extends ParentController {
