@@ -159,13 +159,6 @@ public class LoadGUIController {
 		this.lblTitle.setText(title);
 	}
 
-	private void addMediaPlayer() {
-		String musicFile = "Bana_Cut.mp3";
-		Media sound = new Media(getClass().getResource("/sound/"+musicFile).getPath());
-		MediaPlayer mediaPlayer = new MediaPlayer(sound);
-		mediaPlayer.play();
-	}
-
 	public void loadGUI(String guiName, String cssName) {
 		if (Context.clientConsole == null || Context.clientConsole.isConnected() == false) {
 			setServerUnavailable();
