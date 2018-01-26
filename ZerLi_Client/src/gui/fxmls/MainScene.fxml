@@ -88,6 +88,11 @@
                                                       </MaterialIconView>
                                                    </graphic>
                                                 </JFXButton>
+                                                <JFXButton buttonType="RAISED" contentDisplay="TOP" graphicTextGap="0.0" onAction="#loadAssembleProduct" ripplerFill="ORANGE" styleClass="lblColoredIcon" text="Assemble" textAlignment="CENTER" textOverrun="CLIP">
+                                                   <graphic>
+                                                      <MaterialDesignIconView fx:id="icnAssemble" fontSmoothingType="LCD" glyphName="FLOWER" size="30" styleClass="coloredIcon" />
+                                                   </graphic>
+                                                </JFXButton>
                                              </children>
                                           </HBox>
                                           <HBox fx:id="paneNoPA" alignment="CENTER" spacing="10.0">
@@ -95,11 +100,6 @@
                                              <JFXButton buttonType="RAISED" contentDisplay="TOP" graphicTextGap="0.0" onAction="#loadCatalog" ripplerFill="ORANGE" styleClass="lblColoredIcon" text="Catalog" textAlignment="CENTER" textOverrun="CLIP">
                                                    <graphic>
                                                       <OctIconView fx:id="icnCatalog" fontSmoothingType="LCD" glyphName="BOOK" size="30" styleClass="coloredIcon" />
-                                                   </graphic>
-                                                </JFXButton>
-                                                <JFXButton buttonType="RAISED" contentDisplay="TOP" graphicTextGap="0.0" onAction="#loadAssembleProduct" ripplerFill="ORANGE" styleClass="lblColoredIcon" text="Assemble" textAlignment="CENTER" textOverrun="CLIP">
-                                                   <graphic>
-                                                      <MaterialDesignIconView fx:id="icnAssemble" fontSmoothingType="LCD" glyphName="FLOWER" size="30" styleClass="coloredIcon" />
                                                    </graphic>
                                                 </JFXButton>
                                              </children>

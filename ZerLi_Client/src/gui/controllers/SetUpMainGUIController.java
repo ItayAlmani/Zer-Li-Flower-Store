@@ -40,15 +40,17 @@ public class SetUpMainGUIController extends LoadGUIController {
 			cust = Context.getUserAsCustomer();
 			for (PaymentAccount pa : cust.getPaymentAccounts())
 				stores.add(pa.getStore());
+			ObservableList<Node> hbc = hbCustomer.getChildren();
 			//Customer with no payment accounts
 			if(stores.isEmpty()) {
 				cbStores.setVisible(false);
-				ObservableList<Node> hbc = hbCustomer.getChildren();
 				hbc.clear();
 				if(!hbc.add(paneNoPA))
 					System.err.println("Can't add icons");
 			}
 			else {
+				if(hbc.contains(panePA)==false)
+					hbc.add(panePA);
 				cbStores.setItems(FXCollections.observableArrayList(stores));
 				cbStores.getSelectionModel().selectFirst();
 				cbStores.setVisible(true);

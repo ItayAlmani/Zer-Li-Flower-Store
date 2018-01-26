@@ -86,7 +86,7 @@ public abstract class ProductsPresentationGUIController implements Initializable
 			}
 			else {
 				Context.mainScene.setMenuPaneDisable(true);
-				Context.fac.product.getProductsInCatalog();
+				Context.fac.product.getAllProducts();
 				Context.mainScene.setMessage("For creating an order, approach to a store and open payment account");
 			}
 		} catch (Exception e) {

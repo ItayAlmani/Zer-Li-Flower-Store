@@ -38,7 +38,7 @@
                   </Label>
                   <Label contentDisplay="RIGHT" text="Minutes" textAlignment="CENTER" textFill="ORANGE" textOverrun="CLIP" wrapText="true">
                      <graphic>
-                        <JFXSlider fx:id="sldMinutes" blockIncrement="15.0" majorTickUnit="15.0" max="60.0" minorTickCount="0" showTickLabels="true" showTickMarks="true" snapToTicks="true" />
+                        <JFXSlider fx:id="sldMinutes" blockIncrement="15.0" majorTickUnit="15.0" max="59.0" minorTickCount="0" showTickLabels="true" showTickMarks="true" snapToTicks="true" />
                      </graphic>
                   </Label>
                </children>

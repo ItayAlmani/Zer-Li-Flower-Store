@@ -13,6 +13,10 @@ public abstract class QuarterlyReport implements Serializable {
 	private LocalDate endOfQuarterDate;
 	private BigInteger storeID;
 	
+	public QuarterlyReport() {
+		
+	}
+	
 	public QuarterlyReport(LocalDate endOfQuarterDate, BigInteger storeID) {
 		this.endOfQuarterDate = endOfQuarterDate;
 		this.storeID = storeID;

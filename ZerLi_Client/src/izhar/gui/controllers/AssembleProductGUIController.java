@@ -47,16 +47,25 @@ public class AssembleProductGUIController extends ProductsPresentationGUIControl
 	
 	@Override
 	protected void getProducts() {
-		btnSend.setDisable(true);
-		if(Context.order!=null && 
-    			Context.order.getDelivery()!=null && 
-    			Context.order.getDelivery().getStore()!=null) {
-			stocksAfterAssemble=this.stocks=Context.fac.stock.getNotInCatalogOnlyStock(Context.order.getDelivery().getStore().getStock());
-    		initView();
-    	}
-    	else
-    		Context.mainScene.setMessage("Can't show products right now!");
-		initListeners();
+		try {
+			btnSend.setDisable(true);
+			if(Context.order!=null && 
+	    			Context.order.getDelivery()!=null && 
+	    			Context.order.getDelivery().getStore()!=null) {
+					if(Context.getUserAsCustomer().getPaymentAccounts()!= null && Context.getUserAsCustomer().getPaymentAccounts().isEmpty()==false)
+						stocksAfterAssemble=this.stocks=Context.fac.stock.getNotInCatalogOnlyStock(Context.order.getDelivery().getStore().getStock());
+					else
+						throw new Exception();
+					initView();
+				
+	    	}
+	    	else
+	    		Context.mainScene.setMessage("Can't show products right now!");
+			initListeners();
+		} catch (Exception e) {
+			Context.mainScene.ShowErrorMsg();
+			e.printStackTrace();
+		}
 	}
 	
 	/** reseting the screen after changes */
