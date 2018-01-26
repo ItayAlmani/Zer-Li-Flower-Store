@@ -1,0 +1,4 @@
+Url: localhost
+Name: dbassignment2
+UserName: root
+Password: 1234
