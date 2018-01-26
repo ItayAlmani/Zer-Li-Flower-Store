@@ -8,8 +8,12 @@ import controllers.ParentController;
 import entities.DeliveryDetails;
 import entities.ShipmentDetails;
 
-public class ShipmentController extends ParentController {
+public class ShipmentController extends ParentController implements IShipmentController {
 	
+	/* (non-Javadoc)
+	 * @see izhar.IShipmentController#add(java.util.ArrayList)
+	 */
+	@Override
 	public ArrayList<Object> add(ArrayList<Object> arr) throws Exception {
 		if(arr!=null && (arr.get(0) instanceof ShipmentDetails == false) ||
 				arr.get(1) instanceof Boolean == false)
@@ -61,6 +65,9 @@ public class ShipmentController extends ParentController {
 		throw new Exception();
 	}
 
+	/* (non-Javadoc)
+	 * @see izhar.IShipmentController#handleGet(java.util.ArrayList)
+	 */
 	@Override
 	public ArrayList<Object> handleGet(ArrayList<Object> obj) throws Exception {
 		if(obj == null) return null;
@@ -79,6 +86,10 @@ public class ShipmentController extends ParentController {
 		return ships;
 	}
 
+	/* (non-Javadoc)
+	 * @see izhar.IShipmentController#getShipmentByID(java.math.BigInteger)
+	 */
+	@Override
 	public ArrayList<Object> getShipmentByID(BigInteger shipmentID) throws Exception{
 		String query = "SELECT *" + 
 				" FROM shipmentdetails" + 
@@ -86,12 +97,19 @@ public class ShipmentController extends ParentController {
 		return handleGet(EchoServer.fac.dataBase.db.getQuery(query));
 	}
 	
+	/* (non-Javadoc)
+	 * @see izhar.IShipmentController#update(java.lang.Object)
+	 */
 	@Override
 	public ArrayList<Object> update(Object obj) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
 	
+	/* (non-Javadoc)
+	 * @see izhar.IShipmentController#parse(java.math.BigInteger, java.math.BigInteger, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)
+	 */
+	@Override
 	public ShipmentDetails parse(BigInteger shipmentID, BigInteger deliveryID, String street,
 			String city, String postCode, String customerName, String phoneNumber) throws Exception {
 		ArrayList<Object> delObjs = EchoServer.fac.pickup.getDeliveryByID(deliveryID);

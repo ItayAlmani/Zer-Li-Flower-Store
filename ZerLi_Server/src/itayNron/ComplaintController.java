@@ -1,10 +1,11 @@
 package itayNron;
 
 import java.math.BigInteger;
-import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.Duration;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -228,16 +229,24 @@ public class ComplaintController extends ParentController {
 	 * @return - generic object arrayList, eventually turn to arrayList of complaints
 	 * @throws Exception Context.clientConsole.handleMessageFromClientUI throws IOException.
 	 */
-	public ArrayList<Object> getComplaintsByStore (Object obj) throws Exception
+	public ArrayList<Object> getComplaintsByStore (Store store, LocalDate startDate, LocalDate endDate) throws Exception
 	{
-		if(obj instanceof Store) {
-			Store store = (Store)obj;
-		String query = String.format(
-				"SELECT * FROM complaint WHERE storeID = %d",
-				store.getStoreID());
-		return handleGet(EchoServer.fac.dataBase.db.getQuery(query));
+		String query=null;
+		if(!store.getStoreID().equals(BigInteger.valueOf(-1))) {
+			query = String.format(
+					"SELECT * FROM complaint WHERE (storeID = %d AND date >='%s' \n"+
+					"AND date <='%s');",
+					store.getStoreID(),(Timestamp.valueOf(startDate.atStartOfDay())).toString(),
+					(Timestamp.valueOf(endDate.atTime(LocalTime.of(23, 59, 59)))).toString());
 		}
-		else throw new SQLException();
+		else {
+			query = String.format(
+					"SELECT * FROM complaint WHERE (date >='%s' \n"+
+					"AND date <='%s');",
+					(Timestamp.valueOf(startDate.atStartOfDay())).toString(),
+					(Timestamp.valueOf(endDate.atTime(LocalTime.of(23, 59, 59)))).toString());
+		}
+		return handleGet(EchoServer.fac.dataBase.db.getQuery(query));
 	}
 	
 	/**

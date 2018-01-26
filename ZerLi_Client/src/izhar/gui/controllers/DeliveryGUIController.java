@@ -1,21 +1,7 @@
 package izhar.gui.controllers;
 
-import java.io.IOException;
 import java.net.URL;
-import java.util.Collection;
 import java.util.ResourceBundle;
-
-import org.controlsfx.control.textfield.CustomTextField;
-import org.controlsfx.control.textfield.TextFields;
-import org.controlsfx.validation.Severity;
-import org.controlsfx.validation.ValidationMessage;
-import org.controlsfx.validation.ValidationResult;
-import org.controlsfx.validation.ValidationSupport;
-import org.controlsfx.validation.Validator;
-import org.controlsfx.validation.decoration.CompoundValidationDecoration;
-import org.controlsfx.validation.decoration.GraphicValidationDecoration;
-import org.controlsfx.validation.decoration.StyleClassValidationDecoration;
-import org.controlsfx.validation.decoration.ValidationDecoration;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXRadioButton;
@@ -28,10 +14,9 @@ import entities.Order.DeliveryType;
 import entities.ShipmentDetails;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Control;
-import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -61,6 +46,7 @@ public class DeliveryGUIController implements Initializable {
 		tGroup.selectedToggleProperty().addListener(e -> vboxForm.setVisible(true));
 	}
 
+	/** {@link EventHandler} of {@link #rbPickup} */
 	public void showPickup() {
 		Context.mainScene.setMessage("");
 		icnPickup.setFill(Color.ORANGE);
@@ -69,6 +55,7 @@ public class DeliveryGUIController implements Initializable {
 		this.paneShipment.setVisible(false);
 	}
 
+	/** {@link EventHandler} of {@link #rbShipment} */
 	public void showShipment() {
 		Context.mainScene.setMessage("");
 		icnShipment.setFill(Color.ORANGE);
@@ -77,6 +64,7 @@ public class DeliveryGUIController implements Initializable {
 		this.paneShipment.setVisible(true);
 	}
 
+	/** {@link EventHandler} of {@link #rbShipment} */
 	public void addDelivery() {
 		Object userData = tGroup.getSelectedToggle().getUserData();
 		if (userData.equals("Pickup") == false && userData.equals("Shipment") == false) {

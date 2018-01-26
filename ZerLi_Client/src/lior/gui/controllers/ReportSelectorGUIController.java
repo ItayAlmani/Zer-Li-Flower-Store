@@ -97,19 +97,7 @@ public class ReportSelectorGUIController implements Initializable {
 			lblQ10Ans2, lblQ9Ans2, lblTotans2, lblSatisfactionStartdate2, lblSatisfactionEnddate2;
 	@FXML JFXSpinner Spinner1;
 	@FXML JFXSpinner Spinner2;
-	
-	/**
-	 * This function runs the process of displaying the report selector screen
-	 * @param stage - the stage that represents this screen
-	 * @throws IOException - loader.load() can throw an IOException
-	 */
-	public void start(Stage stage) throws IOException {
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/fxmls/ReportMainGUI.fxml"));
-		Scene scene = new Scene(loader.load());
-		stage.setTitle("Report Menu");
-		stage.setScene(scene);
-		stage.show();
-	}
+
 	/**
 	 * The screen initialization function before it goes up.
 	 * Before the screen goes up, we update the Combo boxes, date menus, and the report types menu.
@@ -263,11 +251,19 @@ public class ReportSelectorGUIController implements Initializable {
 				}	
 			}
 			if (err == 1)
+			{
 				Context.mainScene.setMessage("Report 2 data incorrect");
-			else if (err == 2)
+				Spinner2.setVisible(false);
+			}
+			else if (err == 2) {
 				Context.mainScene.setMessage("Report 1 data incorrect");
-			else if (err == 3)
+				Spinner1.setVisible(false);
+			}
+			else if (err == 3) {
 				Context.mainScene.setMessage("Report 1 and 2 data incorrect");
+				Spinner1.setVisible(false);
+				Spinner2.setVisible(false);
+			}
 		}
 	}
 	/**
@@ -371,7 +367,9 @@ public class ReportSelectorGUIController implements Initializable {
 				@Override
 				public void run() {
 					String s = String.valueOf(rep.getTotIncomes());
-					lblStoreID1.setText(rep.getStoreID().toString());
+					if(!rep.getStoreID().equals(BigInteger.valueOf(-1)))
+						lblStoreID1.setText(rep.getStoreID().toString());
+					else lblStoreID1.setText("All Stores");
 					lblEndDate1.setText(rep.getEnddate().format(formatters));
 					lblStartDate1.setText(rep.getStartdate().format(formatters));
 					lblTotIncome1.setText(s);
@@ -547,9 +545,9 @@ public class ReportSelectorGUIController implements Initializable {
 		if (pick==1)
 			return LocalDate.of(year, Month.MARCH, 31);
 		else if (pick==2)
-			return LocalDate.of(year, Month.JUNE, 31);
+			return LocalDate.of(year, Month.JUNE, 30);
 		else if (pick==3)
-			return LocalDate.of(year, Month.SEPTEMBER, 31);
+			return LocalDate.of(year, Month.SEPTEMBER, 30);
 		else if (pick==4)
 			return LocalDate.of(year, Month.DECEMBER, 31);
 		return null;
@@ -570,15 +568,19 @@ public class ReportSelectorGUIController implements Initializable {
 			src=cbYear2;
 			cbq=cbQuarter2;
 		}
+		ArrayList<Integer> cbQurterTemp= new ArrayList<>();
 		//if current year chosen
 		if(src.getValue()!=null && src.getValue().equals(LocalDate.now().getYear())) {
-			ArrayList<Integer> cbQurterTemp= new ArrayList<>();
 			//getQuarterNumberByNow() won't be at this point 1 never
 			//because we prevented it by removing current year if getQuarterNumberByNow()==1
 			for(int i=getQuarterNumberByNow()+1;i<=4;i++)
 				cbQurterTemp.add(i);
-			cbq.setItems(FXCollections.observableArrayList(cbQurterTemp));
 		}
+		else {
+			for(int i=1;i<=4;i++)
+				cbQurterTemp.add(i);
+		}
+		cbq.setItems(FXCollections.observableArrayList(cbQurterTemp));
 	}
 
 	/**

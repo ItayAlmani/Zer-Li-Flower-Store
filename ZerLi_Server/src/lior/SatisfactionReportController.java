@@ -58,6 +58,8 @@ public class SatisfactionReportController extends ParentController implements IS
 			throw new Exception();
 		if(objs.isEmpty()) {
 			ArrayList<Object> ar = new ArrayList<>();
+			float[] answers = new float[6];
+			this.sReport.setFinalanswers(answers);
 			ar.add(this.sReport);
 			add(ar);
 			return ar;
@@ -69,14 +71,25 @@ public class SatisfactionReportController extends ParentController implements IS
 		ArrayList<Survey> ar1=new ArrayList<>();
 		float[] answers = new float[6];
 		float totans=0;
-		for(int i=0;i<surveys.size();i++)
-		{
-			if(surveys.get(i).getStoreID().equals(this.sReport.getStoreID())
-					&& surveys.get(i).getType().equals(SurveyType.Answer)
-					)
+		if(!this.sReport.getStoreID().equals(BigInteger.valueOf(-1))) {
+			for(int i=0;i<surveys.size();i++)
 			{
-				ar1.add(surveys.get(i));
-			}	
+				if(surveys.get(i).getStoreID().equals(this.sReport.getStoreID())
+						&& surveys.get(i).getType().equals(SurveyType.Answer)
+						)
+				{
+					ar1.add(surveys.get(i));
+				}	
+			}
+		}
+		else {
+			for(int i=0;i<surveys.size();i++)
+			{
+				if(surveys.get(i).getType().equals(SurveyType.Answer))
+				{
+					ar1.add(surveys.get(i));
+				}	
+			}
 		}
 		for(int i=0;i<ar1.size();i++)
 		{
@@ -139,8 +152,10 @@ public class SatisfactionReportController extends ParentController implements IS
 
 	@Override
 	public ArrayList<Object> add(ArrayList<Object> arr) throws Exception {
-		if(arr==null || arr.isEmpty() || arr.get(0) instanceof SatisfactionReport == false )
+		if(arr==null || arr.get(0) instanceof SatisfactionReport == false )
 			throw new Exception();
+		if(arr.isEmpty())
+			return null;
 		SatisfactionReport sr = (SatisfactionReport)arr.get(0);
 		ArrayList<String> queries = new ArrayList<>();
 		queries.add(String.format(

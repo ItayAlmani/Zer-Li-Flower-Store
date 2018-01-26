@@ -18,15 +18,16 @@ import entities.Product.ProductType;
 import entities.Stock;
 import entities.Subscription;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
+import javafx.scene.control.Control;
 import javafx.scene.control.Pagination;
 import javafx.scene.layout.HBox;
 
-public class AssembleProductGUIController extends ProductsPresentationGUIController implements Initializable{
-
+public class AssembleProductGUIController extends ProductsPresentationGUIController{
+	
 	protected class CollectionByType{
 		protected ArrayList<Stock> stocks = new ArrayList<>();
 		protected Integer min = null, max = null;
@@ -44,10 +45,33 @@ public class AssembleProductGUIController extends ProductsPresentationGUIControl
 	private HashMap<ProductType, CollectionByType> stockByType = new HashMap<>();
 	private Subscription sub = null;
 	
-	/**
-	 * 
-	 */
-	public void createForm() {	
+	@Override
+	protected void getProducts() {
+		btnSend.setDisable(true);
+		if(Context.order!=null && 
+    			Context.order.getDelivery()!=null && 
+    			Context.order.getDelivery().getStore()!=null) {
+			stocksAfterAssemble=this.stocks=Context.fac.stock.getNotInCatalogOnlyStock(Context.order.getDelivery().getStore().getStock());
+    		initView();
+    	}
+    	else
+    		Context.mainScene.setMessage("Can't show products right now!");
+		initListeners();
+	}
+	
+	/** reseting the screen after changes */
+	private void resetView() {
+		if(vbox.getChildren().contains(hxProds)==false)
+			vbox.getChildren().remove(hxProds);
+		hxProds = new HBox(5,pagination);
+		hxProds.setAlignment(Pos.TOP_CENTER);
+		vbox.getChildren().add(vbox.getChildren().size(),hxProds);
+		vbox.setAlignment(Pos.TOP_CENTER);
+	}
+	
+	/** creates {@link HashMap} by {@link ProductType} of {@link CollectionByType}
+	 * and set the {@link #cbType} and {@link #cbColor} */
+	public void initView() {	
 		cbType.valueProperty().addListener((obs,oldVal,newVal)->{
 			CollectionByType cbt = stockByType.get(newVal);
 			cbColor.setValue(null);
@@ -99,25 +123,20 @@ public class AssembleProductGUIController extends ProductsPresentationGUIControl
 				if(cbt.max==null || cbt.max<price_to_compare+1)
 					cbt.max = price_to_compare.intValue()+1;
 				cbt.stocks.add(s);
-				System.out.println(s.getProduct()+" "+ price_to_compare.intValue());
 			}
-		}
-		ArrayList<ProductType> ptal = new ArrayList<>(stockByType.keySet());
-		
+		}		
 		if(Platform.isFxApplicationThread()) {
-			cbType.setItems(FXCollections.observableArrayList(ptal));
+			cbType.setItems(FXCollections.observableArrayList(stockByType.keySet()));
 			btnSend.setDisable(false);
 		}
 		else
 			Platform.runLater(()->{
-				cbType.setItems(FXCollections.observableArrayList(ptal));
+				cbType.setItems(FXCollections.observableArrayList(stockByType.keySet()));
 				btnSend.setDisable(false);
 			});
 	}
 	
-	/**
-	 * The function when the button {@link #btnSend} clicked.
-	 */
+	/** The function when the button {@link #btnSend} clicked. */
 	public void assembleProduct() {
 		ProductType type = cbType.getValue();
 		Color color = cbColor.getValue();
@@ -140,6 +159,27 @@ public class AssembleProductGUIController extends ProductsPresentationGUIControl
 		}
 	}
 	
+	/** set the GUI by the assemble */
+	private void initPage() throws Exception {
+		components.clear();    	
+    	pagination  = new Pagination(stocksAfterAssemble.size(), 0);
+    	initArrays(stocksAfterAssemble.size());
+    	int i = 0;
+		for (Stock stk : stocksAfterAssemble) {
+			Float newPrice = Context.fac.product.getPriceWithSubscription(Context.order,stk.getProduct(), stk.getPriceAfterSale(), Context.getUserAsCustomer());
+			setVBox(i, 
+					stk,
+					newPrice = newPrice==stk.getPriceAfterSale()?null:newPrice,
+					addToCart(stk.getProduct(),newPrice, stk));
+			i++;
+		}
+		if(Platform.isFxApplicationThread())
+			resetView();
+		else
+			Platform.runLater(()->resetView());
+	}
+	
+	/** adds {@link ChangeListener} to all the various {@link Control}s	 */
 	private void initListeners() {
 		cbColor.valueProperty().addListener((obs, oldval, newVal) -> {
 			javafx.scene.paint.Color color = null;
@@ -186,52 +226,7 @@ public class AssembleProductGUIController extends ProductsPresentationGUIControl
 			}
 		});
 	}
-	
-	private void initPage() throws Exception {
-		components.clear();    	
-    	pagination  = new Pagination(stocksAfterAssemble.size(), 0);
-    	initArrays(stocksAfterAssemble.size());
-    	int i = 0;
-		for (Stock stk : stocksAfterAssemble) {
-			Float newPrice = Context.fac.product.getPriceWithSubscription(Context.order,stk.getProduct(), stk.getPriceAfterSale(), Context.getUserAsCustomer());
-			setVBox(i, 
-					stk,
-					newPrice,
-					addToCart(stk.getProduct(),newPrice==null?stk.getPriceAfterSale():newPrice, stk));
-			i++;
-		}
-		if(Platform.isFxApplicationThread())
-			resetView();
-		else
-			Platform.runLater(()->resetView());
-	}
-	
-	private void resetView() {
-		if(vbox.getChildren().contains(hxProds)==false)
-			vbox.getChildren().remove(hxProds);
-		hxProds = new HBox(5,pagination);
-		hxProds.setAlignment(Pos.TOP_CENTER);
-		vbox.getChildren().add(vbox.getChildren().size(),hxProds);
-		vbox.setAlignment(Pos.TOP_CENTER);
-	}
 
 	@Override
-	protected void getProducts() {
-		btnSend.setDisable(true);
-		if(Context.order!=null && 
-    			Context.order.getDelivery()!=null && 
-    			Context.order.getDelivery().getStore()!=null) {
-			stocksAfterAssemble=this.stocks=Context.fac.stock.getNotInCatalogOnlyStock(Context.order.getDelivery().getStore().getStock());
-    		createForm();
-    	}
-    	else
-    		Context.mainScene.setMessage("Can't show products right now!");
-		initListeners();
-	}
-
-	@Override
-	protected void getProducts(ArrayList<Product> prds) {
-		// TODO Auto-generated method stub
-		
-	}
+	protected void getProducts(ArrayList<Product> prds) {}
 }
