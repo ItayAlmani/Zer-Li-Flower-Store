@@ -20,7 +20,7 @@ import entities.ProductInOrder;
 import entities.ShipmentDetails;
 import entities.Store;
 
-public class OrderController extends ParentController{
+public class OrderController extends ParentController implements IOrder{
 	private String delIDSTR, shipIDSTR, payMeth, delTypeSTR, greeting;
 
 	@Override
@@ -101,6 +101,7 @@ public class OrderController extends ParentController{
 		return false;
 	}
 
+	@Override
 	public ArrayList<Object> update(Object obj) throws Exception {
 		if (obj instanceof Order) {
 			Order order = (Order) obj;
@@ -193,25 +194,13 @@ public class OrderController extends ParentController{
 		throw new Exception("Error Order Update - no id");
 	}
 
-	public ArrayList<Object> cancelOrder(Order order) {
-		String query = "UPDATE orders SET status='" + OrderStatus.Canceled.toString() + "' WHERE orderID='"
-				+ order.getOrderID() + "'";
-		myMsgArr.clear();
-		try {
-			EchoServer.fac.dataBase.db.updateQuery(query);
-			myMsgArr.add(true);
-		} catch (SQLException e) {
-			e.printStackTrace();
-			myMsgArr.add(false);
-		}
-		return myMsgArr;
-	}
-
+	@Override
 	public ArrayList<Object> getOrdersByCustomerID(BigInteger customerID) throws Exception {
 		String query = "SELECT * FROM orders WHERE customerID='" + customerID + "'";
 		return handleGet(EchoServer.fac.dataBase.db.getQuery(query));
 	}
 
+	@Override
 	public ArrayList<Object> getCancelableOrdersByCustomerID(BigInteger customerID) throws Exception {
 		String query = "SELECT ord.*"
 				+	" FROM orders AS ord, deliverydetails AS del"
@@ -220,6 +209,7 @@ public class OrderController extends ParentController{
 		return handleGet(EchoServer.fac.dataBase.db.getQuery(query));
 	}
 	
+	@Override
 	public ArrayList<Object> getOrAddOrderInProcess(ArrayList<Object> arr) throws Exception {
 		if(arr!=null && (arr.get(0) instanceof BigInteger == false) || arr.get(1) instanceof Store == false)
 			throw new Exception();
@@ -264,12 +254,7 @@ public class OrderController extends ParentController{
 		throw new Exception();
 	}
 
-	/**
-	 * asks the server for all the <code>Order</code>s by <code>storeID</code>
-	 * @param storeID	- the parameter to find the <code>Order</code>s
-	 * @param startDate	- the first day of the quarter	(01.MM.YY)
-	 * @param endDate 	- the last day of the quarter	(31.MM+3.YY)
-	 */
+	@Override
 	public ArrayList<Object> getOrdersForReportByStoreID(BigInteger storeID, LocalDate startDate, LocalDate endDate) throws Exception {
 		String query=null;
 		if(!storeID.equals(BigInteger.valueOf(-1))) {
@@ -304,6 +289,7 @@ public class OrderController extends ParentController{
 		return handleGet(EchoServer.fac.dataBase.db.getQuery(query));
 	}
 
+	@Override
 	public ArrayList<Object> getProductsInOrder(BigInteger orderID) throws Exception {
 		String query = "SELECT productID, quantity, totalprice FROM" + "(" + "	SELECT ordCart.* FROM" + "	("
 				+ "		SELECT crt.*" + "		FROM cart AS crt" + "		JOIN orders ON crt.orderID=orders.orderID"
@@ -312,11 +298,7 @@ public class OrderController extends ParentController{
 		return handleGet(EchoServer.fac.dataBase.db.getQuery(query));
 	}
 
-	public ArrayList<Object> getOrdersWaitingForPaymentByCustomerID(BigInteger customerID) throws Exception {
-		String query = "SELECT * FROM orders WHERE customerID='" + customerID + "' AND status='WaitingForCashPayment'";
-		return handleGet(EchoServer.fac.dataBase.db.getQuery(query));
-	}
-
+	@Override
 	public ArrayList<Object> handleGet(ArrayList<Object> obj) throws Exception {
 		if (obj == null)
 			return new ArrayList<>();
@@ -340,21 +322,7 @@ public class OrderController extends ParentController{
 		return ords;
 	}
 
-	
-	/**
-	 * parsing the data into new Order object
-	 * @param orderID		-	the order's ID
-	 * @param customerID	-	the customer who made the order's ID
-	 * @param deliveryID	-	the delivery's details's ID
-	 * @param type			-	the type of order by the ENUM
-	 * @param greeting		-	the greeting which can be attached to the order
-	 * @param deliveryType	-	the delivery type by the ENUM
-	 * @param orderStatus	-	the order's status by the ENUm
-	 * @param date			-	the order's date
-	 * @param price TODO
-	 * @param payMethod
-	 * @return new object created by the data above
-	 */
+	@Override
 	public Order parse(BigInteger orderID, BigInteger customerID, BigInteger deliveryID, String payMethod,
 			BigInteger shipmentID, String type, String greeting, String deliveryType, String orderStatus,
 			Timestamp date, float price) throws Exception {

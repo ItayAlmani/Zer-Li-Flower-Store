@@ -97,19 +97,7 @@ public class ReportSelectorGUIController implements Initializable {
 			lblQ10Ans2, lblQ9Ans2, lblTotans2, lblSatisfactionStartdate2, lblSatisfactionEnddate2;
 	@FXML JFXSpinner Spinner1;
 	@FXML JFXSpinner Spinner2;
-	
-	/**
-	 * This function runs the process of displaying the report selector screen
-	 * @param stage - the stage that represents this screen
-	 * @throws IOException - loader.load() can throw an IOException
-	 */
-	public void start(Stage stage) throws IOException {
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/fxmls/ReportMainGUI.fxml"));
-		Scene scene = new Scene(loader.load());
-		stage.setTitle("Report Menu");
-		stage.setScene(scene);
-		stage.show();
-	}
+
 	/**
 	 * The screen initialization function before it goes up.
 	 * Before the screen goes up, we update the Combo boxes, date menus, and the report types menu.
@@ -580,15 +568,19 @@ public class ReportSelectorGUIController implements Initializable {
 			src=cbYear2;
 			cbq=cbQuarter2;
 		}
+		ArrayList<Integer> cbQurterTemp= new ArrayList<>();
 		//if current year chosen
 		if(src.getValue()!=null && src.getValue().equals(LocalDate.now().getYear())) {
-			ArrayList<Integer> cbQurterTemp= new ArrayList<>();
 			//getQuarterNumberByNow() won't be at this point 1 never
 			//because we prevented it by removing current year if getQuarterNumberByNow()==1
 			for(int i=getQuarterNumberByNow()+1;i<=4;i++)
 				cbQurterTemp.add(i);
-			cbq.setItems(FXCollections.observableArrayList(cbQurterTemp));
 		}
+		else {
+			for(int i=1;i<=4;i++)
+				cbQurterTemp.add(i);
+		}
+		cbq.setItems(FXCollections.observableArrayList(cbQurterTemp));
 	}
 
 	/**

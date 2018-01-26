@@ -5,7 +5,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.math.BigInteger;
 import java.time.Duration;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
@@ -21,17 +20,14 @@ import entities.Order.Refund;
 import entities.PaymentAccount;
 import entities.Product;
 import entities.ProductInOrder;
-import entities.ShipmentDetails;
 import entities.Stock;
 import entities.Store;
-import entities.Subscription;
-import entities.Subscription.SubscriptionType;
 import gui.controllers.ParentGUIController;
 import izhar.interfaces.IOrder;
 
 public class OrderController extends ParentController implements IOrder {
 //------------------------------------------------IN CLIENT--------------------------------------------------------------------	
-	@SuppressWarnings("unused")
+	@Override
 	public ProductInOrder manageCart(Product p, Float price, ProductInOrder pio, Stock stock) {
 		Product prd = new Product(p);	//create new copy
 		Order ord = Context.order;
@@ -72,6 +68,7 @@ public class OrderController extends ParentController implements IOrder {
 		return pio;
 	}
 	
+	@Override
 	public void handleInsert(BigInteger id) {
 		String methodName = "setOrderID";
 		Method m = null;
@@ -96,13 +93,6 @@ public class OrderController extends ParentController implements IOrder {
 		}
 	}
 
-	public boolean isCartEmpty(ArrayList<ProductInOrder> products) {
-		for (ProductInOrder pio : products)
-			if(pio.getQuantity()!=0)
-				return false;
-		return true;
-	}
-
 	@Override
 	public Refund differenceDeliveryTimeAndCurrent(DeliveryDetails delivery) {
 		Duration duration = Duration.between(delivery.getDate(), LocalDateTime.now());
@@ -115,6 +105,7 @@ public class OrderController extends ParentController implements IOrder {
 			return Refund.Full;
 	}
 
+	@Override
 	public void calcFinalPriceOfOrder(Order order) {
 		float price = 0f;
 		for (ProductInOrder p : order.getProducts())
@@ -138,15 +129,8 @@ public class OrderController extends ParentController implements IOrder {
 		}
 		return null;
 	}
-
-	public boolean isCancelable(Order order) {
-		return order.getOrderStatus().equals(OrderStatus.Paid) && 
-				order.getDelivery()!=null &&
-				order.getDelivery().getStore() != null &&
-				LocalDateTime.now().isBefore(order.getDelivery().getDate());
-	}
 //------------------------------------------------IN SERVER--------------------------------------------------------------------
-	
+	@Override
 	public void handleGet(ArrayList<Order> orders) {
 		String methodName = "setOrders";
 		Method m = null;
@@ -180,13 +164,6 @@ public class OrderController extends ParentController implements IOrder {
 	}
 	
 	@Override
-	public void cancelOrder(Order order) throws IOException {
-		myMsgArr.clear();
-		myMsgArr.add(Thread.currentThread().getStackTrace()[1].getMethodName());
-		myMsgArr.add(order);
-		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.UPDATE, myMsgArr,Order.class));
-	}
-	
 	public void add(Order order, boolean getNextID) throws IOException {
 		myMsgArr.clear();
 		myMsgArr.add(Thread.currentThread().getStackTrace()[1].getMethodName());
@@ -195,14 +172,6 @@ public class OrderController extends ParentController implements IOrder {
 		arr.add(getNextID);
 		myMsgArr.add(arr);
 		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.INSERT, myMsgArr,Order.class));
-	}
-	
-	@Override
-	public void getProductsInOrder(BigInteger orderID) throws IOException {
-		myMsgArr.clear();
-		myMsgArr.add(Thread.currentThread().getStackTrace()[1].getMethodName());
-		myMsgArr.add(orderID);
-		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.SELECT, myMsgArr, Product.class));
 	}
 
 	@Override
@@ -215,14 +184,6 @@ public class OrderController extends ParentController implements IOrder {
 		myMsgArr.add(arr);
 		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.SELECT, myMsgArr, Order.class));
 	}
-
-	@Override
-	public void getOrdersWaitingForPaymentByCustomerID(BigInteger customerID) throws IOException {
-		myMsgArr.clear();
-		myMsgArr.add(Thread.currentThread().getStackTrace()[1].getMethodName());
-		myMsgArr.add(customerID);
-		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.SELECT, myMsgArr, Order.class));
-	}
 	
 	@Override
 	public void getOrdersByCustomerID(BigInteger customerID) throws IOException {
@@ -232,6 +193,7 @@ public class OrderController extends ParentController implements IOrder {
 		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.SELECT, myMsgArr, Order.class));
 	}
 	
+	@Override
 	public void getCancelableOrdersByCustomerID(BigInteger customerID) throws IOException {
 		myMsgArr.clear();
 		myMsgArr.add(Thread.currentThread().getStackTrace()[1].getMethodName());
