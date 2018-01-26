@@ -14,11 +14,13 @@ import entities.CSMessage.MessageType;
 import entities.Subscription;
 import entities.Subscription.SubscriptionType;
 import gui.controllers.ParentGUIController;
+import kfir.interfaces.ISubscription;
 
-public class SubscriptionController extends ParentController {
+public class SubscriptionController extends ParentController implements ISubscription {
 	
 	private static int discount_in_percent_of_month = 10;
 	
+	@Override
 	public Float getPriceBySubscription(Subscription sub, Float price) {
 		LocalDate date = sub.getSubDate();
 		SubscriptionType type = sub.getSubType();
@@ -33,6 +35,7 @@ public class SubscriptionController extends ParentController {
 		return null;
 	}
 	
+	@Override
 	public void getSubscriptionByID(BigInteger subID) throws IOException {
 		myMsgArr.clear();
 		myMsgArr.add(Thread.currentThread().getStackTrace()[1].getMethodName());
@@ -40,6 +43,7 @@ public class SubscriptionController extends ParentController {
 		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.SELECT,myMsgArr,Subscription.class));
 	}
 	
+	@Override
 	public void update(Subscription sub) throws IOException {
 		myMsgArr.clear();
 		myMsgArr.add(Thread.currentThread().getStackTrace()[1].getMethodName());
@@ -47,6 +51,7 @@ public class SubscriptionController extends ParentController {
 		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.UPDATE, myMsgArr,Subscription.class));
 	}
 	
+	@Override
 	public void add(Subscription sub, boolean getID) throws IOException {
 		myMsgArr.clear();
 		myMsgArr.add(Thread.currentThread().getStackTrace()[1].getMethodName());
@@ -57,6 +62,7 @@ public class SubscriptionController extends ParentController {
 		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.INSERT, myMsgArr, Subscription.class));
 	}
 	
+	@Override
 	public boolean isSubValid(Subscription sub) {
 		
 		if(sub == null ||
@@ -75,6 +81,7 @@ public class SubscriptionController extends ParentController {
 		return true;
 	}
 	
+	@Override
 	public void handleInsert(BigInteger id) {
 		String methodName = "setSubID";
 		Method m = null;

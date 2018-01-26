@@ -1,8 +1,5 @@
 package itayNron;
 
-import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.math.BigInteger;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -11,8 +8,6 @@ import java.util.ArrayList;
 import common.EchoServer;
 import controllers.*;
 import entities.*;
-import entities.CSMessage.MessageType;
-import izhar.ProductController;
 
 public class StoreController extends ParentController {
 	public boolean asked_to_get_store_by_manager = false;
@@ -30,6 +25,7 @@ public class StoreController extends ParentController {
 					);
 		return stores;
 	}
+	
 	/**
 	 * <p>
 	 * Function to get all stores from DB
@@ -37,7 +33,7 @@ public class StoreController extends ParentController {
 	 * @return generic object arrayList which will become store arrayList   
 	 * @throws Exception Context.clientConsole.handleMessageFromClientUI throws Exception.
 	 */
-	public ArrayList<Object> getAllStores() throws Exception   {
+	public ArrayList<Object> getAllStores() throws Exception{
 		String query = "SELECT * FROM store";
 		ArrayList<Object> arr = handleGet(EchoServer.fac.dataBase.db.getQuery(query));
 		if(arr==null)
@@ -63,13 +59,14 @@ public class StoreController extends ParentController {
 		else
 			throw new Exception();
 	}
+	
 	/**
 	 * <p>
 	 * Function to get specific store by ID
 	 * </p>
 	 * @param storeID - unique identifier to pull store data by it
 	 * @return generic object arrayList which will become store object
-	 * @throws Exception Context.clientConsole.handleMessageFromClientUI throws Exception.
+	 * @throws Exception Context.clientConsole.handleMessageFromClientUI throws Exception
 	 */
 	public ArrayList<Object> getStoreByID(BigInteger storeID) throws Exception{
 		String query = "SELECT *" + 
@@ -82,6 +79,7 @@ public class StoreController extends ParentController {
 		}
 		throw new Exception();
 	}
+	
 /**
  * <p>
  * Function to get all stores with their stock
@@ -151,7 +149,9 @@ public class StoreController extends ParentController {
 				s.getStock().add((Stock)o);
 		}
 		return s;
-	}	
+	}
+	
+	
 	@Override
 	public ArrayList<Object> add(ArrayList<Object> arr) throws Exception {
 		// TODO Auto-generated method stub

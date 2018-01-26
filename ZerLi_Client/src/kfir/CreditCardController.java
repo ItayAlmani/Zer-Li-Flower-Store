@@ -11,12 +11,12 @@ import controllers.ParentController;
 import entities.CSMessage;
 import entities.CSMessage.MessageType;
 import entities.CreditCard;
-import entities.Product;
-import entities.Subscription;
 import gui.controllers.ParentGUIController;
+import kfir.interfaces.ICreditCard;
 
-public class CreditCardController extends ParentController {
+public class CreditCardController extends ParentController implements ICreditCard {
 	
+	@Override
 	public void add(CreditCard cc, boolean getNextID) throws IOException {
 		myMsgArr.clear();
 		myMsgArr.add(Thread.currentThread().getStackTrace()[1].getMethodName());
@@ -27,6 +27,7 @@ public class CreditCardController extends ParentController {
 		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.INSERT,myMsgArr,CreditCard.class));
 	}
 	
+	@Override
 	public void handleGet(ArrayList<CreditCard> cards) {
 		String methodName = "setCards";
 		Method m = null;
@@ -51,6 +52,7 @@ public class CreditCardController extends ParentController {
 		}
 	}
 	
+	@Override
 	public void getCreditCard(BigInteger cardID) throws IOException {
 		myMsgArr.clear();
 		myMsgArr.add(Thread.currentThread().getStackTrace()[1].getMethodName());
@@ -58,6 +60,7 @@ public class CreditCardController extends ParentController {
 		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.SELECT,myMsgArr,CreditCard.class));
 	}
 	
+	@Override
 	public void getCreditCardByNumber(String ccNum) throws IOException {
 		myMsgArr.clear();
 		myMsgArr.add(Thread.currentThread().getStackTrace()[1].getMethodName());
@@ -65,6 +68,7 @@ public class CreditCardController extends ParentController {
 		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.SELECT,myMsgArr,CreditCard.class));
 	}
 	
+	@Override
 	public void handleInsert(BigInteger id) {
 		String methodName = "setCredCardID";
 		Method m = null;
@@ -89,6 +93,7 @@ public class CreditCardController extends ParentController {
 		}
 	}
 	
+	@Override
 	public void update(CreditCard cc) throws IOException {
 		myMsgArr.clear();
 		myMsgArr.add(Thread.currentThread().getStackTrace()[1].getMethodName());

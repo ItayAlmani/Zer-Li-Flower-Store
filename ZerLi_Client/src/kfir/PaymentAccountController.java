@@ -4,29 +4,19 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.math.BigInteger;
-import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.NoSuchElementException;
-
 import common.Context;
 import controllers.ParentController;
 import entities.CSMessage;
-import entities.CreditCard;
-import entities.Customer;
-import entities.Order;
 import entities.PaymentAccount;
 import entities.Store;
 import gui.controllers.ParentGUIController;
-import interfaces.IParent;
+import kfir.interfaces.IPaymentAccount;
 import entities.CSMessage.MessageType;
 
-public class PaymentAccountController extends ParentController{
+public class PaymentAccountController extends ParentController implements IPaymentAccount{
 
-	/**
-	 * 
-	 * @param customerID
-	 * @throws IOException
-	 */
+	@Override
 	public void add(PaymentAccount pa, boolean getID) throws IOException {
 		myMsgArr.clear();
 		myMsgArr.add(Thread.currentThread().getStackTrace()[1].getMethodName());
@@ -36,7 +26,8 @@ public class PaymentAccountController extends ParentController{
 		myMsgArr.add(arr);
 		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.INSERT, myMsgArr, PaymentAccount.class));
 	}
-
+	
+	@Override
 	public void handleGet(ArrayList<PaymentAccount> pa) {
 		String methodName = "setPayment";
 		Method m = null;
@@ -59,14 +50,16 @@ public class PaymentAccountController extends ParentController{
 			e2.printStackTrace();
 		}
 	}
-
+	
+	@Override
 	public void getPayAccount(BigInteger custID) throws IOException {
 		myMsgArr.clear();
 		myMsgArr.add(Thread.currentThread().getStackTrace()[1].getMethodName());
 		myMsgArr.add(custID);
 		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.SELECT,myMsgArr,PaymentAccount.class));
 	}
-
+	
+	@Override
 	public void update(PaymentAccount paymentAccount) throws IOException {
 		myMsgArr.clear();
 		myMsgArr.add(Thread.currentThread().getStackTrace()[1].getMethodName());
@@ -74,14 +67,7 @@ public class PaymentAccountController extends ParentController{
 		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.UPDATE, myMsgArr,PaymentAccount.class));
 	}
 	
-	/**
-	 * looks for {@link PaymentAccount} in the {@link ArrayList}, where the {@link PaymentAccount}
-	 * related to the specific {@link Store} and return it. If not exist, returns null.
-	 * @param pas
-	 * @param s
-	 * @return
-	 * @throws Exception 
-	 */
+	@Override
 	public PaymentAccount getPaymentAccountOfStore(ArrayList<PaymentAccount> pas, Store s) throws Exception {
 		if(pas == null || s == null) throw new Exception();
 		for (PaymentAccount pa : pas) {
@@ -92,6 +78,8 @@ public class PaymentAccountController extends ParentController{
 		}
 		return null;
 	}
+	
+	@Override
 	public void handleInsert(BigInteger id) {
 		String methodName = "setPAid";
 		Method m = null;

@@ -9,15 +9,14 @@ import java.util.ArrayList;
 import common.Context;
 import controllers.ParentController;
 import entities.CSMessage;
-import entities.Customer;
-import entities.PaymentAccount;
 import entities.CSMessage.MessageType;
 import gui.controllers.ParentGUIController;
+import kfir.interfaces.IStoreWorker;
 import entities.StoreWorker;
 
-public class StoreWorkerController extends ParentController{
+public class StoreWorkerController extends ParentController implements IStoreWorker{
 	
-	
+	@Override
 	public void getStoreWorkerByUser(BigInteger userID) throws IOException {
 		myMsgArr.clear();
 		myMsgArr.add(Thread.currentThread().getStackTrace()[1].getMethodName());
@@ -25,6 +24,7 @@ public class StoreWorkerController extends ParentController{
 		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.SELECT,myMsgArr,StoreWorker.class));
 	}
 	
+	@Override
 	public void handleGet(ArrayList<StoreWorker> storeWorkers) {
 		String methodName = "setStoreWorkers";
 		Method m = null;
@@ -49,6 +49,7 @@ public class StoreWorkerController extends ParentController{
 		}
 	}
 	
+	@Override
 	public void update(StoreWorker sw) throws IOException {
 		myMsgArr.clear();
 		myMsgArr.add(Thread.currentThread().getStackTrace()[1].getMethodName());
@@ -56,6 +57,7 @@ public class StoreWorkerController extends ParentController{
 		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.UPDATE, myMsgArr,StoreWorker.class));
 	}
 	
+	@Override
 	public void add(StoreWorker sw, boolean getID) throws IOException {
 		myMsgArr.clear();
 		myMsgArr.add(Thread.currentThread().getStackTrace()[1].getMethodName());
@@ -75,6 +77,7 @@ public class StoreWorkerController extends ParentController{
 		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.UPDATE, myMsgArr, StoreWorker.class));
 	}
 	
+	@Override
 	public void handleInsert(BigInteger id) {
 		String methodName = "setSWid";
 		Method m = null;

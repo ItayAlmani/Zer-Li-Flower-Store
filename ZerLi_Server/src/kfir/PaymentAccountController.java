@@ -1,34 +1,19 @@
 package kfir;
 
-import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.math.BigInteger;
-import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 
 import common.EchoServer;
 import controllers.ParentController;
-import entities.CSMessage;
-import entities.Complaint;
 import entities.CreditCard;
-import entities.Order;
 import entities.PaymentAccount;
-import entities.ProductInOrder;
 import entities.Store;
 import entities.Subscription;
-import entities.CSMessage.MessageType;
+import kfir.interfaces.IPaymentAccount;
 
-public class PaymentAccountController extends ParentController{
+public class PaymentAccountController extends ParentController implements IPaymentAccount{
 
-	/**
-	 * 
-	 * @param customerID
-	 * @return 
-	 * @throws Exception 
-	 * @throws IOException
-	 */
+	@Override
 	public ArrayList<Object> add(ArrayList<Object> arr) throws Exception {
 		if(arr!=null && (arr.get(0) instanceof PaymentAccount == false) || arr.get(1) instanceof Boolean == false)
 			throw new Exception();
@@ -56,6 +41,7 @@ public class PaymentAccountController extends ParentController{
 		return myMsgArr;
 	}
 
+	@Override
 	public ArrayList<Object> handleGet(ArrayList<Object> obj) throws Exception{
 		if(obj == null) return new ArrayList<>();
 		ArrayList<Object> acc = new ArrayList<>();
@@ -73,6 +59,7 @@ public class PaymentAccountController extends ParentController{
 		return acc;
 	}
 
+	@Override
 	public PaymentAccount parse(BigInteger paID, BigInteger CustomerID, BigInteger creditCardID,
 			BigInteger storeID, BigInteger subscriptionID, float refund) throws Exception {
 		ArrayList<Object> storesObj = EchoServer.fac.store.getStoreByID(storeID), 
@@ -97,6 +84,7 @@ public class PaymentAccountController extends ParentController{
 		throw new Exception();
 	}
 
+	@Override
 	public ArrayList<Object> getPayAccount(BigInteger custID) throws Exception {
 		String query = "SELECT * FROM paymentaccount WHERE customerID='" + custID + "'";
 		return handleGet(EchoServer.fac.dataBase.db.getQuery(query));
@@ -127,10 +115,5 @@ public class PaymentAccountController extends ParentController{
 				
 		}
 		else throw new Exception();
-	}
-	
-	public ArrayList<Object> getPayAccontByCredCard(BigInteger ccID) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
 	}
 }
