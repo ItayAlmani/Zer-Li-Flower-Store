@@ -4,6 +4,7 @@ import itayNron.StockController;
 import itayNron.StoreController;
 import itayNron.SurveyController;
 import itayNron.SurveyReportController;
+import izhar.IOrder;
 import izhar.OrderController;
 import izhar.PickupController;
 import izhar.ProductController;
@@ -31,7 +32,7 @@ public class Factory {
 	public DataBaseController dataBase = new DataBaseController();
 
 	public PickupController pickup = new PickupController();
-	public OrderController order = new OrderController();
+	public IOrder order = new OrderController();
 	public ProductInOrderController prodInOrder = new ProductInOrderController();
 	public ShipmentController shipment = new ShipmentController();
 	public ProductController product = new ProductController();

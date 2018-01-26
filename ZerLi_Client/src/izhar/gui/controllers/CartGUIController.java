@@ -31,7 +31,9 @@ public class CartGUIController extends ProductsPresentationGUIController {
 
 	public static Float ordPrice = 0f;
 	public static boolean cartEmpty = true;
+	public static boolean firstPagination = false;
 
+	@Override
 	protected void getProducts() {
 		Order ord = Context.order;
 		if (ord != null) {
@@ -56,6 +58,7 @@ public class CartGUIController extends ProductsPresentationGUIController {
 		}
 	}
 
+	/** checks if cart empty and set the GUI by it */
 	private void checkCartEmpty() {
 		if (cartEmpty) {
 			if (firstPagination == false)
@@ -73,8 +76,7 @@ public class CartGUIController extends ProductsPresentationGUIController {
 		}
 	}
 
-	public static boolean firstPagination = false;
-
+	/** The {@link ProductInOrder}s that asked in {@link #getProducts()} */
 	public void setPIOs(ArrayList<ProductInOrder> prds) {
 		Context.mainScene.setMenuPaneDisable(false);
 		try {
@@ -118,6 +120,7 @@ public class CartGUIController extends ProductsPresentationGUIController {
 			Platform.runLater(() -> updateView());
 	}
 
+	/** updating the screen after changes */
 	private void updateView() {
 		if (cartEmpty == true) {
 			if (Platform.isFxApplicationThread())
@@ -134,6 +137,11 @@ public class CartGUIController extends ProductsPresentationGUIController {
 		vbox.getStylesheets().add(getClass().getResource("/gui/css/ParentCSS.css").toExternalForm());
 	}
 
+	/**
+	 * the {@link EventHandler} of the Button which updates the quantity
+	 * @param stock update the stock after adding more quantity of the pio
+	 * @return the {@link EventHandler}
+	 */
 	private EventHandler<ActionEvent> updateQuantity(Stock stock) {
 		return (event) -> {
 			Button btn = (Button) event.getSource();
@@ -174,7 +182,10 @@ public class CartGUIController extends ProductsPresentationGUIController {
 		};
 	}
 
-	@SuppressWarnings("unchecked")
+	/**
+	 * 
+	 * @param prds
+	 */
 	private void initGrids(ArrayList<ProductInOrder> prds) {
 		components.clear();
 		allPIOS = prds;
@@ -197,11 +208,12 @@ public class CartGUIController extends ProductsPresentationGUIController {
 		initArrays(notZeroPIOS.size());
 	}
 
+	/** The {@link EventHandler} of the {@link #btnOrderNow}.
+	 * Invoke onAction and forwarding to the {@link DeliveryGUIController}*/
 	public void createOrder() {
 		if (notZeroPIOS != null && !notZeroPIOS.isEmpty()) {
 			Context.order.setProducts(allPIOS);
 			Context.fac.order.calcFinalPriceOfOrder(Context.order);
-
 			Context.mainScene.loadDelivery();
 		} 
 		else {
@@ -211,8 +223,5 @@ public class CartGUIController extends ProductsPresentationGUIController {
 	}
 
 	@Override
-	protected void getProducts(ArrayList<Product> prds) {
-		// TODO Auto-generated method stub
-		
-	}
+	protected void getProducts(ArrayList<Product> prds) {}
 }

@@ -57,12 +57,6 @@ public class CancelOrderGUIController implements Initializable {
  */
 	public void setOrders(ArrayList<Order> ord) {
 		Context.mainScene.setMenuPaneDisable(false);
-		/*ArrayList<Order> ords = new ArrayList<Order>();
-		if (ord != null && ord.isEmpty() == false) {
-			for (Order order : ord)
-				if (Context.fac.order.isCancelable(order))
-					ords.add(order);
-		} */
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
@@ -150,7 +144,6 @@ public class CancelOrderGUIController implements Initializable {
 			Context.mainScene.setMessage(msg);
 			if (paidOrders.isEmpty() == false) {
 				cbsOrders.setDisable(false);
-			
 			}
 			else
 				Context.mainScene.setMessage("No orders to cancel");

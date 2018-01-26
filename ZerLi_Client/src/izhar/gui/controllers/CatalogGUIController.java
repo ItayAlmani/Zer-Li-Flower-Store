@@ -11,6 +11,7 @@ import javafx.scene.control.Pagination;
 
 public class CatalogGUIController extends ProductsPresentationGUIController {
     
+	@Override
     protected void getProducts() {
     	if(Context.order!=null && 
     			Context.order.getDelivery()!=null && 
@@ -22,6 +23,7 @@ public class CatalogGUIController extends ProductsPresentationGUIController {
     		Context.mainScene.setMessage("Can't open catalog right now!");
 	}
     
+	@Override
     protected void getProducts(ArrayList<Product> prds) {
     	if(prds!=null && !prds.isEmpty()) {
     		this.prds=prds;
@@ -32,6 +34,7 @@ public class CatalogGUIController extends ProductsPresentationGUIController {
     		Context.mainScene.setMessage("Can't open catalog right now!");
 	}
 
+	/** setting the screen by data */
     public void createCatalog() {	
     	components.clear();
     	int size = stocks!=null?stocks.size():(prds!=null?prds.size():0);
@@ -48,11 +51,8 @@ public class CatalogGUIController extends ProductsPresentationGUIController {
 						Float newPrice = Context.fac.product.getPriceWithSubscription(Context.order,stk.getProduct(), stk.getPriceAfterSale(), Context.getUserAsCustomer());
 						setVBox(i, 
 								stk,
-								newPrice==null?null:newPrice*(1-stk.getSalePercetage()),
-										addToCart(stk.getProduct(),
-												newPrice==null ? 
-														stk.getPriceAfterSale() :
-															newPrice*(1-stk.getSalePercetage()), stk));
+								newPrice==stk.getPriceAfterSale()?stk.getPriceAfterSale():newPrice*(1-stk.getSalePercetage()),
+										addToCart(stk.getProduct(),newPrice, stk));
 						i++;
 					} catch (Exception e) {
 						Context.mainScene.loadMainMenu("Your'e not customer");
@@ -75,6 +75,10 @@ public class CatalogGUIController extends ProductsPresentationGUIController {
 			Platform.runLater(()->updateView(oldPag));
 	}
     
+    /**
+     * updating the screen after changes
+     * @param oldPag will be removed from {@link ProductsPresentationGUIController#vbox}
+     */
     private void updateView(Pagination oldPag) {
     	int pagInd;
 		if(vbox.getChildren().contains(oldPag)) {
