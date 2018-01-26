@@ -8,10 +8,13 @@ import common.EchoServer;
 import controllers.ParentController;
 import entities.Product;
 import entities.ProductInOrder;
-import entities.Stock;
 
-public class ProductInOrderController extends ParentController{	
+public class ProductInOrderController extends ParentController implements IProductInOrderController{	
 	
+	/* (non-Javadoc)
+	 * @see izhar.IProductInOrderController#add(java.util.ArrayList)
+	 */
+	@Override
 	public ArrayList<Object> add(ArrayList<Object> arr) throws Exception {
 		if(arr!=null && (arr.get(0) instanceof ProductInOrder == false) || arr.get(1) instanceof Boolean == false)
 			throw new Exception();
@@ -38,6 +41,10 @@ public class ProductInOrderController extends ParentController{
 		return myMsgArr;
 	}
 
+	/* (non-Javadoc)
+	 * @see izhar.IProductInOrderController#getPIOsByOrder(java.math.BigInteger)
+	 */
+	@Override
 	public ArrayList<Object> getPIOsByOrder(BigInteger orderID) throws Exception {
 		String query = "SELECT prodInOrd.productInOrderID, prd.*,orderID, quantity, totalprice FROM" + 
 				" (" + 
@@ -55,6 +62,9 @@ public class ProductInOrderController extends ParentController{
 		return handleGet(EchoServer.fac.dataBase.db.getQuery(query));
 	}
 	
+	/* (non-Javadoc)
+	 * @see izhar.IProductInOrderController#update(java.lang.Object)
+	 */
 	@Override
 	public ArrayList<Object> update(Object obj) throws Exception {
 		if(obj instanceof ProductInOrder) {
@@ -71,6 +81,10 @@ public class ProductInOrderController extends ParentController{
 		throw new Exception();
 	}
 
+	/* (non-Javadoc)
+	 * @see izhar.IProductInOrderController#updatePriceOfPIO(entities.ProductInOrder)
+	 */
+	@Override
 	public ArrayList<Object> updatePriceOfPIO(ProductInOrder p) throws SQLException{
 		String query = "update cart" + 
 				" set quantity='"+p.getQuantity()+
@@ -82,6 +96,10 @@ public class ProductInOrderController extends ParentController{
 		return myMsgArr;
 	}
 	
+	/* (non-Javadoc)
+	 * @see izhar.IProductInOrderController#isAllPIOsFromSameOrder(java.util.ArrayList)
+	 */
+	@Override
 	public boolean isAllPIOsFromSameOrder(ArrayList<ProductInOrder> products) {
 		BigInteger ordID = products.get(0).getOrderID();
 		for (ProductInOrder pio : products) {
@@ -92,6 +110,9 @@ public class ProductInOrderController extends ParentController{
 	}
 
 	
+	/* (non-Javadoc)
+	 * @see izhar.IProductInOrderController#handleGet(java.util.ArrayList)
+	 */
 	@Override
 	public ArrayList<Object> handleGet(ArrayList<Object> obj) throws Exception {
 		if(obj==null) return null;
@@ -116,6 +137,10 @@ public class ProductInOrderController extends ParentController{
 		return prds;
 	}
 
+	/* (non-Javadoc)
+	 * @see izhar.IProductInOrderController#parse(java.math.BigInteger, entities.Product, java.math.BigInteger, int, float)
+	 */
+	@Override
 	public ProductInOrder parse(BigInteger id, Product prod, BigInteger orderID, int quantity, float finalPrice) {
 		return new ProductInOrder(id, prod,orderID,quantity,finalPrice);
 	}

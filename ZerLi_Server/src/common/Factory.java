@@ -4,6 +4,10 @@ import itayNron.StockController;
 import itayNron.StoreController;
 import itayNron.SurveyController;
 import itayNron.SurveyReportController;
+import izhar.IPickupController;
+import izhar.IProductController;
+import izhar.IProductInOrderController;
+import izhar.IShipmentController;
 import izhar.OrderController;
 import izhar.PickupController;
 import izhar.ProductController;
@@ -30,11 +34,11 @@ import lior.interfaces.IQuarterlyReportController;
 public class Factory {	
 	public DataBaseController dataBase = new DataBaseController();
 
-	public PickupController pickup = new PickupController();
+	public IPickupController pickup = new PickupController();
 	public OrderController order = new OrderController();
-	public ProductInOrderController prodInOrder = new ProductInOrderController();
-	public ShipmentController shipment = new ShipmentController();
-	public ProductController product = new ProductController();
+	public IProductInOrderController prodInOrder = new ProductInOrderController();
+	public IShipmentController shipment = new ShipmentController();
+	public IProductController product = new ProductController();
 	
 	public StockController stock = new StockController();
 	public StoreController store = new StoreController();

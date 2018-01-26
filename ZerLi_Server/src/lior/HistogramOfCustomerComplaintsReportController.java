@@ -53,7 +53,7 @@ public class HistogramOfCustomerComplaintsReportController extends ParentControl
 		this.ccReport.setNotTreatedCnt(0);
 		this.ccReport.setRefundedCnt(0);
 		this.ccReport.setTreatedCnt(0);
-		return analyzeComplaints(EchoServer.fac.complaint.getComplaintsByStore(store));
+		return analyzeComplaints(EchoServer.fac.complaint.getComplaintsByStore(store,ccReport.getStartdate(),ccReport.getEnddate()));
 	}
 	/* (non-Javadoc)
 	 * @see lior.IHistogramOfCustomerCompaintsReportController

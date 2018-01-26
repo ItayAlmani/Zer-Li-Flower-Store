@@ -271,7 +271,9 @@ public class OrderController extends ParentController{
 	 * @param endDate 	- the last day of the quarter	(31.MM+3.YY)
 	 */
 	public ArrayList<Object> getOrdersForReportByStoreID(BigInteger storeID, LocalDate startDate, LocalDate endDate) throws Exception {
-		String query = String.format("SELECT ord.*\n" + 
+		String query=null;
+		if(!storeID.equals(BigInteger.valueOf(-1))) {
+		query = String.format("SELECT ord.*\n" + 
 				" FROM orders AS ord, deliverydetails AS del, shipmentdetails AS sh\n" + 
 				" WHERE\n" + 
 				"	(\n" + 
@@ -284,7 +286,21 @@ public class OrderController extends ParentController{
 				"    AND (ord.status='Paid' OR ord.status='Canceled');"
 				, storeID,
 				(Timestamp.valueOf(startDate.atStartOfDay())).toString(),
-				(Timestamp.valueOf(endDate.atTime(LocalTime.of(23, 59, 59)))).toString());
+				(Timestamp.valueOf(endDate.atTime(LocalTime.of(23, 59, 59)))).toString());}
+		else {
+			query = String.format("SELECT ord.*\n" + 
+					" FROM orders AS ord, deliverydetails AS del, shipmentdetails AS sh\n" + 
+					" WHERE\n" + 
+					"	(\n" + 
+					"		del.deliveryID=ord.deliveryID\n" + 
+					"		OR\n" + 
+					"		ord.shipmentID=sh.shipmentID AND sh.deliveryID=del.deliveryID\n" + 
+					"    )\n" + 
+					"    AND ord.date>='%s' AND ord.date<='%s'\n" + 
+					"    AND (ord.status='Paid' OR ord.status='Canceled');"
+					,(Timestamp.valueOf(startDate.atStartOfDay())).toString(),
+					(Timestamp.valueOf(endDate.atTime(LocalTime.of(23, 59, 59)))).toString());
+		}
 		return handleGet(EchoServer.fac.dataBase.db.getQuery(query));
 	}
 
