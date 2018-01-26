@@ -12,7 +12,7 @@ public class DataBaseController {
 	private String dbUrl_default = "localhost",
 			dbName_default = "dbassignment2",
 			dbUserName_default = "root",
-			dbPassword_default = "1234";
+			dbPassword_default = "kfir1234";
 
 	private final String dbTextFileName = "DataBaseAddress.txt";
 	private final String txtLocalPath = EchoServer.tempPath + dbTextFileName;
