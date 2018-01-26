@@ -5,11 +5,11 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 
 import common.EchoServer;
 import controllers.ParentController;
-import entities.ProductInOrder;
 import entities.Store;
 import entities.Survey;
 import entities.Survey.SurveyType;
@@ -111,7 +111,7 @@ public class SurveyController extends ParentController
 			
 			return handleGet(EchoServer.fac.dataBase.db.getQuery(query));
 		}
-		else throw new SQLException("Must send ArrayList<Object> that contains 2 LocalDate in getSurveyByDates");
+		throw new SQLException();
 	}
 	
 	/**

@@ -7,21 +7,18 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.math.BigInteger;
-import java.time.LocalDate;
 import java.util.ArrayList;
 
 import common.Context;
 import controllers.ParentController;
 import entities.CSMessage;
+import entities.CSMessage.MessageType;
 import entities.Customer;
 import entities.Order;
 import entities.PaymentAccount;
-import entities.CSMessage.MessageType;
 import entities.Product;
-import entities.ProductInOrder;
 import entities.Product.Color;
 import entities.Product.ProductType;
-import entities.Subscription.SubscriptionType;
 import entities.Stock;
 import entities.Subscription;
 import gui.controllers.ParentGUIController;
@@ -29,7 +26,11 @@ import izhar.interfaces.IProduct;
 
 public class ProductController extends ParentController implements IProduct {	
 //------------------------------------------------IN CLIENT--------------------------------------------------------------------
-	public byte[] insertImageToByteArr(File imgFile) throws Exception {
+	/* (non-Javadoc)
+	 * @see izhar.IProduct#insertImageToByteArr(java.io.File)
+	 */
+	@Override
+	public byte[] insertImageToByteArr(File imgFile) throws Exception{
 		try {
 			byte[] mybytearray  = new byte [(int)imgFile.length()];
 			FileInputStream fis = new FileInputStream(imgFile);
@@ -44,15 +45,10 @@ public class ProductController extends ParentController implements IProduct {
 		}
 	}
 	
-	/**
-	 * 
-	 * @param order
-	 * @param p
-	 * @param price
-	 * @param customer
-	 * @return null if the no change because the {@link Subscription}
-	 * @throws Exception
+	/* (non-Javadoc)
+	 * @see izhar.IProduct#getPriceWithSubscription(entities.Order, entities.Product, java.lang.Float, entities.Customer)
 	 */
+	@Override
 	public Float getPriceWithSubscription(Order order, Product p, Float price, Customer customer) throws Exception {
 		PaymentAccount pa = null;
 		if(order.getDelivery() != null && order.getDelivery().getStore() != null)
@@ -63,6 +59,9 @@ public class ProductController extends ParentController implements IProduct {
 		return price;
 	} 
 	
+	/* (non-Javadoc)
+	 * @see izhar.IProduct#assembleProduct(entities.Product.ProductType, java.lang.Float, java.lang.Float, entities.Product.Color, java.util.ArrayList, entities.Subscription)
+	 */
 	@Override
 	public ArrayList<Stock> assembleProduct(ProductType type, Float priceStart, Float priceEnd, Color color, ArrayList<Stock> stocks, Subscription sub) {
 		ArrayList<Stock> inConditionProds = new ArrayList<>();
@@ -89,6 +88,9 @@ public class ProductController extends ParentController implements IProduct {
 	}
 	
 //------------------------------------------------IN SERVER--------------------------------------------------------------------
+	/* (non-Javadoc)
+	 * @see izhar.IProduct#getProductByID(java.math.BigInteger)
+	 */
 	@Override
 	public void getProductByID(BigInteger prdID) throws IOException {
 		myMsgArr.clear();
@@ -97,6 +99,9 @@ public class ProductController extends ParentController implements IProduct {
 		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.SELECT,myMsgArr,Product.class));
 	}
 	
+	/* (non-Javadoc)
+	 * @see izhar.IProduct#update(entities.Product)
+	 */
 	@Override
 	public void update(Product p) throws IOException {
 		myMsgArr.clear();
@@ -105,6 +110,10 @@ public class ProductController extends ParentController implements IProduct {
 		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.UPDATE,myMsgArr,Product.class));
 	}
 	
+	/* (non-Javadoc)
+	 * @see izhar.IProduct#handleGet(java.util.ArrayList)
+	 */
+	@Override
 	public void handleGet(ArrayList<Product> prds) {
 		String methodName = "setProducts";
 		Method m = null;
@@ -129,6 +138,10 @@ public class ProductController extends ParentController implements IProduct {
 		}
 	}
 	
+	/* (non-Javadoc)
+	 * @see izhar.IProduct#handleInsert(java.math.BigInteger)
+	 */
+	@Override
 	public void handleInsert(BigInteger id) {
 		String methodName = "setProductID";
 		Method m = null;
@@ -153,6 +166,9 @@ public class ProductController extends ParentController implements IProduct {
 		}
 	}
 	
+	/* (non-Javadoc)
+	 * @see izhar.IProduct#add(entities.Product, boolean)
+	 */
 	@Override
 	public void add(Product p, boolean getID) throws IOException {
 		myMsgArr.clear();
@@ -164,6 +180,9 @@ public class ProductController extends ParentController implements IProduct {
 		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.INSERT, myMsgArr,Product.class));
 	}
 	
+	/* (non-Javadoc)
+	 * @see izhar.IProduct#getAllProducts()
+	 */
 	@Override
 	public void getAllProducts() throws IOException {
 		myMsgArr.clear();
@@ -171,6 +190,9 @@ public class ProductController extends ParentController implements IProduct {
 		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.SELECT,myMsgArr,Product.class));
 	}
 	
+	/* (non-Javadoc)
+	 * @see izhar.IProduct#getProductsInCatalog()
+	 */
 	@Override
 	public void getProductsInCatalog() throws IOException {
 		myMsgArr.clear();
@@ -178,6 +200,9 @@ public class ProductController extends ParentController implements IProduct {
 		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.SELECT,myMsgArr,Product.class));
 	}
 	
+	/* (non-Javadoc)
+	 * @see izhar.IProduct#getAllProductsNotInCatalog()
+	 */
 	@Override
 	public void getAllProductsNotInCatalog() throws IOException {
 		myMsgArr.clear();

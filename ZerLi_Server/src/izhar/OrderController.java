@@ -16,6 +16,7 @@ import entities.Order.DeliveryType;
 import entities.Order.OrderStatus;
 import entities.Order.OrderType;
 import entities.Order.PayMethod;
+import interfaces.IOrder;
 import entities.ProductInOrder;
 import entities.ShipmentDetails;
 import entities.Store;

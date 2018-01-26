@@ -67,16 +67,6 @@ public class IncomesReportController extends ParentController implements IIncome
 				setPIOsInOrder(EchoServer.fac.prodInOrder.getPIOsByOrder(((Order)o).getOrderID()));
 			}
 		}
-		/*for(int i=0;i<orders.size();i++){
-			LocalDate start = iReport.getEndOfQuarterDate().minusMonths(3).plusDays(1), 
-					end =iReport.getEndOfQuarterDate(),
-					ordDate = orders.get(i).getDate().toLocalDate();
-			if(ordDate.isAfter(end)==false && ordDate.isBefore(start)==false){
-				if(orders.get(i).getOrderStatus().equals(OrderStatus.Paid) ||
-						orders.get(i).getOrderStatus().equals(OrderStatus.Canceled))
-				setPIOsInOrder(EchoServer.fac.prodInOrder.getPIOsByOrder(orders.get(i).getOrderID()));
-			}	
-		}*/
 		ArrayList<Object> ar = new ArrayList<>();
 		ar.add(this.iReport);
 		add(ar);

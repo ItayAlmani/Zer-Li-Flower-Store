@@ -1,85 +1,78 @@
 package interfaces;
 
-import java.io.IOException;
 import java.math.BigInteger;
-import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
-import entities.*;
-import entities.Order.*;
+import entities.Customer;
+import entities.Order;
 
-public interface IOrder  {
-	/**
-	 * sending new order to server and asks to insert it to DataBase
-	 * @param order - the Order which will be add
-	 * @return 
-	 * @throws Exception 
-	 */
-	//ArrayList<Object> add(Object order) throws Exception;
+public interface IOrder {
 
 	/**
-	 * asks the server to update the <code>Order</code>'s <code>status</code> attribute
-	 * to be <b>canceled</b>
-	 * @param order - the object with the <code>orderID</code>
-	 * @return 
+	 * Gets all the {@link Order}s by customerID
+	 * @param customerID the {@link Order} belongs to the {@link Customer} with this ID
+	 * @return all the {@link Order}s by customerID
+	 * @throws Exception
 	 */
-	ArrayList<Object> cancelOrder(Order order) throws SQLException;
+	ArrayList<Object> getOrdersByCustomerID(BigInteger customerID) throws Exception;
 
 	/**
-	 * asks the server to update the <code>Order</code> with <code>orderID</code>
-	 * by the data in <code>order</code>
-	 * @param order - the object with the new data and the <code>orderID</code>
-	 * @return 
-	 * @throws Exception 
+	 * Looking for {@link Order}s by customerID where {@link Order#getOrderStatus()} is 'Paid'
+	 * and the {@link Order#getDelivery()} date hasn't pass
+	 * @param customerID the {@link Order} belongs to the {@link Customer} with this ID
+	 * @return {@link Order}s by customerID where {@link Order#getOrderStatus()} is 'Paid'
+	 * and the {@link Order#getDelivery()} date hasn't pass
+	 * @throws Exception
 	 */
-	//ArrayList<Object> update(ArrayList<Object> arr) throws Exception;
+	ArrayList<Object> getCancelableOrdersByCustomerID(BigInteger customerID) throws Exception;
 
 	/**
-	 * asks the server for all the <code>Order</code>s by <code>storeID</code>
-	 * @param storeID - the parameter to find the <code>Order</code>s
-	 * @return 
+	 * Gets all {@link Order}s where {@link Order#getOrderStatus()}='InProcess', by the parameters from DB.
+	 * @param arr contains 2 parameters: customerID and store
+	 * @return all {@link Order}s (by the description)
+	 * @throws Exception
 	 */
-	public ArrayList<Object> getAllOrdersByStoreID(BigInteger storeID) throws SQLException;
+	ArrayList<Object> getOrAddOrderInProcess(ArrayList<Object> arr) throws Exception;
 
-	public ArrayList<Object> getOrdersWaitingForPaymentByCustomerID(ArrayList<Object> arr) throws Exception;
-	
 	/**
-	 * adds the shipment's price to the final price of the order 
-	 * (in cart there is the final price)
-	 * @param order - the order which price needs to be updated
+	 * Gets all the {@link Order}s by <code>storeID</code> and <code>dates</code>
+	 * @param storeID	- the parameter to find the <code>Order</code>s
+	 * @param startDate	- the first day of the quarter	(01.MM.YY)
+	 * @param endDate 	- the last day of the quarter	(31.MM+3.YY)
+	 * @return all {@link Order}s (by the description)
+	 * @throws Exception
 	 */
-	//void updatePriceWithShipment(Order order) throws SQLException;
-	
-	/**
-	 * asks from server an Order with orderid=<code>orderID</code>
-	 * @param orderID - the id of the Order
-	 * @return 
-	 * @throws IOException
-	 */
-	ArrayList<Object> getProductsInOrder(BigInteger orderID) throws SQLException;
-	
-	//void addProductInOrderToOrder(ProductInOrder product);
-	
-	ArrayList<Object> getOrderInProcess(BigInteger customerID) throws SQLException;
+	ArrayList<Object> getOrdersForReportByStoreID(BigInteger storeID, LocalDate startDate, LocalDate endDate)
+			throws Exception;
 
-	ArrayList<Object> getOrdersByCustomerID(BigInteger customerID) throws SQLException;
-	
+	/**
+	 * 
+	 * @param orderID
+	 * @return
+	 * @throws Exception
+	 */
+	ArrayList<Object> getProductsInOrder(BigInteger orderID) throws Exception;
+
 	/**
 	 * parsing the data into new Order object
 	 * @param orderID		-	the order's ID
 	 * @param customerID	-	the customer who made the order's ID
-	 * @param deliveryID	-	the delivery's details's ID
-	 * @param transactionID	-	the transaction of the whole order's ID
+	 * @param deliveryID	-	the delivery's details's ID (can be NULL)
+	 * @param payMethod		-	the payment method
+	 * @param shipmentID	-	the shipment ID (can be NULL)
 	 * @param type			-	the type of order by the ENUM
 	 * @param greeting		-	the greeting which can be attached to the order
 	 * @param deliveryType	-	the delivery type by the ENUM
 	 * @param orderStatus	-	the order's status by the ENUm
 	 * @param date			-	the order's date
-	 * @param price TODO
-	 * @param cartID		-	the cart which contains all the products in order ID
-	 * @return new object created by the data above
+	 * @param price			-	the price of the order
+	 * @return new {@link Order} created by the data above
+	 * @throws Exception
 	 */
-	Order parse(BigInteger orderID, BigInteger customerID, BigInteger deliveryID, String payMethod, BigInteger shipmentID, String type,
-			String greeting, String deliveryType, String orderStatus, Timestamp date, float price);
+	Order parse(BigInteger orderID, BigInteger customerID, BigInteger deliveryID, String payMethod,
+			BigInteger shipmentID, String type, String greeting, String deliveryType, String orderStatus,
+			Timestamp date, float price) throws Exception;
+
 }

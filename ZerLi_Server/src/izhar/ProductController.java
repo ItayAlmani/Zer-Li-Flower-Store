@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import common.EchoServer;
 import controllers.ParentController;
 import entities.Product;
+import interfaces.IProductController;
 
 public class ProductController extends ParentController implements IProductController {	
 	

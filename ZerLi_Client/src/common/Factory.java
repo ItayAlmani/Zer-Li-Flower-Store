@@ -4,6 +4,7 @@ import itayNron.*;
 import itayNron.interfaces.IStock;
 import izhar.*;
 import izhar.interfaces.IProduct;
+import izhar.interfaces.IProductInOrder;
 import lior.*;
 import kfir.*;
 import kfir.interfaces.ICustomer;
@@ -23,11 +24,9 @@ public class Factory {
 	public StockController stock = new StockController();
 	
 	public OrderController order = new OrderController();
-	public PickupController pickup = new PickupController();
 	public StoreController store = new StoreController();
 	public ProductController product = new ProductController();
-	public ProductInOrderController prodInOrder = new ProductInOrderController();
-	public ShipmentController shipment = new ShipmentController();
+	public IProductInOrder prodInOrder = new ProductInOrderController();
 	
 	public UserController user = new UserController();
 	public CustomerController customer = new CustomerController();
