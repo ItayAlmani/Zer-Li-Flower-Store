@@ -35,7 +35,7 @@ public class SurveyGUIController implements Initializable {
 	@FXML DatePicker dpDate;
 
 	/**
-	 * <p>
+	 * <p>1
 	 * Function to send filled {@link Survey} to DB
 	 * </p>
 	 * @throws IOException 
