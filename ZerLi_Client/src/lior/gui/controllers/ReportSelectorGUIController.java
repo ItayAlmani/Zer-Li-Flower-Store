@@ -345,7 +345,9 @@ public class ReportSelectorGUIController implements Initializable {
 				@Override
 				public void run() {
 					String s = String.valueOf(rep.getTotIncomes());
-					lblStoreID2.setText(rep.getStoreID().toString());
+					if(!rep.getStoreID().equals(BigInteger.valueOf(-1)))
+						lblStoreID2.setText(rep.getStoreID().toString());
+					else lblStoreID2.setText("All Stores");
 					lblEndDate2.setText(rep.getEnddate().format(formatters));
 					lblStartDate2.setText(rep.getStartdate().format(formatters));
 					lblTotIncome2.setText(s);

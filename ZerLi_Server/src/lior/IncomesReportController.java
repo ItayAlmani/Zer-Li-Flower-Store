@@ -9,7 +9,6 @@ import common.EchoServer;
 import controllers.ParentController;
 import entities.IncomesReport;
 import entities.Order;
-import entities.Order.OrderStatus;
 import entities.ProductInOrder;
 import lior.interfaces.IIncomesReportController;
 
@@ -48,7 +47,7 @@ public class IncomesReportController extends ParentController implements IIncome
 		this.iReport.setStartdate(date.minusMonths(3).plusDays(1));
 		this.iReport.setStoreID(storeID);
 		this.iReport.setTotIncomes(0);
-		return analyzeOrders(EchoServer.fac.order.getOrdersForReportByStoreID(storeID, date, date.minusMonths(3).plusDays(1)));
+		return analyzeOrders(EchoServer.fac.order.getOrdersForReportByStoreID(storeID, date.minusMonths(3).plusDays(1),date ));
 	}
 	
 	public ArrayList<Object> analyzeOrders(ArrayList<Object> objs) throws Exception{
