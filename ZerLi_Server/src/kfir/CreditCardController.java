@@ -2,17 +2,16 @@ package kfir;
 
 import java.math.BigInteger;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 
 import common.EchoServer;
 import controllers.ParentController;
 import entities.CreditCard;
-import entities.Product;
-import entities.Subscription;
+import kfir.interfaces.ICreditCard;
 
-public class CreditCardController extends ParentController{
+public class CreditCardController extends ParentController implements ICreditCard{
 	
+	@Override
 	public ArrayList<Object> add(ArrayList<Object> arr) throws Exception{
 		if(arr!=null && (arr.get(0) instanceof CreditCard == false) || arr.get(1) instanceof Boolean == false)
 			throw new Exception();
@@ -52,6 +51,7 @@ public class CreditCardController extends ParentController{
 		return cards;
 	}
 
+	@Override
 	public CreditCard parse(BigInteger id,String ccNumber, String ccValidity, String ccCVV) {
 		return new CreditCard(id,ccNumber, ccValidity, ccCVV);
 	}
@@ -74,6 +74,7 @@ public class CreditCardController extends ParentController{
 		throw new Exception();
 	}
 	
+	@Override
 	public ArrayList<Object> getCreditCard(BigInteger cardID)throws SQLException {
 		if(cardID==null)
 			return null;
@@ -83,6 +84,7 @@ public class CreditCardController extends ParentController{
 		return handleGet(EchoServer.fac.dataBase.db.getQuery(query));
 	}
 	
+	@Override
 	public ArrayList<Object> getCreditCardByNumber(String ccNum) throws SQLException {
 		if(ccNum==null)
 			return null;
