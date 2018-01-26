@@ -31,6 +31,11 @@ public class LogInGUIController implements Initializable{
 	private @FXML ImageView imgLogo;
 	private boolean getAllUsers=true;
 	
+	/**
+	 * Function get input from GUI TextField, check if the input is correct
+	 * and get the relevant user from the DataBase
+	 * if the user don't exist show ErrorMsg  
+	 */
 	public void logIn() {
 		String uName = this.txtUserName.getText(),
 				pass = this.txtPassword.getText();
@@ -50,6 +55,12 @@ public class LogInGUIController implements Initializable{
 		}
 	}
 	
+	/**
+	 * Function get {@link ArrayList} of {@link User} 
+	 * check if the {@link ArrayList} is empty, if yes show Error
+	 * check {@link User} Connection and Active status and set {@link User} to {@link Context}
+	 * @param users - {@link ArrayList} of {@link User} return from DB
+	 */
 	public void setUsers(ArrayList<User> users) {
 		Context.mainScene.setMenuPaneDisable(false);
 		Context.mainScene.clearMsg();
@@ -80,6 +91,11 @@ public class LogInGUIController implements Initializable{
 		}
 	}
 	
+	/**
+	 * Function set {@link User} Connection status
+	 * In order to prevent double connection of same {@link User} 
+	 * @param user - {@link User} to change his connection status
+	 */
 	public void setUserConnected(User user) {
 		/*try {
 			user.setConnected(true);
@@ -105,6 +121,10 @@ public class LogInGUIController implements Initializable{
 		}
 	}
 	
+	/**
+	 * Function allow user to LogIn with "Enter" key
+	 * @param comp - Key that pressed
+	 */
 	private void setComponentSendOnEnter(List<Node> comp) {
 		for (Node node : comp) {
 			node.setOnKeyPressed((keyEvent)->{

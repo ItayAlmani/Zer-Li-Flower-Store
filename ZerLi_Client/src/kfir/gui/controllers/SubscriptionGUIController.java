@@ -12,8 +12,8 @@ import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 
 import common.Context;
-import entities.CreditCard;
 import entities.Customer;
+import entities.DataBase;
 import entities.PaymentAccount;
 import entities.Store;
 import entities.Subscription;
@@ -23,6 +23,7 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.ComboBox;
 import javafx.scene.layout.VBox;
 
 public class SubscriptionGUIController implements Initializable {
@@ -50,6 +51,11 @@ public class SubscriptionGUIController implements Initializable {
 		}
 	}
 	
+	/**
+	 * Function get {@link ArrayList} of {@link Customer}s from {@link DataBase} and
+	 * set them in the {@link ComboBox}
+	 * @param customers - {@link ArrayList} from {@link DataBase}
+	 */
 	public void setCustomers(ArrayList<Customer> customers) {
 		Context.mainScene.setMenuPaneDisable(false);
 		if(Platform.isFxApplicationThread())
@@ -58,6 +64,15 @@ public class SubscriptionGUIController implements Initializable {
 			Platform.runLater(()->cbCustomers.setItems(FXCollections.observableArrayList(customers)));
 	}
 	
+	/**
+	 * Function check if the selected {@link Customer} have an exist {@link PaymentAccount}
+	 * <p>
+	 * if NO - show an appropriate message
+	 * <p>
+	 * if YES - check if the {@link Customer} have {@link Subscription}
+	 * <p>
+	 * if YES - show his details
+	 */
 	public void customerSelected() {
 		try {
 			vboxPA.setVisible(false);
@@ -105,6 +120,10 @@ public class SubscriptionGUIController implements Initializable {
 		}
 	}
 	
+	/**
+	 * Function {@link Subscription} type from {@link ComboBox} 
+	 * and create new {@link Subscription} for the selected {@link Customer}
+	 */
 	public void createSubscription() {
 		try {
 			SubscriptionType type = cbSub.getValue();
@@ -130,6 +149,10 @@ public class SubscriptionGUIController implements Initializable {
 		}
 	}
 	
+	/**
+	 *Function get the new {@link Subscription} id and attach it to the {@link Customer}'s {@link PaymentAccount}
+	 * @param id - new {@link Subscription} ID
+	 */
 	public void setSubID(BigInteger id) {
 		Context.mainScene.setMenuPaneDisable(false);
 		this.sub.setSubID(id);
