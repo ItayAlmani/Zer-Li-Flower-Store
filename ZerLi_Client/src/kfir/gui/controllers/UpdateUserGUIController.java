@@ -4,11 +4,8 @@ import java.awt.TextField;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.net.URL;
-import java.sql.Array;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-
-import javax.jws.soap.SOAPBinding.Use;
 
 import javafx.fxml.Initializable;
 import javafx.application.Platform;
@@ -19,9 +16,7 @@ import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXToggleButton;
 
 import common.Context;
-import entities.CreditCard;
 import entities.Customer;
-import entities.PaymentAccount;
 import entities.Store;
 import entities.StoreWorker;
 import entities.User;
@@ -186,7 +181,7 @@ public class UpdateUserGUIController implements Initializable{
 	}
 	
 	/**
-	 * 
+	 * Function the {@link User} that selected permission and update the view accordingly
 	 */
 	public void permissionChanged() {
 		UserType perm = cbPermissions.getValue();
@@ -308,8 +303,8 @@ public class UpdateUserGUIController implements Initializable{
 	}
 	
 	/**
-	 * Function check if the {@link User} is Active and change the {@link ToggleButton} style
-	 * accordingly
+	 *Function check if the {@link User} is Active and change the {@link ToggleButton} style
+	 *accordingly
 	 */
 	public void toggleChanged() {
 		if(tglActive.isSelected()) {
@@ -323,7 +318,8 @@ public class UpdateUserGUIController implements Initializable{
 	}
 	
 	/**
-	 * 
+	 *Function check the changes in the {@link User} permission ,his activation and update the DB
+	 * <p> If there are no changes - an appropriate message appears
 	 */
 	public void updateUser() {
 		UserType newperm = cbPermissions.getValue();
