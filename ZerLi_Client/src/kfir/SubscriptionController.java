@@ -32,7 +32,7 @@ public class SubscriptionController extends ParentController implements ISubscri
 			if(LocalDate.now().isBefore(date.plusYears(1)) && date.isBefore(LocalDate.now()))
 				return (1-(1.5f*discount_in_percent_of_month)/100f)*price;
 		}
-		return null;
+		return price;
 	}
 	
 	@Override

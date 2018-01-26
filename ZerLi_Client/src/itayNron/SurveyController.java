@@ -12,8 +12,8 @@ import common.Context;
 import controllers.ParentController;
 import entities.CSMessage;
 import entities.Order;
-import entities.CSMessage.MessageType;
 import entities.Store;
+import entities.CSMessage.MessageType;
 import entities.Survey;
 import entities.Survey.SurveyType;
 import gui.controllers.ParentGUIController;
@@ -30,14 +30,6 @@ public class SurveyController extends ParentController implements ISurvey {
 		arr.add(false);
 		myMsgArr.add(arr);
 		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.INSERT, myMsgArr,Survey.class));
-	}
-
-	@Override
-	public void getSurveyByStore(Store store) throws IOException {
-		myMsgArr.clear();
-		myMsgArr.add(Thread.currentThread().getStackTrace()[1].getMethodName());
-		myMsgArr.add(store);
-		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.SELECT, myMsgArr, Survey.class));
 	}
 
 	@Override

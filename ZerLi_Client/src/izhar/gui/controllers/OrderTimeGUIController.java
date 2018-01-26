@@ -45,7 +45,7 @@ public class OrderTimeGUIController implements Initializable {
 		LocalDateTime now_dt = LocalDateTime.now(), nowDT_plus3 = now_dt.plusHours(3);
 		selectedHours();
 		sldMinutes.valueProperty().addListener((obs,ov,nv)->{
-			if(nv != null)
+			if(nv != null && date!=null)
 				date=date.withMinute(nv.intValue());
 		});
 		sldMinutes.setValue(0);
@@ -123,7 +123,7 @@ public class OrderTimeGUIController implements Initializable {
 
 	public void selectedHours() {
 		sldHours.valueProperty().addListener((obs,ov,nv)->{
-			if(nv != null)
+			if(nv != null && date!=null)
 				date=date.withHour(nv.intValue());
 			LocalTime now_time = LocalTime.now();
 

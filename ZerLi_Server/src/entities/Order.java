@@ -18,7 +18,7 @@ public class Order implements Serializable {
 	private DeliveryType deliveryType = null;
 	private OrderStatus orderStatus;
 	private LocalDateTime date = LocalDateTime.now();
-	private float finalPrice = 0f;
+	private float finalPrice;
 	private ArrayList<ProductInOrder> products;
 	private PayMethod paymentMethod;
 	
@@ -178,20 +178,12 @@ public class Order implements Serializable {
 		this.finalPrice = finalPrice;
 	}
 	
-	private void setFinalPrice() {
-		if(products==null) return;
-		for (ProductInOrder productInOrder : products)
-			finalPrice+=productInOrder.getFinalPrice();
-	}
-	
 	public ArrayList<ProductInOrder> getProducts() {
 		return products;
 	}
 	
 	public void setProducts(ArrayList<ProductInOrder> products) {
 		this.products = products;
-		this.finalPrice=0f;
-		setFinalPrice();
 	}
 	
 	public void addToFinalPrice(float amount) {

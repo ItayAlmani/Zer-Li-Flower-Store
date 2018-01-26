@@ -202,10 +202,16 @@ public class OrderController extends ParentController implements IOrder{
 
 	@Override
 	public ArrayList<Object> getCancelableOrdersByCustomerID(BigInteger customerID) throws Exception {
-		String query = "SELECT ord.*"
-				+	" FROM orders AS ord, deliverydetails AS del"
-				+	" WHERE customerID='" + customerID + "' AND ord.status='Paid'" + 
-					"	AND ord.deliveryID=del.deliveryID AND curdate() < del.date";
+		String query = String.format(
+				"SELECT ord.*\r\n" + 
+				" FROM orders AS ord, deliverydetails AS del, shipmentdetails AS sh\r\n" + 
+				" WHERE \r\n" + 
+				" (\r\n" + 
+				"	ord.deliveryID=del.deliveryID\r\n" + 
+				"	OR\r\n" + 
+				"	ord.shipmentID=sh.shipmentID AND sh.deliveryID=del.deliveryID\r\n" + 
+				" )\r\n" + 
+				" AND customerID='%d' AND ord.status='Paid' AND curdate() < del.date", customerID);
 		return handleGet(EchoServer.fac.dataBase.db.getQuery(query));
 	}
 	

@@ -49,9 +49,10 @@ public class CatalogGUIController extends ProductsPresentationGUIController {
 				if(stk.getProduct().isInCatalog()) {
 					try {
 						Float newPrice = Context.fac.product.getPriceWithSubscription(Context.order,stk.getProduct(), stk.getPriceAfterSale(), Context.getUserAsCustomer());
+						
 						setVBox(i, 
 								stk,
-								newPrice==stk.getPriceAfterSale()?stk.getPriceAfterSale():newPrice*(1-stk.getSalePercetage()),
+								stk.getPriceAfterSale().equals(newPrice)?null:newPrice,
 										addToCart(stk.getProduct(),newPrice, stk));
 						i++;
 					} catch (Exception e) {

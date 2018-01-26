@@ -46,10 +46,21 @@ public class SatisfactionReportController extends ParentController implements IS
 		this.sReport.setStoreID(storeID);
 		this.sReport.setStartdate(date.minusMonths(3).plusDays(1));
 		this.sReport.setEnddate(date);
-		ArrayList<Object> obj=new ArrayList<>();
-		obj.add(this.sReport.getStartdate().atStartOfDay());
-		obj.add(this.sReport.getEnddate().atStartOfDay());
-		return analyzeSurveys(EchoServer.fac.survey.getSurveyByDates(obj));
+		//Not AllStores
+		if(!this.sReport.getStoreID().equals(BigInteger.valueOf(-1)))
+			return analyzeSurveys(
+					EchoServer.fac.survey.getSurveyByDatesAndStore(
+							storeID,
+							this.sReport.getStartdate().atStartOfDay(),
+							this.sReport.getEnddate().atStartOfDay()
+							)
+					);
+		else {
+			ArrayList<Object> arr = new ArrayList<>();
+			arr.add(this.sReport.getStartdate().atStartOfDay());
+			arr.add(this.sReport.getEnddate().atStartOfDay());
+			return analyzeSurveys(EchoServer.fac.survey.getSurveyByDates(arr));
+		}
 	}
 
 	public ArrayList<Object> analyzeSurveys(ArrayList<Object> objs) throws Exception{
@@ -71,45 +82,24 @@ public class SatisfactionReportController extends ParentController implements IS
 		ArrayList<Survey> ar1=new ArrayList<>();
 		float[] answers = new float[6];
 		float totans=0;
-		if(!this.sReport.getStoreID().equals(BigInteger.valueOf(-1))) {
-			for(int i=0;i<surveys.size();i++)
-			{
-				if(surveys.get(i).getStoreID().equals(this.sReport.getStoreID())
-						&& surveys.get(i).getType().equals(SurveyType.Answer)
-						)
-				{
-					ar1.add(surveys.get(i));
-				}	
+		for(int i=0;i<surveys.size();i++) {
+			if(surveys.get(i).getType().equals(SurveyType.Answer)) {
+				ar1.add(surveys.get(i));
+				for(int j=0;j<6;j++)
+					answers[j]+=surveys.get(i).getSurveyAnswerers()[j];
 			}
 		}
-		else {
-			for(int i=0;i<surveys.size();i++)
-			{
-				if(surveys.get(i).getType().equals(SurveyType.Answer))
-				{
-					ar1.add(surveys.get(i));
-				}	
-			}
-		}
-		for(int i=0;i<ar1.size();i++)
-		{
-			for(int j=0;j<6;j++)
-			{
-				answers[j]+=ar1.get(i).getSurveyAnswerers()[j];
-			}	
-		}
-		for(int j=0;j<6;j++)
-		{
+		for(int j=0;j<6;j++){
 			answers[j]=answers[j]/ar1.size();
 			totans+=answers[j];
 		}	
-			ArrayList<Object> ar = new ArrayList<>();
-			this.sReport.setSurveys(ar1);
-			this.sReport.setFinalanswers(answers);
-			this.sReport.setAverageTotanswer(totans/6);
-			ar.add(this.sReport);
-			add(ar);
-			return ar;
+		ArrayList<Object> ar = new ArrayList<>();
+		this.sReport.setSurveys(ar1);
+		this.sReport.setFinalanswers(answers);
+		this.sReport.setAverageTotanswer(totans/6);
+		ar.add(this.sReport);
+		add(ar);
+		return ar;
 	}
 	
 	@Override

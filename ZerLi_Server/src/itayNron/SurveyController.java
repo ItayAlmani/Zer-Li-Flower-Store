@@ -70,14 +70,21 @@ public class SurveyController extends ParentController
 	 * <p>
 	 * Function to get surveys by specific store
 	 * </p>
-	 * @param store - unique identifier store object from which we want surveys from
+	 * @param obj - unique identifier store and dates object from which we want surveys from
 	 * @return generic object arrayList which become survey arrayList
 	 * @throws SQLException Context.clientConsole.handleMessageFromClientUI throws SQLException
 	 */
-	public ArrayList<Object> getSurveyByStore(Store store) throws SQLException {
-		String query = String.format(
-				"SELECT survey.* FROM survey WHERE storeID = %d",
-				store.getStoreID());
+	public ArrayList<Object> getSurveyByDatesAndStore(BigInteger storeID, LocalDateTime startDate, LocalDateTime endDate) throws SQLException {
+		String query =String.format(
+				"SELECT survey.*"
+				+ " FROM survey"
+				+ " WHERE storeID = '%d' AND "
+				+ " date >= '%s'"
+				+ " AND date <= '%s'"
+				+ " AND type='Answer'", 
+				storeID,
+				startDate.toString(),
+				endDate.toString()); 
 		return handleGet(EchoServer.fac.dataBase.db.getQuery(query));
 	}
 	
@@ -93,9 +100,15 @@ public class SurveyController extends ParentController
 		if(arr!=null && arr.size()==2 
 				&& arr.get(0) instanceof LocalDateTime && arr.get(1) instanceof LocalDateTime) {
 			LocalDateTime startDate = (LocalDateTime)arr.get(0), endDate = (LocalDateTime)arr.get(1);
-			String query = "SELECT survey.*" 
-					+ " FROM survey WHERE (date >= '"
-					+startDate.toString()+"' AND date <= '"+endDate.toString()+"' AND type='Answer')";
+			String query = String.format(
+					"SELECT survey.*"
+					+ " FROM survey"
+					+ " WHERE date >= '%s'"
+					+ " AND date <= '%s'"
+					+ " AND type='Answer'", 
+					startDate.toString(),
+					endDate.toString());
+			
 			return handleGet(EchoServer.fac.dataBase.db.getQuery(query));
 		}
 		else throw new SQLException("Must send ArrayList<Object> that contains 2 LocalDate in getSurveyByDates");

@@ -60,7 +60,7 @@ public class ProductController extends ParentController implements IProduct {
 					customer.getPaymentAccounts(), order.getDelivery().getStore());
 		if(pa!= null && pa.getSub() != null && pa.getSub().getSubType() != null)
 			return Context.fac.sub.getPriceBySubscription(pa.getSub(), price);
-		return null;
+		return price;
 	} 
 	
 	@Override

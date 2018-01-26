@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Date;
 
 import entities.Store;
@@ -21,15 +20,6 @@ public interface ISurvey{
 	 * @throws IOException Context.clientConsole.handleMessageFromClientUI throws IOException.
 	 */
 	void add(Survey survey) throws IOException;
-
-	/**
-	 * <p>
-	 * Function to get all surveys from a specific store
-	 * </p>
-	 * @param store - store object to identify where to get surveys from
-	 * @throws IOException Context.clientConsole.handleMessageFromClientUI throws IOException.
-	 */
-	void getSurveyByStore(Store store) throws IOException;
 
 /**
  * <p>

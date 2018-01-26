@@ -169,7 +169,7 @@ public class AssembleProductGUIController extends ProductsPresentationGUIControl
 			Float newPrice = Context.fac.product.getPriceWithSubscription(Context.order,stk.getProduct(), stk.getPriceAfterSale(), Context.getUserAsCustomer());
 			setVBox(i, 
 					stk,
-					newPrice = newPrice==stk.getPriceAfterSale()?null:newPrice,
+					newPrice.equals(stk.getPriceAfterSale())?null:newPrice,
 					addToCart(stk.getProduct(),newPrice, stk));
 			i++;
 		}

@@ -83,6 +83,8 @@ public class PaymentGUIController implements Initializable {
 			this.price_after_disc = Context.fac.order.getFinalPriceByPAT(pa,
 					Context.order,
 					cust);
+			price_after_disc = price_after_disc==null?0f:price_after_disc;
+			
 			//add delivery price after the discounts
 			if(Context.order.getDeliveryType().equals(DeliveryType.Shipment)) {
 				price_before_disc+=ShipmentDetails.shipmentPrice;

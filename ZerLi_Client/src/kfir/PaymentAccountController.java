@@ -72,7 +72,7 @@ public class PaymentAccountController extends ParentController implements IPayme
 		if(pas == null || s == null) throw new Exception();
 		for (PaymentAccount pa : pas) {
 			if(pa.getStore() == null || pa.getStore().getStoreID() == null || s.getStoreID() == null)
-				throw new Exception();
+				throw new Exception("No store");
 			if(pa.getStore().getStoreID().intValue()==s.getStoreID().intValue())
 				return pa;
 		}
