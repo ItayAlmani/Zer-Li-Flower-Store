@@ -49,7 +49,7 @@ public class SatisfactionReportController extends ParentController implements IS
 		ArrayList<Object> obj=new ArrayList<>();
 		obj.add(this.sReport.getStartdate().atStartOfDay());
 		obj.add(this.sReport.getEnddate().atStartOfDay());
-		return analyzeSurveys(EchoServer.fac.survey.getSurveyByDates(obj));
+		return analyzeSurveys(EchoServer.fac.survey.getSurveyByDates(storeID,this.sReport.getStartdate(),this.sReport.getEnddate()));
 	}
 
 	public ArrayList<Object> analyzeSurveys(ArrayList<Object> objs) throws Exception{

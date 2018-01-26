@@ -193,51 +193,14 @@ public class ReportSelectorGUIController implements Initializable {
 					LocalDate date1 = pickedDate(cbQuarter2.getValue(), cbYear2.getValue());
 					if (date1.isBefore(LocalDate.now()) && cbStorePick2.getValue()!=null) {
 						n1 = cbStorePick2.getValue().getStoreID();
-						if (this.cbTypePick2.getValue().equals(ReportType.Order)) {
-							/*if (cbTypePick2.getValue().equals(cbTypePick1.getValue()) == false
-									|| date.equals(date1) == false
-									|| cbStorePick1.getValue().equals(cbStorePick2.getValue()) == false) {
-								if (cbTypePick2.getValue().equals(cbTypePick1.getValue())) {
-									Context.fac.orderReport.initproduceOrderReport(date1, n1);
-								} else
-									Context.fac.orderReport.initproduceOrderReport(date1, n1);
-							}*/
+						if (this.cbTypePick2.getValue().equals(ReportType.Order))
 							Context.fac.orderReport.initproduceOrderReport(date1, n1);
-						}
-
-						else if (cbTypePick2.getValue().equals(ReportType.Incomes)) {
-							/*if (cbTypePick2.getValue().equals(cbTypePick1.getValue()) == false
-									|| date.equals(date1) == false
-									|| cbStorePick1.getValue().equals(cbStorePick2.getValue()) == false) {
-								if (cbTypePick2.getValue().equals(cbTypePick1.getValue())) {
-									Context.fac.incomesReport.initProduceIncomesReport(date1, n1);
-								} else
-									Context.fac.incomesReport.initProduceIncomesReport(date1, n1);
-							}*/
+						else if (cbTypePick2.getValue().equals(ReportType.Incomes))
 							Context.fac.incomesReport.initProduceIncomesReport(date1, n1);
-						} else if (cbTypePick2.getValue().equals(ReportType.CustomerComplaints)) {
-							/*if (cbTypePick2.getValue().equals(cbTypePick1.getValue()) == false
-									|| date.equals(date1) == false
-									|| cbStorePick1.getValue().equals(cbStorePick2.getValue()) == false) {
-								if (cbTypePick2.getValue().equals(cbTypePick1.getValue())) {
-									Context.fac.histogramReport.initproduceHistogramOfCustomerComplaintsReport(date1, cbStorePick2.getValue());
-								} else
-									Context.fac.histogramReport.initproduceHistogramOfCustomerComplaintsReport(date1, cbStorePick2.getValue());
-							}*/
+						else if (cbTypePick2.getValue().equals(ReportType.CustomerComplaints))
 							Context.fac.histogramReport.initproduceHistogramOfCustomerComplaintsReport(date1, cbStorePick2.getValue());
-						}
-
-						else if (cbTypePick2.getValue().equals(ReportType.Satisfaction)) {
-							/*if (cbTypePick2.getValue().equals(cbTypePick1.getValue()) == false
-									|| date.equals(date1) == false
-									|| cbStorePick1.getValue().equals(cbStorePick2.getValue()) == false) {
-								if (cbTypePick2.getValue().equals(cbTypePick1.getValue())) {
-									Context.fac.satisfactionReport.initProduceSatisfactionReport(date1, n1);
-								} else
-									Context.fac.satisfactionReport.initProduceSatisfactionReport(date1, n1);
-							}*/
+						else if (cbTypePick2.getValue().equals(ReportType.Satisfaction))
 							Context.fac.satisfactionReport.initProduceSatisfactionReport(date1, n1);
-						}
 					}
 					else
 					{

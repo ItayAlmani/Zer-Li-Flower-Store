@@ -14,6 +14,7 @@ import entities.DeliveryDetails;
 import entities.Order;
 import entities.ProductInOrder;
 import entities.Store;
+import interfaces.IPickupController;
 
 public class PickupController extends ParentController implements IPickupController {
 	private String isImm,dateStr;

@@ -4,12 +4,11 @@ import java.math.BigInteger;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 
 import common.EchoServer;
 import controllers.ParentController;
-import entities.ProductInOrder;
 import entities.Store;
 import entities.Survey;
 import entities.Survey.SurveyType;
@@ -89,16 +88,21 @@ public class SurveyController extends ParentController
 	 * @return generic object arrayList which will become survey arrayList
 	 * @throws SQLException Context.clientConsole.handleMessageFromClientUI throws SQLException
 	 */
-	public ArrayList<Object> getSurveyByDates(ArrayList<Object> arr) throws SQLException{
-		if(arr!=null && arr.size()==2 
-				&& arr.get(0) instanceof LocalDateTime && arr.get(1) instanceof LocalDateTime) {
-			LocalDateTime startDate = (LocalDateTime)arr.get(0), endDate = (LocalDateTime)arr.get(1);
-			String query = "SELECT survey.*" 
-					+ " FROM survey WHERE (date >= '"
-					+startDate.toString()+"' AND date <= '"+endDate.toString()+"' AND type='Answer')";
-			return handleGet(EchoServer.fac.dataBase.db.getQuery(query));
+	public ArrayList<Object> getSurveyByDates(BigInteger storeID, LocalDate startDate, LocalDate endDate) throws SQLException{
+		String query=null;
+		if(!storeID.equals(BigInteger.valueOf(-1))) {
+			query = String.format( "SELECT survey.*" 
+					+ " FROM survey WHERE (storeID = %d AND date >='%s' \n" + 
+					"AND date <='%s');",storeID,(Timestamp.valueOf(startDate.atStartOfDay())).toString(),
+					(Timestamp.valueOf(endDate.atTime(LocalTime.of(23, 59, 59)))).toString());
 		}
-		else throw new SQLException("Must send ArrayList<Object> that contains 2 LocalDate in getSurveyByDates");
+		else {
+			query = String.format( "SELECT survey.*" 
+					+ " FROM survey WHERE (date >='%s' \n" + 
+					"AND date <='%s');",(Timestamp.valueOf(startDate.atStartOfDay())).toString(),
+					(Timestamp.valueOf(endDate.atTime(LocalTime.of(23, 59, 59)))).toString());
+		}
+		return handleGet(EchoServer.fac.dataBase.db.getQuery(query));
 	}
 	
 	/**

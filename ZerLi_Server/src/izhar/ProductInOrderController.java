@@ -8,6 +8,7 @@ import common.EchoServer;
 import controllers.ParentController;
 import entities.Product;
 import entities.ProductInOrder;
+import interfaces.IProductInOrderController;
 
 public class ProductInOrderController extends ParentController implements IProductInOrderController{	
 	

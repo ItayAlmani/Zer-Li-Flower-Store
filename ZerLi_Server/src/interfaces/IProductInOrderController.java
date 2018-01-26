@@ -1,4 +1,4 @@
-package izhar;
+package interfaces;
 
 import java.math.BigInteger;
 import java.sql.SQLException;

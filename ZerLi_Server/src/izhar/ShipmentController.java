@@ -7,6 +7,7 @@ import common.EchoServer;
 import controllers.ParentController;
 import entities.DeliveryDetails;
 import entities.ShipmentDetails;
+import interfaces.IShipmentController;
 
 public class ShipmentController extends ParentController implements IShipmentController {
 	
