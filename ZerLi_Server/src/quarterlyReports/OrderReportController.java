@@ -9,9 +9,8 @@ import java.util.HashMap;
 import common.EchoServer;
 import common.ParentController;
 import orderNproducts.entities.Order;
-import orderNproducts.entities.ProductInOrder;
-import orderNproducts.entities.Order.OrderStatus;
 import orderNproducts.entities.Product.ProductType;
+import orderNproducts.entities.ProductInOrder;
 import quarterlyReports.entities.OrderReport;
 import quarterlyReports.interfaces.IOrderReportController;
 

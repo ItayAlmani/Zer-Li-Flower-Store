@@ -49,6 +49,7 @@ public class SurveyGUIController implements Initializable {
 		}
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {		
 		cbs = new ChoiceBox[]{cb1,cb2,cb3,cb4,cb5,cb6};

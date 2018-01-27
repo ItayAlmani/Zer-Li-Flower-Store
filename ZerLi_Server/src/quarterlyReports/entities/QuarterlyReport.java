@@ -3,7 +3,6 @@ package quarterlyReports.entities;
 import java.io.Serializable;
 import java.math.BigInteger;
 import java.time.LocalDate;
-import java.util.Date;
 
 public abstract class QuarterlyReport implements Serializable {
 	

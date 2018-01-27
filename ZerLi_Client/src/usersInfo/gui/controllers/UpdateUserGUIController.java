@@ -7,16 +7,16 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-import javafx.fxml.Initializable;
-import javafx.application.Platform;
-import javafx.collections.FXCollections;
-import javafx.fxml.FXML;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXToggleButton;
 
 import common.Context;
 import common.gui.controllers.ParentGUIController;
+import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.VBox;
@@ -39,6 +39,7 @@ public class UpdateUserGUIController implements Initializable{
 	User old_user_to_update=null;
 	private StoreWorker sw = null;
 	private Store newStore=null;
+	@SuppressWarnings("unused")
 	private Customer cust=null;
 	
 	/**if all setXXX functions called counters*/
@@ -339,6 +340,7 @@ public class UpdateUserGUIController implements Initializable{
 			}
 		}
 		try {
+			@SuppressWarnings("unused")
 			final UserType  p_sw = UserType.StoreWorker, p_sm = UserType.StoreManager,p_Csw1=UserType.ChainStoreWorker, p_Csm=UserType.ChainStoreManager,
 					p_Csw2 = UserType.CustomerServiceWorker,p_se = UserType.ServiceExpert, oldperm = user.getPermissions();
 			//the permissions haven't changed

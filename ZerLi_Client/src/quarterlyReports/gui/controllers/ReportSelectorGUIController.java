@@ -6,10 +6,8 @@ import java.net.URL;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.Month;
-import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.ResourceBundle;
 
 import com.jfoenix.controls.JFXButton;
@@ -24,9 +22,7 @@ import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.StackedBarChart;
@@ -39,14 +35,13 @@ import javafx.scene.layout.BorderStrokeStyle;
 import javafx.scene.layout.BorderWidths;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.paint.Color;
-import javafx.stage.Stage;
-import orderNproducts.entities.Store;
 import orderNproducts.entities.Product.ProductType;
+import orderNproducts.entities.Store;
 import quarterlyReports.entities.HistogramOfCustomerComplaintsReport;
 import quarterlyReports.entities.IncomesReport;
 import quarterlyReports.entities.OrderReport;
-import quarterlyReports.entities.SatisfactionReport;
 import quarterlyReports.entities.QuarterlyReport.ReportType;
+import quarterlyReports.entities.SatisfactionReport;
 import usersInfo.entities.User;
 
 public class ReportSelectorGUIController implements Initializable {

@@ -1,13 +1,10 @@
 package usersInfo;
 
 import java.math.BigInteger;
-import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Random;
 
 import common.EchoServer;
 import common.ParentController;
-import usersInfo.entities.CreditCard;
 import usersInfo.entities.Customer;
 import usersInfo.entities.PaymentAccount;
 import usersInfo.entities.User;

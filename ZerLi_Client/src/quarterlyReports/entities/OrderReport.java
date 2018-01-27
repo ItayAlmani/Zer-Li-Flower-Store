@@ -2,7 +2,6 @@ package quarterlyReports.entities;
 
 import java.math.BigInteger;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import orderNproducts.entities.Product.ProductType;

@@ -52,7 +52,9 @@ public class ParentGUIController extends SetUpMainGUIController implements Initi
 		Platform.runLater(()->setUpMenus());
 		loadMainMenu();
 	}
-	
+	/**
+	 * A function that sorts which screen should be uploaded
+	 */
 	private void setUpMenus() {
 		if(Context.getUser()!=null) {
 			UserType perm = Context.getUser().getPermissions();
@@ -90,7 +92,7 @@ public class ParentGUIController extends SetUpMainGUIController implements Initi
 	public void clearMsg() {
 		Context.mainScene.setMessage("");
 	}
-	
+
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		try {
@@ -214,7 +216,11 @@ public class ParentGUIController extends SetUpMainGUIController implements Initi
 	public void storeChanged() {
 		getNewOrderByStore(true);
 	}
-	
+	/**
+	 * A function that returns the current store
+	 * @return The current Store
+	 * @throws Exception if the return statement not called
+	 */
 	public Store getCurrentStore() throws Exception {
 		if(Context.getUser().getPermissions().equals(UserType.Customer))
 			return cbStores.getValue();

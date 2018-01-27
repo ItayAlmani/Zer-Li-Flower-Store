@@ -8,7 +8,6 @@ import java.util.ResourceBundle;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXButton.ButtonType;
 import com.jfoenix.controls.JFXComboBox;
-import com.jfoenix.controls.JFXSlider;
 import com.jfoenix.controls.JFXSpinner;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXTreeTableColumn;
@@ -36,12 +35,12 @@ import javafx.scene.paint.Color;
 import javafx.util.Callback;
 import orderNproducts.entities.DeliveryDetails;
 import orderNproducts.entities.Order;
-import orderNproducts.entities.ProductInOrder;
-import orderNproducts.entities.Stock;
-import orderNproducts.entities.Store;
 import orderNproducts.entities.Order.DeliveryType;
 import orderNproducts.entities.Order.OrderStatus;
 import orderNproducts.entities.Order.OrderType;
+import orderNproducts.entities.ProductInOrder;
+import orderNproducts.entities.Stock;
+import orderNproducts.entities.Store;
 import usersInfo.entities.Customer;
 
 public class ManualTransactionGUIController implements Initializable {

@@ -187,6 +187,7 @@ public class CartGUIController extends ProductsPresentationGUIController {
 	 * 
 	 * @param prds
 	 */
+	@SuppressWarnings("unchecked")
 	private void initGrids(ArrayList<ProductInOrder> prds) {
 		components.clear();
 		allPIOS = prds;

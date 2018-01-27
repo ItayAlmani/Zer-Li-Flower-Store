@@ -2,12 +2,8 @@ package customersSatisfaction.entities;
 
 import java.io.Serializable;
 import java.math.BigInteger;
-import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import usersInfo.entities.Customer;
 

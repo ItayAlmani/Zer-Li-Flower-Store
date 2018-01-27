@@ -13,18 +13,14 @@ import de.jensd.fx.glyphs.octicons.OctIconView;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import orderNproducts.entities.Store;
@@ -71,86 +67,128 @@ public class LoadGUIController {
 	/** The path of the shared fxml files<br>
 	 *fxml_path={@value}*/ 
 	protected final static String fxml_path = "/common/gui/fxmls/";
-	
+	/**
+	 * Function that Loads The update catalog GUI
+	 */
 	public void loadProducts() {
 		loadGUI("UpdateCatalogGUI", false);
 	}
-
+	/**
+	 * Function that Loads the survey GUI
+	 */
 	public void loadSurvey() {
 		loadGUI("SurveyGUI", false);
 	}
-
+	/**
+	 * Function that Loads the Survey Report GUI
+	 */
 	public void loadSurveyReport() {
 		loadGUI("SurveyReportGUI", false);
 	}
-
+	/**
+	 * Function that Loads the Connection Configuration GUI
+	 */
 	public void loadConnectionGUI() {
 		loadGUI("ConnectionConfigGUI", false);
 	}
-	
+	/**
+	 * Function that Loads the Cancel Order GUI
+	 */
 	public void loadCancelOrder() {
 		loadGUI("CancelOrderGUI", false);
 	}
-
+	/**
+	 * Function that Loads the Catalog GUI with specific CSS ProductsPresentationCSS
+	 */
 	public void loadCatalog() {
 		loadGUI("CatalogGUI", "ProductsPresentationCSS");
 	}
-
+	/**
+	 * Function that Loads the Cart GUI with specific CSS ProductsPresentationCSS
+	 */
 	public void loadCart() {
 		if (Context.order != null)
 			loadGUI("CartGUI", "ProductsPresentationCSS");
 		else
 			setMessage("Try again");
 	}
-
+	/**
+	 * Function that Loads the Report Selector GUI
+	 */
 	public void loadReportSelector() {
 		loadGUI("ReportSelectorGUI", false);
 	}
-
+	/**
+	 * Function that Loads the Update Order Status GUI
+	 */
 	public void loadUpdateOrder() {
 		loadGUI("UpdateOrderStatusGUI", false);
 	}
-
+	/**
+	 * Function that Loads the Manual Transaction GUI
+	 */
 	public void loadManualTransaction() {
 		loadGUI("ManualTransactionGUI", false);
 	}
-
+	/**
+	 * Function that Loads the Assemble Product GUI with specific CSS ProductsPresentationCSS
+	 */
 	public void loadAssembleProduct() {
 		loadGUI("AssembleProductGUI", "ProductsPresentationCSS");
 	}
-
+	/**
+	 * Function that Loads the Complaint GUI
+	 */
 	public void loadComplaints() {
 		loadGUI("ComplaintGUI", false);
 	}
-
+	/**
+	 * Function that Loads the PaymentAccountManagmentGUI
+	 */
 	public void loadUpdatePaymentAccount() {
 		loadGUI("PaymentAccountManagmentGUI", false);
 	}
-	
+	/**
+	 * Function that Loads the Subscription GUI
+	 */
 	public void loadSub() {
 		loadGUI("SubscriptionGUI", false);
 	}
-	
+	/**
+	 * Function that Loads the Update User GUI
+	 */
 	public void loadAccountsManage() {
 		loadGUI("UpdateUserGUI", false);
 	}
-	
+	/**
+	 * Function that Loads Order Time GUI
+	 */
 	public void loadOrderTime() {
 		loadGUI("OrderTimeGUI", false);
 	}
-	
+	/**
+	 * Function that Loads Payment GUI
+	 */
 	public void loadPayment() {
 		loadGUI("PaymentGUI", false);
 	}
-	
+	/**
+	 * Function that Loads Delivery GUI
+	 */
 	public void loadDelivery() {
 		loadGUI("DeliveryGUI", false);
 	}
-	
+	/**
+	 * Function that Loads Order GUI
+	 */
 	public void loadOrderDetails() {
 		loadGUI("OrderGUI", false);
 	}
-
+	/**
+	 * Function that creates the scene of LogIN
+	 * @param guiName - represent the Gui Name
+	 * @param primaryStage - represent the current primary stage
+	 */
 	private void createScene(String guiName, Stage primaryStage) {
 		scenePane.getChildren().clear();
 		scenePane.getChildren().add(homePane);
@@ -166,7 +204,12 @@ public class LoadGUIController {
 			title += string + " ";
 		this.lblTitle.setText(title);
 	}
-
+	/**
+	 * A "generic" function that processes the loading process according to the details it receives
+	 *  and knows how to categorize by which screen to load now
+	 * @param guiName - the name of the gui that needed to load now
+	 * @param cssName - load this specific CSS
+	 */
 	public void loadGUI(String guiName, String cssName) {
 		if (Context.clientConsole == null || Context.clientConsole.isConnected() == false) {
 			setServerUnavailable();
@@ -177,7 +220,11 @@ public class LoadGUIController {
 		else
 			Platform.runLater(()->changeScene(guiName, cssName));
 	}
-
+	/**
+	 * Function that changes between scenes
+	 * @param guiName - the scene that need to be loaded
+	 * @param cssName - optional, load specific CSS
+	 */
 	private void changeScene(String guiName, String cssName) {
 		setMessage("");
 		setTitle("");
@@ -197,7 +244,12 @@ public class LoadGUIController {
 			e1.printStackTrace();
 		}
 	}
-
+	/**
+	 * A "generic" function that processes the loading process according to the details it receives
+	 *  and knows how to categorize by which screen to load now
+	 * @param guiName - the name of the gui that needed to load now
+	 * @param cssName - if the user want or not to change the default CSS
+	 */
 	public void loadGUI(String guiName, boolean withCSS) {
 		if (guiName != null && guiName.equals("ConnectionConfigGUI")==false &&
 				(Context.clientConsole == null || Context.clientConsole.isConnected() == false)) {
@@ -214,16 +266,24 @@ public class LoadGUIController {
 			Platform.runLater(()->changeScene(guiName, cssFinalName));
 		}
 	}
-
+	/**
+	 * Function that loads the main menu
+	 */
 	public void loadMainMenu() {
 		loadGUI("MainMenuGUI", false);
 	}
-
+	/**
+	 * Function that loads the main menu
+	 * @param msg - message that shown in the screen
+	 */
 	public void loadMainMenu(String msg) {
 		loadGUI("MainMenuGUI", false);
 		setMessage(msg);
 	}
-
+	/**
+	 * Function that set a message in the screen
+	 * @param msg - the string you want to display
+	 */
 	public void setMessage(String msg) {
 		// Range for readable colors
 		double[] color = new double[3];
@@ -236,7 +296,11 @@ public class LoadGUIController {
 		else
 			Platform.runLater(()->showTextInLblMsg(msg,c));
 	}
-	
+	/**
+	 * Function that sets the lblmsg with a requested string
+	 * @param msg- the requested message
+	 * @param color - the color for the lyrics
+	 */
 	private void showTextInLblMsg(String msg, Color color) {
 		lblMsg.setTextFill(color);
 		String lmsg = lblMsg.getText();
@@ -261,7 +325,9 @@ public class LoadGUIController {
 		if(lmsg.isEmpty() || msg == null || msg.equals(""))
 			lblMsg.setText(msg);
 	}
-
+	/**
+	 * Shows if the server is not connected and calls to the new connection GUI
+	 */
 	public void setServerUnavailable() {
 		Platform.runLater(new Runnable() {
 			@Override
@@ -276,7 +342,9 @@ public class LoadGUIController {
 		//changeScene("ConnectionConfigGUI", null);
 		loadConnectionGUI();
 	}
-
+	/**
+	 * Function that tells if the server is available
+	 */
 	public void setServerAvailable() {
 		Context.mainScene.setMessage("");
 		if(Platform.isFxApplicationThread()) {
@@ -292,7 +360,10 @@ public class LoadGUIController {
 				cbStores.setVisible(true);
 		});
 	}
-	
+	/**
+	 * Function that tells if the server is available
+	 * @param msg - message to be shown in the screen
+	 */
 	public void setServerAvailable(String msg) {
 		Context.mainScene.setMessage(msg);
 		if(Platform.isFxApplicationThread()) {
@@ -308,7 +379,10 @@ public class LoadGUIController {
 				cbStores.setVisible(true);
 		});
 	}
-
+	/**
+	 * Function that set the title of the screen
+	 * @param title - the requested title
+	 */
 	public void setTitle(String title) {
 		if(Platform.isFxApplicationThread())
 			lblTitle.setText(title);

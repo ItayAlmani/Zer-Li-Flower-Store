@@ -1,8 +1,6 @@
 package orderNproducts.gui.controllers;
 
-import java.io.IOException;
 import java.net.URL;
-import java.text.DateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -218,6 +216,7 @@ public class OrderTimeGUIController implements Initializable {
 	
 			confirmation.setX(ParentGUIController.primaryStage.getX());
 			confirmation.setY(ParentGUIController.primaryStage.getY());
+			@SuppressWarnings("unused")
 			Optional<ButtonType> response = confirmation.showAndWait();
 		}
 		else {

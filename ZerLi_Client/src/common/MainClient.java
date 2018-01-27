@@ -1,6 +1,5 @@
 package common;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Optional;
@@ -19,7 +18,6 @@ import javafx.stage.Modality;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-import orderNproducts.entities.Product;
 
 /**
  * The class which extends {@link Application} and contains:

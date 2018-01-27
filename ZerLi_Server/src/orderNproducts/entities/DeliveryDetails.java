@@ -3,7 +3,6 @@ package orderNproducts.entities;
 import java.io.Serializable;
 import java.math.BigInteger;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 public class DeliveryDetails implements Serializable{	
 	

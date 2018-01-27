@@ -17,13 +17,12 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import orderNproducts.entities.DeliveryDetails;
-import orderNproducts.entities.ShipmentDetails;
 import orderNproducts.entities.Order.DeliveryType;
+import orderNproducts.entities.ShipmentDetails;
 
 public class DeliveryGUIController implements Initializable {
 

@@ -5,9 +5,7 @@ import java.math.BigInteger;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import orderNproducts.entities.Order;
 import usersInfo.entities.CreditCard;
-import usersInfo.entities.Customer;
 
 public interface ICreditCard {
 	

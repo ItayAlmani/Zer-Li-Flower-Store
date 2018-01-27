@@ -1,13 +1,10 @@
 package orderNproducts;
 
-import java.io.ByteArrayInputStream;
 import java.math.BigInteger;
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 import common.EchoServer;
 import common.ParentController;
-import orderNproducts.entities.DeliveryDetails;
 import orderNproducts.entities.Order;
 import orderNproducts.entities.Product;
 import orderNproducts.entities.ProductInOrder;

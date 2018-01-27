@@ -2,7 +2,6 @@ package usersInfo.entities;
 
 import java.io.Serializable;
 import java.math.BigInteger;
-import java.util.Date;
 
 public class CreditCard implements Serializable {
 	private static final long serialVersionUID = 2L;

@@ -5,7 +5,6 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 
 import usersInfo.entities.CreditCard;
-import usersInfo.entities.Customer;
 
 public interface ICreditCard {
 	

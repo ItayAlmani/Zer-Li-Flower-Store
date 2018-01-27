@@ -13,7 +13,9 @@ public class EchoServer extends AbstractServer {
 	
 	public final static String projectPath = System.getProperty("user.dir") + "//";
 	public final static String tempPath = projectPath + "temp//";
-	
+	/**
+	 * the variable that represents the Factory of all the shared functions
+	 */
 	final public static Factory fac = new Factory();
 
 	/**

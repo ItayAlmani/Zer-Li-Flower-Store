@@ -8,12 +8,11 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import common.CSMessage;
+import common.CSMessage.MessageType;
 import common.Context;
 import common.ParentController;
-import common.CSMessage.MessageType;
 import common.gui.controllers.ParentGUIController;
 import usersInfo.entities.CreditCard;
-import usersInfo.entities.Customer;
 import usersInfo.interfaces.ICreditCard;
 
 public class CreditCardController extends ParentController implements ICreditCard {

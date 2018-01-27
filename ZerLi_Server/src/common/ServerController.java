@@ -77,6 +77,7 @@ public class ServerController {
 	 * @param csMsg the request {@link Object}
 	 * @throws Exception when method not found, the invoke failed (before or during running or no value returned from the invoke)
 	 */
+	@SuppressWarnings("unchecked")
 	private static void callToMethod(Class<?> cls, String reqFuncName, CSMessage csMsg) throws Exception {
 		try {
 			Method meth = cls.getMethod(reqFuncName);
@@ -103,6 +104,7 @@ public class ServerController {
 	 * @param parameter the parameter of the requested function
 	 * @throws Exception when method not found, the invoke failed (before or during running or no value returned from the invoke)
 	 */
+	@SuppressWarnings("unchecked")
 	private static void callToMethod(Class<?> cls, String reqFuncName, CSMessage csMsg, Object parameter) throws Exception {
 		Method meth = null;
 		try {

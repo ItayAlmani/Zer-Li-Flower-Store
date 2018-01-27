@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.math.BigInteger;
 import java.util.ArrayList;
 
-import common.ClientConsole;
 import customersSatisfaction.entities.Complaint;
 
 public interface IComplaint{
