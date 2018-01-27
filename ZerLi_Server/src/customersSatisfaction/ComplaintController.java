@@ -17,7 +17,7 @@ import orderNproducts.entities.Store;
 import usersInfo.entities.Customer;
 
 
-public class ComplaintController extends ParentController {	
+public class ComplaintController extends ParentController implements IComplaint {	
 	
 	public ComplaintController() {
 		ArrayList<Object> comObj;
@@ -30,6 +30,8 @@ public class ComplaintController extends ParentController {
 		}
 	}
 	
+	
+	@Override
 	public void setComplaintTimer(final Complaint c) {
 		final long period_in_minutes = Long.valueOf(60*24)-Duration.between(c.getDate(), LocalDateTime.now()).toMinutes();
 
@@ -85,17 +87,13 @@ public class ComplaintController extends ParentController {
 		return handleGet(EchoServer.fac.dataBase.db.getQuery(query));
 	}*/
 	
-	/**
-	 * <p>
-	 * Function sends query about all not treated complaints from DB
-	 * </p>
-	 * @return generic object arrayList, eventually will be arrayList of complaints
-	 * @throws Exception Context.clientConsole.handleMessageFromClientUI throws IOException.
-	 */
+
+	@Override
 	public ArrayList<Object> getNotTreatedComplaintsAnd24NotPassed() throws Exception {
 		String query = "SELECT * FROM complaint WHERE isTreated=false AND isAnswered24Hours=true";
 		return handleGet(EchoServer.fac.dataBase.db.getQuery(query));
 	}
+
 
 	@Override
 	public ArrayList<Object> handleGet(ArrayList<Object> obj) throws Exception {
@@ -117,6 +115,7 @@ public class ComplaintController extends ParentController {
 		return comp;
 		
 	}
+
 
 	@Override
 	public ArrayList<Object> add(ArrayList<Object> arr) throws Exception {
@@ -141,13 +140,8 @@ public class ComplaintController extends ParentController {
 		}
 	}
 	
-	/**
-	 * <p>
-	 * Function to insert with query complaint object to DB
-	 * </p>
-	 * @param comp - complaint object to be inserted to DB
-	 * @throws Exception Context.clientConsole.handleMessageFromClientUI throws IOException.
-	 */
+	
+	@Override
 	public void insertComplaint(Complaint comp) throws Exception {
 		String query = "INSERT INTO complaint (customerID, storeID,complaintReason,date,isTreated,isRefunded,isAnswered24Hours,cswID)" 
 		+ " VALUES ('" 
@@ -176,6 +170,7 @@ public class ComplaintController extends ParentController {
 		throw new Exception("Error Complaint add - no id");
 	}
 	
+
 	@Override
 	public ArrayList<Object> update(Object obj) throws Exception {
 		if(obj instanceof Complaint) {
@@ -208,27 +203,15 @@ public class ComplaintController extends ParentController {
 			throw new Exception();
 	}
 	
-	/**
-	 * <p>
-	 * Function sends query about all not treated complaints from DB
-	 * </p>
-	 * @return generic object arrayList, eventually will be arrayList of complaints
-	 * @throws Exception Context.clientConsole.handleMessageFromClientUI throws IOException.
-	 */
+	@Override
 	public ArrayList<Object> getNotTreatedComplaints(BigInteger cswID) throws Exception {
 		String query =String.format(("SELECT * FROM complaint WHERE isTreated=false AND cswID='%d'"),
 			cswID);	
 				
 		return handleGet(EchoServer.fac.dataBase.db.getQuery(query));
 	}
-	/**
-	 * <p>
-	 * Function sends query to get all complaints by specific store
-	 * </p>
-	 * @param obj - generic object that identify the specific store
-	 * @return - generic object arrayList, eventually turn to arrayList of complaints
-	 * @throws Exception Context.clientConsole.handleMessageFromClientUI throws IOException.
-	 */
+	
+	@Override
 	public ArrayList<Object> getComplaintsByStore (Store store, LocalDate startDate, LocalDate endDate) throws Exception
 	{
 		String query=null;
@@ -249,20 +232,8 @@ public class ComplaintController extends ParentController {
 		return handleGet(EchoServer.fac.dataBase.db.getQuery(query));
 	}
 	
-	/**
-	 * <p>
-	 * The function will get data of complaint object from server and fill the fields of it.
-	 * </p>
-	 * @param complaintID - parameter for complaintID field in object
-	 * @param customerID - parameter for customerID field in object
-	 * @param storeID - parameter for storeID field in object
-	 * @param complaintReason - parameter for complaintReason field in object
-	 * @param date - parameter for date field in object
-	 * @param isTreated - parameter for isTreated field in object
-	 * @param isRefunded - parameter for isRefunded field in object
-	 * @return new complaint object filled with data from DB
-	 * @throws Exception Context.clientConsole.handleMessageFromClientUI throws IOException.
-	 */
+	
+	@Override
 	public Complaint parse(BigInteger complaintID,BigInteger customerID, BigInteger storeID,String complaintReason,Timestamp date,boolean isTreated,boolean isRefunded, boolean isAnswered24Hours,BigInteger cswID) throws Exception {
 		LocalDateTime ldtDate = date.toLocalDateTime();
 		ArrayList<Object> custObj = EchoServer.fac.customer.getCustomerByID(customerID);

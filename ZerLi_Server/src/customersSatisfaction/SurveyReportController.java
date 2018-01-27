@@ -11,8 +11,9 @@ import customersSatisfaction.entities.Survey;
 import customersSatisfaction.entities.SurveyReport;
 import customersSatisfaction.entities.Survey.SurveyType;
 
-public class SurveyReportController extends ParentController
+public class SurveyReportController extends ParentController implements ISurveyReport
 {
+	
 	@Override
 	public ArrayList<Object> add(ArrayList<Object> arr) throws Exception
 	{
@@ -38,13 +39,7 @@ public class SurveyReportController extends ParentController
 		throw new Exception("Survey with this dates already exists!");
 	}
 	
-	/**
-	 * <p>
-	 * Function to insert surveyReport with data from DB and client side
-	 * </p>
-	 * @param sr - surveyReport object data which be inserted to DB
-	 * @throws Exception Context.clientConsole.handleMessageFromClientUI throws Exception
-	 */
+	@Override
 	public void insertSurveyReport(SurveyReport sr) throws Exception {
 		String query = "INSERT INTO surveyreport (surveyID, verbalReport,startDate,endDate)" 
 		+ " VALUES ('" + sr.getSurveyAnalyzes().getSurveyID()  
@@ -94,7 +89,7 @@ public class SurveyReportController extends ParentController
 	 * </p>
 	 * @param sr - surveyReport object to check if exist in DB
 	 * @return true is exist, else false
-	 * @throws Exception Context.clientConsole.handleMessageFromClientUI throws Exception.
+	 * @throws Exception 
 	 */
 	private boolean surveyExists(SurveyReport sr) throws Exception {
 		String query= "SELECT * FROM surveyreport WHERE startDate='"+sr.getStartDate()+"'"+ "AND"
@@ -105,6 +100,7 @@ public class SurveyReportController extends ParentController
 		return false;
 		
 	}
+
 
 	@Override
 	public ArrayList<Object> handleGet(ArrayList<Object> obj) {
@@ -117,15 +113,8 @@ public class SurveyReportController extends ParentController
 		// TODO Auto-generated method stub
 		return null;
 	}
-	/**
-	 * <p>
-	 * Function to create survey object of type analyzes. we want to analyze surveys by range of dates<br>
-	 * to be seen as table with all survey answers of the requested range of dates.
-	 * </p>
-	 * @param obj - survey objects to be analyzed by date
-	 * @return - generic object arrayList which will become survey object in type analyze.
-	 * @throws SQLException Context.clientConsole.handleMessageFromClientUI throws SQLException.
-	 */
+	
+	@Override
 	public ArrayList<Object> analyzeSurveys(ArrayList<Object> obj) throws SQLException{
 		ArrayList<Object> arr = EchoServer.fac.survey.getSurveyByDates(obj);
 		if(arr==null || arr.isEmpty())
