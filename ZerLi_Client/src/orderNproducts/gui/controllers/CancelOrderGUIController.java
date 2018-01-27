@@ -9,7 +9,6 @@ import java.util.ResourceBundle;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 
-import common.ClientConsole;
 import common.Context;
 import common.gui.controllers.ParentGUIController;
 import javafx.application.Platform;
@@ -26,9 +25,10 @@ import javafx.scene.control.Dialog;
 import javafx.stage.Modality;
 import orderNproducts.entities.DeliveryDetails;
 import orderNproducts.entities.Order;
-import orderNproducts.entities.ProductInOrder;
 import orderNproducts.entities.Order.OrderStatus;
 import orderNproducts.entities.Order.Refund;
+import orderNproducts.entities.ProductInOrder;
+import usersInfo.entities.Customer;
 import usersInfo.entities.PaymentAccount;
 
 public class CancelOrderGUIController implements Initializable {
