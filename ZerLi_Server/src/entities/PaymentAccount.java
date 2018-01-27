@@ -3,6 +3,8 @@ package entities;
 import java.io.Serializable;
 import java.math.BigInteger;
 
+import orderNproducts.entities.Store;
+
 public class PaymentAccount implements Serializable {
 
 	private static final long serialVersionUID = 11L;

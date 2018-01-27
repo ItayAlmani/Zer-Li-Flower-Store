@@ -16,13 +16,13 @@ import entities.CreditCard;
 import entities.Customer;
 import entities.DataBase;
 import entities.PaymentAccount;
-import entities.Store;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
 import javafx.scene.layout.VBox;
+import orderNproducts.entities.Store;
 
 public class PaymentAccountManagmentGUIController implements Initializable  {
 

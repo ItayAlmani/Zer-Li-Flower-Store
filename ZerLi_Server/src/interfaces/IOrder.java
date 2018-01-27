@@ -6,7 +6,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 import entities.Customer;
-import entities.Order;
+import orderNproducts.entities.Order;
 
 public interface IOrder {
 

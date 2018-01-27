@@ -5,6 +5,9 @@ import java.math.BigInteger;
 import java.time.LocalDateTime;
 import java.util.Date;
 
+import orderNproducts.entities.DeliveryDetails;
+import orderNproducts.entities.Store;
+
 public class ShipmentDetails extends DeliveryDetails implements Serializable  {
 
 	private static final long serialVersionUID = 16L;

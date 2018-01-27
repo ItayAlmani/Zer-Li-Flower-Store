@@ -8,8 +8,8 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import common.EchoServer;
-import entities.Store;
 import lior.interfaces.IQuarterlyReportController;
+import orderNproducts.entities.Store;
 
 public class QuarterlyReportController implements IQuarterlyReportController {
 	private static Timer timer;

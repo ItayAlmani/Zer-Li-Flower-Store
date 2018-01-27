@@ -9,9 +9,9 @@ import common.Context;
 import controllers.ParentController;
 import entities.CSMessage;
 import entities.PaymentAccount;
-import entities.Store;
 import gui.controllers.ParentGUIController;
 import kfir.interfaces.IPaymentAccount;
+import orderNproducts.entities.Store;
 import entities.CSMessage.MessageType;
 
 public class PaymentAccountController extends ParentController implements IPaymentAccount{

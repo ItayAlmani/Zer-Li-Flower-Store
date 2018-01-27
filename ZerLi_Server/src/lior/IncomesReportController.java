@@ -8,9 +8,9 @@ import java.util.ArrayList;
 import common.EchoServer;
 import controllers.ParentController;
 import entities.IncomesReport;
-import entities.Order;
-import entities.ProductInOrder;
 import lior.interfaces.IIncomesReportController;
+import orderNproducts.entities.Order;
+import orderNproducts.entities.ProductInOrder;
 
 public class IncomesReportController extends ParentController implements IIncomesReportController {
 	private IncomesReport iReport;

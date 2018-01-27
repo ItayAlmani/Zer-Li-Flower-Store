@@ -10,7 +10,6 @@ import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView;
 import de.jensd.fx.glyphs.materialicons.MaterialIconView;
 import de.jensd.fx.glyphs.octicons.OctIconView;
-import entities.Store;
 import entities.User.UserType;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -29,6 +28,7 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import orderNproducts.entities.Store;
 
 public class LoadGUIController {
 	public @FXML Label lblMsg;

@@ -7,13 +7,13 @@ import common.Context;
 import common.MainClient;
 import entities.Customer;
 import entities.PaymentAccount;
-import entities.Store;
 import entities.User.UserType;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.control.Tooltip;
+import orderNproducts.entities.Store;
 
 public class SetUpMainGUIController extends LoadGUIController {
 	

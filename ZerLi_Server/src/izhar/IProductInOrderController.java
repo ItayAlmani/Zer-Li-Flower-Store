@@ -4,8 +4,8 @@ import java.math.BigInteger;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import entities.Product;
-import entities.ProductInOrder;
+import orderNproducts.entities.Product;
+import orderNproducts.entities.ProductInOrder;
 
 public interface IProductInOrderController {
 

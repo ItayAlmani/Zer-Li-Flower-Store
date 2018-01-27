@@ -5,7 +5,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import entities.Product.ProductType;
+import orderNproducts.entities.Product.ProductType;
 
 public class OrderReport extends QuarterlyReport {
 

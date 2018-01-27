@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import common.EchoServer;
 import controllers.*;
 import entities.*;
+import orderNproducts.entities.Stock;
+import orderNproducts.entities.Store;
 
 public class StoreController extends ParentController {
 	public boolean asked_to_get_store_by_manager = false;

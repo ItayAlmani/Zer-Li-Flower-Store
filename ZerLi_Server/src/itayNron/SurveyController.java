@@ -10,9 +10,9 @@ import java.util.ArrayList;
 
 import common.EchoServer;
 import controllers.ParentController;
-import entities.Store;
 import entities.Survey;
 import entities.Survey.SurveyType;
+import orderNproducts.entities.Store;
 
 public class SurveyController extends ParentController
 {

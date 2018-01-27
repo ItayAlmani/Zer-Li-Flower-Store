@@ -4,8 +4,8 @@ import java.io.IOException;
 import java.math.BigInteger;
 
 import entities.Customer;
-import entities.Order;
 import entities.Subscription;
+import orderNproducts.entities.Order;
 
 public interface ISubscription {
 	

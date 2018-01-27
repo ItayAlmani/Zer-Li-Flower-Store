@@ -3,7 +3,7 @@ package lior.interfaces;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-import entities.Store;
+import orderNproducts.entities.Store;
 
 public interface IHistogramOfCustomerCompaintsReportController {
 	

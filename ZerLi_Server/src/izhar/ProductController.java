@@ -11,8 +11,8 @@ import java.util.ArrayList;
 
 import common.EchoServer;
 import controllers.ParentController;
-import entities.Product;
 import interfaces.IProductController;
+import orderNproducts.entities.Product;
 
 public class ProductController extends ParentController implements IProductController {	
 	

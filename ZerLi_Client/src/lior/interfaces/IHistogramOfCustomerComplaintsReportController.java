@@ -5,7 +5,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 import entities.HistogramOfCustomerComplaintsReport;
-import entities.Store;
+import orderNproducts.entities.Store;
 
 public interface IHistogramOfCustomerComplaintsReportController {
 

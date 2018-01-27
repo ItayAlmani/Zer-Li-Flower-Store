@@ -7,9 +7,9 @@ import common.EchoServer;
 import controllers.ParentController;
 import entities.CreditCard;
 import entities.PaymentAccount;
-import entities.Store;
 import entities.Subscription;
 import kfir.interfaces.IPaymentAccount;
+import orderNproducts.entities.Store;
 
 public class PaymentAccountController extends ParentController implements IPaymentAccount{
 

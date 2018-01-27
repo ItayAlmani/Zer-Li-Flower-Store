@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Optional;
 
-import entities.Product;
 import gui.controllers.ParentGUIController;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -20,6 +19,7 @@ import javafx.stage.Modality;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import orderNproducts.entities.Product;
 
 /**
  * The class which extends {@link Application} and contains:

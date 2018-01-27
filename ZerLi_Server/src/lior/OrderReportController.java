@@ -8,12 +8,12 @@ import java.util.HashMap;
 
 import common.EchoServer;
 import controllers.ParentController;
-import entities.Order;
-import entities.Order.OrderStatus;
 import entities.OrderReport;
-import entities.Product.ProductType;
-import entities.ProductInOrder;
 import lior.interfaces.IOrderReportController;
+import orderNproducts.entities.Order;
+import orderNproducts.entities.ProductInOrder;
+import orderNproducts.entities.Order.OrderStatus;
+import orderNproducts.entities.Product.ProductType;
 
 public class OrderReportController extends ParentController implements IOrderReportController {
 	private OrderReport oReport;

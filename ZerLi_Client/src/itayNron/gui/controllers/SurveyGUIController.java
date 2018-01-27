@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import common.Context;
-import entities.Store;
 import entities.Survey;
 import entities.Survey.SurveyType;
 import gui.controllers.ParentGUIController;
@@ -21,6 +20,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.scene.control.DatePicker;
+import orderNproducts.entities.Store;
 
 public class SurveyGUIController implements Initializable {
 

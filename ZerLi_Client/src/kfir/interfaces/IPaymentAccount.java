@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 import entities.Customer;
 import entities.PaymentAccount;
-import entities.Store;
+import orderNproducts.entities.Store;
 
 public interface IPaymentAccount {
 	

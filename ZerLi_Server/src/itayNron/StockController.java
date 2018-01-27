@@ -7,12 +7,12 @@ import java.util.ArrayList;
 
 import common.EchoServer;
 import controllers.ParentController;
-import entities.DeliveryDetails;
-import entities.Order;
-import entities.Product;
-import entities.ProductInOrder;
-import entities.Stock;
-import entities.Store;
+import orderNproducts.entities.DeliveryDetails;
+import orderNproducts.entities.Order;
+import orderNproducts.entities.Product;
+import orderNproducts.entities.ProductInOrder;
+import orderNproducts.entities.Stock;
+import orderNproducts.entities.Store;
 
 public class StockController extends ParentController {
 	/**

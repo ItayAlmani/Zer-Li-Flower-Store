@@ -10,11 +10,11 @@ import java.util.ArrayList;
 import common.EchoServer;
 import common.ServerController;
 import controllers.ParentController;
-import entities.DeliveryDetails;
-import entities.Order;
-import entities.ProductInOrder;
-import entities.Store;
 import interfaces.IPickupController;
+import orderNproducts.entities.DeliveryDetails;
+import orderNproducts.entities.Order;
+import orderNproducts.entities.ProductInOrder;
+import orderNproducts.entities.Store;
 
 public class PickupController extends ParentController implements IPickupController {
 	private String isImm,dateStr;

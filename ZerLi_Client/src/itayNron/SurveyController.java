@@ -11,13 +11,13 @@ import java.util.ArrayList;
 import common.Context;
 import controllers.ParentController;
 import entities.CSMessage;
-import entities.Order;
-import entities.Store;
 import entities.CSMessage.MessageType;
 import entities.Survey;
 import entities.Survey.SurveyType;
 import gui.controllers.ParentGUIController;
 import itayNron.interfaces.ISurvey;
+import orderNproducts.entities.Order;
+import orderNproducts.entities.Store;
 
 public class SurveyController extends ParentController implements ISurvey {
 

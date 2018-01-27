@@ -15,7 +15,6 @@ import common.Context;
 import entities.Customer;
 import entities.DataBase;
 import entities.PaymentAccount;
-import entities.Store;
 import entities.Subscription;
 import entities.Subscription.SubscriptionType;
 import gui.controllers.ParentGUIController;
@@ -25,6 +24,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
 import javafx.scene.layout.VBox;
+import orderNproducts.entities.Store;
 
 public class SubscriptionGUIController implements Initializable {
 

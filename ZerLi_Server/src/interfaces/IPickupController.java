@@ -4,7 +4,7 @@ import java.math.BigInteger;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
-import entities.DeliveryDetails;
+import orderNproducts.entities.DeliveryDetails;
 
 public interface IPickupController {
 	/**

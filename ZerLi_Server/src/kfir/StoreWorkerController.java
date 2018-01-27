@@ -5,10 +5,10 @@ import java.util.ArrayList;
 
 import common.EchoServer;
 import controllers.ParentController;
-import entities.Store;
 import entities.StoreWorker;
 import entities.User;
 import kfir.interfaces.IStoreWorker;
+import orderNproducts.entities.Store;
 
 public class StoreWorkerController extends ParentController implements IStoreWorker{
 

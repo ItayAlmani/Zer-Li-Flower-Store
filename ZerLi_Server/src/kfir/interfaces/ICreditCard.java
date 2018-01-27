@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 import entities.CreditCard;
 import entities.Customer;
-import entities.Order;
+import orderNproducts.entities.Order;
 
 public interface ICreditCard {
 	

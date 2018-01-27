@@ -6,9 +6,9 @@ import java.util.ArrayList;
 
 import entities.CreditCard;
 import entities.Customer;
-import entities.Order;
-import entities.Store;
 import entities.User;
+import orderNproducts.entities.Order;
+import orderNproducts.entities.Store;
 
 public interface ICustomer{
 

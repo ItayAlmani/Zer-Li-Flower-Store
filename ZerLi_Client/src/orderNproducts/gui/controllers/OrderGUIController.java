@@ -1,0 +1,34 @@
+package orderNproducts.gui.controllers;
+
+import java.net.URL;
+import java.time.format.DateTimeFormatter;
+import java.util.ResourceBundle;
+
+import common.Context;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
+import orderNproducts.entities.Order;
+
+public class OrderGUIController implements Initializable {
+	private @FXML Label lblOrderID, lblDelMethod, lblDelTime, lblPayment;
+
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		Order ord = Context.order;
+		Context.order = null;
+		Context.mainScene.getNewOrderByStore(false);
+		
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
+		String formatDateTime = null;
+		if(ord.getDelivery()!=null)
+			formatDateTime = ord.getDelivery().getDate().format(formatter);
+		else
+			formatDateTime = "TBD";
+		
+		lblOrderID.setText(ord.getOrderID().toString());
+		lblDelMethod.setText(ord.getDeliveryType().toString());
+		lblDelTime.setText(formatDateTime);
+		lblPayment.setText(ord.getFinalPriceAsString());
+	}
+}

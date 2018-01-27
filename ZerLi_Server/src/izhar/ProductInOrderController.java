@@ -6,9 +6,9 @@ import java.util.ArrayList;
 
 import common.EchoServer;
 import controllers.ParentController;
-import entities.Product;
-import entities.ProductInOrder;
 import interfaces.IProductInOrderController;
+import orderNproducts.entities.Product;
+import orderNproducts.entities.ProductInOrder;
 
 public class ProductInOrderController extends ParentController implements IProductInOrderController{	
 	

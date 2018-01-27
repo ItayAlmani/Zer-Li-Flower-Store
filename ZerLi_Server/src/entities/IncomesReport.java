@@ -5,6 +5,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 
+import orderNproducts.entities.Order;
+
 public class IncomesReport extends QuarterlyReport {
 
 	private static final long serialVersionUID = 8L;

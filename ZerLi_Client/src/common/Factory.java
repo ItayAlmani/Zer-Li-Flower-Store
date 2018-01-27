@@ -1,11 +1,15 @@
 package common;
 import controllers.DataBaseController;
 import itayNron.*;
-import itayNron.interfaces.IStock;
-import izhar.*;
-import izhar.interfaces.IProduct;
-import izhar.interfaces.IProductInOrder;
 import lior.*;
+import orderNproducts.controllers.OrderController;
+import orderNproducts.controllers.ProductController;
+import orderNproducts.controllers.ProductInOrderController;
+import orderNproducts.controllers.StockController;
+import orderNproducts.controllers.StoreController;
+import orderNproducts.interfaces.IProduct;
+import orderNproducts.interfaces.IProductInOrder;
+import orderNproducts.interfaces.IStock;
 import kfir.*;
 import kfir.interfaces.ICustomer;
 

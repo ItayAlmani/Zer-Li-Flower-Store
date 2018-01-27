@@ -20,7 +20,6 @@ import common.Context;
 import entities.Complaint;
 import entities.Customer;
 import entities.PaymentAccount;
-import entities.Store;
 import gui.controllers.ParentGUIController;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -48,6 +47,7 @@ import javafx.util.Callback;
 import javafx.util.StringConverter;
 import javafx.util.converter.DateTimeStringConverter;
 import javafx.util.converter.LocalDateStringConverter;
+import orderNproducts.entities.Store;
 
 public class ComplaintGUIController implements Initializable {
 

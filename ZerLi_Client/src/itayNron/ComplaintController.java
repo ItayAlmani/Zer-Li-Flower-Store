@@ -11,12 +11,12 @@ import common.Context;
 import controllers.ParentController;
 import entities.CSMessage;
 import entities.Complaint;
-import entities.ProductInOrder;
 import entities.Survey;
 import entities.SurveyReport;
 import entities.CSMessage.MessageType;
 import gui.controllers.ParentGUIController;
 import itayNron.interfaces.IComplaint;
+import orderNproducts.entities.ProductInOrder;
 
 public class ComplaintController extends ParentController implements IComplaint {
 

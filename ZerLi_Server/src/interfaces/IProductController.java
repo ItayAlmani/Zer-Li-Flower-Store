@@ -3,7 +3,7 @@ package interfaces;
 import java.math.BigInteger;
 import java.util.ArrayList;
 
-import entities.Product;
+import orderNproducts.entities.Product;
 
 public interface IProductController {
 	/**

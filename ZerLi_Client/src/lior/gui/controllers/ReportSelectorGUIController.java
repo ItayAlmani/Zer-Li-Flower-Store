@@ -21,10 +21,8 @@ import common.Context;
 import entities.HistogramOfCustomerComplaintsReport;
 import entities.IncomesReport;
 import entities.OrderReport;
-import entities.Product.ProductType;
 import entities.QuarterlyReport.ReportType;
 import entities.SatisfactionReport;
-import entities.Store;
 import entities.User;
 import gui.controllers.ParentGUIController;
 import javafx.application.Platform;
@@ -48,6 +46,8 @@ import javafx.scene.layout.BorderWidths;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import orderNproducts.entities.Store;
+import orderNproducts.entities.Product.ProductType;
 
 public class ReportSelectorGUIController implements Initializable {
 

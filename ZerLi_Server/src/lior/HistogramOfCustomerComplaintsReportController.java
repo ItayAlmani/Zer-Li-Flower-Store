@@ -9,8 +9,8 @@ import common.EchoServer;
 import controllers.ParentController;
 import entities.Complaint;
 import entities.HistogramOfCustomerComplaintsReport;
-import entities.Store;
 import lior.interfaces.IHistogramOfCustomerCompaintsReportController;
+import orderNproducts.entities.Store;
 
 public class HistogramOfCustomerComplaintsReportController extends ParentController implements IHistogramOfCustomerCompaintsReportController {
 	private HistogramOfCustomerComplaintsReport ccReport;

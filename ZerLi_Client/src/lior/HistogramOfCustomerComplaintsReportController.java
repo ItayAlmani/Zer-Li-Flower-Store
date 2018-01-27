@@ -11,9 +11,9 @@ import controllers.ParentController;
 import entities.CSMessage;
 import entities.CSMessage.MessageType;
 import entities.HistogramOfCustomerComplaintsReport;
-import entities.Store;
 import gui.controllers.ParentGUIController;
 import lior.interfaces.IHistogramOfCustomerComplaintsReportController;
+import orderNproducts.entities.Store;
 
 public class HistogramOfCustomerComplaintsReportController extends ParentController implements IHistogramOfCustomerComplaintsReportController{
 

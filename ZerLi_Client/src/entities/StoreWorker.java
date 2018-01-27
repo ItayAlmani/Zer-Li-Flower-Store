@@ -3,6 +3,8 @@ package entities;
 import java.io.Serializable;
 import java.math.BigInteger;
 
+import orderNproducts.entities.Store;
+
 public class StoreWorker extends User implements Serializable  {
 	
 	private static final long serialVersionUID = 19L;

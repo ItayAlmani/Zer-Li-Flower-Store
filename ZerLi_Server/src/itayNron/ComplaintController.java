@@ -14,7 +14,7 @@ import common.EchoServer;
 import controllers.ParentController;
 import entities.Complaint;
 import entities.Customer;
-import entities.Store;
+import orderNproducts.entities.Store;
 
 
 public class ComplaintController extends ParentController {	

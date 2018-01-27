@@ -6,8 +6,6 @@ import java.util.ResourceBundle;
 
 import common.ClientController;
 import common.Context;
-import entities.Order;
-import entities.Store;
 import entities.User;
 import entities.User.UserType;
 import javafx.application.Application;
@@ -20,6 +18,8 @@ import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import orderNproducts.entities.Order;
+import orderNproducts.entities.Store;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;

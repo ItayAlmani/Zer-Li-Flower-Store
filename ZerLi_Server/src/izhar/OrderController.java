@@ -10,16 +10,16 @@ import java.util.ArrayList;
 
 import common.EchoServer;
 import controllers.ParentController;
-import entities.DeliveryDetails;
-import entities.Order;
-import entities.Order.DeliveryType;
-import entities.Order.OrderStatus;
-import entities.Order.OrderType;
-import entities.Order.PayMethod;
 import interfaces.IOrder;
-import entities.ProductInOrder;
+import orderNproducts.entities.DeliveryDetails;
+import orderNproducts.entities.Order;
+import orderNproducts.entities.ProductInOrder;
+import orderNproducts.entities.Store;
+import orderNproducts.entities.Order.DeliveryType;
+import orderNproducts.entities.Order.OrderStatus;
+import orderNproducts.entities.Order.OrderType;
+import orderNproducts.entities.Order.PayMethod;
 import entities.ShipmentDetails;
-import entities.Store;
 
 public class OrderController extends ParentController implements IOrder{
 	private String delIDSTR, shipIDSTR, payMeth, delTypeSTR, greeting;

@@ -1,14 +1,9 @@
 package itayNron.interfaces;
 
 import java.io.IOException;
-import java.math.BigInteger;
-import java.sql.Timestamp;
 import java.time.LocalDate;
-import java.util.Date;
 
-import entities.Store;
 import entities.Survey;
-import interfaces.IParent;
 
 public interface ISurvey{
 

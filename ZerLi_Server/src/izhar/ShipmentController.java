@@ -5,9 +5,9 @@ import java.util.ArrayList;
 
 import common.EchoServer;
 import controllers.ParentController;
-import entities.DeliveryDetails;
 import entities.ShipmentDetails;
 import interfaces.IShipmentController;
+import orderNproducts.entities.DeliveryDetails;
 
 public class ShipmentController extends ParentController implements IShipmentController {
 	

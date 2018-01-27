@@ -17,7 +17,6 @@ import com.jfoenix.controls.JFXToggleButton;
 
 import common.Context;
 import entities.Customer;
-import entities.Store;
 import entities.StoreWorker;
 import entities.User;
 import entities.User.UserType;
@@ -26,6 +25,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import orderNproducts.entities.Store;
 
 public class UpdateUserGUIController implements Initializable{
 

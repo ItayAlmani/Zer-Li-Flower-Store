@@ -6,7 +6,6 @@ import java.util.ArrayList;
 
 import common.ClientConsole;
 import entities.Complaint;
-import interfaces.IParent;
 
 public interface IComplaint{
 /**
