@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import common.EchoServer;
 import common.ParentController;
 import orderNproducts.entities.Order;
-import orderNproducts.entities.ProductInOrder;
 import quarterlyReports.entities.IncomesReport;
 import quarterlyReports.interfaces.IIncomesReportController;
 

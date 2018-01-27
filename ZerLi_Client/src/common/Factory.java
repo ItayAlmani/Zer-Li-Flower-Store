@@ -7,7 +7,6 @@ import orderNproducts.ProductController;
 import orderNproducts.ProductInOrderController;
 import orderNproducts.StockController;
 import orderNproducts.StoreController;
-import orderNproducts.interfaces.IProductInOrder;
 import quarterlyReports.HistogramOfCustomerComplaintsReportController;
 import quarterlyReports.IncomesReportController;
 import quarterlyReports.OrderReportController;
