@@ -13,10 +13,19 @@ public class DataBaseController {
 			dbName_default = "dbassignment2",
 			dbUserName_default = "root",
 			dbPassword_default = "kfir1234";
-
+	/**
+	 * The text file with the DB info
+	 */
 	private final String dbTextFileName = "DataBaseAddress.txt";
+	/**
+	 * The path to the file with DB info
+	 */
 	private final String txtLocalPath = EchoServer.tempPath + dbTextFileName;
 
+	/**
+	 * Function to get DB info
+	 * @return ArrayList<Object> - arrayList with the DB info 
+	 */
 	public ArrayList<Object> getDBData() {
 		ArrayList<Object> objArr = new ArrayList<>();
 		objArr.add(dbUrl_default);
@@ -26,6 +35,10 @@ public class DataBaseController {
 		return objArr;
 	}
 
+	/**
+	 * Function to set DB info
+	 * @param objArr - arrayList of objects with DB info
+	 */
 	public void setDBData(ArrayList<Object> objArr) {
 		String[] dbData = new String[4];
 		int i = 0;
@@ -56,6 +69,9 @@ public class DataBaseController {
 		}
 	}
 
+	/**
+	 * Function to change DB info in textFile
+	 */
 	private void writeNewDBDataIntoTxt() throws IOException {
 		File fTempDir = new File(EchoServer.tempPath);
 		if(fTempDir.exists() == false)
@@ -72,23 +88,42 @@ public class DataBaseController {
 		output.close();
 		//copyFiles(false);
 	}
-	
+	/**
+	 * Function to update new configurations into DB  
+	 * @param dbData - array of strings with DB details
+	 * @throws SQLException
+	 */
 	private void updateDB(String[] dbData) throws SQLException {
 		String url = dbData[0], name = dbData[1], userName = dbData[2], password = dbData[3];
 		db = new DataBaseHandler(url, name, userName, password);
 		updateDefaults(dbData);
 	}
+	/**
+	 * Function to update new configurations into DB  
+	 * @param url - url to update in DB 
+	 * @param name -name to update in DB
+	 * @param userName - userName to update in DB 
+	 * @param password - password to update in DB
+	 * @throws SQLException
+	 */
 	private void updateDB(String url, String name, String userName, String password) throws SQLException {
 		String[] dbData = new String[]{url,name,userName,password};
 		updateDB(dbData);
 	}
+	/**
+	 * Function to update the default configurations
+	 * @param dbData - array of strings with new dbData
+	 */
 	private void updateDefaults(String[] dbData) {
 		dbUrl_default = dbData[0];
 		dbName_default = dbData[1];
 		dbUserName_default = dbData[2];
 		dbPassword_default = dbData[3];
 	}
-
+	/**
+	 *Function to connect to DB from textFile.<br>
+	 *if some data was corrupted we will execute the connection with default values 
+	 */
 	public void connectToDB() {
 		int dbSuccessFlag = 0; // will be 1 if updateDB(args) succeeded
 		try {
@@ -117,7 +152,9 @@ public class DataBaseController {
 			getDataFromDefault();
 		}
 	}
-	
+	/**
+	 * Function to update DB with default configurations
+	 */
 	private void getDataFromDefault() {
 		try {
 			updateDB(dbUrl_default, dbName_default, dbName_default, dbPassword_default);

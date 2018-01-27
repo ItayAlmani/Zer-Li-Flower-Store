@@ -15,7 +15,14 @@ public class DataBaseHandler{
 	public DataBaseHandler(String dbUrl, String dbName, String dbUserName, String dbPassword) throws SQLException {
 		this.con = connectToDB(dbUrl, dbName, dbUserName, dbPassword);
 	}
-	
+/**
+ * 	<p>
+ * Function to get the answers of the query we asked from DB
+ * </p>
+ * @param the query we want to execute 
+ * @return ArrayList<Object> with the attributes of the objects we got
+ * @throws SQLException
+ */
 	public ArrayList<Object> getQuery(String query) throws SQLException {
 		Statement stmt;
 		try {
@@ -35,12 +42,28 @@ public class DataBaseHandler{
 		}
 	}
 	
+	/**
+	 * <p>
+	 * Function to fire when we want to update raws in DB
+	 * </p>
+	 * @param query - the query we want to update
+	 * @throws SQLException
+	 */
 	public void updateQuery(String query) throws SQLException {
 		Statement stmt;
 		stmt = con.createStatement();
 		stmt.executeUpdate(query);
 	}
 	
+	/**
+	 * <p>
+	 * Function to fire arrayList of queries. <br>
+	 * we call this function if we want that few queries will execute,<br>
+	 * if one query will failed all the batch will failed
+	 * </p>
+	 * @param queries - arrayList of queries to execute
+	 * @throws SQLException
+	 */
 	public void insertWithBatch(ArrayList<String> queries) throws SQLException {
 		Statement stmt = null;
 		try{
