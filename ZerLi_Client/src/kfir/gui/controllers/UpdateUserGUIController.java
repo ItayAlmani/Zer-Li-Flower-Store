@@ -198,7 +198,7 @@ public class UpdateUserGUIController implements Initializable{
 		}
 		if(user.getPermissions().equals(UserType.StoreWorker)) {
 			cbPermissions.setItems(FXCollections.observableArrayList(UserType.StoreManager,
-					UserType.StoreWorker,UserType.ChainStoreWorker,UserType.CustomerServiceWorker));;
+					UserType.StoreWorker,UserType.ChainStoreWorker,UserType.CustomerServiceWorker, UserType.ServiceExpert));;
 		}
 		if(user.getPermissions().equals(UserType.ServiceExpert)) {
 			cbPermissions.setItems(FXCollections.observableArrayList(UserType.StoreManager,
@@ -206,7 +206,7 @@ public class UpdateUserGUIController implements Initializable{
 		}
 		if(user.getPermissions().equals(UserType.ChainStoreWorker)) {
 			cbPermissions.setItems(FXCollections.observableArrayList(UserType.StoreManager,
-					UserType.StoreWorker,UserType.ChainStoreWorker));;
+					UserType.StoreWorker,UserType.ChainStoreWorker, UserType.ServiceExpert));;
 		}
 		if(perm!=null) { 
 			if(perm.equals(UserType.StoreWorker) || perm.equals(UserType.StoreManager) ) {
@@ -239,7 +239,7 @@ public class UpdateUserGUIController implements Initializable{
 				}
 			}
 			if(user.getPermissions().equals(UserType.ChainStoreManager) || perm.equals(UserType.ChainStoreManager)
-					|| perm.equals(UserType.ChainStoreWorker) || perm.equals(UserType.CustomerServiceWorker) ){
+					|| perm.equals(UserType.ChainStoreWorker) || perm.equals(UserType.CustomerServiceWorker) || perm.equals(UserType.ServiceExpert) ){
 				cbStores.setVisible(false);
 			}
 		}	
@@ -339,8 +339,8 @@ public class UpdateUserGUIController implements Initializable{
 			}
 		}
 		try {
-			final UserType  p_sw = UserType.StoreWorker, p_sm = UserType.StoreManager,p_Csw=UserType.ChainStoreWorker, p_Csm=UserType.ChainStoreManager,
-					oldperm = user.getPermissions();
+			final UserType  p_sw = UserType.StoreWorker, p_sm = UserType.StoreManager,p_Csw1=UserType.ChainStoreWorker, p_Csm=UserType.ChainStoreManager,
+					p_Csw2 = UserType.CustomerServiceWorker,p_se = UserType.ServiceExpert, oldperm = user.getPermissions();
 			//the permissions haven't changed
 			if(oldperm.equals(newperm) == false) {
 				if(newperm.equals(p_sm)) {
@@ -373,7 +373,7 @@ public class UpdateUserGUIController implements Initializable{
 					sw = new StoreWorker(user, newStore);
 					Context.fac.storeWorker.add(sw, false);
 				}
-				if(newperm.equals(p_Csw)) {
+				if(newperm.equals(p_Csw1)|| newperm.equals(p_Csw2)||newperm.equals(p_se)) {
 					if(oldperm.equals(p_sw))
 					{
 						Context.fac.storeWorker.delete(this.sw.getUserID());;
