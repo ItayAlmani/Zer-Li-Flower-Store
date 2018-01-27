@@ -103,7 +103,8 @@ public class CartGUIController extends ProductsPresentationGUIController {
 						System.err.println("Stock is null");
 						continue;
 					}
-					newPrice = Context.fac.product.getPriceWithSubscription(Context.order,stk.getProduct(), stk.getPriceAfterSale(), Context.getUserAsCustomer());
+					
+					newPrice = p.getFinalPrice();//Context.fac.product.getPriceWithSubscription(Context.order,stk.getProduct(), stk.getPriceAfterSale(), Context.getUserAsCustomer());
 					setVBox(i, p, 
 							stk.getPriceAfterSale().equals(newPrice)?null:newPrice, 
 							updateQuantity(stk));

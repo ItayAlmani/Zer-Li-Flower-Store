@@ -43,7 +43,9 @@ public class EchoServer extends AbstractServer {
 				arr.clear();
 				if(e.getMessage()!=null)
 					arr.add(e.getMessage());
-				else if(e.getCause()!=null && e.getCause().getMessage()!=null)
+				else if(e.getCause()!=null 
+						&& e.getCause().getMessage()!=null 
+						&& e.getCause().getMessage().toLowerCase().contains("sql"))
 					arr.add("Error - " + e.getCause().getMessage());
 				csMsg.setType(MessageType.Exception);
 				client.sendToClient(csMsg);

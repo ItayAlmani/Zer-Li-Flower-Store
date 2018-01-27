@@ -43,6 +43,8 @@ import orderNproducts.entities.Order.DeliveryType;
 import orderNproducts.entities.Order.OrderStatus;
 import orderNproducts.entities.Order.OrderType;
 import usersInfo.entities.Customer;
+import usersInfo.entities.PaymentAccount;
+import usersInfo.entities.Subscription;
 
 public class ManualTransactionGUIController implements Initializable {
 	private @FXML JFXButton btnSend;
@@ -114,10 +116,32 @@ public class ManualTransactionGUIController implements Initializable {
 
 	private void setup() {
 		root.getChildren().clear();
+		Subscription sub = null;
+		if(cbCustomers.getValue()!=null) {
+			Customer c = cbCustomers.getValue();
+			PaymentAccount pa;
+			try {
+				pa = Context.fac.paymentAccount.getPaymentAccountOfStore(c.getPaymentAccounts(), store);
+				if(pa!=null)
+					sub=pa.getSub();
+				else {
+					Context.mainScene.ShowErrorMsg();
+					return;
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+				Context.mainScene.ShowErrorMsg();
+				return;
+			}
+			
+		}
 		for (Stock s : store.getStock()) {
 			int qua = 0;
 			float price = 0f;
-			s.getProduct().setPrice(s.getPriceAfterSale());
+			if(sub!=null)
+				s.getProduct().setPrice(Context.fac.sub.getPriceBySubscription(sub, s.getPriceAfterSale()));
+			else
+				s.getProduct().setPrice(s.getPriceAfterSale());
 			if(Context.order!=null) {
 				ProductInOrder pio = new ProductInOrder();
 				pio.setProduct(s.getProduct());

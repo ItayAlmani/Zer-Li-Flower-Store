@@ -36,7 +36,7 @@ public class Factory {
 	public OrderController order = new OrderController();
 	public StoreController store = new StoreController();
 	public ProductController product = new ProductController();
-	public IProductInOrder prodInOrder = new ProductInOrderController();
+	public ProductInOrderController prodInOrder = new ProductInOrderController();
 	
 	public UserController user = new UserController();
 	public CustomerController customer = new CustomerController();

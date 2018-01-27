@@ -54,8 +54,8 @@ public class OrderController extends ParentController implements IOrder {
 		else {
 			try {
 				pio.getProduct().setPrice(price);
-				pio.setFinalPrice();
 				pio.addOneToQuantity();
+				pio.setFinalPrice();
 				Context.fac.prodInOrder.update(pio);
 			} catch (Exception e) {
 				System.err.println("Can't update product\n");

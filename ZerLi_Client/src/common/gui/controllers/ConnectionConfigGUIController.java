@@ -113,7 +113,7 @@ public class ConnectionConfigGUIController implements Initializable{
 			if(Context.clientConsole!=null && Context.clientConsole.isConnected()) {
 				Context.mainScene.setServerAvailable("Server connected successfully");
 				if(Context.getUser()!=null)
-					Context.mainScene.loadMainMenu();
+					Context.mainScene.loadMainMenu("Server connected successfully");
 				else
 					Context.mainScene.loadGUI("LogInGUI", false);
 			}

@@ -156,6 +156,7 @@ public class ComplaintGUIController implements Initializable {
 			if(mainCh.contains(vbxAddComplaint))
 				mainCh.remove(vbxAddComplaint);
 		}
+		//Treat complaint
 		else {
 			boolean isUpdateComp=true;
 			Complaint comp = cbsComplaints.getValue();
@@ -163,7 +164,6 @@ public class ComplaintGUIController implements Initializable {
 				Context.mainScene.ShowErrorMsg();
 				return;
 			}
-			comp.setIsTreated(true);
 			if(tglRefund.isSelected()&&
 					txtRefundAmount.getText().isEmpty()==false)
 			{
@@ -207,9 +207,11 @@ public class ComplaintGUIController implements Initializable {
 				return;
 			}
 			if(isUpdateComp) {
+				comp.setIsTreated(true);
 				Context.fac.complaint.update(comp);
+				Complaint c = cbsComplaints.getValue();
 				cbsComplaints.setValue(null);
-				cbsComplaints.getItems().remove(cbsComplaints.getValue());
+				cbsComplaints.getItems().remove(c);
 			}
 			
 		}

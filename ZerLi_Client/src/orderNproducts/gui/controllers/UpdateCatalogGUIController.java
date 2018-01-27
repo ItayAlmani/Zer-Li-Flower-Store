@@ -230,7 +230,12 @@ public class UpdateCatalogGUIController implements Initializable{
 				throw new Exception();
 			}
 			else {
-				sale = Float.parseFloat(saleStr);
+				try {
+					sale = Float.parseFloat(saleStr);
+				} catch (NumberFormatException e) {
+					Context.mainScene.setMessage("Sale must be valid float number");
+					return;
+				}
 				sale/=100f;
 			}
 			
@@ -238,8 +243,14 @@ public class UpdateCatalogGUIController implements Initializable{
 				Context.mainScene.ShowErrorMsg();
 				throw new Exception();
 			}
-			else
-				qu = Integer.parseInt(quStr);
+			else {
+				try {
+					qu = Integer.parseInt(quStr);
+				} catch (NumberFormatException e) {
+					Context.mainScene.setMessage("Quantity must be valid float number");
+					return;
+				}
+			}
 			
 			stk.setSalePercetage(sale);
 			stk.setQuantity(qu);
@@ -272,7 +283,13 @@ public class UpdateCatalogGUIController implements Initializable{
 					color != null && 
 					type != null && 
 					inCatalog != null) {
-				Float price = Float.parseFloat(priceStr);
+				Float price;
+				try {
+					price = Float.parseFloat(priceStr);
+				} catch (NumberFormatException e) {
+					Context.mainScene.setMessage("Price must be valid float number");
+					return;
+				}
 				try {
 					String imgName;
 					byte[] barr;
