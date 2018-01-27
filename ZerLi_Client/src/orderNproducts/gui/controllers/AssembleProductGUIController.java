@@ -25,6 +25,7 @@ import orderNproducts.entities.Product.Color;
 import orderNproducts.entities.Product.ProductType;
 import usersInfo.entities.PaymentAccount;
 import usersInfo.entities.Subscription;
+import javafx.scene.layout.VBox;
 
 public class AssembleProductGUIController extends ProductsPresentationGUIController{
 	
@@ -40,10 +41,11 @@ public class AssembleProductGUIController extends ProductsPresentationGUIControl
 	private @FXML JFXTextField txtMinPrice, txtMaxPrice;
 	private @FXML MaterialDesignIconView icnFlower;
 	private @FXML JFXButton btnSend;
-	private HBox hxProds;
+	private HBox hxProds = null;
 	private ArrayList<Stock> stocksAfterAssemble;
 	private HashMap<ProductType, CollectionByType> stockByType = new HashMap<>();
 	private Subscription sub = null;
+	@FXML VBox paneAss;
 	
 	@Override
 	protected void getProducts() {
@@ -70,12 +72,13 @@ public class AssembleProductGUIController extends ProductsPresentationGUIControl
 	
 	/** reseting the screen after changes */
 	private void resetView() {
-		if(vbox.getChildren().contains(hxProds)==false)
+		if(vbox.getChildren().contains(hxProds))
 			vbox.getChildren().remove(hxProds);
 		hxProds = new HBox(5,pagination);
 		hxProds.setAlignment(Pos.TOP_CENTER);
 		vbox.getChildren().add(vbox.getChildren().size(),hxProds);
 		vbox.setAlignment(Pos.TOP_CENTER);
+		paneAss.setVisible(true);
 	}
 	
 	/** creates {@link HashMap} by {@link ProductType} of {@link CollectionByType}
@@ -151,6 +154,10 @@ public class AssembleProductGUIController extends ProductsPresentationGUIControl
 		Color color = cbColor.getValue();
 		Float min = Float.parseFloat(txtMinPrice.getText()), 
 				max =Float.parseFloat(txtMaxPrice.getText());
+		if(type==null ||  min == null || max == null) {
+			Context.mainScene.setMessage("You must select type and price range");
+			return;
+		}
 		stocksAfterAssemble=Context.fac.product.assembleProduct(type, min, max, color, stockByType.get(type).stocks, this.sub);
 		if(stocksAfterAssemble.isEmpty()==false) {
 			try {
@@ -163,8 +170,7 @@ public class AssembleProductGUIController extends ProductsPresentationGUIControl
 		else {
 			if(vbox.getChildren().contains(hxProds))
 				vbox.getChildren().remove(hxProds);
-			initListeners();
-			Context.mainScene.setMessage("Can't assemble right now");
+			Context.mainScene.setMessage("No match found");
 		}
 	}
 	
@@ -178,7 +184,7 @@ public class AssembleProductGUIController extends ProductsPresentationGUIControl
 			Float newPrice = Context.fac.product.getPriceWithSubscription(Context.order,stk.getProduct(), stk.getPriceAfterSale(), Context.getUserAsCustomer());
 			setVBox(i, 
 					stk,
-					newPrice.equals(stk.getPriceAfterSale())?null:newPrice,
+					stk.getPriceAfterSale().equals(newPrice)?null:newPrice,
 					addToCart(stk.getProduct(),newPrice, stk));
 			i++;
 		}
@@ -238,4 +244,8 @@ public class AssembleProductGUIController extends ProductsPresentationGUIControl
 
 	@Override
 	protected void getProducts(ArrayList<Product> prds) {}
+
+	@FXML public void typeSelected() {
+		paneAss.setVisible(true);
+	}
 }

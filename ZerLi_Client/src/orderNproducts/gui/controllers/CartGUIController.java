@@ -105,7 +105,7 @@ public class CartGUIController extends ProductsPresentationGUIController {
 					}
 					newPrice = Context.fac.product.getPriceWithSubscription(Context.order,stk.getProduct(), stk.getPriceAfterSale(), Context.getUserAsCustomer());
 					setVBox(i, p, 
-							newPrice==null?null:newPrice*(1-stk.getSalePercetage()), 
+							stk.getPriceAfterSale().equals(newPrice)?null:newPrice, 
 							updateQuantity(stk));
 					i++;
 				} catch (Exception e) {

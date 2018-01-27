@@ -25,14 +25,21 @@ public class ClientController {
 
 	public static boolean dbConnected = false;
 
-	/** The text file name which contains the server's details: host and port */
+	/** The text file name which contains the server's details: host and port<br>
+	 * serverTxtFileName={@value}*/
 	private final static String serverTxtFileName = "ServerAddress.txt";
 	
-	/** the project/jar absolute path */ 
+	/** the project/jar absolute path<br>
+	 * projectPath={@value}*/ 
 	private final static String projectPath = System.getProperty("user.dir") + "//";
 	
-	/** the p**/
+	/** the p<br>
+	 * tempPath={@value #tempPath} + "temp//"**/
 	private final static String tempPath = projectPath + "temp//";
+	
+	/**
+	 * txtLocalPath={@value}
+	 */
 	private final static String txtLocalPath = tempPath + serverTxtFileName;
 
 	/**
@@ -171,10 +178,9 @@ public class ClientController {
 				return;
 			}
 			Scanner scnr = new Scanner(fInput);
-			scnr.useDelimiter("\\w");
 			String[] args = new String[2];
 			for (int i = 0; i < 2 && scnr.hasNextLine(); i++) {
-				String[] tempSplit = scnr.nextLine().split("\\W+");
+				String[] tempSplit = scnr.nextLine().split("(?!\\.)\\W+");
 				args[i] = tempSplit[tempSplit.length - 1];
 			}
 			scnr.close();

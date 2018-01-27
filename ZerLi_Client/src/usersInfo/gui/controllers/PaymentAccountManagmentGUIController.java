@@ -99,6 +99,7 @@ public class PaymentAccountManagmentGUIController implements Initializable  {
 					if(pas==null || pas.isEmpty()) {
 						Context.mainScene.setMessage("Customer doesn't have an active Payment Account at all");
 						setTextInTF(EMPTY_STR, EMPTY_STR, EMPTY_STR, EMPTY_STR, false, "Add");
+						this.pa=null;
 					}
 					else {
 						pa = Context.fac.paymentAccount.getPaymentAccountOfStore(cust.getPaymentAccounts(),store);
