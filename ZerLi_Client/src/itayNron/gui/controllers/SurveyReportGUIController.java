@@ -56,8 +56,8 @@ public class SurveyReportGUIController implements Initializable
 	}
 	
 	/**
-	 * 
-	 * @param surveys
+	 * Function to set all the survey report answers into GUI
+	 * @param surveys - ArrayList of SurveyReport 
 	 */
 	public void setSurveyReports(ArrayList<SurveyReport> surveys) {
 		Context.mainScene.setMenuPaneDisable(false);
