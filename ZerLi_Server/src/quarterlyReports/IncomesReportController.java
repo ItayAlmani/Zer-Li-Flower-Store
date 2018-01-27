@@ -18,7 +18,6 @@ public class IncomesReportController extends ParentController implements IIncome
 	public ArrayList<Object> getIncomesReport(ArrayList<Object> arr) throws Exception {
 		if(arr!=null && (arr.get(0) instanceof LocalDate == false) || arr.get(1) instanceof BigInteger == false)
 			return null;
-		//=====CHANGE DATE TO THE END OF THE QUARTER======
 		LocalDate date = (LocalDate)arr.get(0);
 		BigInteger storeID = (BigInteger)arr.get(1);
 		String query = String.format(
@@ -43,7 +42,7 @@ public class IncomesReportController extends ParentController implements IIncome
 		this.iReport.setEnddate(date);
 		this.iReport.setStartdate(date.minusMonths(3).plusDays(1));
 		this.iReport.setStoreID(storeID);
-		this.iReport.setTotIncomes(0);
+		this.iReport.setTotIncomes(0f);
 		return analyzeOrders(EchoServer.fac.order.getOrdersForReportByStoreID(storeID, date.minusMonths(3).plusDays(1),date ));
 	}
 	
@@ -59,25 +58,15 @@ public class IncomesReportController extends ParentController implements IIncome
 		}
 		for (Object o : objs) {
 			if(o instanceof Order) {
-				orders.add((Order)o);
-				setPIOsInOrder(EchoServer.fac.prodInOrder.getPIOsByOrder(((Order)o).getOrderID()));
+				Order ord = (Order)o;
+				orders.add(ord);
+				this.iReport.setTotIncomes(iReport.getTotIncomes()+ord.getFinalPrice());
 			}
 		}
 		ArrayList<Object> ar = new ArrayList<>();
 		ar.add(this.iReport);
 		add(ar);
 		return ar;
-	}
-	
-	public void setPIOsInOrder(ArrayList<Object> objs) throws Exception{
-		double totalIncomesSum=iReport.getTotIncomes();
-		for (Object pioObj : objs) {
-			if(pioObj instanceof ProductInOrder) {
-				ProductInOrder pio = (ProductInOrder)pioObj;
-				totalIncomesSum+=pio.getFinalPrice();
-			}
-		}
-		this.iReport.setTotIncomes(totalIncomesSum);
 	}
 
 	@Override
