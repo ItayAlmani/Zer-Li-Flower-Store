@@ -114,10 +114,10 @@ public class PaymentAccountManagmentGUIController implements Initializable  {
 									yearStr !=null && !yearStr.isEmpty() &&
 									cvvStr!=null && !cvvStr.isEmpty())
 								setTextInTF(numStr, monthStr, yearStr, cvvStr, true, "Update");
-							//ELSE
-							else
-								setTextInTF(EMPTY_STR, EMPTY_STR, EMPTY_STR, EMPTY_STR, false, "Add");
 						}
+						//ELSE
+						else
+							setTextInTF(EMPTY_STR, EMPTY_STR, EMPTY_STR, EMPTY_STR, false, "Add");
 					}
 					btnSave.setVisible(true);
 					vboxPA.setVisible(true);
