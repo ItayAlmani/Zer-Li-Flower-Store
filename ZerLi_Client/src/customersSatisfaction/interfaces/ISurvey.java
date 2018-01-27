@@ -12,7 +12,7 @@ public interface ISurvey{
 	 * Function to add new survey to DB
 	 * </p>
 	 * @param survey - new survey to add to DB
-	 * @throws IOException Context.clientConsole.handleMessageFromClientUI throws IOException.
+	 * @throws IOException 
 	 */
 	void add(Survey survey) throws IOException;
 
@@ -22,7 +22,7 @@ public interface ISurvey{
  * </p>
  * @param startDate - start date of date range
  * @param endDate - end date of date range
- * @throws IOException Context.clientConsole.handleMessageFromClientUI throws IOException.
+ * @throws IOException 
  */
 	void getSurveyByDates(LocalDate startDate, LocalDate endDate) throws IOException;
 

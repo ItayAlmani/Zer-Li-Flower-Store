@@ -13,7 +13,7 @@ public interface ISurveyReport {
  * </p>
  * @param surveyReport - surveyReport object to be added
  * @param getCurrentID - boolean object to decide correct ID in server
- * @throws IOException Context.clientConsole.handleMessageFromClientUI throws IOException.
+ * @throws IOException 
  */
 	void add(SurveyReport surveyReport, boolean getCurrentID) throws IOException;
 /**
@@ -21,7 +21,7 @@ public interface ISurveyReport {
  * Function to analyze surveys in specific range of dates
  * @param start - start date of range dates
  * @param end - end date of ranges dates
- * @throws IOException Context.clientConsole.handleMessageFromClientUI throws IOException.
+ * @throws IOException 
  */
 	
 	void analyzeSurveys(LocalDateTime start, LocalDateTime end) throws IOException;
