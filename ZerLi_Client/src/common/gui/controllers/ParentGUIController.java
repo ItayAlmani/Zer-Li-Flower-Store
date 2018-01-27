@@ -13,17 +13,12 @@ import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.effect.DropShadow;
-import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import orderNproducts.entities.Order;
 import orderNproducts.entities.Store;
 import usersInfo.entities.User;
 import usersInfo.entities.User.UserType;
-import javafx.fxml.FXML;
-import javafx.scene.control.Label;
-import javafx.scene.layout.HBox;
-import com.jfoenix.controls.JFXButton;
 
 /**
  * The Controller of {@code MainScene.fxml}. This controller handles the fxml itself.<br>

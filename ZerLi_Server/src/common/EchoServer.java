@@ -6,12 +6,7 @@ import java.util.ArrayList;
 import common.CSMessage.MessageType;
 import common.ocsf.server.*;
 
-/**
- * Port can be written in the command line as argument. Otherwise, the default port is 5555
- *
- */
 public class EchoServer extends AbstractServer {
-	// Class variables *************************************************
 
 	/**The default port to listen on.*/
 	final public static int DEFAULT_PORT = 5555;
@@ -20,8 +15,6 @@ public class EchoServer extends AbstractServer {
 	public final static String tempPath = projectPath + "temp//";
 	
 	final public static Factory fac = new Factory();
-	
-	// Constructors ****************************************************
 
 	/**
 	 * Constructs an instance of the echo server.
@@ -31,8 +24,6 @@ public class EchoServer extends AbstractServer {
 		super(port);
 		fac.dataBase.connectToDB();
 	}
-
-	// Instance methods ************************************************
 
 	/**
 	 * This method handles any messages received from the client.
@@ -103,4 +94,3 @@ public class EchoServer extends AbstractServer {
 		}
 	}
 }
-// End of EchoServer class

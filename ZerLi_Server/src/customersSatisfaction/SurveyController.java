@@ -12,6 +12,7 @@ import common.EchoServer;
 import common.ParentController;
 import customersSatisfaction.entities.Survey;
 import customersSatisfaction.entities.Survey.SurveyType;
+import customersSatisfaction.interfaces.ISurvey;
 import orderNproducts.entities.Store;
 
 public class SurveyController extends ParentController implements ISurvey

@@ -1,26 +1,20 @@
 package customersSatisfaction.gui.controllers;
 
-import java.io.IOException;
-import java.math.BigInteger;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import common.Context;
-import common.gui.controllers.ParentGUIController;
 import customersSatisfaction.entities.Survey;
 import customersSatisfaction.entities.Survey.SurveyType;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DateCell;
-import javafx.application.Platform;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.scene.control.DatePicker;
-import orderNproducts.entities.Store;
 
 public class SurveyGUIController implements Initializable {
 
@@ -73,7 +67,7 @@ public class SurveyGUIController implements Initializable {
             @Override
             public void updateItem(LocalDate date, boolean empty) {
                 super.updateItem(date, empty);
-                //disable today and every date before
+                //disable today and every date after
                 setDisable(empty || date.isAfter(LocalDate.now()));
             }
         });

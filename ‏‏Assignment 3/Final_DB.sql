@@ -193,7 +193,6 @@ CREATE TABLE `histogramreport` (
 
 LOCK TABLES `histogramreport` WRITE;
 /*!40000 ALTER TABLE `histogramreport` DISABLE KEYS */;
-INSERT INTO `histogramreport` VALUES (-1,'2017-03-31 00:00:00',3,1,1),(1,'2017-03-31 00:00:00',1,0,0),(2,'2017-03-31 00:00:00',2,1,0),(3,'2017-03-31 00:00:00',0,0,1);
 /*!40000 ALTER TABLE `histogramreport` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -384,7 +383,6 @@ CREATE TABLE `satisfactionreport` (
 
 LOCK TABLES `satisfactionreport` WRITE;
 /*!40000 ALTER TABLE `satisfactionreport` DISABLE KEYS */;
-INSERT INTO `satisfactionreport` VALUES (-1,'2017-12-31 00:00:00',6.27778,5.5,6.16667,6,5.83333,6,8.16667),(1,'2017-12-31 00:00:00',8.83333,7.5,8,9.5,9,9,10);
 /*!40000 ALTER TABLE `satisfactionreport` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -647,4 +645,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-01-26 20:31:46
+-- Dump completed on 2018-01-27 17:57:19

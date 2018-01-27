@@ -13,6 +13,7 @@ import java.util.TimerTask;
 import common.EchoServer;
 import common.ParentController;
 import customersSatisfaction.entities.Complaint;
+import customersSatisfaction.interfaces.IComplaint;
 import orderNproducts.entities.Store;
 import usersInfo.entities.Customer;
 

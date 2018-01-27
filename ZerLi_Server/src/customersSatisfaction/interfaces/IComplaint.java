@@ -1,4 +1,4 @@
-package customersSatisfaction;
+package customersSatisfaction.interfaces;
 
 import java.math.BigInteger;
 import java.sql.Timestamp;
@@ -7,7 +7,6 @@ import java.util.ArrayList;
 
 import customersSatisfaction.entities.Complaint;
 import orderNproducts.entities.Store;
-import orderNproducts.interfaces.parse;
 
 public interface IComplaint {
 

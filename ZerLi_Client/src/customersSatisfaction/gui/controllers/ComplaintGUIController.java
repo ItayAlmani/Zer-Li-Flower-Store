@@ -8,8 +8,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-import org.omg.Messaging.SyncScopeHelper;
-
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextArea;
@@ -17,33 +15,21 @@ import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXToggleButton;
 
 import common.Context;
-import common.gui.controllers.ParentGUIController;
 import customersSatisfaction.entities.Complaint;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
-import javafx.scene.control.Spinner;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
-import javafx.scene.control.cell.ComboBoxListCell;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 import javafx.util.Callback;
-import javafx.util.StringConverter;
-import javafx.util.converter.DateTimeStringConverter;
 import javafx.util.converter.LocalDateStringConverter;
 import orderNproducts.entities.Store;
 import usersInfo.entities.Customer;
@@ -139,19 +125,18 @@ public class ComplaintGUIController implements Initializable {
 	@FXML
 	public void send() throws IOException {
 		Context.mainScene.clearMsg();
+
 		if(isNewComplaint) {
 			boolean isMissing = false;
 			if(complaintReason.getText()==null || complaintReason.getText().isEmpty()) {
 				System.err.println("complaintReason is null\n");
 				isMissing=true;
 			}
-			if (cbsCustomer.getValue()==null)
-			{
+			if (cbsCustomer.getValue()==null){
 				System.err.println("customer is null\n");
 				isMissing=true;
 			}
-			if (cbsStore.getValue()==null)
-			{
+			if (cbsStore.getValue()==null){
 				System.err.println("store is null\n");
 				isMissing=true;
 			}
@@ -174,13 +159,11 @@ public class ComplaintGUIController implements Initializable {
 		else {
 			boolean isUpdateComp=true;
 			Complaint comp = cbsComplaints.getValue();
-			if (comp==null)
-			{
+			if (comp==null){
 				Context.mainScene.ShowErrorMsg();
 				return;
 			}
 			comp.setIsTreated(true);
-			cbsComplaints.getItems().remove(cbsComplaints.getValue());
 			if(tglRefund.isSelected()&&
 					txtRefundAmount.getText().isEmpty()==false)
 			{
@@ -206,23 +189,28 @@ public class ComplaintGUIController implements Initializable {
 					}
 					pa.setRefundAmount(pa.getRefundAmount()+refAmount);
 					Context.fac.paymentAccount.update(pa);
-					cbsComplaints.getItems().remove(cbsComplaints.getValue());
 				}catch (NumberFormatException e){
 					isUpdateComp=false;
 					if(e.getMessage()!=null && e.getMessage().isEmpty()==false)
 						Context.mainScene.setMessage(e.getMessage());
 					else
 						Context.mainScene.setMessage("Amount must be float value");
+					return;
 				} catch (Exception e) {
 					e.printStackTrace();
+					return;
 				}
 			}
 			else if(tglRefund.isSelected() && txtRefundAmount.getText().isEmpty()) {
 				isUpdateComp=false;
 				Context.mainScene.setMessage("When refund toggle is on, must specify refund amount");
+				return;
 			}
-			if(isUpdateComp)
+			if(isUpdateComp) {
 				Context.fac.complaint.update(comp);
+				cbsComplaints.setValue(null);
+				cbsComplaints.getItems().remove(cbsComplaints.getValue());
+			}
 			
 		}
 		

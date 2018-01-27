@@ -10,6 +10,7 @@ import common.ParentController;
 import customersSatisfaction.entities.Survey;
 import customersSatisfaction.entities.SurveyReport;
 import customersSatisfaction.entities.Survey.SurveyType;
+import customersSatisfaction.interfaces.ISurveyReport;
 
 public class SurveyReportController extends ParentController implements ISurveyReport
 {

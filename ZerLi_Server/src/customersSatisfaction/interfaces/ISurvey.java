@@ -1,4 +1,4 @@
-package customersSatisfaction;
+package customersSatisfaction.interfaces;
 
 import java.math.BigInteger;
 import java.sql.SQLException;
@@ -7,7 +7,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import customersSatisfaction.entities.Survey;
-import orderNproducts.interfaces.parse;
 
 public interface ISurvey {
 

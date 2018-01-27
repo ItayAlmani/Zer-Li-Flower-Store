@@ -13,6 +13,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
@@ -21,7 +22,6 @@ import javafx.scene.layout.VBox;
 
 public class SurveyReportGUIController implements Initializable
 {
-	private @FXML TextField txtVerbalReport;
 	private @FXML Button btnSend;
 	private @FXML Label l1, l2, l3, l4, l5, l6;
 	private @FXML DatePicker dpDateStart, dpDateEnd;
@@ -45,14 +45,19 @@ public class SurveyReportGUIController implements Initializable
 	 * </p>
 	 * @throws IOException 
 	 */
-	@FXML public void sendSurveyReport() throws IOException
+	public void sendSurveyReport() throws IOException
 	{
+		if(txtVerbal.getText()==null || txtVerbal.getText().isEmpty()) {
+			Context.mainScene.setMessage("You must enter verbal analyzes");
+			return;
+		}
 		sr.setVerbalReport(txtVerbal.getText());
 		sr.getSurveyAnalyzes().setType(SurveyType.Analyzes);
 		sr.setStartDate(dpDateStart.getValue().atStartOfDay());
 		sr.setEndDate(dpDateEnd.getValue().atStartOfDay());	
 
 		Context.fac.surveyReport.add(sr, false);
+		Context.mainScene.loadMainMenu();
 	}
 	
 	/**
@@ -88,6 +93,22 @@ public class SurveyReportGUIController implements Initializable
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {		
+		dpDateStart.setDayCellFactory(picker -> new DateCell() {
+            @Override
+            public void updateItem(LocalDate date, boolean empty) {
+                super.updateItem(date, empty);
+                //disable today and every date after
+                setDisable(empty || date.isAfter(LocalDate.now()));
+            }
+        });
+		dpDateEnd.setDayCellFactory(picker -> new DateCell() {
+            @Override
+            public void updateItem(LocalDate date, boolean empty) {
+                super.updateItem(date, empty);
+                //disable today and every date after
+                setDisable(empty || date.isAfter(LocalDate.now()));
+            }
+        });
 		dpDateStart.setValue(LocalDate.now());
 		dpDateEnd.setValue(LocalDate.now());
 	}

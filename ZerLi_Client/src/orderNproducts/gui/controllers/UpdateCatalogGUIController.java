@@ -81,7 +81,6 @@ public class UpdateCatalogGUIController implements Initializable{
 			u.getPermissions().equals(UserType.StoreManager)) {
 			isStoreWorker=true;
 			try {
-				/////////WAIT FOR GET STORE WORKER!!
 				StoreWorker sw = Context.getUserAsStoreWorker();
 				Store s = sw.getStore();
 				String title = "Update stock of store";
@@ -299,6 +298,7 @@ public class UpdateCatalogGUIController implements Initializable{
 						Context.fac.product.add(p, true);
 						prdAdded = p;
 						cbProducts.getItems().add(p);
+						paneItem.setVisible(false);
 					}
 					else
 						Context.fac.product.update(p);

@@ -27,7 +27,11 @@ public class ClientController {
 
 	/** The text file name which contains the server's details: host and port */
 	private final static String serverTxtFileName = "ServerAddress.txt";
+	
+	/** the project/jar absolute path */ 
 	private final static String projectPath = System.getProperty("user.dir") + "//";
+	
+	/** the p**/
 	private final static String tempPath = projectPath + "temp//";
 	private final static String txtLocalPath = tempPath + serverTxtFileName;
 
@@ -127,6 +131,14 @@ public class ClientController {
 		return c;
 	}
 	
+	/**
+	 * Finds {@link Class} in the path: {@code classPath+className+"Controller"}
+	 * @param className is the {@link Class} name starting with <b>'.'</b>.
+	 * @param classPath is the {@code package} name
+	 * @return the {@link Class} object associated with the class or 
+	 * interface with the given string name {@code classPath+className+"Controller"}.
+	 * @throws Exception {@link Class#forName(String)}
+	 */
 	private static Class<?> findHandleGetFunc(String className, String classPath) {
 		try {
 			return Class.forName(classPath + className + "Controller");

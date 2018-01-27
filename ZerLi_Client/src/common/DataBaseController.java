@@ -93,6 +93,10 @@ public class DataBaseController extends ParentController {
 		}
 	}
 	
+	/**
+	 * Sending the data base status to the client.
+	 * @param dbStatus indicates if DataBase connected or not
+	 */
 	public void sendDBStatus(Boolean dbStatus) {
 		String methodName = "setDBStatus";
 		Method m = null;

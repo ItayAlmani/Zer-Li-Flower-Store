@@ -1,4 +1,4 @@
-package customersSatisfaction;
+package customersSatisfaction.interfaces;
 
 import java.sql.SQLException;
 import java.util.ArrayList;

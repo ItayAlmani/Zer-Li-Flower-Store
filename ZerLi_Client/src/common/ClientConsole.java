@@ -50,4 +50,3 @@ public class ClientConsole extends AbstractClient {
 	}
 
 }
-// End of ConsoleChat class
