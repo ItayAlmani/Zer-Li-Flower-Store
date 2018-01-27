@@ -11,8 +11,6 @@ import com.jfoenix.controls.JFXTextField;
 
 import common.Context;
 import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView;
-import entities.PaymentAccount;
-import entities.Subscription;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
@@ -25,6 +23,8 @@ import orderNproducts.entities.Product;
 import orderNproducts.entities.Stock;
 import orderNproducts.entities.Product.Color;
 import orderNproducts.entities.Product.ProductType;
+import usersInfo.entities.PaymentAccount;
+import usersInfo.entities.Subscription;
 
 public class AssembleProductGUIController extends ProductsPresentationGUIController{
 	

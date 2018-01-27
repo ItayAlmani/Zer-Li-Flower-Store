@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Optional;
 
-import gui.controllers.ParentGUIController;
+import common.gui.controllers.ParentGUIController;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
@@ -33,7 +33,7 @@ public class MainClient extends Application {
 	
 	/**The name of the image of the logo of the app.<br>
 	 *logoRelativePath = {@value}*/
-	public final static String logoRelativePath = "/images/logos/logo3.gif";
+	public final static String logoRelativePath = "/common/images/logos/logo3.gif";
 	
 	
 	public static void main(String args[]) throws IOException {

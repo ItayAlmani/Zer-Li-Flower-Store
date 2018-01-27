@@ -6,9 +6,7 @@ import java.util.ArrayList;
 
 import common.ClientConsole;
 import common.Context;
-import entities.Customer;
-import entities.PaymentAccount;
-import gui.controllers.ParentGUIController;
+import common.gui.controllers.ParentGUIController;
 import orderNproducts.entities.DeliveryDetails;
 import orderNproducts.entities.Order;
 import orderNproducts.entities.Product;
@@ -16,6 +14,8 @@ import orderNproducts.entities.ProductInOrder;
 import orderNproducts.entities.Stock;
 import orderNproducts.entities.Store;
 import orderNproducts.entities.Order.Refund;
+import usersInfo.entities.Customer;
+import usersInfo.entities.PaymentAccount;
 
 public interface IOrder  {
 	/**

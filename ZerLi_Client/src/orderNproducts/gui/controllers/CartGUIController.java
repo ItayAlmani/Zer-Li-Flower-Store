@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import com.jfoenix.controls.JFXButton;
 
 import common.Context;
+import common.gui.controllers.ParentGUIController;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -134,7 +135,7 @@ public class CartGUIController extends ProductsPresentationGUIController {
 		if (!vbox.getChildren().contains(pagination))
 			vbox.getChildren().add(0, pagination);
 		vbox.setAlignment(Pos.CENTER);
-		vbox.getStylesheets().add(getClass().getResource("/gui/css/ParentCSS.css").toExternalForm());
+		vbox.getStylesheets().add(getClass().getResource(ParentGUIController.css_path+"ParentCSS.css").toExternalForm());
 	}
 
 	/**

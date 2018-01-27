@@ -20,7 +20,7 @@ import com.jfoenix.controls.JFXToggleButton;
 
 import common.ClientConsole;
 import common.Context;
-import gui.controllers.ParentGUIController;
+import common.gui.controllers.ParentGUIController;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;

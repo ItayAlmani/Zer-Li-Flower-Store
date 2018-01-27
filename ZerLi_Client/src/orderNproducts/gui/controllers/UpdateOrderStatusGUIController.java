@@ -10,8 +10,7 @@ import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 
 import common.Context;
-import entities.Customer;
-import gui.controllers.ParentGUIController;
+import common.gui.controllers.ParentGUIController;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -19,6 +18,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.layout.VBox;
 import orderNproducts.entities.Order;
 import orderNproducts.entities.Order.OrderStatus;
+import usersInfo.entities.Customer;
 
 public class UpdateOrderStatusGUIController implements Initializable {
 

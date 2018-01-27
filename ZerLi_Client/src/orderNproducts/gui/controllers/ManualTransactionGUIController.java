@@ -16,8 +16,7 @@ import com.jfoenix.controls.JFXTreeTableView;
 import com.jfoenix.controls.cells.editors.base.JFXTreeTableCell;
 
 import common.Context;
-import entities.Customer;
-import gui.controllers.ParentGUIController;
+import common.gui.controllers.ParentGUIController;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
@@ -43,6 +42,7 @@ import orderNproducts.entities.Store;
 import orderNproducts.entities.Order.DeliveryType;
 import orderNproducts.entities.Order.OrderStatus;
 import orderNproducts.entities.Order.OrderType;
+import usersInfo.entities.Customer;
 
 public class ManualTransactionGUIController implements Initializable {
 	private @FXML JFXButton btnSend;

@@ -9,9 +9,7 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import controllers.ParentController;
-import entities.CSMessage;
-import entities.CSMessage.MessageType;
+import common.CSMessage.MessageType;
 
 /**
  * Will parse/decode the <code>CSMessage</code> which present the answer of the
@@ -50,7 +48,7 @@ public class ClientController {
 		Method m = null;
 
 		if (csMsg.getClasz() != null) {
-			c = getClassController(csMsg.getClasz());
+			c = getObjectClass(csMsg);
 			if (c == null) {
 				ParentController.sendResultToClient(false);
 				return;
@@ -110,24 +108,25 @@ public class ClientController {
 	}
 
 	/**
-	 * Looks for the controller of the specific class in the known packages which includes those classes
-	 * @param claz the class of the specific controller
-	 * @return the wanted class if found, else null
+	 * Finds {@link Class} between all the {@code controllers packages: orderNproducts, customersSatisfaction etc.} 
+	 *@param csMsg the request {@link Object}
+	 *@return the {@link Class} object associated with the class or 
+	 * interface with the given string name {@code classPath+className+"Controller"}.
 	 */
-	private static Class<?> getClassController(Class<?> claz) {
-		String className = claz.getName();
-		className = className.substring(className.lastIndexOf("."));
+	private static Class<?> getObjectClass(CSMessage csMsg){
 		Class<?> c = null;
-		if ((c = findHandleGetFunc(className, "controllers")) == null) {
-			if ((c = findHandleGetFunc(className, "itayNron")) == null)
-				if ((c = findHandleGetFunc(className, "izhar")) == null)
-					if ((c = findHandleGetFunc(className, "lior")) == null)
-						if ((c = findHandleGetFunc(className, "kfir")) == null)
-							return null;
+		if(csMsg.getClasz()!=null) {
+			String className = csMsg.getClasz().getName();
+			className=className.substring(className.lastIndexOf("."));
+			if((c=findHandleGetFunc(className, "common"))==null)
+				if((c=findHandleGetFunc(className, "orderNproducts"))==null)
+					if((c=findHandleGetFunc(className, "customersSatisfaction"))==null)
+						if((c=findHandleGetFunc(className, "quarterlyReports"))==null)
+							c=findHandleGetFunc(className, "usersInfo");
 		}
 		return c;
 	}
-
+	
 	private static Class<?> findHandleGetFunc(String className, String classPath) {
 		try {
 			return Class.forName(classPath + className + "Controller");

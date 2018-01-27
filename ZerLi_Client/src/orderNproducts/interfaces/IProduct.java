@@ -6,14 +6,14 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 
 import common.Context;
-import entities.Customer;
-import entities.Subscription;
-import gui.controllers.ParentGUIController;
+import common.gui.controllers.ParentGUIController;
 import orderNproducts.entities.Order;
 import orderNproducts.entities.Product;
 import orderNproducts.entities.Stock;
 import orderNproducts.entities.Product.Color;
 import orderNproducts.entities.Product.ProductType;
+import usersInfo.entities.Customer;
+import usersInfo.entities.Subscription;
 
 public interface IProduct {
 

@@ -15,10 +15,9 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXButton.ButtonType;
 
 import common.Context;
+import common.gui.controllers.ParentGUIController;
 import de.jensd.fx.glyphs.materialicons.MaterialIcon;
 import de.jensd.fx.glyphs.materialicons.MaterialIconView;
-import entities.PaymentAccount;
-import gui.controllers.ParentGUIController;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -48,6 +47,7 @@ import javafx.util.converter.IntegerStringConverter;
 import orderNproducts.entities.Product;
 import orderNproducts.entities.ProductInOrder;
 import orderNproducts.entities.Stock;
+import usersInfo.entities.PaymentAccount;
 
 public abstract class ProductsPresentationGUIController implements Initializable {
 	protected @FXML Pagination pagination = null;
@@ -278,7 +278,7 @@ public abstract class ProductsPresentationGUIController implements Initializable
 		if(btnHandler!=null)
 			vbxProduct[i].getChildren().add(btnFinalProduct[i]);
 		vbxProduct[i].setUserData(i);
-		vbxProduct[i].getStylesheets().add(getClass().getResource("/gui/css/ParentCSS.css").toExternalForm());
+		vbxProduct[i].getStylesheets().add(getClass().getResource(ParentGUIController.css_path+"ParentCSS.css").toExternalForm());
 		
 		components.clear();
 	}

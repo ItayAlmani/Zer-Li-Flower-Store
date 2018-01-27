@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXDatePicker?>
+<?import com.jfoenix.controls.JFXSlider?>
+<?import com.jfoenix.controls.JFXToggleButton?>
+<?import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView?>
+<?import de.jensd.fx.glyphs.weathericons.WeatherIconView?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox alignment="CENTER" spacing="10.0" stylesheets="@../css/ParentCSS.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="orderNproducts.gui.controllers.OrderTimeGUIController">
+   <children>
+      <HBox alignment="CENTER_LEFT">
+         <children>
+            <JFXToggleButton fx:id="tglPreOrder" onAction="#toggledPreOrder" size="12.0" styleClass="menuTitle" text="You chose immediate order" textAlignment="CENTER" textFill="RED" textOverrun="CLIP" toggleColor="WHITE" toggleLineColor="ORANGE" unToggleColor="WHITE" unToggleLineColor="RED" />
+         </children>
+      </HBox>
+      <VBox fx:id="vboxDateTime" alignment="CENTER" spacing="10.0" visible="false">
+         <children>
+            <JFXDatePicker fx:id="dpDate" defaultColor="ORANGE" editable="false" onAction="#selectedDate" promptText="Select date of delivery" />
+            <VBox fx:id="vboxTime" alignment="CENTER" visible="false">
+               <children>
+                  <Label contentDisplay="RIGHT" text="Time of delivery" textFill="ORANGE">
+                     <graphic>
+                        <WeatherIconView fill="ORANGE" fontSmoothingType="LCD" glyphName="TIME_3" size="15" textAlignment="CENTER" />
+                     </graphic>
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <Label contentDisplay="RIGHT" text="Hours" textAlignment="CENTER" textFill="ORANGE" textOverrun="CLIP" wrapText="true">
+                     <graphic>
+                        <JFXSlider fx:id="sldHours" blockIncrement="1.0" disable="true" majorTickUnit="2.0" max="22.0" min="7.0" minorTickCount="1" showTickLabels="true" showTickMarks="true" snapToTicks="true" />
+                     </graphic>
+                  </Label>
+                  <Label contentDisplay="RIGHT" text="Minutes" textAlignment="CENTER" textFill="ORANGE" textOverrun="CLIP" wrapText="true">
+                     <graphic>
+                        <JFXSlider fx:id="sldMinutes" blockIncrement="15.0" disable="true" majorTickUnit="15.0" max="45.0" minorTickCount="0" showTickLabels="true" showTickMarks="true" snapToTicks="true" />
+                     </graphic>
+                  </Label>
+               </children>
+            </VBox>
+         </children>
+      </VBox>
+      <HBox alignment="CENTER">
+         <children>
+         <JFXButton alignment="CENTER" buttonType="RAISED" onAction="#back" ripplerFill="RED" text="Back" textAlignment="CENTER" textFill="RED">
+               <font>
+                  <Font name="Material Design Icons" size="15.0" />
+               </font>
+               <graphic>
+                  <MaterialDesignIconView fill="RED" fontSmoothingType="LCD" glyphName="ARROW_LEFT_BOLD_CIRCLE" size="15" textAlignment="CENTER" />
+               </graphic>
+            </JFXButton>
+            <JFXButton fx:id="btnSend" alignment="CENTER" buttonType="RAISED" onAction="#addTime" ripplerFill="ORANGE" text="Next" textAlignment="CENTER" textFill="ORANGE">
+               <graphic>
+                  <MaterialDesignIconView fill="ORANGE" fontSmoothingType="LCD" glyphName="ARROW_RIGHT_BOLD_CIRCLE" size="15" textAlignment="CENTER" />
+               </graphic>
+               <font>
+                  <Font name="Material Design Icons" size="15.0" />
+               </font>
+            </JFXButton>
+         </children>
+      </HBox>
+   </children>
+</VBox>

@@ -6,18 +6,18 @@ import java.util.ArrayList;
 
 import com.sun.org.apache.bcel.internal.generic.INSTANCEOF;
 
-import entities.Customer;
-import entities.StoreWorker;
-import entities.User;
-import entities.User.UserType;
-import gui.controllers.ParentGUIController;
-import kfir.gui.controllers.LogInGUIController;
+import common.gui.controllers.ParentGUIController;
 import orderNproducts.entities.Order;
 import orderNproducts.entities.ProductInOrder;
 import orderNproducts.entities.Store;
 import orderNproducts.entities.Order.OrderStatus;
 import orderNproducts.entities.Order.OrderType;
 import orderNproducts.gui.controllers.ManualTransactionGUIController;
+import usersInfo.entities.Customer;
+import usersInfo.entities.StoreWorker;
+import usersInfo.entities.User;
+import usersInfo.entities.User.UserType;
+import usersInfo.gui.controllers.LogInGUIController;
 
 /** The class which holds the data of each client. 
  * Static class which will help to hold the common data that

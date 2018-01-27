@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.ArrayList;
 
-import entities.StoreWorker;
+import usersInfo.entities.StoreWorker;
 
 public class Store implements Serializable  {
 	

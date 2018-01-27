@@ -3,9 +3,7 @@ package common;
 
 import java.io.*;
 
-import entities.CSMessage;
-
-import ocsf.client.*;
+import common.ocsf.client.*;
 
 /**
  *The handler of the sending and receiving data to/from Server

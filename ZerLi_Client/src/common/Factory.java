@@ -1,17 +1,23 @@
 package common;
-import controllers.DataBaseController;
-import itayNron.*;
-import lior.*;
-import orderNproducts.controllers.OrderController;
-import orderNproducts.controllers.ProductController;
-import orderNproducts.controllers.ProductInOrderController;
-import orderNproducts.controllers.StockController;
-import orderNproducts.controllers.StoreController;
-import orderNproducts.interfaces.IProduct;
+import customersSatisfaction.ComplaintController;
+import customersSatisfaction.SurveyController;
+import customersSatisfaction.SurveyReportController;
+import orderNproducts.OrderController;
+import orderNproducts.ProductController;
+import orderNproducts.ProductInOrderController;
+import orderNproducts.StockController;
+import orderNproducts.StoreController;
 import orderNproducts.interfaces.IProductInOrder;
-import orderNproducts.interfaces.IStock;
-import kfir.*;
-import kfir.interfaces.ICustomer;
+import quarterlyReports.HistogramOfCustomerComplaintsReportController;
+import quarterlyReports.IncomesReportController;
+import quarterlyReports.OrderReportController;
+import quarterlyReports.SatisfactionReportController;
+import usersInfo.CreditCardController;
+import usersInfo.CustomerController;
+import usersInfo.PaymentAccountController;
+import usersInfo.StoreWorkerController;
+import usersInfo.SubscriptionController;
+import usersInfo.UserController;
 
 /**
  * Will have all the controllers.

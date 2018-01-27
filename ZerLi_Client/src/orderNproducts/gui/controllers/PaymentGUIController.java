@@ -17,8 +17,6 @@ import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIcon;
 import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView;
 import de.jensd.fx.glyphs.octicons.OctIconView;
-import entities.Customer;
-import entities.PaymentAccount;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -35,6 +33,8 @@ import orderNproducts.entities.ShipmentDetails;
 import orderNproducts.entities.Order.DeliveryType;
 import orderNproducts.entities.Order.OrderStatus;
 import orderNproducts.entities.Order.PayMethod;
+import usersInfo.entities.Customer;
+import usersInfo.entities.PaymentAccount;
 
 public class PaymentGUIController implements Initializable {
 

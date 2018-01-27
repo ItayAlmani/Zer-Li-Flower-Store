@@ -15,11 +15,7 @@ import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXToggleButton;
 
 import common.Context;
-import entities.Customer;
-import entities.User.UserType;
-import entities.StoreWorker;
-import entities.User;
-import gui.controllers.ParentGUIController;
+import common.gui.controllers.ParentGUIController;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -45,6 +41,10 @@ import orderNproducts.entities.Stock;
 import orderNproducts.entities.Store;
 import orderNproducts.entities.Product.Color;
 import orderNproducts.entities.Product.ProductType;
+import usersInfo.entities.Customer;
+import usersInfo.entities.StoreWorker;
+import usersInfo.entities.User;
+import usersInfo.entities.User.UserType;
 
 public class UpdateCatalogGUIController implements Initializable{
 

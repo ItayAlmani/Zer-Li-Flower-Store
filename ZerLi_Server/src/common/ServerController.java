@@ -4,8 +4,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 
-import entities.CSMessage;
-import entities.CSMessage.MessageType;
+import common.CSMessage.MessageType;
 
 public class ServerController {
 	/**
@@ -149,8 +148,7 @@ public class ServerController {
 	}
 	
 	/**
-	 * Finds {@link Class} between all the {@code controllers packages: itayNron, izhar etc.}
-	 *@deprecated In final project, all controllers will be at {@code controllers package}. Use {@link #findHandleGetFunc(String, String)} instead. 
+	 * Finds {@link Class} between all the {@code controllers packages: orderNproducts, customersSatisfaction etc.} 
 	 *@param csMsg the request {@link Object}
 	 *@return the {@link Class} object associated with the class or 
 	 * interface with the given string name {@code classPath+className+"Controller"}.
@@ -161,11 +159,11 @@ public class ServerController {
 		if(csMsg.getClasz()!=null) {
 			String className = csMsg.getClasz().getName();
 			className=className.substring(className.lastIndexOf("."));
-			if((c=findHandleGetFunc(className, "controllers"))==null)
-				if((c=findHandleGetFunc(className, "itayNron"))==null)
-					if((c=findHandleGetFunc(className, "izhar"))==null)
-						if((c=findHandleGetFunc(className, "lior"))==null)
-							c=findHandleGetFunc(className, "kfir");
+			if((c=findHandleGetFunc(className, "common"))==null)
+				if((c=findHandleGetFunc(className, "orderNproducts"))==null)
+					if((c=findHandleGetFunc(className, "customersSatisfaction"))==null)
+						if((c=findHandleGetFunc(className, "quarterlyReports"))==null)
+							c=findHandleGetFunc(className, "usersInfo");
 		}
 		return c;
 	}

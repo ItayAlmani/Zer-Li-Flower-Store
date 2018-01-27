@@ -3,9 +3,8 @@ package common;
 import java.io.*;
 import java.util.ArrayList;
 
-import entities.CSMessage;
-import entities.CSMessage.MessageType;
-import ocsf.server.*;
+import common.CSMessage.MessageType;
+import common.ocsf.server.*;
 
 /**
  * Port can be written in the command line as argument. Otherwise, the default port is 5555

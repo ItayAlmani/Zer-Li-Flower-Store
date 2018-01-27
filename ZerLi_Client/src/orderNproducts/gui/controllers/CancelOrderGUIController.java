@@ -11,8 +11,7 @@ import com.jfoenix.controls.JFXComboBox;
 
 import common.ClientConsole;
 import common.Context;
-import entities.PaymentAccount;
-import gui.controllers.ParentGUIController;
+import common.gui.controllers.ParentGUIController;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -30,6 +29,7 @@ import orderNproducts.entities.Order;
 import orderNproducts.entities.ProductInOrder;
 import orderNproducts.entities.Order.OrderStatus;
 import orderNproducts.entities.Order.Refund;
+import usersInfo.entities.PaymentAccount;
 
 public class CancelOrderGUIController implements Initializable {
 
