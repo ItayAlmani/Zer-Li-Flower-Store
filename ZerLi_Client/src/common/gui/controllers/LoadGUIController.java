@@ -348,13 +348,13 @@ public class LoadGUIController {
 	public void setServerAvailable() {
 		Context.mainScene.setMessage("");
 		if(Platform.isFxApplicationThread()) {
-			menu.setVisible(false);
+			menu.setVisible(true);
 			hbChangingIcons.setDisable(false);
 			if (Context.getUser() != null && Context.getUser().getPermissions().equals(UserType.Customer))
 				cbStores.setVisible(true);
 		}
 		Platform.runLater(()->{
-			menu.setVisible(false);
+			menu.setVisible(true);
 			hbChangingIcons.setDisable(false);
 			if (Context.getUser() != null && Context.getUser().getPermissions().equals(UserType.Customer))
 				cbStores.setVisible(true);
@@ -367,13 +367,13 @@ public class LoadGUIController {
 	public void setServerAvailable(String msg) {
 		Context.mainScene.setMessage(msg);
 		if(Platform.isFxApplicationThread()) {
-			menu.setVisible(false);
+			menu.setVisible(true);
 			hbChangingIcons.setDisable(false);
 			if (Context.getUser() != null && Context.getUser().getPermissions().equals(UserType.Customer))
 				cbStores.setVisible(true);
 		}
 		Platform.runLater(()->{
-			menu.setVisible(false);
+			menu.setVisible(true);
 			hbChangingIcons.setDisable(false);
 			if (Context.getUser() != null && Context.getUser().getPermissions().equals(UserType.Customer))
 				cbStores.setVisible(true);

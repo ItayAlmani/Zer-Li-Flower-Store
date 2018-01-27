@@ -27,22 +27,17 @@ public class ProductInOrderController extends ParentController implements IProdu
 	@Override
 	public void updatePricesByStock(ArrayList<ProductInOrder> prds, Store store) throws Exception {
 		for (ProductInOrder pio : prds) {
-			boolean foundMatch = false;
-			for (Stock stk : store.getStock()) {
-				if(pio.getProduct().getPrdID().equals(stk.getProduct().getPrdID())) {
-					float priceBeforeChange = pio.getProduct().getPrice();
-					Float newPrice = Context.fac.product.getPriceWithSubscription(Context.order,stk.getProduct(), stk.getPriceAfterSale(), Context.getUserAsCustomer());
-					pio.getProduct().setPrice(
-							newPrice==null ? stk.getPriceAfterSale() : newPrice*(1-stk.getSalePercetage()));
-					//if the price changed, recalculate the final price of the pio
-					if(priceBeforeChange!=stk.getPriceAfterSale().floatValue())
-						pio.setFinalPrice();
-					foundMatch=true;
-					break;
-				}
-			}
-			if(!foundMatch)
+			Stock stk = Context.fac.stock.getStockByProductFromStore(store, pio.getProduct());
+			if(stk == null) {
+				System.err.println("Stock is null");
 				throw new Exception(pio.getProduct().toString());
+			}
+			float priceBeforeChange = pio.getProduct().getPrice();
+			Float newPrice = Context.fac.product.getPriceWithSubscription(Context.order,stk.getProduct(), stk.getPriceAfterSale(), Context.getUserAsCustomer());
+			pio.getProduct().setPrice(newPrice==null ? stk.getPriceAfterSale() : newPrice);
+			//if the price changed, recalculate the final price of the pio
+			if(priceBeforeChange!=stk.getPriceAfterSale().floatValue())
+				pio.setFinalPrice();				
 		}
 	}
 	

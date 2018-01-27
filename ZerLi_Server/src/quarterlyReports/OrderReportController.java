@@ -21,7 +21,6 @@ public class OrderReportController extends ParentController implements IOrderRep
 		if(arr!=null && (arr.get(0) instanceof LocalDate == false) || arr.get(1) instanceof BigInteger == false){
 			return null;
 		}
-		//=====CHANGE DATE TO THE END OF THE QUARTER======
 		LocalDate date = (LocalDate)arr.get(0);
 		BigInteger storeID = (BigInteger)arr.get(1);
 		String query = String.format(

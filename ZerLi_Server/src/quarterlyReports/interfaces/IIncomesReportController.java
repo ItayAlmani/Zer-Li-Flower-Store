@@ -17,6 +17,7 @@ public interface IIncomesReportController {
 	 * @throws Exception -if somthing went wrong with the ask from the DB
 	 */
 	ArrayList<Object> getIncomesReport(ArrayList<Object> arr) throws Exception;
+	
 	/**
 	 * <p> This function takes the information from the server and processes it into a report
 	 *  with all the data associated with it, and returns the report to the client.
@@ -27,12 +28,7 @@ public interface IIncomesReportController {
 	 * @throws Exception - if there is no data that returns from the server (DB)
 	 */
 	ArrayList<Object> analyzeOrders(ArrayList<Object> objs) throws Exception;
-	/**
-	 * <p>This function links to each order the products within it.</p>
-	 * @param objs - ArrayList of products of the requested order.
-	 * @throws Exception - if there is no data that returns from the server (DB)
-	 */
-	void setPIOsInOrder(ArrayList<Object> objs) throws Exception;
+	
 	/**
 	 * <p> This function receives details if the report does not exist and produces it by receiving the
 	 * relevant data from the DB in this case all orders data.
@@ -46,6 +42,7 @@ public interface IIncomesReportController {
 	 * {@link analyzeComplaints}
 	 */
 	ArrayList<Object> produceIncomesReport(LocalDate date, BigInteger storeID) throws Exception;
+	
 	/**
 	 * <p> A function that get objects from the DB and calls parse after parse it pushes
 	 *  the data back as a report </p>
@@ -53,6 +50,7 @@ public interface IIncomesReportController {
 	 * @return an ArrayList of Objects with all the information that related to the asking report
 	 */
 	ArrayList<Object> handleGet(ArrayList<Object> obj);
+	
 	/**
 	 * <p>A function that inserts a row into a incomesreport table in DB</p>
 	 * @param arr-ArrayList of Object that represents the data that we want to insert as row in DB
