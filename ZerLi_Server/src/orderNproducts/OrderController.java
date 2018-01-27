@@ -276,7 +276,7 @@ public class OrderController extends ParentController implements IOrder{
 				"    AND del.storeID='%d'\n" + 
 				"    AND ord.date>='%s' AND ord.date<='%s'\n" + 
 				"    AND (ord.status='Paid' OR ord.status='Canceled')"
-				+ ");"
+				+ ";"
 				, storeID,
 				(Timestamp.valueOf(startDate.atStartOfDay())).toString(),
 				(Timestamp.valueOf(endDate.atTime(LocalTime.of(23, 59, 59)))).toString());}
