@@ -284,7 +284,7 @@ CREATE TABLE `orders` (
 
 LOCK TABLES `orders` WRITE;
 /*!40000 ALTER TABLE `orders` DISABLE KEYS */;
-INSERT INTO `orders` VALUES (1,1,1,'CreditCard',NULL,'InfoSystem','Love you wifey','Pickup','Paid','2017-09-30 23:59:59',72.72),(2,1,2,NULL,NULL,'InfoSystem',NULL,NULL,'InProcess','2018-01-26 16:50:11',0),(3,1,NULL,'Cash',1,'InfoSystem','Thanks for the repair','Shipment','Paid','2018-10-05 19:10:17',160),(4,1,5,NULL,NULL,'InfoSystem',NULL,NULL,'InProcess','2018-01-26 17:10:18',0),(5,3,6,'CreditCard',NULL,'InfoSystem','','Pickup','Paid','2017-10-28 12:10:17',24.5),(6,3,7,'Refund',NULL,'InfoSystem','','Pickup','Paid','2017-12-31 19:00:00',0),(8,4,NULL,'CreditCard',2,'InfoSystem','Happy birthday','Shipment','Paid','2018-01-26 17:41:22',120),(9,4,11,NULL,NULL,'InfoSystem',NULL,NULL,'InProcess','2018-01-26 17:41:22',0),(10,5,NULL,'Cash',3,'InfoSystem','','Shipment','Canceled','2018-01-26 17:45:40',85),(11,5,NULL,'Cash',4,'InfoSystem','','Shipment','Canceled','2018-01-26 17:57:43',105),(12,5,16,NULL,NULL,'InfoSystem',NULL,NULL,'InProcess','2018-01-26 17:57:43',0);
+INSERT INTO `orders` VALUES (1,1,1,'CreditCard',NULL,'InfoSystem','Love you wifey','Pickup','Paid','2017-09-30 23:59:59',79.2),(2,1,2,NULL,NULL,'InfoSystem',NULL,NULL,'InProcess','2018-01-26 16:50:11',0),(3,1,NULL,'Cash',1,'InfoSystem','Thanks for the repair','Shipment','Paid','2018-10-05 19:10:17',160),(4,1,5,NULL,NULL,'InfoSystem',NULL,NULL,'InProcess','2018-01-26 17:10:18',0),(5,3,6,'CreditCard',NULL,'InfoSystem','','Pickup','Paid','2017-10-28 12:10:17',24.5),(6,3,7,'Refund',NULL,'InfoSystem','','Pickup','Paid','2017-12-31 19:00:00',0),(8,4,NULL,'CreditCard',2,'InfoSystem','Happy birthday','Shipment','Paid','2018-01-26 17:41:22',120),(9,4,11,NULL,NULL,'InfoSystem',NULL,NULL,'InProcess','2018-01-26 17:41:22',0),(10,5,NULL,'Cash',3,'InfoSystem','','Shipment','Canceled','2018-01-26 17:45:40',85),(11,5,NULL,'Cash',4,'InfoSystem','','Shipment','Canceled','2018-01-26 17:57:43',105),(12,5,16,NULL,NULL,'InfoSystem',NULL,NULL,'InProcess','2018-01-26 17:57:43',0);
 /*!40000 ALTER TABLE `orders` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -645,4 +645,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-01-27 18:14:47
+-- Dump completed on 2018-01-27 21:39:09

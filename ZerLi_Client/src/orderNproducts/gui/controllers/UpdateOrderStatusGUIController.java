@@ -42,6 +42,7 @@ public class UpdateOrderStatusGUIController implements Initializable {
 			e.printStackTrace();
 		}
 		cbOrderStatus.setItems(FXCollections.observableArrayList(OrderStatus.values()));
+		cbOrderStatus.getItems().remove(OrderStatus.InProcess);
 	}
 	
 	public void setCustomers(ArrayList<Customer> customers) {

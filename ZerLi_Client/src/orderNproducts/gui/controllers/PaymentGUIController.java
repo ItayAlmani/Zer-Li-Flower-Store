@@ -170,15 +170,11 @@ public class PaymentGUIController implements Initializable {
 	}
 	
 	private void setByBillResponse(boolean billResponse) {
-		if(billResponse==false) {
-			btnPay.setDisable(true);
-			lblPayMsg.setText("Credit card denied - try again later or pay with cash");
-		}
-		else {
-			btnPay.setDisable(false);
+		if(billResponse==false)
+			lblPayMsg.setText("Credit card denied - try again or pay with cash");
+		else
 			lblPayMsg.setText("");
 			pay();
-		}
 	}
 	
 	public void billingProgress() {

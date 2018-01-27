@@ -21,10 +21,7 @@ public class ConnectionConfigGUIController implements Initializable{
 	
 	private String host,dbUrl, dbName, dbUserName, dbPassword;
 	private Integer port;
-	/**
-	 * An assignment that "draws" the data related to the DB and in fact raises the database
-	 * @param dbData - arraylist that holds all the information of the DB connection
-	 */
+	
 	public void setDBData(ArrayList<String> dbData) {
 		if(dbData!=null) {
 			this.dbUrl=dbData.get(0);
@@ -37,9 +34,7 @@ public class ConnectionConfigGUIController implements Initializable{
 			this.txtPassword.setText(this.dbPassword);
 		}
 	}
-	/**
-	 * A function that enables connection to DB using new or different details from the defualt details
-	 */
+	
 	public void updateServer() {
 		Context.mainScene.clearMsg();
 		if(txtHost.getText().equals("")==false)
@@ -58,10 +53,7 @@ public class ConnectionConfigGUIController implements Initializable{
 		else
 			Context.mainScene.ShowErrorMsg();
 	}
-	/**
-	 * A function that enables connection to DB using new or different details from the default details
-	 * @param event - represent the event that happens in the click
-	 */
+	
 	public void updateDB(ActionEvent event) {
 		Context.mainScene.clearMsg();
 		if(txtUrl.getText().equals("")==false)		//if the field is empty
@@ -109,16 +101,14 @@ public class ConnectionConfigGUIController implements Initializable{
 			txtPort.setText("5555");
 		}
 	}
-	/**
-	 * A function that changes the DB mode according to the success or failure of the user connecting to the server
-	 * @param dbStatus - represent the status of the DB
-	 */
+	
 	public void setDBStatus(Boolean dbStatus) {
 		if(dbStatus) {
 			if(Context.clientConsole!=null && Context.clientConsole.isConnected()) {
-				Context.mainScene.setServerAvailable("Server connected successfully");
-				if(Context.getUser()!=null)
+				if(Context.getUser()!=null) {
+					Context.mainScene.setServerAvailable("Server connected successfully");
 					Context.mainScene.loadMainMenu("Server connected successfully");
+				}					
 				else
 					Context.mainScene.loadGUI("LogInGUI", false);
 			}
