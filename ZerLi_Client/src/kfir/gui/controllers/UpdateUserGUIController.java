@@ -188,7 +188,6 @@ public class UpdateUserGUIController implements Initializable{
 		if(!user.getPermissions().equals(UserType.StoreManager) &&
 				!user.getPermissions().equals(UserType.ChainStoreManager)&&
 				!user.getPermissions().equals(UserType.Customer)&&
-				!user.getPermissions().equals(UserType.ServiceExpert)&&
 				!user.getPermissions().equals(UserType.CustomerServiceWorker)) {
 			cbPermissions.setDisable(false);
 			cbStores.setDisable(false);
@@ -199,7 +198,11 @@ public class UpdateUserGUIController implements Initializable{
 		}
 		if(user.getPermissions().equals(UserType.StoreWorker)) {
 			cbPermissions.setItems(FXCollections.observableArrayList(UserType.StoreManager,
-					UserType.StoreWorker,UserType.ChainStoreWorker));;
+					UserType.StoreWorker,UserType.ChainStoreWorker,UserType.CustomerServiceWorker));;
+		}
+		if(user.getPermissions().equals(UserType.ServiceExpert)) {
+			cbPermissions.setItems(FXCollections.observableArrayList(UserType.StoreManager,
+					UserType.StoreWorker,UserType.ChainStoreWorker,UserType.ServiceExpert));;
 		}
 		if(user.getPermissions().equals(UserType.ChainStoreWorker)) {
 			cbPermissions.setItems(FXCollections.observableArrayList(UserType.StoreManager,
@@ -371,15 +374,10 @@ public class UpdateUserGUIController implements Initializable{
 					Context.fac.storeWorker.add(sw, false);
 				}
 				if(newperm.equals(p_Csw)) {
-					if(cbStores.getValue() == null) {
-						Context.mainScene.ShowErrorMsg();
-						return;
-					}
 					if(oldperm.equals(p_sw))
 					{
 						Context.fac.storeWorker.delete(this.sw.getUserID());;
 					}
-					this.newStore = cbStores.getValue();
 				}
 			}
 			//same permission
