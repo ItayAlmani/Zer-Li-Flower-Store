@@ -37,9 +37,6 @@ public class IncomesReportController extends ParentController implements IIncome
 		throw new Exception();
 	}
 	
-	/* (non-Javadoc)
-	 * @see lior.IIncomesReportController#ProduceIncomesReport(java.util.ArrayList)
-	 */
 	@Override
 	public ArrayList<Object> produceIncomesReport(LocalDate date, BigInteger storeID) throws Exception {
 		iReport=new IncomesReport(date,storeID);
