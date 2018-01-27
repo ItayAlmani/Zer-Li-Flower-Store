@@ -1,0 +1,14 @@
+common
+common.ocsf.server
+customersSatisfaction
+customersSatisfaction.entities
+customersSatisfaction.interfaces
+orderNproducts
+orderNproducts.entities
+orderNproducts.interfaces
+quarterlyReports
+quarterlyReports.entities
+quarterlyReports.interfaces
+usersInfo
+usersInfo.entities
+usersInfo.interfaces

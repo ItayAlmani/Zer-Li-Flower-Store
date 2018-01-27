@@ -20,7 +20,6 @@ public interface IPaymentAccount {
 
 	/**
 	 * handle the information from the server, back to (GUI / asking controller)
-	 * </p>
 	 * @param pa - {@link PaymentAccount}s after parse
 	 */
 	public void handleGet(ArrayList<PaymentAccount> pa);

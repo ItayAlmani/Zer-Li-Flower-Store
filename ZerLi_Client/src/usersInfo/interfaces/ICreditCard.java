@@ -18,7 +18,6 @@ public interface ICreditCard {
 	
 	/**
 	 * handle the information from the server, back to (GUI / asking controller)
-	 * </p>
 	 * @param cards after parse
 	 */
 	public void handleGet(ArrayList<CreditCard> cards);

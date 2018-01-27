@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox alignment="CENTER" spacing="20.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="usersInfo.gui.controllers.SubscriptionGUIController">
+   <children>
+      <JFXComboBox fx:id="cbCustomers" onAction="#customerSelected" promptText="Select customer">
+         <VBox.margin>
+            <Insets top="15.0" />
+         </VBox.margin>
+         </JFXComboBox>
+      <VBox fx:id="vboxPA" alignment="CENTER" spacing="15.0" visible="false">
+         <children>
+            <JFXTextField fx:id="txtCustID" alignment="CENTER" disable="true" editable="false" promptText="Customer ID" />
+            <JFXComboBox fx:id="cbSub" promptText="Subscription period" />
+            <JFXButton fx:id="btnSave" buttonType="RAISED" mnemonicParsing="false" onAction="#createSubscription" ripplerFill="ORANGE" text="Add" textAlignment="CENTER" textOverrun="CLIP" visible="false" wrapText="true" />
+         </children></VBox>
+   </children>
+</VBox>

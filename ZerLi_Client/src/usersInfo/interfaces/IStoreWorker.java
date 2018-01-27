@@ -18,7 +18,6 @@ public interface IStoreWorker {
 	
 	/**
 	 * handle the information from the server, back to (GUI / asking controller)
-	 * </p>
 	 * @param storeWorkers - {@link StoreWorker}s after parse
 	 */
 	public void handleGet(ArrayList<StoreWorker> storeWorkers);
