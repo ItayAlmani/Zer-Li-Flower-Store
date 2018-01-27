@@ -14,6 +14,7 @@ import entities.Customer;
 import entities.Order;
 import entities.Order.OrderStatus;
 import gui.controllers.ParentGUIController;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -27,33 +28,36 @@ public class UpdateOrderStatusGUIController implements Initializable {
 	private @FXML VBox vboxComboBox;
 	private ArrayList<Order> orders = null;
 	private Order selctedOrd = null;
+	private @FXML JFXComboBox<Customer> cbCustomers;
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		ParentGUIController.currentGUI = this;
-		ArrayList<OrderStatus> al = new ArrayList<>();
-		for(OrderStatus os : OrderStatus.values())
-			al.add(os);
-		cbOrderStatus.setItems(FXCollections.observableArrayList(al));
-	}
-
-	public void searchCustomer() {
-		//=========NEEDED!!!========
-		/*try {
+		
+		try {
 			Context.mainScene.setMenuPaneDisable(true);
-			Context.fac.customer.getCustomerByPrivateID(txtPrivateID.getText());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			Context.fac.customer.getAllCustomersOfStore(Context.getUserAsStoreWorker().getStore().getStoreID());
+		} catch (Exception e) {
+			Context.mainScene.ShowErrorMsg();
 			e.printStackTrace();
-		}*/
+		}
+		cbOrderStatus.setItems(FXCollections.observableArrayList(OrderStatus.values()));
 	}
 	
 	public void setCustomers(ArrayList<Customer> customers) {
 		Context.mainScene.setMenuPaneDisable(false);
 		if(customers!=null && customers.isEmpty()==false) {
+			if(Platform.isFxApplicationThread())
+				cbCustomers.setItems(FXCollections.observableArrayList(customers));
+			else Platform.runLater(()->cbCustomers.setItems(FXCollections.observableArrayList(customers)));
+		}
+	}
+	
+	public void customerSelected() {
+		if(cbCustomers.getValue()!=null) {
 			try {
 				Context.mainScene.setMenuPaneDisable(false);
-				Context.fac.order.getOrdersByCustomerID(customers.get(0).getCustomerID());
+				Context.fac.order.getOrdersByCustomerID(cbCustomers.getValue().getCustomerID());
 			} catch (IOException e) {
 				Context.mainScene.ShowErrorMsg();
 				e.printStackTrace();

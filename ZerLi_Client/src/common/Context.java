@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.math.BigInteger;
 import java.util.ArrayList;
 
+import com.sun.org.apache.bcel.internal.generic.INSTANCEOF;
+
 import entities.Customer;
 import entities.Order;
 import entities.Order.OrderStatus;
@@ -26,19 +28,44 @@ public class Context {
 	/** Each client has <b>one</b> <code>ClientConsole</code> */
 	public static ClientConsole clientConsole = null;
 	
+	/** if controller want to ask from another controller some data,
+	 * the controller will add itself.<br>
+	 * Now, when the server will return the wanted data, {@link ClientController} will know
+	 * how asked the data, and will send it to it by the askingCtrl, which will build as
+	 * queue. */
 	public static ArrayList<Object> askingCtrl = new ArrayList<>();
 	
+	/** Because we don't need several different instances of the same controller,
+	 * but we don't want them to be static (for privacy matters),
+	 * we will construct one instance of each by the {@link Factory} class. */
 	public static Factory fac = new Factory();
 	
+	/** will save data of current {@link User} */
 	private static User user = null;
-	public static Order order = null;
-	private static boolean needNewOrder = true;
-	public static ParentGUIController mainScene = null;
 	
+	/** will save data for current {@link Order} if exist */
+	public static Order order = null;
+	
+	/** will indicates if new order asked (for next ID), or the current order's id */
+	private static boolean needNewOrder = true;
+	
+	/** the controller of the main scene, which include menu and content */
+	public static ParentGUIController mainScene = null;
+	/**
+	 * getter for {@link #user}
+	 * @return {@link #user}
+	 */
 	public static User getUser() {
 		return user;
 	}
-
+	
+	/**
+	 * {@link User#getPermissions()} will indicate the current {@link User}'s permission.<br>
+	 * Because we have also {@link Customer}s and {@link StoreWorker}s as entities,
+	 * if the permission equals to Customer or StoreWorker, we will save {@link #user} as
+	 * {@link Customer} or {@link StoreWorker}, which inherits from {@link User}
+	 * @param newuser the new {@link User} that connected
+	 */
 	public static void setUser(User newuser) {
 		try {
 			user = newuser;
@@ -60,6 +87,10 @@ public class Context {
 		}
 	}
 	
+	/**
+	 * The answer from Server, after asking {@link StoreWorker}/s
+	 * @param storeWorkers the {@link StoreWorker}/s asked from Server
+	 */
 	public static void setStoreWorkers(ArrayList<StoreWorker> storeWorkers) {
 		if(storeWorkers.size()!=0) {
 			StoreWorker sw = storeWorkers.get(0);
@@ -70,12 +101,22 @@ public class Context {
 			((LogInGUIController)ParentGUIController.currentGUI).setUserConnected(Context.user);
 	}
 	
+	/**
+	 * if {@link #user} is {@link INSTANCEOF} {@link Customer}, return {@link #user} as {@link Customer} 
+	 * @return {@link #user} as {@link Customer}
+	 * @throws Exception if {@link #user} isn't {@link INSTANCEOF} {@link Customer}
+	 */
 	public static Customer getUserAsCustomer() throws Exception{
 		if(user instanceof Customer)
 			return (Customer)user;
 		throw new Exception("User isn't customer");
 	}
 
+	/**
+	 * if {@link #user} is {@link INSTANCEOF} {@link StoreWorker}, return {@link #user} as {@link StoreWorker} 
+	 * @return {@link #user} as {@link StoreWorker}
+	 * @throws Exception if {@link #user} isn't {@link INSTANCEOF} {@link StoreWorker}
+	 */
 	public static StoreWorker getUserAsStoreWorker() throws Exception {
 		if(user instanceof StoreWorker)
 			return (StoreWorker)user;
@@ -115,6 +156,10 @@ public class Context {
 		}
 	}
 	
+	/**
+	 * The answer from Server, after asking {@link Customer}/s
+	 * @param customers the {@link Customer}/s asked from Server
+	 */
 	public static void setCustomers(ArrayList<Customer> customers) {
 		if(customers.size()!=0) {
 			Customer cust = customers.get(0);
@@ -125,6 +170,10 @@ public class Context {
 			((LogInGUIController)ParentGUIController.currentGUI).setUserConnected(Context.user);
 	}
 	
+	/**
+	 * The answer from Server, after asking {@link Order}/s
+	 * @param orders the {@link Order}/s asked from Server
+	 */
 	public static void setOrders(ArrayList<Order> orders) {
 		if(orders!=null && orders.size()!=0 && orders.get(0)!=null) {
 			order = orders.get(0);
@@ -155,12 +204,20 @@ public class Context {
 		}
 	}
 	
+	/**
+	 * The answer from Server, after asking {@link ProductInOrder}/s
+	 * @param prds the {@link ProductInOrder}/s asked from Server
+	 */
 	public static void setPIOs(ArrayList<ProductInOrder> prds) {
 		if(order!=null) {
 			order.setProducts(prds);
 		}
 	}
 
+	/**
+	 * The answer from Server, after asking to add an {@link Order}
+	 * @param id the new {@link Order}'s id, which added by the Server
+	 */
 	public static void setOrderID(BigInteger id) {
 		if(needNewOrder==true)
 			Context.order.setOrderID(id.subtract(BigInteger.ONE));

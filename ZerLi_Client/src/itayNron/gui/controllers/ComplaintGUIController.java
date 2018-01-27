@@ -32,11 +32,19 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
+import javafx.scene.control.ListView;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.ComboBoxListCell;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.util.Callback;
 import javafx.util.StringConverter;
 import javafx.util.converter.DateTimeStringConverter;
 import javafx.util.converter.LocalDateStringConverter;
@@ -319,8 +327,10 @@ public class ComplaintGUIController implements Initializable {
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
-				if (complaints != null && complaints.isEmpty() == false)
+				if (complaints != null && complaints.isEmpty() == false) {
 					cbsComplaints.setItems(FXCollections.observableArrayList(complaints));
+					setComplaintsCBCellFactory();
+				}
 				else {
 					Context.mainScene.setMessage("No pending complaints");
 					cbsComplaints.setDisable(true);
@@ -328,6 +338,31 @@ public class ComplaintGUIController implements Initializable {
 			}
 		});
 	}
+	
+	/** paint all complaints where isAnswered24 = false*/
+	private void setComplaintsCBCellFactory() {
+		cbsComplaints.setCellFactory(new Callback<ListView<Complaint>, ListCell<Complaint>>() {
+			@Override
+			public ListCell<Complaint> call(ListView<Complaint> param) {
+				return new ListCell<Complaint>() {
+					@Override
+                    protected void updateItem(Complaint item, boolean empty) {
+                        super.updateItem(item, empty);
+                            if (item != null) {
+                                setText(item.toString());  
+                                if(item.isAnswered24Hours()==false) {
+                                	setTextFill(Color.WHITE);
+                                	Background redBack = new Background(new BackgroundFill(Color.RED, null, null));
+                                	setBackground(redBack);
+                                }
+                            }
+                    }
+				};
+				
+			}
+		});
+	}
+	
 	 /**
 	  * <p>
 	  * Function to show all details of selected customer from comboBox,

@@ -5,6 +5,7 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 
 import entities.CreditCard;
+import entities.Customer;
 
 public interface ICreditCard {
 	
@@ -49,5 +50,13 @@ public interface ICreditCard {
 	 * @throws IOException
 	 */
 	public void update(CreditCard cc) throws IOException;
+	
+	/**
+	 * bill {@link CreditCard} according to the amount given (by random)
+	 * @param cc
+	 * @param amount
+	 * @return success status
+	 */
+	boolean billCreditCardOfCustomer(CreditCard cc, float amount);
 
 }

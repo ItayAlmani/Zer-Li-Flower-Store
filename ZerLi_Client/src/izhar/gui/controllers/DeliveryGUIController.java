@@ -17,7 +17,11 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
@@ -29,6 +33,10 @@ public class DeliveryGUIController implements Initializable {
 	private @FXML JFXRadioButton rbShipment, rbPickup;
 	private @FXML VBox vboxForm, paneShipment;
 	private @FXML MaterialDesignIconView icnPickup, icnShipment;
+	
+	/** the amount of digit in the post phone number.<br>
+	 * phone_post_digits_amount = {@value} */
+	private final static int phone_post_digits_amount = 7;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -66,20 +74,26 @@ public class DeliveryGUIController implements Initializable {
 
 	/** {@link EventHandler} of {@link #rbShipment} */
 	public void addDelivery() {
-		Object userData = tGroup.getSelectedToggle().getUserData();
-		if (userData.equals("Pickup") == false && userData.equals("Shipment") == false) {
+		Toggle select = tGroup.getSelectedToggle();
+		if (select.equals(rbPickup) == false && select.equals(rbShipment) == false) {
 			Context.mainScene.setMessage("Must choose at least one option");
 			return;
 		}
 
 		DeliveryDetails del = Context.order.getDelivery();
-		if (userData.equals("Pickup")) {
+		if (select.equals(rbPickup)) {
+			//was shipment before - shipment costs added to order
 			if (Context.order.getDeliveryType() != null
 					&& Context.order.getDeliveryType().equals(DeliveryType.Shipment))
 				Context.order.addToFinalPrice(-1 * ShipmentDetails.shipmentPrice);
 			Context.order.setDeliveryType(DeliveryType.Pickup);
 		} else { // Shipment
 			//Check if all correct
+			if(isAllFieldsFilled(paneShipment)==false ||
+					txtPhonePost.getText().length()!=phone_post_digits_amount) {
+				Context.mainScene.setMessage("Must fill all fields");
+				return;
+			}
 			ShipmentDetails ship = new ShipmentDetails(del, txtStreet.getText(), txtCity.getText(),
 					txtPostCode.getText(), txtName.getText(),
 					txtPhoneAreaCode.getText() + "-" + txtPhonePost.getText());
@@ -87,6 +101,21 @@ public class DeliveryGUIController implements Initializable {
 			Context.order.setDeliveryType(DeliveryType.Shipment);
 		}
 		Context.mainScene.loadOrderTime();
+	}
+	
+	private boolean isAllFieldsFilled(Pane p) {
+		for (Node n : p.getChildren()) {
+			if(n instanceof JFXTextField) {
+				JFXTextField txt = (JFXTextField)n;
+				if(txt.getText()==null || txt.getText().isEmpty())
+					return false;
+			}
+			else if(n instanceof Pane) {
+				if(isAllFieldsFilled((Pane)n)==false)
+					return false;
+			}
+		}
+		return true;
 	}
 
 	private void addTextLimiter(JFXTextField tf, final int maxLength) {

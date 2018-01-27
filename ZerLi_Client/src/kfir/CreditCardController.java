@@ -5,12 +5,14 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Random;
 
 import common.Context;
 import controllers.ParentController;
 import entities.CSMessage;
 import entities.CSMessage.MessageType;
 import entities.CreditCard;
+import entities.Customer;
 import gui.controllers.ParentGUIController;
 import kfir.interfaces.ICreditCard;
 
@@ -99,5 +101,10 @@ public class CreditCardController extends ParentController implements ICreditCar
 		myMsgArr.add(Thread.currentThread().getStackTrace()[1].getMethodName());
 		myMsgArr.add(cc);
 		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.UPDATE, myMsgArr,CreditCard.class));
+	}
+	
+	@Override
+	public boolean billCreditCardOfCustomer(CreditCard cc, float amount) {
+		return new Random().nextBoolean();
 	}
 }

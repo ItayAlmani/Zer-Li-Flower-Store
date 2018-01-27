@@ -3,10 +3,12 @@ package kfir;
 import java.math.BigInteger;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Random;
 
 import common.EchoServer;
 import controllers.ParentController;
 import entities.CreditCard;
+import entities.Customer;
 import kfir.interfaces.ICreditCard;
 
 public class CreditCardController extends ParentController implements ICreditCard{

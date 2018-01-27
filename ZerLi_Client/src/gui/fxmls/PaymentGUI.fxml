@@ -58,25 +58,30 @@
             <Font name="System Bold" size="12.0" />
          </font>
       </Label>
-      <JFXButton fx:id="btnPay" alignment="CENTER" buttonType="RAISED" mnemonicParsing="false" onAction="#payWithCC" ripplerFill="ORANGE" text="Pay" textAlignment="CENTER" textFill="ORANGE" textOverrun="CLIP">
-         <graphic>
-            <MaterialDesignIconView fx:id="icnNext" fill="ORANGE" fontSmoothingType="LCD" glyphName="CUBE_SEND" size="15" textAlignment="CENTER">
-               <font>
-                  <Font name="Material Design Icons" size="15.0" />
-               </font>
-            </MaterialDesignIconView>
-         </graphic>
-         <font>
-            <Font name="Material Design Icons" size="15.0" />
-         </font></JFXButton>
-      <JFXButton fx:id="btnBack" alignment="CENTER" buttonType="RAISED" onAction="#back" ripplerFill="RED" text="Back" textAlignment="CENTER" textFill="RED">
+      <HBox alignment="CENTER">
+         <children>
+            <JFXButton fx:id="btnBack" alignment="CENTER" buttonType="RAISED" onAction="#back" ripplerFill="RED" text="Back" textAlignment="CENTER" textFill="RED">
+                     <graphic>
+                        <MaterialDesignIconView fill="RED" fontSmoothingType="LCD" glyphName="ARROW_LEFT_BOLD_CIRCLE" size="15" textAlignment="CENTER" />
+                     </graphic>
+                     <font>
+                        <Font name="Material Design Icons" size="15.0" />
+                     </font>
+                  </JFXButton>
+            <JFXButton fx:id="btnPay" alignment="CENTER" buttonType="RAISED" mnemonicParsing="false" onAction="#payWithCC" ripplerFill="ORANGE" text="Pay" textAlignment="CENTER" textFill="ORANGE" textOverrun="CLIP">
                <graphic>
-                  <MaterialDesignIconView fill="RED" fontSmoothingType="LCD" glyphName="ARROW_LEFT_BOLD_CIRCLE" size="15" textAlignment="CENTER" />
+                  <MaterialDesignIconView fx:id="icnNext" fill="ORANGE" fontSmoothingType="LCD" glyphName="CUBE_SEND" size="15" textAlignment="CENTER">
+                     <font>
+                        <Font name="Material Design Icons" size="15.0" />
+                     </font>
+                  </MaterialDesignIconView>
                </graphic>
                <font>
                   <Font name="Material Design Icons" size="15.0" />
                </font>
             </JFXButton>
+         </children>
+      </HBox>
    </children>
    <padding>
       <Insets right="5.0" />

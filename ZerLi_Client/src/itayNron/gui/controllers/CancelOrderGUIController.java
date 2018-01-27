@@ -72,22 +72,21 @@ public class CancelOrderGUIController implements Initializable {
 	}
 	
 	/**
-	 * {@link EventHandler} which pop an {@link Dialog} when {@link #stage} being asked
-	 * to close. The {@link Dialog} will confirm that the user want to exit the app.<br>
-	 * If confirmed, the app will disconnect the {@link ClientConsole} and call {@link #deleteAllImages()}.
+	 * {@link EventHandler} which pop an {@link Dialog} when {@link #btnCancelOrder} clicked
+	 * and will confirm if want to cancel it
 	 */
 	private final EventHandler<ActionEvent> confirmCancelOrderEventHandler = actEvent -> {
-		Alert closeConfirmation = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to cancel this order?");
-		Button exitButton = (Button) closeConfirmation.getDialogPane().lookupButton(ButtonType.OK);
+		Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to cancel this order?");
+		Button exitButton = (Button) confirmation.getDialogPane().lookupButton(ButtonType.OK);
 		exitButton.setText("Cancel Order");
-		closeConfirmation.setHeaderText("Confirm Order Cancellation");
-		closeConfirmation.initModality(Modality.APPLICATION_MODAL);
-		closeConfirmation.initOwner(ParentGUIController.primaryStage);
+		confirmation.setHeaderText("Confirm Order Cancellation");
+		confirmation.initModality(Modality.APPLICATION_MODAL);
+		confirmation.initOwner(ParentGUIController.primaryStage);
 
-		closeConfirmation.setX(ParentGUIController.primaryStage.getX());
-		closeConfirmation.setY(ParentGUIController.primaryStage.getY());
+		confirmation.setX(ParentGUIController.primaryStage.getX());
+		confirmation.setY(ParentGUIController.primaryStage.getY());
 
-		Optional<ButtonType> closeResponse = closeConfirmation.showAndWait();
+		Optional<ButtonType> closeResponse = confirmation.showAndWait();
 		if (!ButtonType.OK.equals(closeResponse.get()))
 			actEvent.consume();
 		else {

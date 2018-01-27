@@ -7,16 +7,12 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import org.controlsfx.control.textfield.TextFields;
-
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 
 import common.Context;
 import common.MainClient;
 import entities.User;
-import gui.controllers.ParentGUIController;
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -29,7 +25,6 @@ public class LogInGUIController implements Initializable{
 	private @FXML JFXPasswordField txtPassword;
 	private @FXML Button btnLogIn;
 	private @FXML ImageView imgLogo;
-	private boolean getAllUsers=true;
 	
 	/**
 	 * Function get input from GUI TextField, check if the input is correct
@@ -39,13 +34,9 @@ public class LogInGUIController implements Initializable{
 	public void logIn() {
 		String uName = this.txtUserName.getText(),
 				pass = this.txtPassword.getText();
-		if(uName == null || uName.isEmpty() || pass == null || pass.isEmpty()) {
-			uName ="izharAn";
-			pass="1234";
-		}
-		System.err.println("Go to LogInGUIController to enable data in login");
 		if(uName!=null && pass !=null) {
 			try {
+				Context.mainScene.setMenuPaneDisable(true);
 				Context.fac.user.getUserForLogIn(new User(uName, pass));
 			} catch (IOException e) {
 				Context.mainScene.ShowErrorMsg();
@@ -53,6 +44,8 @@ public class LogInGUIController implements Initializable{
 				e.printStackTrace();
 			}
 		}
+		else
+			Context.mainScene.setMessage("All fields must be entered");
 	}
 	
 	/**
@@ -64,13 +57,6 @@ public class LogInGUIController implements Initializable{
 	public void setUsers(ArrayList<User> users) {
 		Context.mainScene.setMenuPaneDisable(false);
 		Context.mainScene.clearMsg();
-		if(getAllUsers==true) {
-			if(Platform.isFxApplicationThread())
-				TextFields.bindAutoCompletion(txtUserName, users);
-			else Platform.runLater(()->TextFields.bindAutoCompletion(txtUserName, users));
-			getAllUsers=false;
-			return;
-		}
 		//User Name or Password are incorrect
 		if(users.isEmpty())
 			Context.mainScene.setMessage("User name or password are incorrect!");
@@ -97,27 +83,25 @@ public class LogInGUIController implements Initializable{
 	 * @param user - {@link User} to change his connection status
 	 */
 	public void setUserConnected(User user) {
-		/*try {
+		try {
 			user.setConnected(true);
 			Context.fac.user.update(user);
 		} catch (IOException e) {
 			Context.mainScene.ShowErrorMsg();
 			e.printStackTrace();
 			return;
-		}*/
+		}
 		Context.mainScene.logInSuccess();
 	}
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		try {
-			ParentGUIController.currentGUI=this;
-			Context.mainScene.setMenuPaneDisable(true);
-			Context.fac.user.getAllUsers();
 			imgLogo.setImage(MainClient.getLogoAsImage());
 			setComponentSendOnEnter(Arrays.asList(new Node[] {txtUserName,txtPassword}));
 		} catch (IOException e) {
 			e.printStackTrace();
+			Context.mainScene.ShowErrorMsg();
 		}
 	}
 	

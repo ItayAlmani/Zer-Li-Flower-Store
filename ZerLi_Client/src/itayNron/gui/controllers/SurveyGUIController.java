@@ -15,6 +15,7 @@ import gui.controllers.ParentGUIController;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.DateCell;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -24,44 +25,34 @@ import javafx.scene.control.DatePicker;
 public class SurveyGUIController implements Initializable {
 
 	private @FXML ChoiceBox<Float>[] cbs;
-	private @FXML ChoiceBox<Float> cb1;
-	private @FXML ChoiceBox<Float> cb2;
-	private @FXML ChoiceBox<Float> cb3;
-	private @FXML ChoiceBox<Float> cb4;
-	private @FXML ChoiceBox<Float> cb5;
-	private @FXML ChoiceBox<Float> cb6;
+	private @FXML ChoiceBox<Float> cb1, cb2, cb3, cb4, cb5, cb6;
 	
 	private ObservableList<Float> list;
-	@FXML DatePicker dpDate;
+	private @FXML DatePicker dpDate;
 
 	/**
-	 * <p>1
 	 * Function to send filled {@link Survey} to DB
-	 * </p>
-	 * @throws IOException 
 	 */
-	@FXML public void sendSurvey() throws IOException {
-		/*StoreWorker sw = Context.getUserAsStoreWorker();
-		if(sw == null)
-			return;*/
+	public void sendSurvey() {
 		float[] ans = new float[6];
 		int i = 0;
 		for (ChoiceBox<Float> cb : cbs) {
 			ans[i] = cb.getValue();
 			i++;
 		}
-		//Date date = Date.from(dpDate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
 		try {
 			if(Context.getUserAsStoreWorker() !=null) {
 				Survey sur = new Survey(ans, dpDate.getValue(),Context.getUserAsStoreWorker().getStore().getStoreID(),SurveyType.Answer);
 				Context.fac.survey.add(sur);
+				Context.mainScene.loadMainMenu();
 			}
-			else
-				System.err.println("You are not a store worker");
+			else {
+				Context.mainScene.loadMainMenu("You are not a store worker or manager");
+				return;
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		Context.mainScene.loadMainMenu();
 	}
 	
 	@Override
@@ -77,6 +68,15 @@ public class SurveyGUIController implements Initializable {
 			cbs[i].setItems(list);
 			cbs[i].getSelectionModel().selectFirst();
 		}
+		
+		dpDate.setDayCellFactory(picker -> new DateCell() {
+            @Override
+            public void updateItem(LocalDate date, boolean empty) {
+                super.updateItem(date, empty);
+                //disable today and every date before
+                setDisable(empty || date.isAfter(LocalDate.now()));
+            }
+        });
 		dpDate.setValue(LocalDate.now());
 	}
 }

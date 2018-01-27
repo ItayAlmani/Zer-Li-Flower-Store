@@ -25,17 +25,6 @@ public class CustomerController extends ParentController implements ICustomer {
 		myMsgArr.add(userID);
 		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.SELECT,myMsgArr,Customer.class));
 	}
-	
-	@Override
-	public boolean billCreditCardOfCustomer(Customer customer, float amount) {
-		//return billCard(customer.getPaymentAccount().getCreditCard(), amount);
-		return new Random().nextBoolean();
-	}
-
-	@Override
-	public boolean billCard(CreditCard cc, float amount) {
-		return new Random().nextBoolean();
-	}
 
 	@Override
 	public void handleGet(ArrayList<Customer> customers) {
@@ -99,10 +88,10 @@ public class CustomerController extends ParentController implements ICustomer {
 	}
 	
 	@Override
-	public void getCustomerByID(BigInteger custID) throws Exception {
+	public void getCustomerByPrivateID(String privateID) throws IOException {
 		myMsgArr.clear();
 		myMsgArr.add(Thread.currentThread().getStackTrace()[1].getMethodName());
-		myMsgArr.add(custID);
+		myMsgArr.add(privateID);
 		Context.clientConsole.handleMessageFromClientUI(new CSMessage(MessageType.SELECT,myMsgArr,Customer.class));	
 	}
 }

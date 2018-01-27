@@ -17,27 +17,13 @@ public interface ICustomer{
 	 * @throws IOException 
 	 */
 	public ArrayList<Object> getAllCustomers() throws Exception;	
+	
 	/**
 	 * asks from DatatBase to select the specific {@link Customer} with the given {@link User}'s ID 
 	 * @param userID
 	 * @throws IOException
 	 */
 	public ArrayList<Object> getCustomerByUser(BigInteger userID) throws Exception;
-
-	/**
-	 * bill {@link Customer}'s {@link CreditCard} according to the amount given
-	 * @param customer, amount
-	 * @return success status
-	 */
-	boolean billCreditCardOfCustomer(Customer customer, float amount);
-	
-	/**
-	 * bill {@link CreditCard} according to the amount given
-	 * @param cc - {@link Customer}'s {@link CreditCard}
-	 * @param amount - {@link Order} price
-	 * @return success status
-	 */
-	public boolean billCard(CreditCard cc, float amount);
 	
 	/**
 	 * handle the information from the server send to the pars function, and than back to client
@@ -45,6 +31,7 @@ public interface ICustomer{
 	 * @param obj - {@link ArrayList} of fields from DB
 	 */
 	public ArrayList<Object> handleGet(ArrayList<Object> obj);		
+	
 	/**
 	 * asks from DataBase all {@link Customer}s in the specific {@link Store} 
 	 * @param storeID
@@ -67,6 +54,13 @@ public interface ICustomer{
 	public ArrayList<Object> getCustomerByID(BigInteger customerID) throws Exception;
 	
 	/**
+	 * ask from DataBase the specific {@link Customer} with the given privateID
+	 * @param privateID
+	 * @throws Exception
+	 */
+	ArrayList<Object> getCustomerByPrivateID(String privateID) throws Exception;
+	
+	/**
 	  *<p>
 	 * create new {@link Customer} object with data from DB
 	 * <p>
@@ -76,12 +70,4 @@ public interface ICustomer{
 	 */
 	public Customer parse(BigInteger customerID, User user);
 	
-
-	
-	
-
-
-
-
-
 }

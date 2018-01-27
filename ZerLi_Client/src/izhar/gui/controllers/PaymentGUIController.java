@@ -186,7 +186,7 @@ public class PaymentGUIController implements Initializable {
 			double prog = 0;
 			piBill.setProgress(prog);
 			while (prog < 1.0) {
-				double toAdd =0.3f * new Random().nextDouble(); 
+				double toAdd =0.4f * new Random().nextDouble(); 
 				if(prog+toAdd>=1.0)	prog=1;
 				else				prog+=toAdd;
 				piBill.setProgress(prog);
@@ -194,10 +194,12 @@ public class PaymentGUIController implements Initializable {
 					Thread.sleep(500);
 				} catch (InterruptedException e) {
 					System.err.println("Thread problem in PaymentGUI");
+					Context.mainScene.ShowErrorMsg();
 					e.printStackTrace();
+					return;
 				}
 			}
-			boolean billResponse = true;
+			boolean billResponse = Context.fac.creditCard.billCreditCardOfCustomer(pa.getCreditCard(),price_after_disc);
 			if(Platform.isFxApplicationThread())
 				setByBillResponse(billResponse);
 			else

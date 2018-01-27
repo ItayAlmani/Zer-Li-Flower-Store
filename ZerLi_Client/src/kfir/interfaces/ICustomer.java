@@ -24,20 +24,7 @@ public interface ICustomer{
 	 */
 	void getCustomerByUser(BigInteger userID) throws IOException;
 
-	/**
-	 * bill {@link Customer}'s {@link CreditCard} according to the amount given
-	 * @param customer, amount
-	 * @return success status
-	 */
-	boolean billCreditCardOfCustomer(Customer customer, float amount);
 	
-	/**
-	 * bill {@link CreditCard} according to the amount given
-	 * @param cc
-	 * @param amount
-	 * @return success status
-	 */
-	public boolean billCard(CreditCard cc, float amount);
 	
 	/**
 	 * Function handle the information from the server, back to (GUI / asking controller)
@@ -70,10 +57,10 @@ public interface ICustomer{
 	
 	/**
 	 * ask from DataBase the specific {@link Customer} with the given ID
-	 * @param custID
+	 * @param privateID
 	 * @throws Exception
 	 */
-	public void getCustomerByID(BigInteger custID) throws Exception;
+	public void getCustomerByPrivateID(String privateID) throws Exception;
 
 
 

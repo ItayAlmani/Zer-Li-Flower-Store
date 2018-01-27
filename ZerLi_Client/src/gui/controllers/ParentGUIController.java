@@ -189,12 +189,12 @@ public class ParentGUIController extends SetUpMainGUIController implements Initi
 		if (Context.getUser() != null) {
 			Context.getUser().setConnected(false);
 			// set user as logged out
-			/*try {
+			try {
 				Context.fac.user.update(Context.getUser());
 			} catch (IOException e) {
 				Context.mainScene.ShowErrorMsg();
 				e.printStackTrace();
-			}*/
+			}
 		}
 	}
 

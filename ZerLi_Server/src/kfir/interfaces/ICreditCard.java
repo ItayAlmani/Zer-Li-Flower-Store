@@ -6,6 +6,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import entities.CreditCard;
+import entities.Customer;
+import entities.Order;
 
 public interface ICreditCard {
 	

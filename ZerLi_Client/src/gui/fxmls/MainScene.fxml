@@ -36,7 +36,7 @@
             </VBox>
          </center>
          <top>
-            <VBox fx:id="menu" alignment="TOP_CENTER" styleClass="menu" visible="false" BorderPane.alignment="CENTER">
+            <VBox fx:id="menu" id="menu" alignment="TOP_CENTER" styleClass="menu" visible="false" BorderPane.alignment="CENTER">
                <children>
                   <HBox alignment="CENTER" spacing="10.0">
                      <children>

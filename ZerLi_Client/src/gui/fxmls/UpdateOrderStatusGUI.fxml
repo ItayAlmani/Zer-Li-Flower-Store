@@ -2,20 +2,13 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXComboBox?>
-<?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox alignment="CENTER" spacing="15.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="izhar.gui.controllers.UpdateOrderStatusGUIController">
+<VBox alignment="CENTER" spacing="20.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="izhar.gui.controllers.UpdateOrderStatusGUIController">
    <children>
-      <HBox alignment="CENTER" spacing="5.0">
-         <children>
-            <JFXTextField fx:id="txtPrivateID" alignment="CENTER" promptText="Enter Private ID" />
-            <JFXButton contentDisplay="CENTER" mnemonicParsing="false" onAction="#searchCustomer" ripplerFill="ORANGE" text="Search" textAlignment="CENTER" textOverrun="CLIP" wrapText="true" />
-         </children>
-      </HBox>
-      <VBox fx:id="vboxComboBox" alignment="CENTER" spacing="5.0" visible="false">
+      <JFXComboBox fx:id="cbCustomers" onAction="#customerSelected" promptText="Select Customer" />
+      <VBox fx:id="vboxComboBox" alignment="CENTER" spacing="15.0" visible="false">
          <children>
             <JFXComboBox fx:id="cbOrderIDs" onAction="#loadOrderStatus" promptText="Select Order ID" />
             <JFXComboBox fx:id="cbOrderStatus" visible="false" />

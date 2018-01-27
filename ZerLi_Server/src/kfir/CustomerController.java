@@ -1,6 +1,7 @@
 package kfir;
 
 import java.math.BigInteger;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -35,15 +36,9 @@ public class CustomerController extends ParentController implements ICustomer {
 	}
 	
 	@Override
-	public boolean billCreditCardOfCustomer(Customer customer, float amount) {
-		//return billCard(customer.getPaymentAccount().getCreditCard(), amount);
-		return new Random().nextBoolean();
-	}
-
-	@Override
-	//Suppose to be external function - the billing is external
-	public boolean billCard(CreditCard cc, float amount) {
-		return new Random().nextBoolean();
+	public ArrayList<Object> getCustomerByPrivateID(String privateID) throws Exception {
+		String query = "SELECT * FROM customer WHERE privateID='"+privateID+"'";
+		return getAllCustomersData(handleGet(EchoServer.fac.dataBase.db.getQuery(query)));
 	}
 
 	@Override

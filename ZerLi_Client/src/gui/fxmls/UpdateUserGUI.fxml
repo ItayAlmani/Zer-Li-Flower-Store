@@ -11,7 +11,7 @@
 
 <VBox alignment="TOP_CENTER" spacing="15.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kfir.gui.controllers.UpdateUserGUIController">
    <children>
-      <JFXComboBox fx:id="cbUsers" onAction="#userSelected" promptText="Select user" />
+      <JFXComboBox fx:id="cbUsers" labelFloat="true" onAction="#userSelected" promptText="Select user" />
       <VBox fx:id="paneUDet" alignment="CENTER" spacing="15.0" visible="false">
          <children>
             <FlowPane alignment="CENTER" disable="true" hgap="15.0" prefWrapLength="300.0" vgap="15.0">

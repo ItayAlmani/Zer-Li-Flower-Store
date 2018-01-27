@@ -116,7 +116,7 @@
     -fx-body-color: ladder(#AAA, orange 0%, red 100%);
 }
 
-VBox:disabled, VBox:disabled > * {
+#menu:disabled, #menu:disabled > * {
   -fx-opacity: 1.0 ;
 }
 
