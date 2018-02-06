@@ -70,7 +70,8 @@ public class PaymentAccountController extends ParentController implements IPayme
 	
 	@Override
 	public PaymentAccount getPaymentAccountOfStore(ArrayList<PaymentAccount> pas, Store s) throws Exception {
-		if(pas == null || s == null) throw new Exception();
+		if(pas == null || 
+				s == null) throw new Exception();
 		for (PaymentAccount pa : pas) {
 			if(pa.getStore() == null || pa.getStore().getStoreID() == null || s.getStoreID() == null)
 				throw new Exception("No store");

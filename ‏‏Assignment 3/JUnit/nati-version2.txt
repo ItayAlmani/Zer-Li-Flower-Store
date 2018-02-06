@@ -1,0 +1,314 @@
+package test;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import entity.Order;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import controller.Cancel_Order_Controller;
+
+public class Cancel_Order_ControllerTest {
+	public static Cancel_Order_Controller cancel_order;
+ 	public static Order order100,order50,order0;
+ 
+ 	/**
+ 	 * create 3 orders
+ 	 * set up the orders details 
+ 	 * order100= order that has to get full refund
+ 	 * order50= order that has to get half refund
+ 	 * order0= order that has to get zero refund
+ 	 * 
+ 	 */
+	@BeforeClass 
+	public  static void insert_new_order() {
+		Float price=(float) 88.00;
+		cancel_order = new Cancel_Order_Controller();
+	
+		  //create an order with full compensation
+		  order100=new Order();
+		  order100.setCreatedate(LocalDate.now().toString());
+		  order100.setCreatetime(LocalDateTime.now().toString());
+		  order100.setWanted_time(LocalDateTime.now().plusHours(4));
+		  order100.setRequesttime(LocalDateTime.now().plusHours(5).toString());
+		  order100.setRequestdate(LocalDate.now().toString());
+		  order100.setPersonid("order100");
+		  order100.setId("100");
+		  order100.setTotprice(price);
+ 
+			//create an order with half from price compensation
+		  order50=new Order();
+		  order50.setCreatedate(LocalDate.now().toString());
+		  order50.setCreatetime(LocalDateTime.now().toString());
+		  order50.setWanted_time(LocalDateTime.now().plusHours(2));
+		  order50.setRequesttime(LocalDateTime.now().plusHours(6).toString());
+		  order50.setRequestdate(LocalDate.now().toString());
+		  order50.setPersonid("order50");
+		  order50.setId("50");
+		  order50.setTotprice(price);
+		  
+			//create an order with zero compensation
+		  order0=new Order();
+		  order0 .setCreatedate(LocalDate.now().toString());
+		  order0.setCreatetime(LocalDateTime.now().toString());
+		  order0.setWanted_time(LocalDateTime.now());
+		  order0.setRequesttime(LocalDateTime.now().plusHours(8).toString());
+		  order0.setRequestdate(LocalDate.now().toString());
+		  order0.setPersonid("order0");
+		  order0.setId("000");
+		  order0.setTotprice(price);
+
+	}
+ 
+ //Stubs 
+ //*******************************************************************************************************************************
+	/**
+	 * mimic the action of the DB to update the refund in the order
+	 * @param excepted
+	 * @param o
+	 */
+	public void Stub_set_refund_amount_in_DB(String excepted,Order o)
+	{
+		 o.setRefund_amount(excepted);
+		
+	}
+	/**
+	 * mimic the action of the DB to get the refund in the order
+	 * @param excepted
+	 * @param o
+	 */
+	public String Stub_get_refund_amount_from_DB(String refund_amount)
+	{
+		return refund_amount;
+		
+	}
+	
+	// Test-Case
+	//******************************************************************************************************************************
+	
+	/**
+	 * check the percentage if the user canceled his order more then 3 hours before supplying
+	 * the refund in percentage should be 100% from the order total price
+	 */
+	@Test
+	public void check_percentage_more_then_three_hours()  
+	{
+
+ 		Method method;
+		try {
+			//arrange
+			method = Cancel_Order_Controller.class.getDeclaredMethod("calcCompensation",LocalDateTime.class);
+	    	method.setAccessible(true);   
+	    	//act
+	      	int output = (int) method.invoke(cancel_order,order100.getWanted_time());
+	    	//excepted in %
+	      	int excepted =100;
+	      	//assert
+	       	assertEquals(output, excepted);
+
+	       	
+		} catch (NoSuchMethodException | SecurityException e) {
+ 			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}   
+	}
+
+	/**
+	 * check that the correct refund is in the order at according to the order price
+	 */
+	@Test
+	public void check_refund_more_then_three_hour() {
+		
+	  	//arrange
+     	String expected_refund=Float.toString( (order100.getTotprice()));
+     	order100.setRefund_amount(expected_refund);
+       	//act
+       	Stub_set_refund_amount_in_DB(expected_refund,order100);
+       	String actual_refund= Stub_get_refund_amount_from_DB((order100).getRefund_amount());
+       	//assert
+       	assertEquals(actual_refund, expected_refund);
+		
+		
+	}
+	
+	/**
+	 * check the percentage if the user canceled his order during the last hour before supplying
+	 * the refund in percentage should be 0% from the order total price
+	 */
+	@Test
+	public void check_percentage_during_last_hour()   
+	{
+		//set the wanted time to be in the last hour
+ 
+ 		Method method;
+		try {
+			//arrange
+			method = Cancel_Order_Controller.class.getDeclaredMethod("calcCompensation",LocalDateTime.class);
+	    	method.setAccessible(true);   
+	    	//act
+	      	int actual = (int) method.invoke(cancel_order,order0.getWanted_time());
+	    	//excepted in %
+	      	int excepted =0;
+	      	//assert
+	       	assertEquals(actual, excepted);
+
+	     
+		} catch (NoSuchMethodException | SecurityException e) {
+ 			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}   
+   
+	}
+	
+	/**
+	 * check that the correct refund is in the order at according to the order price
+	 */
+	@Test
+	public void check_refund_during_last_hour() {
+		
+       	//arrange
+     	String expected_refund=Float.toString( (order0.getTotprice()*0));
+     	order0.setRefund_amount(expected_refund);
+     	
+     	
+       	//act
+       	Stub_set_refund_amount_in_DB(expected_refund,order0);
+       	String actual_refund= Stub_get_refund_amount_from_DB((order0).getRefund_amount());
+       	
+       	//assert
+       	assertEquals(actual_refund, expected_refund);
+	}
+	
+	/**
+	 * check the percentage if the user canceled his order between one to three hours before supplying
+	 * the refund in percentage should be 50% from the order total price
+	 */
+	@Test
+	public void check_percentage_between_one_to_three_hours()    
+	{
+		
+		//set the wanted time to be 2 hours from the reservation time
+		Method method;
+		try {
+			//arrange
+			method = Cancel_Order_Controller.class.getDeclaredMethod("calcCompensation",LocalDateTime.class);
+	    	method.setAccessible(true);   
+	    	//act
+	      	int actual = (int) method.invoke(cancel_order,order50.getWanted_time());
+	    	//excepted in %
+	      	int excepted =50;
+	      	//assert
+	       	assertEquals(actual, excepted);
+
+		} catch (NoSuchMethodException | SecurityException e) {
+ 			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}   
+	}
+	
+	/**
+	 * check that the correct refund is in the order at according to the order price
+	 */
+	@Test
+	public void check_refund_between_one_to_three_hours() {
+		
+         	//arrange
+	     	String expected_refund=Float.toString( (order50.getTotprice()/2));
+	       	order50.setRefund_amount(expected_refund);
+	       	//act
+	       	Stub_set_refund_amount_in_DB(expected_refund,order50);
+	       	String actual_refund= Stub_get_refund_amount_from_DB((order50).getRefund_amount());
+	       	//assert
+	       	assertEquals(actual_refund,expected_refund);
+	}
+
+	/**
+	 * check that the return value from the calculate function in NOT null
+	 */
+	@Test
+	public void check_not_null()
+	{
+		Method method;
+		try {
+			//arrange
+			method = Cancel_Order_Controller.class.getDeclaredMethod("calcCompensation",LocalDateTime.class);
+	    	method.setAccessible(true);   
+	    	//act
+	      	int output = (int) method.invoke(cancel_order,order50.getWanted_time());
+  	      	//assert
+	       	assertNotNull(output);
+ 
+	       	
+		} catch (NoSuchMethodException | SecurityException e) {
+ 			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}   
+	}
+	/**
+	 * if a null value was send to the calculate function
+	 * need to return -1 as an error
+	 */
+	@Test
+	public void check_exeption_on_null_value()
+	{
+		Method method;
+		try {
+			//arrange
+			method = Cancel_Order_Controller.class.getDeclaredMethod("calcCompensation",LocalDateTime.class);
+	    	method.setAccessible(true);
+	    	//setup
+	    	LocalDateTime null_date=null;
+	    	int expected=-1;
+	    	//act
+	      	int actual = (int) method.invoke(cancel_order,null_date);
+  	      	//assert
+ 	      	assertEquals(actual, expected);
+	      	
+  		} catch (NoSuchMethodException | SecurityException e) {
+			e.printStackTrace();
+
+ 		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+
+		} catch (InvocationTargetException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+	}
+	//****************************************************************************************************************************
+
+	@AfterClass
+	public static void tearDown()
+	{
+		System.out.println("After tearDown of TestClass Cancel-Order:");
+		System.out.println("\nOrder100:\nOriginal price="+order100.getTotprice()+" refund amount=100% "+"refund= "+order100.getRefund_amount());
+		System.out.println("\nOrder50:\nOriginal price="+order50.getTotprice()+" refund amount=50% "+"refund= "+order50.getRefund_amount());
+		System.out.println("\nOrder0:\nOriginal price="+order0.getTotprice()+" refund amount=0% "+"refund= "+order0.getRefund_amount());
+
+	}
+	
+}
+	

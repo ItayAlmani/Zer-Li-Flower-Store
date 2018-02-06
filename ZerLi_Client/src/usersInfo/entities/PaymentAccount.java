@@ -15,6 +15,10 @@ public class PaymentAccount implements Serializable {
 	private Subscription sub = null;
 	private Store store;
 	
+	public PaymentAccount() {
+		
+	}
+	
 	public PaymentAccount(Store store) {
 		super();
 		this.store = store;
@@ -42,6 +46,15 @@ public class PaymentAccount implements Serializable {
 		Subscribed,
 		NonSubscribed
 	}*/
+	
+	public void copyNewPayAcc(PaymentAccount p) {
+		this.setPaID(p.paID);
+		this.setCustomerID(p.customerID);
+		this.setRefundAmount(p.getRefundAmount());
+		this.setCreditCard(p.getCreditCard());
+		this.setSub(p.getSub());
+		this.setStore(p.getStore());
+	}
 
 	public PaymentAccount(BigInteger paID) {
 		super();

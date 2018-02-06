@@ -34,7 +34,8 @@ public class LoadGUIController {
 	protected @FXML ImageView imgCart, imgLogOut;
 	protected @FXML VBox menu;
 	protected @FXML BorderPane mainPane;
-	protected @FXML HBox scenePane, panePA, paneNoPA, paneStore, paneStrManager, hbCustomer, hbChangingIcons, hbIcons;
+	protected @FXML HBox scenePane, panePA, paneNoPA, paneStore, paneStrManager, hbCustomer, hbIcons;
+	public @FXML HBox hbChangingIcons;
 	protected @FXML MenuButton menuCustomers;
 	protected @FXML JFXComboBox<Store> cbStores;
 

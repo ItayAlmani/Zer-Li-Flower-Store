@@ -15,6 +15,7 @@ import common.ParentController;
 import common.gui.controllers.ParentGUIController;
 import orderNproducts.entities.DeliveryDetails;
 import orderNproducts.entities.Order;
+import orderNproducts.entities.Order.OrderStatus;
 import orderNproducts.entities.Order.Refund;
 import orderNproducts.entities.Product;
 import orderNproducts.entities.ProductInOrder;
@@ -96,9 +97,9 @@ public class OrderController extends ParentController implements IOrder {
 	public Refund differenceDeliveryTimeAndCurrent(DeliveryDetails delivery) {
 		Duration duration = Duration.between(delivery.getDate(), LocalDateTime.now());
 		long diff_in_hours = Math.abs(duration.toHours());
-		if (diff_in_hours <= 1)
+		if (diff_in_hours < 1)
 			return Refund.No;
-		else if (diff_in_hours > 1 && diff_in_hours < 3)
+		else if (diff_in_hours >= 1 && diff_in_hours < 3)
 			return Refund.Partial;
 		else
 			return Refund.Full;
@@ -127,6 +128,44 @@ public class OrderController extends ParentController implements IOrder {
 			}
 		}
 		return null;
+	}
+	
+	public String cancelOrder(Order ord, Customer cust, ArrayList<Boolean> arrForBool,PaymentAccount pa) throws Exception {
+		if(ord==null || cust==null || arrForBool==null || pa == null)
+			throw new NullPointerException("All parameters must not be null");
+		Boolean isRefunded = false;
+		ord.setOrderStatus(OrderStatus.Canceled);		
+		try {
+			DeliveryDetails del = ord.getDelivery();
+			String msg = "Final order price is 0";
+			PaymentAccount pa_temp = Context.fac.paymentAccount.getPaymentAccountOfStore(
+					cust.getPaymentAccounts(),
+					del.getStore());
+			pa.copyNewPayAcc(pa_temp);
+			if (ord.getFinalPrice() != 0) {
+				Refund ref = differenceDeliveryTimeAndCurrent(del);
+				float refAmt = pa_temp.getRefundAmount();
+				if (ref.equals(Refund.Full)) {
+					pa.setRefundAmount(refAmt + ord.getFinalPrice());
+					msg = "Account is fully refunded for this order";
+					isRefunded=true;
+				} 
+				else if (ref.equals(Refund.Partial)){
+					pa.setRefundAmount((float) (refAmt + (ord.getFinalPrice()) * 0.5f));
+					msg = "Account refunded for 50% of this order";
+					isRefunded=true;
+				} 
+				else
+					msg = "Account isn't refunded";
+			}
+			arrForBool.add(isRefunded);
+			return msg;
+		} catch (Exception e) {
+			if(e.getMessage() != null && e.getMessage().isEmpty()==false)
+				System.err.println(e.getMessage());
+			e.printStackTrace();
+			throw e;
+		}
 	}
 //------------------------------------------------IN SERVER--------------------------------------------------------------------
 	@Override

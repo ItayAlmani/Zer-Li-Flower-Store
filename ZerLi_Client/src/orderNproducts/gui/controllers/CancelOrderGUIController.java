@@ -44,17 +44,15 @@ public class CancelOrderGUIController implements Initializable {
 			Context.mainScene.setMenuPaneDisable(true);
 			Context.fac.order.getCancelableOrdersByCustomerID(Context.getUserAsCustomer().getCustomerID());
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			Context.mainScene.loadMainMenu("You don't have permission to this section");
 		}
 
 	}
-/**
- * Function to set untreated orders from DB into comboBox
-
- * @param ord - arrayList of orders to check if they can be canceled. in case they are, add them to comboBox
- */
+	/**
+	 * Function to set untreated orders from DB into comboBox
+	 * @param ord - arrayList of orders to check if they can be canceled. in case they are, add them to comboBox
+	 */
 	public void setOrders(ArrayList<Order> ord) {
 		Context.mainScene.setMenuPaneDisable(false);
 		Platform.runLater(new Runnable() {
@@ -91,7 +89,7 @@ public class CancelOrderGUIController implements Initializable {
 			actEvent.consume();
 		else {
 			try {
-				cancelOrder();
+				cancelOrder(null);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -102,40 +100,20 @@ public class CancelOrderGUIController implements Initializable {
 	 * Function to able {@link Customer} to cancel {@link Order}
 	 * @throws IOException Context.clientConsole.handleMessageFromClientUI throws IOException.
 	 */
-	public void cancelOrder() throws IOException {
+	public void cancelOrder(Order ord) throws IOException {
 		cbsOrders.setDisable(true);
 		btnCancelOrder.setVisible(false);
-		Order ord = cbsOrders.getValue();
-		ord.setOrderStatus(OrderStatus.Canceled);
-		Context.fac.order.update(ord);
-		
-		for (ProductInOrder p : ord.getProducts())
-			p.setQuantity(p.getQuantity() * (-1));
-		Context.fac.stock.update(ord);
-		PaymentAccount pa;
+		if(ord==null)
+			ord = cbsOrders.getValue();
 		try {
-			DeliveryDetails del = ord.getDelivery();
-			String msg = "Final order price is 0";
-			boolean isRefunded = false;
-			pa = Context.fac.paymentAccount.getPaymentAccountOfStore(
-					Context.getUserAsCustomer().getPaymentAccounts(),
-					del.getStore());
-			if (ord.getFinalPrice() != 0) {
-				Refund ref = Context.fac.order.differenceDeliveryTimeAndCurrent(del);
-				float refAmt = pa.getRefundAmount();
-				if (ref.equals(Refund.Full)) {
-					pa.setRefundAmount(refAmt + ord.getFinalPrice());
-					msg = "Account is fully refunded for this order";
-					isRefunded=true;
-				} 
-				else if (ref.equals(Refund.Partial)){
-					pa.setRefundAmount((float) (refAmt + (ord.getFinalPrice()) * 0.5f));
-					msg = "Account refunded for 50% of this order";
-					isRefunded=true;
-				} 
-				else
-					msg = "Account isn't refunded";
-			}
+			ArrayList<Boolean> arrForBool = new ArrayList<>();
+			PaymentAccount pa = new PaymentAccount();
+			String msg = Context.fac.order.cancelOrder(ord, Context.getUserAsCustomer(),arrForBool,pa);
+			Boolean isRefunded = arrForBool.get(0);
+			for (ProductInOrder p : ord.getProducts())
+				p.setQuantity(p.getQuantity() * (-1));
+			Context.fac.order.update(ord);
+			Context.fac.stock.update(ord);
 			if(isRefunded)
 				Context.fac.paymentAccount.update(pa);
 			cbsOrders.setValue(null);
@@ -147,8 +125,6 @@ public class CancelOrderGUIController implements Initializable {
 			else
 				Context.mainScene.setMessage("No orders to cancel");
 		} catch (Exception e) {
-			if(e.getMessage() != null && e.getMessage().isEmpty()==false)
-				System.err.println(e.getMessage());
 			e.printStackTrace();
 		}
 	}

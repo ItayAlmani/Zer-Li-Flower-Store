@@ -1,0 +1,334 @@
+package test;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
+import entity.Order;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
+import org.junit.Test;
+
+import controller.Cancel_Order_Controller;
+
+public class Cancel_Order_ControllerTest {
+	public static Cancel_Order_Controller cancel_order;
+	public static  Connection conn;
+ 	public static Order order100,order50,order0;
+ 	/**
+ 	 * JAVADOC!!!!!
+ 	 */
+	@BeforeClass 
+	public static void create_order()
+	{
+		
+		try 
+		{
+            Class.forName("com.mysql.jdbc.Driver").newInstance();
+        } catch (Exception ex) {/* handle the error*/}
+        try 
+        {
+             conn = DriverManager.getConnection("jdbc:mysql://localhost/zerli2","root","root");
+             System.out.println("SQL connection succeed\n");
+             
+      	} 	
+        catch (SQLException ex) 
+     	    {
+            System.out.println("SQLException: " + ex.getMessage());
+            System.out.println("SQLState: " + ex.getSQLState());
+            System.out.println("VendorError: " + ex.getErrorCode());
+            }
+
+	}
+	@BeforeClass 
+	public  static void insert_new_order() {
+		PreparedStatement ps;
+		Float price=(float) 88.00;
+		cancel_order = new Cancel_Order_Controller();
+		
+		  //create an order with full compensation
+		  order100=new Order();
+		  order100.setCreatedate(LocalDate.now().toString());
+		  order100.setCreatetime(LocalDateTime.now().toString());
+		  order100.setWanted_time(LocalDateTime.now().plusHours(4));
+		  order100.setRequesttime(LocalDateTime.now().plusHours(5).toString());
+		  order100.setRequestdate(LocalDate.now().toString());
+		  order100.setId("100");
+		  order100.setTotprice(price);
+ 
+			//create an order with half from price compensation
+		  order50=new Order();
+		  order50.setCreatedate(LocalDate.now().toString());
+		  order50.setCreatetime(LocalDateTime.now().toString());
+		  order50.setWanted_time(LocalDateTime.now().plusHours(2));
+		  order50.setRequesttime(LocalDateTime.now().plusHours(6).toString());
+		  order50.setRequestdate(LocalDate.now().toString());
+		  order50.setId("50");
+		  order50.setTotprice(price);
+		  
+			//create an order with zero compensation
+		  order0=new Order();
+		  order0 .setCreatedate(LocalDate.now().toString());
+		  order0.setCreatetime(LocalDateTime.now().toString());
+		  order0.setWanted_time(LocalDateTime.now());
+		  order0.setRequesttime(LocalDateTime.now().plusHours(8).toString());
+		  order0.setRequestdate(LocalDate.now().toString());
+		  order0.setId("000");
+		  order0.setTotprice(price);
+ 		 
+		
+  		try {
+  			//insert order with full compensation
+			ps = conn.prepareStatement(
+			"INSERT INTO orders (ID, Price,Time, Date, Requested_Time, Requested_Date) VALUES (?, ?,?, ?,?,?);");
+		ps.setString(1, order100.getId());
+		ps.setString(2, Float.toString(order100.getTotprice()));
+		ps.setString(3, order100.getCreatetime().substring(11, 16));
+		ps.setString(4, format_date(order100.getCreatedate()));
+		ps.setString(5, order100.getRequesttime().substring(11, 16));
+		ps.setString(6,  format_date(order100.getRequestdate()));
+		ps.executeUpdate();
+		
+		//insert an order with zero compensation
+		ps = conn.prepareStatement(
+				"INSERT INTO orders (ID, Price,Time, Date, Requested_Time, Requested_Date) VALUES (?, ?,?, ?,?,?);");
+			ps.setString(1, order0.getId());
+			ps.setString(2, Float.toString(order0.getTotprice()));
+
+			ps.setString(3, order0.getCreatetime().substring(11, 16));
+			ps.setString(4, format_date(order0.getCreatedate()));
+			ps.setString(5, order0.getRequesttime().substring(11, 16));
+			ps.setString(6,  format_date(order0.getRequestdate()));
+			ps.executeUpdate();
+			
+			//insert an order with half compensation
+			ps = conn.prepareStatement(
+					"INSERT INTO orders (ID, Price,Time, Date, Requested_Time, Requested_Date) VALUES (?, ?,?, ?,?,?);");
+				ps.setString(1, order50.getId());
+				ps.setString(2, Float.toString(order50.getTotprice()));
+
+				ps.setString(3, order50.getCreatetime().substring(11, 16));
+				ps.setString(4, format_date(order50.getCreatedate()));
+				ps.setString(5, order50.getRequesttime().substring(11, 16));
+				ps.setString(6,  format_date(order50.getRequestdate()));
+				ps.executeUpdate();
+	
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+ public static String format_date(String date)
+ {
+	 String Date="";
+	return Date+=date.substring(8, 10)+"/"+date.substring(5, 7)+"/"+date.substring(0, 4);
+ 	 
+ }
+	
+	@Test
+	public void check_more_then_three() throws NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchFieldException
+	{
+
+ 		Method method;
+		try {
+			//arrange
+			method = Cancel_Order_Controller.class.getDeclaredMethod("calcCompensation",LocalDateTime.class);
+	    	method.setAccessible(true);   
+	    	//act
+	      	int output = (int) method.invoke(cancel_order,order100.getWanted_time());
+	    	//excepted in %
+	      	int excepted =100;
+	      	//assert
+	       	assertEquals(output, excepted);
+
+	       	
+	       	//arrange
+	     	String expected_refund=Float.toString( (order100.getTotprice()));
+	     	order100.setRefund_amount(expected_refund);
+	       	//act
+	       	set_refund_amount(expected_refund,order100);
+	       	String actual_refund= get_refund_amount(order100).getRefund_amount();
+	       	//assert
+	       	assertEquals(actual_refund, expected_refund);
+	       	
+		} catch (NoSuchMethodException | SecurityException e) {
+ 			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}   
+	}
+
+	@Test
+	public void check_during_last_hour() throws NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchFieldException
+	{
+		//set the wanted time to be in the last hour
+ 
+ 		Method method;
+		try {
+			//arrange
+			method = Cancel_Order_Controller.class.getDeclaredMethod("calcCompensation",LocalDateTime.class);
+	    	method.setAccessible(true);   
+	    	//act
+	      	int output = (int) method.invoke(cancel_order,order0.getWanted_time());
+	    	//excepted in %
+	      	int excepted =0;
+	      	//assert
+	       	assertEquals(output, excepted);
+
+	       	
+	       	//arrange
+	     	String expected_refund=Float.toString( (order0.getTotprice()*0));
+	     	order0.setRefund_amount(expected_refund);
+	       	//act
+	       	set_refund_amount(expected_refund,order0);
+	       	String actual_refund= get_refund_amount(order0).getRefund_amount();
+	       	//assert
+	       	assertNotNull(actual_refund);
+	       	assertEquals(actual_refund, expected_refund);
+	       	
+		} catch (NoSuchMethodException | SecurityException e) {
+ 			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}   
+   
+	}
+	
+	@Test
+	public void check_between_one_to_three()    
+	{
+		
+		//set the wanted time to be 2 hours from the reservation time
+		Method method;
+		try {
+			//arrange
+			method = Cancel_Order_Controller.class.getDeclaredMethod("calcCompensation",LocalDateTime.class);
+	    	method.setAccessible(true);   
+	    	//act
+	      	int output = (int) method.invoke(cancel_order,order50.getWanted_time());
+	    	//excepted in %
+	      	int excepted =50;
+	      	//assert
+	       	assertEquals(output, excepted);
+
+	       	
+	       	//arrange
+	     	String expected_refund=Float.toString( (order50.getTotprice()/2));
+	       	order50.setRefund_amount(expected_refund);
+	       	//act
+	       	set_refund_amount(expected_refund,order50);
+	       	String actual_refund= get_refund_amount(order50).getRefund_amount();
+	       	//assert
+	       	assertEquals(actual_refund,expected_refund);
+	       	
+		} catch (NoSuchMethodException | SecurityException e) {
+ 			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}   
+ 
+       	
+	}
+	@Test
+	public void check_not_null()
+	{
+		Method method;
+		try {
+			//arrange
+			method = Cancel_Order_Controller.class.getDeclaredMethod("calcCompensation",LocalDateTime.class);
+	    	method.setAccessible(true);   
+	    	//act
+	      	int output = (int) method.invoke(cancel_order,order50.getWanted_time());
+	    	//excepted in %
+	      	int excepted =50;
+	      	//assert
+	       	assertEquals(output, excepted);
+
+	       	
+	       	//arrange
+	     	String expected_refund=Float.toString( (order50.getTotprice()/2));
+	       	order50.setRefund_amount(expected_refund);
+	       	//act
+	       	String actual_refund= get_refund_amount(order50).getRefund_amount();
+	       	//assert
+	       	assertNotNull(actual_refund);
+	       	
+		} catch (NoSuchMethodException | SecurityException e) {
+ 			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}   
+	}
+	
+	public void set_refund_amount(String excepted,Order o)
+	{
+		PreparedStatement ps;
+	 
+		try {
+		ps = conn.prepareStatement("UPDATE orders SET Status=? , Refund=? WHERE ID=?;");
+		ps.setString(1, "Canceled");
+		ps.setString(2, o.getRefund_amount());
+		ps.setString(3, o.getId());
+		ps.executeUpdate();
+
+		}
+		catch (SQLException e) {
+			e.printStackTrace();
+		}  
+	}
+	
+	public Order get_refund_amount(Order o)
+	{
+		PreparedStatement ps;
+		ResultSet rs;
+		 String refund_amount = null;
+		try {
+		ps = conn.prepareStatement("Select  Refund FROM orders WHERE ID=?;");
+		ps.setString(1, o.getId());
+		rs=ps.executeQuery();
+		while(rs.next())
+			o.setRefund_amount(rs.getString(1));
+
+		}
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return o; 
+	}
+	
+	@AfterClass
+	public static void tearDown()
+	{
+		System.out.println("After tearDown of TestClass:");
+		System.out.println("\nOrder100:\nOriginal price="+order100.getTotprice()+" refund amount=100% "+"refund= "+order100.getRefund_amount());
+		System.out.println("\nOrder50:\nOriginal price="+order50.getTotprice()+" refund amount=50% "+"refund= "+order50.getRefund_amount());
+		System.out.println("\nOrder0:\nOriginal price="+order0.getTotprice()+" refund amount=0% "+"refund= "+order0.getRefund_amount());
+
+	}
+	
+}
+	

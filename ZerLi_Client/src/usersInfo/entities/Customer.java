@@ -10,12 +10,16 @@ public class Customer extends User implements Serializable {
 	private BigInteger customerID;
 	private ArrayList<PaymentAccount> paymentAccounts = new ArrayList<>();
 	
+	public Customer () {
+		
+	}
+	
 	public Customer(User user, BigInteger customerID) {
 		super(user);
 		this.customerID = customerID;
 	}
-	public Customer (BigInteger customerID)
-	{
+	
+	public Customer (BigInteger customerID){
 		this.customerID=customerID;
 	}
 	public Customer(String privateID, String firstName, String lastName, String userName, String password, UserType permissions,

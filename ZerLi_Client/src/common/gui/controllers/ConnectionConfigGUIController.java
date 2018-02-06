@@ -8,6 +8,7 @@ import java.util.ResourceBundle;
 import common.ClientController;
 import common.Context;
 import common.DataBase;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -105,6 +106,7 @@ public class ConnectionConfigGUIController implements Initializable{
 	public void setDBStatus(Boolean dbStatus) {
 		if(dbStatus) {
 			if(Context.clientConsole!=null && Context.clientConsole.isConnected()) {
+				Platform.runLater(()->Context.mainScene.hbChangingIcons.setDisable(false));
 				if(Context.getUser()!=null) {
 					Context.mainScene.setServerAvailable("Server connected successfully");
 					Context.mainScene.loadMainMenu("Server connected successfully");
